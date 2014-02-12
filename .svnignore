@@ -1,0 +1,99 @@
+
+# install dir
+dist/
+
+# local config & object files
+build-system/build-config.mk
+build-system/sbin/
+build-system/progs/autom4te.cache/
+build-system/progs/.config
+build-system/progs/config.log
+build-system/progs/config.status
+build-system/progs/configure
+
+# Target build dirs
+.a1x-newlib/
+.a1x-eglibc/
+.at91sam7s-newlib/
+.bcm74x-eglibc/
+.build/
+.dm644x-eglibc/
+.i686-eglibc/
+.lpc17xx-uclibc/
+.omap35x-eglibc/
+.omap543x-eglibc/
+.dm644x-newlib/
+.x86_64-eglibc/
+
+# Hidden files (each file)
+.makefile
+.b74.dist
+.b74.rootfs
+.beagle.dist
+.beagle.rootfs
+.cb1n.dist
+.cb1n.rootfs
+.cb1x.dist
+.cb1x.rootfs
+.guard.dist
+.guard.rootfs
+.host.dist
+.host.rootfs
+.l17uc.dist
+.l17uc.rootfs
+.omap5evm.dist
+.omap5evm.rootfs
+.pc32.dist
+.pc32.rootfs
+.pc64.dist
+.pc64.rootfs
+.vip1830.dist
+.vip1830.rootfs
+.vip1830n.dist
+.vip1830n.rootfs
+
+# src & hw requires
+.src_requires
+.src_requires_done
+.b74_requires
+.b74_requires_done
+.beagle_requires
+.beagle_requires_done
+.cb1n_requires
+.cb1n_requires_done
+.cb1x_requires
+.cb1x_requires_done
+.guard_requires
+.guard_requires_done
+.host_requires
+.host_requires_done
+.l17uc_requires
+.l17uc_requires_done
+.omap5evm_requires
+.omap5evm_requires_done
+.pc32_requires
+.pc32_requires_done
+.pc64_requires
+.pc64_requires_done
+.vip1830_requires
+.vip1830_requires_done
+.vip1830n_requires
+.vip1830n_requires_done
+
+# Tarballs
+*.gz
+*.bz2
+*.tgz
+*.txz
+
+# Signatures
+*.asc
+*.sig
+*.sign
+*.sha1sum
+
+# Default linux config files
+*.defconfig
+
+# backup copies
+*~

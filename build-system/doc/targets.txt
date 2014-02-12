@@ -1,0 +1,15 @@
+
+/* begin *
+
+   rootfs_clean,
+   local_rootfs_clean: - remove packages defined in .$hw.rootfs list from ROOTFS_DEST_DIR.
+                         NOTE: both of this are local_targets.
+                         NOTE: use this targets only for latest installed package,
+                               in other case this targets can made pkg_database not synchronized!
+
+   When we process the all '*_clean' targets the FLAVOUR is always equal to 'dummy'.
+   If you want to produce temporary files whith names which included $(FLAVOUR)
+   [for example: $(FLAVOUR).config produced from $(FLAVOUR).config.in file] then
+   the good idea to create such files in the $(TARGET_BUILD_DIR) directory.
+
+ * end */

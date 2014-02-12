@@ -1,0 +1,31 @@
+#
+# BUILD NOARCH, and HOST: {x86_64|i686}-pc-linux-gnu: is always true.
+#
+
+# TARGET: i686-kxLab-linux-gnu:
+BUILD_PC32       = true
+
+# TARGET: x86_64-kxLab-linux-gnu:
+BUILD_PC64       = true
+
+BUILD_CB1N       = true
+BUILD_CB1X       = true
+
+# TARGET: arm-at91sam7s-elf-newlib:
+BUILD_GUARD      = true
+
+# TARGET: arm-dm644x-elf-newlib:
+BUILD_VIP1830N   = true
+
+# TARGET: arm-dm644x-linux-gnueabi:
+BUILD_VIP1830    = true
+
+BUILD_L17UC      = true
+
+# TARGET: arm-omap35x-linux-gnueabi:
+BUILD_BEAGLE     = true
+
+# TARGET: arm-omap543x-linux-gnueabihf:
+BUILD_OMAP5EVM   = true
+
+BUILD_B74        = true

@@ -1,0 +1,85 @@
+
+COMPONENT_TARGETS  = $(TARGET_HOST)
+COMPONENT_TARGETS += $(TARGET_PC32)
+COMPONENT_TARGETS += $(TARGET_PC64)
+# COMPONENT_TARGETS += $(TARGET_CB1N)
+COMPONENT_TARGETS += $(TARGET_CB1X)
+# COMPONENT_TARGETS += $(TARGET_GUARD)
+# COMPONENT_TARGETS += $(TARGET_VIP1830N)
+# COMPONENT_TARGETS += $(TARGET_VIP1830)
+# COMPONENT_TARGETS += $(TARGET_L17UC)
+# COMPONENT_TARGETS += $(TARGET_BEAGLE)
+COMPONENT_TARGETS += $(TARGET_OMAP5EVM)
+# COMPONENT_TARGETS += $(TARGET_B74)
+
+
+NEEDS_ABS_PATHS = true
+
+include ../../build-system/constants.mk
+
+BIN_PKG_NAME              = pkgtool
+BIN_PKG_VERSION           = 0.0.1
+ifeq ($(HARDWARE),$(TARGET_HOST))
+BIN_PKG_ARCH              = $(shell uname -m)
+else
+BIN_PKG_ARCH              = $(TOOLCHAIN)
+endif
+BIN_PKG_DISTRO_NAME       = kxLab
+BIN_PKG_DISTRO_VERSION    = 1.0
+BIN_PKG_GROUP             = base
+###                        |---handy-ruler-------------------------------|
+BIN_PKG_SHORT_DESCRIPTION = _kxLab Package Database Tools
+BIN_PKG_URL               = http://www.kxLab.com
+BIN_PKG_LICENSE           = Proprietary
+BIN_PKG_DESCRIPTION_FILE  = pkg-description
+BIN_PKG_INSTALL_SCRIPT    = pkg-install.sh
+
+
+BIN_PKG = $(TARGET_BUILD_DIR)/$(BIN_PKG_NAME)-package
+
+scripts  = $(BUILDSYSTEM)/pkgtool/change-refs
+scripts += $(BUILDSYSTEM)/pkgtool/check-db-integrity
+scripts += $(BUILDSYSTEM)/pkgtool/check-package
+scripts += $(BUILDSYSTEM)/pkgtool/check-requires
+scripts += $(BUILDSYSTEM)/pkgtool/install-package
+scripts += $(BUILDSYSTEM)/pkgtool/install-pkglist
+scripts += $(BUILDSYSTEM)/pkgtool/make-package
+scripts += $(BUILDSYSTEM)/pkgtool/make-pkglist
+scripts += $(BUILDSYSTEM)/pkgtool/pkginfo
+scripts += $(BUILDSYSTEM)/pkgtool/pkglog
+scripts += $(BUILDSYSTEM)/pkgtool/remove-package
+
+
+build = $(TARGET_BUILD_DIR)/.done
+
+pkg_basename     = $(BIN_PKG_NAME)-$(BIN_PKG_VERSION)-$(BIN_PKG_ARCH)-$(BIN_PKG_DISTRO_NAME)-$(BIN_PKG_DISTRO_VERSION)
+pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(BIN_PKG_GROUP)/$(pkg_basename).tgz
+
+BUILD_TARGETS    = $(build)
+
+ROOTFS_TARGETS   = $(pkg_basename_tgz)
+
+PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(BIN_PKG_GROUP)
+
+
+include ../../build-system/core.mk
+
+
+$(build):
+	echo "==================$(FAKEROOT)"
+	@mkdir -p $(BIN_PKG)/sbin/$(BIN_PKG_NAME)
+	@cp $(scripts) $(BIN_PKG)/sbin/$(BIN_PKG_NAME)
+	@cp $(BIN_PKG_DESCRIPTION_FILE) $(BIN_PKG)/.DESCRIPTION
+	@cp $(BIN_PKG_INSTALL_SCRIPT) $(BIN_PKG)/.INSTALL
+	@$(BUILD_BIN_PKG_REQUIRES) $(BIN_PKG)/.REQUIRES
+	@echo "pkgname=$(BIN_PKG_NAME)"                            >  $(BIN_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(BIN_PKG_VERSION)"                          >> $(BIN_PKG)/.PKGINFO ; \
+	 echo "arch=$(BIN_PKG_ARCH)"                               >> $(BIN_PKG)/.PKGINFO ; \
+	 echo "distroname=$(BIN_PKG_DISTRO_NAME)"                  >> $(BIN_PKG)/.PKGINFO ; \
+	 echo "distrover=$(BIN_PKG_DISTRO_VERSION)"                >> $(BIN_PKG)/.PKGINFO ; \
+	 echo "group=$(BIN_PKG_GROUP)"                             >> $(BIN_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(BIN_PKG_SHORT_DESCRIPTION)\"" >> $(BIN_PKG)/.PKGINFO ; \
+	 echo "url=$(BIN_PKG_URL)"                                 >> $(BIN_PKG)/.PKGINFO ; \
+	 echo "license=$(BIN_PKG_LICENSE)"                         >> $(BIN_PKG)/.PKGINFO
+	@$(FAKEROOT) sh -c "cd $(BIN_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@touch $@

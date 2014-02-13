@@ -160,7 +160,7 @@ while [ "$LINENUM_REQ" -le "$LINENUMS" ]; do
   # NOTE: the version of found package is not checked.
   for reqfile in `find * -type f -name "$pnam-*"` ; do
     # cut off pkgver-arch-distroname-distroversion fields of founded file name:
-    pname_only=`echo "$reqfile" | rev | cut -f5- -d '-' | rev`
+    pname_only=`echo "$reqfile" | cut -f1 -d '-'`
     if [ "$pname_only" = "$pnam" ]; then
       $operation $reqfile $pkgname $pkgver
     fi

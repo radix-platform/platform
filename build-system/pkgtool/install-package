@@ -520,7 +520,8 @@ EOF
       cd $SETUP_DB_PATH/packages; change-refs inc "$pkgname-$pkgver-$arch-$distroname-$distrover"
     )
     # check deprecated log file:
-    ( cd $SETUP_DB_PATH/removed_packages; rm -f "$pkgname-$pkgver-$arch-$distroname-$distrover" )
+    ( . ./.PKGINFO
+      cd $SETUP_DB_PATH/removed_packages; rm -f "$pkgname-$pkgver-$arch-$distroname-$distrover" )
 
     rm -f ./.DESCRIPTION ./.FILELIST ./.INSTALL ./.PKGINFO ./.REQUIRES ./.RESTORELINKS
   )

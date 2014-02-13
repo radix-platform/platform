@@ -12,6 +12,52 @@ usage() {
   echo ""
 }
 
+get_pkg_name_from_logfile() {
+  logfile=$1
+  if [ -f ./$logfile ]; then
+    pkginfo pkginfo $logfile
+    if [ ! -f .PKGINFO -o ! -s .PKGINFO ]; then
+      rm -f ./.PKGINFO
+    else
+      # store current values
+      cst01=pkgname
+      cst02=pkgver
+      cst03=arch
+      cst04=distroname
+      cst05=distrover
+      cst06=group
+      cst07=short_description
+      cst08=url
+      cst09=license
+      cst10=uncompressed_size
+      cst11=total_files
+
+      . ./.PKGINFO
+      rm -f ./.PKGINFO
+      if [ "$pkgname" = "" ]; then
+        echo ""
+      else
+        echo "$pkgname"
+      fi
+
+      # restore current values
+      pkgname=cst01
+      pkgver=cst02
+      arch=cst03
+      distroname=cst04
+      distrover=cst05
+      group=cst06
+      short_description=cst07
+      url=cst08
+      license=cst09
+      uncompressed_size=cst10
+      total_files=cst11
+    fi
+  else
+    echo ""
+  fi
+}
+
 refcounter=
 get_ref_counter() {
   logfile=$1
@@ -142,9 +188,9 @@ if [ ! -f .PKGINFO -o ! -s .PKGINFO ]; then
   exit 0
 else
   . ./.PKGINFO
+  rm -f ./.PKGINFO
   if [ "$pkgname" = "" -o "$pkgver" = "" ]; then
     echo "$program: ERROR: pkglogfile doesn't contain necessary declarations."
-    rm -f ./.PKGINFO
     exit 0
   fi
 fi
@@ -160,12 +206,12 @@ while [ "$LINENUM_REQ" -le "$LINENUMS" ]; do
   # NOTE: the version of found package is not checked.
   for reqfile in `find * -type f -name "$pnam-*"` ; do
     # cut off pkgver-arch-distroname-distroversion fields of founded file name:
-    pname_only=`echo "$reqfile" | cut -f1 -d '-'`
+    pname_only=`get_pkg_name_from_logfile $reqfile`
     if [ "$pname_only" = "$pnam" ]; then
       $operation $reqfile $pkgname $pkgver
     fi
   done
 done
-rm -f ./.REQUIRES ./.PKGINFO
+rm -f ./.REQUIRES
 
 exit 0

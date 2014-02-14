@@ -20,18 +20,18 @@ modules_version   = 3.8.13
 full_version      = $(version)
 tar_bz2_archive   = $(SRC_PACKAGE_PATH)/Linux/omap5/linux-$(full_version).tar.bz2
 SRC_ARCHIVE       = $(tar_bz2_archive)
-SRC_DIR           = linux-$(full_version)
-src_done          = $(SRC_DIR)/.source_done
+SRC_DIR           = $(TARGET_BUILD_DIR)/usr/src/linux-$(full_version)
+src_done          = $(TARGET_BUILD_DIR)/.source_done
 
 config            = $(HARDWARE).config
-build_dir         = $(CURDIR)/$(TARGET_BUILD_DIR)/build
-modules_dir       = $(CURDIR)/$(TARGET_BUILD_DIR)/modules
+build_dir         = $(SRC_DIR)
+modules_dir       = $(CURDIR)/$(TARGET_BUILD_DIR)
 
-build_config      = $(build_dir)/.config
-oldconfig_done    = $(build_dir)/.oldconfig_done
-modules_done      = $(modules_dir)/.modules_done
+build_config      = $(SRC_DIR)/.config
+oldconfig_done    = $(TARGET_BUILD_DIR)/.oldconfig_done
+modules_done      = $(TARGET_BUILD_DIR)/.modules_done
 
-devel_sources     = $(TARGET_DEST_DIR)/linux
+devel_sources     = $(TARGET_DEST_DIR)/usr/src/linux-$(full_version)
 boot_filesystem   = $(TARGET_DEST_DIR)/bootfs
 
 build_kernel_pkg  = $(TARGET_BUILD_DIR)/.kernel_pkg_done
@@ -45,8 +45,6 @@ endif
 
 
 ####### Targets
-
-SETUP_TARGETS    += $(src_done)
 
 linux_kernel      = $(TARGET_BUILD_DIR)/vmlinux-$(full_version)-$(TOOLCHAIN)_$(HARDWARE)
 linux_uImage      = $(TARGET_BUILD_DIR)/uImage-$(full_version)-$(TOOLCHAIN)_$(HARDWARE)
@@ -109,8 +107,7 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(APPLY_PATCHES)
 	@touch $@
 
-LMAKE := $(BUILD_ENVIRONMENT) $(MAKE) -C $(SRC_DIR) ARCH=$(ARCH) CROSS_COMPILE="$(CROSS_PREFIX)" \
-         O="$(build_dir)" V=$(if $(VERBOSE),1,0)
+LMAKE := $(BUILD_ENVIRONMENT) $(MAKE) -C $(SRC_DIR) ARCH=$(ARCH) CROSS_COMPILE="$(CROSS_PREFIX)" V=$(if $(VERBOSE),1,0)
 
 # add to LMAKE: CONFIG_DEBUG_SECTION_MISMATCH=y for more detailed log.
 
@@ -141,74 +138,28 @@ $(linux_config): $(linux_kernel)
 
 $(modules_done): $(linux_kernel) $(linux_systemmap) $(linux_config)
 	$(LMAKE) modules
-	rm -rf $(modules_dir)
+	@rm -rf $(TARGET_BUILD_DIR)/lib
 	$(LMAKE) modules_install DEPMOD=true INSTALL_MOD_PATH=$(modules_dir)
+	@cd $(TARGET_BUILD_DIR) && \
+	  CWD=$(CURDIR) $(BUILDSYSTEM)/install_targets --preserve-source-dir=true \
+	    $$(find * -path 'lib*' -type f -print)   $(TARGET_DEST_DIR)   $(HARDWARE)
 	@touch $@
 
 
-$(TARGET_DEST_DIR)/linux: $(modules_done)
+$(TARGET_DEST_DIR)/usr/src/linux-$(full_version): $(modules_done)
 	@echo "Creating '$@' for building external modules"
 	@rm -rf $@
 	@mkdir -p $@
-	@echo "" > $@/.CONTENT
-	@echo "Configured '$(HARDWARE)' Linux sources for building external modules." >> $@/.CONTENT
-	@echo "" >> $@/.CONTENT
-	@cp $(linux_config) $@/.config
-# Copy kernel makesystem:
-	@cd $(SRC_DIR) && \
-	  CWD=$(CURDIR) $(BUILDSYSTEM)/install_targets \
-	    --preserve-source-dir=true \
-	    $$(find * \( -path Documentation -o -path include -o -path scripts \) -prune \
-	              -o -type f \( -name 'Kconfig*' -o -name 'Kbuild' -o -name 'Makefile*' \) -print) \
-	    $@  $(HARDWARE)
-# Copy includes:
-	@cd $(SRC_DIR) && \
-	  CWD=$(CURDIR) $(BUILDSYSTEM)/install_targets \
-	    --preserve-source-dir=true \
-	    $$(find * \( -path Documentation -o -path scripts \) -prune \
-	              -o -type f \( -name '*.h' -o -name '*.conf' \) -print) \
-	    $@  $(HARDWARE)
-# Copy src scripts:
-	@cd $(SRC_DIR)/scripts && \
-	  CWD=$(CURDIR) $(BUILDSYSTEM)/install_targets \
-	    --preserve-source-dir=true \
-	    $$(find * ! -name '*.gitignore' -a ! -type d -print) \
-	    $@/scripts  $(HARDWARE)
-# Generated stuff:
-# ===============
-	@$(BUILDSYSTEM)/install_targets $(build_dir)/Module.symvers  $@  $(HARDWARE)
-	@$(BUILDSYSTEM)/install_targets $(build_dir)/System.map  $@  $(HARDWARE)
-	@$(BUILDSYSTEM)/install_targets $(build_dir)/vmlinux  $@  $(HARDWARE)
-# scripts:
-	@cd $(build_dir) && \
-	  CWD=$(CURDIR) $(BUILDSYSTEM)/install_targets \
-	    --preserve-source-dir=true \
-	    $$(find * -type f -path 'scripts*' -perm /111 -print)  $@  $(HARDWARE)
-# config includes:
-	@cd $(build_dir)/include && \
-	  CWD=$(CURDIR) $(BUILDSYSTEM)/install_targets \
-	    --preserve-source-dir=true \
-	    $$(find * -path 'config*' -type f \( -name '*.h' -o -name '*.conf' \) -print)  $@/include  $(HARDWARE)
-# generated includes:
-	@cd $(build_dir)/include && \
-	  CWD=$(CURDIR) $(BUILDSYSTEM)/install_targets \
-	    --preserve-source-dir=true \
-	    $$(find * -path 'generated*' -type f \( -name '*.h' -o -name '*.conf' \) -print)  $@/include  $(HARDWARE)
-# linux includes:
-	@cd $(build_dir)/include && \
-	  CWD=$(CURDIR) $(BUILDSYSTEM)/install_targets \
-	    --preserve-source-dir=true \
-	    $$(find * -path 'linux*' -type f \( -name '*.h' -o -name '*.conf' \) -print)  $@/include  $(HARDWARE)
-
-# arch/arm generated includes:
-	@cd $(build_dir)/arch/$(ARCH)/include && \
-	  CWD=$(CURDIR) $(BUILDSYSTEM)/install_targets \
-	    --preserve-source-dir=true \
-	    $$(find * -path 'generated*' -type f \( -name '*.h' -o -name '*.conf' \) -print) \
-	    $@/arch/$(ARCH)/include  $(HARDWARE)
-# Symbolic links:
-	@cd $(TARGET_DEST_DIR)/linux/arch/arm && \
-	  $$($(LN_S)f mach-omap2 mach && $(LN_S)f plat-omap plat)
+	@cd $(TARGET_BUILD_DIR) && \
+	  CWD=$(CURDIR) $(BUILDSYSTEM)/install_targets --preserve-source-dir=true \
+	    $$(find * -path 'usr*' -type f -print)   $(TARGET_DEST_DIR)   $(HARDWARE)
+	@echo "" > $(TARGET_DEST_DIR)/usr/src/.CONTENT
+	@echo "Configured '$(HARDWARE)' Linux sources for building external modules." >> $(TARGET_DEST_DIR)/usr/src/.CONTENT
+	@echo "" >> $(TARGET_DEST_DIR)/usr/src/.CONTENT
+	@cp -rf $(build_dir) $(TARGET_DEST_DIR)/usr/src
+	@cd $(TARGET_DEST_DIR)/lib/modules/$(modules_version) && \
+	  $$($(LN_S)f ../../../usr/src/linux-$(full_version) build && \
+	     $(LN_S)f ../../../usr/src/linux-$(full_version) source)
 	@touch $@
 
 
@@ -219,11 +170,13 @@ $(TARGET_DEST_DIR)/bootfs: $(devel_sources)
 	@echo "" > $@/.CONTENT
 	@echo "Collection '$(HARDWARE)' images for building BOOT filesystem." >> $@/.CONTENT
 	@echo "" >> $@/.CONTENT
-	@cp $(linux_uImage) $@/uImage
+	@cp -a $(linux_uImage) $@/uImage
 	@touch $@
+
 
 $(KERNEL_BIN_PKG_DESCRIPTION_FILE): $(KERNEL_BIN_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
+
 
 $(build_kernel_pkg): $(boot_filesystem) $(KERNEL_BIN_PKG_DESCRIPTION_FILE)
 	@mkdir -p $(KERNEL_BIN_PKG)/boot
@@ -236,11 +189,11 @@ $(build_kernel_pkg): $(boot_filesystem) $(KERNEL_BIN_PKG_DESCRIPTION_FILE)
 	  cd $(modules_dir)/lib && \
 	  cp -rf firmware $(KERNEL_BIN_PKG)/lib ; \
 	fi
-	@cp $(linux_kernel) $(KERNEL_BIN_PKG)/boot/vmlinux-$(full_version)
-	@cp $(linux_uImage) $(KERNEL_BIN_PKG)/boot/uImage-$(full_version)
-	@cp $(linux_zImage) $(KERNEL_BIN_PKG)/boot/zImage-$(full_version)
-	@cp $(linux_config) $(KERNEL_BIN_PKG)/boot/config-$(full_version)
-	@cp $(linux_systemmap) $(KERNEL_BIN_PKG)/boot/System.map-$(full_version)
+	@cp -a $(linux_kernel) $(KERNEL_BIN_PKG)/boot/vmlinux-$(full_version)
+	@cp -a $(linux_uImage) $(KERNEL_BIN_PKG)/boot/uImage-$(full_version)
+	@cp -a $(linux_zImage) $(KERNEL_BIN_PKG)/boot/zImage-$(full_version)
+	@cp -a $(linux_config) $(KERNEL_BIN_PKG)/boot/config-$(full_version)
+	@cp -a $(linux_systemmap) $(KERNEL_BIN_PKG)/boot/System.map-$(full_version)
 	@cd $(KERNEL_BIN_PKG)/boot && $(LN_S)f vmlinux-$(full_version) vmlinux
 	@cd $(KERNEL_BIN_PKG)/boot && $(LN_S)f uImage-$(full_version) uImage
 	@cd $(KERNEL_BIN_PKG)/boot && $(LN_S)f zImage-$(full_version) zImage

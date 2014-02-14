@@ -27,6 +27,8 @@ $(tarballs):
 	@for tarball in $(tarballs) ; do \
 	  wget $(WGET_OPTIONS) -N $(url)/$$tarball ; \
 	done
+	@echo -e "\n======= Create Patches =======\n"
+	@( cd create-imgddk-1.9.0.11-patch && ./create.patch.sh )
 
 $(sha1s): %.tar.bz2.sha1sum : %.tar.bz2
 	@for sha in $@ ; do \
@@ -43,3 +45,4 @@ $(sha1s): %.tar.bz2.sha1sum : %.tar.bz2
 
 download_clean:
 	@rm -f $(description) $(tarballs) $(sha1s)
+	@rm -f ./patches/fix-dos2unix.patch

@@ -105,6 +105,7 @@ CLEANUP_FILES +=  $(addsuffix /$(HARDWARE), $(addprefix ., $(TOOLCHAIN)))
 CLEANUP_FILES +=  $(SRC_DIR)
 CLEANUP_FILES +=  $(SRC_DIR).back.??????
 CLEANUP_FILES +=  .*_requires*
+CLEANUP_FILES +=  .setup
 
 
 

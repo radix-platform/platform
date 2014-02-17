@@ -65,7 +65,7 @@ extra_build_environment  += __CROSS_INSTALL__=1
 
 
 WL18XX_BIN_PKG_NAME                = wl18xx
-WL18XX_BIN_PKG_VERSION             = $(version)
+WL18XX_BIN_PKG_VERSION             = ol_r8.a8.10
 ifeq ($(HARDWARE),$(TARGET_HOST))
 WL18XX_BIN_PKG_ARCH                = $(shell uname -m)
 else

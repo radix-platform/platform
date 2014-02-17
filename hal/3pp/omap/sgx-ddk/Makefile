@@ -51,7 +51,7 @@ endif
 
 
 SGXDDK_BIN_PKG_NAME                = sgxddk
-SGXDDK_BIN_PKG_VERSION             = $(version)
+SGXDDK_BIN_PKG_VERSION             = 1.9.0.11
 ifeq ($(HARDWARE),$(TARGET_HOST))
 SGXDDK_BIN_PKG_ARCH                = $(shell uname -m)
 else

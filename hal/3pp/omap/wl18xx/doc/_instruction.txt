@@ -1,0 +1,71 @@
+
+
+tar xjvf compat-ol_r8.a8.10
+tar xjvf compat-wireless-ol_r8.a8.10
+tar xjvf wl18xx-ol_r8.a8.10
+
+# PATCH wl18xx-ol_r8.a8.10
+
+export GIT_TREE=`pwd`/wl18xx-ol_r8.a8.10
+export GIT_COMPAT_TREE=`pwd`/compat-ol_r8.a8.10
+
+
+cd compat-wireless-ol_r8.a8.10
+./scripts/admin-update.sh
+
+cd ..
+cp configs/version-wl18xx.h compat-wireless-ol_r8.a8.10/drivers/net/wireless/ti/wl18xx/version.h
+cp configs/version-wlcore.h compat-wireless-ol_r8.a8.10/drivers/net/wireless/ti/wl18xx/version.h
+#
+# or use $$(echo 'static const char *wl18xx_git_head = "ol_r8.a8.10";' > version.h)
+#
+
+cp \
+  configs/.compat_base \
+  configs/.compat_base_tree \
+  configs/.compat_base_tree_version \
+  configs/.compat_version \
+  configs/.config \
+  ./compat-wireless-ol_r8.a8.10
+
+#
+# NOTE:
+#  You can create .config file only after copying .compat* files
+#  into ./compat-wireless-ol_r8.a8.10 directory by following command
+#
+#    $ make -f scripts/kconfig/Makefile menuconfig
+#
+#  and choose only wireless wl18xx modules
+#
+
+./scripts/driver-select wl18xx
+
+
+export PATH=/opt/toolchain/arm-OMAP543X-linux-eglibc/1.0.5/bin:$PATH
+export ARCH=arm
+export CROSS_COMPILE=arm-omap543x-linux-gnueabihf-
+
+export KLIB_BUILD=/home/kx/prog/scm/svn/platform/trunk-9/dist/.omap543x-eglibc/omap5evm/usr/src/linux-3.8-6AJ.1.2-RC3
+export KLIB=/home/kx/prog/scm/svn/platform/trunk-9/dist/.omap543x-eglibc/omap5evm
+export INSTALL_MOD_PATH=/home/kx/prog/scm/svn/platform/trunk-9/dist/.omap543x-eglibc/omap5evm
+
+make modules
+make install
+
+
+
+
+lib/modules/3.8.13/kernel/net/mac80211/mac80211.ko - not needed anymore
+lib/modules/3.8.13/kernel/net/wireless/cfg80211.ko - not needed anymore, but lib80211.ko - is needed!
+
+lib/modules/3.8.13/modules.builtin - is not changed
+lib/modules/3.8.13/modules.order   - is not changed
+
+
+TODO:
+====
+  Due to CROSS install we skiped ./compat-ol_r8.a8.10/scripts/compat_firmware_install and also NOW
+  we skip installed scripts $(DESTDIR)/usr/lib/compat-drivers/* , $(DESTDIR)/usr/sbin/*
+  We have TO DO these works when we will known our 'rootfs' structure.
+
+

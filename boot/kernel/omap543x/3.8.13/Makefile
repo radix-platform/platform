@@ -199,10 +199,10 @@ $(build_kernel_pkg): $(boot_filesystem) $(KERNEL_BIN_PKG_DESCRIPTION_FILE)
 	@cd $(KERNEL_BIN_PKG)/boot && $(LN_S)f zImage-$(full_version) zImage
 	@cd $(KERNEL_BIN_PKG)/boot && $(LN_S)f config-$(full_version) config
 	@cd $(KERNEL_BIN_PKG)/boot && $(LN_S)f System.map-$(full_version) System.map
-	@mkdir -p $(KERNEL_BIN_PKG)/usr/share/doc/kernel-$(full_version)
+	@mkdir -p $(KERNEL_BIN_PKG)/usr/doc/kernel-$(full_version)
 	@cp -a $(SRC_DIR)/COPYING $(SRC_DIR)/CREDITS $(SRC_DIR)/MAI* \
 	       $(SRC_DIR)/README $(SRC_DIR)/REPORTING-BUGS \
-	       $(KERNEL_BIN_PKG)/usr/share/doc/kernel-$(full_version)
+	       $(KERNEL_BIN_PKG)/usr/doc/kernel-$(full_version)
 	@cp $(KERNEL_BIN_PKG_DESCRIPTION_FILE) $(KERNEL_BIN_PKG)/.DESCRIPTION
 	@cp $(KERNEL_BIN_PKG_INSTALL_SCRIPT) $(KERNEL_BIN_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(KERNEL_BIN_PKG)/.REQUIRES

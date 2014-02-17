@@ -48,6 +48,9 @@ sub do_clean_list
 
   chomp $cwd;
 
+  # skip not our directories where we create patches
+  return if( $cwd =~ m/.*create\-.*\-patch.*/ );
+
   return if( ! -f "$cwd/Makefile" );
 
   # needs clean:

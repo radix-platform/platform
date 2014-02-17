@@ -1,40 +1,31 @@
 
 COMPONENT_TARGETS = $(TARGET_HOST)
 
-url         = ftp://ftp.radix.pro/sources/Linux/omap5
+url         = ftp://ftp.radix.pro/sources/hal/omap/wl18xx/compat
 
-versions   += 3.8-6AJ.1.1-RC0
-versions   += 3.8-6AJ.1.2-RC3
+versions    = ol_r8.a8.09
+versions   += ol_r8.a8.10
 
-description = android-omap5.txt
-tarballs    = $(addsuffix .tar.bz2, $(addprefix linux-, $(versions)))
-defconfigs  = $(subst .tar.bz2,.defconfig, $(tarballs))
+tarballs    = $(addsuffix .tar.bz2, $(addprefix compat-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 
-BUILD_TARGETS = $(description) $(tarballs) $(defconfigs) $(sha1s)
+BUILD_TARGETS = $(description) $(tarballs) $(sha1s)
 
 
-include ../../../build-system/core.mk
+include ../../../../../build-system/core.mk
 
 
 .PHONY: download_clean
 
-
-$(description):
-	wget $(WGET_OPTIONS) -N $(url)/$(description)
 
 $(tarballs):
 	@echo -e "\n======= Downloading source tarballs ======="
 	@for tarball in $(tarballs) ; do \
 	  wget $(WGET_OPTIONS) -N $(url)/$$tarball ; \
 	done
-
-$(defconfigs):
-	@echo -e "\n======= Downloading default config files ======="
-	@for defconfig in $(defconfigs) ; do \
-	  wget $(WGET_OPTIONS) -N $(url)/$$defconfig ; \
-	done
+	@echo -e "\n======= Create Patches =======\n"
+#	@( cd create-ol_r8.a8.10-patch && ./create.patch.sh )
 
 $(sha1s): %.tar.bz2.sha1sum : %.tar.bz2
 	@for sha in $@ ; do \
@@ -50,4 +41,5 @@ $(sha1s): %.tar.bz2.sha1sum : %.tar.bz2
 	done
 
 download_clean:
-	@rm -f $(description) $(tarballs) $(defconfigs) $(sha1s)
+	@rm -f $(tarballs) $(sha1s)
+#	@rm -f ./patches/version-ol_r8.a8.10.patch

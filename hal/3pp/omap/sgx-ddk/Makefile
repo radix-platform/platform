@@ -9,7 +9,7 @@ COMPONENT_IS_3PP = true
 include ../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES  += $(SRC_PACKAGE_DIR)/Linux/omap5
+SOURCE_REQUIRES  += $(SRC_PACKAGE_DIR)/hal/omap/sgx-ddk
 
 REQUIRES          = boot/kernel/omap543x/3.8.13
 
@@ -48,8 +48,6 @@ endif
 
 
 ####### Targets
-
-SETUP_TARGETS    += $(src_done)
 
 
 SGXDDK_BIN_PKG_NAME                = sgxddk
@@ -117,13 +115,13 @@ $(build_sgxddk_pkg): $(modules_done) $(SGXDDK_BIN_PKG_DESCRIPTION_FILE) $(SGXDDK
 	# Copy modules and firmware (without links to sources):
 	@cd $(TARGET_DEST_DIR)/lib/modules/$(modules_version) && \
 	  cp -rf extra $(SGXDDK_BIN_PKG)/lib/modules/$(modules_version) && \
-	  cp -a modules.* $(SGXDDK_BIN_PKG)/lib/modules/$(modules_version)
+	  cp -a modules.builtin modules.order $(SGXDDK_BIN_PKG)/lib/modules/$(modules_version)
 	@cd $(SGXDDK_BIN_PKG)/lib/modules/$(modules_version) && mv modules.builtin modules.builtin.new
 	@cd $(SGXDDK_BIN_PKG)/lib/modules/$(modules_version) && mv modules.order modules.order.new
-	@mkdir -p $(SGXDDK_BIN_PKG)/usr/share/doc/sgxddk-$(version)
+	@mkdir -p $(SGXDDK_BIN_PKG)/usr/doc/sgxddk-$(version)
 	@cp -a $(SRC_DIR)/eurasia_km/*-COPYING \
 	       $(SRC_DIR)/eurasia_km/INSTALL $(SRC_DIR)/eurasia_km/README \
-	       $(SGXDDK_BIN_PKG)/usr/share/doc/sgxddk-$(version)
+	       $(SGXDDK_BIN_PKG)/usr/doc/sgxddk-$(version)
 	@cp $(SGXDDK_BIN_PKG_DESCRIPTION_FILE) $(SGXDDK_BIN_PKG)/.DESCRIPTION
 	@cp $(SGXDDK_BIN_PKG_INSTALL_SCRIPT) $(SGXDDK_BIN_PKG)/.INSTALL
 	@chmod a+x $(SGXDDK_BIN_PKG)/.INSTALL

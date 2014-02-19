@@ -1,0 +1,84 @@
+
+COMPONENT_TARGETS = $(TARGET_OMAP5EVM)
+
+NEEDS_ABS_PATHS = true
+
+COMPONENT_IS_3PP = true
+
+
+include ../../../../build-system/constants.mk
+
+
+version          = 3.8.13
+
+REQUIRES         = boot/kernel/omap543x/$(version)
+
+kernel_version   = 3.8-6AJ.1.2-RC3
+modules_version  = $(version)
+
+
+KS_DEV_PKG_NAME                = kernel-sources
+KS_DEV_PKG_VERSION             = 3.8.13
+ifeq ($(HARDWARE),$(TARGET_HOST))
+KS_DEV_PKG_ARCH                = $(shell uname -m)
+else
+KS_DEV_PKG_ARCH                = $(TOOLCHAIN)
+endif
+KS_DEV_PKG_DISTRO_NAME         = kxLab
+KS_DEV_PKG_DISTRO_VERSION      = 1.0
+KS_DEV_PKG_GROUP               = dev
+###                             |---handy-ruler-------------------------------|
+KS_DEV_PKG_SHORT_DESCRIPTION   = Linux $(version) configured sources
+KS_DEV_PKG_URL                 = http://www.kxLab.com
+KS_DEV_PKG_LICENSE             = GPLv2
+KS_DEV_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(KS_DEV_PKG_NAME)-pkg-description
+KS_DEV_PKG_DESCRIPTION_FILE_IN = $(KS_DEV_PKG_NAME)-pkg-description.in
+KS_DEV_PKG_INSTALL_SCRIPT      = $(KS_DEV_PKG_NAME)-pkg-install.sh
+
+
+KS_DEV_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(KS_DEV_PKG_NAME)-package
+
+build_ks_pkg     = $(TARGET_BUILD_DIR)/.kernel_sources_pkg_done
+
+pkg_basename     = $(KS_DEV_PKG_NAME)-$(KS_DEV_PKG_VERSION)-$(KS_DEV_PKG_ARCH)-$(KS_DEV_PKG_DISTRO_NAME)-$(KS_DEV_PKG_DISTRO_VERSION)
+pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(KS_DEV_PKG_GROUP)/$(pkg_basename).tgz
+
+BUILD_TARGETS    = $(build_ks_pkg)
+
+ROOTFS_TARGETS   = $(pkg_basename_tgz)
+
+PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(KS_DEV_PKG_GROUP)
+
+
+include ../../../../build-system/core.mk
+
+
+$(KS_DEV_PKG_DESCRIPTION_FILE): $(KS_DEV_PKG_DESCRIPTION_FILE_IN)
+	@cat $< | $(SED) -e "s/@KERNEL_VERSION@/$(kernel_version)/g" > $@
+
+$(build_ks_pkg): $(KS_DEV_PKG_DESCRIPTION_FILE)
+	@mkdir -p $(KS_DEV_PKG)/usr/src
+	@cd $(TARGET_DEST_DIR)/usr/src && \
+	 cp -rf linux-$(kernel_version) $(KS_DEV_PKG)/usr/src
+	@cp -a $(TARGET_DEST_DIR)/usr/src/.CONTENT \
+	       $(KS_DEV_PKG)/usr/src/
+	@cd $(KS_DEV_PKG)/usr/src && \
+	 $(LN_S)f linux-$(kernel_version) linux
+	@mkdir -p $(KS_DEV_PKG)/lib/modules/$(modules_version)
+	@cd $(KS_DEV_PKG)/lib/modules/$(modules_version) && \
+	 $(LN_S)f ../../../usr/src/linux build && \
+	 $(LN_S)f ../../../usr/src/linux source
+	@cp $(KS_DEV_PKG_DESCRIPTION_FILE) $(KS_DEV_PKG)/.DESCRIPTION
+	@cp $(KS_DEV_PKG_INSTALL_SCRIPT) $(KS_DEV_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(KS_DEV_PKG)/.REQUIRES
+	@echo "pkgname=$(KS_DEV_PKG_NAME)"                            >  $(KS_DEV_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(KS_DEV_PKG_VERSION)"                          >> $(KS_DEV_PKG)/.PKGINFO ; \
+	 echo "arch=$(KS_DEV_PKG_ARCH)"                               >> $(KS_DEV_PKG)/.PKGINFO ; \
+	 echo "distroname=$(KS_DEV_PKG_DISTRO_NAME)"                  >> $(KS_DEV_PKG)/.PKGINFO ; \
+	 echo "distrover=$(KS_DEV_PKG_DISTRO_VERSION)"                >> $(KS_DEV_PKG)/.PKGINFO ; \
+	 echo "group=$(KS_DEV_PKG_GROUP)"                             >> $(KS_DEV_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(KS_DEV_PKG_SHORT_DESCRIPTION)\"" >> $(KS_DEV_PKG)/.PKGINFO ; \
+	 echo "url=$(KS_DEV_PKG_URL)"                                 >> $(KS_DEV_PKG)/.PKGINFO ; \
+	 echo "license=$(KS_DEV_PKG_LICENSE)"                         >> $(KS_DEV_PKG)/.PKGINFO
+	@$(FAKEROOT) sh -c "cd $(KS_DEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@touch $@

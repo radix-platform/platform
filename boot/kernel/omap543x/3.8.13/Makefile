@@ -34,8 +34,6 @@ modules_done      = $(TARGET_BUILD_DIR)/.modules_done
 devel_sources     = $(TARGET_DEST_DIR)/usr/src/linux-$(full_version)
 boot_filesystem   = $(TARGET_DEST_DIR)/bootfs
 
-build_kernel_pkg  = $(TARGET_BUILD_DIR)/.kernel_pkg_done
-
 PATCHES = PATCHES
 
 
@@ -84,6 +82,8 @@ KERNEL_BIN_PKG_DESCRIPTION_FILE_IN = $(KERNEL_BIN_PKG_NAME)-pkg-description.in
 KERNEL_BIN_PKG_INSTALL_SCRIPT      = $(KERNEL_BIN_PKG_NAME)-pkg-install.sh
 
 KERNEL_BIN_PKG   = $(CURDIR)/$(TARGET_BUILD_DIR)/$(KERNEL_BIN_PKG_NAME)-package
+
+build_kernel_pkg = $(TARGET_BUILD_DIR)/.kernel_pkg_done
 
 pkg_basename     = $(KERNEL_BIN_PKG_NAME)-$(KERNEL_BIN_PKG_VERSION)-$(KERNEL_BIN_PKG_ARCH)-$(KERNEL_BIN_PKG_DISTRO_NAME)-$(KERNEL_BIN_PKG_DISTRO_VERSION)
 pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(KERNEL_BIN_PKG_GROUP)/$(pkg_basename).tgz
@@ -146,7 +146,7 @@ $(modules_done): $(linux_kernel) $(linux_systemmap) $(linux_config)
 	@touch $@
 
 
-$(TARGET_DEST_DIR)/usr/src/linux-$(full_version): $(modules_done)
+$(devel_sources): $(modules_done)
 	@echo "Creating '$@' for building external modules"
 	@rm -rf $@
 	@mkdir -p $@
@@ -163,7 +163,7 @@ $(TARGET_DEST_DIR)/usr/src/linux-$(full_version): $(modules_done)
 	@touch $@
 
 
-$(TARGET_DEST_DIR)/bootfs: $(devel_sources)
+$(boot_filesystem): $(devel_sources)
 	@echo "Creating '$@' directory for collecting boot file system objects"
 	@rm -rf $@
 	@mkdir -p $@

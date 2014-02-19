@@ -66,7 +66,6 @@ include ../../build-system/core.mk
 
 
 $(build):
-	echo "==================$(FAKEROOT)"
 	@mkdir -p $(BIN_PKG)/sbin/$(BIN_PKG_NAME)
 	@cp $(scripts) $(BIN_PKG)/sbin/$(BIN_PKG_NAME)
 	@cp $(BIN_PKG_DESCRIPTION_FILE) $(BIN_PKG)/.DESCRIPTION

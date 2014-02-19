@@ -74,7 +74,7 @@ create_file_list() {
     fi
   done
 
-  usize="`du -s -h . | cut -f 1 -d '.' | sed "s/[:\t:]//g"`"
+  usize="`du -s -h . | cut -f 1 -d $'\t'`"
   total_size="`echo -n "$usize"`"
 
   echo "uncompressed_size=$total_size" >> .PKGINFO

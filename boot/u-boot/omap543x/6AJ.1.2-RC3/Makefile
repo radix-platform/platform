@@ -36,6 +36,9 @@ boot_scr_nfs      = $(TARGET_BUILD_DIR)/boor.scr.nfs
 boot_script_sd   = $(TARGET_BUILD_DIR)/boor.script.sd
 boot_scr_sd      = $(TARGET_BUILD_DIR)/boor.scr.sd
 
+boot_script_emmc = $(TARGET_BUILD_DIR)/boor.script.emmc
+boot_scr_emmc    = $(TARGET_BUILD_DIR)/boor.scr.emmc
+
 
 PATCHES = PATCHES
 
@@ -119,18 +122,29 @@ $(boot_script_sd): $(u_boot)
 	   echo "setenv fdt_high 0x84000000" >> $(boot_script_sd) && \
 	   echo "bootm 0x80300000 - 0x825f0000" >> $(boot_script_sd) )
 
+$(boot_script_emmc): $(u_boot)
+	@( echo "mmc part" > $(boot_script_emmc) && \
+	   echo "fatload mmc 1:1 0x825f0000 omap5-uevm.dtb" >> $(boot_script_emmc) && \
+	   echo "fatload mmc 1:1 0x80300000 uImage" >> $(boot_script_emmc) && \
+	   echo "setenv bootargs 'elevator=noop console=ttyO2,115200n8 root=/dev/mmcblk0p2 rw rootwait earlyprintk fixrtc ip=dhcp omapdrm.num_crtc=2 consoleblank=0'" >> $(boot_script_emmc) && \
+	   echo "setenv fdt_high 0x84000000" >> $(boot_script_emmc) && \
+	   echo "bootm 0x80300000 - 0x825f0000" >> $(boot_script_emmc) )
+
 
 $(boot_scr_nfs): $(boot_script_nfs)
 	$(SRC_DIR)/tools/mkimage -A $(ARCH) -T script -C none -n "Boot Image" -d $< $@
 
 $(boot_scr_sd): $(boot_script_sd)
-	$(SRC_DIR)/tools/mkimage -A $(ARCH) -O linux -T script -C none -a 0 -e 0 -n 'Execute Boot Script' -d  $< $@
+	$(SRC_DIR)/tools/mkimage -A $(ARCH) -T script -C none -n "Boot Image" -d $< $@
+
+$(boot_scr_emmc): $(boot_script_emmc)
+	$(SRC_DIR)/tools/mkimage -A $(ARCH) -T script -C none -n "Boot Image" -d $< $@
 
 
 $(UBOOT_BIN_PKG_DESCRIPTION_FILE): $(UBOOT_BIN_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_uboot_pkg): $(u_boot) $(boot_scr_sd) $(boot_scr_nfs) $(UBOOT_BIN_PKG_DESCRIPTION_FILE) $(UBOOT_BIN_PKG_INSTALL_SCRIPT)
+$(build_uboot_pkg): $(u_boot) $(boot_scr_nfs) $(boot_scr_sd) $(boot_scr_emmc) $(UBOOT_BIN_PKG_DESCRIPTION_FILE) $(UBOOT_BIN_PKG_INSTALL_SCRIPT)
 	@mkdir -p $(TARGET_DEST_DIR)/bootfs
 	@mkdir -p $(UBOOT_BIN_PKG)/boot
 	# Copy U-Boot images:
@@ -138,7 +152,9 @@ $(build_uboot_pkg): $(u_boot) $(boot_scr_sd) $(boot_scr_nfs) $(UBOOT_BIN_PKG_DES
 	@cp -a $(boot_scr_nfs) $(UBOOT_BIN_PKG)/boot
 	@cp -a $(boot_scr_sd) $(TARGET_DEST_DIR)/bootfs
 	@cp -a $(boot_scr_sd) $(TARGET_DEST_DIR)/bootfs/boot.scr
-	@cp -a $(boot_scr_sd) $(UBOOT_BIN_PKG)/boot
+	@cp -a $(boot_scr_emmc) $(UBOOT_BIN_PKG)/boot
+	@cp -a $(boot_scr_emmc) $(TARGET_DEST_DIR)/bootfs
+	@cp -a $(boot_scr_emmc) $(UBOOT_BIN_PKG)/boot
 	@cd $(SRC_DIR) && \
 	  cp -a MLO u-boot u-boot.bin u-boot.img u-boot.lds u-boot.map u-boot.srec $(TARGET_DEST_DIR)/bootfs && \
 	  cp -a MLO u-boot u-boot.bin u-boot.img u-boot.lds u-boot.map u-boot.srec $(UBOOT_BIN_PKG)/boot

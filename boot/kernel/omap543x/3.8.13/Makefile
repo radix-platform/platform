@@ -30,9 +30,11 @@ modules_dir       = $(CURDIR)/$(TARGET_BUILD_DIR)
 build_config      = $(SRC_DIR)/.config
 oldconfig_done    = $(TARGET_BUILD_DIR)/.oldconfig_done
 modules_done      = $(TARGET_BUILD_DIR)/.modules_done
+device_dtb_done   = $(TARGET_BUILD_DIR)/.device_dtb_done
 
 devel_sources     = $(TARGET_DEST_DIR)/usr/src/linux-$(full_version)
 boot_filesystem   = $(TARGET_DEST_DIR)/bootfs
+
 
 PATCHES = PATCHES
 
@@ -40,6 +42,9 @@ PATCHES = PATCHES
 ifneq ($(filter $(TOOLCHAIN),$(OMAP543X_EGLIBC_TOOLCHAIN_NAME)),)
 ARCH = arm
 endif
+
+device_tree_name     = omap5-uevm.dtb
+device_src_tree_name = omap5-uevm.dts
 
 
 ####### Targets
@@ -49,6 +54,8 @@ linux_uImage      = $(TARGET_BUILD_DIR)/uImage-$(full_version)-$(TOOLCHAIN)_$(HA
 linux_zImage      = $(TARGET_BUILD_DIR)/zImage-$(full_version)-$(TOOLCHAIN)_$(HARDWARE)
 linux_config      = $(TARGET_BUILD_DIR)/config-$(full_version)-$(TOOLCHAIN)_$(HARDWARE)
 linux_systemmap   = $(TARGET_BUILD_DIR)/System.map-$(full_version)-$(TOOLCHAIN)_$(HARDWARE)
+board_dtb         = $(TARGET_BUILD_DIR)/$(device_tree_name)-$(full_version)-$(TOOLCHAIN)_$(HARDWARE)
+board_dts         = $(TARGET_BUILD_DIR)/$(device_src_tree_name)-$(full_version)-$(TOOLCHAIN)_$(HARDWARE)
 
 #
 # gen_init_cpio - is built with kernel for HOST machine (not used here now)
@@ -138,6 +145,7 @@ $(linux_config): $(linux_kernel)
 
 $(modules_done): $(linux_kernel) $(linux_systemmap) $(linux_config)
 	$(LMAKE) modules
+	$(LMAKE) omap5-uevm.dtb
 	@rm -rf $(TARGET_BUILD_DIR)/lib
 	$(LMAKE) modules_install DEPMOD=true INSTALL_MOD_PATH=$(modules_dir)
 	@cd $(TARGET_BUILD_DIR) && \
@@ -145,8 +153,13 @@ $(modules_done): $(linux_kernel) $(linux_systemmap) $(linux_config)
 	    $$(find * -path 'lib*' -type f -print)   $(TARGET_DEST_DIR)   $(HARDWARE)
 	@touch $@
 
+$(device_dtb_done): $(modules_done)
+	$(LMAKE) $(device_tree_name)
+	cp $(build_dir)/arch/$(ARCH)/boot/dts/$(device_tree_name)     $(board_dtb)
+	cp $(build_dir)/arch/$(ARCH)/boot/dts/$(device_src_tree_name) $(board_dts)
+	@touch $@
 
-$(devel_sources): $(modules_done)
+$(devel_sources): $(device_dtb_done)
 	@echo "Creating '$@' for building external modules"
 	@rm -rf $@
 	@mkdir -p $@
@@ -171,6 +184,8 @@ $(boot_filesystem): $(devel_sources)
 	@echo "Collection '$(HARDWARE)' images for building BOOT filesystem." >> $@/.CONTENT
 	@echo "" >> $@/.CONTENT
 	@cp -a $(linux_uImage) $@/uImage
+	@cp -a $(board_dtb) $@/$(device_tree_name)
+	@cp -a $(board_dts) $@/$(device_src_tree_name)
 	@touch $@
 
 
@@ -189,11 +204,12 @@ $(build_kernel_pkg): $(boot_filesystem) $(KERNEL_BIN_PKG_DESCRIPTION_FILE)
 	  cd $(modules_dir)/lib && \
 	  cp -rf firmware $(KERNEL_BIN_PKG)/lib ; \
 	fi
-	@cp -a $(linux_kernel) $(KERNEL_BIN_PKG)/boot/vmlinux-$(full_version)
-	@cp -a $(linux_uImage) $(KERNEL_BIN_PKG)/boot/uImage-$(full_version)
-	@cp -a $(linux_zImage) $(KERNEL_BIN_PKG)/boot/zImage-$(full_version)
-	@cp -a $(linux_config) $(KERNEL_BIN_PKG)/boot/config-$(full_version)
+	@cp -a $(linux_kernel)    $(KERNEL_BIN_PKG)/boot/vmlinux-$(full_version)
+	@cp -a $(linux_uImage)    $(KERNEL_BIN_PKG)/boot/uImage-$(full_version)
+	@cp -a $(linux_zImage)    $(KERNEL_BIN_PKG)/boot/zImage-$(full_version)
+	@cp -a $(linux_config)    $(KERNEL_BIN_PKG)/boot/config-$(full_version)
 	@cp -a $(linux_systemmap) $(KERNEL_BIN_PKG)/boot/System.map-$(full_version)
+	@cp -a $(board_dtb)       $(KERNEL_BIN_PKG)/boot/$(device_tree_name)
 	@cd $(KERNEL_BIN_PKG)/boot && $(LN_S)f vmlinux-$(full_version) vmlinux
 	@cd $(KERNEL_BIN_PKG)/boot && $(LN_S)f uImage-$(full_version) uImage
 	@cd $(KERNEL_BIN_PKG)/boot && $(LN_S)f zImage-$(full_version) zImage

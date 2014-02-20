@@ -14,6 +14,11 @@ SOURCE_REQUIRES  += $(SRC_PACKAGE_DIR)/U-Boot/omap5
 REQUIRES          = boot/kernel/omap543x/3.8.13
 
 
+DEFAULT_NFS_ROOT_IP_ADDR = 172.16.0.3
+DEFAULT_NFS_ROOT_PATH    = "nfsroot-omap5-evm"
+DEFAULT_HW_ADDR          = 2a:ab:c0:97:84:9d
+
+
 version           = 6AJ.1.2-RC3
 tar_bz2_archive   = $(SRC_PACKAGE_PATH)/U-Boot/omap5/u-boot-omap-$(version).tar.bz2
 SRC_ARCHIVE       = $(tar_bz2_archive)
@@ -25,6 +30,12 @@ u_boot            = $(build_dir)/.u_boot_done
 
 u_boot_config     = omap5_uevm_config
 
+boot_script_nfs   = $(TARGET_BUILD_DIR)/boor.script.nfs
+boot_scr_nfs      = $(TARGET_BUILD_DIR)/boor.scr.nfs
+
+boot_script_sd   = $(TARGET_BUILD_DIR)/boor.script.sd
+boot_scr_sd      = $(TARGET_BUILD_DIR)/boor.scr.sd
+
 
 PATCHES = PATCHES
 
@@ -32,6 +43,8 @@ PATCHES = PATCHES
 ifneq ($(filter $(TOOLCHAIN),$(OMAP543X_EGLIBC_TOOLCHAIN_NAME)),)
 ARCH = arm
 endif
+
+device_tree_name  = omap5-uevm.dtb
 
 
 ####### Targets
@@ -89,17 +102,43 @@ $(u_boot): $(src_done)
 	$(UMAKE)
 	@touch $@
 
+
+$(boot_script_nfs): $(u_boot)
+	@( echo "mmc part" > $(boot_script_nfs) && \
+	   echo "fatload mmc 0:1 0x825f0000 omap5-uevm.dtb" >> $(boot_script_nfs) && \
+	   echo "fatload mmc 0:1 0x80300000 uImage" >> $(boot_script_nfs) && \
+	   echo "setenv bootargs 'root=/dev/nfs nfsroot=$(DEFAULT_NFS_ROOT_IP_ADDR):/$(DEFAULT_NFS_ROOT_PATH) console=ttyO2,115200n8 earlyprintk rw ip=dhcp omapdrm.num_crtc=2 consoleblank=0'" >> $(boot_script_nfs) && \
+	   echo "setenv fdt_high 0x84000000" >> $(boot_script_nfs) && \
+	   echo "bootm 0x80300000 - 0x825f0000" >> $(boot_script_nfs) )
+
+$(boot_script_sd): $(u_boot)
+	@( echo "mmc part" > $(boot_script_sd) && \
+	   echo "fatload mmc 0:1 0x825f0000 omap5-uevm.dtb" >> $(boot_script_sd) && \
+	   echo "fatload mmc 0:1 0x80300000 uImage" >> $(boot_script_sd) && \
+	   echo "setenv bootargs 'elevator=noop console=ttyO2,115200n8 root=/dev/mmcblk0p2 rw rootwait earlyprintk fixrtc ip=dhcp omapdrm.num_crtc=2 consoleblank=0'" >> $(boot_script_sd) && \
+	   echo "setenv fdt_high 0x84000000" >> $(boot_script_sd) && \
+	   echo "bootm 0x80300000 - 0x825f0000" >> $(boot_script_sd) )
+
+
+$(boot_scr_nfs): $(boot_script_nfs)
+	$(SRC_DIR)/tools/mkimage -A $(ARCH) -T script -C none -n "Boot Image" -d $< $@
+
+$(boot_scr_sd): $(boot_script_sd)
+	$(SRC_DIR)/tools/mkimage -A $(ARCH) -O linux -T script -C none -a 0 -e 0 -n 'Execute Boot Script' -d  $< $@
+
+
 $(UBOOT_BIN_PKG_DESCRIPTION_FILE): $(UBOOT_BIN_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_uboot_pkg): $(u_boot) $(UBOOT_BIN_PKG_DESCRIPTION_FILE) $(UBOOT_BIN_PKG_INSTALL_SCRIPT)
+$(build_uboot_pkg): $(u_boot) $(boot_scr_sd) $(boot_scr_nfs) $(UBOOT_BIN_PKG_DESCRIPTION_FILE) $(UBOOT_BIN_PKG_INSTALL_SCRIPT)
 	@mkdir -p $(TARGET_DEST_DIR)/bootfs
 	@mkdir -p $(UBOOT_BIN_PKG)/boot
 	# Copy U-Boot images:
-	@cp -a $(CURDIR)/bootparams/boot.scr \
-	       $(CURDIR)/bootparams/omap5-uevm.dtb $(TARGET_DEST_DIR)/bootfs
-	@cp -a $(CURDIR)/bootparams/boot.scr \
-	       $(CURDIR)/bootparams/omap5-uevm.dtb $(UBOOT_BIN_PKG)/boot
+	@cp -a $(boot_scr_nfs) $(TARGET_DEST_DIR)/bootfs
+	@cp -a $(boot_scr_nfs) $(UBOOT_BIN_PKG)/boot
+	@cp -a $(boot_scr_sd) $(TARGET_DEST_DIR)/bootfs
+	@cp -a $(boot_scr_sd) $(TARGET_DEST_DIR)/bootfs/boot.scr
+	@cp -a $(boot_scr_sd) $(UBOOT_BIN_PKG)/boot
 	@cd $(SRC_DIR) && \
 	  cp -a MLO u-boot u-boot.bin u-boot.img u-boot.lds u-boot.map u-boot.srec $(TARGET_DEST_DIR)/bootfs && \
 	  cp -a MLO u-boot u-boot.bin u-boot.img u-boot.lds u-boot.map u-boot.srec $(UBOOT_BIN_PKG)/boot

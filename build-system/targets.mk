@@ -625,6 +625,12 @@ ARCH_FLAGS += -DB74=$(TARGET_ID_B74)
 endif
 
 
+#######
+####### Toolchain include path:
+#######
+
+TOOLCHAIN_INCPATH += -I$(TOOLCHAIN_PATH)/$(TARGET)/sys-root/usr/include
+
 
 #######
 ####### Library include path:
@@ -641,10 +647,10 @@ endif
 
 #LIBPATH += -L$(__lib_dir)
 
-RPATH += -Wl,-rpath-link,$(__lib_dir)
+#RPATH += -Wl,-rpath-link,$(__lib_dir)
 
 LDFLAGS += $(LIBPATH)
-LDFLAGS += $(RPATH)
+#LDFLAGS += $(RPATH)
 #LDFLAGS += -Wl,--no-add-needed
 #LDFLAGS += -Wl,-O1
 

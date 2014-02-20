@@ -1,7 +1,11 @@
 
 COMPONENT_TARGETS = $(TARGET_HOST)
 
-url         = ftp://ftp.radix.pro/sources/hal/omap/sgx-ddk
+
+include ../../../../build-system/constants.mk
+
+
+url         = $(DOWNLOAD_SERVER)/sources/hal/omap/sgx-ddk
 
 versions    = 1.9.0.11
 

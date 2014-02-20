@@ -1,7 +1,11 @@
 
 COMPONENT_TARGETS = $(TARGET_HOST)
 
-url         = ftp://ftp.radix.pro/sources/packages/a/fakeroot-ng
+
+include ../../../../build-system/constants.mk
+
+
+url         = $(DOWNLOAD_SERVER)/sources/packages/a/fakeroot-ng
 
 versions    = 0.17 0.18
 

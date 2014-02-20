@@ -10,7 +10,11 @@
 
 COMPONENT_TARGETS = $(TARGET_HOST)
 
-url         = ftp://ftp.radix.pro/sources/packages/a/dialog
+
+include ../../../../build-system/constants.mk
+
+
+url         = $(DOWNLOAD_SERVER)/sources/packages/a/dialog
 
 versions    = 1.1-20120215 1.2-20130928
 

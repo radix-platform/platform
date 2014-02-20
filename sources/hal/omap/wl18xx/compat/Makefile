@@ -1,7 +1,11 @@
 
 COMPONENT_TARGETS = $(TARGET_HOST)
 
-url         = ftp://ftp.radix.pro/sources/hal/omap/wl18xx/compat
+
+include ../../../../../build-system/constants.mk
+
+
+url         = $(DOWNLOAD_SERVER)/sources/hal/omap/wl18xx/compat
 
 versions    = ol_r8.a8.09
 versions   += ol_r8.a8.10

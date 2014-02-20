@@ -5,6 +5,8 @@ ifndef CONSTANTS_MK
 ####### Constants:
 #######
 
+DOWNLOAD_SERVER      = ftp://ftp.radix.pro
+
 TOOLCHAINS_BASE_PATH = /opt/toolchain
 
 # Target machine architrctures:

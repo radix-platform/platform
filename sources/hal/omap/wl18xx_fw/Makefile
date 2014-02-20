@@ -2,42 +2,31 @@
 COMPONENT_TARGETS = $(TARGET_HOST)
 
 
-include ../../../build-system/constants.mk
+include ../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/Linux/omap5
+url         = $(DOWNLOAD_SERVER)/sources/hal/omap/wl18xx_fw
 
-versions   += 3.8-6AJ.1.1-RC0
-versions   += 3.8-6AJ.1.2-RC3
+versions    = ol_r8.a8.09
+versions   += ol_r8.a8.10
 
-description = android-omap5.txt
-tarballs    = $(addsuffix .tar.bz2, $(addprefix linux-, $(versions)))
-defconfigs  = $(subst .tar.bz2,.defconfig, $(tarballs))
+tarballs    = $(addsuffix .tar.bz2, $(addprefix wl18xx_fw-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 
-BUILD_TARGETS = $(description) $(tarballs) $(defconfigs) $(sha1s)
+BUILD_TARGETS = $(tarballs) $(sha1s)
 
 
-include ../../../build-system/core.mk
+include ../../../../build-system/core.mk
 
 
 .PHONY: download_clean
 
 
-$(description):
-	wget $(WGET_OPTIONS) -N $(url)/$(description)
-
 $(tarballs):
 	@echo -e "\n======= Downloading source tarballs ======="
 	@for tarball in $(tarballs) ; do \
 	  wget $(WGET_OPTIONS) -N $(url)/$$tarball ; \
-	done
-
-$(defconfigs):
-	@echo -e "\n======= Downloading default config files ======="
-	@for defconfig in $(defconfigs) ; do \
-	  wget $(WGET_OPTIONS) -N $(url)/$$defconfig ; \
 	done
 
 $(sha1s): %.tar.bz2.sha1sum : %.tar.bz2
@@ -54,4 +43,4 @@ $(sha1s): %.tar.bz2.sha1sum : %.tar.bz2
 	done
 
 download_clean:
-	@rm -f $(description) $(tarballs) $(defconfigs) $(sha1s)
+	@rm -f $(tarballs) $(sha1s)

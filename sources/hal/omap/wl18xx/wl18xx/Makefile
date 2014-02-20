@@ -1,7 +1,11 @@
 
 COMPONENT_TARGETS = $(TARGET_HOST)
 
-url         = ftp://ftp.radix.pro/sources/hal/omap/wl18xx/wl18xx
+
+include ../../../../../build-system/constants.mk
+
+
+url         = $(DOWNLOAD_SERVER)/sources/hal/omap/wl18xx/wl18xx
 
 versions    = ol_r8.a8.09
 versions   += ol_r8.a8.10
@@ -11,7 +15,7 @@ tarballs    = $(addsuffix .tar.bz2, $(addprefix wl18xx-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 
-BUILD_TARGETS = $(description) $(tarballs) $(sha1s)
+BUILD_TARGETS = $(tarballs) $(sha1s)
 
 
 include ../../../../../build-system/core.mk

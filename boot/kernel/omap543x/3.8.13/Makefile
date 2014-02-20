@@ -145,7 +145,6 @@ $(linux_config): $(linux_kernel)
 
 $(modules_done): $(linux_kernel) $(linux_systemmap) $(linux_config)
 	$(LMAKE) modules
-	$(LMAKE) omap5-uevm.dtb
 	@rm -rf $(TARGET_BUILD_DIR)/lib
 	$(LMAKE) modules_install DEPMOD=true INSTALL_MOD_PATH=$(modules_dir)
 	@cd $(TARGET_BUILD_DIR) && \

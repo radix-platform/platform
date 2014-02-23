@@ -45,9 +45,9 @@ export PATH=/opt/toolchain/arm-OMAP543X-linux-eglibc/1.0.5/bin:$PATH
 export ARCH=arm
 export CROSS_COMPILE=arm-omap543x-linux-gnueabihf-
 
-export KLIB_BUILD=/home/kx/prog/scm/svn/platform/trunk-9/dist/.omap543x-eglibc/omap5evm/usr/src/linux-3.8-6AJ.1.2-RC3
-export KLIB=/home/kx/prog/scm/svn/platform/trunk-9/dist/.omap543x-eglibc/omap5evm
-export INSTALL_MOD_PATH=/home/kx/prog/scm/svn/platform/trunk-9/dist/.omap543x-eglibc/omap5evm
+export KLIB_BUILD=/home/kx/prog/scm/svn/platform/trunk-9/dist/.omap543x-eglibc/omap5uevm/usr/src/linux-3.8-6AJ.1.2-RC3
+export KLIB=/home/kx/prog/scm/svn/platform/trunk-9/dist/.omap543x-eglibc/omap5uevm
+export INSTALL_MOD_PATH=/home/kx/prog/scm/svn/platform/trunk-9/dist/.omap543x-eglibc/omap5uevm
 
 make modules
 make install

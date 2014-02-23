@@ -1,9 +1,9 @@
 
-COMPONENT_TARGETS = $(TARGET_OMAP5EVM)
+COMPONENT_TARGETS = $(TARGET_OMAP5UEVM)
 
-NEEDS_ABS_PATHS = true
+NEED_ABS_PATH     = true
 
-COMPONENT_IS_3PP = true
+COMPONENT_IS_3PP  = true
 
 
 include ../../../../build-system/constants.mk
@@ -17,7 +17,7 @@ REQUIRES          = hal/3pp/omap/sgx-ddk
 
 
 version           = ol_r8.a8.10
-kernel_version    = 3.8-6AJ.1.2-RC3
+kernel_version    = 3.8.y-20140222
 modules_version   = 3.8.13
 tar_bz2_archive   = $(SRC_PACKAGE_PATH)/hal/omap/wl18xx/wl18xx/wl18xx-$(version).tar.bz2
 SRC_ARCHIVE       = $(tar_bz2_archive)
@@ -37,7 +37,7 @@ driver_selected   = $(TARGET_BUILD_DIR)/.driver_selected
 
 build_dir         = $(CURDIR)/$(TARGET_BUILD_DIR)/build
 
-kernel_sources    = $(TARGET_DEST_DIR)/usr/src/linux-$(kernel_version)
+kernel_sources    = $(TARGET_DEST_DIR)/usr/src/linux-glsdk-$(kernel_version)
 
 build_wl18xx_pkg  = $(TARGET_BUILD_DIR)/.wl18xx_pkg_done
 

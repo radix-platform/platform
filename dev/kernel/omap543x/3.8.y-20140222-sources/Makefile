@@ -9,12 +9,12 @@ COMPONENT_IS_3PP  = true
 include ../../../../build-system/constants.mk
 
 
-version          = 3.8.13
+version          = 3.8.y-20140222
 
 REQUIRES         = boot/kernel/omap543x/$(version)
 
-kernel_version   = 3.8-6AJ.1.2-RC3
-modules_version  = $(version)
+kernel_version   = $(version)
+modules_version  = 3.8.13
 
 
 KS_DEV_PKG_NAME                = kernel-sources
@@ -28,7 +28,7 @@ KS_DEV_PKG_DISTRO_NAME         = kxLab
 KS_DEV_PKG_DISTRO_VERSION      = 1.0
 KS_DEV_PKG_GROUP               = dev
 ###                             |---handy-ruler-------------------------------|
-KS_DEV_PKG_SHORT_DESCRIPTION   = Linux $(version) configured sources
+KS_DEV_PKG_SHORT_DESCRIPTION   = Linux $(version) sources
 KS_DEV_PKG_URL                 = http://www.kxLab.com
 KS_DEV_PKG_LICENSE             = GPLv2
 KS_DEV_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(KS_DEV_PKG_NAME)-pkg-description
@@ -59,11 +59,11 @@ $(KS_DEV_PKG_DESCRIPTION_FILE): $(KS_DEV_PKG_DESCRIPTION_FILE_IN)
 $(build_ks_pkg): $(KS_DEV_PKG_DESCRIPTION_FILE)
 	@mkdir -p $(KS_DEV_PKG)/usr/src
 	@cd $(TARGET_DEST_DIR)/usr/src && \
-	 cp -rf linux-$(kernel_version) $(KS_DEV_PKG)/usr/src
+	 cp -rf linux-glsdk-$(kernel_version) $(KS_DEV_PKG)/usr/src
 	@cp -a $(TARGET_DEST_DIR)/usr/src/.CONTENT \
 	       $(KS_DEV_PKG)/usr/src/
 	@cd $(KS_DEV_PKG)/usr/src && \
-	 $(LN_S)f linux-$(kernel_version) linux
+	 $(LN_S)f linux-glsdk-$(kernel_version) linux
 	@mkdir -p $(KS_DEV_PKG)/lib/modules/$(modules_version)
 	@cd $(KS_DEV_PKG)/lib/modules/$(modules_version) && \
 	 $(LN_S)f ../../../usr/src/linux build && \

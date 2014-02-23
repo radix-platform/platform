@@ -41,8 +41,8 @@ build-system/progs/configure
 .host.rootfs
 .l17uc.dist
 .l17uc.rootfs
-.omap5evm.dist
-.omap5evm.rootfs
+.omap5uevm.dist
+.omap5uevm.rootfs
 .pc32.dist
 .pc32.rootfs
 .pc64.dist
@@ -69,8 +69,8 @@ build-system/progs/configure
 .host_requires_done
 .l17uc_requires
 .l17uc_requires_done
-.omap5evm_requires
-.omap5evm_requires_done
+.omap5uevm_requires
+.omap5uevm_requires_done
 .pc32_requires
 .pc32_requires_done
 .pc64_requires

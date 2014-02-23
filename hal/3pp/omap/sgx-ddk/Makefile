@@ -1,9 +1,9 @@
 
-COMPONENT_TARGETS = $(TARGET_OMAP5EVM)
+COMPONENT_TARGETS = $(TARGET_OMAP5UEVM)
 
-NEEDS_ABS_PATHS = true
+NEED_ABS_PATH     = true
 
-COMPONENT_IS_3PP = true
+COMPONENT_IS_3PP  = true
 
 
 include ../../../../build-system/constants.mk
@@ -11,11 +11,11 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES  += $(SRC_PACKAGE_DIR)/hal/omap/sgx-ddk
 
-REQUIRES          = boot/kernel/omap543x/3.8.13
+REQUIRES          = boot/kernel/omap543x/3.8.y-20140222
 
 
 version           = 1.9.0.11
-kernel_version    = 3.8-6AJ.1.2-RC3
+kernel_version    = 3.8.y-20140222
 modules_version   = 3.8.13
 tar_bz2_archive   = $(SRC_PACKAGE_PATH)/hal/omap/sgx-ddk/ti_imgddk_$(version).tar.bz2
 SRC_ARCHIVE       = $(tar_bz2_archive)
@@ -24,7 +24,7 @@ src_done          = $(SRC_DIR)/.source_done
 
 build_dir         = $(CURDIR)/$(TARGET_BUILD_DIR)/build
 
-kernel_sources    = $(TARGET_DEST_DIR)/usr/src/linux-$(kernel_version)
+kernel_sources    = $(TARGET_DEST_DIR)/usr/src/linux-glsdk-$(kernel_version)
 
 build_sgxddk_pkg  = $(TARGET_BUILD_DIR)/.sgxddk_pkg_done
 

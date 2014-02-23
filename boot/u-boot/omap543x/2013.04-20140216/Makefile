@@ -9,18 +9,18 @@ COMPONENT_IS_3PP  = true
 include ../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES  += $(SRC_PACKAGE_DIR)/U-Boot/omap5
+SOURCE_REQUIRES  += $(SRC_PACKAGE_DIR)/U-Boot/omap5-glsdk
 
-REQUIRES          = boot/kernel/omap543x/3.8.13
-
-
-DEFAULT_NFS_ROOT_IP_ADDR = 172.16.0.3
-DEFAULT_NFS_ROOT_PATH    = "nfsroot-omap5-evm"
-DEFAULT_HW_ADDR          = 2a:ab:c0:97:84:9d
+REQUIRES          = boot/kernel/omap543x/3.8.y-20140222
 
 
-version           = 6AJ.1.2-RC3
-tar_bz2_archive   = $(SRC_PACKAGE_PATH)/U-Boot/omap5/u-boot-omap-$(version).tar.bz2
+DEFAULT_NFS_ROOT_IP_ADDR =  172.16.0.3
+DEFAULT_NFS_ROOT_PATH    = "nfsroot-omap5-uevm"
+DEFAULT_HW_ADDR          =  2a:ab:c0:97:84:9d
+
+
+version           = 2013.04-20140216
+tar_bz2_archive   = $(SRC_PACKAGE_PATH)/U-Boot/omap5-glsdk/u-boot-omap-$(version).tar.bz2
 SRC_ARCHIVE       = $(tar_bz2_archive)
 SRC_DIR           = $(TARGET_BUILD_DIR)/u-boot-omap-$(version)
 src_done          = $(SRC_DIR)/.source_done
@@ -54,7 +54,7 @@ device_tree_name  = omap5-uevm.dtb
 
 
 UBOOT_BIN_PKG_NAME                = u-boot
-UBOOT_BIN_PKG_VERSION             = 6AJ.1.2-RC3
+UBOOT_BIN_PKG_VERSION             = 2013.04-20140216
 ifeq ($(HARDWARE),$(TARGET_HOST))
 UBOOT_BIN_PKG_ARCH                = $(shell uname -m)
 else

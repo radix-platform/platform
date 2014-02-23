@@ -9,18 +9,18 @@ COMPONENT_IS_3PP  = true
 include ../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES  += $(SRC_PACKAGE_DIR)/Linux/omap5
+SOURCE_REQUIRES  += $(SRC_PACKAGE_DIR)/Linux/omap5-glsdk
 
 REQUIRES          = base/pkgtool
 
 
-version           = 3.8-6AJ.1.2-RC3
+version           = 3.8.y-20140222
 subversion        = 
 modules_version   = 3.8.13
 full_version      = $(version)
-tar_bz2_archive   = $(SRC_PACKAGE_PATH)/Linux/omap5/linux-$(full_version).tar.bz2
+tar_bz2_archive   = $(SRC_PACKAGE_PATH)/Linux/omap5-glsdk/linux-glsdk-$(full_version).tar.bz2
 SRC_ARCHIVE       = $(tar_bz2_archive)
-SRC_DIR           = $(TARGET_BUILD_DIR)/usr/src/linux-$(full_version)
+SRC_DIR           = $(TARGET_BUILD_DIR)/usr/src/linux-glsdk-$(full_version)
 src_done          = $(TARGET_BUILD_DIR)/.source_done
 
 config            = $(HARDWARE).config
@@ -32,7 +32,7 @@ oldconfig_done    = $(TARGET_BUILD_DIR)/.oldconfig_done
 modules_done      = $(TARGET_BUILD_DIR)/.modules_done
 device_dtb_done   = $(TARGET_BUILD_DIR)/.device_dtb_done
 
-devel_sources     = $(TARGET_DEST_DIR)/usr/src/linux-$(full_version)
+devel_sources     = $(TARGET_DEST_DIR)/usr/src/linux-glsdk-$(full_version)
 boot_filesystem   = $(TARGET_DEST_DIR)/bootfs
 
 
@@ -170,8 +170,8 @@ $(devel_sources): $(device_dtb_done)
 	@echo "" >> $(TARGET_DEST_DIR)/usr/src/.CONTENT
 	@cp -rf $(build_dir) $(TARGET_DEST_DIR)/usr/src
 	@cd $(TARGET_DEST_DIR)/lib/modules/$(modules_version) && \
-	  $$($(LN_S)f ../../../usr/src/linux-$(full_version) build && \
-	     $(LN_S)f ../../../usr/src/linux-$(full_version) source)
+	  $$($(LN_S)f ../../../usr/src/linux-glsdk-$(full_version) build && \
+	     $(LN_S)f ../../../usr/src/linux-glsdk-$(full_version) source)
 	@touch $@
 
 

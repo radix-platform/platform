@@ -1,9 +1,9 @@
 
-COMPONENT_TARGETS = $(TARGET_OMAP5EVM)
+COMPONENT_TARGETS = $(TARGET_OMAP5UEVM)
 
-NEEDS_ABS_PATHS = true
+NEED_ABS_PATH     = true
 
-COMPONENT_IS_3PP = true
+COMPONENT_IS_3PP  = true
 
 
 include ../../../../build-system/constants.mk

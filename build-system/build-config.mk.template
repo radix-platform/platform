@@ -26,6 +26,6 @@ BUILD_L17UC      = true
 BUILD_BEAGLE     = true
 
 # TARGET: arm-omap543x-linux-gnueabihf:
-BUILD_OMAP5EVM   = true
+BUILD_OMAP5UEVM  = true
 
 BUILD_B74        = true

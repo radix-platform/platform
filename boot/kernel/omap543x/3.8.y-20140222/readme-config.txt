@@ -40,9 +40,10 @@ configs/
 Changes for disable Marvel libertas, cfg80211 & mac80211:
 
   menuconfig:
-    Network Device Support -->
-      Wireless LAN -->
-        < > Marvel 8xxx Libertas WLAN support.
+    Device Drivers -->
+      Network Device Support -->
+        Wireless LAN -->
+          < > Marvel 8xxx Libertas WLAN support.
 
   menuconfig:
     Networking Support -->

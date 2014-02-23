@@ -502,7 +502,7 @@ ARCH_FLAGS += -D__OMAP35X__=1
 endif
 
 ifeq ($(TOOLCHAIN),$(OMAP543X_EGLIBC_TOOLCHAIN_NAME))
-ARCH_FLAGS += -mcpu=cortex-a15 -march=armv7-a -mtune=cortex-a15 -mfpu=neon-vfpv4 -mabi=aapcs-linux -fomit-frame-pointer
+ARCH_FLAGS += -mcpu=cortex-a15 -mtune=cortex-a15 -mfpu=neon-vfpv4 -mabi=aapcs-linux -fomit-frame-pointer
 ARCH_FLAGS += -D__OMAP543X__=1
 endif
 

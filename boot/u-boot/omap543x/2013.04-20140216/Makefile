@@ -148,11 +148,12 @@ $(build_uboot_pkg): $(u_boot) $(boot_scr_nfs) $(boot_scr_sd) $(boot_scr_emmc) $(
 	@mkdir -p $(TARGET_DEST_DIR)/bootfs
 	@mkdir -p $(UBOOT_BIN_PKG)/boot
 	# Copy U-Boot images:
-	@cp -a $(boot_scr_nfs) $(TARGET_DEST_DIR)/bootfs
-	@cp -a $(boot_scr_nfs) $(UBOOT_BIN_PKG)/boot
-	@cp -a $(boot_scr_sd) $(TARGET_DEST_DIR)/bootfs
-	@cp -a $(boot_scr_sd) $(TARGET_DEST_DIR)/bootfs/boot.scr
-	@cp -a $(boot_scr_emmc) $(UBOOT_BIN_PKG)/boot
+	@cp -a $(boot_scr_nfs)  $(TARGET_DEST_DIR)/bootfs
+	@cp -a $(boot_scr_nfs)  $(UBOOT_BIN_PKG)/boot
+	@cp -a $(boot_scr_sd)   $(TARGET_DEST_DIR)/bootfs
+	@cp -a $(boot_scr_sd)   $(TARGET_DEST_DIR)/bootfs/boot.scr
+	@cp -a $(boot_scr_sd)   $(UBOOT_BIN_PKG)/boot
+	@cp -a $(boot_scr_sd)   $(UBOOT_BIN_PKG)/boot/boot.scr
 	@cp -a $(boot_scr_emmc) $(TARGET_DEST_DIR)/bootfs
 	@cp -a $(boot_scr_emmc) $(UBOOT_BIN_PKG)/boot
 	@cd $(SRC_DIR) && \

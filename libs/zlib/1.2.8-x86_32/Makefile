@@ -9,7 +9,7 @@ COMPONENT_IS_3PP   = true
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES   += $(SRC_PACKAGE_DIR)/packages/l/zlib
+SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/l/zlib
 
 REQUIRES           = base/pkgtool
 

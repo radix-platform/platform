@@ -20,7 +20,7 @@ COMPONENT_IS_3PP   = true
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES   += $(SRC_PACKAGE_DIR)/GNU/binutils
+SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/GNU/binutils
 
 REQUIRES           = base/pkgtool
 

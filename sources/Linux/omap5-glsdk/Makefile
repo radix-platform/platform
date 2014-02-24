@@ -33,6 +33,9 @@ $(tarballs):
 	@for tarball in $(tarballs) ; do \
 	  wget $(WGET_OPTIONS) -N $(url)/$$tarball ; \
 	done
+	@echo -e "\n======= Create Patches =======\n"
+	@( cd create-3.8.y-20131223-memset-patch && ./create.patch.sh )
+	@( cd create-3.8.y-20140222-memset-patch && ./create.patch.sh )
 
 $(defconfigs):
 	@echo -e "\n======= Downloading default config files ======="
@@ -55,3 +58,5 @@ $(sha1s): %.tar.bz2.sha1sum : %.tar.bz2
 
 download_clean:
 	@rm -f $(description) $(tarballs) $(defconfigs) $(sha1s)
+	@rm -f patches/linux-glsdk-3.8.y-20131223-memset.patch
+	@rm -f patches/linux-glsdk-3.8.y-20140222-memset.patch

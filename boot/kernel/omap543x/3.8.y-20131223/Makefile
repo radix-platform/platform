@@ -14,7 +14,7 @@ SOURCE_REQUIRES  += $(SRC_PACKAGE_DIR)/Linux/omap5-glsdk
 REQUIRES          = base/pkgtool
 
 
-version           = 3.8.y-20140222
+version           = 3.8.y-20131223
 subversion        = 
 modules_version   = 3.8.13
 full_version      = $(version)

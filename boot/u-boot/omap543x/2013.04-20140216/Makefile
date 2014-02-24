@@ -52,6 +52,8 @@ device_tree_name  = omap5-uevm.dtb
 
 ####### Targets
 
+PKG_GROUP = boot
+
 
 UBOOT_BIN_PKG_NAME                = u-boot
 UBOOT_BIN_PKG_VERSION             = 2013.04-20140216
@@ -62,7 +64,7 @@ UBOOT_BIN_PKG_ARCH                = $(TOOLCHAIN)
 endif
 UBOOT_BIN_PKG_DISTRO_NAME         = kxLab
 UBOOT_BIN_PKG_DISTRO_VERSION      = 1.0
-UBOOT_BIN_PKG_GROUP               = boot
+UBOOT_BIN_PKG_GROUP               = $(PKG_GROUP)
 ###                                 |---handy-ruler-------------------------------|
 UBOOT_BIN_PKG_SHORT_DESCRIPTION   = OMAP5 U-Boot $(version)
 UBOOT_BIN_PKG_URL                 = http://www.kxLab.com
@@ -82,7 +84,7 @@ BUILD_TARGETS    = $(build_uboot_pkg)
 
 ROOTFS_TARGETS   = $(pkg_basename_tgz)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(UBOOT_BIN_PKG_GROUP)
+PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
 
 CLEANUP_FILES   += $(SRC_DIR)
 

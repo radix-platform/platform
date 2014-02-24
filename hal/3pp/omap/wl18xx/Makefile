@@ -63,6 +63,8 @@ extra_build_environment  += __CROSS_INSTALL__=1
 
 ####### Targets
 
+PKG_GROUP = boot
+
 
 WL18XX_BIN_PKG_NAME                = wl18xx
 WL18XX_BIN_PKG_VERSION             = ol_r8.a8.10
@@ -73,7 +75,7 @@ WL18XX_BIN_PKG_ARCH                = $(TOOLCHAIN)
 endif
 WL18XX_BIN_PKG_DISTRO_NAME         = kxLab
 WL18XX_BIN_PKG_DISTRO_VERSION      = 1.0
-WL18XX_BIN_PKG_GROUP               = boot
+WL18XX_BIN_PKG_GROUP               = $(PKG_GROUP)
 ###                                 |---handy-ruler-------------------------------|
 WL18XX_BIN_PKG_SHORT_DESCRIPTION   = wl18xx $(version) for Linux kernel
 WL18XX_BIN_PKG_URL                 = http://www.kxLab.com
@@ -92,7 +94,7 @@ BUILD_TARGETS    = $(build_wl18xx_pkg)
 
 ROOTFS_TARGETS   = $(pkg_basename_tgz)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(WL18XX_BIN_PKG_GROUP)
+PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
 
 CLEANUP_FILES   += $(SRC_DIR)
 CLEANUP_FILES   += $(w_compat_src_dir)

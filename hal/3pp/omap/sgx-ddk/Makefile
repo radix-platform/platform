@@ -49,6 +49,8 @@ endif
 
 ####### Targets
 
+PKG_GROUP = boot
+
 
 SGXDDK_BIN_PKG_NAME                = sgxddk
 SGXDDK_BIN_PKG_VERSION             = 1.9.0.11
@@ -59,7 +61,7 @@ SGXDDK_BIN_PKG_ARCH                = $(TOOLCHAIN)
 endif
 SGXDDK_BIN_PKG_DISTRO_NAME         = kxLab
 SGXDDK_BIN_PKG_DISTRO_VERSION      = 1.0
-SGXDDK_BIN_PKG_GROUP               = boot
+SGXDDK_BIN_PKG_GROUP               = $(PKG_GROUP)
 ###                                 |---handy-ruler-------------------------------|
 SGXDDK_BIN_PKG_SHORT_DESCRIPTION   = SGX DDK $(version) for Linux kernel
 SGXDDK_BIN_PKG_URL                 = http://www.kxLab.com
@@ -78,7 +80,7 @@ BUILD_TARGETS    = $(build_sgxddk_pkg)
 
 ROOTFS_TARGETS   = $(pkg_basename_tgz)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(SGXDDK_BIN_PKG_GROUP)
+PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
 
 CLEANUP_FILES   += $(SRC_DIR)
 

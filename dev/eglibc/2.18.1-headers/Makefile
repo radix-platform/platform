@@ -38,9 +38,9 @@ tar_bz2_archive = $(SRC_PACKAGE_PATH)/GNU/EGLIBC/$(version)/eglibc-$(version).ta
 tar_bz2_archive_ports = $(SRC_PACKAGE_PATH)/GNU/EGLIBC/2.18.1/eglibc-ports-2.18.1.tar.bz2
 
 SRC_ARCHIVE       = $(tar_bz2_archive)
-SRC_DIR           = $(TARGET_BUILD_DIR)/eglibc-$(version)
+SRC_DIR           = $(CURDIR)/eglibc-$(version)
 src_dir_name      = eglibc-$(version)
-src_done          = $(TARGET_BUILD_DIR)/.source-done
+src_done          = $(SRC_DIR)/.source-done
 
 PATCHES           = PATCHES
 
@@ -99,7 +99,9 @@ include ../../../build-system/core.mk
 sysroot_dir  = $(EGLIBC_H_DEV_PKG)
 env_sysroot  = install_root=$(sysroot_dir)
 
-environment  = CFLAGS="-g -O3"
+#environment  = CFLAGS=" -g -O3"
+CFLAGS      += -g -O3
+
 
 ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
 LIBSUFFIX    = 64
@@ -147,15 +149,12 @@ endif
 
 
 
-$(SRC_DIR): $(SRC_ARCHIVE) $(PATCHES_DEP)
+$(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
-	@touch $@
-
-$(src_done): $(SRC_DIR)
-	tar xjf $(tar_bz2_archive_ports) -C $<
+	tar xjf $(tar_bz2_archive_ports) -C $(SRC_DIR)
 	mv $(SRC_DIR)/eglibc-ports-2.18.1 $(SRC_DIR)/ports
-	touch $@
+	@touch $@
 
 $(build_dir): $(src_done)
 	mkdir -p $@
@@ -167,14 +166,14 @@ $(EGLIBC_H_DEV_PKG): $(build_dir) $(build_32_dir)
 	@mkdir -p $@
 
 $(install_32_target): $(EGLIBC_H_DEV_PKG)
-	@cd $(build_32_dir) && $(env_sysroot) $(BUILD_ENVIRONMENT) $(environment_32_compat) ../$(src_dir_name)/configure \
+	@cd $(build_32_dir) && $(env_sysroot) $(BUILD_ENVIRONMENT) $(environment_32_compat) ../../../$(src_dir_name)/configure \
 	  --prefix=/usr                   \
 	  --build=$(BUILD)                \
 	  --host=$(TARGET32)              \
 	  --libdir=/usr/lib$(LIBSUFFIX32) \
 	  $(extra_configure_switches)
 	@cd $(build_32_dir) && $(MAKE) install-headers \
-	                              install-bootstrap-headers=yes $(env_sysroot)
+	                               install-bootstrap-headers=yes $(env_sysroot)
 	@cd $(build_32_dir) && $(BUILD_ENVIRONMENT) $(environment_32_compat) $(MAKE) csu/subdir_lib
 	@cd $(build_32_dir) && $(BUILD_ENVIRONMENT) $(environment_32_compat) $(MAKE) csu/subdir_install $(env_sysroot)
 	@$(BUILD_ENVIRONMENT) $(environment_32_compat) $(CC32) -nostdlib -nostartfiles -shared -x c /dev/null \
@@ -182,14 +181,14 @@ $(install_32_target): $(EGLIBC_H_DEV_PKG)
 	@touch $@
 
 $(install_target): $(EGLIBC_H_DEV_PKG) $(install_32_target)
-	@cd $(build_dir) && $(env_sysroot) $(BUILD_ENVIRONMENT) $(environment) ../$(src_dir_name)/configure \
+	@cd $(build_dir) && $(env_sysroot) $(BUILD_ENVIRONMENT) $(environment) ../../../$(src_dir_name)/configure \
 	  --prefix=/usr                 \
 	  --build=$(BUILD)              \
 	  --host=$(TARGET)              \
 	  --libdir=/usr/lib$(LIBSUFFIX) \
 	  $(extra_configure_switches)
 	@cd $(build_dir) && $(MAKE) install-headers \
-	                           install-bootstrap-headers=yes $(env_sysroot)
+	                            install-bootstrap-headers=yes $(env_sysroot)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) csu/subdir_lib
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) csu/subdir_install $(env_sysroot)
 	@$(BUILD_ENVIRONMENT) $(environment) $(CC) -nostdlib -nostartfiles -shared -x c /dev/null \

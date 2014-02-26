@@ -12,7 +12,7 @@ TOOLCHAINS_BASE_PATH = /opt/toolchain
 # Target machine architrctures:
 
 ARCH_HOST         = $(shell uname -m)-pc-linux-gnu
-ARCH_I686         = x86_64-radix-linux-gnu
+ARCH_I686         = i486-radix-linux-gnu
 ARCH_X86_64       = x86_64-radix-linux-gnu
 ARCH_A1N          = arm-a1x-eabi
 ARCH_A1X          = arm-a1x-linux-gnueabi
@@ -136,7 +136,7 @@ BUILD_HARDWARE_VARIANTS := $(TARGET_HOST)
 # I686-EGLIBC
 I686_EGLIBC_TOOLCHAIN_NAME    = i686-eglibc
 I686_EGLIBC_TOOLCHAIN_VERSION = 1.0.6
-I686_EGLIBC_TOOLCHAIN_DIR     = x86_64-PC-linux-eglibc
+I686_EGLIBC_TOOLCHAIN_DIR     = i486-PC-linux-eglibc
 I686_EGLIBC_TOOLCHAIN_PATH    = $(TOOLCHAINS_BASE_PATH)/$(I686_EGLIBC_TOOLCHAIN_DIR)/$(I686_EGLIBC_TOOLCHAIN_VERSION)
 I686_EGLIBC_TARGET            = $(ARCH_I686)
 I686_EGLIBC_CC                = $(I686_EGLIBC_TOOLCHAIN_PATH)/bin/$(I686_EGLIBC_TARGET)-gcc

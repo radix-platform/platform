@@ -12,6 +12,16 @@ COMPONENT_TARGETS += $(TARGET_BEAGLE)
 COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
 COMPONENT_TARGETS += $(TARGET_B74)
 
+#
+# The rest targets links staticaly with newlib or uclibc and not requires zlib libraties
+#
+# COMPONENT_TARGETS += $(TARGET_CB1N)
+# COMPONENT_TARGETS += $(TARGET_GUARD)
+# COMPONENT_TARGETS += $(TARGET_VIP1830N)
+# COMPONENT_TARGETS += $(TARGET_L17UC)
+#
+
+
 NEED_ABS_PATH      = true
 
 COMPONENT_IS_3PP   = true
@@ -23,7 +33,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/l/zlib
 
 
-ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
+ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME) $(BUILD_TOOLCHAIN_NAME)),)
 REQUIRES           = libs/zlib/1.2.8-x86_32
 else
 REQUIRES           = base/pkgtool
@@ -88,13 +98,15 @@ include ../../../build-system/core.mk
 env_sysroot       = DESTDIR=$(ZLIB_PKG)
 cross_environment = CROSS_PREFIX=$(CROSS_PREFIX)
 
-extra_configure_switches += --shared
 
 ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
 LIBSUFFIX=64
 else
 LIBSUFFIX=
 endif
+
+extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
+extra_configure_switches += --shared
 
 
 ####### Dependencies

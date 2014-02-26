@@ -1,4 +1,5 @@
 
+COMPONENT_TARGETS += $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC64)
 
 NEED_ABS_PATH      = true
@@ -33,15 +34,14 @@ cross_environment  = CROSS_PREFIX=$(CROSS_PREFIX)
 
 LIBSUFFIX =
 
+environment               = CFLAGS="-m32 -g -O3 -march=i486 -mtune=i686"
+
 ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
-extra_configure_switches += --libdir=/usr/lib$(LIBSUFFIX)
-environment              += CFLAGS="-m32 -g -O3 -march=i486 -mtune=i686"
 LIBSUFFIX                 = 32
 endif
 
+extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --shared
-
-TARGET32    = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
 
 
 ####### Targets
@@ -106,7 +106,6 @@ $(ZLIB32_PKG): $(build_target)
 	@mkdir -p $@
 
 $(install_target): $(ZLIB32_PKG)
-#	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) $(cross_environment) install $(env_sysroot)
 	@mkdir -p $(ZLIB32_PKG)/usr/lib$(LIBSUFFIX)
 	@cd $(SRC_DIR) && cp -a libz.a libz.so* $(ZLIB32_PKG)/usr/lib$(LIBSUFFIX)
 	@chmod 755 $(ZLIB32_PKG)/usr/lib$(LIBSUFFIX)/*

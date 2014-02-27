@@ -27,7 +27,30 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/GNU/binutils
 
-REQUIRES           = base/pkgtool
+
+ifneq ($(filter $(HARDWARE),$(TARGET_HOST) $(TARGET_PC32) $(TARGET_PC64)),)
+REQUIRES           = dev/kernel/x86/3.10.17-headers
+endif
+
+ifeq ($(HARDWARE),$(TARGET_CB1X))
+REQUIRES           = dev/kernel/a1x/3.0.52-r2-headers
+endif
+
+ifeq ($(HARDWARE),$(TARGET_VIP1830))
+REQUIRES           = dev/kernel/dm644x/2.6.36-headers
+endif
+
+ifeq ($(HARDWARE),$(TARGET_BEAGLE))
+REQUIRES           = dev/kernel/omap35x/2.6.36-headers
+endif
+
+ifeq ($(HARDWARE),$(TARGET_OMAP5UEVM))
+REQUIRES           = dev/kernel/omap543x/3.8.y-20140222-headers
+endif
+
+ifeq ($(HARDWARE),$(TARGET_B74))
+REQUIRES           = dev/kernel/bcm74x/2.6.36-headers
+endif
 
 
 version            = 2.24
@@ -234,6 +257,32 @@ extra_configure_switches += --with-arch=mips32
 extra_configure_switches += --disable-werror
 extra_configure_switches += --enable-shared
 extra_configure_switches += --libdir=/usr/lib
+extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --infodir=/usr/share/info
+extra_configure_switches += --docdir=/usr/share/doc
+endif
+
+ifeq ($(TOOLCHAIN),$(I686_EGLIBC_TOOLCHAIN_NAME))
+extra_configure_switches  = '--with-pkgversion=Radix $(TOOLCHAINS_VERSION)'
+extra_configure_switches += '--with-bugurl=http://www.radix.pro'
+# experimental gold linker( DEFAULT_LD=ld.bfd ):
+extra_configure_switches += --enable-gold=yes
+extra_configure_switches += --enable-ld=default
+extra_configure_switches += --enable-werror=no
+# The --enable-initfini-array option was added in binutils-2.21.51.0.3.
+# This option currently causes a world of hurt trying to compile glibc,
+# and might break static libraries or cause other ill effects.  There
+# is an upstream patch for glibc but it does not avoid all of the known
+# problems (and there may be some unknown ones, too), so we will avoid
+# introducing this feature for now.
+# References:
+# http://sourceware.org/bugzilla/show_bug.cgi?id=12343
+# http://gcc.gnu.org/bugzilla/show_bug.cgi?id=46770
+extra_configure_switches += --disable-initfini-array
+# standard options:
+extra_configure_switches += --enable-targets=i486-kxLab-linux,i486-radix-linux,i486-kxLab-linux-gnulibc1,i486-kxLab-linux-gnuaout
+extra_configure_switches += --enable-shared
+extra_configure_switches += --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --docdir=/usr/share/doc

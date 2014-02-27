@@ -12,7 +12,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/l/zlib
 
-REQUIRES           = base/pkgtool
+REQUIRES           = libs/eglibc/2.18.1
 
 
 version            = 1.2.8

@@ -30,8 +30,7 @@ version = 2.18.1
 SOURCE_REQUIRES = $(SRC_PACKAGE_DIR)/GNU/EGLIBC/$(version)
 
 
-# NOTE when we will create common kernel headers package we should move to dev/kernel/headers
-REQUIRES        = base/pkgtool
+REQUIRES        = dev/binutils/2.24
 
 
 tar_bz2_archive = $(SRC_PACKAGE_PATH)/GNU/EGLIBC/$(version)/eglibc-$(version).tar.bz2
@@ -127,14 +126,17 @@ environment_32_compat  = CC="$(CC32)" CFLAGS="-g -O3 -march=i486 -mtune=i686"
 # NOTE when we will create common kernel headers package we should move to $(TARGET_DEST_DIR)/usr/include
 #extra_configure_switches  += --with-headers=$(TARGET_DEST_DIR)/usr/include
 
-ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
-extra_configure_switches  += --with-headers=/usr/include
-else
-extra_configure_switches  += --with-headers=$(TOOLCHAIN_PATH)/$(TARGET)/sys-root/usr/include
-endif
+#ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
+#extra_configure_switches  += --with-headers=/usr/include
+#else
+#extra_configure_switches  += --with-headers=$(TOOLCHAIN_PATH)/$(TARGET)/sys-root/usr/include
+#endif
+
+extra_configure_switches  += --with-headers=$(TARGET_DEST_DIR)/usr/include
 
 extra_configure_switches  += --enable-add-ons=libidn,nptl,ports
-extra_configure_switches  += --with-binutils=$(TOOLCHAIN_PATH)/bin
+#extra_configure_switches  += --with-binutils=$(TOOLCHAIN_PATH)/bin
+extra_configure_switches  += --with-binutils=$(TARGET_DEST_DIR)/bin
 extra_configure_switches  += --enable-kernel=2.6.36
 extra_configure_switches  += --disable-profile
 extra_configure_switches  += --without-gd

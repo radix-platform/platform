@@ -32,7 +32,7 @@ SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/l/zlib
 ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME) $(BUILD_TOOLCHAIN_NAME)),)
 REQUIRES           = libs/zlib/1.2.8-x86_32
 else
-REQUIRES           = base/pkgtool
+REQUIRES           = libs/eglibc/2.18.1
 endif
 
 version            = 1.2.8

@@ -26,11 +26,13 @@ COMPONENT_IS_3PP   = true
 include ../../build-system/constants.mk
 
 
+REQUIRES       = dev/binutils/2.24
+
 
 install_target = $(TARGET_BUILD_DIR)/.install_done
 
 
-BUILD_TARGETS = $(install_target)
+BUILD_TARGETS  = $(install_target)
 
 
 include ../../build-system/core.mk

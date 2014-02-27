@@ -116,25 +116,25 @@ endif
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
-	tar xjf $(tar_bz2_archive_ports) -C $(SRC_DIR)
-	mv $(SRC_DIR)/eglibc-ports-2.18.1 $(SRC_DIR)/ports
+	@tar xjf $(tar_bz2_archive_ports) -C $(SRC_DIR)
+	@mv $(SRC_DIR)/eglibc-ports-2.18.1 $(SRC_DIR)/ports
 	@touch $@
 
 $(build_dir): $(src_done)
-	mkdir -p $@
+	@mkdir -p $@
 
 $(EGLIBC32_PKG): $(build_dir)
 	@mkdir -p $@
 
 $(install_target): $(EGLIBC32_PKG)
-	echo "slibdir=/lib$(LIBSUFFIX)" >> $(build_dir)/configparms
-	cd $(build_dir) && $(BUILD_ENVIRONMENT) $(env_sysroot) $(environment) ../../../$(src_dir_name)/configure \
+	@echo "slibdir=/lib$(LIBSUFFIX)" >> $(build_dir)/configparms
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(env_sysroot) $(environment) ../../../$(src_dir_name)/configure \
 	  --prefix=/usr                \
 	  --build=$(BUILD)             \
 	  --host=$(TARGET32)           \
 	  $(extra_configure_switches)
-	cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) all install $(env_sysroot)
-	rm -f $(sysroot_dir)/usr/share/info/dir
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) all install $(env_sysroot)
+	@rm -f $(sysroot_dir)/usr/share/info/dir
 	@touch $@
 
 

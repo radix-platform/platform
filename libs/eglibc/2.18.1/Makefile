@@ -28,6 +28,7 @@ include ../../../build-system/constants.mk
 version = 2.18.1
 
 SOURCE_REQUIRES   = $(SRC_PACKAGE_DIR)/GNU/EGLIBC/$(version)
+SOURCE_REQUIRES  += $(SRC_PACKAGE_DIR)/iana/tz
 
 
 ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME) $(BUILD_TOOLCHAIN_NAME)),)
@@ -36,8 +37,13 @@ else
 REQUIRES          = dev/gcc-runtime
 endif
 
-tar_bz2_archive   = $(SRC_PACKAGE_PATH)/GNU/EGLIBC/$(version)/eglibc-$(version).tar.bz2
-tar_bz2_archive_ports = $(SRC_PACKAGE_PATH)/GNU/EGLIBC/2.18.1/eglibc-ports-2.18.1.tar.bz2
+tar_bz2_archive       = $(SRC_PACKAGE_PATH)/GNU/EGLIBC/$(version)/eglibc-$(version).tar.bz2
+tar_bz2_archive_ports = $(SRC_PACKAGE_PATH)/GNU/EGLIBC/$(version)/eglibc-ports-$(version).tar.bz2
+
+tz_version          = 2013i
+tar_gz_code_archive = $(SRC_PACKAGE_PATH)/iana/tz/tzcode$(tz_version).tar.gz
+tar_gz_data_archive = $(SRC_PACKAGE_PATH)/iana/tz/tzdata$(tz_version).tar.gz
+exclude_list        = $(CURDIR)/tz-exclude.list
 
 SRC_ARCHIVE       = $(tar_bz2_archive)
 SRC_DIR           = $(CURDIR)/eglibc-$(version)
@@ -128,7 +134,9 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
 	@tar xjf $(tar_bz2_archive_ports) -C $(SRC_DIR)
-	@mv $(SRC_DIR)/eglibc-ports-2.18.1 $(SRC_DIR)/ports
+	@mv $(SRC_DIR)/eglibc-ports-$(version) $(SRC_DIR)/ports
+	@tar --exclude-from=$(exclude_list) -xzf $(tar_gz_code_archive) -C $(SRC_DIR)/timezone
+	@tar --exclude-from=$(exclude_list) -xzf $(tar_gz_data_archive) -C $(SRC_DIR)/timezone
 	@touch $@
 
 $(build_dir): $(src_done)

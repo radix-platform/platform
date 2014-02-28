@@ -5,12 +5,12 @@ COMPONENT_TARGETS = $(TARGET_HOST)
 include ../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/Linux/v3.x
+url         = $(DOWNLOAD_SERVER)/sources/iana/tz
 
-versions    = 3.8.5
-versions   += 3.10.17
+versions    = 2013i
+versions   += 2013h
 
-tarballs    = $(addsuffix .tar.bz2, $(addprefix linux-, $(versions)))
+tarballs    = $(addsuffix .tar.gz, $(addprefix tz*, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 
@@ -29,7 +29,7 @@ $(tarballs):
 	  wget $(WGET_OPTIONS) -N $(url)/$$tarball ; \
 	done
 
-$(sha1s): %.tar.bz2.sha1sum : %.tar.bz2
+$(sha1s): %.tar.gz.sha1sum : %.tar.gz
 	@for sha in $@ ; do \
 	  echo -e "\n======= Downloading '$$sha' signature =======\n" ; \
 	  wget $(WGET_OPTIONS) -N $(url)/$$sha ; \

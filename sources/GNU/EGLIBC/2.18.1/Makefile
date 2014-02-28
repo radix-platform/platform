@@ -32,6 +32,7 @@ $(tarballs):
 	done
 	@echo -e "\n======= Create Patches =======\n"
 	@( cd create-eglibc-2.18.1-i18n-patch && ./create.patch.sh )
+	@( cd create-eglibc-2.18.1-zoneinfo-patch && ./create.patch.sh )
 
 $(sha1s): %.tar.bz2.sha1sum : %.tar.bz2
 	@for sha in $@ ; do \
@@ -49,3 +50,4 @@ $(sha1s): %.tar.bz2.sha1sum : %.tar.bz2
 download_clean:
 	@rm -f $(tarballs) $(sha1s)
 	@rm -f ./patches/eglibc-2.18.1-i18n.patch
+	@rm -f ./patches/eglibc-2.18.1-zoneinfo.patch

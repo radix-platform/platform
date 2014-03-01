@@ -459,7 +459,7 @@ __lib_dir = $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)
 
 INCPATH += -I.
 
-TARGET_INCPATH += -I$(TARGET_DEST_DIR)/include -I$(TARGET_DEST_DIR)/usr/include
+TARGET_INCPATH += -I$(TARGET_DEST_DIR)/usr/include
 ROOTFS_INCPATH += -I$(ROOTFS_DEST_DIR)/usr/include
 
 

@@ -80,7 +80,7 @@ pkg_basename     = $(ZLIB_PKG_NAME)-$(ZLIB_PKG_VERSION)-$(ZLIB_PKG_ARCH)-$(ZLIB_
 pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(ZLIB_PKG_GROUP)/$(pkg_basename).tgz
 
 
-BUILD_TARGETS   += $(build_zlib_pkg)
+BUILD_TARGETS    = $(build_zlib_pkg)
 
 ROOTFS_TARGETS   = $(pkg_basename_tgz)
 

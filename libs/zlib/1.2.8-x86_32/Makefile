@@ -58,7 +58,7 @@ pkg_basename     = $(ZLIB32_PKG_NAME)-$(ZLIB32_PKG_VERSION)-$(ZLIB32_PKG_ARCH)-$
 pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(ZLIB32_PKG_GROUP)/$(pkg_basename).tgz
 
 
-BUILD_TARGETS   += $(build_zlib32_pkg)
+BUILD_TARGETS    = $(build_zlib32_pkg)
 
 ROOTFS_TARGETS   = $(pkg_basename_tgz)
 

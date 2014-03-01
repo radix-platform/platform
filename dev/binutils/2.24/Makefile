@@ -56,12 +56,13 @@ endif
 version            = 2.24
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/GNU/binutils/binutils-$(version).tar.bz2
 SRC_ARCHIVE        = $(tar_bz2_archive)
-SRC_DIR            = $(CURDIR)/binutils-$(version)
-src_done           = $(SRC_DIR)/.source_done
+SRC_DIR            = $(TARGET_BUILD_DIR)/binutils-$(version)
+src_dir_name       = binutils-$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
 
-build_dir          = $(CURDIR)/$(TARGET_BUILD_DIR)/build
+build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
 build_binutils_pkg = $(TARGET_BUILD_DIR)/.binutils_pkg_done
@@ -98,7 +99,7 @@ pkg_basename     = $(BINUTILS_DEV_PKG_NAME)-$(BINUTILS_DEV_PKG_VERSION)-$(BINUTI
 pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(BINUTILS_DEV_PKG_GROUP)/$(pkg_basename).tgz
 
 
-BUILD_TARGETS   += $(build_binutils_pkg)
+BUILD_TARGETS    = $(build_binutils_pkg)
 
 ROOTFS_TARGETS   = $(pkg_basename_tgz)
 
@@ -323,12 +324,10 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(APPLY_PATCHES)
 	@touch $@
 
-$(build_dir): $(src_done)
-	mkdir -p $@
-
-$(build_target): $(build_dir)
-	cd $(build_dir) && \
-	  $(BUILD_ENVIRONMENT) $(SRC_DIR)/configure \
+$(build_target): $(src_done)
+	@mkdir -p $(build_dir)
+	@cd $(build_dir) && \
+	  $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
 	  --prefix=/usr                             \
 	  --build=$(BUILD)                          \
 	  --host=$(TARGET)                          \
@@ -338,10 +337,8 @@ $(build_target): $(build_dir)
 	$(BUILD_ENVIRONMENT) $(MAKE) -C $(build_dir) info
 	@touch $@
 
-$(BINUTILS_DEV_PKG): $(build_target)
-	@mkdir -p $@
-
-$(install_target): $(BINUTILS_DEV_PKG) 
+$(install_target): $(build_target)
+	@mkdir -p $(BINUTILS_DEV_PKG)
 	$(BUILD_ENVIRONMENT) $(MAKE) -C $(build_dir) install $(env_sysroot)
 	$(BUILD_ENVIRONMENT) $(MAKE) -C $(build_dir) install-info $(env_sysroot)
 	@rm -f $(BINUTILS_DEV_PKG)/usr/share/info/dir

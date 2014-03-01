@@ -46,9 +46,9 @@ tar_gz_data_archive = $(SRC_PACKAGE_PATH)/iana/tz/tzdata$(tz_version).tar.gz
 exclude_list        = $(CURDIR)/tz-exclude.list
 
 SRC_ARCHIVE       = $(tar_bz2_archive)
-SRC_DIR           = $(CURDIR)/eglibc-$(version)
+SRC_DIR           = $(TARGET_BUILD_DIR)/eglibc-$(version)
 src_dir_name      = eglibc-$(version)
-src_done          = $(SRC_DIR)/.source-done
+src_done          = $(TARGET_BUILD_DIR)/.source-done
 
 PATCHES           = PATCHES
 
@@ -84,7 +84,7 @@ EGLIBC_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(EGLIBC_PKG_NAME)-pkg-desc
 EGLIBC_PKG_DESCRIPTION_FILE_IN = $(EGLIBC_PKG_NAME)-pkg-description.in
 EGLIBC_PKG_INSTALL_SCRIPT      = $(EGLIBC_PKG_NAME)-pkg-install.sh
 
-EGLIBC_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(EGLIBC_PKG_NAME)-package
+EGLIBC_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(EGLIBC_PKG_NAME)-package
 
 pkg_basename     = $(EGLIBC_PKG_NAME)-$(EGLIBC_PKG_VERSION)-$(EGLIBC_PKG_ARCH)-$(EGLIBC_PKG_DISTRO_NAME)-$(EGLIBC_PKG_DISTRO_VERSION)
 pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(EGLIBC_PKG_GROUP)/$(pkg_basename).tgz
@@ -100,8 +100,7 @@ PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
 include ../../../build-system/core.mk
 
 
-sysroot_dir  = $(EGLIBC_PKG)
-env_sysroot  = install_root=$(sysroot_dir)
+env_sysroot  = install_root=$(EGLIBC_PKG)
 
 CFLAGS      += -g -O3
 
@@ -139,21 +138,17 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	@tar --exclude-from=$(exclude_list) -xzf $(tar_gz_data_archive) -C $(SRC_DIR)/timezone
 	@touch $@
 
-$(build_dir): $(src_done)
-	@mkdir -p $@
-
-$(EGLIBC_PKG): $(build_dir)
-	@mkdir -p $@
-
-$(install_target): $(EGLIBC_PKG)
+$(install_target): $(src_done)
+	@mkdir -p $(build_dir)
+	@mkdir -p $(EGLIBC_PKG)
 	@echo "slibdir=/lib$(LIBSUFFIX)" >> $(build_dir)/configparms
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(env_sysroot) $(environment) ../../../$(src_dir_name)/configure \
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(env_sysroot) $(environment) ../$(src_dir_name)/configure \
 	  --prefix=/usr                \
 	  --build=$(BUILD)             \
 	  --host=$(TARGET)             \
 	  $(extra_configure_switches)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) all install $(env_sysroot)
-	@rm -f $(sysroot_dir)/usr/share/info/dir
+	@rm -f $(EGLIBC_PKG)/usr/share/info/dir
 	@touch $@
 
 

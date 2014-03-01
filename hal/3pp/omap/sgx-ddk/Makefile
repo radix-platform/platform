@@ -19,10 +19,10 @@ kernel_version    = 3.8.y-20140222
 modules_version   = 3.8.13
 tar_bz2_archive   = $(SRC_PACKAGE_PATH)/hal/omap/sgx-ddk/ti_imgddk_$(version).tar.bz2
 SRC_ARCHIVE       = $(tar_bz2_archive)
-SRC_DIR           = ti_imgddk_$(version)
-src_done          = $(SRC_DIR)/.source_done
+SRC_DIR           = $(TARGET_BUILD_DIR)/ti_imgddk_$(version)
+src_done          = $(TARGET_BUILD_DIR)/.source_done
 
-build_dir         = $(CURDIR)/$(TARGET_BUILD_DIR)/build
+build_dir         = $(TARGET_BUILD_DIR)/build
 
 kernel_sources    = $(TARGET_DEST_DIR)/usr/src/linux-glsdk-$(kernel_version)
 

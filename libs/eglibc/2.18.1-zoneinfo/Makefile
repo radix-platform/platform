@@ -95,10 +95,8 @@ $(src_done): $(tar_gz_code_archive) $(tar_gz_data_archive)
 	@cd $(SRC_DIR) && sed -i "s,/etc/$(TZDIR_BASENAME),/$(TZDIR_BASENAME),g" Makefile
 	@touch $@
 
-$(EGLIBC_TZ_PKG): $(src_done)
-	@mkdir -p $@
-
-$(install_target): $(EGLIBC_TZ_PKG)
+$(install_target): $(src_done)
+	@mkdir -p $(EGLIBC_TZ_PKG)
 	@cd $(SRC_DIR) && $(MAKE)
 	@cd $(SRC_DIR) && $(MAKE) install
 	@mkdir -p $(EGLIBC_TZ_PKG)/usr/share/zoneinfo/{posix,right}

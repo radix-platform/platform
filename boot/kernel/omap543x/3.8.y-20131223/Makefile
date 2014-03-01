@@ -1,39 +1,41 @@
 
-COMPONENT_TARGETS = $(TARGET_OMAP5UEVM)
+COMPONENT_TARGETS  = $(TARGET_OMAP5UEVM)
 
-NEED_ABS_PATH     = true
+NEED_ABS_PATH      = true
 
-COMPONENT_IS_3PP  = true
+COMPONENT_IS_3PP   = true
 
 
 include ../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES  += $(SRC_PACKAGE_DIR)/Linux/omap5-glsdk
+SOURCE_REQUIRES   += $(SRC_PACKAGE_DIR)/Linux/omap5-glsdk
 
-REQUIRES          = base/pkgtool
+REQUIRES           = base/pkgtool
 
 
-version           = 3.8.y-20131223
-subversion        = 
-modules_version   = 3.8.13
-full_version      = $(version)
-tar_bz2_archive   = $(SRC_PACKAGE_PATH)/Linux/omap5-glsdk/linux-glsdk-$(full_version).tar.bz2
-SRC_ARCHIVE       = $(tar_bz2_archive)
-SRC_DIR           = $(TARGET_BUILD_DIR)/usr/src/linux-glsdk-$(full_version)
-src_done          = $(TARGET_BUILD_DIR)/.source_done
+version            = 3.8.y-20131223
+subversion         = 
+modules_version    = 3.8.13
+full_version       = $(version)
+tar_bz2_archive    = $(SRC_PACKAGE_PATH)/Linux/omap5-glsdk/linux-glsdk-$(full_version).tar.bz2
+SRC_ARCHIVE        = $(tar_bz2_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/usr/src/linux-glsdk-$(full_version)
+src_done           = $(TARGET_BUILD_DIR)/.source_done
 
-config            = $(HARDWARE).config
-build_dir         = $(SRC_DIR)
-modules_dir       = $(CURDIR)/$(TARGET_BUILD_DIR)
+config             = $(HARDWARE).config
+build_dir          = $(SRC_DIR)
+modules_dir        = $(CURDIR)/$(TARGET_BUILD_DIR)
 
-build_config      = $(SRC_DIR)/.config
-oldconfig_done    = $(TARGET_BUILD_DIR)/.oldconfig_done
-modules_done      = $(TARGET_BUILD_DIR)/.modules_done
-device_dtb_done   = $(TARGET_BUILD_DIR)/.device_dtb_done
+build_config       = $(SRC_DIR)/.config
+oldconfig_done     = $(TARGET_BUILD_DIR)/.oldconfig_done
+modules_done       = $(TARGET_BUILD_DIR)/.modules_done
+device_dtb_done    = $(TARGET_BUILD_DIR)/.device_dtb_done
 
-devel_sources     = $(TARGET_DEST_DIR)/usr/src/linux-glsdk-$(full_version)
-boot_filesystem   = $(TARGET_DEST_DIR)/bootfs
+devel_sources      = $(TARGET_DEST_DIR)/usr/src/linux-glsdk-$(full_version)
+devel_sources_done = $(TARGET_DEST_DIR)/.devel_sources_done
+boot_filesystem    = $(TARGET_DEST_DIR)/bootfs
+boot_fs_dir_done   = $(TARGET_DEST_DIR)/.bootfs_done
 
 
 PATCHES = PATCHES
@@ -104,8 +106,6 @@ ROOTFS_TARGETS   = $(pkg_basename_tgz)
 
 PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
 
-CLEANUP_FILES   += $(SRC_DIR)
-
 
 include ../../../../build-system/core.mk
 
@@ -161,10 +161,10 @@ $(device_dtb_done): $(modules_done)
 	cp $(build_dir)/arch/$(ARCH)/boot/dts/$(device_src_tree_name) $(board_dts)
 	@touch $@
 
-$(devel_sources): $(device_dtb_done)
-	@echo "Creating '$@' for building external modules"
-	@rm -rf $@
-	@mkdir -p $@
+$(devel_sources_done): $(device_dtb_done)
+	@echo "Creating '$(devel_sources)' for building external modules"
+	@rm -rf $(devel_sources)
+	@mkdir -p $(devel_sources)
 	@cd $(TARGET_BUILD_DIR) && \
 	  CWD=$(CURDIR) $(BUILDSYSTEM)/install_targets --preserve-source-dir=true \
 	    $$(find * -path 'usr*' -type f -print)   $(TARGET_DEST_DIR)   $(HARDWARE)
@@ -178,16 +178,16 @@ $(devel_sources): $(device_dtb_done)
 	@touch $@
 
 
-$(boot_filesystem): $(devel_sources)
-	@echo "Creating '$@' directory for collecting boot file system objects"
-	@rm -rf $@
-	@mkdir -p $@
-	@echo "" > $@/.CONTENT
-	@echo "Collection '$(HARDWARE)' images for building BOOT filesystem." >> $@/.CONTENT
-	@echo "" >> $@/.CONTENT
-	@cp -a $(linux_uImage) $@/uImage
-	@cp -a $(board_dtb) $@/$(device_tree_name)
-	@cp -a $(board_dts) $@/$(device_src_tree_name)
+$(boot_fs_dir_done): $(devel_sources_done)
+	@echo "Creating '$(boot_filesystem)' directory for collecting boot file system objects"
+	@rm -rf $(boot_filesystem)
+	@mkdir -p $(boot_filesystem)
+	@echo "" > $(boot_filesystem)/.CONTENT
+	@echo "Collection '$(HARDWARE)' images for building BOOT filesystem." >> $(boot_filesystem)/.CONTENT
+	@echo "" >> $(boot_filesystem)/.CONTENT
+	@cp -a $(linux_uImage) $(boot_filesystem)/uImage
+	@cp -a $(board_dtb) $(boot_filesystem)/$(device_tree_name)
+	@cp -a $(board_dts) $(boot_filesystem)/$(device_src_tree_name)
 	@touch $@
 
 
@@ -195,7 +195,7 @@ $(KERNEL_BIN_PKG_DESCRIPTION_FILE): $(KERNEL_BIN_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
 
-$(build_kernel_pkg): $(boot_filesystem) $(KERNEL_BIN_PKG_DESCRIPTION_FILE)
+$(build_kernel_pkg): $(boot_fs_dir_done) $(KERNEL_BIN_PKG_DESCRIPTION_FILE)
 	@mkdir -p $(KERNEL_BIN_PKG)/boot
 	@mkdir -p $(KERNEL_BIN_PKG)/lib/modules/$(modules_version)
 	# Copy modules and firmware (without links to sources):

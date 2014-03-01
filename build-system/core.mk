@@ -622,8 +622,35 @@ endif
 
 .install_pkgs: $(ROOTFS_TARGETS)
 ifdef ROOTFS_TARGETS
-	@INSTALL_PACKAGE="$(INSTALL_PACKAGE)" $(BUILDSYSTEM)/install_pkgs $^ $(ROOTFS_DEST_DIR) $(HARDWARE)
+	@if [ ! -f .$(HARDWARE).rootfs ]; then \
+	  INSTALL_PACKAGE="$(INSTALL_PACKAGE)" $(BUILDSYSTEM)/install_pkgs $^ $(ROOTFS_DEST_DIR) $(HARDWARE) ; \
+	else \
+	  echo -e "\n" ; \
+	  echo -e "=======" ; \
+	  echo -e "======= ... package `basename $(ROOTFS_TARGETS)` is already installed." ; \
+	  echo -e "=======\n" ; \
+	fi
 endif
+
+#.install_pkgs: $(ROOTFS_TARGETS)
+#ifdef ROOTFS_TARGETS
+#	@INSTALL_PACKAGE="$(INSTALL_PACKAGE)" $(BUILDSYSTEM)/install_pkgs $^ $(ROOTFS_DEST_DIR) $(HARDWARE)
+#endif
+
+
+#ifneq ($(TOOLCHAIN),)
+#	@if [ ! -f .$(HARDWARE).rootfs ]; then \
+#	  INSTALL_PACKAGE="$(INSTALL_PACKAGE)" $(BUILDSYSTEM)/install_pkgs $^ $(ROOTFS_DEST_DIR) $(HARDWARE) \
+#	else \
+#	  echo -e "======= ... Nothing to be done (packages are already installed)." ; \
+#	fi
+#else
+#	  echo -e "======= ... TOOLCHAIN= 000000000000000 ."
+##endif
+#else
+#	  echo -e "======= ... ROOTFS_TARGETS not defined 000000000000000 ."
+
+
 
 .install_products: $(PRODUCT_TARGETS)
 ifdef PRODUCT_TARGETS
@@ -819,7 +846,7 @@ downloads_clean: .downloads_clean
 
 .PHONY: .target*
 .PHONY: all local_all clean local_clean dist_clean local_dist_clean rootfs_clean local_rootfs_clean
-.PHONY: .install
+.PHONY: .install .install_scripts .install_builds .install_bins .install_pkgs .install_products
 
 .SUFFIXES:
 

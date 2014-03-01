@@ -22,9 +22,9 @@ tar_bz2_archive    = $(SRC_PACKAGE_PATH)/GNU/EGLIBC/$(version)/eglibc-$(version)
 tar_bz2_archive_ports = $(SRC_PACKAGE_PATH)/GNU/EGLIBC/2.18.1/eglibc-ports-2.18.1.tar.bz2
 
 SRC_ARCHIVE        = $(tar_bz2_archive)
-SRC_DIR            = $(CURDIR)/eglibc-$(version)
+SRC_DIR            = $(TARGET_BUILD_DIR)/eglibc-$(version)
 src_dir_name       = eglibc-$(version)
-src_done           = $(SRC_DIR)/.source-done
+src_done           = $(TARGET_BUILD_DIR)/.source-done
 
 PATCHES            = PATCHES
 
@@ -76,8 +76,7 @@ PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
 include ../../../build-system/core.mk
 
 
-sysroot_dir  = $(EGLIBC32_PKG)
-env_sysroot  = install_root=$(sysroot_dir)
+env_sysroot  = install_root=$(EGLIBC32_PKG)
 
 CFLAGS      += -g -O3 -march=i486 -mtune=i686
 
@@ -120,21 +119,17 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	@mv $(SRC_DIR)/eglibc-ports-2.18.1 $(SRC_DIR)/ports
 	@touch $@
 
-$(build_dir): $(src_done)
-	@mkdir -p $@
-
-$(EGLIBC32_PKG): $(build_dir)
-	@mkdir -p $@
-
-$(install_target): $(EGLIBC32_PKG)
+$(install_target): $(src_done)
+	@mkdir -p $(build_dir)
+	@mkdir -p $(EGLIBC32_PKG)
 	@echo "slibdir=/lib$(LIBSUFFIX)" >> $(build_dir)/configparms
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(env_sysroot) $(environment) ../../../$(src_dir_name)/configure \
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(env_sysroot) $(environment) ../$(src_dir_name)/configure \
 	  --prefix=/usr                \
 	  --build=$(BUILD)             \
 	  --host=$(TARGET32)           \
 	  $(extra_configure_switches)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) all install $(env_sysroot)
-	@rm -f $(sysroot_dir)/usr/share/info/dir
+	@rm -f $(EGLIBC32_PKG)/usr/share/info/dir
 	@touch $@
 
 

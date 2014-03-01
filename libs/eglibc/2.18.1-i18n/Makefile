@@ -39,9 +39,9 @@ tar_bz2_archive_localedef = $(SRC_PACKAGE_PATH)/GNU/EGLIBC/$(version)/eglibc-loc
 
 
 SRC_ARCHIVE       = $(tar_bz2_archive)
-SRC_DIR           = $(CURDIR)/eglibc-$(version)
+SRC_DIR           = $(TARGET_BUILD_DIR)/eglibc-$(version)
 src_dir_name      = eglibc-$(version)
-src_done          = $(SRC_DIR)/.source-done
+src_done          = $(TARGET_BUILD_DIR)/.source-done
 
 PATCHES           = PATCHES
 
@@ -93,8 +93,7 @@ PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
 include ../../../build-system/core.mk
 
 
-sysroot_dir  = $(EGLIBC_I18N_PKG)
-env_sysroot  = install_root=$(sysroot_dir)
+env_sysroot  = install_root=$(EGLIBC_I18N_PKG)
 
 CFLAGS      += -g -O3
 
@@ -149,19 +148,15 @@ ifneq ($(INSTALL_NOT_ARCHIVED_LOCALES),yes)
 endif
 	@touch $@
 
-$(build_dir): $(src_done)
-	@mkdir -p $@
-
-$(EGLIBC_I18N_PKG): $(build_dir)
-	@mkdir -p $@
-
-$(install_target): $(EGLIBC_I18N_PKG)
+$(install_target): $(src_done)
+	@mkdir -p $(build_dir)
+	@mkdir -p $(EGLIBC_I18N_PKG)
 	@echo "slibdir=/lib$(LIBSUFFIX)" >> $(build_dir)/configparms
-	@cd $(build_dir) && CC=$(BUILD_CC) ../../../$(src_dir_name)/localedef/configure \
-	  --prefix=/usr                 \
-	  --build=$(BUILD)              \
-	  --libdir=/usr/lib$(LIBSUFFIX) \
-	  --with-glibc=$(SRC_DIR)
+	@cd $(build_dir) && CC=$(BUILD_CC) ../$(src_dir_name)/localedef/configure \
+	  --prefix=/usr                  \
+	  --build=$(BUILD)               \
+	  --libdir=/usr/lib$(LIBSUFFIX)  \
+	  --with-glibc=../$(src_dir_name)
 	@cd $(build_dir) && $(MAKE)
 ifneq ($(INSTALL_ALL_LOCALES),yes)
 	@cd $(build_dir) && $(MAKE) SUPPORTED-LOCALES="$(LOCALES)" install-locales $(env_sysroot)

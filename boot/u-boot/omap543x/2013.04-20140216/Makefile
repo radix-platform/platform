@@ -23,9 +23,9 @@ version           = 2013.04-20140216
 tar_bz2_archive   = $(SRC_PACKAGE_PATH)/U-Boot/omap5-glsdk/u-boot-omap-$(version).tar.bz2
 SRC_ARCHIVE       = $(tar_bz2_archive)
 SRC_DIR           = $(TARGET_BUILD_DIR)/u-boot-omap-$(version)
-src_done          = $(SRC_DIR)/.source_done
+src_done          = $(TARGET_BUILD_DIR)/.source_done
 
-build_dir         = $(CURDIR)/$(TARGET_BUILD_DIR)/build
+build_dir         = $(TARGET_BUILD_DIR)/build
 u_boot            = $(build_dir)/.u_boot_done
 
 u_boot_config     = omap5_uevm_config
@@ -85,8 +85,6 @@ BUILD_TARGETS    = $(build_uboot_pkg)
 ROOTFS_TARGETS   = $(pkg_basename_tgz)
 
 PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
-
-CLEANUP_FILES   += $(SRC_DIR)
 
 
 include ../../../../build-system/core.mk

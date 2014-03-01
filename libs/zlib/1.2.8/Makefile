@@ -43,7 +43,6 @@ src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
 
-build_dir          = $(CURDIR)/$(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
 build_zlib_pkg     = $(TARGET_BUILD_DIR)/.zlib_pkg_done
@@ -112,10 +111,7 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(APPLY_PATCHES)
 	@touch $@
 
-$(build_dir): $(src_done)
-	mkdir -p $@
-
-$(build_target): $(build_dir)
+$(build_target): $(src_done)
 	@cd $(SRC_DIR) && \
 	  $(BUILD_ENVIRONMENT) ./configure \
 	  --prefix=/usr                    \
@@ -123,10 +119,8 @@ $(build_target): $(build_dir)
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) $(cross_environment)
 	@touch $@
 
-$(ZLIB_PKG): $(build_target)
-	@mkdir -p $@
-
-$(install_target): $(ZLIB_PKG)
+$(install_target): $(build_target)
+	@mkdir -p $(ZLIB_PKG)
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) $(cross_environment) install $(env_sysroot)
 	@mkdir -p $(ZLIB_PKG)/lib$(LIBSUFFIX)
 	@( cd $(ZLIB_PKG)/usr/lib$(LIBSUFFIX) ; \

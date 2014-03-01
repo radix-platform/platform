@@ -23,25 +23,9 @@ src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
 
-build_dir          = $(CURDIR)/$(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
 build_zlib32_pkg   = $(TARGET_BUILD_DIR)/.zlib32_pkg_done
-
-
-env_sysroot        = DESTDIR=$(ZLIB32_BIN_PKG)
-cross_environment  = CROSS_PREFIX=$(CROSS_PREFIX)
-
-LIBSUFFIX =
-
-environment               = CFLAGS="-m32 -g -O3 -march=i486 -mtune=i686"
-
-ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
-LIBSUFFIX                 = 32
-endif
-
-extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
-extra_configure_switches += --shared
 
 
 ####### Targets
@@ -84,6 +68,21 @@ PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
 include ../../../build-system/core.mk
 
 
+env_sysroot        = DESTDIR=$(ZLIB32_PKG)
+cross_environment  = CROSS_PREFIX=$(CROSS_PREFIX)
+
+LIBSUFFIX =
+
+environment               = CFLAGS="-m32 -g -O3 -march=i486 -mtune=i686"
+
+ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
+LIBSUFFIX                 = 32
+endif
+
+extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
+extra_configure_switches += --shared
+
+
 ####### Dependencies
 
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
@@ -91,10 +90,7 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(APPLY_PATCHES)
 	@touch $@
 
-$(build_dir): $(src_done)
-	mkdir -p $@
-
-$(build_target): $(build_dir)
+$(build_target): $(src_done)
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) \
 	  $(environment) ./configure \
 	  --prefix=/usr                    \
@@ -102,10 +98,7 @@ $(build_target): $(build_dir)
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) $(cross_environment)
 	@touch $@
 
-$(ZLIB32_PKG): $(build_target)
-	@mkdir -p $@
-
-$(install_target): $(ZLIB32_PKG)
+$(install_target): $(build_target)
 	@mkdir -p $(ZLIB32_PKG)/usr/lib$(LIBSUFFIX)
 	@cd $(SRC_DIR) && cp -a libz.a libz.so* $(ZLIB32_PKG)/usr/lib$(LIBSUFFIX)
 	@chmod 755 $(ZLIB32_PKG)/usr/lib$(LIBSUFFIX)/*

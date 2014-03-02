@@ -675,7 +675,21 @@ BUILD_ENVIRONMENT += CC="$(CC)" CXX="$(CXX)" AS="$(AS)" AR="$(AR)" LD="$(LD)" RA
 BUILD_ENVIRONMENT += BUILD_CC="$(BUILD_CC)" BUILD_CXX="$(BUILD_CXX)" BUILD_AS="$(BUILD_AS)" BUILD_AR="$(BUILD_AR)" BUILD_LD="$(BUILD_LD)" BUILD_RANLIB="$(BUILD_RANLIB)" BUILD_SIZE="$(BUILD_SIZE)" BUILD_STRIP="$(BUILD_STRIP)" BUILD_OBJCOPY="$(BUILD_OBJCOPY)" BUILD_NM="$(BUILD_NM)"
 BUILD_ENVIRONMENT += CFLAGS="$(CFLAGS)" CXXFLAGS="$(CXXFLAGS)"
 BUILD_ENVIRONMENT += LDFLAGS="$(LDFLAGS)"
-BUILD_ENVIRONMENT += PKG_CONFIG_PATH="$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig:$(PKG_CONFIG_PATH)"
+#
+#  PKG_CONFIG_PATH - directories to add to pkg-config's search path
+#
+BUILD_ENVIRONMENT += PKG_CONFIG_PATH="$(TARGET_DEST_DIR)/usr/bin:$(PKG_CONFIG_PATH)"
+#
+#  PKG_CONFIG_LIBDIR - path overriding pkg-config's built-in search path
+#
+BUILD_ENVIRONMENT += PKG_CONFIG_LIBDIR="$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig:$(PKG_CONFIG_LIBDIR)"
+
+#
+# Not common solution --sysroot=<directory> for using <directory>
+# as the root directory for headers and libraries
+#
+#SYSROOT_CC  = CC="$(CC) --sysroot=$(TARGET_DEST_DIR)"
+#SYSROOT_CXX = CXX="$(CXX) --sysroot=$(TARGET_DEST_DIR)"
 
 
 

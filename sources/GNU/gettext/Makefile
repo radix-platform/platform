@@ -2,13 +2,13 @@
 COMPONENT_TARGETS = $(TARGET_HOST)
 
 
-include ../../../../build-system/constants.mk
+include ../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/packages/l/zlib
+url         = $(DOWNLOAD_SERVER)/sources/GNU/gettext
 
-versions    = 1.2.8
-pkgname     = zlib
+versions    = 0.18.3.1 0.18.3.2
+pkgname     = gettext
 suffix      = tar.gz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
@@ -18,7 +18,7 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 BUILD_TARGETS = $(tarballs) $(sha1s)
 
 
-include ../../../../build-system/core.mk
+include ../../../build-system/core.mk
 
 
 .PHONY: download_clean

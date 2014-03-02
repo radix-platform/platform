@@ -146,14 +146,6 @@ $(build_eglibc32_pkg): $(install_target) $(EGLIBC32_PKG_DESCRIPTION_FILE)
 	@rm -rf $(EGLIBC32_PKG)/usr/sbin
 	@rm -rf $(EGLIBC32_PKG)/usr/share
 	@rm -rf $(EGLIBC32_PKG)/var
-	@mkdir -p $(EGLIBC32_PKG)/usr/doc/eglibc32-$(version)
-	@cp -a  $(SRC_DIR)/BUGS $(SRC_DIR)/CONFORMANCE $(SRC_DIR)/COPYING*  \
-	        $(SRC_DIR)/ChangeLog* $(SRC_DIR)/EGLIBC* $(SRC_DIR)/INSTALL \
-	        $(SRC_DIR)/LICENSES $(SRC_DIR)/NAMESPACE $(SRC_DIR)/NEWS $(SRC_DIR)/README \
-	        $(EGLIBC32_PKG)/usr/doc/eglibc32-$(version)
-	@mkdir -p $(EGLIBC32_PKG)/usr/doc/eglibc32-$(version)/ports
-	@cp -a  $(SRC_DIR)/ports/ChangeLog* $(SRC_DIR)/ports/README \
-	        $(EGLIBC32_PKG)/usr/doc/eglibc32-$(version)/ports
 	# Install the same to $(TARGET_DEST_DIR)
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(EGLIBC32_PKG) && cp -rf * $(TARGET_DEST_DIR)

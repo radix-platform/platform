@@ -678,18 +678,7 @@ BUILD_ENVIRONMENT += LDFLAGS="$(LDFLAGS)"
 #
 #  PKG_CONFIG_PATH - directories to add to pkg-config's search path
 #
-BUILD_ENVIRONMENT += PKG_CONFIG_PATH="$(TARGET_DEST_DIR)/usr/bin:$(PKG_CONFIG_PATH)"
-#
-#  PKG_CONFIG_LIBDIR - path overriding pkg-config's built-in search path
-#
-BUILD_ENVIRONMENT += PKG_CONFIG_LIBDIR="$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig:$(PKG_CONFIG_LIBDIR)"
-
-#
-# Not common solution --sysroot=<directory> for using <directory>
-# as the root directory for headers and libraries
-#
-#SYSROOT_CC  = CC="$(CC) --sysroot=$(TARGET_DEST_DIR)"
-#SYSROOT_CXX = CXX="$(CXX) --sysroot=$(TARGET_DEST_DIR)"
+BUILD_ENVIRONMENT += PKG_CONFIG_PATH="$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig:$(PKG_CONFIG_PATH)"
 
 
 

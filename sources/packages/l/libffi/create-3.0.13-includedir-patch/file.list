@@ -1,0 +1,3 @@
+libffi-3.0.13/include/Makefile.am
+libffi-3.0.13/include/Makefile.in
+libffi-3.0.13/libffi.pc.in

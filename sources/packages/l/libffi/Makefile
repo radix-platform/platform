@@ -2,13 +2,13 @@
 COMPONENT_TARGETS = $(TARGET_HOST)
 
 
-include ../../../build-system/constants.mk
+include ../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/GNU/termcap
+url         = $(DOWNLOAD_SERVER)/sources/packages/l/libffi
 
-versions    = 1.3 1.3.1
-pkgname     = termcap
+versions    = 3.0.12 3.0.13
+pkgname     = libffi
 suffix      = tar.gz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
@@ -18,7 +18,7 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 BUILD_TARGETS = $(tarballs) $(sha1s)
 
 
-include ../../../build-system/core.mk
+include ../../../../build-system/core.mk
 
 
 .PHONY: download_clean
@@ -30,7 +30,7 @@ $(tarballs):
 	  wget $(WGET_OPTIONS) -N $(url)/$$tarball ; \
 	done
 	@echo -e "\n======= Create Patches =======\n"
-	@( cd create-termcap-1.3.1-patch && ./create.patch.sh )
+	@( cd create-3.0.13-includedir-patch && ./create.patch.sh )
 
 $(sha1s): %.$(suffix).sha1sum : %.$(suffix)
 	@for sha in $@ ; do \
@@ -47,4 +47,4 @@ $(sha1s): %.$(suffix).sha1sum : %.$(suffix)
 
 download_clean:
 	@rm -f $(tarballs) $(sha1s)
-	@rm -f ./patches/termcap-1.3.1.patch
+	@rm -f ./patches/libffi-3.0.13-includedir.patch

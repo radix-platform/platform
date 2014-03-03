@@ -2,14 +2,14 @@
 COMPONENT_TARGETS = $(TARGET_HOST)
 
 
-include ../../../build-system/constants.mk
+include ../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/GNU/termcap
+url         = $(DOWNLOAD_SERVER)/sources/packages/a/gpm
 
-versions    = 1.3 1.3.1
-pkgname     = termcap
-suffix      = tar.gz
+versions    = 1.20.7
+pkgname     = gpm
+suffix      = tar.bz2
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
@@ -18,7 +18,7 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 BUILD_TARGETS = $(tarballs) $(sha1s)
 
 
-include ../../../build-system/core.mk
+include ../../../../build-system/core.mk
 
 
 .PHONY: download_clean
@@ -29,8 +29,6 @@ $(tarballs):
 	@for tarball in $(tarballs) ; do \
 	  wget $(WGET_OPTIONS) -N $(url)/$$tarball ; \
 	done
-	@echo -e "\n======= Create Patches =======\n"
-	@( cd create-termcap-1.3.1-patch && ./create.patch.sh )
 
 $(sha1s): %.$(suffix).sha1sum : %.$(suffix)
 	@for sha in $@ ; do \
@@ -47,4 +45,3 @@ $(sha1s): %.$(suffix).sha1sum : %.$(suffix)
 
 download_clean:
 	@rm -f $(tarballs) $(sha1s)
-	@rm -f ./patches/termcap-1.3.1.patch

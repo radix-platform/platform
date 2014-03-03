@@ -92,6 +92,9 @@ build-system/progs/configure
 *.sign
 *.sha1sum
 
+# Descriptions
+*.dsc
+
 # Default linux config files
 *.defconfig
 

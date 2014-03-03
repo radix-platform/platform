@@ -360,9 +360,21 @@ $(install_target): $(build_target)
 	  for file in *.1 ; do \
 	    gzip -9 --force $$file; \
 	  done )
+	@( cd $(BINUTILS_DEV_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   sed -i "s,dependency_libs=' -L.*/usr/lib$(LIBSUFFIX) -liberty',dependency_libs=' -L/usr/lib$(LIBSUFFIX) -liberty',g" libopcodes.la \
+	 )
+	@( cd $(BINUTILS_DEV_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   sed -i "s,dependency_libs=' -L.*/usr/lib$(LIBSUFFIX) -liberty -lz',dependency_libs=' -L/usr/lib$(LIBSUFFIX) -liberty -lz',g" libbfd.la \
+	 )
 	# Install the same to $(TARGET_DEST_DIR)
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(BINUTILS_DEV_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
+	   sed -i "s,libdir='/usr/lib$(LIBSUFFIX)',libdir='$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)',g" libopcodes.la ; \
+	   sed -i "s,dependency_libs=' -L/usr/lib$(LIBSUFFIX) -liberty',dependency_libs=' -L$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) -liberty',g" libopcodes.la ; \
+	   sed -i "s,libdir='/usr/lib$(LIBSUFFIX)',libdir='$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)',g" libbfd.la ; \
+	   sed -i "s,dependency_libs=' -L/usr/lib$(LIBSUFFIX) -liberty -lz',dependency_libs=' -L$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) -liberty -lz',g" libbfd.la \
+	 )
 	# Libiberty will be installed from GCC by --enable-install-libiberty option but we need it on $(TARGET_DEST_DIR)
 	@cp -a $(SRC_DIR)/include/libiberty.h $(TARGET_DEST_DIR)/usr/include/libiberty.h
 	@cp -a $(build_dir)/libiberty/pic/libiberty.a $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/libiberty.a

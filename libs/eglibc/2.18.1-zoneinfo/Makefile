@@ -87,6 +87,9 @@ PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
 include ../../../build-system/core.mk
 
 
+OPTIMIZATION_FLAGS = -O3
+
+
 $(src_done): $(tar_gz_code_archive) $(tar_gz_data_archive)
 	@mkdir -p $(SRC_DIR)
 	@tar xzf $(tar_gz_code_archive) -C $(SRC_DIR)

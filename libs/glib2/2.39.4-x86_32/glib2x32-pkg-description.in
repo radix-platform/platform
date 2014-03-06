@@ -6,14 +6,14 @@
 # customary to leave one space after the ':'.
 
         |-----handy-ruler------------------------------------------------------|
-glib2_32: glib2_32 @VERSION@ (library of C routines)
-glib2_32:
-glib2_32: GLib is a library which includes support routines for C such as lists,
-glib2_32: trees, hashes, memory allocation, and many other things.
-glib2_32:
-glib2_32:
-glib2_32:
-glib2_32:
-glib2_32:
-glib2_32:
-glib2_32:
+glib2x32: glib2x32 @VERSION@ (library of C routines)
+glib2x32:
+glib2x32: GLib is a library which includes support routines for C such as lists,
+glib2x32: trees, hashes, memory allocation, and many other things.
+glib2x32:
+glib2x32:
+glib2x32:
+glib2x32:
+glib2x32:
+glib2x32:
+glib2x32:

@@ -1,0 +1,2 @@
+
+../../../sources/packages/l/libelf/patches/libelf-0.8.13-cross.patch -p0

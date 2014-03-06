@@ -102,8 +102,10 @@ include ../../../build-system/core.mk
 
 env_sysroot  = install_root=$(EGLIBC_PKG)
 
-CFLAGS      += -g -O3
 
+OPTIMIZATION_FLAGS = -O3
+
+CFLAGS      += -g
 
 ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
 LIBSUFFIX    = 64
@@ -115,7 +117,7 @@ endif
 extra_configure_switches  += --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches  += --with-headers=$(TARGET_DEST_DIR)/usr/include
 extra_configure_switches  += --enable-add-ons=libidn,nptl,ports
-extra_configure_switches  += --with-binutils=$(TARGET_DEST_DIR)/bin
+extra_configure_switches  += --with-binutils=$(TOOLCHAIN_PATH)/bin
 extra_configure_switches  += --enable-kernel=2.6.36
 extra_configure_switches  += --disable-profile
 extra_configure_switches  += --without-gd
@@ -142,13 +144,14 @@ $(install_target): $(src_done)
 	@mkdir -p $(build_dir)
 	@mkdir -p $(EGLIBC_PKG)
 	@echo "slibdir=/lib$(LIBSUFFIX)" >> $(build_dir)/configparms
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(env_sysroot) $(environment) ../$(src_dir_name)/configure \
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(env_sysroot) ../$(src_dir_name)/configure \
 	  --prefix=/usr                \
 	  --build=$(BUILD)             \
 	  --host=$(TARGET)             \
 	  $(extra_configure_switches)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) all install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) all install $(env_sysroot)
 	@rm -f $(EGLIBC_PKG)/usr/share/info/dir
+	@gzip -9 $(EGLIBC_PKG)/usr/share/info/*
 	@touch $@
 
 

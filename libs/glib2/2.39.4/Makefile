@@ -97,6 +97,8 @@ include ../../../build-system/core.mk
 env_sysroot      = DESTDIR=$(GLIB2_PKG)
 
 
+OPTIMIZATION_FLAGS = -O3
+
 ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
 LIBSUFFIX=64
 else
@@ -113,10 +115,6 @@ extra_configure_switches += --enable-shared=yes
 
 extra_configure_switches += --cache-file=$(hw_cache)
 
-ifneq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
-environment  = CC="$(CC) --sysroot=$(TARGET_DEST_DIR)" LD="$(LD) --sysroot=$(TARGET_DEST_DIR)"
-endif
-
 
 ####### Dependencies
 
@@ -129,7 +127,7 @@ $(build_target): $(src_done)
 	@mkdir -p $(build_dir)
 	@chmod a-w $(hw_cache)
 	@cd $(build_dir) && \
-	  $(BUILD_ENVIRONMENT) $(environment) ../$(src_dir_name)/configure \
+	  $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
 	  --prefix=/usr               \
 	  --build=$(BUILD)            \
 	  --host=$(TARGET)            \
@@ -140,7 +138,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(GLIB2_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
 	exit 1
 	@mkdir -p $(GLIB2_PKG)/lib$(LIBSUFFIX)
 	@( cd $(GLIB2_PKG)/usr/lib$(LIBSUFFIX) ; \

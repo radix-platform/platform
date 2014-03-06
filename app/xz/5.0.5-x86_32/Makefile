@@ -73,14 +73,16 @@ include ../../../build-system/core.mk
 env_sysroot        = DESTDIR=$(XZ32_PKG)
 
 
-LIBSUFFIX =
 
-environment        = CFLAGS="-m32 -g -O3 -march=i486 -mtune=i686"
+OPTIMIZATION_FLAGS = -O3
+
+ARCH_FLAGS         = -m32 -g -O3 -march=i486 -mtune=i686
 
 ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
 LIBSUFFIX          = 32
+else
+LIBSUFFIX          =
 endif
-
 
 TARGET32     = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
 
@@ -106,33 +108,37 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 
 $(build_target): $(src_done)
 	@mkdir -p $(build_dir)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) ../$(src_dir_name)/configure \
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
 	  --prefix=/usr               \
 	  --build=$(BUILD)            \
 	  --host=$(TARGET32)          \
 	  $(extra_configure_switches)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
 	@touch $@
 
 $(install_target): $(build_target)
 	@mkdir -p $(XZ32_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) $(env_sysroot) install
-	@mkdir -p $(XZ32_PKG)/lib$(LIBSUFFIX)
-	@( cd $(XZ32_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   for file in lib*.so.?.* ; do \
-	     mv $$file ../../lib$(LIBSUFFIX) ; \
-	     ln -sf ../../lib$(LIBSUFFIX)/$$file . ; \
-	   done ; \
-	   cp -a lib*.so.? ../../lib$(LIBSUFFIX) ; \
-	 )
-	@rm -rf $(XZ32_PKG)/usr/bin
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) $(env_sysroot) install
+	# Move 32-Bit binaries into /usr/bin/32 directory
+	@mkdir -p $(XZ32_PKG)/usr/bin/32
+	@mv $(XZ32_PKG)/usr/bin/{l,u,x}* $(XZ32_PKG)/usr/bin/32
 	@rm -rf $(XZ32_PKG)/usr/include
 	@rm -rf $(XZ32_PKG)/usr/share
+	# remove toolchain path from target libtool *.la files and
+	@( cd $(XZ32_PKG)/usr/lib$(LIBSUFFIX) ; \
+	  sed -i "s,$(TARGET_DEST_DIR),,g" liblzma.la  \
+	 )
 	# Install the same to $(TARGET_DEST_DIR)
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(XZ32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	# tune libtool *.la search path to the target destination for development
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	  sed -i "s,libdir='/usr/lib$(LIBSUFFIX)',libdir='$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)',g" liblzma.la \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" liblzma.la ; \
+	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" liblzma.la \
+	 )
+	# tune pkg-config *.pc search path to the target destination for development
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" liblzma.pc \
 	 )
 	@(cd $(XZ32_PKG); \
 	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \

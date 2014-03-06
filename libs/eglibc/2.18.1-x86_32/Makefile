@@ -78,18 +78,19 @@ include ../../../build-system/core.mk
 
 env_sysroot  = install_root=$(EGLIBC32_PKG)
 
-CFLAGS      += -g -O3 -march=i486 -mtune=i686
 
+OPTIMIZATION_FLAGS = -O3
 
-ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
-LIBSUFFIX    =
-CC32         = gcc -m32
+CC                += -m32
+
+ARCH_FLAGS         = -m32 -g -O3 -march=i486 -mtune=i686
+
+ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
+LIBSUFFIX          = 32
 else
-LIBSUFFIX    = 32
-CC32         = $(TOOLCHAIN_PATH)/bin/$(TARGET)-gcc -m32
+LIBSUFFIX          =
 endif
 
-environment  = CC="$(CC32)"
 
 TARGET32     = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
 
@@ -97,18 +98,13 @@ TARGET32     = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
 extra_configure_switches  += --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches  += --with-headers=$(TARGET_DEST_DIR)/usr/include
 extra_configure_switches  += --enable-add-ons=libidn,nptl,ports
-extra_configure_switches  += --with-binutils=$(TARGET_DEST_DIR)/bin
+extra_configure_switches  += --with-binutils=$(TOOLCHAIN_PATH)/bin
 extra_configure_switches  += --enable-kernel=2.6.36
 extra_configure_switches  += --disable-profile
 extra_configure_switches  += --without-gd
 extra_configure_switches  += --without-cvs
 extra_configure_switches  += --with-tls
 extra_configure_switches  += --with-__thread
-
-
-ifeq ($(TOOLCHAIN),$(DM644X_EGLIBC_TOOLCHAIN_NAME))
-extra_configure_switches  += --without-fp
-endif
 
 
 
@@ -120,32 +116,34 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	@touch $@
 
 $(install_target): $(src_done)
+	echo $(CC)
 	@mkdir -p $(build_dir)
 	@mkdir -p $(EGLIBC32_PKG)
 	@echo "slibdir=/lib$(LIBSUFFIX)" >> $(build_dir)/configparms
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(env_sysroot) $(environment) ../$(src_dir_name)/configure \
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(env_sysroot) ../$(src_dir_name)/configure \
 	  --prefix=/usr                \
 	  --build=$(BUILD)             \
 	  --host=$(TARGET32)           \
 	  $(extra_configure_switches)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) all install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) all install $(env_sysroot)
 	@rm -f $(EGLIBC32_PKG)/usr/share/info/dir
 	@touch $@
 
-
 $(EGLIBC32_PKG_DESCRIPTION_FILE): $(EGLIBC32_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
-
 
 $(build_eglibc32_pkg): $(install_target) $(EGLIBC32_PKG_DESCRIPTION_FILE)
 	# Remove not needed stuff
 	@rm -rf $(EGLIBC32_PKG)/etc
 	@rm -rf $(EGLIBC32_PKG)/sbin
 	@rm -rf $(EGLIBC32_PKG)/usr/bin
-	@rm -rf $(EGLIBC32_PKG)/usr/include
 	@rm -rf $(EGLIBC32_PKG)/usr/sbin
 	@rm -rf $(EGLIBC32_PKG)/usr/share
 	@rm -rf $(EGLIBC32_PKG)/var
+	@( cd $(EGLIBC32_PKG)/usr/include/gnu ;  cp stubs-32.h ../.. )
+	@rm -rf $(EGLIBC32_PKG)/usr/include
+	@( mkdir -p $(EGLIBC32_PKG)/usr/include/gnu ; \
+	   mv $(EGLIBC32_PKG)/usr/stubs-32.h $(EGLIBC32_PKG)/usr/include/gnu )
 	# Install the same to $(TARGET_DEST_DIR)
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(EGLIBC32_PKG) && cp -rf * $(TARGET_DEST_DIR)

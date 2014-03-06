@@ -1,0 +1,201 @@
+
+COMPONENT_TARGETS  = $(TARGET_HOST)
+COMPONENT_TARGETS += $(TARGET_PC32)
+COMPONENT_TARGETS += $(TARGET_PC64)
+COMPONENT_TARGETS += $(TARGET_CB1X)
+COMPONENT_TARGETS += $(TARGET_VIP1830)
+COMPONENT_TARGETS += $(TARGET_BEAGLE)
+COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
+COMPONENT_TARGETS += $(TARGET_B74)
+
+#
+# The rest targets links staticaly with newlib or uclibc and not requires bzip2 libraties
+#
+# COMPONENT_TARGETS += $(TARGET_CB1N)
+# COMPONENT_TARGETS += $(TARGET_GUARD)
+# COMPONENT_TARGETS += $(TARGET_VIP1830N)
+# COMPONENT_TARGETS += $(TARGET_L17UC)
+#
+
+
+NEED_ABS_PATH      = true
+
+COMPONENT_IS_3PP   = true
+
+
+include ../../../build-system/constants.mk
+
+
+SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/a/bzip2
+
+
+ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME) $(BUILD_TOOLCHAIN_NAME)),)
+REQUIRES           = app/bzip2/1.0.6-x86_32
+else
+REQUIRES           = libs/eglibc/2.18.1
+endif
+
+version            = 1.0.6
+tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/a/bzip2/bzip2-$(version).tar.gz
+SRC_ARCHIVE        = $(tar_gz_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/bzip2-$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source_done
+
+PATCHES = PATCHES
+
+build_target       = $(TARGET_BUILD_DIR)/.build_done
+install_target     = $(TARGET_BUILD_DIR)/.install_done
+build_bzip2_pkg    = $(TARGET_BUILD_DIR)/.bzip2_pkg_done
+
+
+
+####### Targets
+
+PKG_GROUP = app
+
+#
+# *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
+#
+BZIP2_PKG_NAME                = bzip2
+BZIP2_PKG_VERSION             = 1.0.6
+ifeq ($(HARDWARE),$(TARGET_HOST))
+BZIP2_PKG_ARCH                = $(shell uname -m)
+else
+BZIP2_PKG_ARCH                = $(TOOLCHAIN)
+endif
+BZIP2_PKG_DISTRO_NAME         = kxLab
+BZIP2_PKG_DISTRO_VERSION      = 1.0
+BZIP2_PKG_GROUP               = $(PKG_GROUP)
+###                            |---handy-ruler-------------------------------|
+BZIP2_PKG_SHORT_DESCRIPTION   = bzip2 $(version)
+BZIP2_PKG_URL                 = http://www.kxLab.com
+BZIP2_PKG_LICENSE             = GPLv2
+BZIP2_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(BZIP2_PKG_NAME)-pkg-description
+BZIP2_PKG_DESCRIPTION_FILE_IN = $(BZIP2_PKG_NAME)-pkg-description.in
+BZIP2_PKG_INSTALL_SCRIPT      = $(BZIP2_PKG_NAME)-pkg-install.sh
+
+BZIP2_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(BZIP2_PKG_NAME)-package
+
+pkg_basename     = $(BZIP2_PKG_NAME)-$(BZIP2_PKG_VERSION)-$(BZIP2_PKG_ARCH)-$(BZIP2_PKG_DISTRO_NAME)-$(BZIP2_PKG_DISTRO_VERSION)
+pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(BZIP2_PKG_GROUP)/$(pkg_basename).tgz
+
+
+BUILD_TARGETS    = $(build_bzip2_pkg)
+
+ROOTFS_TARGETS   = $(pkg_basename_tgz)
+
+PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+
+
+include ../../../build-system/core.mk
+
+
+OPTIMIZATION_FLAGS = -O3
+
+ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
+LIBSUFFIX=64
+else
+LIBSUFFIX=
+endif
+
+
+####### Dependencies
+
+$(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
+	$(UNPACK_SRC_ARCHIVE)
+	$(APPLY_PATCHES)
+	@touch $@
+
+$(build_target): $(src_done)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -f Makefile-libbz2_so
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE)
+	@touch $@
+
+$(install_target): $(build_target)
+	@mkdir -p $(BZIP2_PKG)/usr/lib$(LIBSUFFIX)
+	@cd $(SRC_DIR) && cp -a libbz2.a $(BZIP2_PKG)/usr/lib$(LIBSUFFIX)
+	@chmod 644 $(BZIP2_PKG)/usr/lib$(LIBSUFFIX)/libbz2.a 
+	@mkdir -p $(BZIP2_PKG)/lib$(LIBSUFFIX)
+	@cd $(SRC_DIR) && cp -a libbz2.so.$(version) $(BZIP2_PKG)/lib$(LIBSUFFIX)
+	@chmod 755 $(BZIP2_PKG)/lib$(LIBSUFFIX)/libbz2.so.$(version)
+	@mkdir -p $(BZIP2_PKG)/bin
+	@mkdir -p $(BZIP2_PKG)/usr/bin
+	@cd $(SRC_DIR) && cat bzip2-shared > $(BZIP2_PKG)/bin/bzip2
+	@cd $(SRC_DIR) && cat bzip2recover > $(BZIP2_PKG)/bin/bzip2recover
+	@chmod 755 $(BZIP2_PKG)/bin/bzip2
+	@chmod 755 $(BZIP2_PKG)/bin/bzip2recover
+
+	@( cd $(SRC_DIR) ; \
+	   for file in bzdiff bzgrep bzmore ; do \
+	     cat $$file > $(BZIP2_PKG)/usr/bin/$$file ; \
+	     chmod 755 $(BZIP2_PKG)/usr/bin/$$file ; \
+	   done \
+	 )
+	@( cd $(BZIP2_PKG)/lib$(LIBSUFFIX) ; \
+	   rm -f libbz2.so.1.0 libbz2.so.1 ; \
+	   ln -sf libbz2.so.$(version) libbz2.so.1.0 ; \
+	   ln -sf libbz2.so.1.0 libbz2.so.1 \
+	 )
+	@( cd $(BZIP2_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   ln -sf ../../lib$(LIBSUFFIX)/libbz2.so.$(version) libbz2.so.$(version) ; \
+	   ln -sf libbz2.so.$(version) libbz2.so.1.0 ; \
+	   ln -sf libbz2.so.1.0 libbz2.so.1 ; \
+	   ln -sf libbz2.so.1 libbz2.so \
+	 )
+	@( cd $(BZIP2_PKG)/bin ; \
+	   ln -sf bzip2 bunzip2 ; \
+	   ln -sf bzip2 bzcat \
+	 )
+	@( cd $(BZIP2_PKG)/usr/bin ; \
+	   ln -sf ../../bin/bzip2 . ; \
+	   ln -sf ../../bin/bzip2 bunzip2 ; \
+	   ln -sf ../../bin/bzip2 bzcat ; \
+	   ln -sf bzmore bzless \
+	 )
+	@mkdir -p $(BZIP2_PKG)/usr/include
+	@cd $(SRC_DIR) && cp -a bzlib.h $(BZIP2_PKG)/usr/include/bzlib.h
+	@chmod 644 $(BZIP2_PKG)/usr/include/bzlib.h
+	@mkdir -p $(BZIP2_PKG)/usr/share/man/man1
+	@( cd $(SRC_DIR) ; \
+	   for file in bzdiff.1 bzgrep.1 bzip2.1 bzmore.1 ; do \
+	     cat $$file | gzip -9c > $(BZIP2_PKG)/usr/share/man/man1/$$file.gz ; \
+	   done ; \
+	   cat bzip2.1 | gzip -9c > $(BZIP2_PKG)/usr/share/man/man1/bzip2recover.gz \
+	 )
+	@mkdir -p $(BZIP2_PKG)/usr/doc/bzip2-$(version)
+	@mkdir -p $(BZIP2_PKG)/usr/share/doc/bzip2-$(version)
+	@( cd $(SRC_DIR) ; \
+	   cp -a LICENSE $(BZIP2_PKG)/usr/doc/bzip2-$(version) \
+	 )
+	@( cd $(SRC_DIR) ; \
+	   cp -a CHANGES LICENSE README* bzip.css bzip2.txt entities.xml manual.* \
+	         $(BZIP2_PKG)/usr/share/doc/bzip2-$(version) \
+	 )
+	# Install the same to $(TARGET_DEST_DIR)
+	@mkdir -p $(TARGET_DEST_DIR)
+	@cd $(BZIP2_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	@(cd $(BZIP2_PKG); \
+	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	  find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
+	 )
+	@touch $@
+
+$(BZIP2_PKG_DESCRIPTION_FILE): $(BZIP2_PKG_DESCRIPTION_FILE_IN)
+	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
+
+$(build_bzip2_pkg): $(install_target) $(BZIP2_PKG_DESCRIPTION_FILE)
+	@cp $(BZIP2_PKG_DESCRIPTION_FILE) $(BZIP2_PKG)/.DESCRIPTION
+	@cp $(BZIP2_PKG_INSTALL_SCRIPT) $(BZIP2_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(BZIP2_PKG)/.REQUIRES
+	@echo "pkgname=$(BZIP2_PKG_NAME)"                            >  $(BZIP2_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(BZIP2_PKG_VERSION)"                          >> $(BZIP2_PKG)/.PKGINFO ; \
+	 echo "arch=$(BZIP2_PKG_ARCH)"                               >> $(BZIP2_PKG)/.PKGINFO ; \
+	 echo "distroname=$(BZIP2_PKG_DISTRO_NAME)"                  >> $(BZIP2_PKG)/.PKGINFO ; \
+	 echo "distrover=$(BZIP2_PKG_DISTRO_VERSION)"                >> $(BZIP2_PKG)/.PKGINFO ; \
+	 echo "group=$(BZIP2_PKG_GROUP)"                             >> $(BZIP2_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(BZIP2_PKG_SHORT_DESCRIPTION)\"" >> $(BZIP2_PKG)/.PKGINFO ; \
+	 echo "url=$(BZIP2_PKG_URL)"                                 >> $(BZIP2_PKG)/.PKGINFO ; \
+	 echo "license=$(BZIP2_PKG_LICENSE)"                         >> $(BZIP2_PKG)/.PKGINFO
+	@$(FAKEROOT) sh -c "cd $(BZIP2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@touch $@

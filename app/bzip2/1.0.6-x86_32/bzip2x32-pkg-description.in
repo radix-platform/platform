@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+        |-----handy-ruler------------------------------------------------------|
+bzip2x32: bzip2x32 @VERSION@ (a block-sorting file compressor) for x86_32 arch
+bzip2x32:
+bzip2x32: Bzip2 compresses files using the Burrows-Wheeler block sorting text
+bzip2x32: compression algorithm, and Huffman coding. Compression is generally
+bzip2x32: considerably better than that achieved by more conventional
+bzip2x32: LZ77/LZ78-based compressors, and approaches the performance of the
+bzip2x32: PPM family of statistical compressors.
+bzip2x32:
+bzip2x32: Julian Seward <jseward@acm.org> is the author of bzip2.
+bzip2x32:
+bzip2x32:

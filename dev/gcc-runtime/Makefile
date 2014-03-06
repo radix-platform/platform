@@ -26,7 +26,29 @@ COMPONENT_IS_3PP   = true
 include ../../build-system/constants.mk
 
 
-REQUIRES       = dev/binutils/2.24
+ifneq ($(filter $(HARDWARE),$(TARGET_HOST) $(TARGET_PC32) $(TARGET_PC64)),)
+REQUIRES           = dev/kernel/x86/3.10.17-headers
+endif
+
+ifeq ($(HARDWARE),$(TARGET_CB1X))
+REQUIRES           = dev/kernel/a1x/3.0.52-r2-headers
+endif
+
+ifeq ($(HARDWARE),$(TARGET_VIP1830))
+REQUIRES           = dev/kernel/dm644x/2.6.36-headers
+endif
+
+ifeq ($(HARDWARE),$(TARGET_BEAGLE))
+REQUIRES           = dev/kernel/omap35x/2.6.36-headers
+endif
+
+ifeq ($(HARDWARE),$(TARGET_OMAP5UEVM))
+REQUIRES           = dev/kernel/omap543x/3.8.y-20140222-headers
+endif
+
+ifeq ($(HARDWARE),$(TARGET_B74))
+REQUIRES           = dev/kernel/bcm74x/2.6.36-headers
+endif
 
 
 install_target = $(TARGET_BUILD_DIR)/.install_done
@@ -37,6 +59,12 @@ BUILD_TARGETS  = $(install_target)
 
 include ../../build-system/core.mk
 
+#
+# NOTE:
+#   Code for BUILD_TOOLCHAIN_NAME works only on x86_64 systems where
+#   native x86_64 libs are placed in /usr/lib64 directory and compat
+#   x86_32 libs are placed in /usr/lib system directory.
+#
 
 ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
 src_dir  = /usr/lib
@@ -92,5 +120,35 @@ $(install_target):
 	    if [ "" != "`find -iname 'libsupc*'     -exec echo '{}' \; -quit`" ] ; then cp -a libsupc*     $(dest_dir)$(LIBSUFFIX) ; fi && \
 	    if [ "" != "`find -iname 'libtsan*'     -exec echo '{}' \; -quit`" ] ; then cp -a libtsan*     $(dest_dir)$(LIBSUFFIX) ; fi ; \
 	    if [ -d ldscripts ] ; then cp -rf ldscripts $(dest_dir)$(LIBSUFFIX) ; fi ) ; \
+	 fi
+	@( cd $(dest_dir) ; \
+	   if [ -f libasan.la ]          ; then sed -i "s,$(src_dir),$(dest_dir),g" libasan.la ; fi ; \
+	   if [ -f libatomic.la ]        ; then sed -i 's,$(src_dir),$(dest_dir),g' libatomic.la ; fi ; \
+	   if [ -f libgomp.la ]          ; then sed -i 's,$(src_dir),$(dest_dir),g' libgomp.la ; fi ; \
+	   if [ -f libitm.la ]           ; then sed -i 's,$(src_dir),$(dest_dir),g' libitm.la ; fi ; \
+	   if [ -f libmudflap.la ]       ; then sed -i 's,$(src_dir),$(dest_dir),g' libmudflap.la ; fi ; \
+	   if [ -f libmudflapth.la ]     ; then sed -i 's,$(src_dir),$(dest_dir),g' libmudflapth.la ; fi ; \
+	   if [ -f libquadmath.la ]      ; then sed -i 's,$(src_dir),$(dest_dir),g' libquadmath.la ; fi ; \
+	   if [ -f libssp.la ]           ; then sed -i 's,$(src_dir),$(dest_dir),g' libssp.la ; fi ; \
+	   if [ -f libssp_nonshared.la ] ; then sed -i 's,$(src_dir),$(dest_dir),g' libssp_nonshared.la ; fi ; \
+	   if [ -f libstdc++.la ]        ; then sed -i 's,$(src_dir),$(dest_dir),g' libstdc++.la ; fi ; \
+	   if [ -f libsupc++.la ]        ; then sed -i 's,$(src_dir),$(dest_dir),g' libsupc++.la ; fi ; \
+	   if [ -f libtsan.la ]          ; then sed -i 's,$(src_dir),$(dest_dir),g' libtsan.la ; fi \
+	 )
+	@if test "$(lib_compat)" == "yes" ; then \
+	  ( cd $(dest_dir)$(LIBSUFFIX) ; \
+	   if [ -f libasan.la ]          ; then sed -i "s,$(src_dir),$(dest_dir),g" libasan.la ; fi ; \
+	   if [ -f libatomic.la ]        ; then sed -i 's,$(src_dir),$(dest_dir),g' libatomic.la ; fi ; \
+	   if [ -f libgomp.la ]          ; then sed -i 's,$(src_dir),$(dest_dir),g' libgomp.la ; fi ; \
+	   if [ -f libitm.la ]           ; then sed -i 's,$(src_dir),$(dest_dir),g' libitm.la ; fi ; \
+	   if [ -f libmudflap.la ]       ; then sed -i 's,$(src_dir),$(dest_dir),g' libmudflap.la ; fi ; \
+	   if [ -f libmudflapth.la ]     ; then sed -i 's,$(src_dir),$(dest_dir),g' libmudflapth.la ; fi ; \
+	   if [ -f libquadmath.la ]      ; then sed -i 's,$(src_dir),$(dest_dir),g' libquadmath.la ; fi ; \
+	   if [ -f libssp.la ]           ; then sed -i 's,$(src_dir),$(dest_dir),g' libssp.la ; fi ; \
+	   if [ -f libssp_nonshared.la ] ; then sed -i 's,$(src_dir),$(dest_dir),g' libssp_nonshared.la ; fi ; \
+	   if [ -f libstdc++.la ]        ; then sed -i 's,$(src_dir),$(dest_dir),g' libstdc++.la ; fi ; \
+	   if [ -f libsupc++.la ]        ; then sed -i 's,$(src_dir),$(dest_dir),g' libsupc++.la ; fi ; \
+	   if [ -f libtsan.la ]          ; then sed -i 's,$(src_dir),$(dest_dir),g' libtsan.la ; fi \
+	 ) ; \
 	 fi
 	@touch $@

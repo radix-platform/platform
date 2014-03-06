@@ -95,6 +95,8 @@ include ../../../build-system/core.mk
 env_sysroot      = DESTDIR=$(XZ_PKG)
 
 
+OPTIMIZATION_FLAGS = -O3
+
 ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
 LIBSUFFIX=64
 else
@@ -117,10 +119,9 @@ extra_configure_switches += --enable-shared
 #   For 'arm' CPUs we can add following macro becaise 'arm' ports of glibs doesn't have 'elision'
 #   [see $(TARGET_DEST_DIR)/usr/include/bits/pthreadtypes.h]:
 #
-#   environment = CFLAGS="$(CFLAGS) -D__PTHREAD_MUTEX_HAVE_ELISION=0"
+#   CFLAGS += -D__PTHREAD_MUTEX_HAVE_ELISION=0
 #
-#   $(BUILD_ENVIRONMENT) $(environment) ../configure
-#
+#   $(BUILD_ENVIRONMENT) ../configure
 #
 
 ####### Dependencies
@@ -144,14 +145,6 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(XZ_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) $(env_sysroot) install
-	@mkdir -p $(XZ_PKG)/lib$(LIBSUFFIX)
-	@( cd $(XZ_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   for file in lib*.so.?.* ; do \
-	     mv $$file ../../lib$(LIBSUFFIX) ; \
-	     ln -sf ../../lib$(LIBSUFFIX)/$$file . ; \
-	   done ; \
-	   cp -a lib*.so.? ../../lib$(LIBSUFFIX) ; \
-	 )
 	@mkdir -p $(XZ_PKG)/bin
 	@mv $(XZ_PKG)/usr/bin/xz $(XZ_PKG)/bin
 	@( cd $(XZ_PKG)/usr/bin ; \
@@ -173,13 +166,30 @@ $(install_target): $(build_target)
 	@mkdir -p $(XZ_PKG)/usr/doc/$(src_dir_name)
 	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/COPYING* \
 	       $(XZ_PKG)/usr/doc/$(src_dir_name)
-	@cp -a $(SRC_DIR)/ChangeLog $(SRC_DIR)/INSTALL* \
+	@cp -a $(SRC_DIR)/INSTALL* \
 	       $(XZ_PKG)/usr/share/doc/$(src_dir_name)
+	@( cd $(SRC_DIR) ; \
+	   if [ -r ChangeLog ]; then \
+	     DOCSDIR=`echo $(XZ_PKG)/usr/share/doc/$(src_dir_name)` ; \
+	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
+	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
+	   fi \
+	 )
+	# remove toolchain path from target libtool *.la files and
+	@( cd $(XZ_PKG)/usr/lib$(LIBSUFFIX) ; \
+	  sed -i "s,$(TARGET_DEST_DIR),,g" liblzma.la  \
+	 )
 	# Install the same to $(TARGET_DEST_DIR)
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(XZ_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	# tune libtool *.la search path to the target destination for development
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	  sed -i "s,libdir='/usr/lib$(LIBSUFFIX)',libdir='$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)',g" liblzma.la \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" liblzma.la ; \
+	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" liblzma.la \
+	 )
+	# tune pkg-config *.pc search path to the target destination for development
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" liblzma.pc \
 	 )
 	@(cd $(XZ_PKG); \
 	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \

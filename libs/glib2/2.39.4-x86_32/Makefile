@@ -28,7 +28,7 @@ PATCHES = PATCHES
 build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
-build_glib2_32_pkg = $(TARGET_BUILD_DIR)/.glib2_32_pkg_done
+build_glib2x32_pkg = $(TARGET_BUILD_DIR)/.glib2x32_pkg_done
 
 
 ####### Targets
@@ -37,7 +37,7 @@ PKG_GROUP = libs
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-GLIB2_32_PKG_NAME                = glib2_32
+GLIB2_32_PKG_NAME                = glib2x32
 GLIB2_32_PKG_VERSION             = 2.39.4
 ifeq ($(HARDWARE),$(TARGET_HOST))
 GLIB2_32_PKG_ARCH                = $(shell uname -m)
@@ -48,7 +48,7 @@ GLIB2_32_PKG_DISTRO_NAME         = kxLab
 GLIB2_32_PKG_DISTRO_VERSION      = 1.0
 GLIB2_32_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-GLIB2_32_PKG_SHORT_DESCRIPTION   = glib2_32 $(version)
+GLIB2_32_PKG_SHORT_DESCRIPTION   = glib2x32 $(version)
 GLIB2_32_PKG_URL                 = http://www.kxLab.com
 GLIB2_32_PKG_LICENSE             = GPLv2
 GLIB2_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GLIB2_32_PKG_NAME)-pkg-description
@@ -61,7 +61,7 @@ pkg_basename     = $(GLIB2_32_PKG_NAME)-$(GLIB2_32_PKG_VERSION)-$(GLIB2_32_PKG_A
 pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(GLIB2_32_PKG_GROUP)/$(pkg_basename).tgz
 
 
-BUILD_TARGETS    = $(build_glib2_32_pkg)
+BUILD_TARGETS    = $(build_glib2x32_pkg)
 
 ROOTFS_TARGETS   = $(pkg_basename_tgz)
 
@@ -74,12 +74,14 @@ include ../../../build-system/core.mk
 env_sysroot        = DESTDIR=$(GLIB2_32_PKG)
 
 
-LIBSUFFIX =
+OPTIMIZATION_FLAGS = -O3
 
-environment        = CFLAGS="-m32 -g -O3 -march=i486 -mtune=i686"
+ARCH_FLAGS         = -m32 -g -O3 -march=i486 -mtune=i686
 
 ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
 LIBSUFFIX          = 32
+else
+LIBSUFFIX          =
 endif
 
 
@@ -104,17 +106,17 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 
 $(build_target): $(src_done)
 	@mkdir -p $(build_dir)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) ../$(src_dir_name)/configure \
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
 	  --prefix=/usr               \
 	  --build=$(BUILD)            \
 	  --host=$(TARGET32)          \
 	  $(extra_configure_switches)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
 	@touch $@
 
 $(install_target): $(build_target)
 	@mkdir -p $(GLIB2_32_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
 	exit 1
 	# libffi make suggestion about toolexeclibdir according to gcc -print-multi-os-directory
 	# we shoul prevent so stupid behaviour related to x86_WIN32 target in linux
@@ -154,7 +156,7 @@ endif
 $(GLIB2_32_PKG_DESCRIPTION_FILE): $(GLIB2_32_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_glib2_32_pkg): $(install_target) $(GLIB2_32_PKG_DESCRIPTION_FILE)
+$(build_glib2x32_pkg): $(install_target) $(GLIB2_32_PKG_DESCRIPTION_FILE)
 	@cp $(GLIB2_32_PKG_DESCRIPTION_FILE) $(GLIB2_32_PKG)/.DESCRIPTION
 	@cp $(GLIB2_32_PKG_INSTALL_SCRIPT) $(GLIB2_32_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(GLIB2_32_PKG)/.REQUIRES

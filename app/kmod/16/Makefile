@@ -93,6 +93,8 @@ include ../../../build-system/core.mk
 env_sysroot      = DESTDIR=$(KMOD_PKG)
 
 
+OPTIMIZATION_FLAGS = -O3
+
 ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
 LIBSUFFIX=64
 else
@@ -109,10 +111,6 @@ extra_configure_switches += --sbindir=/sbin
 extra_configure_switches += --with-xz
 extra_configure_switches += --with-zlib
 
-ifneq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
-environment  = CC="$(CC) --sysroot=$(TARGET_DEST_DIR)"
-endif
-
 
 ####### Dependencies
 
@@ -124,7 +122,7 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 $(build_target): $(src_done)
 	@mkdir -p $(build_dir)
 	@cd $(build_dir) && \
-	  $(BUILD_ENVIRONMENT) $(environment) ../$(src_dir_name)/configure \
+	  $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
 	  --prefix=/usr               \
 	  --build=$(BUILD)            \
 	  --host=$(TARGET)            \
@@ -178,11 +176,21 @@ $(install_target): $(build_target)
 	    done \
 	  ) \
 	 fi
+	# remove toolchain path from target libtool *.la files and
+	@( cd $(KMOD_PKG)/usr/lib$(LIBSUFFIX) ; \
+	  sed -i "s,$(TARGET_DEST_DIR),,g" libkmod.la  \
+	 )
 	# Install the same to $(TARGET_DEST_DIR)
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(KMOD_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	# tune libtool *.la search path to the target destination for development
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	  sed -i "s,libdir='/usr/lib$(LIBSUFFIX)',libdir='$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)',g" libkmod.la \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libkmod.la ; \
+	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libkmod.la \
+	 )
+	# tune pkg-config *.pc search path to the target destination for development
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libkmod.pc \
 	 )
 	@(cd $(KMOD_PKG); \
 	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \

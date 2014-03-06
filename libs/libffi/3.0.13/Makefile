@@ -92,8 +92,10 @@ PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
 include ../../../build-system/core.mk
 
 
-env_sysroot      = DESTDIR=$(LIBFFI_PKG)
+env_sysroot = DESTDIR=$(LIBFFI_PKG)
 
+
+OPTIMIZATION_FLAGS = -O3
 
 ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
 LIBSUFFIX=64
@@ -107,8 +109,6 @@ extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var
 extra_configure_switches += --enable-shared
-# uncomment next line to prevent building static *.a library:
-# extra_configure_switches += --disable-static
 
 
 ####### Dependencies
@@ -132,19 +132,6 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(LIBFFI_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
-	# libffi make suggestion about toolexeclibdir according to gcc -print-multi-os-directory
-	# we shoul prevent so stupid behaviour related to x86_WIN32 target in linux
-	@( cd $(LIBFFI_PKG)/usr/lib$(LIBSUFFIX) ; \
-	  sed -i "s,libdir='/usr/lib$(LIBSUFFIX)/../lib$(LIBSUFFIX)',libdir='/usr/lib$(LIBSUFFIX)',g" libffi.la \
-	 )
-	@mkdir -p $(LIBFFI_PKG)/lib$(LIBSUFFIX)
-	@( cd $(LIBFFI_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   for file in lib*.so.?.* ; do \
-	     mv $$file ../../lib$(LIBSUFFIX) ; \
-	     ln -sf ../../lib$(LIBSUFFIX)/$$file . ; \
-	   done ; \
-	   cp -a lib*.so.? ../../lib$(LIBSUFFIX) ; \
-	 )
 	@rm -f $(LIBFFI_PKG)/usr/share/info/dir
 	@gzip -9 $(LIBFFI_PKG)/usr/share/info/*
 	@if [ -d $(LIBFFI_PKG)/usr/share/man ]; then \
@@ -170,11 +157,21 @@ $(install_target): $(build_target)
 	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \
 	 )
+	# remove toolchain path from target libtool *.la files and
+	@( cd $(LIBFFI_PKG)/usr/lib$(LIBSUFFIX) ; \
+	  sed -i "s,$(TARGET_DEST_DIR),,g" libffi.la  \
+	 )
 	# Install the same to $(TARGET_DEST_DIR)
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(LIBFFI_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	# tune libtool *.la search path to the target destination for development
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	  sed -i "s,libdir='/usr/lib$(LIBSUFFIX)',libdir='$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)',g" libffi.la \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libffi.la ; \
+	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libffi.la \
+	 )
+	# tune pkg-config *.pc search path to the target destination for development
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libffi.pc \
 	 )
 	@(cd $(LIBFFI_PKG); \
 	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
@@ -182,10 +179,8 @@ $(install_target): $(build_target)
 	 )
 	@touch $@
 
-
 $(LIBFFI_PKG_DESCRIPTION_FILE): $(LIBFFI_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
-
 
 $(build_libffi_pkg): $(install_target) $(LIBFFI_PKG_DESCRIPTION_FILE)
 	@cp $(LIBFFI_PKG_DESCRIPTION_FILE) $(LIBFFI_PKG)/.DESCRIPTION

@@ -95,8 +95,10 @@ include ../../../build-system/core.mk
 
 env_sysroot  = install_root=$(EGLIBC_I18N_PKG)
 
-CFLAGS      += -g -O3
 
+OPTIMIZATION_FLAGS = -O3
+
+CFLAGS      += -g
 
 ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
 LIBSUFFIX    = 64

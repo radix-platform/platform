@@ -1,0 +1,7 @@
+gpm-1.20.7/Makefile.in
+gpm-1.20.7/configure
+gpm-1.20.7/configure.ac
+gpm-1.20.7/configure.ac.footer
+gpm-1.20.7/src/daemon/startup.c
+gpm-1.20.7/src/lib/libcurses.c
+gpm-1.20.7/src/lib/report-lib.c

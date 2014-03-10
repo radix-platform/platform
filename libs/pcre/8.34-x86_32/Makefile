@@ -12,11 +12,12 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/l/pcre
 
-REQUIRES           = libs/eglibc/2.18.1
+REQUIRES           = libs/zlib/1.2.8
+REQUIRES           = app/bzip2/1.0.6
 
 
 version            = 8.34
-tar_bz2_archive     = $(SRC_PACKAGE_PATH)/packages/l/pcre/pcre-$(version).tar.bz2
+tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/l/pcre/pcre-$(version).tar.bz2
 SRC_ARCHIVE        = $(tar_bz2_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/pcre-$(version)
 src_dir_name       = pcre-$(version)
@@ -54,7 +55,7 @@ PCRE32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(PCRE32_PKG_NAME)-pkg-desc
 PCRE32_PKG_DESCRIPTION_FILE_IN = $(PCRE32_PKG_NAME)-pkg-description.in
 PCRE32_PKG_INSTALL_SCRIPT      = $(PCRE32_PKG_NAME)-pkg-install.sh
 
-PCRE32_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(PCRE32_PKG_NAME)-package
+PCRE32_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(PCRE32_PKG_NAME)-package
 
 pkg_basename     = $(PCRE32_PKG_NAME)-$(PCRE32_PKG_VERSION)-$(PCRE32_PKG_ARCH)-$(PCRE32_PKG_DISTRO_NAME)-$(PCRE32_PKG_DISTRO_VERSION)
 pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(PCRE32_PKG_GROUP)/$(pkg_basename).tgz
@@ -96,6 +97,10 @@ extra_configure_switches += --enable-utf8
 extra_configure_switches += --enable-pcre16
 extra_configure_switches += --enable-pcre32
 extra_configure_switches += --enable-unicode-properties
+
+extra_configure_switches += --enable-pcregrep-libz
+extra_configure_switches += --enable-pcregrep-libbz2
+
 extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --enable-static=yes
 
@@ -119,31 +124,34 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(PCRE32_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
-	exit 1
+	@( cd $(PCRE32_PKG)/usr/bin ; \
+	   mkdir 32 ; \
+	   mv pcre* 32 \
+	 )
 	@rm -rf $(PCRE32_PKG)/usr/include
 	@rm -rf $(PCRE32_PKG)/usr/share
 	# remove toolchain path from target libtool *.la files and
 	@( cd $(PCRE32_PKG)/usr/lib$(LIBSUFFIX) ; \
-	  sed -i "s,$(TARGET_DEST_DIR),,g" pcre.la  \
+	  sed -i "s,$(TARGET_DEST_DIR),,g" libpcre.la libpcre16.la libpcre32.la libpcrecpp.la libpcreposix.la  \
 	 )
 	# Install the same to $(TARGET_DEST_DIR)
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(PCRE32_PKG) && cp -rf * $(TARGET_DEST_DIR)
 	# tune libtool *.la search path to the target destination for development
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" pcre.la ; \
-	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" pcre.la \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libpcre.la libpcre16.la libpcre32.la libpcrecpp.la libpcreposix.la ; \
+	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libpcre.la libpcre16.la libpcre32.la libpcrecpp.la libpcreposix.la \
 	 )
 	# tune pkg-config *.pc search path to the target destination for development
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" pcre.pc \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libpcre.pc libpcre16.pc libpcre32.pc libpcrecpp.pc libpcreposix.pc \
 	 )
 	@(cd $(PCRE32_PKG); \
 	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	  find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
 	@touch $@
-	exit 1
 
 $(PCRE32_PKG_DESCRIPTION_FILE): $(PCRE32_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@

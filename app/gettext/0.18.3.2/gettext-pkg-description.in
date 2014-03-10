@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
        |-----handy-ruler------------------------------------------------------|
-gettext: GNU gettext@VERSION@ (internationalization framework)
+gettext: GNU gettext @VERSION@ (internationalization framework)
 gettext:
 gettext: The GNU gettext package contains "gettext" and "ngettext", programs
 gettext: that are used to internationalize the messages given by shell

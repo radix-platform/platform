@@ -33,9 +33,9 @@ modules_done       = $(TARGET_BUILD_DIR)/.modules_done
 device_dtb_done    = $(TARGET_BUILD_DIR)/.device_dtb_done
 
 devel_sources      = $(TARGET_DEST_DIR)/usr/src/linux-glsdk-$(full_version)
-devel_sources_done = $(TARGET_DEST_DIR)/.devel_sources_done
+devel_sources_done = $(TARGET_BUILD_DIR)/.devel_sources_done
 boot_filesystem    = $(TARGET_DEST_DIR)/bootfs
-boot_fs_dir_done   = $(TARGET_DEST_DIR)/.bootfs_done
+boot_fs_dir_done   = $(TARGET_BUILD_DIR)/.bootfs_done
 
 
 PATCHES = PATCHES

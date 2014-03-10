@@ -28,12 +28,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/GNU/gettext
 
+REQUIRES           = libs/eglibc/2.18.1
 
-ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME) $(BUILD_TOOLCHAIN_NAME)),)
-#REQUIRES           = app/xz/5.0.5-x86_32
-else
-#REQUIRES           = libs/eglibc/2.18.1
-endif
 
 version            = 0.18.3.2
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/GNU/gettext/gettext-$(version).tar.gz
@@ -107,9 +103,8 @@ extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --infodir=/usr/share/info
+extra_configure_switches += --with-included-gettext
 extra_configure_switches += --enable-shared
-# uncomment next line to prevent building static *.a library:
-# extra_configure_switches += --disable-static
 
 
 ####### Dependencies
@@ -122,7 +117,7 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 $(build_target): $(src_done)
 	@mkdir -p $(build_dir)
 	@cd $(build_dir) && \
-	  $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
+	  $(BUILD_ENVIRONMENT) ../$(src_dir_name)/gettext-runtime/configure \
 	  --prefix=/usr               \
 	  --build=$(BUILD)            \
 	  --host=$(TARGET)            \
@@ -135,11 +130,13 @@ $(install_target): $(build_target)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
 	@rm -f $(GETTEXT_PKG)/usr/share/info/dir
 	@gzip -9 $(GETTEXT_PKG)/usr/share/info/*
-	@mkdir -p $(GETTEXT_PKG)/usr/doc/$(src_dir_name)
-	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/COPYING $(SRC_DIR)/DEPENDENCIES \
-	       $(SRC_DIR)/HACKING $(SRC_DIR)/INSTALL $(SRC_DIR)/NEWS $(SRC_DIR)/PACKAGING \
-	       $(SRC_DIR)/README* $(SRC_DIR)/THANKS $(SRC_DIR)/gettext-tools/ABOUT-NLS \
-	       $(GETTEXT_PKG)/usr/doc/$(src_dir_name)
+	@( cd $(GETTEXT_PKG)/usr/share/man/man3 ; \
+	   rm -f dcgettext.3 dgettext.3 dcngettext.3 dngettext.3 ; \
+	   ln -sf gettext.3 dcgettext.3 ; \
+	   ln -sf gettext.3 dgettext.3 ; \
+	   ln -sf ngettext.3 dcngettext.3 ; \
+	   ln -sf ngettext.3 dngettext.3 \
+	 )
 	@if [ -d $(GETTEXT_PKG)/usr/share/man ]; then \
 	  ( cd $(GETTEXT_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \
@@ -153,17 +150,38 @@ $(install_target): $(build_target)
 	    done \
 	  ) \
 	 fi
-	@cp -a $(SRC_DIR)/ChangeLog $(SRC_DIR)/INSTALL* \
-	       $(GETTEXT_PKG)/usr/doc/$(src_dir_name)
+	@mkdir -p $(GETTEXT_PKG)/usr/doc/$(src_dir_name)
+	@( cd $(SRC_DIR) ; \
+	   cp -a AUTHORS COPYING DEPENDENCIES HACKING INSTALL NEWS PACKAGING README* THANKS \
+	         $(GETTEXT_PKG)/usr/doc/$(src_dir_name) \
+	 )
+	@( cd $(SRC_DIR) ; \
+	   if [ -r ChangeLog ]; then \
+	     DOCSDIR=`echo $(GETTEXT_PKG)/usr/doc/$(src_dir_name)` ; \
+	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
+	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
+	   fi \
+	 )
+	# remove toolchain path from target libtool *.la files and
+	@( cd $(GETTEXT_PKG)/usr/lib$(LIBSUFFIX) ; \
+	  sed -i "s,$(TARGET_DEST_DIR),,g" libasprintf.la libintl.la  \
+	 )
+	@chmod 755 $(GETTEXT_PKG)/usr/lib$(LIBSUFFIX)/libintl.la
+	@chmod 755 $(GETTEXT_PKG)/usr/lib$(LIBSUFFIX)/libintl.so.?.?.?
 	# Install the same to $(TARGET_DEST_DIR)
 	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(GETTEXT_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	@cd $(GETTEXT_PKG) && cp -arf * $(TARGET_DEST_DIR)
+	# tune libtool *.la search path to the target destination for development
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libasprintf.la libintl.la ; \
+	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libasprintf.la libintl.la \
+	 )
 	@(cd $(GETTEXT_PKG); \
 	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	  find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
 	@touch $@
-	exit 1
 
 $(GETTEXT_PKG_DESCRIPTION_FILE): $(GETTEXT_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@

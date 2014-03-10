@@ -1,15 +1,15 @@
 
-COMPONENT_TARGETS = $(TARGET_HOST)
+COMPONENT_TARGETS = $(TARGET_NOARCH)
 
 
 include ../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/packages/l/CLooG
+url         = $(DOWNLOAD_SERVER)/sources/packages/a/linuxconsole
 
-versions    = 0.18.1 0.18.2
-pkgname     = cloog
-suffix      = tar.gz
+versions    = 1.4.7
+pkgname     = linuxconsoletools
+suffix      = tar.bz2
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))

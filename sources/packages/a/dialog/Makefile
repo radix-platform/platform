@@ -8,7 +8,7 @@
 # ftp://ftp.us.debian.org/debian/pool/main/d/dialog/
 #
 
-COMPONENT_TARGETS = $(TARGET_HOST)
+COMPONENT_TARGETS = $(TARGET_NOARCH)
 
 
 include ../../../../build-system/constants.mk
@@ -37,8 +37,8 @@ $(tarballs):
 	  wget $(WGET_OPTIONS) -N $(url)/$$tarball ; \
 	done
 	@echo -e "\n======= Create Patches =======\n"
-	@( cd create-patch-1.1-20120215 && ./create.patch.sh )
-	@( cd create-patch-1.2-20130928 && ./create.patch.sh )
+	@( cd create-1.1-20120215-patch && ./create.patch.sh )
+	@( cd create-1.2-20130928-patch && ./create.patch.sh )
 
 $(sha1s): %.tar.gz.sha1sum : %.tar.gz
 	@for sha in $@ ; do \

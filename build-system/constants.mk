@@ -11,6 +11,7 @@ TOOLCHAINS_BASE_PATH = /opt/toolchain
 
 # Target machine architrctures:
 
+ARCH_NOARCH       = noarch
 ARCH_HOST         = $(shell uname -m)-pc-linux-gnu
 ARCH_I686         = i486-radix-linux-gnu
 ARCH_X86_64       = x86_64-radix-linux-gnu
@@ -27,6 +28,8 @@ ARCH_BCM74X       = mipsel-bcm74x-linux-gnu
 #######
 ####### Hardware names:
 #######
+# noarch:
+TARGET_NOARCH     = none
 # Host Build:
 TARGET_HOST       = host
 # x86 Personal Computer:
@@ -53,7 +56,8 @@ TARGET_OMAP5UEVM  = omap5uevm
 TARGET_B74        = b74
 
 
-TARGET_ALL  = $(TARGET_HOST)
+TARGET_ALL  = $(TARGET_NOARCH)
+TARGET_ALL += $(TARGET_HOST)
 TARGET_ALL += $(TARGET_PC32)
 TARGET_ALL += $(TARGET_PC64)
 TARGET_ALL += $(TARGET_CB1N)
@@ -112,6 +116,16 @@ TARGET_ID_B74       = $(B74_ID_STD)
 #######
 ####### Available Toolchains:
 #######
+
+# NOARCH
+NOARCH_TOOLCHAIN_NAME     = noarch
+NOARCH_TOOLCHAIN_VERSION  = 
+NOARCH_TOOLCHAIN_DIR      = 
+NOARCH_TOOLCHAIN_PATH     = 
+NOARCH_TARGET             = $(ARCH_NOARCH)
+
+NOARCH_HARDWARE_VARIANTS := $(TARGET_NOARCH)
+
 
 # BUILD
 BUILD_TOOLCHAIN_NAME    = build
@@ -354,7 +368,8 @@ BCM74X_EGLIBC_HARDWARE_VARIANTS := $(TARGET_B74)
 
 
 
-TOOLCHAIN_NAMES = $(BUILD_TOOLCHAIN_NAME) \
+TOOLCHAIN_NAMES = $(NOARCH_TOOLCHAIN_NAME) \
+                  $(BUILD_TOOLCHAIN_NAME) \
                   $(I686_EGLIBC_TOOLCHAIN_NAME) \
                   $(X86_64_EGLIBC_TOOLCHAIN_NAME) \
                   $(A1X_NEWLIB_TOOLCHAIN_NAME) \
@@ -368,7 +383,8 @@ TOOLCHAIN_NAMES = $(BUILD_TOOLCHAIN_NAME) \
                   $(BCM74X_EGLIBC_TOOLCHAIN_NAME)
 
 
-COMPONENT_TOOLCHAINS = $(BUILD_TOOLCHAIN_NAME) \
+COMPONENT_TOOLCHAINS = $(NOARCH_TOOLCHAIN_NAME) \
+                       $(BUILD_TOOLCHAIN_NAME) \
                        $(I686_EGLIBC_TOOLCHAIN_NAME) \
                        $(X86_64_EGLIBC_TOOLCHAIN_NAME) \
                        $(A1X_NEWLIB_TOOLCHAIN_NAME) \
@@ -383,6 +399,7 @@ COMPONENT_TOOLCHAINS = $(BUILD_TOOLCHAIN_NAME) \
 
 
 
+    NOARCH_TOOLCHAIN = $(NOARCH_TOOLCHAIN_NAME)
      BUILD_TOOLCHAIN = $(BUILD_TOOLCHAIN_NAME)
       PC32_TOOLCHAIN = $(I686_EGLIBC_TOOLCHAIN_NAME)
       PC64_TOOLCHAIN = $(X86_64_EGLIBC_TOOLCHAIN_NAME)

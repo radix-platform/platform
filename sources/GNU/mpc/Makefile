@@ -1,5 +1,5 @@
 
-COMPONENT_TARGETS = $(TARGET_HOST)
+COMPONENT_TARGETS = $(TARGET_NOARCH)
 
 
 include ../../../build-system/constants.mk

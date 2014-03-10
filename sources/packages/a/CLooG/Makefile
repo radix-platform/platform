@@ -1,14 +1,14 @@
 
-COMPONENT_TARGETS = $(TARGET_HOST)
+COMPONENT_TARGETS = $(TARGET_NOARCH)
 
 
-include ../../../build-system/constants.mk
+include ../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/GNU/ncurses
+url         = $(DOWNLOAD_SERVER)/sources/packages/a/CLooG
 
-versions    = 5.8 5.9
-pkgname     = ncurses
+versions    = 0.18.1 0.18.2
+pkgname     = cloog
 suffix      = tar.gz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
@@ -18,7 +18,7 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 BUILD_TARGETS = $(tarballs) $(sha1s)
 
 
-include ../../../build-system/core.mk
+include ../../../../build-system/core.mk
 
 
 .PHONY: download_clean
@@ -29,6 +29,8 @@ $(tarballs):
 	@for tarball in $(tarballs) ; do \
 	  wget $(WGET_OPTIONS) -N $(url)/$$tarball ; \
 	done
+	@echo -e "\n======= Create Patches =======\n"
+	@( cd create-0.18.2-patch && ./create.patch.sh )
 
 $(sha1s): %.$(suffix).sha1sum : %.$(suffix)
 	@for sha in $@ ; do \
@@ -45,3 +47,4 @@ $(sha1s): %.$(suffix).sha1sum : %.$(suffix)
 
 download_clean:
 	@rm -f $(tarballs) $(sha1s)
+	@rm -f ./patches/cloog-0.18.2.patch

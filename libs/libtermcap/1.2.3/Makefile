@@ -1,0 +1,169 @@
+
+COMPONENT_TARGETS  = $(TARGET_HOST)
+COMPONENT_TARGETS += $(TARGET_PC32)
+COMPONENT_TARGETS += $(TARGET_PC64)
+COMPONENT_TARGETS += $(TARGET_CB1X)
+COMPONENT_TARGETS += $(TARGET_VIP1830)
+COMPONENT_TARGETS += $(TARGET_BEAGLE)
+COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
+COMPONENT_TARGETS += $(TARGET_B74)
+
+#
+# The rest targets links staticaly with newlib or uclibc and not requires bzip2 libraties
+#
+# COMPONENT_TARGETS += $(TARGET_CB1N)
+# COMPONENT_TARGETS += $(TARGET_GUARD)
+# COMPONENT_TARGETS += $(TARGET_VIP1830N)
+# COMPONENT_TARGETS += $(TARGET_L17UC)
+#
+
+
+NEED_ABS_PATH      = true
+
+COMPONENT_IS_3PP   = true
+
+
+include ../../../build-system/constants.mk
+
+
+SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/l/termcap-compat
+
+
+ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME) $(BUILD_TOOLCHAIN_NAME)),)
+REQUIRES           = libs/libtermcap/1.2.3-x86_32
+else
+REQUIRES           = libs/ncurses/5.9
+endif
+
+version            = 1.2.3
+tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/termcap-compat/termcap-compat_$(version).tar.gz
+SRC_ARCHIVE        = $(tar_gz_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/termcap-compat-$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source_done
+
+PATCHES = PATCHES
+
+build_target       = $(TARGET_BUILD_DIR)/.build_done
+install_target     = $(TARGET_BUILD_DIR)/.install_done
+build_termcap_pkg  = $(TARGET_BUILD_DIR)/.termcap_pkg_done
+
+
+
+####### Targets
+
+PKG_GROUP = app
+
+#
+# *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
+#
+TERMCAP_PKG_NAME                = libtermcap
+TERMCAP_PKG_VERSION             = 1.2.3
+ifeq ($(HARDWARE),$(TARGET_HOST))
+TERMCAP_PKG_ARCH                = $(shell uname -m)
+else
+TERMCAP_PKG_ARCH                = $(TOOLCHAIN)
+endif
+TERMCAP_PKG_DISTRO_NAME         = kxLab
+TERMCAP_PKG_DISTRO_VERSION      = 1.0
+TERMCAP_PKG_GROUP               = $(PKG_GROUP)
+###                              |---handy-ruler-------------------------------|
+TERMCAP_PKG_SHORT_DESCRIPTION   = libtermcap $(version)
+TERMCAP_PKG_URL                 = http://www.kxLab.com
+TERMCAP_PKG_LICENSE             = GPLv2
+TERMCAP_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(TERMCAP_PKG_NAME)-pkg-description
+TERMCAP_PKG_DESCRIPTION_FILE_IN = $(TERMCAP_PKG_NAME)-pkg-description.in
+TERMCAP_PKG_INSTALL_SCRIPT      = $(TERMCAP_PKG_NAME)-pkg-install.sh
+
+TERMCAP_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(TERMCAP_PKG_NAME)-package
+
+pkg_basename     = $(TERMCAP_PKG_NAME)-$(TERMCAP_PKG_VERSION)-$(TERMCAP_PKG_ARCH)-$(TERMCAP_PKG_DISTRO_NAME)-$(TERMCAP_PKG_DISTRO_VERSION)
+pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(TERMCAP_PKG_GROUP)/$(pkg_basename).tgz
+
+
+BUILD_TARGETS    = $(build_termcap_pkg)
+
+ROOTFS_TARGETS   = $(pkg_basename_tgz)
+
+PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+
+
+include ../../../build-system/core.mk
+
+
+OPTIMIZATION_FLAGS = -O3
+
+ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
+LIBSUFFIX=64
+else
+LIBSUFFIX=
+endif
+
+
+####### Dependencies
+
+$(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
+	$(UNPACK_SRC_ARCHIVE)
+	$(APPLY_PATCHES)
+	@touch $@
+
+$(build_target): $(src_done)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE)
+	@touch $@
+
+$(install_target): $(build_target)
+	@mkdir -p $(TERMCAP_PKG)/lib$(LIBSUFFIX)
+	@mkdir -p $(TERMCAP_PKG)/usr/lib$(LIBSUFFIX)
+	@mkdir -p $(TERMCAP_PKG)/usr/include
+	@mkdir -p $(TERMCAP_PKG)/usr/share/info
+	@( cd $(SRC_DIR) ; \
+	   install -m755 libtermcap.so.* $(TERMCAP_PKG)/lib$(LIBSUFFIX) ; \
+	   install -m644 libtermcap.a $(TERMCAP_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   install -m644 termcap.h $(TERMCAP_PKG)/usr/include ; \
+	   install -m644 termcap.info* $(TERMCAP_PKG)/usr/share/info \
+	 )
+	@gzip -9 $(TERMCAP_PKG)/usr/share/info/*
+	@( cd $(TERMCAP_PKG)/lib$(LIBSUFFIX) ; \
+	   ln -sf libtermcap.so.?.?.? libtermcap.so.2 \
+	 )
+	@( cd $(TERMCAP_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   ln -sf ../../lib$(LIBSUFFIX)/libtermcap.so.?.?.? . ; \
+	   ln -sf libtermcap.so.?.?.? libtermcap.so ; \
+	   ln -sf libtermcap.so.?.?.? libtermcap.so.2 \
+	 )
+	@mkdir -p $(TERMCAP_PKG)/usr/doc/libtermcap-$(version)
+	@mkdir -p $(TERMCAP_PKG)/usr/share/doc/libtermcap-$(version)
+	@( cd $(SRC_DIR) ; \
+	   cp -a README $(TERMCAP_PKG)/usr/doc/libtermcap-$(version) \
+	 )
+	@( cd $(SRC_DIR) ; \
+	   cp -a ChangeLog README \
+	         $(TERMCAP_PKG)/usr/share/doc/libtermcap-$(version) \
+	 )
+	# Install the same to $(TARGET_DEST_DIR)
+	@mkdir -p $(TARGET_DEST_DIR)
+	@cd $(TERMCAP_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	@(cd $(TERMCAP_PKG); \
+	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	  find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
+	 )
+	@touch $@
+
+$(TERMCAP_PKG_DESCRIPTION_FILE): $(TERMCAP_PKG_DESCRIPTION_FILE_IN)
+	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
+
+$(build_termcap_pkg): $(install_target) $(TERMCAP_PKG_DESCRIPTION_FILE)
+	@cp $(TERMCAP_PKG_DESCRIPTION_FILE) $(TERMCAP_PKG)/.DESCRIPTION
+	@cp $(TERMCAP_PKG_INSTALL_SCRIPT) $(TERMCAP_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(TERMCAP_PKG)/.REQUIRES
+	@echo "pkgname=$(TERMCAP_PKG_NAME)"                            >  $(TERMCAP_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(TERMCAP_PKG_VERSION)"                          >> $(TERMCAP_PKG)/.PKGINFO ; \
+	 echo "arch=$(TERMCAP_PKG_ARCH)"                               >> $(TERMCAP_PKG)/.PKGINFO ; \
+	 echo "distroname=$(TERMCAP_PKG_DISTRO_NAME)"                  >> $(TERMCAP_PKG)/.PKGINFO ; \
+	 echo "distrover=$(TERMCAP_PKG_DISTRO_VERSION)"                >> $(TERMCAP_PKG)/.PKGINFO ; \
+	 echo "group=$(TERMCAP_PKG_GROUP)"                             >> $(TERMCAP_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(TERMCAP_PKG_SHORT_DESCRIPTION)\"" >> $(TERMCAP_PKG)/.PKGINFO ; \
+	 echo "url=$(TERMCAP_PKG_URL)"                                 >> $(TERMCAP_PKG)/.PKGINFO ; \
+	 echo "license=$(TERMCAP_PKG_LICENSE)"                         >> $(TERMCAP_PKG)/.PKGINFO
+	@$(FAKEROOT) sh -c "cd $(TERMCAP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@touch $@

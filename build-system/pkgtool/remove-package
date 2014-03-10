@@ -208,7 +208,7 @@ delete_dirs() {
         echo " ===> Deleting empty directory ${TARGET_ROOT_PATH}$DIR"
         rmdir "${TARGET_ROOT_PATH}$DIR"
       else
-        echo "WARNING: Unique directory ${TARGET_ROOT_PATH}$DIR contains new files"
+        echo " ===> Preserving non empty directory ${TARGET_ROOT_PATH}$DIR"
       fi
     fi
   done

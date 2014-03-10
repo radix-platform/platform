@@ -342,6 +342,7 @@ $(install_target): $(build_target)
 	$(BUILD_ENVIRONMENT) $(MAKE) -C $(build_dir) install $(env_sysroot)
 	$(BUILD_ENVIRONMENT) $(MAKE) -C $(build_dir) install-info $(env_sysroot)
 	@rm -f $(BINUTILS_DEV_PKG)/usr/share/info/dir
+	@gzip -9 $(BINUTILS_DEV_PKG)/usr/share/info/*
 	@cat $(BINUTILS_DEV_PKG)/usr/lib$(LIBSUFFIX)/libbfd.la | \
 	  $(SED) -e "s|$(build_dir)\/bfd\/\.\.\/libiberty\/pic|\/usr\/lib$(LIBSUFFIX)|g" > \
 	  $(BINUTILS_DEV_PKG)/usr/lib$(LIBSUFFIX)/libbfd.la.tmp && \

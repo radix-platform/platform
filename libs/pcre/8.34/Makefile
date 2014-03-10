@@ -32,7 +32,8 @@ SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/l/pcre
 ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME) $(BUILD_TOOLCHAIN_NAME)),)
 REQUIRES           = libs/pcre/8.34-x86_32
 else
-REQUIRES           = libs/eglibc/2.18.1
+REQUIRES           = libs/zlib/1.2.8
+REQUIRES           = app/bzip2/1.0.6
 endif
 
 version            = 8.34
@@ -68,7 +69,7 @@ endif
 PCRE_PKG_DISTRO_NAME         = kxLab
 PCRE_PKG_DISTRO_VERSION      = 1.0
 PCRE_PKG_GROUP               = $(PKG_GROUP)
-###                             |---handy-ruler-------------------------------|
+###                           |---handy-ruler-------------------------------|
 PCRE_PKG_SHORT_DESCRIPTION   = pcre $(version)
 PCRE_PKG_URL                 = http://www.kxLab.com
 PCRE_PKG_LICENSE             = GPLv2
@@ -76,7 +77,7 @@ PCRE_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(PCRE_PKG_NAME)-pkg-descript
 PCRE_PKG_DESCRIPTION_FILE_IN = $(PCRE_PKG_NAME)-pkg-description.in
 PCRE_PKG_INSTALL_SCRIPT      = $(PCRE_PKG_NAME)-pkg-install.sh
 
-PCRE_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(PCRE_PKG_NAME)-package
+PCRE_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(PCRE_PKG_NAME)-package
 
 pkg_basename     = $(PCRE_PKG_NAME)-$(PCRE_PKG_VERSION)-$(PCRE_PKG_ARCH)-$(PCRE_PKG_DISTRO_NAME)-$(PCRE_PKG_DISTRO_VERSION)
 pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(PCRE_PKG_GROUP)/$(pkg_basename).tgz
@@ -110,6 +111,10 @@ extra_configure_switches += --enable-utf8
 extra_configure_switches += --enable-pcre16
 extra_configure_switches += --enable-pcre32
 extra_configure_switches += --enable-unicode-properties
+
+extra_configure_switches += --enable-pcregrep-libz
+extra_configure_switches += --enable-pcregrep-libbz2
+
 extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --enable-static=yes
 
@@ -135,9 +140,6 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(PCRE_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
-	exit 1
-	@rm -f $(PCRE_PKG)/usr/share/info/dir
-	@gzip -9 $(PCRE_PKG)/usr/share/info/*
 	@if [ -d $(PCRE_PKG)/usr/share/man ]; then \
 	  ( cd $(PCRE_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \
@@ -152,37 +154,38 @@ $(install_target): $(build_target)
 	  ) \
 	 fi
 	@mkdir -p $(PCRE_PKG)/usr/doc/$(src_dir_name)
-	@cp -a $(SRC_DIR)/LICENSE $(SRC_DIR)/README \
+	@cp -a $(SRC_DIR)/LICENCE $(SRC_DIR)/AUTHORS \
 	       $(PCRE_PKG)/usr/doc/$(src_dir_name)
+	@rm -f $(PCRE_PKG)/usr/share/doc/$(src_dir_name)/ChangeLog
 	@( cd $(SRC_DIR) ; \
 	   if [ -r ChangeLog ]; then \
-	     DOCSDIR=`echo $(PCRE_PKG)/usr/doc/$(src_dir_name)` ; \
+	     DOCSDIR=`echo $(PCRE_PKG)/usr/share/doc/$(src_dir_name)` ; \
 	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
 	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \
 	 )
 	# remove toolchain path from target libtool *.la files and
 	@( cd $(PCRE_PKG)/usr/lib$(LIBSUFFIX) ; \
-	  sed -i "s,$(TARGET_DEST_DIR),,g" pcre.la  \
+	  sed -i "s,$(TARGET_DEST_DIR),,g" libpcre.la libpcre16.la libpcre32.la libpcrecpp.la libpcreposix.la  \
 	 )
 	# Install the same to $(TARGET_DEST_DIR)
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(PCRE_PKG) && cp -rf * $(TARGET_DEST_DIR)
 	# tune libtool *.la search path to the target destination for development
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" pcre.la ; \
-	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" pcre.la \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libpcre.la libpcre16.la libpcre32.la libpcrecpp.la libpcreposix.la ; \
+	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libpcre.la libpcre16.la libpcre32.la libpcrecpp.la libpcreposix.la \
 	 )
 	# tune pkg-config *.pc search path to the target destination for development
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" pcre.pc \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libpcre.pc libpcre16.pc libpcre32.pc libpcrecpp.pc libpcreposix.pc \
 	 )
 	@(cd $(PCRE_PKG); \
 	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	  find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
 	@touch $@
-	exit 1
 
 $(PCRE_PKG_DESCRIPTION_FILE): $(PCRE_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@

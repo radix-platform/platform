@@ -1,5 +1,5 @@
 
-COMPONENT_TARGETS = $(TARGET_HOST)
+COMPONENT_TARGETS = $(TARGET_NOARCH)
 
 
 include ../../../../build-system/constants.mk
@@ -29,6 +29,8 @@ $(tarballs):
 	@for tarball in $(tarballs) ; do \
 	  wget $(WGET_OPTIONS) -N $(url)/$$tarball ; \
 	done
+	@echo -e "\n======= Create Patches =======\n"
+	@( cd create-1.20.7-patch && ./create.patch.sh )
 
 $(sha1s): %.$(suffix).sha1sum : %.$(suffix)
 	@for sha in $@ ; do \
@@ -45,3 +47,4 @@ $(sha1s): %.$(suffix).sha1sum : %.$(suffix)
 
 download_clean:
 	@rm -f $(tarballs) $(sha1s)
+	@rm -f ./patches/gpm-1.20.7.patch

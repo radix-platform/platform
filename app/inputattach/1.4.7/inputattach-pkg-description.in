@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+           |-----handy-ruler------------------------------------------------------|
+inputattach: inputattach @VERSION@
+inputattach:
+inputattach: inputattach is a utility for connecting legacy serial devices to the
+inputattach: input layer. This utility is a part of linuxconsole tools project
+inputattach: http://sf.net/projects/linuxconsole
+inputattach:
+inputattach: The evtest tool, which used to be part of this package, is now
+inputattach: maintained separately at http://cgit.freedesktop.org/evtest/ and
+inputattach: https://bugzilla.freedesktop.org/enter_bug.cgi?product=evtest
+inputattach:
+inputattach:

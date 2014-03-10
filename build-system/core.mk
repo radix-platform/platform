@@ -632,26 +632,6 @@ ifdef ROOTFS_TARGETS
 	fi
 endif
 
-#.install_pkgs: $(ROOTFS_TARGETS)
-#ifdef ROOTFS_TARGETS
-#	@INSTALL_PACKAGE="$(INSTALL_PACKAGE)" $(BUILDSYSTEM)/install_pkgs $^ $(ROOTFS_DEST_DIR) $(HARDWARE)
-#endif
-
-
-#ifneq ($(TOOLCHAIN),)
-#	@if [ ! -f .$(HARDWARE).rootfs ]; then \
-#	  INSTALL_PACKAGE="$(INSTALL_PACKAGE)" $(BUILDSYSTEM)/install_pkgs $^ $(ROOTFS_DEST_DIR) $(HARDWARE) \
-#	else \
-#	  echo -e "======= ... Nothing to be done (packages are already installed)." ; \
-#	fi
-#else
-#	  echo -e "======= ... TOOLCHAIN= 000000000000000 ."
-##endif
-#else
-#	  echo -e "======= ... ROOTFS_TARGETS not defined 000000000000000 ."
-
-
-
 .install_products: $(PRODUCT_TARGETS)
 ifdef PRODUCT_TARGETS
 	@$(BUILDSYSTEM)/install_targets $^ $(PRODUCTS_DEST_DIR) $(HARDWARE)
@@ -701,7 +681,7 @@ ifneq ($(shell pwd),$(TOP_BUILD_DIR_ABS))
 	@echo "=======" ; \
 	export FLAVOUR= ; \
 	$(foreach part,$(SOURCE_REQUIRES),\
-	  $(MAKE) -C $(TOP_BUILD_DIR)/$(part) TOOLCHAIN=$(BUILD_TOOLCHAIN_NAME) HARDWARE=$(TARGET_HOST) FLAVOUR= local_all &&) true
+	  $(MAKE) -C $(TOP_BUILD_DIR)/$(part) TOOLCHAIN=$(NOARCH_TOOLCHAIN_NAME) HARDWARE=$(TARGET_NOARCH) FLAVOUR= local_all &&) true
 endif
 
 

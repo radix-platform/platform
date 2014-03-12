@@ -52,6 +52,8 @@ ifeq ($(HARDWARE),$(TARGET_B74))
 REQUIRES           = dev/kernel/bcm74x/2.6.36-headers
 endif
 
+REQUIRES          += libs/zlib/1.2.8
+
 
 version            = 2.24
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/GNU/binutils/binutils-$(version).tar.bz2
@@ -117,9 +119,11 @@ else
 LIBSUFFIX=
 endif
 
+DEFAULT_LD = ld.bfd
+
 
 ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
-extra_configure_switches  = '--with-pkgversion=Radix $(TOOLCHAINS_VERSION)'
+extra_configure_switches  = '--with-pkgversion=Radix $(SYSTEM_VERSION)'
 extra_configure_switches += '--with-bugurl=http://www.radix.pro'
 # experimental gold linker( DEFAULT_LD=ld.bfd ):
 extra_configure_switches += --enable-gold=yes
@@ -140,50 +144,6 @@ extra_configure_switches += --enable-targets=x86_64-kxLab-linux,x86_64-radix-lin
 extra_configure_switches += --enable-64-bit-bfd
 extra_configure_switches += --enable-shared
 extra_configure_switches += --libdir=/usr/lib$(LIBSUFFIX)
-extra_configure_switches += --mandir=/usr/share/man
-extra_configure_switches += --infodir=/usr/share/info
-extra_configure_switches += --docdir=/usr/share/doc
-endif
-
-ifeq ($(TOOLCHAIN),$(A1X_NEWLIB_TOOLCHAIN_NAME))
-extra_configure_switches  = --enable-interwork
-extra_configure_switches += --enable-multilib
-extra_configure_switches += --with-cpu=cortex-a8
-extra_configure_switches += --with-arch=armv7-a
-extra_configure_switches += --with-fpu=neon
-extra_configure_switches += --with-abi=aapcs
-extra_configure_switches += --libdir=/usr/lib
-extra_configure_switches += --mandir=/usr/share/man
-extra_configure_switches += --infodir=/usr/share/info
-extra_configure_switches += --docdir=/usr/share/doc
-endif
-
-ifeq ($(TOOLCHAIN),$(DM644X_NEWLIB_TOOLCHAIN_NAME))
-extra_configure_switches  = --enable-interwork
-extra_configure_switches += --enable-multilib
-extra_configure_switches += --with-float=soft
-extra_configure_switches += --libdir=/usr/lib
-extra_configure_switches += --mandir=/usr/share/man
-extra_configure_switches += --infodir=/usr/share/info
-extra_configure_switches += --docdir=/usr/share/doc
-endif
-
-ifeq ($(TOOLCHAIN),$(AT91SAM7S_NEWLIB_TOOLCHAIN_NAME))
-extra_configure_switches  = --enable-interwork
-extra_configure_switches += --enable-multilib
-extra_configure_switches += --with-float=soft
-extra_configure_switches += --libdir=/usr/lib
-extra_configure_switches += --mandir=/usr/share/man
-extra_configure_switches += --infodir=/usr/share/info
-extra_configure_switches += --docdir=/usr/share/doc
-endif
-
-ifeq ($(TOOLCHAIN),$(LPC17XX_UCLIBC_TOOLCHAIN_NAME))
-extra_configure_switches  = '--with-pkgversion=Radix $(TOOLCHAINS_VERSION)'
-extra_configure_switches += '--with-bugurl=http://www.radix.pro'
-extra_configure_switches += --enable-interwork
-extra_configure_switches += --enable-multilib
-extra_configure_switches += --libdir=/usr/lib
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --docdir=/usr/share/doc
@@ -264,7 +224,7 @@ extra_configure_switches += --docdir=/usr/share/doc
 endif
 
 ifeq ($(TOOLCHAIN),$(I686_EGLIBC_TOOLCHAIN_NAME))
-extra_configure_switches  = '--with-pkgversion=Radix $(TOOLCHAINS_VERSION)'
+extra_configure_switches  = '--with-pkgversion=Radix $(SYSTEM_VERSION)'
 extra_configure_switches += '--with-bugurl=http://www.radix.pro'
 # experimental gold linker( DEFAULT_LD=ld.bfd ):
 extra_configure_switches += --enable-gold=yes
@@ -290,7 +250,7 @@ extra_configure_switches += --docdir=/usr/share/doc
 endif
 
 ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
-extra_configure_switches  = '--with-pkgversion=Radix $(TOOLCHAINS_VERSION)'
+extra_configure_switches  = '--with-pkgversion=Radix $(SYSTEM_VERSION)'
 extra_configure_switches += '--with-bugurl=http://www.radix.pro'
 # experimental gold linker( DEFAULT_LD=ld.bfd ):
 extra_configure_switches += --enable-gold=yes
@@ -343,45 +303,70 @@ $(install_target): $(build_target)
 	$(BUILD_ENVIRONMENT) $(MAKE) -C $(build_dir) install-info $(env_sysroot)
 	@rm -f $(BINUTILS_DEV_PKG)/usr/share/info/dir
 	@gzip -9 $(BINUTILS_DEV_PKG)/usr/share/info/*
-	@cat $(BINUTILS_DEV_PKG)/usr/lib$(LIBSUFFIX)/libbfd.la | \
-	  $(SED) -e "s|$(build_dir)\/bfd\/\.\.\/libiberty\/pic|\/usr\/lib$(LIBSUFFIX)|g" > \
-	  $(BINUTILS_DEV_PKG)/usr/lib$(LIBSUFFIX)/libbfd.la.tmp && \
-	  mv $(BINUTILS_DEV_PKG)/usr/lib$(LIBSUFFIX)/libbfd.la.tmp \
-	     $(BINUTILS_DEV_PKG)/usr/lib$(LIBSUFFIX)/libbfd.la
-	@cat $(BINUTILS_DEV_PKG)/usr/lib$(LIBSUFFIX)/libopcodes.la | \
-	  $(SED) -e "s|$(build_dir)\/opcodes\/\.\.\/libiberty\/pic|\/usr\/lib$(LIBSUFFIX)|g" > \
-	  $(BINUTILS_DEV_PKG)/usr/lib$(LIBSUFFIX)/libopcodes.la.tmp && \
-	  mv $(BINUTILS_DEV_PKG)/usr/lib$(LIBSUFFIX)/libopcodes.la.tmp \
-	     $(BINUTILS_DEV_PKG)/usr/lib$(LIBSUFFIX)/libopcodes.la
+	@if [ -d $(BINUTILS_DEV_PKG)/usr/share/man ]; then \
+	  ( cd $(BINUTILS_DEV_PKG)/usr/share/man ; \
+	    for manpagedir in `find . -type d -name "man*"` ; do \
+	      ( cd $$manpagedir ; \
+	        for eachpage in `find . -type l -maxdepth 1` ; do \
+	          ln -s `readlink $$eachpage`.gz $$eachpage.gz ; \
+	          rm $$eachpage ; \
+	        done ; \
+	        gzip -9 *.?  ; \
+	      ) \
+	    done \
+	  ) \
+	 fi
 	@chmod a+x $(BINUTILS_DEV_PKG)/usr/lib$(LIBSUFFIX)/lib*.la
 	@mkdir -p $(BINUTILS_DEV_PKG)/usr/doc/binutils-$(version)
-	@cp -a $(SRC_DIR)/COPYING* $(SRC_DIR)/ChangeLog $(SRC_DIR)/MAI* $(SRC_DIR)/README* \
+	@cp -a $(SRC_DIR)/COPYING* \
 	       $(BINUTILS_DEV_PKG)/usr/doc/binutils-$(version)
-	@(cd $(BINUTILS_DEV_PKG)/usr/share/man/man1; \
-	  for file in *.1 ; do \
-	    gzip -9 --force $$file; \
-	  done )
-	@( cd $(BINUTILS_DEV_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,dependency_libs=' -L.*/usr/lib$(LIBSUFFIX) -liberty',dependency_libs=' -L/usr/lib$(LIBSUFFIX) -liberty',g" libopcodes.la \
+	@mkdir -p $(BINUTILS_DEV_PKG)/usr/share/doc/binutils-$(version)
+	@cp -a $(SRC_DIR)/COPYING* $(SRC_DIR)/MAI* $(SRC_DIR)/README* \
+	       $(BINUTILS_DEV_PKG)/usr/share/doc/binutils-$(version)
+	@( cd $(SRC_DIR) ; \
+	   if [ -r ChangeLog ]; then \
+	     DOCSDIR=`echo $(BINUTILS_DEV_PKG)/usr/share/doc/$(src_dir_name)` ; \
+	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
+	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
+	   fi \
 	 )
+	# remove target destination path from target libtool *.la files
 	@( cd $(BINUTILS_DEV_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,dependency_libs=' -L.*/usr/lib$(LIBSUFFIX) -liberty -lz',dependency_libs=' -L/usr/lib$(LIBSUFFIX) -liberty -lz',g" libbfd.la \
+	  sed -i "s,$(TARGET_DEST_DIR),,g" libbfd.la libopcodes.la \
+	 )
+	# remove (-L/usr/lib$(LIBSUFFIX) already set) libiberty.a search path in libtool *.la files too
+	@( cd $(BINUTILS_DEV_PKG)/usr/lib$(LIBSUFFIX) ; \
+	  sed -i "s,-L$(CURDIR)/$(build_dir)/bfd/../libiberty/pic,,g" libbfd.la ; \
+	  sed -i "s,-L$(CURDIR)/$(build_dir)/opcodes/../libiberty/pic,,g" libopcodes.la \
+	 )
+	@if [ -r $(BINUTILS_DEV_PKG)/usr/bin/$(DEFAULT_LD) ] ; then \
+	   ( cd $(BINUTILS_DEV_PKG)/usr/bin ; rm -f ld ; ln -sf $(DEFAULT_LD) ld ) \
+	 fi
+	@mv $(BINUTILS_DEV_PKG)/usr/$(TARGET)/lib/ldscripts $(BINUTILS_DEV_PKG)/usr/lib$(LIBSUFFIX)
+	@( cd $(BINUTILS_DEV_PKG)/usr/$(TARGET) ; \
+	   ln -s ../../lib$(LIBSUFFIX)/ldscripts lib/ldscripts ; \
+	   for FILE in ar as ld ld.bfd ld.gold nm objcopy objdump ranlib strip ; do \
+	     if [ -r ../bin/$$FILE ]; then \
+	       rm -f bin/$$FILE ; \
+	       ln -s ../../bin/$$FILE bin/$$FILE ; \
+	     fi ; \
+	   done \
 	 )
 	# Install the same to $(TARGET_DEST_DIR)
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(BINUTILS_DEV_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,libdir='/usr/lib$(LIBSUFFIX)',libdir='$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)',g" libopcodes.la ; \
-	   sed -i "s,dependency_libs=' -L/usr/lib$(LIBSUFFIX) -liberty',dependency_libs=' -L$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) -liberty',g" libopcodes.la ; \
-	   sed -i "s,libdir='/usr/lib$(LIBSUFFIX)',libdir='$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)',g" libbfd.la ; \
-	   sed -i "s,dependency_libs=' -L/usr/lib$(LIBSUFFIX) -liberty -lz',dependency_libs=' -L$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) -liberty -lz',g" libbfd.la \
-	 )
 	# Libiberty will be installed from GCC by --enable-install-libiberty option but we need it on $(TARGET_DEST_DIR)
 	@cp -a $(SRC_DIR)/include/libiberty.h $(TARGET_DEST_DIR)/usr/include/libiberty.h
 	@cp -a $(build_dir)/libiberty/pic/libiberty.a $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/libiberty.a
+	# tune libtool *.la search path to the target destination for development
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libbfd.la libopcodes.la ; \
+	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libbfd.la libopcodes.la \
+	 )
 	@(cd $(BINUTILS_DEV_PKG); \
 	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	  find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
 	@touch $@
 

@@ -33,7 +33,8 @@ ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME) $(BUILD_TOOLCHAIN_N
 REQUIRES           = libs/pcre/8.34-x86_32
 else
 REQUIRES           = libs/zlib/1.2.8
-REQUIRES           = app/bzip2/1.0.6
+REQUIRES          += app/bzip2/1.0.6
+REQUIRES          += libs/libtermcap/1.2.3
 endif
 
 version            = 8.34

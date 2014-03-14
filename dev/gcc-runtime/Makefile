@@ -50,7 +50,7 @@ ifeq ($(HARDWARE),$(TARGET_B74))
 REQUIRES           = dev/kernel/bcm74x/2.6.36-headers
 endif
 
-REQUIRES           = base/pkgtool
+REQUIRES          += base/pkgtool
 
 
 install_target     = $(TARGET_BUILD_DIR)/.install_done
@@ -93,7 +93,7 @@ pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(GCC_RT_BIN_PKG_GROUP)/$(pkg_basename).t
 
 BUILD_TARGETS    = $(build_gcc_rt_pkg)
 
-ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME) $(BUILD_TOOLCHAIN_NAME)),)
+ifeq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME) $(BUILD_TOOLCHAIN_NAME)),)
 ROOTFS_TARGETS   = $(pkg_basename_tgz)
 endif
 

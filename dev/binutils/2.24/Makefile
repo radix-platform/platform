@@ -113,13 +113,7 @@ include ../../../build-system/core.mk
 
 env_sysroot = DESTDIR=$(BINUTILS_DEV_PKG)
 
-ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
-LIBSUFFIX=64
-else
-LIBSUFFIX=
-endif
-
-DEFAULT_LD = ld.bfd
+DEFAULT_LD  = ld.bfd
 
 
 ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))

@@ -105,7 +105,6 @@ include ../../../build-system/core.mk
 
 env_sysroot        = DESTDIR=$(NCURSES_PKG)
 
-
 OPTIMIZATION_FLAGS = -O3
 
 ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
@@ -118,11 +117,6 @@ ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
 CC += -m64
 endif
 
-ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
-LIBSUFFIX=64
-else
-LIBSUFFIX=
-endif
 
 extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --mandir=/usr/share/man

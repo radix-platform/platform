@@ -92,12 +92,6 @@ include ../../../build-system/core.mk
 
 OPTIMIZATION_FLAGS = -O3
 
-ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
-LIBSUFFIX=64
-else
-LIBSUFFIX=
-endif
-
 
 ####### Dependencies
 

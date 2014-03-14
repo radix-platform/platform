@@ -14,8 +14,8 @@ TOOLCHAINS_BASE_PATH = /opt/toolchain
 # Target machine architrctures:
 
 ARCH_NOARCH       = noarch
-ARCH_HOST         = $(shell uname -m)-pc-linux-gnu
-#ARCH_HOST         = $(shell $(BUILDSYSTEM)/canonical-build)
+#ARCH_HOST         = $(shell uname -m)-pc-linux-gnu
+ARCH_HOST         = $(shell $(BUILDSYSTEM)/canonical-build)
 ARCH_I686         = i486-radix-linux-gnu
 ARCH_X86_64       = x86_64-radix-linux-gnu
 ARCH_A1N          = arm-a1x-eabi

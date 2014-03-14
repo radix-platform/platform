@@ -74,12 +74,6 @@ CC                += -m32
 
 ARCH_FLAGS         = -m32 -g -O3 -march=i486 -mtune=i686
 
-ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
-LIBSUFFIX          = 32
-else
-LIBSUFFIX          =
-endif
-
 
 ####### Dependencies
 
@@ -94,25 +88,25 @@ $(build_target): $(src_done)
 	@touch $@
 
 $(install_target): $(build_target)
-	@mkdir -p $(BZIP2_32_PKG)/usr/lib$(LIBSUFFIX)
-	@cd $(SRC_DIR) && cp -a libbz2.a $(BZIP2_32_PKG)/usr/lib$(LIBSUFFIX)
-	@chmod 644 $(BZIP2_32_PKG)/usr/lib$(LIBSUFFIX)/libbz2.a 
-	@mkdir -p $(BZIP2_32_PKG)/lib$(LIBSUFFIX)
-	@cd $(SRC_DIR) && cp -a libbz2.so.$(version) $(BZIP2_32_PKG)/lib$(LIBSUFFIX)
-	@chmod 755 $(BZIP2_32_PKG)/lib$(LIBSUFFIX)/libbz2.so.$(version)
+	@mkdir -p $(BZIP2_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)
+	@cd $(SRC_DIR) && cp -a libbz2.a $(BZIP2_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)
+	@chmod 644 $(BZIP2_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/libbz2.a 
+	@mkdir -p $(BZIP2_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)
+	@cd $(SRC_DIR) && cp -a libbz2.so.$(version) $(BZIP2_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)
+	@chmod 755 $(BZIP2_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)/libbz2.so.$(version)
 	@mkdir -p $(BZIP2_32_PKG)/bin/32
 	@mkdir -p $(BZIP2_32_PKG)/usr/bin/32
 	@cd $(SRC_DIR) && cat bzip2-shared > $(BZIP2_32_PKG)/bin/32/bzip2
 	@cd $(SRC_DIR) && cat bzip2recover > $(BZIP2_32_PKG)/bin/32/bzip2recover
 	@chmod 755 $(BZIP2_32_PKG)/bin/32/bzip2
 	@chmod 755 $(BZIP2_32_PKG)/bin/32/bzip2recover
-	@( cd $(BZIP2_32_PKG)/lib$(LIBSUFFIX) ; \
+	@( cd $(BZIP2_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   rm -f libbz2.so.1.0 libbz2.so.1 ; \
 	   ln -sf libbz2.so.$(version) libbz2.so.1.0 ; \
 	   ln -sf libbz2.so.1.0 libbz2.so.1 \
 	 )
-	@( cd $(BZIP2_32_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   ln -sf ../../lib$(LIBSUFFIX)/libbz2.so.$(version) libbz2.so.$(version) ; \
+	@( cd $(BZIP2_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	   ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/libbz2.so.$(version) libbz2.so.$(version) ; \
 	   ln -sf libbz2.so.$(version) libbz2.so.1.0 ; \
 	   ln -sf libbz2.so.1.0 libbz2.so.1 ; \
 	   ln -sf libbz2.so.1 libbz2.so \

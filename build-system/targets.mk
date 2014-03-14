@@ -653,8 +653,19 @@ TOOLCHAIN_INCPATH += -I$(TOOLCHAIN_PATH)/$(TARGET)/sys-root/usr/include
 #
 # Default LIBSUFFIX
 #
+
+#
+# NOTE: LIBSUFFIX=64 is valid for Slackware64 distro where native libraries are placed in /usr/lib64 directory
+#       for example ubuntu has /usr/lib for x86_64 libraries and /usr/lib32 for x86_32 libraries as well as
+#       our X86_64-eglibc toolchain.
+# TODO: Create the canonical-distro script such as $(BULDSYSTEM)/canonical-build we have.
+#
 ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
 LIBSUFFIX ?= 64
+endif
+
+ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
+MULTILIB_X86_32_SUFFIX ?= 32
 endif
 
 

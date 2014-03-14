@@ -79,23 +79,16 @@ include ../../../build-system/core.mk
 
 env_sysroot        = DESTDIR=$(NCURSES32_PKG)
 
-
 OPTIMIZATION_FLAGS = -O3
 
 CC                += -m32
 
 ARCH_FLAGS         = -m32 -g -O3 -march=i486 -mtune=i686
 
-ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
-LIBSUFFIX          = 32
-else
-LIBSUFFIX          =
-endif
-
-TARGET32     = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
+TARGET32           = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
 
 
-extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
+extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --with-gpm
@@ -104,7 +97,7 @@ extra_configure_switches += --with-normal
 extra_configure_switches += --with-shared
 extra_configure_switches += --enable-symlinks
 extra_configure_switches += --enable-pc-files
-extra_configure_switches += --with-pkg-config-libdir=/usr/lib$(LIBSUFFIX)/pkgconfig
+extra_configure_switches += --with-pkg-config-libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig
 extra_configure_switches += --without-debug
 extra_configure_switches += --without-profile
 extra_configure_switches += --without-ada
@@ -151,16 +144,16 @@ $(build_widec_target): $(install_target)
 $(install_widec_target): $(build_widec_target)
 	@mkdir -p $(NCURSES32_PKG)
 	@cd $(build_widec_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
-	@mkdir -p $(NCURSES32_PKG)/lib$(LIBSUFFIX)
-	@( cd $(NCURSES32_PKG)/usr/lib$(LIBSUFFIX) ; \
+	@mkdir -p $(NCURSES32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)
+	@( cd $(NCURSES32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   chmod 755 *.so ; \
 	   chmod 644 *.a ; \
-	   cp -a libncurses.so.5 $(NCURSES32_PKG)/lib$(LIBSUFFIX) ; \
-	   cp -a libncursesw.so.5 $(NCURSES32_PKG)/lib$(LIBSUFFIX) ; \
-	   mv libncurses.so.5.? $(NCURSES32_PKG)/lib$(LIBSUFFIX) ; \
-	   mv libncursesw.so.5.? $(NCURSES32_PKG)/lib$(LIBSUFFIX) ; \
-	   ln -sf ../../lib$(LIBSUFFIX)/libncurses.so.5.? . ; \
-	   ln -sf ../../lib$(LIBSUFFIX)/libncursesw.so.5.? . ; \
+	   cp -a libncurses.so.5 $(NCURSES32_PKG)/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	   cp -a libncursesw.so.5 $(NCURSES32_PKG)/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	   mv libncurses.so.5.? $(NCURSES32_PKG)/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	   mv libncursesw.so.5.? $(NCURSES32_PKG)/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	   ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/libncurses.so.5.? . ; \
+	   ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/libncursesw.so.5.? . ; \
 	   ln -sf libncursesw.a libcursesw.a ; \
 	   ln -sf libncursesw.so.5.? libcursesw.so ; \
 	 )
@@ -175,7 +168,7 @@ $(install_widec_target): $(build_widec_target)
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(NCURSES32_PKG) && cp -rf * $(TARGET_DEST_DIR)
 	# tune pkg-config *.pc search path to the target destination for development
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" form.pc formw.pc menu.pc menuw.pc ncurses++.pc \
                                                     ncurses++w.pc ncurses.pc ncursesw.pc panel.pc panelw.pc \
 	 )

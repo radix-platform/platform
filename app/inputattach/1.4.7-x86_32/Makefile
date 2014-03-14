@@ -72,12 +72,6 @@ OPTIMIZATION_FLAGS = -O3
 
 ARCH_FLAGS         = -m32 -g -O3 -march=i486 -mtune=i686
 
-ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
-LIBSUFFIX          = 32
-else
-LIBSUFFIX          =
-endif
-
 
 ####### Dependencies
 

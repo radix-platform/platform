@@ -74,12 +74,6 @@ CC                += -m32
 
 ARCH_FLAGS         = -m32 -g -O3 -march=i486 -mtune=i686
 
-ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
-LIBSUFFIX          = 32
-else
-LIBSUFFIX          =
-endif
-
 
 ####### Dependencies
 
@@ -93,17 +87,17 @@ $(build_target): $(src_done)
 	@touch $@
 
 $(install_target): $(build_target)
-	@mkdir -p $(TERMCAP_32_PKG)/lib$(LIBSUFFIX)
-	@mkdir -p $(TERMCAP_32_PKG)/usr/lib$(LIBSUFFIX)
+	@mkdir -p $(TERMCAP_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)
+	@mkdir -p $(TERMCAP_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)
 	@( cd $(SRC_DIR) ; \
-	   install -m755 libtermcap.so.* $(TERMCAP_32_PKG)/lib$(LIBSUFFIX) ; \
-	   install -m644 libtermcap.a $(TERMCAP_32_PKG)/usr/lib$(LIBSUFFIX) \
+	   install -m755 libtermcap.so.* $(TERMCAP_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	   install -m644 libtermcap.a $(TERMCAP_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) \
 	 )
-	@( cd $(TERMCAP_32_PKG)/lib$(LIBSUFFIX) ; \
+	@( cd $(TERMCAP_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   ln -sf libtermcap.so.?.?.? libtermcap.so.2 \
 	 )
-	@( cd $(TERMCAP_32_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   ln -sf ../../lib$(LIBSUFFIX)/libtermcap.so.?.?.? . ; \
+	@( cd $(TERMCAP_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	   ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/libtermcap.so.?.?.? . ; \
 	   ln -sf libtermcap.so.?.?.? libtermcap.so ; \
 	   ln -sf libtermcap.so.?.?.? libtermcap.so.2 \
 	 )

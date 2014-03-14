@@ -76,7 +76,7 @@ PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
 include ../../../build-system/core.mk
 
 
-env_sysroot  = install_root=$(EGLIBC32_PKG)
+env_sysroot        = install_root=$(EGLIBC32_PKG)
 
 
 OPTIMIZATION_FLAGS = -O3
@@ -85,17 +85,10 @@ CC                += -m32
 
 ARCH_FLAGS         = -m32 -g -O3 -march=i486 -mtune=i686
 
-ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
-LIBSUFFIX          = 32
-else
-LIBSUFFIX          =
-endif
+TARGET32           = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
 
 
-TARGET32     = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
-
-
-extra_configure_switches  += --libdir=/usr/lib$(LIBSUFFIX)
+extra_configure_switches  += --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
 extra_configure_switches  += --with-headers=$(TARGET_DEST_DIR)/usr/include
 extra_configure_switches  += --enable-add-ons=libidn,nptl,ports
 extra_configure_switches  += --with-binutils=$(TOOLCHAIN_PATH)/bin
@@ -119,7 +112,7 @@ $(install_target): $(src_done)
 	echo $(CC)
 	@mkdir -p $(build_dir)
 	@mkdir -p $(EGLIBC32_PKG)
-	@echo "slibdir=/lib$(LIBSUFFIX)" >> $(build_dir)/configparms
+	@echo "slibdir=/lib$(MULTILIB_X86_32_SUFFIX)" >> $(build_dir)/configparms
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(env_sysroot) ../$(src_dir_name)/configure \
 	  --prefix=/usr                \
 	  --build=$(BUILD)             \

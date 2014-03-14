@@ -79,16 +79,10 @@ CPPFLAGS          += -fexceptions
 
 ARCH_FLAGS         = -m32 -g -O3 -march=i486 -mtune=i686
 
-ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
-LIBSUFFIX          = 32
-else
-LIBSUFFIX          =
-endif
-
-TARGET32     = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
+TARGET32           = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
 
 
-extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
+extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --infodir=/usr/share/info
@@ -122,7 +116,7 @@ $(install_target): $(build_target)
 	@rm -rf $(GMP32_PKG)/usr/include
 	@rm -rf $(GMP32_PKG)/usr/share
 	# remove toolchain path from target libtool *.la files and
-	@( cd $(GMP32_PKG)/usr/lib$(LIBSUFFIX) ; \
+	@( cd $(GMP32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	  sed -i "s,$(TARGET_DEST_DIR),,g" libgmp.la ; \
 	  sed -i "s,$(TARGET_DEST_DIR),,g" libgmpxx.la  \
 	 )
@@ -130,7 +124,7 @@ $(install_target): $(build_target)
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(GMP32_PKG) && cp -rf * $(TARGET_DEST_DIR)
 	# tune libtool *.la search path to the target destination for development
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgmp.la ; \
 	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgmpxx.la ; \
 	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libgmp.la ; \

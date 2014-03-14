@@ -78,17 +78,10 @@ OPTIMIZATION_FLAGS = -O3
 
 ARCH_FLAGS         = -m32 -g -O3 -march=i486 -mtune=i686
 
-ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
-LIBSUFFIX          = 32
-else
-LIBSUFFIX          =
-endif
+TARGET32           = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
 
 
-TARGET32     = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
-
-
-extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
+extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --sysconfdir=/etc
@@ -121,26 +114,26 @@ $(install_target): $(build_target)
 	# libffi make suggestion about toolexeclibdir according to gcc -print-multi-os-directory
 	# we shoul prevent so stupid behaviour related to x86_WIN32 target in linux
 ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
-	@mv $(GLIB2_32_PKG)/usr/lib/* $(GLIB2_32_PKG)/usr/lib$(LIBSUFFIX)
+	@mv $(GLIB2_32_PKG)/usr/lib/* $(GLIB2_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)
 	@rm -rf $(GLIB2_32_PKG)/usr/lib
-	@( cd $(GLIB2_32_PKG)/usr/lib$(LIBSUFFIX) ; \
+	@( cd $(GLIB2_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	  sed -i "s,libdir='/usr/lib32/../lib',libdir='/usr/lib32',g" libffi.la \
 	 )
 endif
 ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
-	@mv $(GLIB2_32_PKG)/usr/lib64/* $(GLIB2_32_PKG)/usr/lib$(LIBSUFFIX)
+	@mv $(GLIB2_32_PKG)/usr/lib64/* $(GLIB2_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)
 	@rm -rf $(GLIB2_32_PKG)/usr/lib64
-	@( cd $(GLIB2_32_PKG)/usr/lib$(LIBSUFFIX) ; \
+	@( cd $(GLIB2_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	  sed -i "s,libdir='/usr/lib/../lib64',libdir='/usr/lib',g" libffi.la \
 	 )
 endif
-	@mkdir -p $(GLIB2_32_PKG)/lib$(LIBSUFFIX)
-	@( cd $(GLIB2_32_PKG)/usr/lib$(LIBSUFFIX) ; \
+	@mkdir -p $(GLIB2_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)
+	@( cd $(GLIB2_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   for file in lib*.so.?.* ; do \
-	     mv $$file ../../lib$(LIBSUFFIX) ; \
-	     ln -sf ../../lib$(LIBSUFFIX)/$$file . ; \
+	     mv $$file ../../lib$(MULTILIB_X86_32_SUFFIX) ; \
+	     ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/$$file . ; \
 	   done ; \
-	   cp -a lib*.so.? ../../lib$(LIBSUFFIX) ; \
+	   cp -a lib*.so.? ../../lib$(MULTILIB_X86_32_SUFFIX) ; \
 	 )
 	@rm -rf $(GLIB2_32_PKG)/usr/include
 	@rm -rf $(GLIB2_32_PKG)/usr/share

@@ -25,7 +25,6 @@ bin_objs = $(addprefix $(TARGET_BUILD_DIR)/,$(bin_srcs:.c=.o))
 bin_target = $(TARGET_BUILD_DIR)/main
 
 ifeq ($(FLAVOUR),hello-32compat)
-LIBSUFFIX :=
 ARCH_FLAGS := -m32 -march=i486 -mtune=i686
 LDFLAGS += $(ARCH_FLAGS)
 endif

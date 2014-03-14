@@ -103,14 +103,8 @@ include ../../../build-system/core.mk
 
 OPTIMIZATION_FLAGS = -O3
 
-env_sysroot      = DESTDIR=$(GETTEXT_PKG)
+env_sysroot        = DESTDIR=$(GETTEXT_PKG)
 
-
-ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
-LIBSUFFIX=64
-else
-LIBSUFFIX=
-endif
 
 extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)

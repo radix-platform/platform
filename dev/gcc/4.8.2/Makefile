@@ -116,14 +116,7 @@ ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
 environment += PATH=$(TARGET_DEST_DIR)/bin:$(PATH)
 endif
 
-
-env_sysroot = DESTDIR=$(GCC_DEV_PKG)
-
-ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
-LIBSUFFIX=64
-else
-LIBSUFFIX=
-endif
+env_sysroot  = DESTDIR=$(GCC_DEV_PKG)
 
 
 extra_configure_switches += --libdir=/usr/lib$(LIBSUFFIX)

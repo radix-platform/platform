@@ -20,7 +20,7 @@ case "${UNAME_MACHINE}:${UNAME_SYSTEM}:${UNAME_RELEASE}:${UNAME_VERSION}" in
       system=`cat /etc/slackware-version | cut -f 1 -d ' ' | tr 'S' 's'`
       echo ${UNAME_MACHINE}-${system}-linux
     else
-      echo ${UNAME_MACHINE}-pc-linux-gnu
+      echo ${UNAME_MACHINE}-unknown-linux-gnu
     fi
     exit ;;
   x86_64:Linux:*:*)
@@ -30,6 +30,9 @@ case "${UNAME_MACHINE}:${UNAME_SYSTEM}:${UNAME_RELEASE}:${UNAME_VERSION}" in
     elif [ -f /etc/slackware-version ]; then
       system=`cat /etc/slackware-version | cut -f 1 -d ' ' | tr 'S' 's'`
       echo x86_64-${system}-linux
+    elif [ -f /etc/os-release ]; then
+      system=`cat /etc/os-release | grep -e '^ID=' | cut -f 2 -d '='`
+      echo x86_64-linux-gnu
     else
       echo x86_64-unknown-linux-gnu
     fi

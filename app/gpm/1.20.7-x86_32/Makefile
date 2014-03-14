@@ -82,16 +82,10 @@ CC                += -m32
 
 ARCH_FLAGS         = -m32 -g -O3 -march=i486 -mtune=i686
 
-ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
-LIBSUFFIX          = 32
-else
-LIBSUFFIX          =
-endif
-
 TARGET32     = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
 
 
-extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
+extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --infodir=/usr/share/info
@@ -122,16 +116,16 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(GPM32_PKG)
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
-	@chmod 755 $(GPM32_PKG)/usr/lib$(LIBSUFFIX)/libgpm.so.?.?.?
-	@mkdir -p $(GPM32_PKG)/lib$(LIBSUFFIX)
-	@( cd $(GPM32_PKG)/usr/lib$(LIBSUFFIX) ; \
+	@chmod 755 $(GPM32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/libgpm.so.?.?.?
+	@mkdir -p $(GPM32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)
+	@( cd $(GPM32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   for file in lib*.so.?.* ; do \
-	     mv $$file ../../lib$(LIBSUFFIX) ; \
-	     ln -sf ../../lib$(LIBSUFFIX)/$$file . ; \
+	     mv $$file ../../lib$(MULTILIB_X86_32_SUFFIX) ; \
+	     ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/$$file . ; \
 	   done ; \
-	   cp -a lib*.so.? ../../lib$(LIBSUFFIX) \
+	   cp -a lib*.so.? ../../lib$(MULTILIB_X86_32_SUFFIX) \
 	 )
-	@( cd $(GPM32_PKG)/usr/lib$(LIBSUFFIX) ; \
+	@( cd $(GPM32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   ln -sf libgpm.so.?.?.? libgpm.so \
 	 )
 	@rm -rf $(GPM32_PKG)/etc

@@ -76,13 +76,8 @@ OPTIMIZATION_FLAGS = -O3
 
 ARCH_FLAGS         = -m32 -g -O3 -march=i486 -mtune=i686
 
-ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
-LIBSUFFIX          = 32
-else
-LIBSUFFIX          =
-endif
 
-extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
+extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
 extra_configure_switches += --shared
 
 
@@ -101,25 +96,25 @@ $(build_target): $(src_done)
 	@touch $@
 
 $(install_target): $(build_target)
-	@mkdir -p $(ZLIB32_PKG)/usr/lib$(LIBSUFFIX)
-	@cd $(SRC_DIR) && cp -a libz.a libz.so* $(ZLIB32_PKG)/usr/lib$(LIBSUFFIX)
-	@chmod 755 $(ZLIB32_PKG)/usr/lib$(LIBSUFFIX)/*
-	@chmod 644 $(ZLIB32_PKG)/usr/lib$(LIBSUFFIX)/libz.a
-	@mkdir -p $(ZLIB32_PKG)/usr/lib$(LIBSUFFIX)/pkgconfig
-	@cd $(SRC_DIR) && cat zlib.pc > $(ZLIB32_PKG)/usr/lib$(LIBSUFFIX)/pkgconfig/zlib.pc
-	@mkdir -p $(ZLIB32_PKG)/lib$(LIBSUFFIX)
-	@( cd $(ZLIB32_PKG)/usr/lib$(LIBSUFFIX) ; \
+	@mkdir -p $(ZLIB32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)
+	@cd $(SRC_DIR) && cp -a libz.a libz.so* $(ZLIB32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)
+	@chmod 755 $(ZLIB32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/*
+	@chmod 644 $(ZLIB32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/libz.a
+	@mkdir -p $(ZLIB32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig
+	@cd $(SRC_DIR) && cat zlib.pc > $(ZLIB32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig/zlib.pc
+	@mkdir -p $(ZLIB32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)
+	@( cd $(ZLIB32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   for file in lib*.so.?.* ; do \
-	     mv $$file ../../lib$(LIBSUFFIX) ; \
-	     ln -sf ../../lib$(LIBSUFFIX)/$$file . ; \
+	     mv $$file ../../lib$(MULTILIB_X86_32_SUFFIX) ; \
+	     ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/$$file . ; \
 	   done ; \
-	   cp -a lib*.so.? ../../lib$(LIBSUFFIX) ; \
+	   cp -a lib*.so.? ../../lib$(MULTILIB_X86_32_SUFFIX) ; \
 	 )
 	# Install the same to $(TARGET_DEST_DIR)
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(ZLIB32_PKG) && cp -rf * $(TARGET_DEST_DIR)
 	# tune pkg-config *.pc search path to the target destination for development
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
 	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" zlib.pc \
 	 )
 	@(cd $(ZLIB32_PKG); \

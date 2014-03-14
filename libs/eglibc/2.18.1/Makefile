@@ -107,12 +107,6 @@ OPTIMIZATION_FLAGS = -O3
 
 CFLAGS      += -g
 
-ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
-LIBSUFFIX    = 64
-else
-LIBSUFFIX    =
-endif
-
 
 extra_configure_switches  += --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches  += --with-headers=$(TARGET_DEST_DIR)/usr/include

@@ -46,7 +46,7 @@ REQUIRES          += libs/mpc/1.0.2
 REQUIRES          += app/cloog/0.18.2
 
 REQUIRES          += libs/pcre/8.34
-REQUIRES          += bash/4.3
+REQUIRES          += app/bash/4.3
 
 
 

@@ -74,6 +74,11 @@ env_sysroot        = DESTDIR=$(MPFR32_PKG)
 
 OPTIMIZATION_FLAGS = -O3
 
+# owerwrite LDFLAGS:
+#
+LDFLAGS            = -L$(TARGET_DEST_DIR)/lib$(MULTILIB_X86_32_SUFFIX)
+LDFLAGS           += -L$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)
+
 ARCH_FLAGS         = -m32 -g -O3 -march=i486 -mtune=i686
 
 TARGET32           = $(shell echo $(TARGET) | sed 's/x86_64/i486/')

@@ -668,6 +668,11 @@ ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
 MULTILIB_X86_32_SUFFIX ?= 32
 endif
 
+#
+# BUILD_CC lib SUFFIX
+#
+BUILD_MULTILIB_X86_32_SUFFIX = $(shell echo $(shell gcc -m32 -print-multi-os-directory) | sed -e 's/\(^.*lib\)\([0-9]*\)/\2/')
+
 
 ####################################################### temp
 #LIBPATH += -L$(TOOLCHAIN_PATH)/lib/gcc/$(TARGET)/4.5.1

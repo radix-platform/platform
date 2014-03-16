@@ -33,8 +33,11 @@ SOURCE_REQUIRES  += $(SRC_PACKAGE_DIR)/iana/tz
 
 ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME) $(BUILD_TOOLCHAIN_NAME)),)
 REQUIRES          = libs/eglibc/2.18.1-x86_32
+REQUIRES         += base/pkgtool
 else
-REQUIRES          = dev/gcc-runtime
+REQUIRES          = dev/kernel-headers
+REQUIRES         += dev/gcc-runtime
+REQUIRES         += base/pkgtool
 endif
 
 tar_bz2_archive       = $(SRC_PACKAGE_PATH)/GNU/EGLIBC/$(version)/eglibc-$(version).tar.bz2
@@ -171,7 +174,7 @@ $(build_eglibc_pkg): $(install_target) $(EGLIBC_PKG_DESCRIPTION_FILE)
 	 )
 	@cp $(EGLIBC_PKG_DESCRIPTION_FILE) $(EGLIBC_PKG)/.DESCRIPTION
 	@cp $(EGLIBC_PKG_INSTALL_SCRIPT) $(EGLIBC_PKG)/.INSTALL
-	@$(BUILD_PKG_REQUIRES) $(EGLIBC_PKG)/.REQUIRES
+	@$(BUILD_BIN_PKG_REQUIRES) $(EGLIBC_PKG)/.REQUIRES
 	@echo "pkgname=$(EGLIBC_PKG_NAME)"                            >  $(EGLIBC_PKG)/.PKGINFO ; \
 	 echo "pkgver=$(EGLIBC_PKG_VERSION)"                          >> $(EGLIBC_PKG)/.PKGINFO ; \
 	 echo "arch=$(EGLIBC_PKG_ARCH)"                               >> $(EGLIBC_PKG)/.PKGINFO ; \

@@ -15,7 +15,9 @@ version = 2.18.1
 SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/GNU/EGLIBC/$(version)
 
 
-REQUIRES           = dev/gcc-runtime
+REQUIRES           = dev/kernel-headers
+REQUIRES          += dev/gcc-runtime
+REQUIRES          += base/pkgtool
 
 
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/GNU/EGLIBC/$(version)/eglibc-$(version).tar.bz2
@@ -146,7 +148,7 @@ $(build_eglibc32_pkg): $(install_target) $(EGLIBC32_PKG_DESCRIPTION_FILE)
 	 )
 	@cp $(EGLIBC32_PKG_DESCRIPTION_FILE) $(EGLIBC32_PKG)/.DESCRIPTION
 	@cp $(EGLIBC32_PKG_INSTALL_SCRIPT) $(EGLIBC32_PKG)/.INSTALL
-	@$(BUILD_PKG_REQUIRES) $(EGLIBC32_PKG)/.REQUIRES
+	@$(BUILD_BIN_PKG_REQUIRES) $(EGLIBC32_PKG)/.REQUIRES
 	@echo "pkgname=$(EGLIBC32_PKG_NAME)"                            >  $(EGLIBC32_PKG)/.PKGINFO ; \
 	 echo "pkgver=$(EGLIBC32_PKG_VERSION)"                          >> $(EGLIBC32_PKG)/.PKGINFO ; \
 	 echo "arch=$(EGLIBC32_PKG_ARCH)"                               >> $(EGLIBC32_PKG)/.PKGINFO ; \

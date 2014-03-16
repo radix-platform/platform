@@ -35,6 +35,7 @@ else
 REQUIRES           = libs/zlib/1.2.8
 REQUIRES          += app/bzip2/1.0.6
 REQUIRES          += libs/libtermcap/1.2.3
+REQUIRES          += libs/readline/6.3
 endif
 
 version            = 8.34
@@ -109,6 +110,7 @@ extra_configure_switches += --enable-unicode-properties
 
 extra_configure_switches += --enable-pcregrep-libz
 extra_configure_switches += --enable-pcregrep-libbz2
+extra_configure_switches += --enable-pcretest-libreadline
 
 extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --enable-static=yes

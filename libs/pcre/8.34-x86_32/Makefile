@@ -15,6 +15,7 @@ SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/l/pcre
 REQUIRES           = libs/zlib/1.2.8
 REQUIRES          += app/bzip2/1.0.6
 REQUIRES          += libs/libtermcap/1.2.3
+REQUIRES          += libs/readline/6.3
 
 
 version            = 8.34
@@ -80,6 +81,11 @@ OPTIMIZATION_FLAGS = -O3
 CC                += -m32
 CXX               += -m32
 
+# owerwrite LDFLAGS:
+#
+LDFLAGS            = -L$(TARGET_DEST_DIR)/lib$(MULTILIB_X86_32_SUFFIX)
+LDFLAGS           += -L$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)
+
 ARCH_FLAGS         = -m32 -g -O3 -march=i486 -mtune=i686
 
 TARGET32           = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
@@ -95,6 +101,7 @@ extra_configure_switches += --enable-unicode-properties
 
 extra_configure_switches += --enable-pcregrep-libz
 extra_configure_switches += --enable-pcregrep-libbz2
+extra_configure_switches += --enable-pcretest-libreadline
 
 extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --enable-static=yes

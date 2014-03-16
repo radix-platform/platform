@@ -28,31 +28,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/GNU/binutils
 
 
-ifneq ($(filter $(HARDWARE),$(TARGET_HOST) $(TARGET_PC32) $(TARGET_PC64)),)
-REQUIRES           = dev/kernel/x86/3.10.17-headers
-endif
-
-ifeq ($(HARDWARE),$(TARGET_CB1X))
-REQUIRES           = dev/kernel/a1x/3.0.52-r2-headers
-endif
-
-ifeq ($(HARDWARE),$(TARGET_VIP1830))
-REQUIRES           = dev/kernel/dm644x/2.6.36-headers
-endif
-
-ifeq ($(HARDWARE),$(TARGET_BEAGLE))
-REQUIRES           = dev/kernel/omap35x/2.6.36-headers
-endif
-
-ifeq ($(HARDWARE),$(TARGET_OMAP5UEVM))
-REQUIRES           = dev/kernel/omap543x/3.8.y-20140222-headers
-endif
-
-ifeq ($(HARDWARE),$(TARGET_B74))
-REQUIRES           = dev/kernel/bcm74x/2.6.36-headers
-endif
-
-REQUIRES          += libs/zlib/1.2.8
+REQUIRES           = libs/zlib/1.2.8
 
 
 version            = 2.24

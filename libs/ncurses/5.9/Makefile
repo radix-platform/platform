@@ -43,7 +43,11 @@ SRC_DIR              = $(TARGET_BUILD_DIR)/ncurses-$(version)
 src_dir_name         = ncurses-$(version)
 src_done             = $(TARGET_BUILD_DIR)/.source_done
 
+ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
+PATCHES = PATCHES.build
+else
 PATCHES = PATCHES
+endif
 
 terminfo_files       = $(CURDIR)/terminfo/Eterm.ti
 terminfo_files      += $(CURDIR)/terminfo/rxvt.terminfo
@@ -205,16 +209,16 @@ $(install_widec_target): $(build_widec_target)
 	   ln -sf libncursesw.so.5.? libcursesw.so ; \
 	 )
 	# Fix the xterm, screen, rxvt, and Eterm entries:
-#	@( export TERMINFO=$(NCURSES_PKG)/usr/share/terminfo ; \
-#	   if [ -x /usr/bin/tic -o -x /bin/tic ] ; then \
-#	     for tfile in $(terminfo_files) ; do \
-#	       if [ -r $$tfile ]; then \
-#	         tic -v $$tfile ; \
-#	       fi ; \
-#	     done ; \
-#	   fi ; \
-#	   unset TERMINFO \
-#	 )
+	@( export TERMINFO=$(NCURSES_PKG)/usr/share/terminfo ; \
+	   if [ -x /usr/bin/tic -o -x /bin/tic ] ; then \
+	     for tfile in $(terminfo_files) ; do \
+	       if [ -r $$tfile ]; then \
+	         tic -v $$tfile ; \
+	       fi ; \
+	     done ; \
+	   fi ; \
+	   unset TERMINFO \
+	 )
 	@mkdir -p $(NCURSES_PKG)/usr/doc/$(src_dir_name)
 	@cp -a $(SRC_DIR)/ANNOUNCE $(SRC_DIR)/AUTHORS $(SRC_DIR)/README \
 	       $(NCURSES_PKG)/usr/doc/$(src_dir_name)

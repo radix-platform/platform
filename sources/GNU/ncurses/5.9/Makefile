@@ -33,8 +33,6 @@ $(tarballs):
 	@for tarball in $(tarballs) ; do \
 	  wget $(WGET_OPTIONS) -N $(url)/$$tarball ; \
 	done
-	@echo -e "\n======= Create Patches =======\n"
-	@( cd create-5.9-mkhashsize-patch && ./create.patch.sh )
 
 $(sha1s): %.$(suffix).sha1sum : %.$(suffix)
 	@for sha in $@ ; do \
@@ -54,7 +52,11 @@ $(patches):
 	@for patch in $(patches) ; do \
 	  wget -N $(url)/$$patch ; \
 	done
+	@echo -e "\n======= Create Patches =======\n"
+	@( cd create-5.9-mkhashsize-patch && ./create.patch.sh )
+	@( cd create-5.9-cross-patch && ./create.patch.sh )
 
 download_clean:
 	@rm -f $(tarballs) $(sha1s) $(patches)
 	@rm -f ./patches/ncurses-5.9-mkhashsize.patch
+	@rm -f ./patches/ncurses-5.9-cross.patch

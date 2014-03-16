@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/GNU/mpc
 
 REQUIRES           = libs/gmp/5.1.3
-REQUIRES           = libs/mpfr/3.1.2
+REQUIRES          += libs/mpfr/3.1.2
 
 
 version            = 1.0.2
@@ -74,6 +74,11 @@ include ../../../build-system/core.mk
 env_sysroot        = DESTDIR=$(MPC32_PKG)
 
 OPTIMIZATION_FLAGS = -O3
+
+# owerwrite LDFLAGS:
+#
+LDFLAGS            = -L$(TARGET_DEST_DIR)/lib$(MULTILIB_X86_32_SUFFIX)
+LDFLAGS           += -L$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)
 
 ARCH_FLAGS         = -m32 -g -O3 -march=i486 -mtune=i686
 

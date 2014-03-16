@@ -108,7 +108,7 @@ $(build_kh_pkg): $(KH_DEV_PKG)/usr/include/linux/autoconf.h $(KH_DEV_PKG_DESCRIP
 	@cd $(KH_DEV_PKG) && cp -rf * $(TARGET_DEST_DIR)
 	@cp $(KH_DEV_PKG_DESCRIPTION_FILE) $(KH_DEV_PKG)/.DESCRIPTION
 	@cp $(KH_DEV_PKG_INSTALL_SCRIPT) $(KH_DEV_PKG)/.INSTALL
-	@$(BUILD_PKG_REQUIRES) $(KH_DEV_PKG)/.REQUIRES
+	@$(BUILD_BIN_PKG_REQUIRES) $(KH_DEV_PKG)/.REQUIRES
 	@echo "pkgname=$(KH_DEV_PKG_NAME)"                            >  $(KH_DEV_PKG)/.PKGINFO ; \
 	 echo "pkgver=$(KH_DEV_PKG_VERSION)"                          >> $(KH_DEV_PKG)/.PKGINFO ; \
 	 echo "arch=$(KH_DEV_PKG_ARCH)"                               >> $(KH_DEV_PKG)/.PKGINFO ; \

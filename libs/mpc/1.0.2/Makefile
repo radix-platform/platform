@@ -33,7 +33,7 @@ ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME) $(BUILD_TOOLCHAIN_N
 REQUIRES           = libs/mpc/1.0.2-x86_32
 else
 REQUIRES           = libs/gmp/5.1.3
-REQUIRES           = libs/mpfr/3.1.2
+REQUIRES          += libs/mpfr/3.1.2
 endif
 
 version            = 1.0.2

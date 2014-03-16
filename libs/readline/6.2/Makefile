@@ -1,0 +1,194 @@
+
+COMPONENT_TARGETS  = $(TARGET_HOST)
+COMPONENT_TARGETS += $(TARGET_PC32)
+COMPONENT_TARGETS += $(TARGET_PC64)
+COMPONENT_TARGETS += $(TARGET_CB1X)
+COMPONENT_TARGETS += $(TARGET_VIP1830)
+COMPONENT_TARGETS += $(TARGET_BEAGLE)
+COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
+COMPONENT_TARGETS += $(TARGET_B74)
+
+#
+# The rest targets links staticaly with newlib or uclibc and not requires xz libraties
+#
+# COMPONENT_TARGETS += $(TARGET_CB1N)
+# COMPONENT_TARGETS += $(TARGET_GUARD)
+# COMPONENT_TARGETS += $(TARGET_VIP1830N)
+# COMPONENT_TARGETS += $(TARGET_L17UC)
+#
+
+
+NEED_ABS_PATH      = true
+
+COMPONENT_IS_3PP   = true
+
+
+include ../../../build-system/constants.mk
+
+
+SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/GNU/readline
+
+
+ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME) $(BUILD_TOOLCHAIN_NAME)),)
+REQUIRES           = libs/readline/6.2-x86_32
+else
+REQUIRES           = libs/ncurses/5.9
+REQUIRES          += libs/libtermcap/1.2.3
+endif
+
+version            = 6.2
+tar_gz_archive     = $(SRC_PACKAGE_PATH)/GNU/readline/readline-$(version).tar.gz
+SRC_ARCHIVE        = $(tar_gz_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/readline-$(version)
+src_dir_name       = readline-$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source_done
+
+PATCHES = PATCHES
+
+build_dir          = $(TARGET_BUILD_DIR)/build
+build_target       = $(TARGET_BUILD_DIR)/.build_done
+install_target     = $(TARGET_BUILD_DIR)/.install_done
+build_readline_pkg = $(TARGET_BUILD_DIR)/.readline_pkg_done
+
+
+
+####### Targets
+
+PKG_GROUP = libs
+
+#
+# *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
+#
+READLINE_PKG_NAME                = readline
+READLINE_PKG_VERSION             = 6.2
+ifeq ($(HARDWARE),$(TARGET_HOST))
+READLINE_PKG_ARCH                = $(shell uname -m)
+else
+READLINE_PKG_ARCH                = $(TOOLCHAIN)
+endif
+READLINE_PKG_DISTRO_NAME         = kxLab
+READLINE_PKG_DISTRO_VERSION      = 1.0
+READLINE_PKG_GROUP               = $(PKG_GROUP)
+###                               |---handy-ruler-------------------------------|
+READLINE_PKG_SHORT_DESCRIPTION   = readline $(version)
+READLINE_PKG_URL                 = http://www.kxLab.com
+READLINE_PKG_LICENSE             = GPLv2
+READLINE_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(READLINE_PKG_NAME)-pkg-description
+READLINE_PKG_DESCRIPTION_FILE_IN = $(READLINE_PKG_NAME)-pkg-description.in
+READLINE_PKG_INSTALL_SCRIPT      = $(READLINE_PKG_NAME)-pkg-install.sh
+
+READLINE_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(READLINE_PKG_NAME)-package
+
+pkg_basename     = $(READLINE_PKG_NAME)-$(READLINE_PKG_VERSION)-$(READLINE_PKG_ARCH)-$(READLINE_PKG_DISTRO_NAME)-$(READLINE_PKG_DISTRO_VERSION)
+pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(READLINE_PKG_GROUP)/$(pkg_basename).tgz
+
+
+BUILD_TARGETS    = $(build_readline_pkg)
+
+ROOTFS_TARGETS   = $(pkg_basename_tgz)
+
+PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+
+
+include ../../../build-system/core.mk
+
+
+env_sysroot        = DESTDIR=$(READLINE_PKG)
+
+OPTIMIZATION_FLAGS = -O3
+
+
+extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
+extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
+extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --infodir=/usr/share/info
+extra_configure_switches += --with-curses
+extra_configure_switches += --enable-multibyte
+extra_configure_switches += --enable-static=yes
+extra_configure_switches += --enable-shared=yes
+
+
+####### Dependencies
+
+$(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
+	$(UNPACK_SRC_ARCHIVE)
+	$(APPLY_PATCHES)
+	@touch $@
+
+$(build_target): $(src_done)
+	@mkdir -p $(build_dir)
+	@cd $(build_dir) && \
+	  $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
+	  --prefix=/usr               \
+	  --build=$(BUILD)            \
+	  --host=$(TARGET)            \
+	  $(extra_configure_switches)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
+	@touch $@
+
+$(install_target): $(build_target)
+	@mkdir -p $(READLINE_PKG)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@rm -f $(READLINE_PKG)/usr/share/info/dir
+	@gzip -9 $(READLINE_PKG)/usr/share/info/*
+	@rm -rf $(READLINE_PKG)/usr/bin
+	@if [ -d $(READLINE_PKG)/usr/share/man ]; then \
+	  ( cd $(READLINE_PKG)/usr/share/man ; \
+	    for manpagedir in `find . -type d -name "man*"` ; do \
+	      ( cd $$manpagedir ; \
+	        for eachpage in `find . -type l -maxdepth 1` ; do \
+	          ln -s `readlink $$eachpage`.gz $$eachpage.gz ; \
+	          rm $$eachpage ; \
+	        done ; \
+	        gzip -9 *.?  ; \
+	      ) \
+	    done \
+	  ) \
+	 fi
+	@mkdir -p $(READLINE_PKG)/usr/doc/$(src_dir_name)
+	@cp -a $(SRC_DIR)/COPYING \
+	       $(READLINE_PKG)/usr/doc/$(src_dir_name)
+	@mkdir -p $(READLINE_PKG)/usr/share/doc/$(src_dir_name)
+	@( cd $(SRC_DIR) ; \
+	   cp -a CHANGES COPYING INSTALL MANIFEST NEWS README USAGE \
+	         $(READLINE_PKG)/usr/share/doc/$(src_dir_name) \
+	 )
+	@( cd $(SRC_DIR)/doc ; \
+	   cp -a history.{html,pdf} readline.{html,pdf} rluserman.{html,pdf} \
+	         $(READLINE_PKG)/usr/share/doc/$(src_dir_name) \
+	 )
+	@( cd $(SRC_DIR) ; \
+	   if [ -r CHANGELOG ]; then \
+	     DOCSDIR=`echo $(READLINE_PKG)/usr/share/doc/$(src_dir_name)` ; \
+	     cat CHANGELOG | head -n 1000 > $$DOCSDIR/CHANGELOG ; \
+	     touch -r CHANGELOG $$DOCSDIR/CHANGELOG ; \
+	   fi \
+	 )
+	# Install the same to $(TARGET_DEST_DIR)
+	@mkdir -p $(TARGET_DEST_DIR)
+	@cd $(READLINE_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	@(cd $(READLINE_PKG); \
+	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	  find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
+	 )
+	@touch $@
+
+$(READLINE_PKG_DESCRIPTION_FILE): $(READLINE_PKG_DESCRIPTION_FILE_IN)
+	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
+
+$(build_readline_pkg): $(install_target) $(READLINE_PKG_DESCRIPTION_FILE)
+	@cp $(READLINE_PKG_DESCRIPTION_FILE) $(READLINE_PKG)/.DESCRIPTION
+	@cp $(READLINE_PKG_INSTALL_SCRIPT) $(READLINE_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(READLINE_PKG)/.REQUIRES
+	@echo "pkgname=$(READLINE_PKG_NAME)"                            >  $(READLINE_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(READLINE_PKG_VERSION)"                          >> $(READLINE_PKG)/.PKGINFO ; \
+	 echo "arch=$(READLINE_PKG_ARCH)"                               >> $(READLINE_PKG)/.PKGINFO ; \
+	 echo "distroname=$(READLINE_PKG_DISTRO_NAME)"                  >> $(READLINE_PKG)/.PKGINFO ; \
+	 echo "distrover=$(READLINE_PKG_DISTRO_VERSION)"                >> $(READLINE_PKG)/.PKGINFO ; \
+	 echo "group=$(READLINE_PKG_GROUP)"                             >> $(READLINE_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(READLINE_PKG_SHORT_DESCRIPTION)\"" >> $(READLINE_PKG)/.PKGINFO ; \
+	 echo "url=$(READLINE_PKG_URL)"                                 >> $(READLINE_PKG)/.PKGINFO ; \
+	 echo "license=$(READLINE_PKG_LICENSE)"                         >> $(READLINE_PKG)/.PKGINFO
+	@$(FAKEROOT) sh -c "cd $(READLINE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@touch $@

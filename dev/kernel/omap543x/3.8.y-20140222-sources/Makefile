@@ -73,7 +73,7 @@ $(build_ks_pkg): $(KS_DEV_PKG_DESCRIPTION_FILE)
 	 $(LN_S)f ../../../usr/src/linux source
 	@cp $(KS_DEV_PKG_DESCRIPTION_FILE) $(KS_DEV_PKG)/.DESCRIPTION
 	@cp $(KS_DEV_PKG_INSTALL_SCRIPT) $(KS_DEV_PKG)/.INSTALL
-	@$(BUILD_PKG_REQUIRES) $(KS_DEV_PKG)/.REQUIRES
+	@$(BUILD_BIN_PKG_REQUIRES) $(KS_DEV_PKG)/.REQUIRES
 	@echo "pkgname=$(KS_DEV_PKG_NAME)"                            >  $(KS_DEV_PKG)/.PKGINFO ; \
 	 echo "pkgver=$(KS_DEV_PKG_VERSION)"                          >> $(KS_DEV_PKG)/.PKGINFO ; \
 	 echo "arch=$(KS_DEV_PKG_ARCH)"                               >> $(KS_DEV_PKG)/.PKGINFO ; \

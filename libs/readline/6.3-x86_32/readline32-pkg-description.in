@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+          |-----handy-ruler------------------------------------------------------|
+readline32: readline32 @VERSION@ (line input library with editing features)
+readline32:
+readline32: The GNU Readline library provides a set of functions for use by
+readline32: applications that allow users to edit command lines as they are
+readline32: typed in. Both Emacs and vi editing modes are available.
+readline32: The Readline library includes additional functions to maintain
+readline32: a list of previously entered command lines, to recall and perhaps
+readline32: edit those lines, and perform csh-like history expansion on previous
+readline32: commands.
+readline32:
+readline32:

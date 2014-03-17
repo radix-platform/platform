@@ -226,10 +226,27 @@ $(install_target): $(build_target)
 	@mkdir -p $(GCC_DEV_PKG)
 	$(BUILD_ENVIRONMENT) $(MAKE) -C $(build_dir) install $(env_sysroot)
 	$(BUILD_ENVIRONMENT) $(MAKE) -C $(build_dir) install-info $(env_sysroot)
+	@chmod 755 $(GCC_DEV_PKG)/usr/lib$(LIBSUFFIX)/libgcc_s.so.1
+ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
+	@chmod 755 $(GCC_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/libgcc_s.so.1
+endif
+	@rm -f $(GCC_DEV_PKG)/usr/lib$(LIBSUFFIX)/*gdb.py
+ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
+	@rm -f $(GCC_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/*gdb.py
+endif
+	@mkdir -p $(GCC_DEV_PKG)/lib
+	@( cd $(GCC_DEV_PKG)
+	   # *not* LIBSUFFIX
+	   mkdir -p lib
+	   cd lib
+	   ln -sf ../usr/bin/cpp .
+	 )
+	@mkdir -p $(GCC_DEV_PKG)/usr/include
+	@cp -a $(SRC_DIR)/include/libiberty.h $(GCC_DEV_PKG)/usr/include
+	@cp -a $(build_dir)/libiberty/libiberty.info $(GCC_DEV_PKG)/usr/share/info
+	@cp -a $(build_dir)/gcc/specs $(GCC_DEV_PKG)/usr/lib$(LIBSUFFIX)/gcc/$(TARGET)/$(version)
 	@rm -f $(GCC_DEV_PKG)/usr/share/info/dir
 	@gzip -9 $(GCC_DEV_PKG)/usr/share/info/*
-	@chmod 755 $(GCC_DEV_PKG)/usr/lib$(LIBSUFFIX)/libgcc_s.so.1
-	@cp -a $(build_dir)/gcc/specs $(GCC_DEV_PKG)/usr/lib$(LIBSUFFIX)/gcc/$(TARGET)/$(version)
 	@if [ -d $(GCC_DEV_PKG)/usr/share/man ]; then \
 	  ( cd $(GCC_DEV_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \
@@ -292,7 +309,7 @@ $(install_target): $(build_target)
 	   fi \
 	 )
 ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
-	@( cd $(GCC_DEV_PKG)/usr/lib32 ; \
+	@( cd $(GCC_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	  sed -i "s,'$(TOOLCHAIN_PATH)/.*la,,g" libasan.la \
 	 )
 endif
@@ -321,7 +338,7 @@ endif
 	                                            libssp_nonshared.la libstdc++.la libsupc++.la ; \
 	 )
 ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
-	@( cd $(TARGET_DEST_DIR)/usr/lib32 ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libasan.la libatomic.la libgomp.la libitm.la \
 	                                            libmudflap.la libmudflapth.la libquadmath.la libssp.la \
 	                                            libssp_nonshared.la libstdc++.la libsupc++.la ; \

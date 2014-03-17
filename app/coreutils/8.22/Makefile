@@ -39,7 +39,11 @@ SRC_DIR             = $(TARGET_BUILD_DIR)/coreutils-$(version)
 src_dir_name        = coreutils-$(version)
 src_done            = $(TARGET_BUILD_DIR)/.source_done
 
+ifneq ($(filter $(HARDWARE),$(TARGET_HOST) $(TARGET_PC32) $(TARGET_PC64)),)
 PATCHES = PATCHES
+else
+PATCHES = PATCHES.noman
+endif
 
 build_dir           = $(TARGET_BUILD_DIR)/build
 build_target        = $(TARGET_BUILD_DIR)/.build_done
@@ -93,13 +97,6 @@ env_sysroot         = DESTDIR=$(COREUTILS_PKG)
 
 OPTIMIZATION_FLAGS  = -O3
 
-ifeq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME) $(BUILD_TOOLCHAIN_NAME)),)
-# NOTE: MULTILIB_X86_32_SUFFIX related to bulld machine
-#       (slacware64 - lib; ununtu64 - lib32) see $(BUILDSYSTEM)/targets.mk
-#environment  = CPPFLAGS_FOR_BUILD="-I/usr/include"
-#environment += CFLAGS_FOR_BUILD="-m32 -I/usr/include"
-#environment += LDFLAGS_FOR_BUILD="-m32 -L/usr/lib$(BUILD_MULTILIB_X86_32_SUFFIX)"
-endif
 
 environment  = FORCE_UNSAFE_CONFIGURE=1
 environment += DEFAULT_POSIX2_VERSION=199209
@@ -112,9 +109,10 @@ extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --bindir=/bin
 extra_configure_switches += --without-gmp
 
-#extra_configure_switches += --enable-readline
-#extra_configure_switches += --with-installed-readline=$(TARGET_DEST_DIR)/usr
 
+ifeq ($(filter $(HARDWARE),$(TARGET_HOST) $(TARGET_PC32) $(TARGET_PC64)),)
+#extra_configure_switches += --cache-file=$(CURDIR)/cross.cache
+endif
 
 
 ####### Dependencies
@@ -126,6 +124,9 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 
 $(build_target): $(src_done)
 	@mkdir -p $(build_dir)
+#	@( cd $(SRC_DIR) ; \
+#	   find . -exec touch -t 201403171037.43 {} \; \
+#	 )
 	@cd $(build_dir) && \
 	  $(BUILD_ENVIRONMENT) $(environment) ../$(src_dir_name)/configure \
 	  --prefix=/usr               \
@@ -150,7 +151,7 @@ $(install_target): $(build_target)
 	@( cd $(COREUTILS_PKG)/bin ; ln -sf install ginstall )
 	@( cd $(COREUTILS_PKG)/usr/bin ; ln -sf ../../bin/ginstall ginstall )
 	@( cd $(COREUTILS_PKG)/usr/share/man/man1 ; ln -sf install.1 ginstall.1 )
-	# ======= Remove 'hostname', 'kill', 'su', 'uptime' utilities =======
+	# ======= Remove 'hostname', 'kill', 'su', 'uptime' =======
 	@for dupe in hostname kill su uptime ; do \
 	  rm -f $(COREUTILS_PKG)/bin/$$dupe $(COREUTILS_PKG)/usr/bin/$$dupe \
 	        $(COREUTILS_PKG)/usr/sbin/$$dupe $(COREUTILS_PKG)/usr/share/man/man?/$$dupe.* ; \

@@ -31,6 +31,7 @@ $(tarballs):
 	done
 	@echo -e "\n======= Create Patches =======\n"
 	@( cd create-8.21-uname-patch && ./create.patch.sh )
+	@( cd create-8.22-noman-patch && ./create.patch.sh )
 	@( cd create-8.22-uname-patch && ./create.patch.sh )
 
 $(sha1s): %.$(suffix).sha1sum : %.$(suffix)
@@ -49,4 +50,5 @@ $(sha1s): %.$(suffix).sha1sum : %.$(suffix)
 download_clean:
 	@rm -f $(tarballs) $(sha1s)
 	@rm -f ./patches/coreutils-8.21-uname.patch
+	@rm -f ./patches/coreutils-8.22-noman.patch
 	@rm -f ./patches/coreutils-8.22-uname.patch

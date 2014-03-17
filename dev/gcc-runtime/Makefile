@@ -70,9 +70,10 @@ pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(GCC_RT_DEV_PKG_GROUP)/$(pkg_basename).t
 
 BUILD_TARGETS    = $(build_gcc_rt_pkg)
 
-ifeq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME) $(BUILD_TOOLCHAIN_NAME)),)
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
-endif
+#
+# Do not install 'gcc-runtime' to the target root filesystem
+#
+# ROOTFS_TARGETS   = $(pkg_basename_tgz)
 
 PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
 

@@ -672,6 +672,7 @@ endif
 # BUILD_CC lib SUFFIX
 #
 BUILD_MULTILIB_X86_32_SUFFIX = $(shell echo $(shell gcc -m32 -print-multi-os-directory) | sed -e 's/\(^.*lib\)\([0-9]*\)/\2/')
+BUILD_MULTILIB_SUFFIX = $(shell echo $(shell gcc -print-multi-os-directory) | sed -e 's/\(^.*lib\)\([0-9]*\)/\2/')
 
 
 ####################################################### temp

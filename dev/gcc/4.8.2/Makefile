@@ -1,16 +1,11 @@
 
-#
-# GCC has cross compilation error when host==target,
-# now we can build only two targets:
-#
-
-COMPONENT_TARGETS  = $(TARGET_HOST)
-#COMPONENT_TARGETS += $(TARGET_PC32)
+COMPONENT_TARGETS += $(TARGET_PC32)
 COMPONENT_TARGETS += $(TARGET_PC64)
-#COMPONENT_TARGETS += $(TARGET_CB1X)
-#COMPONENT_TARGETS += $(TARGET_VIP1830)
-#COMPONENT_TARGETS += $(TARGET_BEAGLE)
-#COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
+COMPONENT_TARGETS += $(TARGET_CB1X)
+COMPONENT_TARGETS += $(TARGET_VIP1830)
+COMPONENT_TARGETS += $(TARGET_BEAGLE)
+COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
+# doesnt work:
 #COMPONENT_TARGETS += $(TARGET_B74)
 
 #
@@ -103,18 +98,19 @@ PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
 include ../../../build-system/core.mk
 
 
-#
-# find (SRC_DIR)/include/obstack.h instead of TARGET LIBC /usr/include/obstack.h
-#
-environment  = CFLAGS="-I../../$(src_dir_name)/include $(CFLAGS)"
-environment += CXXFLAGS="-I../../$(src_dir_name)/include $(CXXFLAGS)"
+# NOTE: BUILD_MULTILIB_SUFFIX related to bulld machine
+#       (slacware64 - lib; ununtu64 - lib32) see $(BUILDSYSTEM)/targets.mk
+export CC_FOR_BUILD=gcc
+export CXX_FOR_BUILD=g++
+export LD_FOR_BUILD=ld
+export AR_FOR_BUILD=ar
+export AS_FOR_BUILD=as
+export NM_FOR_BUILD=nm
+export CFLAGS_FOR_BUILD = -I/usr/include
+export CXXFLAGS_FOR_BUILD = -I/usr/include -fpermissive
+export CPPFLAGS_FOR_BUILD = -I/usr/include
+export LDFLAGS_FOR_BUILD = -L/usr/lib$(BUILD_MULTILIB_SUFFIX)
 
-#
-# fake-gcc
-#
-ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
-environment += PATH=$(TARGET_DEST_DIR)/bin:$(PATH)
-endif
 
 env_sysroot  = DESTDIR=$(GCC_DEV_PKG)
 
@@ -137,13 +133,18 @@ extra_configure_switches += --enable-long-long
 
 extra_configure_switches += --with-gnu-ld
 extra_configure_switches += --with-gnu-as
-extra_configure_switches += --enable-nls
 
-extra_configure_switches += --with-mpc=$(TARGET_DEST_DIR)/usr
-extra_configure_switches += --with-mpfr=$(TARGET_DEST_DIR)/usr
-extra_configure_switches += --with-gmp=$(TARGET_DEST_DIR)/usr
-extra_configure_switches += --with-cloog=$(TARGET_DEST_DIR)/usr
-extra_configure_switches += --enable-install-libiberty
+# prevent hardcoded RPATH used by LIBINTL
+extra_configure_switches += --disable-rpath
+
+extra_configure_switches += --with-mpc-include=$(TARGET_DEST_DIR)/usr/include
+extra_configure_switches += --with-mpc-lib=$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)
+extra_configure_switches += --with-mpfr-include=$(TARGET_DEST_DIR)/usr/include
+extra_configure_switches += --with-mpfr-lib=$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)
+extra_configure_switches += --with-gmp-include=$(TARGET_DEST_DIR)/usr/include
+extra_configure_switches += --with-gmp-lib=$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)
+extra_configure_switches += --with-cloog-include=$(TARGET_DEST_DIR)/usr/include
+extra_configure_switches += --with-cloog-lib=$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)
 
 
 ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
@@ -209,42 +210,22 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	@touch $@
 
 $(build_target): $(src_done)
-ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
-	@( cd $(TARGET_DEST_DIR)/bin ; \
-	   ln -sf /usr/bin/c++        $(TARGET)-c++       ; \
-	   ln -sf /usr/bin/g++        $(TARGET)-g++       ; \
-	   ln -sf /usr/bin/gcc        $(TARGET)-gcc       ; \
-	   ln -sf /usr/bin/gcc-ar     $(TARGET)-gcc-ar    ; \
-	   ln -sf /usr/bin/gcc-nm     $(TARGET)-gcc-nm    ; \
-	   ln -sf /usr/bin/gcc-ranlib $(TARGET)-gcc-ranlib  \
-	 )
-endif
 	@mkdir -p $(build_dir)
 	@cd $(build_dir) && \
-	  $(BUILD_ENVIRONMENT) $(environment) ../$(src_dir_name)/configure \
+	  $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
 	  --prefix=/usr                             \
 	  --build=$(BUILD)                          \
 	  --host=$(TARGET)                          \
 	  --target=$(TARGET)                        \
 	  $(extra_configure_switches)
-	$(BUILD_ENVIRONMENT) $(environment) $(MAKE) -C $(build_dir) all
-	$(BUILD_ENVIRONMENT) $(environment) $(MAKE) -C $(build_dir) info
+	$(BUILD_ENVIRONMENT) $(MAKE) -C $(build_dir) all
+	$(BUILD_ENVIRONMENT) $(MAKE) -C $(build_dir) info
 	@touch $@
 
 $(install_target): $(build_target)
 	@mkdir -p $(GCC_DEV_PKG)
-	$(BUILD_ENVIRONMENT) $(environment) $(MAKE) -C $(build_dir) install $(env_sysroot)
-	$(BUILD_ENVIRONMENT) $(environment) $(MAKE) -C $(build_dir) install-info $(env_sysroot)
-ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
-	@( cd $(TARGET_DEST_DIR)/bin ; \
-	   rm -f $(TARGET)-c++       ; \
-	   rm -f $(TARGET)-g++       ; \
-	   rm -f $(TARGET)-gcc       ; \
-	   rm -f $(TARGET)-gcc-ar    ; \
-	   rm -f $(TARGET)-gcc-nm    ; \
-	   rm -f $(TARGET)-gcc-ranlib  \
-	 )
-endif
+	$(BUILD_ENVIRONMENT) $(MAKE) -C $(build_dir) install $(env_sysroot)
+	$(BUILD_ENVIRONMENT) $(MAKE) -C $(build_dir) install-info $(env_sysroot)
 	@rm -f $(GCC_DEV_PKG)/usr/share/info/dir
 	@gzip -9 $(GCC_DEV_PKG)/usr/share/info/*
 	@chmod 755 $(GCC_DEV_PKG)/usr/lib$(LIBSUFFIX)/libgcc_s.so.1
@@ -302,43 +283,45 @@ endif
 	  sed -i "s,$(TARGET_DEST_DIR),,g" liblto_plugin.la \
 	 )
 	# remove toolchain path from target libtool *.la files
-ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
 	@( cd $(GCC_DEV_PKG)/usr/lib$(LIBSUFFIX) ; \
-	  sed -i "s,'$(TOOLCHAIN_PATH)/.*la ,,g" libasan.la libtsan.la \
+	   if [ -f libasan.la ] ; then \
+	     sed -i "s,'$(TOOLCHAIN_PATH)/.*la,,g" libasan.la ; \
+	   fi ; \
+	   if [ -f libtsan.la ] ; then \
+	     sed -i "s,'$(TOOLCHAIN_PATH)/.*la,,g" libtsan.la ; \
+	   fi \
 	 )
-else
-	@( cd $(GCC_DEV_PKG)/usr/lib$(LIBSUFFIX) ; \
-	  sed -i "s,'$(TOOLCHAIN_PATH)/.*la,,g" libasan.la libtsan.la \
-	 )
-endif
 ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
 	@( cd $(GCC_DEV_PKG)/usr/lib32 ; \
 	  sed -i "s,'$(TOOLCHAIN_PATH)/.*la,,g" libasan.la \
 	 )
 endif
-ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
-	@( cd $(GCC_DEV_PKG)/usr/lib ; \
-	  sed -i "s,'$(TOOLCHAIN_PATH)/.*la ,,g" libasan.la \
-	 )
-endif
 	# Install the same to $(TARGET_DEST_DIR)
 	@mkdir -p $(TARGET_DEST_DIR)
+	@if [ -d $(TARGET_DEST_DIR)/usr/libexec/gcc ] ; then \
+	   rm -rf $(TARGET_DEST_DIR)/usr/libexec/gcc ; \
+	 fi
+	@if [ -d $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/gcc ] ; then \
+	   rm -rf $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/gcc ; \
+	 fi
 	@cd $(GCC_DEV_PKG) && cp -rf * $(TARGET_DEST_DIR)
 	# tune libtool *.la search path to the target destination for development
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libasan.la libatomic.la libgomp.la libitm.la \
-	                                            libmudflap.la libmudflapth.la libquadmath.la libssp.la \
-	                                            libssp_nonshared.la libstdc++.la libsupc++.la libtsan.la ; \
+	   if [ -f libasan.la ] ; then \
+	     sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libasan.la ; \
+	   fi ; \
+	   if [ -f libtsan.la ] ; then \
+	     sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libtsan.la ; \
+	   fi ; \
+	   if [ -f libquadmath.la ] ; then \
+	     sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libquadmath.la ; \
+	   fi ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libatomic.la libgomp.la libitm.la \
+	                                            libmudflap.la libmudflapth.la libssp.la \
+	                                            libssp_nonshared.la libstdc++.la libsupc++.la ; \
 	 )
 ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
 	@( cd $(TARGET_DEST_DIR)/usr/lib32 ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libasan.la libatomic.la libgomp.la libitm.la \
-	                                            libmudflap.la libmudflapth.la libquadmath.la libssp.la \
-	                                            libssp_nonshared.la libstdc++.la libsupc++.la ; \
-	 )
-endif
-ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
-	@( cd $(TARGET_DEST_DIR)/usr/lib ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libasan.la libatomic.la libgomp.la libitm.la \
 	                                            libmudflap.la libmudflapth.la libquadmath.la libssp.la \
 	                                            libssp_nonshared.la libstdc++.la libsupc++.la ; \
@@ -354,7 +337,6 @@ endif
 	  find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
 	@touch $@
-	exit 1
 
 $(GCC_DEV_PKG_DESCRIPTION_FILE): $(GCC_DEV_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@

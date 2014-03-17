@@ -1,1 +1,2 @@
 gcc-4.8.2/gcc/Makefile.in
+gcc-4.8.2/gcc/configure

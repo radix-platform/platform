@@ -747,7 +747,7 @@ BUILD_LINKERFLAGS = $(BUILD_CXXFLAGS)
 
 # Native linker and preprocessor flags.  For x-fragment overrides.
 BUILD_LDFLAGS=@BUILD_LDFLAGS@
-BUILD_CPPFLAGS=$(ALL_CPPFLAGS)
+BUILD_CPPFLAGS=$(ALL_CPPFLAGS_FOR_BUILD)
 
 # Actual name to use when installing a native compiler.
 GCC_INSTALL_NAME := $(shell echo gcc|sed '$(program_transform_name)')
@@ -998,6 +998,8 @@ ALL_CXXFLAGS = $(T_CFLAGS) $(CFLAGS-$@) $(CXXFLAGS) $(INTERNAL_CFLAGS) \
 # win against random include files in /usr/include.
 ALL_CPPFLAGS = $(INCLUDES) $(CPPFLAGS)
 
+ALL_CPPFLAGS_FOR_BUILD = $(INCLUDES_FOR_BUILD) $(INTERNAL_CFLAGS) $(CPPFLAGS)
+
 # This is the variable to use when using $(COMPILER).
 ALL_COMPILERFLAGS = $(ALL_CXXFLAGS)
 
@@ -1053,6 +1055,10 @@ INCLUDES = -I. -I$(@D) -I$(srcdir) -I$(srcdir)/$(@D) \
 	   -I$(srcdir)/../include @INCINTL@ \
 	   $(CPPINC) $(GMPINC) $(DECNUMINC) $(BACKTRACEINC) \
 	   $(CLOOGINC) $(ISLINC)
+
+INCLUDES_FOR_BUILD = -I. -I$(@D) -I$(srcdir) -I$(srcdir)/$(@D) \
+	   -I$(srcdir)/../include @INCINTL@ \
+	   $(CPPINC) $(DECNUMINC) $(BACKTRACEINC)
 
 .c.o:
 	$(COMPILER) -c $(ALL_COMPILERFLAGS) $(ALL_CPPFLAGS) $< $(OUTPUT_OPTION)

@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS  = $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC32)
 COMPONENT_TARGETS += $(TARGET_PC64)
 COMPONENT_TARGETS += $(TARGET_CB1X)
@@ -325,9 +324,8 @@ $(install_target): $(build_target)
 	# Install the same to $(TARGET_DEST_DIR)
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(BINUTILS_DEV_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	# Libiberty will be installed from GCC by --enable-install-libiberty option but we need it on $(TARGET_DEST_DIR)
-	@cp -a $(SRC_DIR)/include/libiberty.h $(TARGET_DEST_DIR)/usr/include/libiberty.h
-	@cp -a $(build_dir)/libiberty/pic/libiberty.a $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/libiberty.a
+	# Libiberty will be installed from GCC by --enable-install-libiberty option
+	# we don't need LIBIBERTY on $(TARGET_DEST_DIR) until GCC will be built
 	# tune libtool *.la search path to the target destination for development
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
 	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libbfd.la libopcodes.la ; \

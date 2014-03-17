@@ -50,9 +50,9 @@ REQUIRES          += app/bash/4.3
 
 
 
-ifneq ($(filter $(HARDWARE),$(TARGET_HOST) $(TARGET_PC64)),)
+ifeq ($(filter $(HARDWARE),$(TARGET_HOST) $(TARGET_B74)),)
 REQUIRES          += dev/binutils/2.24
-#REQUIRES          += dev/gcc/4.8.2
+REQUIRES          += dev/gcc/4.8.2
 endif
 
 

@@ -235,11 +235,11 @@ ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
 	@rm -f $(GCC_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/*gdb.py
 endif
 	@mkdir -p $(GCC_DEV_PKG)/lib
-	@( cd $(GCC_DEV_PKG)
-	   # *not* LIBSUFFIX
-	   mkdir -p lib
-	   cd lib
-	   ln -sf ../usr/bin/cpp .
+	# *not* LIBSUFFIX
+	@( cd $(GCC_DEV_PKG) ; \
+	   mkdir -p lib ; \
+	   cd lib ; \
+	   ln -sf ../usr/bin/cpp . \
 	 )
 	@mkdir -p $(GCC_DEV_PKG)/usr/include
 	@cp -a $(SRC_DIR)/include/libiberty.h $(GCC_DEV_PKG)/usr/include

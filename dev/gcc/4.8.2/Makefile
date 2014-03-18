@@ -5,8 +5,7 @@ COMPONENT_TARGETS += $(TARGET_CB1X)
 COMPONENT_TARGETS += $(TARGET_VIP1830)
 COMPONENT_TARGETS += $(TARGET_BEAGLE)
 COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
-# doesnt work:
-#COMPONENT_TARGETS += $(TARGET_B74)
+COMPONENT_TARGETS += $(TARGET_B74)
 
 #
 # The rest targets links staticaly with newlib or uclibc and not requires binutils on host
@@ -146,12 +145,6 @@ extra_configure_switches += --with-gmp-lib=$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX
 extra_configure_switches += --with-cloog-include=$(TARGET_DEST_DIR)/usr/include
 extra_configure_switches += --with-cloog-lib=$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)
 
-
-ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
-extra_configure_switches += '--with-pkgversion=Radix $(SYSTEM_VERSION)'
-extra_configure_switches += '--with-bugurl=http://www.radix.pro'
-extra_configure_switches += --with-multilib-list=m64,m32
-endif
 
 
 ifeq ($(TOOLCHAIN),$(A1X_EGLIBC_TOOLCHAIN_NAME))
@@ -313,7 +306,7 @@ ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
 	  sed -i "s,'$(TOOLCHAIN_PATH)/.*la,,g" libasan.la \
 	 )
 endif
-	# Install the same to $(TARGET_DEST_DIR)
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@if [ -d $(TARGET_DEST_DIR)/usr/libexec/gcc ] ; then \
 	   rm -rf $(TARGET_DEST_DIR)/usr/libexec/gcc ; \
@@ -333,7 +326,10 @@ endif
 	   if [ -f libquadmath.la ] ; then \
 	     sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libquadmath.la ; \
 	   fi ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libatomic.la libgomp.la libitm.la \
+	   if [ -f libitm.la ] ; then \
+	     sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libitm.la ; \
+	   fi ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libatomic.la libgomp.la \
 	                                            libmudflap.la libmudflapth.la libssp.la \
 	                                            libssp_nonshared.la libstdc++.la libsupc++.la ; \
 	 )

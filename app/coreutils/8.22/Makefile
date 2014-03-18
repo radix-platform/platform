@@ -39,6 +39,8 @@ SRC_DIR             = $(TARGET_BUILD_DIR)/coreutils-$(version)
 src_dir_name        = coreutils-$(version)
 src_done            = $(TARGET_BUILD_DIR)/.source_done
 
+man_pages_dir       = $(CURDIR)/man-pages
+
 ifneq ($(filter $(HARDWARE),$(TARGET_HOST) $(TARGET_PC32) $(TARGET_PC64)),)
 PATCHES = PATCHES
 else
@@ -139,6 +141,12 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(COREUTILS_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) install $(env_sysroot)
+ifeq ($(filter $(HARDWARE),$(TARGET_HOST) $(TARGET_PC32) $(TARGET_PC64)),)
+	@mkdir -p $(COREUTILS_PKG)/usr/share/man
+	@( cd $(COREUTILS_PKG)/usr/share/man ; \
+	   tar xzf $(man_pages_dir)/man1-$(version) \
+	 )
+endif
 	@rm -rf $(COREUTILS_PKG)/usr/share/locale/*/LC_TIME
 	@mkdir -p $(COREUTILS_PKG)/bin $(COREUTILS_PKG)/usr/bin
 	@( cd $(COREUTILS_PKG)/usr/bin ; \
@@ -191,7 +199,8 @@ $(install_target): $(build_target)
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(COREUTILS_PKG) && cp -rf * $(TARGET_DEST_DIR)
 	@(cd $(COREUTILS_PKG); \
-	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null \
+	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )
 	@touch $@
 	exit 1

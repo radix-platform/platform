@@ -50,7 +50,7 @@ REQUIRES          += app/bash/4.3
 
 
 
-ifeq ($(filter $(HARDWARE),$(TARGET_HOST) $(TARGET_B74)),)
+ifeq ($(filter $(HARDWARE),$(TARGET_HOST)),)
 REQUIRES          += dev/binutils/2.24
 REQUIRES          += dev/gcc/4.8.2
 endif

@@ -11,8 +11,8 @@ gcc-runtime:
 gcc-runtime: This package contains only GCC runtime libraries needed to run
 gcc-runtime: binaries linked with libgcc_s, libstdc++, ...
 gcc-runtime:
-gcc-runtime:
-gcc-runtime:
+gcc-runtime: This libraries are taken from cross toolchains and will be replaced
+gcc-runtime: with native GCC for target platform.
 gcc-runtime:
 gcc-runtime:
 gcc-runtime:

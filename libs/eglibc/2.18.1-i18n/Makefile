@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS  = $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC32)
 COMPONENT_TARGETS += $(TARGET_PC64)
 COMPONENT_TARGETS += $(TARGET_CB1X)
@@ -61,15 +60,11 @@ PKG_GROUP = libs
 #
 EGLIBC_I18N_PKG_NAME                = eglibc-i18n
 EGLIBC_I18N_PKG_VERSION             = 2.18.1
-ifeq ($(HARDWARE),$(TARGET_HOST))
-EGLIBC_I18N_PKG_ARCH                = $(shell uname -m)
-else
 EGLIBC_I18N_PKG_ARCH                = $(TOOLCHAIN)
-endif
 EGLIBC_I18N_PKG_DISTRO_NAME         = kxLab
 EGLIBC_I18N_PKG_DISTRO_VERSION      = 1.0
 EGLIBC_I18N_PKG_GROUP               = $(PKG_GROUP)
-###                                   |---handy-ruler-------------------------------|
+###                                  |---handy-ruler-------------------------------|
 EGLIBC_I18N_PKG_SHORT_DESCRIPTION   = eglibc-i18n $(version) locales
 EGLIBC_I18N_PKG_URL                 = http://www.kxLab.com
 EGLIBC_I18N_PKG_LICENSE             = GPLv2
@@ -103,7 +98,7 @@ CFLAGS      += -g
 
 INSTALL_NOT_ARCHIVED_LOCALES = no
 
-ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME) $(BUILD_TOOLCHAIN_NAME)),)
+ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
 INSTALL_ALL_LOCALES = yes
 else
 INSTALL_ALL_LOCALES = no
@@ -167,10 +162,6 @@ $(EGLIBC_I18N_PKG_DESCRIPTION_FILE): $(EGLIBC_I18N_PKG_DESCRIPTION_FILE_IN)
 
 
 $(build_i18n_pkg): $(install_target) $(EGLIBC_I18N_PKG_DESCRIPTION_FILE)
-ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
-	# Install the same locales into /usr/lib (x86_32 compat) directory
-	@mkdir -p $(EGLIBC_I18N_PKG)/usr/lib && cp -rf $(EGLIBC_I18N_PKG)/usr/lib64/locale $(EGLIBC_I18N_PKG)/usr/lib
-endif
 ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
 	# Install the same locales into /usr/lib32 (x86_32 compat) directory
 	@mkdir -p $(EGLIBC_I18N_PKG)/usr/lib32 && cp -rf $(EGLIBC_I18N_PKG)/usr/lib/locale $(EGLIBC_I18N_PKG)/usr/lib32

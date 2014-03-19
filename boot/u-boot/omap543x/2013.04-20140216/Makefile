@@ -57,11 +57,7 @@ PKG_GROUP = boot
 
 UBOOT_BIN_PKG_NAME                = u-boot
 UBOOT_BIN_PKG_VERSION             = 2013.04-20140216
-ifeq ($(HARDWARE),$(TARGET_HOST))
-UBOOT_BIN_PKG_ARCH                = $(shell uname -m)
-else
 UBOOT_BIN_PKG_ARCH                = $(TOOLCHAIN)
-endif
 UBOOT_BIN_PKG_DISTRO_NAME         = kxLab
 UBOOT_BIN_PKG_DISTRO_VERSION      = 1.0
 UBOOT_BIN_PKG_GROUP               = $(PKG_GROUP)

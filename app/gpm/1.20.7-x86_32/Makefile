@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS  = $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC64)
 
 NEED_ABS_PATH      = true
@@ -41,11 +40,7 @@ PKG_GROUP = app
 #
 GPM32_PKG_NAME                = gpm32
 GPM32_PKG_VERSION             = 1.20.7
-ifeq ($(HARDWARE),$(TARGET_HOST))
-GPM32_PKG_ARCH                = $(shell uname -m)
-else
 GPM32_PKG_ARCH                = $(TOOLCHAIN)
-endif
 GPM32_PKG_DISTRO_NAME         = kxLab
 GPM32_PKG_DISTRO_VERSION      = 1.0
 GPM32_PKG_GROUP               = $(PKG_GROUP)

@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS += $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC64)
 
 NEED_ABS_PATH      = true
@@ -36,11 +35,7 @@ PKG_GROUP = libs
 #
 ZLIB32_PKG_NAME                = zlib32
 ZLIB32_PKG_VERSION             = 1.2.8
-ifeq ($(HARDWARE),$(TARGET_HOST))
-ZLIB32_PKG_ARCH                = $(shell uname -m)
-else
 ZLIB32_PKG_ARCH                = $(TOOLCHAIN)
-endif
 ZLIB32_PKG_DISTRO_NAME         = kxLab
 ZLIB32_PKG_DISTRO_VERSION      = 1.0
 ZLIB32_PKG_GROUP               = $(PKG_GROUP)
@@ -52,7 +47,7 @@ ZLIB32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(ZLIB32_PKG_NAME)-pkg-desc
 ZLIB32_PKG_DESCRIPTION_FILE_IN = $(ZLIB32_PKG_NAME)-pkg-description.in
 ZLIB32_PKG_INSTALL_SCRIPT      = $(ZLIB32_PKG_NAME)-pkg-install.sh
 
-ZLIB32_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(ZLIB32_PKG_NAME)-package
+ZLIB32_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(ZLIB32_PKG_NAME)-package
 
 pkg_basename     = $(ZLIB32_PKG_NAME)-$(ZLIB32_PKG_VERSION)-$(ZLIB32_PKG_ARCH)-$(ZLIB32_PKG_DISTRO_NAME)-$(ZLIB32_PKG_DISTRO_VERSION)
 pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(ZLIB32_PKG_GROUP)/$(pkg_basename).tgz

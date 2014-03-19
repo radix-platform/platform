@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS  = $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC32)
 COMPONENT_TARGETS += $(TARGET_PC64)
 
@@ -31,7 +30,7 @@ build_kh_pkg = $(TARGET_BUILD_DIR)/.kernel_headers_pkg_done
 
 PATCHES =
 
-ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME) $(I686_EGLIBC_TOOLCHAIN_NAME) $(BUILD_TOOLCHAIN_NAME)),)
+ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME) $(I686_EGLIBC_TOOLCHAIN_NAME)),)
 ARCH = x86
 endif
 
@@ -45,11 +44,7 @@ PKG_GROUP = dev
 #
 KH_DEV_PKG_NAME                = kernel-headers
 KH_DEV_PKG_VERSION             = 3.10.17
-ifeq ($(HARDWARE),$(TARGET_HOST))
-KH_DEV_PKG_ARCH                = $(shell uname -m)
-else
 KH_DEV_PKG_ARCH                = $(TOOLCHAIN)
-endif
 KH_DEV_PKG_DISTRO_NAME         = kxLab
 KH_DEV_PKG_DISTRO_VERSION      = 1.0
 KH_DEV_PKG_GROUP               = $(PKG_GROUP)
@@ -95,10 +90,8 @@ $(KH_DEV_PKG)/usr/include/linux/autoconf.h: $(SRC_DIR)/include/generated/uapi/li
 	           INSTALL_HDR_PATH=$(KH_DEV_PKG)/usr
 	touch $@
 
-
 $(KH_DEV_PKG_DESCRIPTION_FILE): $(KH_DEV_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@KERNEL_VERSION@/$(version)/g" > $@
-
 
 $(build_kh_pkg): $(KH_DEV_PKG)/usr/include/linux/autoconf.h $(KH_DEV_PKG_DESCRIPTION_FILE)
 	@( cd $(KH_DEV_PKG)/usr/include ; \

@@ -1,4 +1,5 @@
 
-../../../sources/GNU/gcc/gcc-4.8.2/patches/gcc-4.8.2-fixincludes.patch -p0
+../../../sources/GNU/gcc/gcc-4.8.2/patches/gcc-4.8.2-fixinc-gmp-inside.patch -p0
+../../../sources/GNU/gcc/gcc-4.8.2/patches/gcc-4.8.2-gmp-inside.patch -p0
 ../../../sources/GNU/gcc/gcc-4.8.2/patches/gcc-4.8.2-x86_64-multilib.patch -p0
 

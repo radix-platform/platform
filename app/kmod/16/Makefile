@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS  = $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC32)
 COMPONENT_TARGETS += $(TARGET_PC64)
 COMPONENT_TARGETS += $(TARGET_CB1X)
@@ -58,11 +57,7 @@ PKG_GROUP = app
 #
 KMOD_PKG_NAME                = kmod
 KMOD_PKG_VERSION             = 16
-ifeq ($(HARDWARE),$(TARGET_HOST))
-KMOD_PKG_ARCH                = $(shell uname -m)
-else
 KMOD_PKG_ARCH                = $(TOOLCHAIN)
-endif
 KMOD_PKG_DISTRO_NAME         = kxLab
 KMOD_PKG_DISTRO_VERSION      = 1.0
 KMOD_PKG_GROUP               = $(PKG_GROUP)

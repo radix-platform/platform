@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS += $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC32)
 COMPONENT_TARGETS += $(TARGET_PC64)
 COMPONENT_TARGETS += $(TARGET_CB1X)
@@ -26,7 +25,7 @@ COMPONENT_IS_3PP   = true
 include ../../build-system/constants.mk
 
 
-ifneq ($(filter $(HARDWARE),$(TARGET_HOST) $(TARGET_PC32) $(TARGET_PC64)),)
+ifneq ($(filter $(HARDWARE),$(TARGET_PC32) $(TARGET_PC64)),)
 REQUIRES           = dev/kernel/x86/3.10.17-headers
 endif
 

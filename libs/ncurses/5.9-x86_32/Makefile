@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS   += $(TARGET_HOST)
 COMPONENT_TARGETS   += $(TARGET_PC64)
 
 NEED_ABS_PATH        = true
@@ -45,11 +44,7 @@ PKG_GROUP = libs
 #
 NCURSES32_PKG_NAME                = ncurses32
 NCURSES32_PKG_VERSION             = 5.9
-ifeq ($(HARDWARE),$(TARGET_HOST))
-NCURSES32_PKG_ARCH                = $(shell uname -m)
-else
 NCURSES32_PKG_ARCH                = $(TOOLCHAIN)
-endif
 NCURSES32_PKG_DISTRO_NAME         = kxLab
 NCURSES32_PKG_DISTRO_VERSION      = 1.0
 NCURSES32_PKG_GROUP               = $(PKG_GROUP)

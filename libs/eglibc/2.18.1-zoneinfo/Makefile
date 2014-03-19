@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS  = $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC32)
 COMPONENT_TARGETS += $(TARGET_PC64)
 COMPONENT_TARGETS += $(TARGET_CB1X)
@@ -55,15 +54,11 @@ PKG_GROUP = libs
 #
 EGLIBC_TZ_PKG_NAME                = eglibc-zoneinfo
 EGLIBC_TZ_PKG_VERSION             = 2.18.1
-ifeq ($(HARDWARE),$(TARGET_HOST))
-EGLIBC_TZ_PKG_ARCH                = $(shell uname -m)
-else
 EGLIBC_TZ_PKG_ARCH                = $(TOOLCHAIN)
-endif
 EGLIBC_TZ_PKG_DISTRO_NAME         = kxLab
 EGLIBC_TZ_PKG_DISTRO_VERSION      = 1.0
 EGLIBC_TZ_PKG_GROUP               = $(PKG_GROUP)
-###                                   |---handy-ruler-------------------------------|
+###                                |---handy-ruler-------------------------------|
 EGLIBC_TZ_PKG_SHORT_DESCRIPTION   = eglibc-zoneinfo $(version) timezone db
 EGLIBC_TZ_PKG_URL                 = http://www.kxLab.com
 EGLIBC_TZ_PKG_LICENSE             = GPLv2
@@ -71,7 +66,7 @@ EGLIBC_TZ_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(EGLIBC_TZ_PKG_NAME)-pk
 EGLIBC_TZ_PKG_DESCRIPTION_FILE_IN = $(EGLIBC_TZ_PKG_NAME)-pkg-description.in
 EGLIBC_TZ_PKG_INSTALL_SCRIPT      = $(EGLIBC_TZ_PKG_NAME)-pkg-install.sh
 
-EGLIBC_TZ_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(EGLIBC_TZ_PKG_NAME)-package
+EGLIBC_TZ_PKG    = $(CURDIR)/$(TARGET_BUILD_DIR)/$(EGLIBC_TZ_PKG_NAME)-package
 
 pkg_basename     = $(EGLIBC_TZ_PKG_NAME)-$(EGLIBC_TZ_PKG_VERSION)-$(EGLIBC_TZ_PKG_ARCH)-$(EGLIBC_TZ_PKG_DISTRO_NAME)-$(EGLIBC_TZ_PKG_DISTRO_VERSION)
 pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(EGLIBC_TZ_PKG_GROUP)/$(pkg_basename).tgz

@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS  = $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC32)
 COMPONENT_TARGETS += $(TARGET_PC64)
 COMPONENT_TARGETS += $(TARGET_CB1X)
@@ -29,7 +28,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/l/termcap-compat
 
 
-ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME) $(BUILD_TOOLCHAIN_NAME)),)
+ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
 REQUIRES           = libs/libtermcap/1.2.3-x86_32
 else
 REQUIRES           = libs/ncurses/5.9
@@ -58,11 +57,7 @@ PKG_GROUP = app
 #
 TERMCAP_PKG_NAME                = libtermcap
 TERMCAP_PKG_VERSION             = 1.2.3
-ifeq ($(HARDWARE),$(TARGET_HOST))
-TERMCAP_PKG_ARCH                = $(shell uname -m)
-else
 TERMCAP_PKG_ARCH                = $(TOOLCHAIN)
-endif
 TERMCAP_PKG_DISTRO_NAME         = kxLab
 TERMCAP_PKG_DISTRO_VERSION      = 1.0
 TERMCAP_PKG_GROUP               = $(PKG_GROUP)

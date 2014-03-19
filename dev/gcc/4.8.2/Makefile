@@ -23,26 +23,33 @@ COMPONENT_IS_3PP   = true
 
 include ../../../build-system/constants.mk
 
+
 version            = 4.8.2
 
-
 SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/GNU/gcc/gcc-$(version)
+SOURCE_REQUIRES   += $(SRC_PACKAGE_DIR)/GNU/gmp
+SOURCE_REQUIRES   += $(SRC_PACKAGE_DIR)/GNU/mpfr
+SOURCE_REQUIRES   += $(SRC_PACKAGE_DIR)/GNU/mpc
 
 
-REQUIRES           = dev/binutils/2.24
-REQUIRES          += libs/zlib/1.2.8
-REQUIRES          += libs/gmp/5.1.3
-REQUIRES          += libs/mpfr/3.1.2
-REQUIRES          += libs/mpc/1.0.2
-REQUIRES          += app/cloog/0.18.2
-REQUIRES          += app/gettext/0.18.3.2
+REQUIRES           = libs/eglibc/2.18.1
+REQUIRES          += dev/binutils/2.24
 
 
-tar_bz2_archive    = $(SRC_PACKAGE_PATH)/GNU/gcc/gcc-$(version)/gcc-$(version).tar.bz2
-SRC_ARCHIVE        = $(tar_bz2_archive)
-SRC_DIR            = $(TARGET_BUILD_DIR)/gcc-$(version)
-src_dir_name       = gcc-$(version)
-src_done           = $(TARGET_BUILD_DIR)/.source_done
+gmp_version           = 5.1.3
+mpfr_version          = 3.1.2
+mpc_version           = 1.0.2
+tar_bz2_archive       = $(SRC_PACKAGE_PATH)/GNU/gcc/gcc-$(version)/gcc-$(version).tar.bz2
+tar_bz2_archive_gmp   = $(SRC_PACKAGE_PATH)/GNU/gmp/gmp-$(gmp_version).tar.bz2
+tar_bz2_archive_mpfr  = $(SRC_PACKAGE_PATH)/GNU/mpfr/mpfr-$(mpfr_version).tar.bz2
+tar_gz_archive_mpc    = $(SRC_PACKAGE_PATH)/GNU/mpc/mpc-$(mpc_version).tar.gz
+SRC_ARCHIVE           = $(tar_bz2_archive)
+SRC_DIR               = $(TARGET_BUILD_DIR)/gcc-$(version)
+src_dir_name          = gcc-$(version)
+src_done              = $(TARGET_BUILD_DIR)/.source-done
+gmp_src_done          = $(TARGET_BUILD_DIR)/.gmp-source-done
+mpfr_src_done         = $(TARGET_BUILD_DIR)/.mpfr-source-done
+mpc_src_done          = $(TARGET_BUILD_DIR)/.mpc-source-done
 
 ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
 PATCHES = PATCHES.x86_64
@@ -65,11 +72,7 @@ PKG_GROUP = dev
 #
 GCC_DEV_PKG_NAME                = gcc
 GCC_DEV_PKG_VERSION             = 4.8.2
-ifeq ($(HARDWARE),$(TARGET_HOST))
-GCC_DEV_PKG_ARCH                = $(shell uname -m)
-else
 GCC_DEV_PKG_ARCH                = $(TOOLCHAIN)
-endif
 GCC_DEV_PKG_DISTRO_NAME         = kxLab
 GCC_DEV_PKG_DISTRO_VERSION      = 1.0
 GCC_DEV_PKG_GROUP               = $(PKG_GROUP)
@@ -99,16 +102,16 @@ include ../../../build-system/core.mk
 
 # NOTE: BUILD_MULTILIB_SUFFIX related to bulld machine
 #       (slacware64 - lib; ununtu64 - lib32) see $(BUILDSYSTEM)/targets.mk
-export CC_FOR_BUILD=gcc
-export CXX_FOR_BUILD=g++
-export LD_FOR_BUILD=ld
-export AR_FOR_BUILD=ar
-export AS_FOR_BUILD=as
-export NM_FOR_BUILD=nm
-export CFLAGS_FOR_BUILD = -I/usr/include
-export CXXFLAGS_FOR_BUILD = -I/usr/include -fpermissive
+export CC_FOR_BUILD       = gcc
+export CXX_FOR_BUILD      = g++
+export LD_FOR_BUILD       = ld
+export AR_FOR_BUILD       = ar
+export AS_FOR_BUILD       = as
+export NM_FOR_BUILD       = nm
+export CFLAGS_FOR_BUILD   = -I/usr/include
+export CXXFLAGS_FOR_BUILD = -I/usr/include
 export CPPFLAGS_FOR_BUILD = -I/usr/include
-export LDFLAGS_FOR_BUILD = -L/usr/lib$(BUILD_MULTILIB_SUFFIX)
+export LDFLAGS_FOR_BUILD  = -L/usr/lib$(BUILD_MULTILIB_SUFFIX)
 
 
 env_sysroot  = DESTDIR=$(GCC_DEV_PKG)
@@ -124,7 +127,6 @@ extra_configure_switches += --enable-languages=c,c++,lto
 extra_configure_switches += --enable-__cxa_atexit
 extra_configure_switches += --enable-shared
 extra_configure_switches += --enable-threads=posix
-extra_configure_switches += --with-system-zlib
 extra_configure_switches += --disable-libunwind-exceptions
 extra_configure_switches += --enable-lto
 extra_configure_switches += --enable-c99
@@ -133,26 +135,17 @@ extra_configure_switches += --enable-long-long
 extra_configure_switches += --with-gnu-ld
 extra_configure_switches += --with-gnu-as
 
+extra_configure_switches += --enable-nls
+extra_configure_switches += --with-included-gettext
 # prevent hardcoded RPATH used by LIBINTL
 extra_configure_switches += --disable-rpath
-
-extra_configure_switches += --with-mpc-include=$(TARGET_DEST_DIR)/usr/include
-extra_configure_switches += --with-mpc-lib=$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)
-extra_configure_switches += --with-mpfr-include=$(TARGET_DEST_DIR)/usr/include
-extra_configure_switches += --with-mpfr-lib=$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)
-extra_configure_switches += --with-gmp-include=$(TARGET_DEST_DIR)/usr/include
-extra_configure_switches += --with-gmp-lib=$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)
-extra_configure_switches += --with-cloog-include=$(TARGET_DEST_DIR)/usr/include
-extra_configure_switches += --with-cloog-lib=$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)
-
 
 
 ifeq ($(TOOLCHAIN),$(A1X_EGLIBC_TOOLCHAIN_NAME))
 extra_configure_switches += --with-cpu=cortex-a8
 extra_configure_switches += --with-arch=armv7-a
 extra_configure_switches += --with-fpu=neon
-extra_configure_switches += --with-abi=aapcs
-extra_configure_switches += --with-dwarf2
+extra_configure_switches += --with-abi=aapcs-linux
 endif
 
 ifeq ($(TOOLCHAIN),$(OMAP35X_EGLIBC_TOOLCHAIN_NAME))
@@ -202,7 +195,25 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(APPLY_PATCHES)
 	@touch $@
 
-$(build_target): $(src_done)
+$(gmp_src_done): $(src_done)
+	@echo "Expanding $(tar_bz2_archive_gmp)"
+	@tar xjf $(tar_bz2_archive_gmp) -C $(TARGET_BUILD_DIR)
+	@cd $(SRC_DIR); ln -sf ../gmp-$(gmp_version) gmp
+	@touch $@
+
+$(mpfr_src_done): $(src_done)
+	@echo "Expanding $(tar_bz2_archive_mpfr)"
+	@tar xjf $(tar_bz2_archive_mpfr) -C $(TARGET_BUILD_DIR)
+	@cd $(SRC_DIR); ln -sf ../mpfr-$(mpfr_version) mpfr
+	@touch $@
+
+$(mpc_src_done): $(src_done)
+	@echo "Expanding $(tar_gz_archive_mpc)"
+	@tar xzf $(tar_gz_archive_mpc) -C $(TARGET_BUILD_DIR)
+	@cd $(SRC_DIR); ln -sf ../mpc-$(mpc_version) mpc
+	@touch $@
+
+$(build_target): $(gmp_src_done) $(mpfr_src_done) $(mpc_src_done)
 	@mkdir -p $(build_dir)
 	@cd $(build_dir) && \
 	  $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \

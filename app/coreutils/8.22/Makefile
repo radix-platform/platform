@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS   = $(TARGET_HOST)
 COMPONENT_TARGETS  += $(TARGET_PC32)
 COMPONENT_TARGETS  += $(TARGET_PC64)
 COMPONENT_TARGETS  += $(TARGET_CB1X)
@@ -41,7 +40,7 @@ src_done            = $(TARGET_BUILD_DIR)/.source_done
 
 man_pages_dir       = $(CURDIR)/man-pages
 
-ifneq ($(filter $(HARDWARE),$(TARGET_HOST) $(TARGET_PC32) $(TARGET_PC64)),)
+ifneq ($(filter $(HARDWARE),$(TARGET_PC32) $(TARGET_PC64)),)
 PATCHES = PATCHES
 else
 PATCHES = PATCHES.noman
@@ -63,11 +62,7 @@ PKG_GROUP = app
 #
 COREUTILS_PKG_NAME                = coreutils
 COREUTILS_PKG_VERSION             = 8.22
-ifeq ($(HARDWARE),$(TARGET_HOST))
-COREUTILS_PKG_ARCH                = $(shell uname -m)
-else
 COREUTILS_PKG_ARCH                = $(TOOLCHAIN)
-endif
 COREUTILS_PKG_DISTRO_NAME         = kxLab
 COREUTILS_PKG_DISTRO_VERSION      = 1.0
 COREUTILS_PKG_GROUP               = $(PKG_GROUP)
@@ -112,7 +107,7 @@ extra_configure_switches += --bindir=/bin
 extra_configure_switches += --without-gmp
 
 
-ifeq ($(filter $(HARDWARE),$(TARGET_HOST) $(TARGET_PC32) $(TARGET_PC64)),)
+ifeq ($(filter $(HARDWARE),$(TARGET_PC32) $(TARGET_PC64)),)
 #extra_configure_switches += --cache-file=$(CURDIR)/cross.cache
 endif
 
@@ -141,7 +136,7 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(COREUTILS_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) install $(env_sysroot)
-ifeq ($(filter $(HARDWARE),$(TARGET_HOST) $(TARGET_PC32) $(TARGET_PC64)),)
+ifeq ($(filter $(HARDWARE),$(TARGET_PC32) $(TARGET_PC64)),)
 	@mkdir -p $(COREUTILS_PKG)/usr/share/man
 	@( cd $(COREUTILS_PKG)/usr/share/man ; \
 	   tar xzf $(man_pages_dir)/man1-$(version) \
@@ -194,7 +189,6 @@ endif
 	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \
 	 )
-	exit 1
 	# Install the same to $(TARGET_DEST_DIR)
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(COREUTILS_PKG) && cp -rf * $(TARGET_DEST_DIR)
@@ -203,7 +197,6 @@ endif
 	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )
 	@touch $@
-	exit 1
 
 $(COREUTILS_PKG_DESCRIPTION_FILE): $(COREUTILS_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@

@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS += $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC64)
 
 NEED_ABS_PATH      = true
@@ -38,11 +37,7 @@ PKG_GROUP = libs
 #
 PPL32_PKG_NAME                = ppl32
 PPL32_PKG_VERSION             = 1.1
-ifeq ($(HARDWARE),$(TARGET_HOST))
-PPL32_PKG_ARCH                = $(shell uname -m)
-else
 PPL32_PKG_ARCH                = $(TOOLCHAIN)
-endif
 PPL32_PKG_DISTRO_NAME         = kxLab
 PPL32_PKG_DISTRO_VERSION      = 1.0
 PPL32_PKG_GROUP               = $(PKG_GROUP)

@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS  = $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC32)
 COMPONENT_TARGETS += $(TARGET_PC64)
 COMPONENT_TARGETS += $(TARGET_CB1X)
@@ -29,7 +28,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/GNOME/core/glib
 
 
-ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME) $(BUILD_TOOLCHAIN_NAME)),)
+ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
 REQUIRES           = libs/glib2/2.39.4-x86_32
 else
 REQUIRES           = libs/zlib/1.2.8
@@ -62,11 +61,7 @@ PKG_GROUP = libs
 #
 GLIB2_PKG_NAME                = glib2
 GLIB2_PKG_VERSION             = 2.39.4
-ifeq ($(HARDWARE),$(TARGET_HOST))
-GLIB2_PKG_ARCH                = $(shell uname -m)
-else
 GLIB2_PKG_ARCH                = $(TOOLCHAIN)
-endif
 GLIB2_PKG_DISTRO_NAME         = kxLab
 GLIB2_PKG_DISTRO_VERSION      = 1.0
 GLIB2_PKG_GROUP               = $(PKG_GROUP)

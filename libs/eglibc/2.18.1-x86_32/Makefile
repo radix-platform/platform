@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS  = $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC64)
 
 NEED_ABS_PATH      = true
@@ -46,11 +45,7 @@ PKG_GROUP = libs
 #
 EGLIBC32_PKG_NAME                = eglibc32
 EGLIBC32_PKG_VERSION             = 2.18.1
-ifeq ($(HARDWARE),$(TARGET_HOST))
-EGLIBC32_PKG_ARCH                = $(shell uname -m)
-else
 EGLIBC32_PKG_ARCH                = $(TOOLCHAIN)
-endif
 EGLIBC32_PKG_DISTRO_NAME         = kxLab
 EGLIBC32_PKG_DISTRO_VERSION      = 1.0
 EGLIBC32_PKG_GROUP               = $(PKG_GROUP)
@@ -145,6 +140,7 @@ $(build_eglibc32_pkg): $(install_target) $(EGLIBC32_PKG_DESCRIPTION_FILE)
 	@( cd $(EGLIBC32_PKG); \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
 	@cp $(EGLIBC32_PKG_DESCRIPTION_FILE) $(EGLIBC32_PKG)/.DESCRIPTION
 	@cp $(EGLIBC32_PKG_INSTALL_SCRIPT) $(EGLIBC32_PKG)/.INSTALL

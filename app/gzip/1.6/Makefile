@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS  = $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC32)
 COMPONENT_TARGETS += $(TARGET_PC64)
 COMPONENT_TARGETS += $(TARGET_CB1X)
@@ -56,11 +55,7 @@ PKG_GROUP = app
 #
 GZIP_PKG_NAME                = gzip
 GZIP_PKG_VERSION             = 1.6
-ifeq ($(HARDWARE),$(TARGET_HOST))
-GZIP_PKG_ARCH                = $(shell uname -m)
-else
 GZIP_PKG_ARCH                = $(TOOLCHAIN)
-endif
 GZIP_PKG_DISTRO_NAME         = kxLab
 GZIP_PKG_DISTRO_VERSION      = 1.0
 GZIP_PKG_GROUP               = $(PKG_GROUP)

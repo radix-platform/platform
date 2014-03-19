@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS  = $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC32)
 COMPONENT_TARGETS += $(TARGET_PC64)
 COMPONENT_TARGETS += $(TARGET_CB1X)
@@ -60,11 +59,7 @@ PKG_GROUP = app
 #
 BASH_PKG_NAME                = bash
 BASH_PKG_VERSION             = 4.2
-ifeq ($(HARDWARE),$(TARGET_HOST))
-BASH_PKG_ARCH                = $(shell uname -m)
-else
 BASH_PKG_ARCH                = $(TOOLCHAIN)
-endif
 BASH_PKG_DISTRO_NAME         = kxLab
 BASH_PKG_DISTRO_VERSION      = 1.0
 BASH_PKG_GROUP               = $(PKG_GROUP)
@@ -96,7 +91,7 @@ env_sysroot         = DESTDIR=$(BASH_PKG)
 
 OPTIMIZATION_FLAGS  = -O3
 
-ifeq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME) $(BUILD_TOOLCHAIN_NAME)),)
+ifeq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
 # NOTE: MULTILIB_X86_32_SUFFIX related to bulld machine
 #       (slacware64 - lib; ununtu64 - lib32) see $(BUILDSYSTEM)/targets.mk
 environment  = CPPFLAGS_FOR_BUILD="-I/usr/include"

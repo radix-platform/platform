@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS  = $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC32)
 COMPONENT_TARGETS += $(TARGET_PC64)
 COMPONENT_TARGETS += $(TARGET_CB1X)
@@ -29,7 +28,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/a/gpm
 
 
-ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME) $(BUILD_TOOLCHAIN_NAME)),)
+ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
 REQUIRES           = app/gpm/1.20.7-x86_32
 else
 REQUIRES           = app/inputattach/1.4.7
@@ -61,11 +60,7 @@ PKG_GROUP = app
 #
 GPM_PKG_NAME                = gpm
 GPM_PKG_VERSION             = 1.20.7
-ifeq ($(HARDWARE),$(TARGET_HOST))
-GPM_PKG_ARCH                = $(shell uname -m)
-else
 GPM_PKG_ARCH                = $(TOOLCHAIN)
-endif
 GPM_PKG_DISTRO_NAME         = kxLab
 GPM_PKG_DISTRO_VERSION      = 1.0
 GPM_PKG_GROUP               = $(PKG_GROUP)
@@ -77,7 +72,7 @@ GPM_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GPM_PKG_NAME)-pkg-descriptio
 GPM_PKG_DESCRIPTION_FILE_IN = $(GPM_PKG_NAME)-pkg-description.in
 GPM_PKG_INSTALL_SCRIPT      = $(GPM_PKG_NAME)-pkg-install.sh
 
-GPM_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(GPM_PKG_NAME)-package
+GPM_PKG          = $(CURDIR)/$(TARGET_BUILD_DIR)/$(GPM_PKG_NAME)-package
 
 pkg_basename     = $(GPM_PKG_NAME)-$(GPM_PKG_VERSION)-$(GPM_PKG_ARCH)-$(GPM_PKG_DISTRO_NAME)-$(GPM_PKG_DISTRO_VERSION)
 pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(GPM_PKG_GROUP)/$(pkg_basename).tgz

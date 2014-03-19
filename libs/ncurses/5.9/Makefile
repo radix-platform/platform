@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS  = $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC32)
 COMPONENT_TARGETS += $(TARGET_PC64)
 COMPONENT_TARGETS += $(TARGET_CB1X)
@@ -29,7 +28,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES      = $(SRC_PACKAGE_DIR)/GNU/ncurses/5.9
 
 
-ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME) $(BUILD_TOOLCHAIN_NAME)),)
+ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
 REQUIRES             = libs/ncurses/5.9-x86_32
 else
 REQUIRES             = app/gpm/1.20.7
@@ -43,11 +42,7 @@ SRC_DIR              = $(TARGET_BUILD_DIR)/ncurses-$(version)
 src_dir_name         = ncurses-$(version)
 src_done             = $(TARGET_BUILD_DIR)/.source_done
 
-ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
-PATCHES = PATCHES.build
-else
 PATCHES = PATCHES
-endif
 
 terminfo_files       = $(CURDIR)/terminfo/Eterm.ti
 terminfo_files      += $(CURDIR)/terminfo/rxvt.terminfo
@@ -75,11 +70,7 @@ PKG_GROUP = libs
 #
 NCURSES_PKG_NAME                = ncurses
 NCURSES_PKG_VERSION             = 5.9
-ifeq ($(HARDWARE),$(TARGET_HOST))
-NCURSES_PKG_ARCH                = $(shell uname -m)
-else
 NCURSES_PKG_ARCH                = $(TOOLCHAIN)
-endif
 NCURSES_PKG_DISTRO_NAME         = kxLab
 NCURSES_PKG_DISTRO_VERSION      = 1.0
 NCURSES_PKG_GROUP               = $(PKG_GROUP)
@@ -111,16 +102,6 @@ env_sysroot        = DESTDIR=$(NCURSES_PKG)
 
 OPTIMIZATION_FLAGS = -O3
 
-ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
-# we use the same compiler as BUILD_CC and CC but we want to organize
-# pseudo cross compilation process for the HARDWARE=host. When ncurses
-# configure script seen that BUILD_CC == CC we have configuration error
-# with suggestion to use TWO compilers for cross development.
-# To prevent this issue we trick the mcurses-5.9/configure script by
-# using -m64 compiler oprion.
-CC += -m64
-endif
-
 
 extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --mandir=/usr/share/man
@@ -138,7 +119,7 @@ extra_configure_switches += --without-ada
 extra_configure_switches += --program-suffix=""
 extra_configure_switches += --program-prefix=""
 
-ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME) $(BUILD_TOOLCHAIN_NAME)),)
+ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
 extra_configure_switches += --with-chtype=long
 extra_configure_switches += --with-mmask-t=long
 endif

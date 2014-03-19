@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS += $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC64)
 
 NEED_ABS_PATH      = true
@@ -38,11 +37,7 @@ PKG_GROUP = libs
 #
 GMP32_PKG_NAME                = gmp32
 GMP32_PKG_VERSION             = 5.1.3
-ifeq ($(HARDWARE),$(TARGET_HOST))
-GMP32_PKG_ARCH                = $(shell uname -m)
-else
 GMP32_PKG_ARCH                = $(TOOLCHAIN)
-endif
 GMP32_PKG_DISTRO_NAME         = kxLab
 GMP32_PKG_DISTRO_VERSION      = 1.0
 GMP32_PKG_GROUP               = $(PKG_GROUP)

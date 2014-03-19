@@ -28,8 +28,10 @@ $(tarball):
 	@echo -e "\n======= Downloading source tarballs =======\n"
 	@wget $(WGET_OPTIONS) -N $(url)/$(pkgname)-$(version)/$(tarball)
 	@echo -e "\n======= Create Patches =======\n"
+	@( cd create-4.8.2-gmp-inside-patch && ./create.patch.sh )
+	@( cd create-4.8.2-fixinc-gmp-inside-patch && ./create.patch.sh )
+	@( cd create-4.8.2-fixinc-gmp-outside-patch && ./create.patch.sh )
 	@( cd create-4.8.2-x86_64-multilib-patch && ./create.patch.sh )
-	@( cd create-4.8.2-fixincludes-patch && ./create.patch.sh )
 
 $(sha1s): %.$(suffix).sha1sum : %.$(suffix)
 	@echo -e "\n======= Downloading '$@' signature =======\n"
@@ -45,5 +47,7 @@ $(sha1s): %.$(suffix).sha1sum : %.$(suffix)
 
 download_clean:
 	@rm -f $(tarball) $(sha1s)
+	@rm -f ./patches/gcc-4.8.2-gmp-inside.patch
+	@rm -f ./patches/gcc-4.8.2-fixinc-gmp-inside.patch
+	@rm -f ./patches/gcc-4.8.2-fixinc-gmp-outside.patch
 	@rm -f ./patches/gcc-4.8.2-x86_64-multilib.patch
-	@rm -f ./patches/gcc-4.8.2-fixincludes.patch

@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS  = $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC32)
 COMPONENT_TARGETS += $(TARGET_PC64)
 COMPONENT_TARGETS += $(TARGET_CB1X)
@@ -29,7 +28,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/GNU/readline
 
 
-ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME) $(BUILD_TOOLCHAIN_NAME)),)
+ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
 REQUIRES           = libs/readline/6.3-x86_32
 else
 REQUIRES           = libs/ncurses/5.9
@@ -61,11 +60,7 @@ PKG_GROUP = libs
 #
 READLINE_PKG_NAME                = readline
 READLINE_PKG_VERSION             = 6.3
-ifeq ($(HARDWARE),$(TARGET_HOST))
-READLINE_PKG_ARCH                = $(shell uname -m)
-else
 READLINE_PKG_ARCH                = $(TOOLCHAIN)
-endif
 READLINE_PKG_DISTRO_NAME         = kxLab
 READLINE_PKG_DISTRO_VERSION      = 1.0
 READLINE_PKG_GROUP               = $(PKG_GROUP)

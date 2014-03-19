@@ -77,11 +77,7 @@ PKG_GROUP = boot
 
 KERNEL_BIN_PKG_NAME                = kernel
 KERNEL_BIN_PKG_VERSION             = 3.8.13
-ifeq ($(HARDWARE),$(TARGET_HOST))
-KERNEL_BIN_PKG_ARCH                = $(shell uname -m)
-else
 KERNEL_BIN_PKG_ARCH                = $(TOOLCHAIN)
-endif
 KERNEL_BIN_PKG_DISTRO_NAME         = kxLab
 KERNEL_BIN_PKG_DISTRO_VERSION      = 1.0
 KERNEL_BIN_PKG_GROUP               = $(PKG_GROUP)

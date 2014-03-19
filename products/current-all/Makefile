@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS += $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC32)
 COMPONENT_TARGETS += $(TARGET_PC64)
 COMPONENT_TARGETS += $(TARGET_CB1X)
@@ -27,13 +26,15 @@ include ../../build-system/constants.mk
 
 
 
-
 ifeq ($(HARDWARE),$(TARGET_OMAP5UEVM))
 REQUIRES           = hal/3pp/omap/wl18xx_fw
 REQUIRES          += boot/u-boot/omap543x/2013.04-20140216
 endif
 
 REQUIRES          += libs/eglibc/2.18.1-zoneinfo
+REQUIRES          += dev/binutils/2.24
+REQUIRES          += dev/gcc/4.8.2
+
 REQUIRES          += app/kmod/16
 REQUIRES          += libs/libffi/3.0.13
 REQUIRES          += libs/libelf/0.8.13
@@ -42,18 +43,14 @@ REQUIRES          += libs/libtermcap/1.2.3
 REQUIRES          += libs/readline/6.3
 REQUIRES          += app/gettext/0.18.3.2
 
-REQUIRES          += libs/mpc/1.0.2
-REQUIRES          += app/cloog/0.18.2
-
 REQUIRES          += libs/pcre/8.34
 REQUIRES          += app/bash/4.3
+REQUIRES          += app/coreutils/8.22
 
+# additional
+#REQUIRES          += libs/mpc/1.0.2
+#REQUIRES          += app/cloog/0.18.2
 
-
-ifeq ($(filter $(HARDWARE),$(TARGET_HOST)),)
-REQUIRES          += dev/binutils/2.24
-REQUIRES          += dev/gcc/4.8.2
-endif
 
 
 install_target     = $(TARGET_BUILD_DIR)/.install_done

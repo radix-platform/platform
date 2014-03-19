@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS += $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC64)
 
 NEED_ABS_PATH      = true
@@ -38,11 +37,7 @@ PKG_GROUP = libs
 #
 LIBELF32_PKG_NAME                = libelf32
 LIBELF32_PKG_VERSION             = 0.8.13
-ifeq ($(HARDWARE),$(TARGET_HOST))
-LIBELF32_PKG_ARCH                = $(shell uname -m)
-else
 LIBELF32_PKG_ARCH                = $(TOOLCHAIN)
-endif
 LIBELF32_PKG_DISTRO_NAME         = kxLab
 LIBELF32_PKG_DISTRO_VERSION      = 1.0
 LIBELF32_PKG_GROUP               = $(PKG_GROUP)

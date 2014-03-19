@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS += $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC64)
 
 NEED_ABS_PATH      = true
@@ -39,11 +38,7 @@ PKG_GROUP = libs
 #
 GLIB2_32_PKG_NAME                = glib2x32
 GLIB2_32_PKG_VERSION             = 2.39.4
-ifeq ($(HARDWARE),$(TARGET_HOST))
-GLIB2_32_PKG_ARCH                = $(shell uname -m)
-else
 GLIB2_32_PKG_ARCH                = $(TOOLCHAIN)
-endif
 GLIB2_32_PKG_DISTRO_NAME         = kxLab
 GLIB2_32_PKG_DISTRO_VERSION      = 1.0
 GLIB2_32_PKG_GROUP               = $(PKG_GROUP)
@@ -55,7 +50,7 @@ GLIB2_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GLIB2_32_PKG_NAME)-pkg-
 GLIB2_32_PKG_DESCRIPTION_FILE_IN = $(GLIB2_32_PKG_NAME)-pkg-description.in
 GLIB2_32_PKG_INSTALL_SCRIPT      = $(GLIB2_32_PKG_NAME)-pkg-install.sh
 
-GLIB2_32_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(GLIB2_32_PKG_NAME)-package
+GLIB2_32_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(GLIB2_32_PKG_NAME)-package
 
 pkg_basename     = $(GLIB2_32_PKG_NAME)-$(GLIB2_32_PKG_VERSION)-$(GLIB2_32_PKG_ARCH)-$(GLIB2_32_PKG_DISTRO_NAME)-$(GLIB2_32_PKG_DISTRO_VERSION)
 pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(GLIB2_32_PKG_GROUP)/$(pkg_basename).tgz
@@ -118,13 +113,6 @@ ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
 	@rm -rf $(GLIB2_32_PKG)/usr/lib
 	@( cd $(GLIB2_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	  sed -i "s,libdir='/usr/lib32/../lib',libdir='/usr/lib32',g" libffi.la \
-	 )
-endif
-ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
-	@mv $(GLIB2_32_PKG)/usr/lib64/* $(GLIB2_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)
-	@rm -rf $(GLIB2_32_PKG)/usr/lib64
-	@( cd $(GLIB2_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	  sed -i "s,libdir='/usr/lib/../lib64',libdir='/usr/lib',g" libffi.la \
 	 )
 endif
 	@mkdir -p $(GLIB2_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)

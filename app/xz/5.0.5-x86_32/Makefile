@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS += $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC64)
 
 NEED_ABS_PATH      = true
@@ -38,11 +37,7 @@ PKG_GROUP = app
 #
 XZ32_PKG_NAME                = xz32
 XZ32_PKG_VERSION             = 5.0.5
-ifeq ($(HARDWARE),$(TARGET_HOST))
-XZ32_PKG_ARCH                = $(shell uname -m)
-else
 XZ32_PKG_ARCH                = $(TOOLCHAIN)
-endif
 XZ32_PKG_DISTRO_NAME         = kxLab
 XZ32_PKG_DISTRO_VERSION      = 1.0
 XZ32_PKG_GROUP               = $(PKG_GROUP)
@@ -54,7 +49,7 @@ XZ32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(XZ32_PKG_NAME)-pkg-descript
 XZ32_PKG_DESCRIPTION_FILE_IN = $(XZ32_PKG_NAME)-pkg-description.in
 XZ32_PKG_INSTALL_SCRIPT      = $(XZ32_PKG_NAME)-pkg-install.sh
 
-XZ32_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(XZ32_PKG_NAME)-package
+XZ32_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(XZ32_PKG_NAME)-package
 
 pkg_basename     = $(XZ32_PKG_NAME)-$(XZ32_PKG_VERSION)-$(XZ32_PKG_ARCH)-$(XZ32_PKG_DISTRO_NAME)-$(XZ32_PKG_DISTRO_VERSION)
 pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(XZ32_PKG_GROUP)/$(pkg_basename).tgz

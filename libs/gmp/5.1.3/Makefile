@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS  = $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC32)
 COMPONENT_TARGETS += $(TARGET_PC64)
 COMPONENT_TARGETS += $(TARGET_CB1X)
@@ -29,7 +28,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/GNU/gmp
 
 
-ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME) $(BUILD_TOOLCHAIN_NAME)),)
+ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
 REQUIRES           = libs/gmp/5.1.3-x86_32
 else
 REQUIRES           = libs/eglibc/2.18.1
@@ -60,11 +59,7 @@ PKG_GROUP = libs
 #
 GMP_PKG_NAME                = gmp
 GMP_PKG_VERSION             = 5.1.3
-ifeq ($(HARDWARE),$(TARGET_HOST))
-GMP_PKG_ARCH                = $(shell uname -m)
-else
 GMP_PKG_ARCH                = $(TOOLCHAIN)
-endif
 GMP_PKG_DISTRO_NAME         = kxLab
 GMP_PKG_DISTRO_VERSION      = 1.0
 GMP_PKG_GROUP               = $(PKG_GROUP)
@@ -76,7 +71,7 @@ GMP_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GMP_PKG_NAME)-pkg-descriptio
 GMP_PKG_DESCRIPTION_FILE_IN = $(GMP_PKG_NAME)-pkg-description.in
 GMP_PKG_INSTALL_SCRIPT      = $(GMP_PKG_NAME)-pkg-install.sh
 
-GMP_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(GMP_PKG_NAME)-package
+GMP_PKG          = $(CURDIR)/$(TARGET_BUILD_DIR)/$(GMP_PKG_NAME)-package
 
 pkg_basename     = $(GMP_PKG_NAME)-$(GMP_PKG_VERSION)-$(GMP_PKG_ARCH)-$(GMP_PKG_DISTRO_NAME)-$(GMP_PKG_DISTRO_VERSION)
 pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(GMP_PKG_GROUP)/$(pkg_basename).tgz

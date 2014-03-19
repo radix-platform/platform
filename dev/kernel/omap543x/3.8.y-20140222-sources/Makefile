@@ -13,6 +13,7 @@ version          = 3.8.y-20140222
 
 REQUIRES         = boot/kernel/omap543x/$(version)
 
+
 kernel_version   = $(version)
 modules_version  = 3.8.13
 
@@ -22,11 +23,7 @@ PKG_GROUP = dev
 
 KS_DEV_PKG_NAME                = kernel-sources
 KS_DEV_PKG_VERSION             = 3.8.13
-ifeq ($(HARDWARE),$(TARGET_HOST))
-KS_DEV_PKG_ARCH                = $(shell uname -m)
-else
 KS_DEV_PKG_ARCH                = $(TOOLCHAIN)
-endif
 KS_DEV_PKG_DISTRO_NAME         = kxLab
 KS_DEV_PKG_DISTRO_VERSION      = 1.0
 KS_DEV_PKG_GROUP               = $(PKG_GROUP)

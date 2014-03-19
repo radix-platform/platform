@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS += $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC64)
 
 NEED_ABS_PATH      = true
@@ -38,11 +37,7 @@ PKG_GROUP = app
 #
 CLOOG32_PKG_NAME                = cloog32
 CLOOG32_PKG_VERSION             = 0.18.2
-ifeq ($(HARDWARE),$(TARGET_HOST))
-CLOOG32_PKG_ARCH                = $(shell uname -m)
-else
 CLOOG32_PKG_ARCH                = $(TOOLCHAIN)
-endif
 CLOOG32_PKG_DISTRO_NAME         = kxLab
 CLOOG32_PKG_DISTRO_VERSION      = 1.0
 CLOOG32_PKG_GROUP               = $(PKG_GROUP)

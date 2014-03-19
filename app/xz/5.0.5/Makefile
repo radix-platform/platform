@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS  = $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC32)
 COMPONENT_TARGETS += $(TARGET_PC64)
 COMPONENT_TARGETS += $(TARGET_CB1X)
@@ -29,7 +28,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/a/xz
 
 
-ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME) $(BUILD_TOOLCHAIN_NAME)),)
+ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
 REQUIRES           = app/xz/5.0.5-x86_32
 else
 REQUIRES           = libs/eglibc/2.18.1
@@ -60,11 +59,7 @@ PKG_GROUP = app
 #
 XZ_PKG_NAME                = xz
 XZ_PKG_VERSION             = 5.0.5
-ifeq ($(HARDWARE),$(TARGET_HOST))
-XZ_PKG_ARCH                = $(shell uname -m)
-else
 XZ_PKG_ARCH                = $(TOOLCHAIN)
-endif
 XZ_PKG_DISTRO_NAME         = kxLab
 XZ_PKG_DISTRO_VERSION      = 1.0
 XZ_PKG_GROUP               = $(PKG_GROUP)
@@ -76,7 +71,7 @@ XZ_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(XZ_PKG_NAME)-pkg-description
 XZ_PKG_DESCRIPTION_FILE_IN = $(XZ_PKG_NAME)-pkg-description.in
 XZ_PKG_INSTALL_SCRIPT      = $(XZ_PKG_NAME)-pkg-install.sh
 
-XZ_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(XZ_PKG_NAME)-package
+XZ_PKG           = $(CURDIR)/$(TARGET_BUILD_DIR)/$(XZ_PKG_NAME)-package
 
 pkg_basename     = $(XZ_PKG_NAME)-$(XZ_PKG_VERSION)-$(XZ_PKG_ARCH)-$(XZ_PKG_DISTRO_NAME)-$(XZ_PKG_DISTRO_VERSION)
 pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(XZ_PKG_GROUP)/$(pkg_basename).tgz

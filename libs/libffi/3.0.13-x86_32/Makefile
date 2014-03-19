@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS += $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC64)
 
 NEED_ABS_PATH      = true
@@ -38,11 +37,7 @@ PKG_GROUP = libs
 #
 LIBFFI32_PKG_NAME                = libffi32
 LIBFFI32_PKG_VERSION             = 3.0.13
-ifeq ($(HARDWARE),$(TARGET_HOST))
-LIBFFI32_PKG_ARCH                = $(shell uname -m)
-else
 LIBFFI32_PKG_ARCH                = $(TOOLCHAIN)
-endif
 LIBFFI32_PKG_DISTRO_NAME         = kxLab
 LIBFFI32_PKG_DISTRO_VERSION      = 1.0
 LIBFFI32_PKG_GROUP               = $(PKG_GROUP)

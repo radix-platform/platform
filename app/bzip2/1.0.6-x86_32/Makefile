@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS += $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC64)
 
 NEED_ABS_PATH      = true
@@ -36,11 +35,7 @@ PKG_GROUP = app
 #
 BZIP2_32_PKG_NAME                = bzip2x32
 BZIP2_32_PKG_VERSION             = 1.0.6
-ifeq ($(HARDWARE),$(TARGET_HOST))
-BZIP2_32_PKG_ARCH                = $(shell uname -m)
-else
 BZIP2_32_PKG_ARCH                = $(TOOLCHAIN)
-endif
 BZIP2_32_PKG_DISTRO_NAME         = kxLab
 BZIP2_32_PKG_DISTRO_VERSION      = 1.0
 BZIP2_32_PKG_GROUP               = $(PKG_GROUP)

@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS  = $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC32)
 COMPONENT_TARGETS += $(TARGET_PC64)
 COMPONENT_TARGETS += $(TARGET_CB1X)
@@ -29,7 +28,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/GNU/mpc
 
 
-ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME) $(BUILD_TOOLCHAIN_NAME)),)
+ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
 REQUIRES           = libs/mpc/1.0.2-x86_32
 else
 REQUIRES           = libs/gmp/5.1.3
@@ -61,11 +60,7 @@ PKG_GROUP = libs
 #
 MPC_PKG_NAME                = mpc
 MPC_PKG_VERSION             = 1.0.2
-ifeq ($(HARDWARE),$(TARGET_HOST))
-MPC_PKG_ARCH                = $(shell uname -m)
-else
 MPC_PKG_ARCH                = $(TOOLCHAIN)
-endif
 MPC_PKG_DISTRO_NAME         = kxLab
 MPC_PKG_DISTRO_VERSION      = 1.0
 MPC_PKG_GROUP               = $(PKG_GROUP)

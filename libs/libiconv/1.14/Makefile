@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS  = $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC32)
 COMPONENT_TARGETS += $(TARGET_PC64)
 COMPONENT_TARGETS += $(TARGET_CB1X)
@@ -29,7 +28,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/GNU/libiconv
 
 
-ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME) $(BUILD_TOOLCHAIN_NAME)),)
+ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
 REQUIRES           = libs/libiconv/1.14-x86_32
 else
 REQUIRES           = app/gettext/0.18.3.2
@@ -60,11 +59,7 @@ PKG_GROUP = libs
 #
 ICONV_PKG_NAME                = libiconv
 ICONV_PKG_VERSION             = 1.14
-ifeq ($(HARDWARE),$(TARGET_HOST))
-ICONV_PKG_ARCH                = $(shell uname -m)
-else
 ICONV_PKG_ARCH                = $(TOOLCHAIN)
-endif
 ICONV_PKG_DISTRO_NAME         = kxLab
 ICONV_PKG_DISTRO_VERSION      = 1.0
 ICONV_PKG_GROUP               = $(PKG_GROUP)

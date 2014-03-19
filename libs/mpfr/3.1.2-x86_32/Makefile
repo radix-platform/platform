@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS += $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC64)
 
 NEED_ABS_PATH      = true
@@ -38,11 +37,7 @@ PKG_GROUP = libs
 #
 MPFR32_PKG_NAME                = mpfr32
 MPFR32_PKG_VERSION             = 3.1.2
-ifeq ($(HARDWARE),$(TARGET_HOST))
-MPFR32_PKG_ARCH                = $(shell uname -m)
-else
 MPFR32_PKG_ARCH                = $(TOOLCHAIN)
-endif
 MPFR32_PKG_DISTRO_NAME         = kxLab
 MPFR32_PKG_DISTRO_VERSION      = 1.0
 MPFR32_PKG_GROUP               = $(PKG_GROUP)

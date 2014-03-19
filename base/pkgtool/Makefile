@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS  = $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC32)
 COMPONENT_TARGETS += $(TARGET_PC64)
 COMPONENT_TARGETS += $(TARGET_CB1N)
@@ -19,11 +18,7 @@ include ../../build-system/constants.mk
 
 BIN_PKG_NAME              = pkgtool
 BIN_PKG_VERSION           = 0.0.1
-ifeq ($(HARDWARE),$(TARGET_HOST))
-BIN_PKG_ARCH              = $(shell uname -m)
-else
 BIN_PKG_ARCH              = $(TOOLCHAIN)
-endif
 BIN_PKG_DISTRO_NAME       = kxLab
 BIN_PKG_DISTRO_VERSION    = 1.0
 BIN_PKG_GROUP             = base

@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS  += $(TARGET_HOST)
 COMPONENT_TARGETS  += $(TARGET_PC64)
 
 NEED_ABS_PATH       = true
@@ -36,11 +35,7 @@ PKG_GROUP = app
 #
 TERMCAP_32_PKG_NAME                = libtermcap32
 TERMCAP_32_PKG_VERSION             = 1.2.3
-ifeq ($(HARDWARE),$(TARGET_HOST))
-TERMCAP_32_PKG_ARCH                = $(shell uname -m)
-else
 TERMCAP_32_PKG_ARCH                = $(TOOLCHAIN)
-endif
 TERMCAP_32_PKG_DISTRO_NAME         = kxLab
 TERMCAP_32_PKG_DISTRO_VERSION      = 1.0
 TERMCAP_32_PKG_GROUP               = $(PKG_GROUP)

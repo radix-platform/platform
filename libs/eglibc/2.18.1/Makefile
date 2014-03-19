@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS  = $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC32)
 COMPONENT_TARGETS += $(TARGET_PC64)
 COMPONENT_TARGETS += $(TARGET_CB1X)
@@ -31,7 +30,7 @@ SOURCE_REQUIRES   = $(SRC_PACKAGE_DIR)/GNU/EGLIBC/$(version)
 SOURCE_REQUIRES  += $(SRC_PACKAGE_DIR)/iana/tz
 
 
-ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME) $(BUILD_TOOLCHAIN_NAME)),)
+ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
 REQUIRES          = libs/eglibc/2.18.1-x86_32
 REQUIRES         += base/pkgtool
 else
@@ -71,15 +70,11 @@ PKG_GROUP = libs
 #
 EGLIBC_PKG_NAME                = eglibc
 EGLIBC_PKG_VERSION             = 2.18.1
-ifeq ($(HARDWARE),$(TARGET_HOST))
-EGLIBC_PKG_ARCH                = $(shell uname -m)
-else
 EGLIBC_PKG_ARCH                = $(TOOLCHAIN)
-endif
 EGLIBC_PKG_DISTRO_NAME         = kxLab
 EGLIBC_PKG_DISTRO_VERSION      = 1.0
 EGLIBC_PKG_GROUP               = $(PKG_GROUP)
-###                                   |---handy-ruler-------------------------------|
+###                             |---handy-ruler-------------------------------|
 EGLIBC_PKG_SHORT_DESCRIPTION   = eglibc $(version) header files
 EGLIBC_PKG_URL                 = http://www.kxLab.com
 EGLIBC_PKG_LICENSE             = GPLv2
@@ -151,10 +146,8 @@ $(install_target): $(src_done)
 	@gzip -9 $(EGLIBC_PKG)/usr/share/info/*
 	@touch $@
 
-
 $(EGLIBC_PKG_DESCRIPTION_FILE): $(EGLIBC_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
-
 
 $(build_eglibc_pkg): $(install_target) $(EGLIBC_PKG_DESCRIPTION_FILE)
 	@mkdir -p $(EGLIBC_PKG)/usr/doc/eglibc-$(version)
@@ -171,6 +164,7 @@ $(build_eglibc_pkg): $(install_target) $(EGLIBC_PKG_DESCRIPTION_FILE)
 	@( cd $(EGLIBC_PKG); \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
 	@cp $(EGLIBC_PKG_DESCRIPTION_FILE) $(EGLIBC_PKG)/.DESCRIPTION
 	@cp $(EGLIBC_PKG_INSTALL_SCRIPT) $(EGLIBC_PKG)/.INSTALL

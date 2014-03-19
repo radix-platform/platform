@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS += $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC64)
 
 NEED_ABS_PATH      = true
@@ -16,7 +15,7 @@ REQUIRES           = app/gettext/0.18.3.2
 
 
 version            = 1.14
-tar_gz_archive    = $(SRC_PACKAGE_PATH)/GNU/libiconv/libiconv-$(version).tar.gz
+tar_gz_archive     = $(SRC_PACKAGE_PATH)/GNU/libiconv/libiconv-$(version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/libiconv-$(version)
 src_dir_name       = libiconv-$(version)
@@ -38,11 +37,7 @@ PKG_GROUP = libs
 #
 ICONV32_PKG_NAME                = libiconv32
 ICONV32_PKG_VERSION             = 1.14
-ifeq ($(HARDWARE),$(TARGET_HOST))
-ICONV32_PKG_ARCH                = $(shell uname -m)
-else
 ICONV32_PKG_ARCH                = $(TOOLCHAIN)
-endif
 ICONV32_PKG_DISTRO_NAME         = kxLab
 ICONV32_PKG_DISTRO_VERSION      = 1.0
 ICONV32_PKG_GROUP               = $(PKG_GROUP)

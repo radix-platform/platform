@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS  = $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC32)
 COMPONENT_TARGETS += $(TARGET_PC64)
 COMPONENT_TARGETS += $(TARGET_CB1X)
@@ -29,7 +28,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/l/pcre
 
 
-ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME) $(BUILD_TOOLCHAIN_NAME)),)
+ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
 REQUIRES           = libs/pcre/8.34-x86_32
 else
 REQUIRES           = libs/zlib/1.2.8
@@ -63,11 +62,7 @@ PKG_GROUP = libs
 #
 PCRE_PKG_NAME                = pcre
 PCRE_PKG_VERSION             = 8.34
-ifeq ($(HARDWARE),$(TARGET_HOST))
-PCRE_PKG_ARCH                = $(shell uname -m)
-else
 PCRE_PKG_ARCH                = $(TOOLCHAIN)
-endif
 PCRE_PKG_DISTRO_NAME         = kxLab
 PCRE_PKG_DISTRO_VERSION      = 1.0
 PCRE_PKG_GROUP               = $(PKG_GROUP)

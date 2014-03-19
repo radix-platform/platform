@@ -27,7 +27,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/GNU/binutils
 
 
-REQUIRES           = libs/zlib/1.2.8
+REQUIRES           = libs/eglibc/2.18.1
 
 
 version            = 2.24
@@ -54,11 +54,7 @@ PKG_GROUP = dev
 #
 BINUTILS_DEV_PKG_NAME                = binutils
 BINUTILS_DEV_PKG_VERSION             = 2.24
-ifeq ($(HARDWARE),$(TARGET_HOST))
-BINUTILS_DEV_PKG_ARCH                = $(shell uname -m)
-else
 BINUTILS_DEV_PKG_ARCH                = $(TOOLCHAIN)
-endif
 BINUTILS_DEV_PKG_DISTRO_NAME         = kxLab
 BINUTILS_DEV_PKG_DISTRO_VERSION      = 1.0
 BINUTILS_DEV_PKG_GROUP               = $(PKG_GROUP)
@@ -91,36 +87,13 @@ env_sysroot = DESTDIR=$(BINUTILS_DEV_PKG)
 DEFAULT_LD  = ld.bfd
 
 
-ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
-extra_configure_switches  = '--with-pkgversion=Radix $(SYSTEM_VERSION)'
-extra_configure_switches += '--with-bugurl=http://www.radix.pro'
-# experimental gold linker( DEFAULT_LD=ld.bfd ):
-extra_configure_switches += --enable-gold=yes
-extra_configure_switches += --enable-ld=default
-extra_configure_switches += --enable-werror=no
-# The --enable-initfini-array option was added in binutils-2.21.51.0.3.
-# This option currently causes a world of hurt trying to compile glibc,
-# and might break static libraries or cause other ill effects.  There
-# is an upstream patch for glibc but it does not avoid all of the known
-# problems (and there may be some unknown ones, too), so we will avoid
-# introducing this feature for now.
-# References:
-# http://sourceware.org/bugzilla/show_bug.cgi?id=12343
-# http://gcc.gnu.org/bugzilla/show_bug.cgi?id=46770
-extra_configure_switches += --disable-initfini-array
-# standard options:
-extra_configure_switches += --enable-targets=x86_64-kxLab-linux,x86_64-radix-linux,x86_64-kxLab-linux-gnulibc1,x86_64-kxLab-linux-gnuaout
-extra_configure_switches += --enable-64-bit-bfd
-extra_configure_switches += --enable-shared
-extra_configure_switches += --libdir=/usr/lib$(LIBSUFFIX)
-extra_configure_switches += --mandir=/usr/share/man
-extra_configure_switches += --infodir=/usr/share/info
-extra_configure_switches += --docdir=/usr/share/doc
-endif
+extra_configure_switches  = --enable-nls
+extra_configure_switches += --with-included-gettext
+
 
 ifeq ($(TOOLCHAIN),$(A1X_EGLIBC_TOOLCHAIN_NAME))
 # experimental gold linker( DEFAULT_LD=ld.bfd ):
-extra_configure_switches  = --enable-gold=yes
+extra_configure_switches += --enable-gold=yes
 extra_configure_switches += --enable-ld=default
 extra_configure_switches += --enable-werror=no
 # standard options:
@@ -130,6 +103,8 @@ extra_configure_switches += --with-cpu=cortex-a8
 extra_configure_switches += --with-arch=armv7-a
 extra_configure_switches += --with-fpu=neon
 extra_configure_switches += --with-abi=aapcs
+extra_configure_switches += --enable-threads
+extra_configure_switches += --enable-targets=$(TARGET),arm-radix-linux-gnu
 extra_configure_switches += --enable-shared
 extra_configure_switches += --libdir=/usr/lib
 extra_configure_switches += --mandir=/usr/share/man
@@ -138,8 +113,9 @@ extra_configure_switches += --docdir=/usr/share/doc
 endif
 
 ifeq ($(TOOLCHAIN),$(OMAP35X_EGLIBC_TOOLCHAIN_NAME))
-extra_configure_switches  = --with-cpu=cortex-a8
+extra_configure_switches += --with-cpu=cortex-a8
 extra_configure_switches += --with-arch=armv7-a
+extra_configure_switches += --enable-targets=$(TARGET),arm-radix-linux-gnu
 extra_configure_switches += --enable-shared
 extra_configure_switches += --libdir=/usr/lib
 extra_configure_switches += --mandir=/usr/share/man
@@ -149,7 +125,7 @@ endif
 
 ifeq ($(TOOLCHAIN),$(OMAP543X_EGLIBC_TOOLCHAIN_NAME))
 # experimental gold linker( DEFAULT_LD=ld.bfd ):
-extra_configure_switches  = --enable-gold=yes
+extra_configure_switches += --enable-gold=yes
 extra_configure_switches += --enable-ld=default
 extra_configure_switches += --enable-werror=no
 # standard options:
@@ -159,6 +135,8 @@ extra_configure_switches += --with-cpu=cortex-a15
 extra_configure_switches += --with-arch=armv7-a
 extra_configure_switches += --with-fpu=neon-vfpv4
 extra_configure_switches += --with-abi=aapcs
+extra_configure_switches += --enable-threads
+extra_configure_switches += --enable-targets=$(TARGET),arm-radix-linux-gnu
 extra_configure_switches += --enable-shared
 extra_configure_switches += --libdir=/usr/lib
 extra_configure_switches += --mandir=/usr/share/man
@@ -168,12 +146,13 @@ endif
 
 
 ifeq ($(TOOLCHAIN),$(DM644X_EGLIBC_TOOLCHAIN_NAME))
-extra_configure_switches  = --enable-interwork
+extra_configure_switches += --enable-interwork
 extra_configure_switches += --enable-multilib
 extra_configure_switches += --with-float=soft
 extra_configure_switches += --with-cpu=arm926ej-s
 extra_configure_switches += --with-arch=armv5tej
 extra_configure_switches += --with-tune=arm926ej-s
+extra_configure_switches += --enable-targets=$(TARGET),arm-radix-linux-gnu
 extra_configure_switches += --enable-shared
 extra_configure_switches += --libdir=/usr/lib
 extra_configure_switches += --mandir=/usr/share/man
@@ -182,9 +161,10 @@ extra_configure_switches += --docdir=/usr/share/doc
 endif
 
 ifeq ($(TOOLCHAIN),$(BCM74X_EGLIBC_TOOLCHAIN_NAME))
-extra_configure_switches  = --enable-multilib
+extra_configure_switches += --enable-multilib
 extra_configure_switches += --with-arch=mips32
 extra_configure_switches += --disable-werror
+extra_configure_switches += --enable-targets=$(TARGET),mipsel-radix-linux-gnu
 extra_configure_switches += --enable-shared
 extra_configure_switches += --libdir=/usr/lib
 extra_configure_switches += --mandir=/usr/share/man
@@ -193,7 +173,7 @@ extra_configure_switches += --docdir=/usr/share/doc
 endif
 
 ifeq ($(TOOLCHAIN),$(I686_EGLIBC_TOOLCHAIN_NAME))
-extra_configure_switches  = '--with-pkgversion=Radix $(SYSTEM_VERSION)'
+extra_configure_switches += '--with-pkgversion=Radix $(SYSTEM_VERSION)'
 extra_configure_switches += '--with-bugurl=http://www.radix.pro'
 # experimental gold linker( DEFAULT_LD=ld.bfd ):
 extra_configure_switches += --enable-gold=yes
@@ -210,7 +190,8 @@ extra_configure_switches += --enable-werror=no
 # http://gcc.gnu.org/bugzilla/show_bug.cgi?id=46770
 extra_configure_switches += --disable-initfini-array
 # standard options:
-extra_configure_switches += --enable-targets=i486-kxLab-linux,i486-radix-linux,i486-kxLab-linux-gnulibc1,i486-kxLab-linux-gnuaout
+extra_configure_switches += --enable-threads
+extra_configure_switches += --enable-targets=$(TARGET),i486-kxLab-linux-gnu,i486-kxLab-linux-gnulibc1,i486-kxLab-linux-gnuaout
 extra_configure_switches += --enable-shared
 extra_configure_switches += --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --mandir=/usr/share/man
@@ -219,7 +200,7 @@ extra_configure_switches += --docdir=/usr/share/doc
 endif
 
 ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
-extra_configure_switches  = '--with-pkgversion=Radix $(SYSTEM_VERSION)'
+extra_configure_switches += '--with-pkgversion=Radix $(SYSTEM_VERSION)'
 extra_configure_switches += '--with-bugurl=http://www.radix.pro'
 # experimental gold linker( DEFAULT_LD=ld.bfd ):
 extra_configure_switches += --enable-gold=yes
@@ -236,7 +217,9 @@ extra_configure_switches += --enable-werror=no
 # http://gcc.gnu.org/bugzilla/show_bug.cgi?id=46770
 extra_configure_switches += --disable-initfini-array
 # standard options:
-extra_configure_switches += --enable-targets=x86_64-kxLab-linux,x86_64-radix-linux,x86_64-kxLab-linux-gnulibc1,x86_64-kxLab-linux-gnuaout
+extra_configure_switches += --enable-multilib
+extra_configure_switches += --enable-threads
+extra_configure_switches += --enable-targets=$(TARGET),x86_64-kxLab-linux,x86_64-kxLab-linux-gnulibc1,x86_64-kxLab-linux-gnuaout
 extra_configure_switches += --enable-64-bit-bfd
 extra_configure_switches += --enable-shared
 extra_configure_switches += --libdir=/usr/lib$(LIBSUFFIX)
@@ -313,7 +296,8 @@ $(install_target): $(build_target)
 	 fi
 	@mv $(BINUTILS_DEV_PKG)/usr/$(TARGET)/lib/ldscripts $(BINUTILS_DEV_PKG)/usr/lib$(LIBSUFFIX)
 	@( cd $(BINUTILS_DEV_PKG)/usr/$(TARGET) ; \
-	   ln -s ../../lib$(LIBSUFFIX)/ldscripts lib/ldscripts ; \
+	   rm -rf lib ; \
+	   ln -s ../lib$(LIBSUFFIX) . ; \
 	   for FILE in ar as ld ld.bfd ld.gold nm objcopy objdump ranlib strip ; do \
 	     if [ -r ../bin/$$FILE ]; then \
 	       rm -f bin/$$FILE ; \
@@ -321,7 +305,12 @@ $(install_target): $(build_target)
 	     fi ; \
 	   done \
 	 )
-	# Install the same to $(TARGET_DEST_DIR)
+ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
+	@mkdir -p $(BINUTILS_DEV_PKG)/lib64
+	@ln -sf ../lib$(LIBSUFFIX) $(BINUTILS_DEV_PKG)/usr/$(TARGET)/lib64
+	@ln -sf ../lib$(MULTILIB_X86_32_SUFFIX) $(BINUTILS_DEV_PKG)/usr/$(TARGET)/lib32
+endif
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(BINUTILS_DEV_PKG) && cp -rf * $(TARGET_DEST_DIR)
 	# Libiberty will be installed from GCC by --enable-install-libiberty option

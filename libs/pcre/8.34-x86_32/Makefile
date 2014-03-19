@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS += $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC64)
 
 NEED_ABS_PATH      = true
@@ -41,11 +40,7 @@ PKG_GROUP = libs
 #
 PCRE32_PKG_NAME                = pcre32
 PCRE32_PKG_VERSION             = 8.34
-ifeq ($(HARDWARE),$(TARGET_HOST))
-PCRE32_PKG_ARCH                = $(shell uname -m)
-else
 PCRE32_PKG_ARCH                = $(TOOLCHAIN)
-endif
 PCRE32_PKG_DISTRO_NAME         = kxLab
 PCRE32_PKG_DISTRO_VERSION      = 1.0
 PCRE32_PKG_GROUP               = $(PKG_GROUP)
@@ -105,6 +100,7 @@ extra_configure_switches += --enable-pcretest-libreadline
 
 extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --enable-static=yes
+
 
 ####### Dependencies
 

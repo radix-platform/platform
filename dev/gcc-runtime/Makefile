@@ -1,5 +1,4 @@
 
-COMPONENT_TARGETS += $(TARGET_HOST)
 COMPONENT_TARGETS += $(TARGET_PC32)
 COMPONENT_TARGETS += $(TARGET_PC64)
 COMPONENT_TARGETS += $(TARGET_CB1X)
@@ -46,11 +45,7 @@ PKG_GROUP = libs
 #
 GCC_RT_DEV_PKG_NAME                = gcc-runtime
 GCC_RT_DEV_PKG_VERSION             = 4.8.2
-ifeq ($(HARDWARE),$(TARGET_HOST))
-GCC_RT_DEV_PKG_ARCH                = $(shell uname -m)
-else
 GCC_RT_DEV_PKG_ARCH                = $(TOOLCHAIN)
-endif
 GCC_RT_DEV_PKG_DISTRO_NAME         = kxLab
 GCC_RT_DEV_PKG_DISTRO_VERSION      = 1.0
 GCC_RT_DEV_PKG_GROUP               = $(PKG_GROUP)
@@ -80,20 +75,10 @@ PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
 
 include ../../build-system/core.mk
 
-#
-# NOTE:
-#   Code for BUILD_TOOLCHAIN_NAME works only on x86_64 systems where
-#   native x86_64 libs are placed in /usr/lib64 directory and compat
-#   x86_32 libs are placed in /usr/lib system directory.
-#
 
-ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
-src_dir      = $(TOOLCHAIN_PATH)
-else
 src_dir      = $(TOOLCHAIN_PATH)/$(TARGET)
-endif
 
-ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME) $(BUILD_TOOLCHAIN_NAME)),)
+ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
 lib_compat   = yes
 else
 lib_compat   = no
@@ -131,6 +116,10 @@ $(install_target):
 	    if [ "" != "`find -iname 'libtsan*'     -exec echo '{}' \; -quit`" ] ; then cp -a libtsan*     $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi ; \
 	    if [ -d ldscripts ] ; then cp -rf ldscripts $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi ) ; \
 	 fi
+	@rm -f $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX)/*gdb.py
+ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
+	@rm -f $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/*gdb.py
+endif
 	@( cd $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,$(src_dir)/lib,$(TARGET_DEST_DIR)/usr/lib,g" *.la \
 	 )
@@ -149,18 +138,6 @@ $(install_target):
 	@( cd $(TOOLCHAIN_PATH) && \
 	   cp -r libexec/gcc $(GCC_RT_DEV_PKG)/usr/libexec \
 	 )
-ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
-	@( if [ -d $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX)/gcc/$(TARGET)/$(version) ] ; then \
-	     cd $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX)/gcc/$(TARGET)/$(version) && \
-	     sed -i "s,$(TOOLCHAIN_PATH),$(TARGET_DEST_DIR)/usr,g" *.la ; \
-	   fi \
-	 )
-	@( if [ -d $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX)/gcc/$(TARGET)/$(version)/32 ] ; then \
-	     cd $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX)/gcc/$(TARGET)/$(version)/32 && \
-	     sed -i "s,$(TOOLCHAIN_PATH),$(TARGET_DEST_DIR)/usr,g" *.la ; \
-	   fi \
-	 )
-endif
 	@( cd $(GCC_RT_DEV_PKG)/usr/libexec/gcc/$(TARGET)/$(version) && \
 	   sed -i "s,$(TOOLCHAIN_PATH),$(TARGET_DEST_DIR)/usr,g" *.la \
 	 )
@@ -171,18 +148,6 @@ endif
 	@( cd $(GCC_RT_DEV_PKG)/usr/libexec/gcc/$(TARGET)/$(version) && \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" *.la \
 	 )
-ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
-	@( if [ -d $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX)/gcc/$(TARGET)/$(version) ] ; then \
-	     cd $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX)/gcc/$(TARGET)/$(version) && \
-	     sed -i "s,$(TARGET_DEST_DIR),,g" *.la ; \
-	   fi \
-	 )
-	@( if [ -d $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX)/gcc/$(TARGET)/$(version)/32 ] ; then \
-	     cd $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX)/gcc/$(TARGET)/$(version)/32 && \
-	     sed -i "s,$(TARGET_DEST_DIR),,g" *.la ; \
-	   fi \
-	 )
-endif
 	@( cd $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" *.la \
 	 )
@@ -211,4 +176,3 @@ $(build_gcc_rt_pkg): $(install_target) $(GCC_RT_DEV_PKG_DESCRIPTION_FILE)
 	 echo "license=$(GCC_RT_DEV_PKG_LICENSE)"                         >> $(GCC_RT_DEV_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(GCC_RT_DEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
 	@touch $@
-

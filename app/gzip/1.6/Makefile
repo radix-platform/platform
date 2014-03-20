@@ -120,7 +120,7 @@ $(install_target): $(build_target)
 	@rm -f $(GZIP_PKG)/usr/share/info/dir
 	@gzip -9 $(GZIP_PKG)/usr/share/info/*
 	# Uncomment next line if you will use 'uncompress' from ncommpress package
-#	@rm -f $(GZIP_PKG)/bin/uncompress
+	@rm -f $(GZIP_PKG)/bin/uncompress
 	@mkdir -p $(GZIP_PKG)/usr/bin
 	@( cd $(GZIP_PKG)/bin ; \
 	   for file in * ; do \

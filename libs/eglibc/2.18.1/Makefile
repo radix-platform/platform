@@ -112,6 +112,7 @@ extra_configure_switches  += --enable-add-ons=libidn,nptl,ports
 extra_configure_switches  += --with-binutils=$(TOOLCHAIN_PATH)/bin
 extra_configure_switches  += --enable-kernel=2.6.36
 extra_configure_switches  += --disable-profile
+extra_configure_switches  += --disable-rpath
 extra_configure_switches  += --without-gd
 extra_configure_switches  += --without-cvs
 extra_configure_switches  += --with-tls
@@ -142,6 +143,9 @@ $(install_target): $(src_done)
 	  --host=$(TARGET)             \
 	  $(extra_configure_switches)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) all install $(env_sysroot)
+	# fake LOCALES installation to allow implementation of iconv and intl into EGLIBC
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) SUPPORTED-LOCALES="" \
+	                                                 localedata/install-locales $(env_sysroot)
 	@rm -f $(EGLIBC_PKG)/usr/share/info/dir
 	@gzip -9 $(EGLIBC_PKG)/usr/share/info/*
 	@touch $@

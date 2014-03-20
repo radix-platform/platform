@@ -28,7 +28,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES     = $(SRC_PACKAGE_DIR)/GNU/coreutils
 
 
-REQUIRES            = app/bash/4.3
+REQUIRES           += libs/eglibc/2.18.1
 
 
 version             = 8.22
@@ -103,6 +103,7 @@ extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --sysconfdir=/etc
+extra_configure_switches += --disable-rpath
 extra_configure_switches += --bindir=/bin
 extra_configure_switches += --without-gmp
 
@@ -189,7 +190,7 @@ endif
 	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \
 	 )
-	# Install the same to $(TARGET_DEST_DIR)
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(COREUTILS_PKG) && cp -rf * $(TARGET_DEST_DIR)
 	@(cd $(COREUTILS_PKG); \

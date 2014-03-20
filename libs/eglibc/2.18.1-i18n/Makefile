@@ -104,26 +104,26 @@ else
 INSTALL_ALL_LOCALES = no
 endif
 
-
+# ==================================================================
 LOCALES  = fa_IR/UTF-8
-
+# ==================================================================
 LOCALES += de_DE.UTF-8/UTF-8 de_DE/ISO-8859-1 de_DE@euro/ISO-8859-15
-
+# ==================================================================
 LOCALES += en_HK.UTF-8/UTF-8 en_HK/ISO-8859-1
 LOCALES += en_PH.UTF-8/UTF-8 en_PH/ISO-8859-1
 LOCALES += en_US.UTF-8/UTF-8 en_US/ISO-8859-1
 LOCALES += es_MX.UTF-8/UTF-8 es_MX/ISO-8859-1
-
+# ==================================================================
 LOCALES += fr_FR.UTF-8/UTF-8 fr_FR/ISO-8859-1 fr_FR@euro/ISO-8859-15
 LOCALES += it_IT.UTF-8/UTF-8 it_IT/ISO-8859-1 it_IT@euro/ISO-8859-15
-
+# ==================================================================
 LOCALES += ja_JP.EUC-JP/EUC-JP ja_JP.UTF-8/UTF-8
-
 LOCALES += en_RU.KOI8-R/KOI8-R en_RU.UTF-8/UTF-8 en_RU.CP1251/CP1251
 LOCALES += en_RU.ISO-8859-5/ISO-8859-5 en_RU/ISO-8859-5
-
+# ==================================================================
 LOCALES += ru_RU.KOI8-R/KOI8-R ru_RU.UTF-8/UTF-8 ru_RU.CP1251/CP1251
 LOCALES += ru_RU.ISO-8859-5/ISO-8859-5 ru_RU/ISO-8859-5
+# ==================================================================
 
 
 

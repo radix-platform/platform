@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+         |-----handy-ruler------------------------------------------------------|
+ncompress: ncompress @VERSION@ (the classic *nix compression utility)
+ncompress:
+ncompress: Compress reduces the size of the named files using adaptive
+ncompress: Lempel-Ziv coding. Whenever possible, each file is replaced by one
+ncompress: with the extension .Z, while keeping the same ownership modes,
+ncompress: access and modification times. If no files are specified, the
+ncompress: standard input is compressed to the standard output. Compressed
+ncompress: files can be restored to their original form using uncompress or
+ncompress: zcat.
+ncompress:
+ncompress:

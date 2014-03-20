@@ -39,6 +39,7 @@ REQUIRES          += app/kmod/16
 REQUIRES          += libs/libffi/3.0.13
 REQUIRES          += libs/libelf/0.8.13
 REQUIRES          += app/gzip/1.6
+REQUIRES          += app/ncompress/4.2.4.4
 REQUIRES          += libs/libtermcap/1.2.3
 REQUIRES          += libs/readline/6.3
 REQUIRES          += app/gettext/0.18.3.2
@@ -46,10 +47,14 @@ REQUIRES          += app/gettext/0.18.3.2
 REQUIRES          += libs/pcre/8.34
 REQUIRES          += app/bash/4.3
 REQUIRES          += app/coreutils/8.22
+REQUIRES          += app/diffutils/3.3
 
-# additional
-#REQUIRES          += libs/mpc/1.0.2
-#REQUIRES          += app/cloog/0.18.2
+#
+# additional:
+#
+# REQUIRES          += libs/mpc/1.0.2
+# REQUIRES          += app/cloog/0.18.2
+# REQUIRES          += libs/ppl/1.1
 
 
 

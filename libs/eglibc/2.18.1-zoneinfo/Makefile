@@ -82,7 +82,11 @@ PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
 include ../../../build-system/core.mk
 
 
-OPTIMIZATION_FLAGS = -O3
+OPTIMIZATION_FLAGS  = -O3
+
+ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
+OPTIMIZATION_FLAGS += -fPIC
+endif
 
 
 $(src_done): $(tar_gz_code_archive) $(tar_gz_data_archive)

@@ -96,9 +96,7 @@ PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
 include ../../../build-system/core.mk
 
 
-OPTIMIZATION_FLAGS = -O3
-
-env_sysroot        = DESTDIR=$(GETTEXT_PKG)
+env_sysroot = DESTDIR=$(GETTEXT_PKG)
 
 
 extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)

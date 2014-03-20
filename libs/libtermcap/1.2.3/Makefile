@@ -85,8 +85,6 @@ PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
 include ../../../build-system/core.mk
 
 
-OPTIMIZATION_FLAGS = -O3
-
 
 ####### Dependencies
 

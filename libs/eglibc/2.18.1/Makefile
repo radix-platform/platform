@@ -98,12 +98,16 @@ PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
 include ../../../build-system/core.mk
 
 
-env_sysroot  = install_root=$(EGLIBC_PKG)
+env_sysroot = install_root=$(EGLIBC_PKG)
 
 
-OPTIMIZATION_FLAGS = -O3
+OPTIMIZATION_FLAGS  = -O3
 
-CFLAGS      += -g
+ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
+OPTIMIZATION_FLAGS += -fPIC
+endif
+
+CFLAGS += -g
 
 
 extra_configure_switches  += --libdir=/usr/lib$(LIBSUFFIX)

@@ -88,12 +88,15 @@ PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
 include ../../../build-system/core.mk
 
 
-env_sysroot  = install_root=$(EGLIBC_I18N_PKG)
+env_sysroot = install_root=$(EGLIBC_I18N_PKG)
 
 
-OPTIMIZATION_FLAGS = -O3
+OPTIMIZATION_FLAGS  = -O3
+ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
+OPTIMIZATION_FLAGS += -fPIC
+endif
 
-CFLAGS      += -g
+CFLAGS += -g
 
 
 INSTALL_NOT_ARCHIVED_LOCALES = no

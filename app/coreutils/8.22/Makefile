@@ -90,9 +90,7 @@ PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
 include ../../../build-system/core.mk
 
 
-env_sysroot         = DESTDIR=$(COREUTILS_PKG)
-
-OPTIMIZATION_FLAGS  = -O3
+env_sysroot  = DESTDIR=$(COREUTILS_PKG)
 
 
 environment  = FORCE_UNSAFE_CONFIGURE=1

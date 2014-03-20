@@ -73,16 +73,20 @@ PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
 include ../../../build-system/core.mk
 
 
-env_sysroot        = install_root=$(EGLIBC32_PKG)
+env_sysroot = install_root=$(EGLIBC32_PKG)
 
 
-OPTIMIZATION_FLAGS = -O3
+OPTIMIZATION_FLAGS  = -O3
 
-CC                += -m32
+ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
+OPTIMIZATION_FLAGS += -fPIC
+endif
 
-ARCH_FLAGS         = -m32 -g -O3 -march=i486 -mtune=i686
+CC         += -m32
 
-TARGET32           = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
+ARCH_FLAGS  = -m32 -g -O3 -march=i486 -mtune=i686
+
+TARGET32    = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
 
 
 extra_configure_switches  += --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)

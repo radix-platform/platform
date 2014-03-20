@@ -87,11 +87,10 @@ PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
 include ../../../build-system/core.mk
 
 
-env_sysroot        = DESTDIR=$(GMP_PKG)
+env_sysroot  = DESTDIR=$(GMP_PKG)
 
-OPTIMIZATION_FLAGS = -O3
 
-CPPFLAGS          += -fexceptions
+CPPFLAGS    += -fexceptions
 
 
 extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)

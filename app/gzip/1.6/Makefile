@@ -83,10 +83,7 @@ PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
 include ../../../build-system/core.mk
 
 
-env_sysroot      = DESTDIR=$(GZIP_PKG)
-
-
-OPTIMIZATION_FLAGS = -O3
+env_sysroot = DESTDIR=$(GZIP_PKG)
 
 
 extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)

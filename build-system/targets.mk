@@ -458,11 +458,6 @@ PRODUCTS_DEST_DIR = $(DEST_DIR_ABS)/products/$(TOOLCHAIN)/$(HARDWARE)
 ROOTFS_DEST_DIR   = $(DEST_DIR_ABS)/rootfs/$(TOOLCHAIN)/$(HARDWARE)
 
 
-ifeq ($(TOOLCHAIN),$(BUILD_TOOLCHAIN_NAME))
-LIBSUFFIX ?= 64
-endif
-
-
 
 #######
 ####### Architecture depended compiler flags:
@@ -475,9 +470,11 @@ TARGET_INCPATH += -I$(TARGET_DEST_DIR)/usr/include
 ROOTFS_INCPATH += -I$(ROOTFS_DEST_DIR)/usr/include
 
 
-OPTIMIZATION_FLAGS ?= -O0
+OPTIMIZATION_FLAGS ?= -O2
 
-
+ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
+OPTIMIZATION_FLAGS += -fPIC
+endif
 
 ifeq ($(TOOLCHAIN),$(I686_EGLIBC_TOOLCHAIN_NAME))
 ARCH_FLAGS ?= -m32 -march=i486 -mtune=i686

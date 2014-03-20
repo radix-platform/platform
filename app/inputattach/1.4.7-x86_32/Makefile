@@ -63,9 +63,7 @@ PRODUCT_TARGETS   = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
 include ../../../build-system/core.mk
 
 
-OPTIMIZATION_FLAGS = -O3
-
-ARCH_FLAGS         = -m32 -g -O3 -march=i486 -mtune=i686
+ARCH_FLAGS = -m32 -g -O3 -march=i486 -mtune=i686
 
 
 ####### Dependencies

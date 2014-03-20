@@ -65,16 +65,14 @@ PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
 include ../../../build-system/core.mk
 
 
-env_sysroot        = instroot=$(LIBELF32_PKG)
+env_sysroot  = instroot=$(LIBELF32_PKG)
 
 
-OPTIMIZATION_FLAGS = -O3
+CC          += -m32
 
-CC                += -m32
+ARCH_FLAGS   = -m32 -g -O3 -march=i486 -mtune=i686
 
-ARCH_FLAGS         = -m32 -g -O3 -march=i486 -mtune=i686
-
-TARGET32           = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
+TARGET32     = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
 
 
 extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)

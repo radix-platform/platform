@@ -89,9 +89,6 @@ env_sysroot       = DESTDIR=$(ZLIB_PKG)
 cross_environment = CROSS_PREFIX=$(CROSS_PREFIX)
 
 
-OPTIMIZATION_FLAGS = -O3
-
-
 extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --shared
 

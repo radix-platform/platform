@@ -1,5 +1,5 @@
 
-COMPONENT_TARGETS += $(TARGET_PC32)
+COMPONENT_TARGETS  = $(TARGET_PC32)
 COMPONENT_TARGETS += $(TARGET_PC64)
 COMPONENT_TARGETS += $(TARGET_CB1X)
 COMPONENT_TARGETS += $(TARGET_VIP1830)
@@ -48,6 +48,7 @@ REQUIRES          += libs/pcre/8.34
 REQUIRES          += app/bash/4.3
 REQUIRES          += app/coreutils/8.22
 REQUIRES          += app/diffutils/3.3
+REQUIRES          += app/findutils/4.4.2
 
 #
 # additional:

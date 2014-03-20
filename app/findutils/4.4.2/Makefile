@@ -84,9 +84,7 @@ PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
 include ../../../build-system/core.mk
 
 
-env_sysroot         = DESTDIR=$(FINDUTILS_PKG)
-
-OPTIMIZATION_FLAGS  = -O3
+env_sysroot = DESTDIR=$(FINDUTILS_PKG)
 
 
 extra_configure_switches  = --libdir=/lib$(LIBSUFFIX)
@@ -152,7 +150,6 @@ $(install_target): $(build_target)
 	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \
 	 )
-	exit 1
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(FINDUTILS_PKG) && cp -rf * $(TARGET_DEST_DIR)

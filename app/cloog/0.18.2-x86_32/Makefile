@@ -65,19 +65,17 @@ PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
 include ../../../build-system/core.mk
 
 
-env_sysroot        = DESTDIR=$(CLOOG32_PKG)
+env_sysroot = DESTDIR=$(CLOOG32_PKG)
 
-
-OPTIMIZATION_FLAGS = -O3
 
 # owerwrite LDFLAGS:
 #
-LDFLAGS            = -L$(TARGET_DEST_DIR)/lib$(MULTILIB_X86_32_SUFFIX)
-LDFLAGS           += -L$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)
+LDFLAGS     = -L$(TARGET_DEST_DIR)/lib$(MULTILIB_X86_32_SUFFIX)
+LDFLAGS    += -L$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)
 
-ARCH_FLAGS         = -m32 -g -O3 -march=i486 -mtune=i686
+ARCH_FLAGS  = -m32 -g -O3 -march=i486 -mtune=i686
 
-TARGET32           = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
+TARGET32    = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
 
 
 extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)

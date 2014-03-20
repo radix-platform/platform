@@ -87,9 +87,9 @@ env_sysroot = DESTDIR=$(BINUTILS_DEV_PKG)
 DEFAULT_LD  = ld.bfd
 
 
-extra_configure_switches  = --enable-nls
-extra_configure_switches += --with-included-gettext
-
+# NOTE:
+#   --enable-threads, --enable-plugins - are GOLD related options
+#   --enable-multilib - default 'yes'
 
 ifeq ($(TOOLCHAIN),$(A1X_EGLIBC_TOOLCHAIN_NAME))
 # experimental gold linker( DEFAULT_LD=ld.bfd ):
@@ -104,6 +104,7 @@ extra_configure_switches += --with-arch=armv7-a
 extra_configure_switches += --with-fpu=neon
 extra_configure_switches += --with-abi=aapcs
 extra_configure_switches += --enable-threads
+extra_configure_switches += --enable-plugins
 extra_configure_switches += --enable-targets=$(TARGET),arm-radix-linux-gnu
 extra_configure_switches += --enable-shared
 extra_configure_switches += --libdir=/usr/lib
@@ -136,6 +137,7 @@ extra_configure_switches += --with-arch=armv7-a
 extra_configure_switches += --with-fpu=neon-vfpv4
 extra_configure_switches += --with-abi=aapcs
 extra_configure_switches += --enable-threads
+extra_configure_switches += --enable-plugins
 extra_configure_switches += --enable-targets=$(TARGET),arm-radix-linux-gnu
 extra_configure_switches += --enable-shared
 extra_configure_switches += --libdir=/usr/lib
@@ -191,6 +193,7 @@ extra_configure_switches += --enable-werror=no
 extra_configure_switches += --disable-initfini-array
 # standard options:
 extra_configure_switches += --enable-threads
+extra_configure_switches += --enable-plugins
 extra_configure_switches += --enable-targets=$(TARGET),i486-kxLab-linux-gnu,i486-kxLab-linux-gnulibc1,i486-kxLab-linux-gnuaout
 extra_configure_switches += --enable-shared
 extra_configure_switches += --libdir=/usr/lib$(LIBSUFFIX)
@@ -219,6 +222,7 @@ extra_configure_switches += --disable-initfini-array
 # standard options:
 extra_configure_switches += --enable-multilib
 extra_configure_switches += --enable-threads
+extra_configure_switches += --enable-plugins
 extra_configure_switches += --enable-targets=$(TARGET),x86_64-kxLab-linux,x86_64-kxLab-linux-gnulibc1,x86_64-kxLab-linux-gnuaout
 extra_configure_switches += --enable-64-bit-bfd
 extra_configure_switches += --enable-shared

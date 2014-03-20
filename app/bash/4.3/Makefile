@@ -87,9 +87,8 @@ PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
 include ../../../build-system/core.mk
 
 
-env_sysroot         = DESTDIR=$(BASH_PKG)
+env_sysroot = DESTDIR=$(BASH_PKG)
 
-OPTIMIZATION_FLAGS  = -O3
 
 ifeq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
 # NOTE: MULTILIB_X86_32_SUFFIX related to bulld machine

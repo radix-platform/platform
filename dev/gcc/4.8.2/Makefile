@@ -137,11 +137,6 @@ extra_configure_switches += --enable-long-long
 extra_configure_switches += --with-gnu-ld
 extra_configure_switches += --with-gnu-as
 
-extra_configure_switches += --enable-nls
-extra_configure_switches += --with-included-gettext
-# prevent hardcoded RPATH used by LIBINTL
-extra_configure_switches += --disable-rpath
-
 
 ifeq ($(TOOLCHAIN),$(A1X_EGLIBC_TOOLCHAIN_NAME))
 extra_configure_switches += --with-cpu=cortex-a8

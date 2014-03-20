@@ -67,8 +67,6 @@ env_sysroot        = DESTDIR=$(ZLIB32_PKG)
 cross_environment  = CROSS_PREFIX=$(CROSS_PREFIX)
 
 
-OPTIMIZATION_FLAGS = -O3
-
 ARCH_FLAGS         = -m32 -g -O3 -march=i486 -mtune=i686
 
 

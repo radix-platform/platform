@@ -78,10 +78,6 @@ env_sysroot = install_root=$(EGLIBC32_PKG)
 
 OPTIMIZATION_FLAGS  = -O3
 
-ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
-OPTIMIZATION_FLAGS += -fPIC
-endif
-
 CC         += -m32
 
 ARCH_FLAGS  = -m32 -g -O3 -march=i486 -mtune=i686

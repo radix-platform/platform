@@ -127,9 +127,6 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(GETTEXT_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
-	# libintl delivered by gettext package so we move libintl out
-	@rm -f $(GETTEXT_PKG)/usr/lib$(LIBSUFFIX)/libintl.*
-	@rm -f $(GETTEXT_PKG)/usr/include/libintl.h
 	@rm -f $(GETTEXT_PKG)/usr/share/info/dir
 	@gzip -9 $(GETTEXT_PKG)/usr/share/info/*
 	@if [ -d $(GETTEXT_PKG)/usr/share/man ]; then \

@@ -103,10 +103,6 @@ env_sysroot = install_root=$(EGLIBC_PKG)
 
 OPTIMIZATION_FLAGS  = -O3
 
-ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
-OPTIMIZATION_FLAGS += -fPIC
-endif
-
 CFLAGS += -g
 
 

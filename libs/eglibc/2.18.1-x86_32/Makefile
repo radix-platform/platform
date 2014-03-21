@@ -144,7 +144,8 @@ $(build_eglibc32_pkg): $(install_target) $(EGLIBC32_PKG_DESCRIPTION_FILE)
 	@( cd $(EGLIBC32_PKG); \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	   find . | xargs file | grep "relocatable" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
 	 )
 	@cp $(EGLIBC32_PKG_DESCRIPTION_FILE) $(EGLIBC32_PKG)/.DESCRIPTION
 	@cp $(EGLIBC32_PKG_INSTALL_SCRIPT) $(EGLIBC32_PKG)/.INSTALL

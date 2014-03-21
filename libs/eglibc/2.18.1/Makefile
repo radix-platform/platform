@@ -168,7 +168,8 @@ $(build_eglibc_pkg): $(install_target) $(EGLIBC_PKG_DESCRIPTION_FILE)
 	@( cd $(EGLIBC_PKG); \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	   find . | xargs file | grep "relocatable" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
 	 )
 	@cp $(EGLIBC_PKG_DESCRIPTION_FILE) $(EGLIBC_PKG)/.DESCRIPTION
 	@cp $(EGLIBC_PKG_INSTALL_SCRIPT) $(EGLIBC_PKG)/.INSTALL

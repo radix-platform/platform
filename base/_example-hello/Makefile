@@ -10,6 +10,7 @@ COMPONENT_TARGETS += $(TARGET_CB1X)
 # COMPONENT_TARGETS += $(TARGET_L17UC)
 # COMPONENT_TARGETS += $(TARGET_BEAGLE)
 COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
+COMPONENT_TARGETS += $(TARGET_DRA7XXEVM)
 # COMPONENT_TARGETS += $(TARGET_B74)
 
 
@@ -37,7 +38,8 @@ include ../../build-system/core.mk
 
 $(bin_target): $(bin_objs)
 	$(LINK)
-#
+
+##
 # Directly use $(CC) and $(LINKER):
 # ==================================
 #

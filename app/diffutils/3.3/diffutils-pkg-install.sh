@@ -48,7 +48,7 @@ pre_upgrade() {
 # arg 1:  the new package version
 # arg 2:  the old package version
 post_upgrade() {
-  post_install 
+  post_install
 }
 
 # arg 1:  the old package version

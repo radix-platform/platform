@@ -1,0 +1,177 @@
+
+COMPONENT_TARGETS += $(TARGET_PC32)
+COMPONENT_TARGETS += $(TARGET_PC64)
+COMPONENT_TARGETS += $(TARGET_CB1X)
+COMPONENT_TARGETS += $(TARGET_VIP1830)
+COMPONENT_TARGETS += $(TARGET_BEAGLE)
+COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
+COMPONENT_TARGETS += $(TARGET_B74)
+
+#
+# The rest targets links staticaly with newlib or uclibc and not requires bzip2 libraties
+#
+# COMPONENT_TARGETS += $(TARGET_CB1N)
+# COMPONENT_TARGETS += $(TARGET_GUARD)
+# COMPONENT_TARGETS += $(TARGET_VIP1830N)
+# COMPONENT_TARGETS += $(TARGET_L17UC)
+#
+
+
+NEED_ABS_PATH       = true
+
+COMPONENT_IS_3PP    = true
+
+
+include ../../../build-system/constants.mk
+
+
+SOURCE_REQUIRES     = $(SRC_PACKAGE_DIR)/packages/a/jfsutils
+
+REQUIRES            = app/util-linux/2.24.1
+
+
+version             = 1.1.15
+tar_gz_archive      = $(SRC_PACKAGE_PATH)/packages/a/jfsutils/jfsutils-$(version).tar.gz
+SRC_ARCHIVE         = $(tar_gz_archive)
+SRC_DIR             = $(TARGET_BUILD_DIR)/jfsutils-$(version)
+src_dir_name        = jfsutils-$(version)
+src_done            = $(TARGET_BUILD_DIR)/.source_done
+
+PATCHES = PATCHES
+
+build_dir           = $(TARGET_BUILD_DIR)/build
+build_target        = $(TARGET_BUILD_DIR)/.build_done
+install_target      = $(TARGET_BUILD_DIR)/.install_done
+build_jfsutils_pkg  = $(TARGET_BUILD_DIR)/.jfsutils_pkg_done
+
+
+
+####### Targets
+
+PKG_GROUP = app
+
+#
+# *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
+#
+JFSUTILS_PKG_NAME                = jfsutils
+JFSUTILS_PKG_VERSION             = 1.1.15
+JFSUTILS_PKG_ARCH                = $(TOOLCHAIN)
+JFSUTILS_PKG_DISTRO_NAME         = kxLab
+JFSUTILS_PKG_DISTRO_VERSION      = 1.0
+JFSUTILS_PKG_GROUP               = $(PKG_GROUP)
+###                               |---handy-ruler-------------------------------|
+JFSUTILS_PKG_SHORT_DESCRIPTION   = jfsutils $(version)
+JFSUTILS_PKG_URL                 = http://www.kxLab.com
+JFSUTILS_PKG_LICENSE             = GPLv2
+JFSUTILS_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(JFSUTILS_PKG_NAME)-pkg-description
+JFSUTILS_PKG_DESCRIPTION_FILE_IN = $(JFSUTILS_PKG_NAME)-pkg-description.in
+JFSUTILS_PKG_INSTALL_SCRIPT      = $(JFSUTILS_PKG_NAME)-pkg-install.sh
+
+JFSUTILS_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(JFSUTILS_PKG_NAME)-package
+
+pkg_basename     = $(JFSUTILS_PKG_NAME)-$(JFSUTILS_PKG_VERSION)-$(JFSUTILS_PKG_ARCH)-$(JFSUTILS_PKG_DISTRO_NAME)-$(JFSUTILS_PKG_DISTRO_VERSION)
+pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(JFSUTILS_PKG_GROUP)/$(pkg_basename).tgz
+
+
+BUILD_TARGETS    = $(build_jfsutils_pkg)
+
+ROOTFS_TARGETS   = $(pkg_basename_tgz)
+
+PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+
+
+include ../../../build-system/core.mk
+
+
+env_sysroot = DESTDIR=$(JFSUTILS_PKG)
+
+
+extra_configure_switches  = --sbindir=/sbin
+extra_configure_switches += --disable-dependency-tracking
+
+
+####### Dependencies
+
+$(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
+	$(UNPACK_SRC_ARCHIVE)
+	$(APPLY_PATCHES)
+	@touch $@
+
+$(build_target): $(src_done)
+	mkdir -p $(build_dir)
+	@cd $(build_dir) && \
+	  $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
+	  --prefix=/usr               \
+	  --build=$(BUILD)            \
+	  --host=$(TARGET)            \
+	  $(extra_configure_switches)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
+	@touch $@
+
+$(install_target): $(build_target)
+	@mkdir -p $(JFSUTILS_PKG)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@( cd $(JFSUTILS_PKG)/sbin  ; \
+	   rm -f fsck.jfs mkfs.jfs  ; \
+	   ln -sf jfs_fsck fsck.jfs ; \
+	   ln -sf jfs_mkfs mkfs.jfs ; \
+	 )
+	@( cd $(JFSUTILS_PKG)/usr/share/man/man8 ; \
+	   rm -f fsck.jfs.8 mkfs.jfs.8  ; \
+	   ln -sf jfs_fsck.8 fsck.jfs.8 ; \
+	   ln -sf jfs_mkfs.8 mkfs.jfs.8 ; \
+	 )
+	@if [ -d $(JFSUTILS_PKG)/usr/share/man ]; then \
+	  ( cd $(JFSUTILS_PKG)/usr/share/man ; \
+	    for manpagedir in `find . -type d -name "man*"` ; do \
+	      ( cd $$manpagedir ; \
+	        for eachpage in `find . -type l -maxdepth 1` ; do \
+	          ln -s `readlink $$eachpage`.gz $$eachpage.gz ; \
+	          rm $$eachpage ; \
+	        done ; \
+	        gzip -9 *.?  ; \
+	      ) \
+	    done \
+	  ) \
+	 fi
+	@mkdir -p $(JFSUTILS_PKG)/usr/doc/$(src_dir_name)
+	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/COPYING \
+	       $(JFSUTILS_PKG)/usr/doc/$(src_dir_name)
+	@mkdir -p $(JFSUTILS_PKG)/usr/share/doc/$(src_dir_name)
+	@( cd $(SRC_DIR) ; \
+	   cp -a AUTHORS COPYING INSTALL NEWS README \
+	         $(JFSUTILS_PKG)/usr/share/doc/$(src_dir_name) \
+	 )
+	@( cd $(SRC_DIR) ; \
+	   if [ -r ChangeLog ]; then \
+	     DOCSDIR=`echo $(JFSUTILS_PKG)/usr/share/doc/$(src_dir_name)` ; \
+	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
+	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
+	   fi \
+	 )
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
+	@mkdir -p $(TARGET_DEST_DIR)
+	@cd $(JFSUTILS_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	@(cd $(JFSUTILS_PKG); \
+	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	 )
+	@touch $@
+
+$(JFSUTILS_PKG_DESCRIPTION_FILE): $(JFSUTILS_PKG_DESCRIPTION_FILE_IN)
+	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
+
+$(build_jfsutils_pkg): $(install_target) $(JFSUTILS_PKG_DESCRIPTION_FILE)
+	@cp $(JFSUTILS_PKG_DESCRIPTION_FILE) $(JFSUTILS_PKG)/.DESCRIPTION
+	@cp $(JFSUTILS_PKG_INSTALL_SCRIPT) $(JFSUTILS_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(JFSUTILS_PKG)/.REQUIRES
+	@echo "pkgname=$(JFSUTILS_PKG_NAME)"                            >  $(JFSUTILS_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(JFSUTILS_PKG_VERSION)"                          >> $(JFSUTILS_PKG)/.PKGINFO ; \
+	 echo "arch=$(JFSUTILS_PKG_ARCH)"                               >> $(JFSUTILS_PKG)/.PKGINFO ; \
+	 echo "distroname=$(JFSUTILS_PKG_DISTRO_NAME)"                  >> $(JFSUTILS_PKG)/.PKGINFO ; \
+	 echo "distrover=$(JFSUTILS_PKG_DISTRO_VERSION)"                >> $(JFSUTILS_PKG)/.PKGINFO ; \
+	 echo "group=$(JFSUTILS_PKG_GROUP)"                             >> $(JFSUTILS_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(JFSUTILS_PKG_SHORT_DESCRIPTION)\"" >> $(JFSUTILS_PKG)/.PKGINFO ; \
+	 echo "url=$(JFSUTILS_PKG_URL)"                                 >> $(JFSUTILS_PKG)/.PKGINFO ; \
+	 echo "license=$(JFSUTILS_PKG_LICENSE)"                         >> $(JFSUTILS_PKG)/.PKGINFO
+	@$(FAKEROOT) sh -c "cd $(JFSUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@touch $@

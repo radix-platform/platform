@@ -16,7 +16,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/dialog
 
-versions    = 1.1-20120215 1.2-20130928
+versions    = 1.1-20120215 1.2-20130928 1.2-20140112
 
 tarballs    = $(addsuffix .orig.tar.gz, $(addprefix dialog_, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
@@ -39,6 +39,7 @@ $(tarballs):
 	@echo -e "\n======= Create Patches =======\n"
 	@( cd create-1.1-20120215-patch && ./create.patch.sh )
 	@( cd create-1.2-20130928-patch && ./create.patch.sh )
+	@( cd create-1.2-20140112-patch && ./create.patch.sh )
 
 $(sha1s): %.tar.gz.sha1sum : %.tar.gz
 	@for sha in $@ ; do \
@@ -57,3 +58,4 @@ download_clean:
 	@rm -f $(tarballs) $(sha1s)
 	@rm -f ./patches/dialog-1.1-20120215.patch
 	@rm -f ./patches/dialog-1.2-20130928.patch
+	@rm -f ./patches/dialog-1.2-20140112.patch

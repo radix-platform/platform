@@ -1,0 +1,182 @@
+
+COMPONENT_TARGETS += $(TARGET_PC32)
+COMPONENT_TARGETS += $(TARGET_PC64)
+COMPONENT_TARGETS += $(TARGET_CB1X)
+COMPONENT_TARGETS += $(TARGET_VIP1830)
+COMPONENT_TARGETS += $(TARGET_BEAGLE)
+COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
+COMPONENT_TARGETS += $(TARGET_B74)
+
+#
+# The rest targets links staticaly with newlib or uclibc and not requires bzip2 libraties
+#
+# COMPONENT_TARGETS += $(TARGET_CB1N)
+# COMPONENT_TARGETS += $(TARGET_GUARD)
+# COMPONENT_TARGETS += $(TARGET_VIP1830N)
+# COMPONENT_TARGETS += $(TARGET_L17UC)
+#
+
+
+NEED_ABS_PATH      = true
+
+COMPONENT_IS_3PP   = true
+
+
+include ../../../build-system/constants.mk
+
+
+SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/a/xfsprogs
+
+
+ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
+REQUIRES           = app/xfsprogs/3.1.11-x86_32
+else
+REQUIRES           = app/util-linux/2.24.1
+endif
+
+version            = 3.1.11
+tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/a/xfsprogs/xfsprogs-$(version).tar.gz
+SRC_ARCHIVE        = $(tar_gz_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/xfsprogs-$(version)
+src_dir_name       = xfsprogs-$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source_done
+
+PATCHES = PATCHES
+
+build_target       = $(TARGET_BUILD_DIR)/.build_done
+install_target     = $(TARGET_BUILD_DIR)/.install_done
+build_xfsprogs_pkg = $(TARGET_BUILD_DIR)/.xfsprogs_pkg_done
+
+
+
+####### Targets
+
+PKG_GROUP = app
+
+#
+# *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
+#
+XFSPROGS_PKG_NAME                = xfsprogs
+XFSPROGS_PKG_VERSION             = 3.1.11
+XFSPROGS_PKG_ARCH                = $(TOOLCHAIN)
+XFSPROGS_PKG_DISTRO_NAME         = kxLab
+XFSPROGS_PKG_DISTRO_VERSION      = 1.0
+XFSPROGS_PKG_GROUP               = $(PKG_GROUP)
+###                               |---handy-ruler-------------------------------|
+XFSPROGS_PKG_SHORT_DESCRIPTION   = xfsprogs $(version)
+XFSPROGS_PKG_URL                 = http://www.kxLab.com
+XFSPROGS_PKG_LICENSE             = GPLv2
+XFSPROGS_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(XFSPROGS_PKG_NAME)-pkg-description
+XFSPROGS_PKG_DESCRIPTION_FILE_IN = $(XFSPROGS_PKG_NAME)-pkg-description.in
+XFSPROGS_PKG_INSTALL_SCRIPT      = $(XFSPROGS_PKG_NAME)-pkg-install.sh
+
+XFSPROGS_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(XFSPROGS_PKG_NAME)-package
+
+pkg_basename     = $(XFSPROGS_PKG_NAME)-$(XFSPROGS_PKG_VERSION)-$(XFSPROGS_PKG_ARCH)-$(XFSPROGS_PKG_DISTRO_NAME)-$(XFSPROGS_PKG_DISTRO_VERSION)
+pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(XFSPROGS_PKG_GROUP)/$(pkg_basename).tgz
+
+
+BUILD_TARGETS    = $(build_xfsprogs_pkg)
+
+ROOTFS_TARGETS   = $(pkg_basename_tgz)
+
+PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+
+
+include ../../../build-system/core.mk
+
+
+env_sysroot = DIST_ROOT=$(XFSPROGS_PKG)
+
+extra_configure_switches  = --libdir=/lib$(LIBSUFFIX)
+extra_configure_switches += --libexecdir=/usr/lib$(LIBSUFFIX)
+extra_configure_switches += --sbindir=/sbin
+extra_configure_switches += --bindir=/usr/bin
+extra_configure_switches += --includedir=/usr/include
+extra_configure_switches += --datadir=/usr/share
+extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
+extra_configure_switches += --enable-shared
+
+
+####### Dependencies
+
+$(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
+	$(UNPACK_SRC_ARCHIVE)
+	$(APPLY_PATCHES)
+	@touch $@
+
+$(build_target): $(src_done)
+	@cd $(SRC_DIR) && \
+	  $(BUILD_ENVIRONMENT) ./configure \
+	  --prefix=/usr               \
+	  --exec-prefix=/usr          \
+	  --build=$(BUILD)            \
+	  --host=$(TARGET)            \
+	  $(extra_configure_switches)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE)
+	@touch $@
+
+$(install_target): $(build_target)
+	@mkdir -p $(XFSPROGS_PKG)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install-dev $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install-qa $(env_sysroot)
+	@mkdir -p $(XFSPROGS_PKG)/usr/lib$(LIBSUFFIX)
+	@( cd $(XFSPROGS_PKG)/lib$(LIBSUFFIX) ; \
+	   chmod 755 *.la ; \
+	   cp -a libhandle.so.? $(XFSPROGS_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   mv *.a *.la *.so $(XFSPROGS_PKG)/usr/lib$(LIBSUFFIX) ; \
+	 )
+	@( cd $(XFSPROGS_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   ln -sf ../../lib$(LIBSUFFIX)/libhandle.so.?.?.? . \
+	 )
+	@mkdir -p $(XFSPROGS_PKG)/usr/sbin
+	@mv $(XFSPROGS_PKG)/sbin/xfs_* $(XFSPROGS_PKG)/usr/sbin
+	@mv $(XFSPROGS_PKG)/usr/sbin/xfs_repair $(XFSPROGS_PKG)/sbin
+	@mkdir -p $(XFSPROGS_PKG)/usr/doc/$(src_dir_name)
+	@cp -a $(SRC_DIR)/doc/COPYING* \
+	       $(XFSPROGS_PKG)/usr/doc/$(src_dir_name)
+	@mv $(XFSPROGS_PKG)/usr/share/doc/xfsprogs $(XFSPROGS_PKG)/usr/share/doc/$(src_dir_name)
+	@( cd $(SRC_DIR) ; \
+	   cp -a doc/INSTALL doc/sparse.txt \
+	         $(XFSPROGS_PKG)/usr/share/doc/$(src_dir_name) \
+	 )
+	# remove target path from target libtool *.la files
+	@( cd $(XFSPROGS_PKG)/usr/lib$(LIBSUFFIX) ; \
+	  sed -i "s,$(TARGET_DEST_DIR),,g" libhandle.la ; \
+	  sed -i "s,'/lib,'/usr/lib,g" libhandle.la \
+	 )
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
+	@mkdir -p $(TARGET_DEST_DIR)
+	@cd $(XFSPROGS_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	# tune libtool *.la search path to the target destination for development
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libhandle.la ; \
+	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libhandle.la \
+	 )
+	@(cd $(XFSPROGS_PKG); \
+	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	  find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
+	 )
+	@touch $@
+
+$(XFSPROGS_PKG_DESCRIPTION_FILE): $(XFSPROGS_PKG_DESCRIPTION_FILE_IN)
+	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
+
+$(build_xfsprogs_pkg): $(install_target) $(XFSPROGS_PKG_DESCRIPTION_FILE)
+	@cp $(XFSPROGS_PKG_DESCRIPTION_FILE) $(XFSPROGS_PKG)/.DESCRIPTION
+	@cp $(XFSPROGS_PKG_INSTALL_SCRIPT) $(XFSPROGS_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(XFSPROGS_PKG)/.REQUIRES
+	@echo "pkgname=$(XFSPROGS_PKG_NAME)"                            >  $(XFSPROGS_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(XFSPROGS_PKG_VERSION)"                          >> $(XFSPROGS_PKG)/.PKGINFO ; \
+	 echo "arch=$(XFSPROGS_PKG_ARCH)"                               >> $(XFSPROGS_PKG)/.PKGINFO ; \
+	 echo "distroname=$(XFSPROGS_PKG_DISTRO_NAME)"                  >> $(XFSPROGS_PKG)/.PKGINFO ; \
+	 echo "distrover=$(XFSPROGS_PKG_DISTRO_VERSION)"                >> $(XFSPROGS_PKG)/.PKGINFO ; \
+	 echo "group=$(XFSPROGS_PKG_GROUP)"                             >> $(XFSPROGS_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(XFSPROGS_PKG_SHORT_DESCRIPTION)\"" >> $(XFSPROGS_PKG)/.PKGINFO ; \
+	 echo "url=$(XFSPROGS_PKG_URL)"                                 >> $(XFSPROGS_PKG)/.PKGINFO ; \
+	 echo "license=$(XFSPROGS_PKG_LICENSE)"                         >> $(XFSPROGS_PKG)/.PKGINFO
+	@$(FAKEROOT) sh -c "cd $(XFSPROGS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@touch $@

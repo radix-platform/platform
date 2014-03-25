@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+      |-----handy-ruler------------------------------------------------------|
+attr32: attr32 @VERSION@ (tools for using extended attributes on filesystems)
+attr32:
+attr32: This package contains a set of tools for manipulating extended
+attr32: attributes (name:value pairs associated permanently with files
+attr32: and directories) on filesystem objects, and the library and
+attr32: header files needed to develop programs which make use of extended
+attr32: attributes. Extended attributes are used to provide additional
+attr32: functionality to a filesystem. For example, Access Control Lists
+attr32: (ACLs) are implemented using extended attributes.
+attr32:
+attr32:

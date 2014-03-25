@@ -1,0 +1,182 @@
+
+COMPONENT_TARGETS += $(TARGET_PC32)
+COMPONENT_TARGETS += $(TARGET_PC64)
+COMPONENT_TARGETS += $(TARGET_CB1X)
+COMPONENT_TARGETS += $(TARGET_VIP1830)
+COMPONENT_TARGETS += $(TARGET_BEAGLE)
+COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
+COMPONENT_TARGETS += $(TARGET_B74)
+
+#
+# The rest targets links staticaly with newlib or uclibc and not requires bzip2 libraties
+#
+# COMPONENT_TARGETS += $(TARGET_CB1N)
+# COMPONENT_TARGETS += $(TARGET_GUARD)
+# COMPONENT_TARGETS += $(TARGET_VIP1830N)
+# COMPONENT_TARGETS += $(TARGET_L17UC)
+#
+
+
+NEED_ABS_PATH        = true
+
+COMPONENT_IS_3PP     = true
+
+
+include ../../../build-system/constants.mk
+
+
+SOURCE_REQUIRES      = $(SRC_PACKAGE_DIR)/packages/a/sysfsutils
+
+REQUIRES             = app/util-linux/2.24.1
+
+
+version              = 2.1.0
+tar_gz_archive       = $(SRC_PACKAGE_PATH)/packages/a/sysfsutils/sysfsutils-$(version).tar.gz
+SRC_ARCHIVE          = $(tar_gz_archive)
+SRC_DIR              = $(TARGET_BUILD_DIR)/sysfsutils-$(version)
+src_dir_name         = sysfsutils-$(version)
+src_done             = $(TARGET_BUILD_DIR)/.source_done
+
+PATCHES = PATCHES
+
+build_target         = $(TARGET_BUILD_DIR)/.build_done
+install_target       = $(TARGET_BUILD_DIR)/.install_done
+build_sysfsutils_pkg = $(TARGET_BUILD_DIR)/.sysfsutils_pkg_done
+
+
+
+####### Targets
+
+PKG_GROUP = app
+
+#
+# *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
+#
+SYSFSUTILS_PKG_NAME                = sysfsutils
+SYSFSUTILS_PKG_VERSION             = 2.1.0
+SYSFSUTILS_PKG_ARCH                = $(TOOLCHAIN)
+SYSFSUTILS_PKG_DISTRO_NAME         = kxLab
+SYSFSUTILS_PKG_DISTRO_VERSION      = 1.0
+SYSFSUTILS_PKG_GROUP               = $(PKG_GROUP)
+###                                 |---handy-ruler-------------------------------|
+SYSFSUTILS_PKG_SHORT_DESCRIPTION   = sysfsutils $(version)
+SYSFSUTILS_PKG_URL                 = http://www.kxLab.com
+SYSFSUTILS_PKG_LICENSE             = GPLv2
+SYSFSUTILS_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(SYSFSUTILS_PKG_NAME)-pkg-description
+SYSFSUTILS_PKG_DESCRIPTION_FILE_IN = $(SYSFSUTILS_PKG_NAME)-pkg-description.in
+SYSFSUTILS_PKG_INSTALL_SCRIPT      = $(SYSFSUTILS_PKG_NAME)-pkg-install.sh
+
+SYSFSUTILS_PKG   = $(CURDIR)/$(TARGET_BUILD_DIR)/$(SYSFSUTILS_PKG_NAME)-package
+
+pkg_basename     = $(SYSFSUTILS_PKG_NAME)-$(SYSFSUTILS_PKG_VERSION)-$(SYSFSUTILS_PKG_ARCH)-$(SYSFSUTILS_PKG_DISTRO_NAME)-$(SYSFSUTILS_PKG_DISTRO_VERSION)
+pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(SYSFSUTILS_PKG_GROUP)/$(pkg_basename).tgz
+
+
+BUILD_TARGETS    = $(build_sysfsutils_pkg)
+
+ROOTFS_TARGETS   = $(pkg_basename_tgz)
+
+PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+
+
+include ../../../build-system/core.mk
+
+
+env_sysroot = DESTDIR=$(SYSFSUTILS_PKG)
+
+
+extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
+extra_configure_switches  = --mandir=/usr/share/man
+
+
+####### Dependencies
+
+$(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
+	$(UNPACK_SRC_ARCHIVE)
+	$(APPLY_PATCHES)
+	@touch $@
+
+$(build_target): $(src_done)
+	@cd $(SRC_DIR) && \
+	  $(BUILD_ENVIRONMENT) ./configure \
+	  --prefix=/usr               \
+	  --build=$(BUILD)            \
+	  --host=$(TARGET)            \
+	  $(extra_configure_switches)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE)
+	@touch $@
+
+$(install_target): $(build_target)
+	@mkdir -p $(SYSFSUTILS_PKG)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@mkdir -p $(SYSFSUTILS_PKG)/lib$(LIBSUFFIX)
+	@( cd $(SYSFSUTILS_PKG)/usr/lib$(LIBSUFFIX)   ; \
+	   cp -a libsysfs.so.? ../../lib$(LIBSUFFIX)  ; \
+	   mv libsysfs.so.?.?.? ../../lib$(LIBSUFFIX) ; \
+	   ln -sf ../../lib$(LIBSUFFIX)/libsysfs.so.?.?.? . \
+	 )
+	@if [ -d $(SYSFSUTILS_PKG)/usr/share/man ]; then \
+	  ( cd $(SYSFSUTILS_PKG)/usr/share/man ; \
+	    for manpagedir in `find . -type d -name "man*"` ; do \
+	      ( cd $$manpagedir ; \
+	        for eachpage in `find . -type l -maxdepth 1` ; do \
+	          ln -s `readlink $$eachpage`.gz $$eachpage.gz ; \
+	          rm $$eachpage ; \
+	        done ; \
+	        gzip -9 *.?  ; \
+	      ) \
+	    done \
+	  ) \
+	 fi
+	@mkdir -p $(SYSFSUTILS_PKG)/usr/doc/$(src_dir_name)
+	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/COPYING \
+	       $(SYSFSUTILS_PKG)/usr/doc/$(src_dir_name)
+	@mkdir -p $(SYSFSUTILS_PKG)/usr/share/doc/$(src_dir_name)
+	@( cd $(SRC_DIR) ; \
+	   cp -a AUTHORS COPYING CREDITS NEWS README TODO docs/libsysfs.txt \
+	         $(SYSFSUTILS_PKG)/usr/share/doc/$(src_dir_name) \
+	 )
+	@( cd $(SRC_DIR) ; \
+	   if [ -r ChangeLog ]; then \
+	     DOCSDIR=`echo $(SYSFSUTILS_PKG)/usr/share/doc/$(src_dir_name)` ; \
+	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
+	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
+	   fi \
+	 )
+	# remove target path from target libtool *.la files
+	@( cd $(SYSFSUTILS_PKG)/usr/lib$(LIBSUFFIX) ; \
+	  sed -i "s,$(TARGET_DEST_DIR),,g" libsysfs.la ; \
+	 )
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
+	@mkdir -p $(TARGET_DEST_DIR)
+	@cd $(SYSFSUTILS_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	# tune libtool *.la search path to the target destination for development
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libsysfs.la ; \
+	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libsysfs.la \
+	 )
+	@(cd $(SYSFSUTILS_PKG); \
+	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	  find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
+	 )
+	@touch $@
+
+$(SYSFSUTILS_PKG_DESCRIPTION_FILE): $(SYSFSUTILS_PKG_DESCRIPTION_FILE_IN)
+	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
+
+$(build_sysfsutils_pkg): $(install_target) $(SYSFSUTILS_PKG_DESCRIPTION_FILE)
+	@cp $(SYSFSUTILS_PKG_DESCRIPTION_FILE) $(SYSFSUTILS_PKG)/.DESCRIPTION
+	@cp $(SYSFSUTILS_PKG_INSTALL_SCRIPT) $(SYSFSUTILS_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(SYSFSUTILS_PKG)/.REQUIRES
+	@echo "pkgname=$(SYSFSUTILS_PKG_NAME)"                            >  $(SYSFSUTILS_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(SYSFSUTILS_PKG_VERSION)"                          >> $(SYSFSUTILS_PKG)/.PKGINFO ; \
+	 echo "arch=$(SYSFSUTILS_PKG_ARCH)"                               >> $(SYSFSUTILS_PKG)/.PKGINFO ; \
+	 echo "distroname=$(SYSFSUTILS_PKG_DISTRO_NAME)"                  >> $(SYSFSUTILS_PKG)/.PKGINFO ; \
+	 echo "distrover=$(SYSFSUTILS_PKG_DISTRO_VERSION)"                >> $(SYSFSUTILS_PKG)/.PKGINFO ; \
+	 echo "group=$(SYSFSUTILS_PKG_GROUP)"                             >> $(SYSFSUTILS_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(SYSFSUTILS_PKG_SHORT_DESCRIPTION)\"" >> $(SYSFSUTILS_PKG)/.PKGINFO ; \
+	 echo "url=$(SYSFSUTILS_PKG_URL)"                                 >> $(SYSFSUTILS_PKG)/.PKGINFO ; \
+	 echo "license=$(SYSFSUTILS_PKG_LICENSE)"                         >> $(SYSFSUTILS_PKG)/.PKGINFO
+	@$(FAKEROOT) sh -c "cd $(SYSFSUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@touch $@

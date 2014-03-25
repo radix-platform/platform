@@ -35,6 +35,9 @@ REQUIRES          += libs/eglibc/2.18.1-zoneinfo
 REQUIRES          += dev/binutils/2.24
 REQUIRES          += dev/gcc/4.8.2
 
+#
+# Module Init Tools and Core libs:
+#
 REQUIRES          += app/kmod/16
 REQUIRES          += libs/libffi/3.0.13
 REQUIRES          += libs/libelf/0.8.13
@@ -43,15 +46,35 @@ REQUIRES          += app/ncompress/4.2.4.4
 REQUIRES          += libs/libtermcap/1.2.3
 REQUIRES          += libs/readline/6.3
 REQUIRES          += app/gettext/0.18.3.2
-
 REQUIRES          += libs/pcre/8.34
+
+#
+# Core Utilites and SysVInit:
+#
 REQUIRES          += app/bash/4.3
 REQUIRES          += app/coreutils/8.22
 REQUIRES          += app/diffutils/3.3
 REQUIRES          += app/findutils/4.4.2
+REQUIRES          += app/sed/4.2.2
+REQUIRES          += app/grep/2.18
+REQUIRES          += app/sysvinit/2.88
+REQUIRES          += app/sysvinit-functions/8.54
+REQUIRES          += app/util-linux/2.24.1
+REQUIRES          += app/acl/2.2.52
 
 #
-# additional:
+# File Systems support:
+#
+REQUIRES          += app/xfsprogs/3.1.11
+REQUIRES          += app/xfdump/3.1.3
+REQUIRES          += app/e2fsprogs/1.42.9
+REQUIRES          += app/reiserfsprogs/3.6.24
+REQUIRES          += app/dosfstools/3.0.26
+REQUIRES          += app/jfsutils/1.1.15
+REQUIRES          += app/sysfsutils/2.1.0
+
+#
+# additional libs for bootstrap GCC:
 #
 # REQUIRES          += libs/mpc/1.0.2
 # REQUIRES          += app/cloog/0.18.2

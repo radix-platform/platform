@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+   |-----handy-ruler------------------------------------------------------|
+sed: sed @VERSION@ (stream editor)
+sed:
+sed: This is the GNU version of sed, a stream editor. A stream editor
+sed: is used to perform basic text transformations on an input stream
+sed: (a file or input from a pipeline). It is sed's ability to filter
+sed: text in a pipeline which distinguishes it from other types of
+sed: editors.
+sed:
+sed:
+sed:
+sed:

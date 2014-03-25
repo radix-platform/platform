@@ -1,0 +1,7 @@
+
+This script was taken from Fedora initscripts package version @VERSION@ (and
+is licensed under the GPL).
+
+These functions are provided for third party software (such as software
+designed to run on Red Hat based systems) expect this script and use it
+in their own init scripts.

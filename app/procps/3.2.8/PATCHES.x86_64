@@ -1,0 +1,4 @@
+
+../../../sources/packages/a/procps/patches/procps-3.2.8.patch -p0
+../../../sources/packages/a/procps/patches/procps-3.2.8-eip64.patch -p0
+../../../sources/packages/a/procinfo/patches/procinfo-18.patch -p0

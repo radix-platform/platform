@@ -66,12 +66,17 @@ REQUIRES          += app/acl/2.2.52
 # File Systems support:
 #
 REQUIRES          += app/xfsprogs/3.1.11
-REQUIRES          += app/xfdump/3.1.3
+REQUIRES          += app/xfsdump/3.1.3
 REQUIRES          += app/e2fsprogs/1.42.9
 REQUIRES          += app/reiserfsprogs/3.6.24
 REQUIRES          += app/dosfstools/3.0.26
 REQUIRES          += app/jfsutils/1.1.15
 REQUIRES          += app/sysfsutils/2.1.0
+
+REQUIRES          += app/shadow/4.1.5.1
+REQUIRES          += app/sysklogd/1.5
+REQUIRES          += app/procps/3.2.8
+
 
 #
 # additional libs for bootstrap GCC:

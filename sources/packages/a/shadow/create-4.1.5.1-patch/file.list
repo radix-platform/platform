@@ -1,0 +1,12 @@
+shadow-4.1.5.1/ChangeLog
+shadow-4.1.5.1/lib/encrypt.c
+shadow-4.1.5.1/lib/pwauth.c
+shadow-4.1.5.1/libmisc/valid.c
+shadow-4.1.5.1/src/chgpasswd.c
+shadow-4.1.5.1/src/chpasswd.c
+shadow-4.1.5.1/src/gpasswd.c
+shadow-4.1.5.1/src/newgrp.c
+shadow-4.1.5.1/src/newusers.c
+shadow-4.1.5.1/src/passwd.c
+shadow-4.1.5.1/etc/login.defs
+shadow-4.1.5.1/etc/useradd

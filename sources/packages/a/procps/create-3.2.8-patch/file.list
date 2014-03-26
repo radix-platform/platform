@@ -1,0 +1,7 @@
+procps-3.2.8/Makefile
+procps-3.2.8/proc/sysinfo.c
+procps-3.2.8/proc/version.c
+procps-3.2.8/proc/version.h
+procps-3.2.8/ps/output.c
+procps-3.2.8/ps/ps.1
+procps-3.2.8/w.c

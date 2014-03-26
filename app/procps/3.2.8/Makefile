@@ -62,6 +62,9 @@ install_target    = $(TARGET_BUILD_DIR)/.install_done
 build_procps_pkg  = $(TARGET_BUILD_DIR)/.procps_pkg_done
 
 
+cache_file        = $(CURDIR)/fix-malloc.cache
+
+
 ####### Targets
 
 PKG_GROUP = app
@@ -118,14 +121,16 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP) $(procinfo_src_done) $(psmisc_src_don
 
 $(build_target): $(src_done)
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE)
+	@chmod 0444 $(cache_file)
 	@cd $(PSMISC_SRC_DIR) && \
 	    $(BUILD_ENVIRONMENT) ./configure \
 	      --prefix=/usr \
 	      --libdir=/usr/lib$(LIBSUFFIX) \
 	      --disable-rpath \
-	      --cache-file=$(CURDIR)/fix-malloc.cache \
+	      --cache-file=$(cache_file) \
 	      --build=$(BUILD) \
 	      --host=$(TARGET)
+	@chmod 0644 $(cache_file)
 	@cd $(PSMISC_SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE)
 	@cd $(PROCINFO_SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE)
 	@touch $@

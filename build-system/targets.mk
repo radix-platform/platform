@@ -27,7 +27,7 @@ ifneq ($(BUILD_CB1N),true)
 BUILD_CB1N :=
 endif
 ifneq ($(BUILD_CB1X),true)
-BUILD_CB1C :=
+BUILD_CB1X :=
 endif
 ifneq ($(BUILD_GUARD),true)
 BUILD_GUARD :=

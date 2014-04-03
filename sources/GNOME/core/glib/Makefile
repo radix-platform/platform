@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/GNOME/core/glib
 
-versions    = 2.39.3 2.39.4
+versions    = 2.39.3 2.39.4 2.40.0
 pkgname     = glib
 suffix      = tar.xz
 

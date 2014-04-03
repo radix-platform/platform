@@ -35,8 +35,11 @@ post_install() {
   # Notice we use an absolute path below, rather than usr/bin/last. This is because
   # we're testing to see if we are on the bootdisk, which will not have /usr/bin/last.
   # If we aren't, we will signal init to restart using the new binary.
-  # The presence of "/etc/radix-installer" is under consideration as a better test.
-  if [ -x /usr/bin/last -a ! -r /etc/radix-installer ]; then
+  # The presence of "/etc/system-installer" is under consideration as a better test.
+  # Also we have to check that we are not in the installer mode on the target system
+  # ("/etc/system-installer"), and we have to be sure that we are on the working system
+  # on the target hardware ("proc/sys/kernel/osrelease" - relative path).
+  if [ -r proc/sys/kernel/osrelease -a ! -r /etc/system-installer -a -x /usr/bin/last ]; then
     /sbin/init u
   fi
 

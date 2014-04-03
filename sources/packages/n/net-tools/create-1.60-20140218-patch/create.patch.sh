@@ -2,7 +2,8 @@
 
 VERSION=1.60-20140218
 
-mkdir -p net-tools-$VERSION-orig
+tar --files-from=file.list -xjf ../net-tools-$VERSION.tar.bz2
+mv net-tools-$VERSION net-tools-$VERSION-orig
 
 cp -rf ./net-tools-$VERSION-new ./net-tools-$VERSION
 

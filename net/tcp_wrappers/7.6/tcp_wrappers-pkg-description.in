@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+            |-----handy-ruler------------------------------------------------------|
+tcp_wrappers: tcp_wrappers @VERSION@ (TCP/IP daemon wrapper library and utilities)
+tcp_wrappers:
+tcp_wrappers: The tcp_wrappers allows you to monitor and filter incoming requests
+tcp_wrappers: for network services. It provides tiny daemon wrapper programs that
+tcp_wrappers: can be installed without any changes to existing software or to
+tcp_wrappers: existing configuration files. The wrappers report the name of the
+tcp_wrappers: client host and of the requested service. The wrappers do not
+tcp_wrappers: exchange information with the client or server applications, and
+tcp_wrappers: impose no overhead on the actual conversation between the client
+tcp_wrappers: and server applications.
+tcp_wrappers:

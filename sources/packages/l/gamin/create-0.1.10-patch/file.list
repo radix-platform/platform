@@ -1,0 +1,8 @@
+gamin-0.1.10/configure
+gamin-0.1.10/python/gamin.c
+gamin-0.1.10/server/gam_node.c
+gamin-0.1.10/server/gam_node.h
+gamin-0.1.10/server/gam_poll_basic.c
+gamin-0.1.10/server/gam_subscription.c
+gamin-0.1.10/server/gam_subscription.h
+gamin-0.1.10/server/inotify-helper.c

@@ -31,10 +31,16 @@ post_install() {
   install_file etc/rc.d/rc.serial.new
   install_file etc/serial.conf.new
 
-  #chgrp tty usr/bin/wall
-  #chmod g+s usr/bin/wall
-  #chgrp tty usr/bin/write
-  #chmod g+s usr/bin/write
+  # We use an relative path to 'proc/sys/kernel/osrelease' because we have to be sure
+  # that we are running on the target platform. Only in this case we will use
+  # absolute path to coreutils ('/bin/chgrp' and '/bin/chmod') and we have to check
+  # is the coreutils already installed.
+  if [ -r proc/sys/kernel/osrelease -a -x /bin/chgrp -a -x /bin/chmod ]; then
+    /bin/chgrp tty /usr/bin/wall
+    /bin/chmod g+s /usr/bin/wall
+    /bin/chgrp tty /usr/bin/write
+    /bin/chmod g+s /usr/bin/write
+  fi
 }
 
 # arg 1:  the new package version

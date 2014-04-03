@@ -1,0 +1,189 @@
+
+COMPONENT_TARGETS += $(TARGET_PC32)
+COMPONENT_TARGETS += $(TARGET_PC64)
+COMPONENT_TARGETS += $(TARGET_CB1X)
+COMPONENT_TARGETS += $(TARGET_VIP1830)
+COMPONENT_TARGETS += $(TARGET_BEAGLE)
+COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
+COMPONENT_TARGETS += $(TARGET_B74)
+
+#
+# The rest targets links staticaly with newlib or uclibc and not requires xz libraties
+#
+# COMPONENT_TARGETS += $(TARGET_CB1N)
+# COMPONENT_TARGETS += $(TARGET_GUARD)
+# COMPONENT_TARGETS += $(TARGET_VIP1830N)
+# COMPONENT_TARGETS += $(TARGET_L17UC)
+#
+
+
+NEED_ABS_PATH      = true
+
+COMPONENT_IS_3PP   = true
+
+
+include ../../../build-system/constants.mk
+
+
+SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/l/expat
+
+
+ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
+REQUIRES           = libs/expat/2.1.0-x86_32
+else
+REQUIRES           = libs/eglibc/2.18.1
+endif
+
+version            = 2.1.0
+tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/expat/expat-$(version).tar.gz
+SRC_ARCHIVE        = $(tar_gz_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/expat-$(version)
+src_dir_name       = expat-$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source_done
+
+PATCHES = PATCHES
+
+build_dir          = $(TARGET_BUILD_DIR)/build
+build_target       = $(TARGET_BUILD_DIR)/.build_done
+install_target     = $(TARGET_BUILD_DIR)/.install_done
+build_expat_pkg    = $(TARGET_BUILD_DIR)/.expat_pkg_done
+
+
+
+####### Targets
+
+PKG_GROUP = libs
+
+#
+# *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
+#
+EXPAT_PKG_NAME                = expat
+EXPAT_PKG_VERSION             = 2.1.0
+EXPAT_PKG_ARCH                = $(TOOLCHAIN)
+EXPAT_PKG_DISTRO_NAME         = kxLab
+EXPAT_PKG_DISTRO_VERSION      = 1.0
+EXPAT_PKG_GROUP               = $(PKG_GROUP)
+###                            |---handy-ruler-------------------------------|
+EXPAT_PKG_SHORT_DESCRIPTION   = expat $(version)
+EXPAT_PKG_URL                 = http://www.kxLab.com
+EXPAT_PKG_LICENSE             = GPLv2
+EXPAT_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(EXPAT_PKG_NAME)-pkg-description
+EXPAT_PKG_DESCRIPTION_FILE_IN = $(EXPAT_PKG_NAME)-pkg-description.in
+EXPAT_PKG_INSTALL_SCRIPT      = $(EXPAT_PKG_NAME)-pkg-install.sh
+
+EXPAT_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(EXPAT_PKG_NAME)-package
+
+pkg_basename     = $(EXPAT_PKG_NAME)-$(EXPAT_PKG_VERSION)-$(EXPAT_PKG_ARCH)-$(EXPAT_PKG_DISTRO_NAME)-$(EXPAT_PKG_DISTRO_VERSION)
+pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(EXPAT_PKG_GROUP)/$(pkg_basename).tgz
+
+
+BUILD_TARGETS    = $(build_expat_pkg)
+
+ROOTFS_TARGETS   = $(pkg_basename_tgz)
+
+PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+
+
+include ../../../build-system/core.mk
+
+
+env_sysroot = DESTDIR=$(EXPAT_PKG)
+
+
+extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
+extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
+extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --enable-shared=yes
+extra_configure_switches += --enable-static=yes
+
+
+####### Dependencies
+
+$(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
+	$(UNPACK_SRC_ARCHIVE)
+	$(APPLY_PATCHES)
+	@touch $@
+
+$(build_target): $(src_done)
+	@mkdir -p $(build_dir)
+	@cd $(build_dir) && \
+	  $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
+	  --prefix=/usr               \
+	  --build=$(BUILD)            \
+	  --host=$(TARGET)            \
+	  $(extra_configure_switches)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
+	@touch $@
+
+$(install_target): $(build_target)
+	@mkdir -p $(EXPAT_PKG)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@if [ -d $(EXPAT_PKG)/usr/share/man ]; then \
+	  ( cd $(EXPAT_PKG)/usr/share/man ; \
+	    for manpagedir in `find . -type d -name "man*"` ; do \
+	      ( cd $$manpagedir ; \
+	        for eachpage in `find . -type l -maxdepth 1` ; do \
+	          ln -s `readlink $$eachpage`.gz $$eachpage.gz ; \
+	          rm $$eachpage ; \
+	        done ; \
+	        gzip -9 *.?  ; \
+	      ) \
+	    done \
+	  ) \
+	 fi
+	@mkdir -p $(EXPAT_PKG)/usr/doc/$(src_dir_name)
+	@cp -a $(SRC_DIR)/COPYING \
+	       $(EXPAT_PKG)/usr/doc/$(src_dir_name)
+	@mkdir -p $(EXPAT_PKG)/usr/share/doc/$(src_dir_name)
+	@( cd $(SRC_DIR) ; \
+	   cp -a COPYING README doc/*.png doc/*.css doc/*.html \
+	         $(EXPAT_PKG)/usr/share/doc/$(src_dir_name) \
+	 )
+	@( cd $(SRC_DIR) ; \
+	   if [ -r Changes ]; then \
+	     DOCSDIR=`echo $(EXPAT_PKG)/usr/share/doc/$(src_dir_name)` ; \
+	     cat Changes | head -n 1000 > $$DOCSDIR/Changes ; \
+	     touch -r Changes $$DOCSDIR/Changes ; \
+	   fi \
+	 )
+	# remove toolchain path from target libtool *.la files and
+	@( cd $(EXPAT_PKG)/usr/lib$(LIBSUFFIX) ; \
+	  sed -i "s,$(TARGET_DEST_DIR),,g" libexpat.la \
+	 )
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
+	@mkdir -p $(TARGET_DEST_DIR)
+	@cd $(EXPAT_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	# tune libtool *.la search path to the target destination for development
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libexpat.la ; \
+	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libexpat.la \
+	 )
+	# tune pkg-config *.pc search path to the target destination for development
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" expat.pc \
+	 )
+	@(cd $(EXPAT_PKG); \
+	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	  find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
+	 )
+	@touch $@
+
+$(EXPAT_PKG_DESCRIPTION_FILE): $(EXPAT_PKG_DESCRIPTION_FILE_IN)
+	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
+
+$(build_expat_pkg): $(install_target) $(EXPAT_PKG_DESCRIPTION_FILE)
+	@cp $(EXPAT_PKG_DESCRIPTION_FILE) $(EXPAT_PKG)/.DESCRIPTION
+	@cp $(EXPAT_PKG_INSTALL_SCRIPT) $(EXPAT_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(EXPAT_PKG)/.REQUIRES
+	@echo "pkgname=$(EXPAT_PKG_NAME)"                            >  $(EXPAT_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(EXPAT_PKG_VERSION)"                          >> $(EXPAT_PKG)/.PKGINFO ; \
+	 echo "arch=$(EXPAT_PKG_ARCH)"                               >> $(EXPAT_PKG)/.PKGINFO ; \
+	 echo "distroname=$(EXPAT_PKG_DISTRO_NAME)"                  >> $(EXPAT_PKG)/.PKGINFO ; \
+	 echo "distrover=$(EXPAT_PKG_DISTRO_VERSION)"                >> $(EXPAT_PKG)/.PKGINFO ; \
+	 echo "group=$(EXPAT_PKG_GROUP)"                             >> $(EXPAT_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(EXPAT_PKG_SHORT_DESCRIPTION)\"" >> $(EXPAT_PKG)/.PKGINFO ; \
+	 echo "url=$(EXPAT_PKG_URL)"                                 >> $(EXPAT_PKG)/.PKGINFO ; \
+	 echo "license=$(EXPAT_PKG_LICENSE)"                         >> $(EXPAT_PKG)/.PKGINFO
+	@$(FAKEROOT) sh -c "cd $(EXPAT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@touch $@

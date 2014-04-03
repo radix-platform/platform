@@ -79,6 +79,30 @@ REQUIRES          += app/procps/3.2.8
 
 
 #
+# Additional packages:
+#
+REQUIRES          += libs/expat/2.1.0
+REQUIRES          += libs/libgamin/0.1.10
+REQUIRES          += libs/glib2/2.40.0
+REQUIRES          += app/gamin/0.1.10
+# app/udev
+
+#
+# Networking:
+#
+REQUIRES          += net/openssl/1.0.1f
+REQUIRES          += net/tcp_wrappers/7.6
+REQUIRES          += net/icmpinfo/1.11
+
+#
+# Additional DEV packages:
+#
+# === python depends on openssl ===
+REQUIRES          += dev/python2/2.7.6
+
+
+
+#
 # additional libs for bootstrap GCC:
 #
 # REQUIRES          += libs/mpc/1.0.2

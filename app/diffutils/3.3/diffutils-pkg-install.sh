@@ -21,20 +21,26 @@ pre_install() {
 
 # arg 1:  the new package version
 post_install() {
-  if [ -x usr/bin/install-info ] ; then
-    install-info --info-dir=usr/share/info usr/share/info/diff.info.gz 2>/dev/null
+  #
+  # NOTE:
+  #   'install-info' can work using relative paths and we can make use build machine
+  #   utility during installation to the some partition and use target 'install-info'
+  #   during installation directly on the running target machine.
+  #
+  if [ -x /usr/bin/install-info ] ; then
+    install-info --info-dir=usr/share/info usr/share/info/diffutils.info.gz 2>/dev/null
   elif ! grep "diff3" usr/share/info/dir 1> /dev/null 2> /dev/null ; then
   cat << EOF >> usr/info/dir
 
-GNU packages
-* Diff: (diff).                 Comparing and merging files.
+Text creation and manipulation
+* Diffutils: (diffutils).       Comparing and merging files.
 
 Individual utilities
-* cmp: (diff)Invoking cmp.                      Compare 2 files byte by byte.
-* diff3: (diff)Invoking diff3.                  Compare 3 files line by line.
-* diff: (diff)Invoking diff.                    Compare 2 files line by line.
-* patch: (diff)Invoking patch.                  Apply a patch to a file.
-* sdiff: (diff)Invoking sdiff.                  Merge 2 files side-by-side.
+* cmp: (diffutils)Invoking cmp.                 Compare 2 files byte by byte.
+* diff3: (diffutils)Invoking diff3.             Compare 3 files line by line.
+* diff: (diffutils)Invoking diff.               Compare 2 files line by line.
+* patch: (diffutils)Invoking patch.             Apply a patch to a file.
+* sdiff: (diffutils)Invoking sdiff.             Merge 2 files side-by-side.
 EOF
   fi
 }

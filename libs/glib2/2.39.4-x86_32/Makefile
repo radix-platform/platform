@@ -13,6 +13,10 @@ SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/GNOME/core/glib
 
 REQUIRES           = libs/zlib/1.2.8
 REQUIRES          += libs/libffi/3.0.13
+REQUIRES          += libs/libelf/0.8.13
+REQUIRES          += libs/pcre/8.34
+REQUIRES          += app/attr/2.4.47
+REQUIRES          += libs/libgamin/0.1.10
 
 
 version            = 2.39.4
@@ -28,6 +32,8 @@ build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
 build_glib2x32_pkg = $(TARGET_BUILD_DIR)/.glib2x32_pkg_done
+
+hw_cache           = $(CURDIR)/cross/hw.cache
 
 
 ####### Targets
@@ -69,6 +75,11 @@ include ../../../build-system/core.mk
 env_sysroot = DESTDIR=$(GLIB2_32_PKG)
 
 
+# owerwrite LDFLAGS:
+#
+LDFLAGS     = -L$(TARGET_DEST_DIR)/lib$(MULTILIB_X86_32_SUFFIX)
+LDFLAGS    += -L$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)
+
 ARCH_FLAGS  = -m32 -g -O3 -march=i486 -mtune=i686
 
 TARGET32    = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
@@ -78,9 +89,13 @@ extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --sysconfdir=/etc
-extra_configure_switches += --enable-shared
-# uncomment next line to prevent building static *.a library:
-# extra_configure_switches += --disable-static
+extra_configure_switches += --with-gnu-ld
+extra_configure_switches += --with-threads=posix
+extra_configure_switches += --with-pcre=system
+extra_configure_switches += --enable-shared=yes
+extra_configure_switches += --enable-static=yes
+
+extra_configure_switches += --cache-file=$(hw_cache)
 
 
 ####### Dependencies
@@ -92,40 +107,51 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 
 $(build_target): $(src_done)
 	@mkdir -p $(build_dir)
+	@chmod a-w $(hw_cache)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
 	  --prefix=/usr               \
 	  --build=$(BUILD)            \
 	  --host=$(TARGET32)          \
 	  $(extra_configure_switches)
+	@chmod +w $(hw_cache)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
 	@touch $@
 
 $(install_target): $(build_target)
 	@mkdir -p $(GLIB2_32_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
-	exit 1
-	# libffi make suggestion about toolexeclibdir according to gcc -print-multi-os-directory
-	# we shoul prevent so stupid behaviour related to x86_WIN32 target in linux
-ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
-	@mv $(GLIB2_32_PKG)/usr/lib/* $(GLIB2_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)
-	@rm -rf $(GLIB2_32_PKG)/usr/lib
-	@( cd $(GLIB2_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	  sed -i "s,libdir='/usr/lib32/../lib',libdir='/usr/lib32',g" libffi.la \
-	 )
-endif
-	@mkdir -p $(GLIB2_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)
-	@( cd $(GLIB2_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   for file in lib*.so.?.* ; do \
-	     mv $$file ../../lib$(MULTILIB_X86_32_SUFFIX) ; \
-	     ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/$$file . ; \
-	   done ; \
-	   cp -a lib*.so.? ../../lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@mkdir -p $(GLIB2_32_PKG)/usr/bin/32
+	@( cd $(GLIB2_32_PKG)/usr/bin ; \
+	   find . -type f | xargs mv -t 32 ; \
 	 )
 	@rm -rf $(GLIB2_32_PKG)/usr/include
 	@rm -rf $(GLIB2_32_PKG)/usr/share
-	# Install the same to $(TARGET_DEST_DIR)
+	# remove target destination path from target libtool *.la files and pkgconfig *.pc files
+	@( cd $(GLIB2_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	  sed -i "s,$(TARGET_DEST_DIR),,g" *.la ; \
+	  sed -i "s,-L/usr/lib ,,g" *.la ; \
+	  sed -i "s,-L/lib ,,g" *.la ; \
+	 )
+	@( cd $(GLIB2_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
+	  sed -i "s,$(TARGET_DEST_DIR),,g" *.pc ; \
+	  sed -i "s,-L/usr/lib ,-L/usr/lib32 ,g" *.pc ; \
+	 )
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(GLIB2_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	# tune libtool *.la search path to the target destination for development
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgio-2.0.la libglib-2.0.la libgmodule-2.0.la \
+	                                           libgobject-2.0.la libgthread-2.0.la ; \
+	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libgio-2.0.la libglib-2.0.la libgmodule-2.0.la \
+	                                             libgobject-2.0.la libgthread-2.0.la \
+	 )
+	# tune pkg-config *.pc search path to the target destination for development
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" gio-2.0.pc gio-unix-2.0.pc glib-2.0.pc gmodule-2.0.pc \
+	                                           gmodule-export-2.0.pc gmodule-no-export-2.0.pc gobject-2.0.pc \
+	                                           gthread-2.0.pc \
+	 )
 	@(cd $(GLIB2_32_PKG); \
 	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
@@ -139,6 +165,7 @@ $(GLIB2_32_PKG_DESCRIPTION_FILE): $(GLIB2_32_PKG_DESCRIPTION_FILE_IN)
 $(build_glib2x32_pkg): $(install_target) $(GLIB2_32_PKG_DESCRIPTION_FILE)
 	@cp $(GLIB2_32_PKG_DESCRIPTION_FILE) $(GLIB2_32_PKG)/.DESCRIPTION
 	@cp $(GLIB2_32_PKG_INSTALL_SCRIPT) $(GLIB2_32_PKG)/.INSTALL
+	@chmod a+x $(GLIB2_32_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(GLIB2_32_PKG)/.REQUIRES
 	@echo "pkgname=$(GLIB2_32_PKG_NAME)"                            >  $(GLIB2_32_PKG)/.PKGINFO ; \
 	 echo "pkgver=$(GLIB2_32_PKG_VERSION)"                          >> $(GLIB2_32_PKG)/.PKGINFO ; \

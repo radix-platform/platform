@@ -23,9 +23,21 @@ pre_install() {
 post_install() {
   install_file etc/mke2fs.conf.new
 
-#  if [ -x usr/bin/install-info ]; then
-#    install-info --info-dir=/usr/share/info /usr/share/info/libext2fs.info.gz 2> /dev/null
-#  fi
+  #
+  # NOTE:
+  #   'install-info' can work using relative paths and we can make use build machine
+  #   utility during installation to the some partition and use target 'install-info'
+  #   during installation directly on the running target machine.
+  #
+  if [ -x /usr/bin/install-info ] ; then
+    install-info --info-dir=usr/share/info usr/share/info/libext2fs.info.gz 2>/dev/null
+  elif ! grep "libext2fs" usr/share/info/dir 1> /dev/null 2> /dev/null ; then
+  cat << EOF >> usr/info/dir
+
+Development
+* libext2fs: (libext2fs).       The EXT2FS library.
+EOF
+  fi
 }
 
 # arg 1:  the new package version

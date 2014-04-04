@@ -12,15 +12,14 @@ program=`basename $0`
 # 11 = broken .PKGINFO
 # 14 = broken declaration of user pkglist
 # 15 = priority has not specified arter --priority option
+# 92 = Cannot create '/tmp/...' directory
 # 99 = user abort from menu mode
 EXITSTATUS=0
 
 CWD=`pwd`
 
-TMP=/tmp
-if [ ! -d $TMP ]; then
-  mkdir -p $TMP
-fi
+TMP=$(mktemp -d /tmp/XXXXXXXX) || { echo "Cannot create '/tmp/...' directory" ; exit 92; }
+trap "rm -rf $TMP" EXIT
 
 
 usage() {

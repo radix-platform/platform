@@ -11,14 +11,13 @@ program=`basename $0`
 # 16 = root path has not specified arter --root option
 # 17 = exit if called with no arguments
 # 24 = {Setup | Package} database directory doesn't exist.
+# 92 = Cannot create '/tmp/...' directory
 EXITSTATUS=0
 
 CWD=`pwd`
 
-TMP=/tmp
-if [ ! -d $TMP ]; then
-  mkdir -p $TMP
-fi
+TMP=$(mktemp -d /tmp/XXXXXXXX) || { echo "Cannot create '/tmp/...' directory" ; exit 92; }
+trap "rm -rf $TMP" EXIT
 
 
 usage() {

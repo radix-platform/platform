@@ -23,15 +23,14 @@ program=`basename $0`
 # 24 = {Setup | Package} database directory doesn't exist.
 # 25 = {There are not resolved requires | Reference counter is not empty}
 # 26 = the 'pkglogfile' cannot be restored in the package data base
+# 92 = Cannot create '/tmp/...' directory
 ######!# 99 = user abort from menu mode
 EXITSTATUS=0
 
 CWD=`pwd`
 
-TMP=/tmp
-if [ ! -d $TMP ]; then
-  mkdir -p $TMP
-fi
+TMP=$(mktemp -d /tmp/XXXXXXXX) || { echo "Cannot create '/tmp/...' directory" ; exit 92; }
+trap "rm -rf $TMP" EXIT
 
 
 usage() {

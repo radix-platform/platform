@@ -4,12 +4,12 @@ TAR=tar
 
 program=`basename $0`
 
+# 92 = Cannot create '/tmp/...' directory
+
 umask 022
 
-TMP=/tmp
-if [ ! -d $TMP ]; then
-  mkdir -p $TMP
-fi
+TMP=$(mktemp -d /tmp/XXXXXXXX) || { echo "Cannot create '/tmp/...' directory" ; exit 92; }
+trap "rm -rf $TMP" EXIT
 
 
 check_link_permissions() {

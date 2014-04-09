@@ -1,0 +1,3 @@
+patch-2.7/src/patch.c
+patch-2.7/tests/concat-git-diff
+patch-2.7/tests/create-delete

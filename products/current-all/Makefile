@@ -85,7 +85,12 @@ REQUIRES          += libs/expat/2.1.0
 REQUIRES          += libs/libgamin/0.1.10
 REQUIRES          += libs/glib2/2.40.0
 REQUIRES          += app/gamin/0.1.10
-# app/udev
+REQUIRES          += libs/libusb/1.0.9
+REQUIRES          += app/usbutils/007
+REQUIRES          += app/pciutils/3.2.1
+# NOTE: app/udev - is built without introspection (because gobject-introspection cannot be cross compiled)
+REQUIRES          += app/udev/182
+
 
 #
 # Networking:

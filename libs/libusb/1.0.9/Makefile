@@ -1,0 +1,176 @@
+
+COMPONENT_TARGETS += $(TARGET_PC32)
+COMPONENT_TARGETS += $(TARGET_PC64)
+COMPONENT_TARGETS += $(TARGET_CB1X)
+COMPONENT_TARGETS += $(TARGET_VIP1830)
+COMPONENT_TARGETS += $(TARGET_BEAGLE)
+COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
+COMPONENT_TARGETS += $(TARGET_B74)
+
+#
+# The rest targets links staticaly with newlib or uclibc and not requires xz libraties
+#
+# COMPONENT_TARGETS += $(TARGET_CB1N)
+# COMPONENT_TARGETS += $(TARGET_GUARD)
+# COMPONENT_TARGETS += $(TARGET_VIP1830N)
+# COMPONENT_TARGETS += $(TARGET_L17UC)
+#
+
+
+NEED_ABS_PATH      = true
+
+COMPONENT_IS_3PP   = true
+
+
+include ../../../build-system/constants.mk
+
+
+SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/l/libusb
+
+
+ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
+REQUIRES           = libs/libusb/1.0.9-x86_32
+else
+REQUIRES           = libs/eglibc/2.18.1
+endif
+
+version            = 1.0.9
+tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/l/libusb/libusb-$(version).tar.bz2
+SRC_ARCHIVE        = $(tar_bz2_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/libusb-$(version)
+src_dir_name       = libusb-$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source_done
+
+PATCHES = PATCHES
+
+build_dir          = $(TARGET_BUILD_DIR)/build
+build_target       = $(TARGET_BUILD_DIR)/.build_done
+install_target     = $(TARGET_BUILD_DIR)/.install_done
+build_libusb_pkg   = $(TARGET_BUILD_DIR)/.libusb_pkg_done
+
+
+
+####### Targets
+
+PKG_GROUP = libs
+
+#
+# *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
+#
+LIBUSB_PKG_NAME                = libusb
+LIBUSB_PKG_VERSION             = 1.0.9
+LIBUSB_PKG_ARCH                = $(TOOLCHAIN)
+LIBUSB_PKG_DISTRO_NAME         = kxLab
+LIBUSB_PKG_DISTRO_VERSION      = 1.0
+LIBUSB_PKG_GROUP               = $(PKG_GROUP)
+###                             |---handy-ruler-------------------------------|
+LIBUSB_PKG_SHORT_DESCRIPTION   = libusb $(version)
+LIBUSB_PKG_URL                 = http://www.kxLab.com
+LIBUSB_PKG_LICENSE             = GPLv2
+LIBUSB_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBUSB_PKG_NAME)-pkg-description
+LIBUSB_PKG_DESCRIPTION_FILE_IN = $(LIBUSB_PKG_NAME)-pkg-description.in
+LIBUSB_PKG_INSTALL_SCRIPT      = $(LIBUSB_PKG_NAME)-pkg-install.sh
+
+LIBUSB_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBUSB_PKG_NAME)-package
+
+pkg_basename     = $(LIBUSB_PKG_NAME)-$(LIBUSB_PKG_VERSION)-$(LIBUSB_PKG_ARCH)-$(LIBUSB_PKG_DISTRO_NAME)-$(LIBUSB_PKG_DISTRO_VERSION)
+pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(LIBUSB_PKG_GROUP)/$(pkg_basename).tgz
+
+
+BUILD_TARGETS    = $(build_libusb_pkg)
+
+ROOTFS_TARGETS   = $(pkg_basename_tgz)
+
+PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+
+
+include ../../../build-system/core.mk
+
+
+env_sysroot = DESTDIR=$(LIBUSB_PKG)
+
+
+extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
+extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
+extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --enable-static=yes
+extra_configure_switches += --enable-shared=yes
+
+
+####### Dependencies
+
+$(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
+	$(UNPACK_SRC_ARCHIVE)
+	$(APPLY_PATCHES)
+	@touch $@
+
+$(build_target): $(src_done)
+	@mkdir -p $(build_dir)
+	@cd $(build_dir) && \
+	  $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
+	  --prefix=/usr               \
+	  --build=$(BUILD)            \
+	  --host=$(TARGET)            \
+	  $(extra_configure_switches)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
+	@touch $@
+
+$(install_target): $(build_target)
+	@mkdir -p $(LIBUSB_PKG)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@mkdir -p $(LIBUSB_PKG)/usr/doc/$(src_dir_name)
+	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/COPYING \
+	       $(LIBUSB_PKG)/usr/doc/$(src_dir_name)
+	@mkdir -p $(LIBUSB_PKG)/usr/share/doc/$(src_dir_name)
+	@( cd $(SRC_DIR) ; \
+	   cp -a AUTHORS COPYING INSTALL NEWS PORTING README THANKS TODO \
+	         $(LIBUSB_PKG)/usr/share/doc/$(src_dir_name) \
+	 )
+	@( cd $(SRC_DIR) ; \
+	   if [ -r ChangeLog ]; then \
+	     DOCSDIR=`echo $(LIBUSB_PKG)/usr/share/doc/$(src_dir_name)` ; \
+	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
+	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
+	   fi \
+	 )
+	# remove toolchain path from target libtool *.la files and
+	@( cd $(LIBUSB_PKG)/usr/lib$(LIBSUFFIX) ; \
+	  sed -i "s,$(TARGET_DEST_DIR),,g" libusb-?.?.la  \
+	 )
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
+	@mkdir -p $(TARGET_DEST_DIR)
+	@cd $(LIBUSB_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	# tune libtool *.la search path to the target destination for development
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libusb-?.?.la ; \
+	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libusb-?.?.la \
+	 )
+	# tune pkg-config *.pc search path to the target destination for development
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libusb-?.?.pc \
+	 )
+	@(cd $(LIBUSB_PKG); \
+	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	  find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
+	 )
+	@touch $@
+
+$(LIBUSB_PKG_DESCRIPTION_FILE): $(LIBUSB_PKG_DESCRIPTION_FILE_IN)
+	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
+
+$(build_libusb_pkg): $(install_target) $(LIBUSB_PKG_DESCRIPTION_FILE)
+	@cp $(LIBUSB_PKG_DESCRIPTION_FILE) $(LIBUSB_PKG)/.DESCRIPTION
+	@cp $(LIBUSB_PKG_INSTALL_SCRIPT) $(LIBUSB_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(LIBUSB_PKG)/.REQUIRES
+	@echo "pkgname=$(LIBUSB_PKG_NAME)"                            >  $(LIBUSB_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(LIBUSB_PKG_VERSION)"                          >> $(LIBUSB_PKG)/.PKGINFO ; \
+	 echo "arch=$(LIBUSB_PKG_ARCH)"                               >> $(LIBUSB_PKG)/.PKGINFO ; \
+	 echo "distroname=$(LIBUSB_PKG_DISTRO_NAME)"                  >> $(LIBUSB_PKG)/.PKGINFO ; \
+	 echo "distrover=$(LIBUSB_PKG_DISTRO_VERSION)"                >> $(LIBUSB_PKG)/.PKGINFO ; \
+	 echo "group=$(LIBUSB_PKG_GROUP)"                             >> $(LIBUSB_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(LIBUSB_PKG_SHORT_DESCRIPTION)\"" >> $(LIBUSB_PKG)/.PKGINFO ; \
+	 echo "url=$(LIBUSB_PKG_URL)"                                 >> $(LIBUSB_PKG)/.PKGINFO ; \
+	 echo "license=$(LIBUSB_PKG_LICENSE)"                         >> $(LIBUSB_PKG)/.PKGINFO
+	@$(FAKEROOT) sh -c "cd $(LIBUSB_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@touch $@

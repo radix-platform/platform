@@ -1,0 +1,4 @@
+udev-182/rules/42-usb-hid-pm.rules
+udev-182/src/ata_id/ata_id.c
+udev-182/src/cdrom_id/60-cdrom_id.rules
+udev-182/src/rule_generator/write_cd_rules

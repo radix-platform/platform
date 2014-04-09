@@ -1,0 +1,33 @@
+#!/bin/sh
+
+# /lib/udev/devices/MAKE-FIXED-DEVICES
+#
+# user:
+#   root    uid=0
+#
+# group:
+#   dialout gid=16
+#
+# devices:
+#
+#   1 char  Memory devices
+#           3 = /dev/null      Null device
+#           5 = /dev/zero      Null byte source
+#           9 = /dev/urandom   Faster, less secure random number gen.
+#
+# 108 char  Device independent PPP interface
+#           0 = /dev/ppp       Device independent PPP interface
+#
+
+mknod --mode=660 ppp     c 108 0
+mknod --mode=666 null    c   1 3
+mknod --mode=666 urandom c   1 9
+mknod --mode=666 zero    c   1 5
+mknod --mode=600 initctl p
+
+mkdir -p shm ; chmod 755 shm
+
+ln -sf null XOR
+
+chown root:dialout ppp
+chown root:root    shm null urandom zero

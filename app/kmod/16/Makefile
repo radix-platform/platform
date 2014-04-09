@@ -28,9 +28,12 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/a/kmod
 
 
+ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
+REQUIRES           = app/kmod/16-x86_32
+else
 REQUIRES           = libs/zlib/1.2.8
 REQUIRES          += app/xz/5.0.5
-
+endif
 
 version            = 16
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/a/kmod/kmod-$(version).tar.bz2
@@ -167,7 +170,7 @@ $(install_target): $(build_target)
 	@( cd $(KMOD_PKG)/usr/lib$(LIBSUFFIX) ; \
 	  sed -i "s,$(TARGET_DEST_DIR),,g" libkmod.la  \
 	 )
-	# Install the same to $(TARGET_DEST_DIR)
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(KMOD_PKG) && cp -rf * $(TARGET_DEST_DIR)
 	# tune libtool *.la search path to the target destination for development

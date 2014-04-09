@@ -1,0 +1,186 @@
+
+COMPONENT_TARGETS  += $(TARGET_PC32)
+COMPONENT_TARGETS  += $(TARGET_PC64)
+COMPONENT_TARGETS  += $(TARGET_CB1X)
+COMPONENT_TARGETS  += $(TARGET_VIP1830)
+COMPONENT_TARGETS  += $(TARGET_BEAGLE)
+COMPONENT_TARGETS  += $(TARGET_OMAP5UEVM)
+COMPONENT_TARGETS  += $(TARGET_B74)
+
+#
+# The rest targets links staticaly with newlib or uclibc and not requires xz libraties
+#
+# COMPONENT_TARGETS  += $(TARGET_CB1N)
+# COMPONENT_TARGETS  += $(TARGET_GUARD)
+# COMPONENT_TARGETS  += $(TARGET_VIP1830N)
+# COMPONENT_TARGETS  += $(TARGET_L17UC)
+#
+
+
+NEED_ABS_PATH       = true
+
+COMPONENT_IS_3PP    = true
+
+
+include ../../../build-system/constants.mk
+
+
+SOURCE_REQUIRES     = $(SRC_PACKAGE_DIR)/packages/a/pciutils
+
+
+ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
+REQUIRES            = app/pciutils/3.2.1-x86_32
+else
+REQUIRES            = libs/zlib/1.2.8
+REQUIRES           += app/kmod/16
+endif
+
+version             = 3.2.1
+tar_xz_archive      = $(SRC_PACKAGE_PATH)/packages/a/pciutils/pciutils-$(version).tar.xz
+SRC_ARCHIVE         = $(tar_xz_archive)
+SRC_DIR             = $(TARGET_BUILD_DIR)/pciutils-$(version)
+src_dir_name        = pciutils-$(version)
+src_done            = $(TARGET_BUILD_DIR)/.source_done
+
+PATCHES = PATCHES
+
+build_dir           = $(TARGET_BUILD_DIR)/build
+build_target        = $(TARGET_BUILD_DIR)/.build_done
+install_target      = $(TARGET_BUILD_DIR)/.install_done
+build_pciutils_pkg  = $(TARGET_BUILD_DIR)/.pciutils_pkg_done
+
+
+
+####### Targets
+
+PKG_GROUP = app
+
+#
+# *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
+#
+PCIUTILS_PKG_NAME                = pciutils
+PCIUTILS_PKG_VERSION             = 3.2.1
+PCIUTILS_PKG_ARCH                = $(TOOLCHAIN)
+PCIUTILS_PKG_DISTRO_NAME         = kxLab
+PCIUTILS_PKG_DISTRO_VERSION      = 1.0
+PCIUTILS_PKG_GROUP               = $(PKG_GROUP)
+###                               |---handy-ruler-------------------------------|
+PCIUTILS_PKG_SHORT_DESCRIPTION   = pciutils $(version)
+PCIUTILS_PKG_URL                 = http://www.kxLab.com
+PCIUTILS_PKG_LICENSE             = GPLv2
+PCIUTILS_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(PCIUTILS_PKG_NAME)-pkg-description
+PCIUTILS_PKG_DESCRIPTION_FILE_IN = $(PCIUTILS_PKG_NAME)-pkg-description.in
+PCIUTILS_PKG_INSTALL_SCRIPT      = $(PCIUTILS_PKG_NAME)-pkg-install.sh
+
+PCIUTILS_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(PCIUTILS_PKG_NAME)-package
+
+pkg_basename     = $(PCIUTILS_PKG_NAME)-$(PCIUTILS_PKG_VERSION)-$(PCIUTILS_PKG_ARCH)-$(PCIUTILS_PKG_DISTRO_NAME)-$(PCIUTILS_PKG_DISTRO_VERSION)
+pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(PCIUTILS_PKG_GROUP)/$(pkg_basename).tgz
+
+
+BUILD_TARGETS    = $(build_pciutils_pkg)
+
+ROOTFS_TARGETS   = $(pkg_basename_tgz)
+
+PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+
+
+include ../../../build-system/core.mk
+
+
+env_sysroot = DESTDIR=$(PCIUTILS_PKG)
+
+
+extra_configure_switches += PREFIX=/usr
+extra_configure_switches += SBINDIR=/sbin
+extra_configure_switches += LIBDIR=/usr/lib$(LIBSUFFIX)
+extra_configure_switches += MANDIR=/usr/share/man
+extra_configure_switches += IDSDIR=/usr/share/hwdata
+extra_configure_switches += PCI_IDS=pci.ids
+extra_configure_switches += PCI_COMPRESSED_IDS=0
+extra_configure_switches += SHARED=yes
+extra_configure_switches += LIBKMOD=yes
+extra_configure_switches += HOST=$(TARGET)
+extra_configure_switches += OPT="-isystem $(TARGET_DEST_DIR)/usr/include $(ARCH_FLAGS) $(HW_FLAGS)"
+
+
+####### Dependencies
+
+$(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
+	$(UNPACK_SRC_ARCHIVE)
+	$(APPLY_PATCHES)
+	@touch $@
+
+$(build_target): $(src_done)
+	@( cd $(SRC_DIR) ; \
+	   rm -f pci.ids ; \
+	   ./update-pciids.sh ; \
+	 )
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) $(extra_configure_switches)
+	@touch $@
+
+$(install_target): $(build_target)
+	@mkdir -p $(PCIUTILS_PKG)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install install-lib $(extra_configure_switches) $(env_sysroot)
+	@chmod a+x $(PCIUTILS_PKG)/usr/lib$(LIBSUFFIX)/libpci.so.?.?.?
+	@mkdir -p $(PCIUTILS_PKG)/usr/sbin
+	@mv $(PCIUTILS_PKG)/sbin/update-pciids $(PCIUTILS_PKG)/usr/sbin/update-pciids
+	@if [ -d $(PCIUTILS_PKG)/usr/share/man ]; then \
+	  ( cd $(PCIUTILS_PKG)/usr/share/man ; \
+	    for manpagedir in `find . -type d -name "man*"` ; do \
+	      ( cd $$manpagedir ; \
+	        for eachpage in `find . -type l -maxdepth 1` ; do \
+	          ln -s `readlink $$eachpage`.gz $$eachpage.gz ; \
+	          rm $$eachpage ; \
+	        done ; \
+	        gzip -9 *.?  ; \
+	      ) \
+	    done \
+	  ) \
+	 fi
+	@mkdir -p $(PCIUTILS_PKG)/usr/doc/$(src_dir_name)
+	@cp -a $(SRC_DIR)/COPYING \
+	       $(PCIUTILS_PKG)/usr/doc/$(src_dir_name)
+	@mkdir -p $(PCIUTILS_PKG)/usr/share/doc/$(src_dir_name)
+	@( cd $(SRC_DIR) ; \
+	   cp -a COPYING README* TODO \
+	         $(PCIUTILS_PKG)/usr/share/doc/$(src_dir_name) \
+	 )
+	@( cd $(SRC_DIR) ; \
+	   if [ -r ChangeLog ]; then \
+	     DOCSDIR=`echo $(PCIUTILS_PKG)/usr/share/doc/$(src_dir_name)` ; \
+	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
+	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
+	   fi \
+	 )
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
+	@mkdir -p $(TARGET_DEST_DIR)
+	@cd $(PCIUTILS_PKG) && cp -arf * $(TARGET_DEST_DIR)
+	# tune pkg-config *.pc search path to the target destination of libpci and PCI device database
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libpci.pc \
+	 )
+	@(cd $(PCIUTILS_PKG); \
+	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	 )
+	@touch $@
+
+$(PCIUTILS_PKG_DESCRIPTION_FILE): $(PCIUTILS_PKG_DESCRIPTION_FILE_IN)
+	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
+
+$(build_pciutils_pkg): $(install_target) $(PCIUTILS_PKG_DESCRIPTION_FILE)
+	@cp $(PCIUTILS_PKG_DESCRIPTION_FILE) $(PCIUTILS_PKG)/.DESCRIPTION
+	@cp $(PCIUTILS_PKG_INSTALL_SCRIPT) $(PCIUTILS_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(PCIUTILS_PKG)/.REQUIRES
+	@echo "pkgname=$(PCIUTILS_PKG_NAME)"                            >  $(PCIUTILS_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(PCIUTILS_PKG_VERSION)"                          >> $(PCIUTILS_PKG)/.PKGINFO ; \
+	 echo "arch=$(PCIUTILS_PKG_ARCH)"                               >> $(PCIUTILS_PKG)/.PKGINFO ; \
+	 echo "distroname=$(PCIUTILS_PKG_DISTRO_NAME)"                  >> $(PCIUTILS_PKG)/.PKGINFO ; \
+	 echo "distrover=$(PCIUTILS_PKG_DISTRO_VERSION)"                >> $(PCIUTILS_PKG)/.PKGINFO ; \
+	 echo "group=$(PCIUTILS_PKG_GROUP)"                             >> $(PCIUTILS_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(PCIUTILS_PKG_SHORT_DESCRIPTION)\"" >> $(PCIUTILS_PKG)/.PKGINFO ; \
+	 echo "url=$(PCIUTILS_PKG_URL)"                                 >> $(PCIUTILS_PKG)/.PKGINFO ; \
+	 echo "license=$(PCIUTILS_PKG_LICENSE)"                         >> $(PCIUTILS_PKG)/.PKGINFO
+	@$(FAKEROOT) sh -c "cd $(PCIUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@touch $@

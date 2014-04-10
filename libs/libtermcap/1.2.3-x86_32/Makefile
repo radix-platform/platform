@@ -29,7 +29,7 @@ build_termcap32_pkg = $(TARGET_BUILD_DIR)/.termcap32_pkg_done
 
 ####### Targets
 
-PKG_GROUP = app
+PKG_GROUP = libs
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #

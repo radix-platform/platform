@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
       |-----handy-ruler------------------------------------------------------|
-udev32: udev32 @VERSION@ (compat32 libraries for udev)
+udev32: udev32 @VERSION@ (x86_32 libraries for udev)
 udev32:
 udev32: udev provides a dynamic device directory containing only the files
 udev32: for the devices which are actually present. It creates or removes

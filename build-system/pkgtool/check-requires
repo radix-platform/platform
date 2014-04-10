@@ -168,7 +168,7 @@ while [ "$LINENUM_REQ" -le "$LINENUMS" ]; do
       echo "$reqname:$reqver:NOTINSTALLED" >&2
       echo "Package '$reqname' version: $reqver: Is not installed."
     fi
-    for reqfile in `find $PKG_DB_PATH -type f -name "$reqname-*"` ; do
+    for reqfile in `find $PKG_DB_PATH -type f -name "$reqname-*" | sort -r` ; do
       pkginfo pkginfo $reqfile
       if [ -f "$CWD/.PKGINFO" ]; then
         unset pkgname
@@ -176,7 +176,10 @@ while [ "$LINENUM_REQ" -le "$LINENUMS" ]; do
 
         . $CWD/.PKGINFO
 
-        if [ "$pkgver" \< "$reqver" ]; then
+        if [ "$pkgver" == "$reqver" -o "$pkgver" \> "$reqver" ]; then
+          rm -f $CWD/.PKGINFO
+          break
+        elif [ "$pkgver" \< "$reqver" ]; then
           echo "$pkgname:$reqver:OLD" >&2
           echo "Package '$pkgname' version: $reqver: Too old."
         fi

@@ -5,15 +5,15 @@
 # make exactly 11 lines for the formatting to be correct.  It's also
 # customary to leave one space after the ':'.
 
-          |-----handy-ruler------------------------------------------------------|
-pciutils32: pciutils32 @VERSION@ (x86_32 PCI Library)
-pciutils32:
-pciutils32: libpci is used by pciutils to display detailed information about all
-pciutils32: PCI buses and devices in the system.
-pciutils32:
-pciutils32:
-pciutils32:
-pciutils32:
-pciutils32:
-pciutils32:
-pciutils32:
+           |-----handy-ruler------------------------------------------------------|
+libassuan32: libassuan32 @VERSION@ (x86_32 Interprocess Communication Library)
+libassuan32:
+libassuan32: This is the IPC library used by GnuPG 2.x, GPGME and a few other
+libassuan32: packages.
+libassuan32:
+libassuan32:
+libassuan32:
+libassuan32:
+libassuan32:
+libassuan32:
+libassuan32:

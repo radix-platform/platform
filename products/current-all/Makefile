@@ -96,6 +96,10 @@ REQUIRES          += app/udev/182
 # Networking:
 #
 REQUIRES          += net/openssl/1.0.1f
+REQUIRES          += net/libgpg-error/1.12
+REQUIRES          += net/libassuan/2.1.1
+REQUIRES          += net/libksba/1.3.0
+
 REQUIRES          += net/tcp_wrappers/7.6
 REQUIRES          += net/icmpinfo/1.11
 

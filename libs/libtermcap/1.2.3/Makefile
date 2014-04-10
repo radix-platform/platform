@@ -50,7 +50,7 @@ build_termcap_pkg  = $(TARGET_BUILD_DIR)/.termcap_pkg_done
 
 ####### Targets
 
-PKG_GROUP = app
+PKG_GROUP = libs
 
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.

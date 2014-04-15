@@ -1,0 +1,149 @@
+
+COMPONENT_TARGETS  += $(TARGET_PC32)
+COMPONENT_TARGETS  += $(TARGET_PC64)
+COMPONENT_TARGETS  += $(TARGET_CB1X)
+COMPONENT_TARGETS  += $(TARGET_VIP1830)
+COMPONENT_TARGETS  += $(TARGET_BEAGLE)
+COMPONENT_TARGETS  += $(TARGET_OMAP5UEVM)
+COMPONENT_TARGETS  += $(TARGET_B74)
+
+#
+# The rest targets links staticaly with newlib or uclibc and not requires xz libraties
+#
+# COMPONENT_TARGETS  += $(TARGET_CB1N)
+# COMPONENT_TARGETS  += $(TARGET_GUARD)
+# COMPONENT_TARGETS  += $(TARGET_VIP1830N)
+# COMPONENT_TARGETS  += $(TARGET_L17UC)
+#
+
+
+NEED_ABS_PATH       = true
+
+COMPONENT_IS_3PP    = true
+
+
+include ../../../build-system/constants.mk
+
+
+SOURCE_REQUIRES     = $(SRC_PACKAGE_DIR)/packages/n/netkit-ftp
+
+
+REQUIRES            = libs/eglibc/2.18.1
+REQUIRES           += libs/readline/6.3
+
+
+version             = 0.17
+tar_gz_archive      = $(SRC_PACKAGE_PATH)/packages/n/netkit-ftp/netkit-ftp-$(version).tar.gz
+SRC_ARCHIVE         = $(tar_gz_archive)
+SRC_DIR             = $(TARGET_BUILD_DIR)/netkit-ftp-$(version)
+src_dir_name        = netkit-ftp-$(version)
+src_done            = $(TARGET_BUILD_DIR)/.source-done
+
+
+PATCHES = PATCHES
+
+build_target        = $(TARGET_BUILD_DIR)/.build_done
+install_target      = $(TARGET_BUILD_DIR)/.install_done
+build_ftp_pkg       = $(TARGET_BUILD_DIR)/.ftp_pkg_done
+
+
+####### Targets
+
+PKG_GROUP = net
+
+#
+# *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
+#
+FTP_PKG_NAME                = netkit-ftp
+FTP_PKG_VERSION             = 0.17
+FTP_PKG_ARCH                = $(TOOLCHAIN)
+FTP_PKG_DISTRO_NAME         = kxLab
+FTP_PKG_DISTRO_VERSION      = 1.0
+FTP_PKG_GROUP               = $(PKG_GROUP)
+###                                 |---handy-ruler-------------------------------|
+FTP_PKG_SHORT_DESCRIPTION   = netkit-ftp $(version)
+FTP_PKG_URL                 = http://www.kxLab.com
+FTP_PKG_LICENSE             = BSD
+FTP_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(FTP_PKG_NAME)-pkg-description
+FTP_PKG_DESCRIPTION_FILE_IN = $(FTP_PKG_NAME)-pkg-description.in
+FTP_PKG_INSTALL_SCRIPT      = $(FTP_PKG_NAME)-pkg-install.sh
+
+FTP_PKG   = $(CURDIR)/$(TARGET_BUILD_DIR)/$(FTP_PKG_NAME)-package
+
+pkg_basename     = $(FTP_PKG_NAME)-$(FTP_PKG_VERSION)-$(FTP_PKG_ARCH)-$(FTP_PKG_DISTRO_NAME)-$(FTP_PKG_DISTRO_VERSION)
+pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(FTP_PKG_GROUP)/$(pkg_basename).tgz
+
+
+BUILD_TARGETS    = $(build_ftp_pkg)
+
+ROOTFS_TARGETS   = $(pkg_basename_tgz)
+
+PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+
+
+include ../../../build-system/core.mk
+
+
+ftp_CFLAGS = -isystem $(TARGET_DEST_DIR)/usr/include $(OPTIMIZATION_FLAGS) $(ARCH_FLAGS) $(HW_FLAGS)
+ftp_environment = CFLAGS="$(ftp_CFLAGS)"
+
+
+####### Dependencies
+
+$(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
+	$(UNPACK_SRC_ARCHIVE)
+	$(APPLY_PATCHES)
+	@touch $@
+
+$(build_target): $(src_done)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(ftp_environment) ./configure --prefix=/usr
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(ftp_environment) $(MAKE)
+	@touch $@
+
+$(install_target): $(build_target)
+	@mkdir -p $(FTP_PKG)/bin
+	@mkdir -p $(FTP_PKG)/usr/share/man/man{1,5}
+	@mkdir -p $(FTP_PKG)/usr/share/doc/$(src_dir_name)
+	@( cd $(SRC_DIR)/ftp ; \
+	   cat ftp > $(FTP_PKG)/bin/ftp ; \
+	   chmod 755 $(FTP_PKG)/bin/* ; \
+	   cat ftp.1 | gzip -9c > $(FTP_PKG)/usr/share/man/man1/ftp.1.gz ; \
+	   cat netrc.5 | gzip -9c > $(FTP_PKG)/usr/share/man/man5/netrc.5.gz ; \
+	 )
+	@( cd $(SRC_DIR) ; \
+	   cp -a README \
+	         $(FTP_PKG)/usr/share/doc/$(src_dir_name) ; \
+	 )
+	@( cd $(SRC_DIR) ; \
+	   if [ -r ChangeLog ]; then \
+	     DOCSDIR=`echo $(FTP_PKG)/usr/share/doc/$(src_dir_name)` ; \
+	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
+	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
+	   fi \
+	 )
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
+	@mkdir -p $(TARGET_DEST_DIR)
+	@cd $(FTP_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	@(cd $(FTP_PKG); \
+	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	 )
+	@touch $@
+
+$(FTP_PKG_DESCRIPTION_FILE): $(FTP_PKG_DESCRIPTION_FILE_IN)
+	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
+
+$(build_ftp_pkg): $(install_target) $(FTP_PKG_DESCRIPTION_FILE)
+	@cp $(FTP_PKG_DESCRIPTION_FILE) $(FTP_PKG)/.DESCRIPTION
+	@cp $(FTP_PKG_INSTALL_SCRIPT) $(FTP_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(FTP_PKG)/.REQUIRES
+	@echo "pkgname=$(FTP_PKG_NAME)"                            >  $(FTP_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(FTP_PKG_VERSION)"                          >> $(FTP_PKG)/.PKGINFO ; \
+	 echo "arch=$(FTP_PKG_ARCH)"                               >> $(FTP_PKG)/.PKGINFO ; \
+	 echo "distroname=$(FTP_PKG_DISTRO_NAME)"                  >> $(FTP_PKG)/.PKGINFO ; \
+	 echo "distrover=$(FTP_PKG_DISTRO_VERSION)"                >> $(FTP_PKG)/.PKGINFO ; \
+	 echo "group=$(FTP_PKG_GROUP)"                             >> $(FTP_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(FTP_PKG_SHORT_DESCRIPTION)\"" >> $(FTP_PKG)/.PKGINFO ; \
+	 echo "url=$(FTP_PKG_URL)"                                 >> $(FTP_PKG)/.PKGINFO ; \
+	 echo "license=$(FTP_PKG_LICENSE)"                         >> $(FTP_PKG)/.PKGINFO
+	@$(FAKEROOT) sh -c "cd $(FTP_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@touch $@

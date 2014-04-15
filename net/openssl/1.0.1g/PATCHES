@@ -1,0 +1,3 @@
+
+../../../sources/packages/n/openssl/patches/openssl-1.0.1g-pod.patch -p0
+../../../sources/packages/n/openssl/patches/openssl-1.0.1g-shlib.patch -p0

@@ -1,0 +1,9 @@
+netkit-telnet-0.17/configure
+netkit-telnet-0.17/telnetd/telnetd.c
+netkit-telnet-0.17/telnetd/utility.c
+netkit-telnet-0.17/telnet/commands.cc
+netkit-telnet-0.17/telnet/main.cc
+netkit-telnet-0.17/telnet/netlink.cc
+netkit-telnet-0.17/telnet/network.cc
+netkit-telnet-0.17/telnet/terminal.cc
+netkit-telnet-0.17/telnet/utilities.cc

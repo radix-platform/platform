@@ -95,13 +95,32 @@ REQUIRES          += app/udev/182
 #
 # Networking:
 #
-REQUIRES          += net/openssl/1.0.1f
+REQUIRES          += net/tcp_wrappers/7.6
+REQUIRES          += net/icmpinfo/1.11
+REQUIRES          += net/net-tools/1.60
+REQUIRES          += net/netdate/4
+REQUIRES          += net/biff+comsat/0.17
+REQUIRES          += net/bsd-finger/0.17
+REQUIRES          += net/netkit-bootparamd/0.17
+REQUIRES          += net/netkit-ftp/0.17
+REQUIRES          += net/netkit-ntalk/0.17
+REQUIRES          += net/netkit-routed/0.17
+REQUIRES          += net/netkit-rsh/0.17
+REQUIRES          += net/netkit-rusers/0.17
+REQUIRES          += net/netkit-rwall/0.17
+REQUIRES          += net/netkit-rwho/0.17
+REQUIRES          += net/netkit-telnet/0.17
+REQUIRES          += net/netkit-timed/0.17
+REQUIRES          += net/netwrite/0.17
+
+
+REQUIRES          += net/openssl/1.0.1g
 REQUIRES          += net/libgpg-error/1.12
 REQUIRES          += net/libassuan/2.1.1
 REQUIRES          += net/libksba/1.3.0
+REQUIRES          += libs/pth/2.0.7
+REQUIRES          += net/libgcrypt/1.6.1
 
-REQUIRES          += net/tcp_wrappers/7.6
-REQUIRES          += net/icmpinfo/1.11
 
 #
 # Additional DEV packages:

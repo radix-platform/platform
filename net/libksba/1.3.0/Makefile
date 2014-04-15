@@ -95,7 +95,6 @@ extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var
-extra_configure_switches += --with-gpg-error-prefix=$(TARGET_DEST_DIR)/usr
 extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --enable-static=yes
 
@@ -140,10 +139,10 @@ $(install_target): $(build_target)
 	         $(KSBA_PKG)/usr/share/doc/$(src_dir_name) ; \
 	 )
 	@( cd $(SRC_DIR) ; \
-	   if [ -r CHANGES ]; then \
+	   if [ -r ChangeLog ]; then \
 	     DOCSDIR=`echo $(KSBA_PKG)/usr/share/doc/$(src_dir_name)` ; \
-	     cat CHANGES | head -n 1000 > $$DOCSDIR/CHANGES ; \
-	     touch -r CHANGES $$DOCSDIR/CHANGES ; \
+	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
+	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \
 	 )
 	# remove toolchain path from target libtool *.la files

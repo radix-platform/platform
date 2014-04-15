@@ -1,0 +1,154 @@
+
+COMPONENT_TARGETS  += $(TARGET_PC32)
+COMPONENT_TARGETS  += $(TARGET_PC64)
+COMPONENT_TARGETS  += $(TARGET_CB1X)
+COMPONENT_TARGETS  += $(TARGET_VIP1830)
+COMPONENT_TARGETS  += $(TARGET_BEAGLE)
+COMPONENT_TARGETS  += $(TARGET_OMAP5UEVM)
+COMPONENT_TARGETS  += $(TARGET_B74)
+
+#
+# The rest targets links staticaly with newlib or uclibc and not requires xz libraties
+#
+# COMPONENT_TARGETS  += $(TARGET_CB1N)
+# COMPONENT_TARGETS  += $(TARGET_GUARD)
+# COMPONENT_TARGETS  += $(TARGET_VIP1830N)
+# COMPONENT_TARGETS  += $(TARGET_L17UC)
+#
+
+
+NEED_ABS_PATH       = true
+
+COMPONENT_IS_3PP    = true
+
+
+include ../../../build-system/constants.mk
+
+
+SOURCE_REQUIRES     = $(SRC_PACKAGE_DIR)/packages/n/netkit-routed
+
+
+REQUIRES            = libs/eglibc/2.18.1
+
+
+version             = 0.17
+tar_gz_archive      = $(SRC_PACKAGE_PATH)/packages/n/netkit-routed/netkit-routed-$(version).tar.gz
+SRC_ARCHIVE         = $(tar_gz_archive)
+SRC_DIR             = $(TARGET_BUILD_DIR)/netkit-routed-$(version)
+src_dir_name        = netkit-routed-$(version)
+src_done            = $(TARGET_BUILD_DIR)/.source-done
+
+
+PATCHES = PATCHES
+
+build_target        = $(TARGET_BUILD_DIR)/.build_done
+install_target      = $(TARGET_BUILD_DIR)/.install_done
+build_routed_pkg    = $(TARGET_BUILD_DIR)/.routed_pkg_done
+
+
+####### Targets
+
+PKG_GROUP = net
+
+#
+# *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
+#
+ROUTED_PKG_NAME                = netkit-routed
+ROUTED_PKG_VERSION             = 0.18
+ROUTED_PKG_ARCH                = $(TOOLCHAIN)
+ROUTED_PKG_DISTRO_NAME         = kxLab
+ROUTED_PKG_DISTRO_VERSION      = 1.0
+ROUTED_PKG_GROUP               = $(PKG_GROUP)
+###                             |---handy-ruler-------------------------------|
+ROUTED_PKG_SHORT_DESCRIPTION   = netkit-routed $(version)
+ROUTED_PKG_URL                 = http://www.kxLab.com
+ROUTED_PKG_LICENSE             = BSD
+ROUTED_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(ROUTED_PKG_NAME)-pkg-description
+ROUTED_PKG_DESCRIPTION_FILE_IN = $(ROUTED_PKG_NAME)-pkg-description.in
+ROUTED_PKG_INSTALL_SCRIPT      = $(ROUTED_PKG_NAME)-pkg-install.sh
+
+ROUTED_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(ROUTED_PKG_NAME)-package
+
+pkg_basename     = $(ROUTED_PKG_NAME)-$(ROUTED_PKG_VERSION)-$(ROUTED_PKG_ARCH)-$(ROUTED_PKG_DISTRO_NAME)-$(ROUTED_PKG_DISTRO_VERSION)
+pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(ROUTED_PKG_GROUP)/$(pkg_basename).tgz
+
+
+BUILD_TARGETS    = $(build_routed_pkg)
+
+ROOTFS_TARGETS   = $(pkg_basename_tgz)
+
+PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+
+
+include ../../../build-system/core.mk
+
+
+routed_CFLAGS = -isystem $(TARGET_DEST_DIR)/usr/include $(OPTIMIZATION_FLAGS) $(ARCH_FLAGS) $(HW_FLAGS)
+routed_environment = CFLAGS="$(routed_CFLAGS)"
+
+
+####### Dependencies
+
+$(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
+	$(UNPACK_SRC_ARCHIVE)
+	$(APPLY_PATCHES)
+	@touch $@
+
+$(build_target): $(src_done)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(routed_environment) ./configure --prefix=/usr
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(routed_environment) $(MAKE)
+	@touch $@
+
+$(install_target): $(build_target)
+	@mkdir -p $(ROUTED_PKG)/usr/sbin
+	@mkdir -p $(ROUTED_PKG)/usr/share/man/man8
+	@mkdir -p $(ROUTED_PKG)/usr/share/doc/$(src_dir_name)
+	@( cd $(SRC_DIR)/routed ; \
+	   cat routed > $(ROUTED_PKG)/usr/sbin/routed ; \
+	   chmod 755 $(ROUTED_PKG)/usr/sbin/* ; \
+	   cat routed.8 | gzip -9c > $(ROUTED_PKG)/usr/share/man/man8/routed.8.gz ; \
+	 )
+	@( cd $(SRC_DIR)/ripquery ; \
+	   cat ripquery > $(ROUTED_PKG)/usr/sbin/ripquery ; \
+	   chmod 755 $(ROUTED_PKG)/usr/sbin/* ; \
+	   cat ripquery.8 | gzip -9c > $(ROUTED_PKG)/usr/share/man/man8/ripquery.8.gz ; \
+	 )
+	@( cd $(SRC_DIR) ; \
+	   cp -a README \
+	         $(ROUTED_PKG)/usr/share/doc/$(src_dir_name) ; \
+	   cp -a routed/README \
+	         $(ROUTED_PKG)/usr/share/doc/$(src_dir_name)/README.routed ; \
+	 )
+	@( cd $(SRC_DIR) ; \
+	   if [ -r ChangeLog ]; then \
+	     DOCSDIR=`echo $(ROUTED_PKG)/usr/share/doc/$(src_dir_name)` ; \
+	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
+	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
+	   fi \
+	 )
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
+	@mkdir -p $(TARGET_DEST_DIR)
+	@cd $(ROUTED_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	@(cd $(ROUTED_PKG); \
+	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	 )
+	@touch $@
+
+$(ROUTED_PKG_DESCRIPTION_FILE): $(ROUTED_PKG_DESCRIPTION_FILE_IN)
+	@cat $< | $(SED) -e "s/@VERSION@/0.18/g" > $@
+
+$(build_routed_pkg): $(install_target) $(ROUTED_PKG_DESCRIPTION_FILE)
+	@cp $(ROUTED_PKG_DESCRIPTION_FILE) $(ROUTED_PKG)/.DESCRIPTION
+	@cp $(ROUTED_PKG_INSTALL_SCRIPT) $(ROUTED_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(ROUTED_PKG)/.REQUIRES
+	@echo "pkgname=$(ROUTED_PKG_NAME)"                            >  $(ROUTED_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(ROUTED_PKG_VERSION)"                          >> $(ROUTED_PKG)/.PKGINFO ; \
+	 echo "arch=$(ROUTED_PKG_ARCH)"                               >> $(ROUTED_PKG)/.PKGINFO ; \
+	 echo "distroname=$(ROUTED_PKG_DISTRO_NAME)"                  >> $(ROUTED_PKG)/.PKGINFO ; \
+	 echo "distrover=$(ROUTED_PKG_DISTRO_VERSION)"                >> $(ROUTED_PKG)/.PKGINFO ; \
+	 echo "group=$(ROUTED_PKG_GROUP)"                             >> $(ROUTED_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(ROUTED_PKG_SHORT_DESCRIPTION)\"" >> $(ROUTED_PKG)/.PKGINFO ; \
+	 echo "url=$(ROUTED_PKG_URL)"                                 >> $(ROUTED_PKG)/.PKGINFO ; \
+	 echo "license=$(ROUTED_PKG_LICENSE)"                         >> $(ROUTED_PKG)/.PKGINFO
+	@$(FAKEROOT) sh -c "cd $(ROUTED_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@touch $@

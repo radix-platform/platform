@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+           |-----handy-ruler------------------------------------------------------|
+netkit-rwho: netkit-rwho @VERSION@ (who is logged in on local machines)
+netkit-rwho:
+netkit-rwho: The rwho command produces output similar to who, but for all
+netkit-rwho: machines on the local network. If no report has been received from
+netkit-rwho: a machine for 11 minutes then rwho assumes the machine is down, and
+netkit-rwho: does not report users last known to be logged into that machine.
+netkit-rwho: If a users hasn't typed to the system for a minute or more, then
+netkit-rwho: rwho reports this idle time. If a user hasn't typed to the system
+netkit-rwho: for an hour or more, then the user will be omitted from the output
+netkit-rwho: of rwho unless the -a flag is given.
+netkit-rwho:

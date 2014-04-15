@@ -137,10 +137,10 @@ $(install_target): $(build_target)
 	         $(ASSUAN_PKG)/usr/share/doc/$(src_dir_name) ; \
 	 )
 	@( cd $(SRC_DIR) ; \
-	   if [ -r CHANGES ]; then \
+	   if [ -r ChangeLog ]; then \
 	     DOCSDIR=`echo $(ASSUAN_PKG)/usr/share/doc/$(src_dir_name)` ; \
-	     cat CHANGES | head -n 1000 > $$DOCSDIR/CHANGES ; \
-	     touch -r CHANGES $$DOCSDIR/CHANGES ; \
+	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
+	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \
 	 )
 	# remove toolchain path from target libtool *.la files

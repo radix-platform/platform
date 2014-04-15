@@ -1,0 +1,148 @@
+
+COMPONENT_TARGETS  += $(TARGET_PC32)
+COMPONENT_TARGETS  += $(TARGET_PC64)
+COMPONENT_TARGETS  += $(TARGET_CB1X)
+COMPONENT_TARGETS  += $(TARGET_VIP1830)
+COMPONENT_TARGETS  += $(TARGET_BEAGLE)
+COMPONENT_TARGETS  += $(TARGET_OMAP5UEVM)
+COMPONENT_TARGETS  += $(TARGET_B74)
+
+#
+# The rest targets links staticaly with newlib or uclibc and not requires xz libraties
+#
+# COMPONENT_TARGETS  += $(TARGET_CB1N)
+# COMPONENT_TARGETS  += $(TARGET_GUARD)
+# COMPONENT_TARGETS  += $(TARGET_VIP1830N)
+# COMPONENT_TARGETS  += $(TARGET_L17UC)
+#
+
+
+NEED_ABS_PATH       = true
+
+COMPONENT_IS_3PP    = true
+
+
+include ../../../build-system/constants.mk
+
+
+SOURCE_REQUIRES     = $(SRC_PACKAGE_DIR)/packages/n/netwrite
+
+
+REQUIRES            = libs/eglibc/2.18.1
+
+
+version             = 0.17
+tar_gz_archive      = $(SRC_PACKAGE_PATH)/packages/n/netwrite/netwrite-$(version).tar.gz
+SRC_ARCHIVE         = $(tar_gz_archive)
+SRC_DIR             = $(TARGET_BUILD_DIR)/netwrite-$(version)
+src_dir_name        = netwrite-$(version)
+src_done            = $(TARGET_BUILD_DIR)/.source-done
+
+
+PATCHES = PATCHES
+
+build_target        = $(TARGET_BUILD_DIR)/.build_done
+install_target      = $(TARGET_BUILD_DIR)/.install_done
+build_netwrite_pkg  = $(TARGET_BUILD_DIR)/.netwrite_pkg_done
+
+
+####### Targets
+
+PKG_GROUP = net
+
+#
+# *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
+#
+NETWRITE_PKG_NAME                = netwrite
+NETWRITE_PKG_VERSION             = 0.17
+NETWRITE_PKG_ARCH                = $(TOOLCHAIN)
+NETWRITE_PKG_DISTRO_NAME         = kxLab
+NETWRITE_PKG_DISTRO_VERSION      = 1.0
+NETWRITE_PKG_GROUP               = $(PKG_GROUP)
+###                            |---handy-ruler-------------------------------|
+NETWRITE_PKG_SHORT_DESCRIPTION   = netwrite $(version)
+NETWRITE_PKG_URL                 = http://www.kxLab.com
+NETWRITE_PKG_LICENSE             = BSD
+NETWRITE_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(NETWRITE_PKG_NAME)-pkg-description
+NETWRITE_PKG_DESCRIPTION_FILE_IN = $(NETWRITE_PKG_NAME)-pkg-description.in
+NETWRITE_PKG_INSTALL_SCRIPT      = $(NETWRITE_PKG_NAME)-pkg-install.sh
+
+NETWRITE_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(NETWRITE_PKG_NAME)-package
+
+pkg_basename     = $(NETWRITE_PKG_NAME)-$(NETWRITE_PKG_VERSION)-$(NETWRITE_PKG_ARCH)-$(NETWRITE_PKG_DISTRO_NAME)-$(NETWRITE_PKG_DISTRO_VERSION)
+pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(NETWRITE_PKG_GROUP)/$(pkg_basename).tgz
+
+
+BUILD_TARGETS    = $(build_netwrite_pkg)
+
+ROOTFS_TARGETS   = $(pkg_basename_tgz)
+
+PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+
+
+include ../../../build-system/core.mk
+
+
+netwrite_CFLAGS = -isystem $(TARGET_DEST_DIR)/usr/include $(OPTIMIZATION_FLAGS) $(ARCH_FLAGS) $(HW_FLAGS)
+netwrite_environment = CFLAGS="$(netwrite_CFLAGS)"
+
+
+####### Dependencies
+
+$(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
+	$(UNPACK_SRC_ARCHIVE)
+	$(APPLY_PATCHES)
+	@touch $@
+
+$(build_target): $(src_done)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(netwrite_environment) ./configure --prefix=/usr
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(netwrite_environment) $(MAKE)
+	@touch $@
+
+$(install_target): $(build_target)
+	@mkdir -p $(NETWRITE_PKG)/usr/sbin
+	@mkdir -p $(NETWRITE_PKG)/usr/share/man/man8
+	@mkdir -p $(NETWRITE_PKG)/usr/share/doc/$(src_dir_name)
+	# the versions in util-linux are better, but we'll keep in.writed
+	@( cd $(SRC_DIR)/writed ; \
+	   cat writed > $(NETWRITE_PKG)/usr/sbin/in.writed ; \
+	   cat writed.8 | gzip -9c > $(NETWRITE_PKG)/usr/share/man/man8/in.writed.8.gz ; \
+	 )
+	@chmod 755 $(NETWRITE_PKG)/usr/sbin/*
+	@( cd $(SRC_DIR) ; \
+	   cp -a README \
+	         $(NETWRITE_PKG)/usr/share/doc/$(src_dir_name) ; \
+	 )
+	@( cd $(SRC_DIR) ; \
+	   if [ -r ChangeLog ]; then \
+	     DOCSDIR=`echo $(NETWRITE_PKG)/usr/share/doc/$(src_dir_name)` ; \
+	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
+	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
+	   fi \
+	 )
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
+	@mkdir -p $(TARGET_DEST_DIR)
+	@cd $(NETWRITE_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	@(cd $(NETWRITE_PKG); \
+	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	 )
+	@touch $@
+
+$(NETWRITE_PKG_DESCRIPTION_FILE): $(NETWRITE_PKG_DESCRIPTION_FILE_IN)
+	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
+
+$(build_netwrite_pkg): $(install_target) $(NETWRITE_PKG_DESCRIPTION_FILE)
+	@cp $(NETWRITE_PKG_DESCRIPTION_FILE) $(NETWRITE_PKG)/.DESCRIPTION
+	@cp $(NETWRITE_PKG_INSTALL_SCRIPT) $(NETWRITE_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(NETWRITE_PKG)/.REQUIRES
+	@echo "pkgname=$(NETWRITE_PKG_NAME)"                            >  $(NETWRITE_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(NETWRITE_PKG_VERSION)"                          >> $(NETWRITE_PKG)/.PKGINFO ; \
+	 echo "arch=$(NETWRITE_PKG_ARCH)"                               >> $(NETWRITE_PKG)/.PKGINFO ; \
+	 echo "distroname=$(NETWRITE_PKG_DISTRO_NAME)"                  >> $(NETWRITE_PKG)/.PKGINFO ; \
+	 echo "distrover=$(NETWRITE_PKG_DISTRO_VERSION)"                >> $(NETWRITE_PKG)/.PKGINFO ; \
+	 echo "group=$(NETWRITE_PKG_GROUP)"                             >> $(NETWRITE_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(NETWRITE_PKG_SHORT_DESCRIPTION)\"" >> $(NETWRITE_PKG)/.PKGINFO ; \
+	 echo "url=$(NETWRITE_PKG_URL)"                                 >> $(NETWRITE_PKG)/.PKGINFO ; \
+	 echo "license=$(NETWRITE_PKG_LICENSE)"                         >> $(NETWRITE_PKG)/.PKGINFO
+	@$(FAKEROOT) sh -c "cd $(NETWRITE_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@touch $@

@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+             |-----handy-ruler------------------------------------------------------|
+netkit-routed: netkit-routed @VERSION@ (dynamic network routing daemon)
+netkit-routed:
+netkit-routed: Routed is invoked at boot time to manage the network routing tables.
+netkit-routed: The routing daemon uses a variant of the Xerox NS Routing
+netkit-routed: Information Protocol in maintaining up to date kernel routing table
+netkit-routed: entries. It used a generalized protocol capable of use with multiple
+netkit-routed: address types, but is currently used only for Internet routing
+netkit-routed: within a cluster of networks.
+netkit-routed:
+netkit-routed: Fair warning:  routed is no longer maintained and may be insecure.
+netkit-routed:

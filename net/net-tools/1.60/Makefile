@@ -48,7 +48,7 @@ build_nettools_pkg  = $(TARGET_BUILD_DIR)/.nettools_pkg_done
 
 ####### Targets
 
-PKG_GROUP = app
+PKG_GROUP = net
 
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
@@ -87,7 +87,6 @@ nettools_CFLAGS = -isystem $(TARGET_DEST_DIR)/usr/include $(OPTIMIZATION_FLAGS) 
 nettools_environment = CFLAGS="$(nettools_CFLAGS)"
 
 
-
 ####### Dependencies
 
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
@@ -100,7 +99,6 @@ ifeq ($(filter $(TOOLCHAIN),$(BCM74X_EGLIBC_TOOLCHAIN_NAME) $(A1X_EGLIBC_TOOLCHA
 	@cd $(SRC_DIR) && sed -i "s,HAVE_HWSTRIP 1,HAVE_HWSTRIP 0,g" config.h
 endif
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(nettools_environment) HAVE_IP_TOOLS=1 HAVE_MII=1 $(MAKE)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(nettools_environment) HAVE_IP_TOOLS=1 HAVE_MII=1 $(MAKE) hostname
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(CC) $(nettools_CFLAGS) -o ipmask ipmask.c
 	@touch $@
 
@@ -108,15 +106,39 @@ $(install_target): $(build_target)
 	@mkdir -p $(NETTOOLS_PKG)/bin
 	@mkdir -p $(NETTOOLS_PKG)/sbin
 	@mkdir -p $(NETTOOLS_PKG)/usr/sbin
-	@mkdir -p $(NETTOOLS_PKG)/usr/share/man/man{1,5,8}
+	@mkdir -p $(NETTOOLS_PKG)/usr/share/man/man{5,8}
+	@mkdir -p $(NETTOOLS_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(NETTOOLS_PKG)/usr/share/doc/$(src_dir_name)
-	exit 1
 	@( cd $(SRC_DIR) ; \
-	   cat icmpinfo > $(NETTOOLS_PKG)/usr/sbin/icmpinfo ; \
-	   chmod 755 $(NETTOOLS_PKG)/usr/sbin/* ; \
-	   cat icmpinfo.man | gzip -9c > $(NETTOOLS_PKG)/usr/share/man/man1/icmpinfo.1.gz ; \
-	   cp -a CHANGES DOC README TODO \
-	         $(NETTOOLS_PKG)/usr/share/doc/$(src_dir_name) \
+	   cat arp        > $(NETTOOLS_PKG)/sbin/arp          ; \
+	   cat ifconfig   > $(NETTOOLS_PKG)/sbin/ifconfig     ; \
+	   cat rarp       > $(NETTOOLS_PKG)/sbin/rarp         ; \
+	   cat route      > $(NETTOOLS_PKG)/sbin/route        ; \
+	   cat mii-tool   > $(NETTOOLS_PKG)/sbin/mii-tool     ; \
+	   cat nameif     > $(NETTOOLS_PKG)/sbin/nameif       ; \
+	   cat netstat    > $(NETTOOLS_PKG)/bin/netstat       ; \
+	   cat plipconfig > $(NETTOOLS_PKG)/sbin/plipconfig   ; \
+	   cat slattach   > $(NETTOOLS_PKG)/usr/sbin/slattach ; \
+	   cat ipmaddr    > $(NETTOOLS_PKG)/sbin/ipmaddr      ; \
+	   cat iptunnel   > $(NETTOOLS_PKG)/sbin/iptunnel     ; \
+	   cat ipmask     > $(NETTOOLS_PKG)/bin/ipmask        ; \
+	   chmod 755 $(NETTOOLS_PKG)/sbin/* $(NETTOOLS_PKG)/bin/* $(NETTOOLS_PKG)/usr/sbin/* ; \
+	 )
+	@( cd $(SRC_DIR)/man/en_US ; \
+	   cat ethers.5 | gzip -9c > $(NETTOOLS_PKG)/usr/share/man/man5/ethers.5.gz ; \
+	   for page in arp.8 ifconfig.8 mii-tool.8 nameif.8 \
+	               netstat.8 plipconfig.8 rarp.8 route.8 slattach.8 ; do \
+	     cat $$page | gzip -9c > $(NETTOOLS_PKG)/usr/share/man/man8/$$page.gz ; \
+	   done \
+	 )
+	@( cd $(SRC_DIR) ; \
+	   cat ipmask.8 | gzip -9c > $(NETTOOLS_PKG)/usr/share/man/man8/ipmask.8.gz ; \
+	 )
+	@( cd $(SRC_DIR) ; \
+	   cp -a COPYING \
+	         $(NETTOOLS_PKG)/usr/doc/$(src_dir_name) ; \
+	   cp -a COPYING INSTALLING README* TODO \
+	         $(NETTOOLS_PKG)/usr/share/doc/$(src_dir_name) ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)

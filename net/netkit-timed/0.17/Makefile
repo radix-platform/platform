@@ -1,0 +1,151 @@
+
+COMPONENT_TARGETS  += $(TARGET_PC32)
+COMPONENT_TARGETS  += $(TARGET_PC64)
+COMPONENT_TARGETS  += $(TARGET_CB1X)
+COMPONENT_TARGETS  += $(TARGET_VIP1830)
+COMPONENT_TARGETS  += $(TARGET_BEAGLE)
+COMPONENT_TARGETS  += $(TARGET_OMAP5UEVM)
+COMPONENT_TARGETS  += $(TARGET_B74)
+
+#
+# The rest targets links staticaly with newlib or uclibc and not requires xz libraties
+#
+# COMPONENT_TARGETS  += $(TARGET_CB1N)
+# COMPONENT_TARGETS  += $(TARGET_GUARD)
+# COMPONENT_TARGETS  += $(TARGET_VIP1830N)
+# COMPONENT_TARGETS  += $(TARGET_L17UC)
+#
+
+
+NEED_ABS_PATH       = true
+
+COMPONENT_IS_3PP    = true
+
+
+include ../../../build-system/constants.mk
+
+
+SOURCE_REQUIRES     = $(SRC_PACKAGE_DIR)/packages/n/netkit-timed
+
+
+REQUIRES            = libs/eglibc/2.18.1
+
+
+version             = 0.17
+tar_gz_archive      = $(SRC_PACKAGE_PATH)/packages/n/netkit-timed/netkit-timed-$(version).tar.gz
+SRC_ARCHIVE         = $(tar_gz_archive)
+SRC_DIR             = $(TARGET_BUILD_DIR)/netkit-timed-$(version)
+src_dir_name        = netkit-timed-$(version)
+src_done            = $(TARGET_BUILD_DIR)/.source-done
+
+
+PATCHES = PATCHES
+
+build_target        = $(TARGET_BUILD_DIR)/.build_done
+install_target      = $(TARGET_BUILD_DIR)/.install_done
+build_timed_pkg     = $(TARGET_BUILD_DIR)/.timed_pkg_done
+
+
+####### Targets
+
+PKG_GROUP = net
+
+#
+# *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
+#
+TIMED_PKG_NAME                = netkit-timed
+TIMED_PKG_VERSION             = 0.17
+TIMED_PKG_ARCH                = $(TOOLCHAIN)
+TIMED_PKG_DISTRO_NAME         = kxLab
+TIMED_PKG_DISTRO_VERSION      = 1.0
+TIMED_PKG_GROUP               = $(PKG_GROUP)
+###                            |---handy-ruler-------------------------------|
+TIMED_PKG_SHORT_DESCRIPTION   = netkit-timed $(version)
+TIMED_PKG_URL                 = http://www.kxLab.com
+TIMED_PKG_LICENSE             = BSD
+TIMED_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(TIMED_PKG_NAME)-pkg-description
+TIMED_PKG_DESCRIPTION_FILE_IN = $(TIMED_PKG_NAME)-pkg-description.in
+TIMED_PKG_INSTALL_SCRIPT      = $(TIMED_PKG_NAME)-pkg-install.sh
+
+TIMED_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(TIMED_PKG_NAME)-package
+
+pkg_basename     = $(TIMED_PKG_NAME)-$(TIMED_PKG_VERSION)-$(TIMED_PKG_ARCH)-$(TIMED_PKG_DISTRO_NAME)-$(TIMED_PKG_DISTRO_VERSION)
+pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(TIMED_PKG_GROUP)/$(pkg_basename).tgz
+
+
+BUILD_TARGETS    = $(build_timed_pkg)
+
+ROOTFS_TARGETS   = $(pkg_basename_tgz)
+
+PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+
+
+include ../../../build-system/core.mk
+
+
+timed_CFLAGS = -isystem $(TARGET_DEST_DIR)/usr/include $(OPTIMIZATION_FLAGS) $(ARCH_FLAGS) $(HW_FLAGS)
+timed_environment = CFLAGS="$(timed_CFLAGS)"
+
+
+####### Dependencies
+
+$(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
+	$(UNPACK_SRC_ARCHIVE)
+	$(APPLY_PATCHES)
+	@touch $@
+
+$(build_target): $(src_done)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(timed_environment) ./configure --prefix=/usr
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(timed_environment) $(MAKE)
+	@touch $@
+
+$(install_target): $(build_target)
+	@mkdir -p $(TIMED_PKG)/usr/sbin
+	@mkdir -p $(TIMED_PKG)/usr/share/man/man8
+	@mkdir -p $(TIMED_PKG)/usr/share/doc/$(src_dir_name)
+	@( cd $(SRC_DIR)/timed/timed ; \
+	   cat timed > $(TIMED_PKG)/usr/sbin/in.timed ; \
+	   cat timed.8 | gzip -9c > $(TIMED_PKG)/usr/share/man/man8/in.timed.8.gz ; \
+	 )
+	@( cd $(SRC_DIR)/timed/timedc ; \
+	   cat timedc > $(TIMED_PKG)/usr/sbin/timedc ; \
+	   cat timedc.8 | gzip -9c > $(TIMED_PKG)/usr/share/man/man8/timedc.8.gz ; \
+	 )
+	@chmod 755 $(TIMED_PKG)/usr/sbin/*
+	@( cd $(SRC_DIR) ; \
+	   cp -a README \
+	         $(TIMED_PKG)/usr/share/doc/$(src_dir_name) ; \
+	 )
+	@( cd $(SRC_DIR) ; \
+	   if [ -r ChangeLog ]; then \
+	     DOCSDIR=`echo $(TIMED_PKG)/usr/share/doc/$(src_dir_name)` ; \
+	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
+	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
+	   fi \
+	 )
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
+	@mkdir -p $(TARGET_DEST_DIR)
+	@cd $(TIMED_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	@(cd $(TIMED_PKG); \
+	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	 )
+	@touch $@
+
+$(TIMED_PKG_DESCRIPTION_FILE): $(TIMED_PKG_DESCRIPTION_FILE_IN)
+	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
+
+$(build_timed_pkg): $(install_target) $(TIMED_PKG_DESCRIPTION_FILE)
+	@cp $(TIMED_PKG_DESCRIPTION_FILE) $(TIMED_PKG)/.DESCRIPTION
+	@cp $(TIMED_PKG_INSTALL_SCRIPT) $(TIMED_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(TIMED_PKG)/.REQUIRES
+	@echo "pkgname=$(TIMED_PKG_NAME)"                            >  $(TIMED_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(TIMED_PKG_VERSION)"                          >> $(TIMED_PKG)/.PKGINFO ; \
+	 echo "arch=$(TIMED_PKG_ARCH)"                               >> $(TIMED_PKG)/.PKGINFO ; \
+	 echo "distroname=$(TIMED_PKG_DISTRO_NAME)"                  >> $(TIMED_PKG)/.PKGINFO ; \
+	 echo "distrover=$(TIMED_PKG_DISTRO_VERSION)"                >> $(TIMED_PKG)/.PKGINFO ; \
+	 echo "group=$(TIMED_PKG_GROUP)"                             >> $(TIMED_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(TIMED_PKG_SHORT_DESCRIPTION)\"" >> $(TIMED_PKG)/.PKGINFO ; \
+	 echo "url=$(TIMED_PKG_URL)"                                 >> $(TIMED_PKG)/.PKGINFO ; \
+	 echo "license=$(TIMED_PKG_LICENSE)"                         >> $(TIMED_PKG)/.PKGINFO
+	@$(FAKEROOT) sh -c "cd $(TIMED_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@touch $@

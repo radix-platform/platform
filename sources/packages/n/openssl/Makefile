@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/openssl
 
-versions    = 1.0.1f
+versions    = 1.0.1f 1.0.1g
 pkgname     = openssl
 suffix      = tar.gz
 
@@ -32,6 +32,8 @@ $(tarballs):
 	@echo -e "\n======= Create Patches =======\n"
 	@( cd create-1.0.1f-pod-patch && ./create.patch.sh )
 	@( cd create-1.0.1f-shlib-patch && ./create.patch.sh )
+	@( cd create-1.0.1g-pod-patch && ./create.patch.sh )
+	@( cd create-1.0.1g-shlib-patch && ./create.patch.sh )
 
 $(sha1s): %.$(suffix).sha1sum : %.$(suffix)
 	@for sha in $@ ; do \
@@ -50,3 +52,5 @@ download_clean:
 	@rm -f $(tarballs) $(sha1s)
 	@rm -f ./patches/openssl-1.0.1f-pod.patch
 	@rm -f ./patches/openssl-1.0.1f-shlib.patch
+	@rm -f ./patches/openssl-1.0.1g-pod.patch
+	@rm -f ./patches/openssl-1.0.1g-shlib.patch

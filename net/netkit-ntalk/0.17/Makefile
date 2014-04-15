@@ -1,0 +1,156 @@
+
+COMPONENT_TARGETS  += $(TARGET_PC32)
+COMPONENT_TARGETS  += $(TARGET_PC64)
+COMPONENT_TARGETS  += $(TARGET_CB1X)
+COMPONENT_TARGETS  += $(TARGET_VIP1830)
+COMPONENT_TARGETS  += $(TARGET_BEAGLE)
+COMPONENT_TARGETS  += $(TARGET_OMAP5UEVM)
+COMPONENT_TARGETS  += $(TARGET_B74)
+
+#
+# The rest targets links staticaly with newlib or uclibc and not requires xz libraties
+#
+# COMPONENT_TARGETS  += $(TARGET_CB1N)
+# COMPONENT_TARGETS  += $(TARGET_GUARD)
+# COMPONENT_TARGETS  += $(TARGET_VIP1830N)
+# COMPONENT_TARGETS  += $(TARGET_L17UC)
+#
+
+
+NEED_ABS_PATH       = true
+
+COMPONENT_IS_3PP    = true
+
+
+include ../../../build-system/constants.mk
+
+
+SOURCE_REQUIRES     = $(SRC_PACKAGE_DIR)/packages/n/netkit-ntalk
+
+
+REQUIRES            = libs/eglibc/2.18.1
+
+
+version             = 0.17
+tar_gz_archive      = $(SRC_PACKAGE_PATH)/packages/n/netkit-ntalk/netkit-ntalk-$(version).tar.gz
+SRC_ARCHIVE         = $(tar_gz_archive)
+SRC_DIR             = $(TARGET_BUILD_DIR)/netkit-ntalk-$(version)
+src_dir_name        = netkit-ntalk-$(version)
+src_done            = $(TARGET_BUILD_DIR)/.source-done
+
+
+PATCHES = PATCHES
+
+build_target        = $(TARGET_BUILD_DIR)/.build_done
+install_target      = $(TARGET_BUILD_DIR)/.install_done
+build_ntalk_pkg     = $(TARGET_BUILD_DIR)/.ntalk_pkg_done
+
+
+####### Targets
+
+PKG_GROUP = net
+
+#
+# *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
+#
+NTALK_PKG_NAME                = netkit-ntalk
+NTALK_PKG_VERSION             = 0.17
+NTALK_PKG_ARCH                = $(TOOLCHAIN)
+NTALK_PKG_DISTRO_NAME         = kxLab
+NTALK_PKG_DISTRO_VERSION      = 1.0
+NTALK_PKG_GROUP               = $(PKG_GROUP)
+###                            |---handy-ruler-------------------------------|
+NTALK_PKG_SHORT_DESCRIPTION   = netkit-ntalk $(version)
+NTALK_PKG_URL                 = http://www.kxLab.com
+NTALK_PKG_LICENSE             = BSD
+NTALK_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(NTALK_PKG_NAME)-pkg-description
+NTALK_PKG_DESCRIPTION_FILE_IN = $(NTALK_PKG_NAME)-pkg-description.in
+NTALK_PKG_INSTALL_SCRIPT      = $(NTALK_PKG_NAME)-pkg-install.sh
+
+NTALK_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(NTALK_PKG_NAME)-package
+
+pkg_basename     = $(NTALK_PKG_NAME)-$(NTALK_PKG_VERSION)-$(NTALK_PKG_ARCH)-$(NTALK_PKG_DISTRO_NAME)-$(NTALK_PKG_DISTRO_VERSION)
+pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(NTALK_PKG_GROUP)/$(pkg_basename).tgz
+
+
+BUILD_TARGETS    = $(build_ntalk_pkg)
+
+ROOTFS_TARGETS   = $(pkg_basename_tgz)
+
+PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+
+
+include ../../../build-system/core.mk
+
+
+ntalk_CFLAGS = -isystem $(TARGET_DEST_DIR)/usr/include $(OPTIMIZATION_FLAGS) $(ARCH_FLAGS) $(HW_FLAGS)
+ntalk_environment = CFLAGS="$(ntalk_CFLAGS)"
+
+
+####### Dependencies
+
+$(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
+	$(UNPACK_SRC_ARCHIVE)
+	$(APPLY_PATCHES)
+	@touch $@
+
+$(build_target): $(src_done)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(ntalk_environment) ./configure --prefix=/usr
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(ntalk_environment) $(MAKE)
+	@touch $@
+
+$(install_target): $(build_target)
+	@mkdir -p $(NTALK_PKG)/usr/{bin,sbin}
+	@mkdir -p $(NTALK_PKG)/usr/share/man/man{1,8}
+	@mkdir -p $(NTALK_PKG)/usr/share/doc/$(src_dir_name)
+	@( cd $(SRC_DIR)/talk ; \
+	   cat talk > $(NTALK_PKG)/usr/bin/talk ; \
+	   chmod 755 $(NTALK_PKG)/usr/bin/* ; \
+	   cat talk.1 | gzip -9c > $(NTALK_PKG)/usr/share/man/man1/talk.1.gz ; \
+	 )
+	@( cd $(SRC_DIR)/talkd ; \
+	   cat talkd > $(NTALK_PKG)/usr/sbin/in.talkd ; \
+	   chmod 755 $(NTALK_PKG)/usr/sbin/* ; \
+	   cat talkd.8 | gzip -9c > $(NTALK_PKG)/usr/share/man/man8/talkd.8.gz ; \
+	 )
+	@( cd $(NTALK_PKG)/usr/sbin ; rm -rf in.ntalkd )
+	@( cd $(NTALK_PKG)/usr/sbin ; ln -sf in.talkd in.ntalkd )
+	@( cd $(NTALK_PKG)/usr/bin  ; rm -rf ntalk )
+	@( cd $(NTALK_PKG)/usr/bin  ; ln -sf talk ntalk )
+	@( cd $(SRC_DIR) ; \
+	   cp -a README \
+	         $(NTALK_PKG)/usr/share/doc/$(src_dir_name) ; \
+	 )
+	@( cd $(SRC_DIR) ; \
+	   if [ -r ChangeLog ]; then \
+	     DOCSDIR=`echo $(NTALK_PKG)/usr/share/doc/$(src_dir_name)` ; \
+	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
+	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
+	   fi \
+	 )
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
+	@mkdir -p $(TARGET_DEST_DIR)
+	@cd $(NTALK_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	@(cd $(NTALK_PKG); \
+	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	 )
+	@touch $@
+
+$(NTALK_PKG_DESCRIPTION_FILE): $(NTALK_PKG_DESCRIPTION_FILE_IN)
+	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
+
+$(build_ntalk_pkg): $(install_target) $(NTALK_PKG_DESCRIPTION_FILE)
+	@cp $(NTALK_PKG_DESCRIPTION_FILE) $(NTALK_PKG)/.DESCRIPTION
+	@cp $(NTALK_PKG_INSTALL_SCRIPT) $(NTALK_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(NTALK_PKG)/.REQUIRES
+	@echo "pkgname=$(NTALK_PKG_NAME)"                            >  $(NTALK_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(NTALK_PKG_VERSION)"                          >> $(NTALK_PKG)/.PKGINFO ; \
+	 echo "arch=$(NTALK_PKG_ARCH)"                               >> $(NTALK_PKG)/.PKGINFO ; \
+	 echo "distroname=$(NTALK_PKG_DISTRO_NAME)"                  >> $(NTALK_PKG)/.PKGINFO ; \
+	 echo "distrover=$(NTALK_PKG_DISTRO_VERSION)"                >> $(NTALK_PKG)/.PKGINFO ; \
+	 echo "group=$(NTALK_PKG_GROUP)"                             >> $(NTALK_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(NTALK_PKG_SHORT_DESCRIPTION)\"" >> $(NTALK_PKG)/.PKGINFO ; \
+	 echo "url=$(NTALK_PKG_URL)"                                 >> $(NTALK_PKG)/.PKGINFO ; \
+	 echo "license=$(NTALK_PKG_LICENSE)"                         >> $(NTALK_PKG)/.PKGINFO
+	@$(FAKEROOT) sh -c "cd $(NTALK_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@touch $@

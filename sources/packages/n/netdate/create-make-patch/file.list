@@ -1,0 +1,3 @@
+netdate/Makefile
+netdate/netdate.8
+netdate/netdate.c

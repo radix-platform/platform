@@ -48,7 +48,7 @@ build_tcp_wrap_pkg  = $(TARGET_BUILD_DIR)/.tcp_wrap_pkg_done
 
 ####### Targets
 
-PKG_GROUP = app
+PKG_GROUP = net
 
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.

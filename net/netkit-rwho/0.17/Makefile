@@ -1,0 +1,157 @@
+
+COMPONENT_TARGETS  += $(TARGET_PC32)
+COMPONENT_TARGETS  += $(TARGET_PC64)
+COMPONENT_TARGETS  += $(TARGET_CB1X)
+COMPONENT_TARGETS  += $(TARGET_VIP1830)
+COMPONENT_TARGETS  += $(TARGET_BEAGLE)
+COMPONENT_TARGETS  += $(TARGET_OMAP5UEVM)
+COMPONENT_TARGETS  += $(TARGET_B74)
+
+#
+# The rest targets links staticaly with newlib or uclibc and not requires xz libraties
+#
+# COMPONENT_TARGETS  += $(TARGET_CB1N)
+# COMPONENT_TARGETS  += $(TARGET_GUARD)
+# COMPONENT_TARGETS  += $(TARGET_VIP1830N)
+# COMPONENT_TARGETS  += $(TARGET_L17UC)
+#
+
+
+NEED_ABS_PATH       = true
+
+COMPONENT_IS_3PP    = true
+
+
+include ../../../build-system/constants.mk
+
+
+SOURCE_REQUIRES     = $(SRC_PACKAGE_DIR)/packages/n/netkit-rwho
+
+
+REQUIRES            = libs/eglibc/2.18.1
+
+
+version             = 0.17
+tar_gz_archive      = $(SRC_PACKAGE_PATH)/packages/n/netkit-rwho/netkit-rwho-$(version).tar.gz
+SRC_ARCHIVE         = $(tar_gz_archive)
+SRC_DIR             = $(TARGET_BUILD_DIR)/netkit-rwho-$(version)
+src_dir_name        = netkit-rwho-$(version)
+src_done            = $(TARGET_BUILD_DIR)/.source-done
+
+
+PATCHES = PATCHES
+
+build_target        = $(TARGET_BUILD_DIR)/.build_done
+install_target      = $(TARGET_BUILD_DIR)/.install_done
+build_rwho_pkg      = $(TARGET_BUILD_DIR)/.rwho_pkg_done
+
+
+####### Targets
+
+PKG_GROUP = net
+
+#
+# *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
+#
+RWHO_PKG_NAME                = netkit-rwho
+RWHO_PKG_VERSION             = 0.17
+RWHO_PKG_ARCH                = $(TOOLCHAIN)
+RWHO_PKG_DISTRO_NAME         = kxLab
+RWHO_PKG_DISTRO_VERSION      = 1.0
+RWHO_PKG_GROUP               = $(PKG_GROUP)
+###                           |---handy-ruler-------------------------------|
+RWHO_PKG_SHORT_DESCRIPTION   = netkit-rwho $(version)
+RWHO_PKG_URL                 = http://www.kxLab.com
+RWHO_PKG_LICENSE             = BSD
+RWHO_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(RWHO_PKG_NAME)-pkg-description
+RWHO_PKG_DESCRIPTION_FILE_IN = $(RWHO_PKG_NAME)-pkg-description.in
+RWHO_PKG_INSTALL_SCRIPT      = $(RWHO_PKG_NAME)-pkg-install.sh
+
+RWHO_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(RWHO_PKG_NAME)-package
+
+pkg_basename     = $(RWHO_PKG_NAME)-$(RWHO_PKG_VERSION)-$(RWHO_PKG_ARCH)-$(RWHO_PKG_DISTRO_NAME)-$(RWHO_PKG_DISTRO_VERSION)
+pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(RWHO_PKG_GROUP)/$(pkg_basename).tgz
+
+
+BUILD_TARGETS    = $(build_rwho_pkg)
+
+ROOTFS_TARGETS   = $(pkg_basename_tgz)
+
+PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+
+
+include ../../../build-system/core.mk
+
+
+rwho_CFLAGS = -isystem $(TARGET_DEST_DIR)/usr/include $(OPTIMIZATION_FLAGS) $(ARCH_FLAGS) $(HW_FLAGS)
+rwho_environment = CFLAGS="$(rwho_CFLAGS)"
+
+
+####### Dependencies
+
+$(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
+	$(UNPACK_SRC_ARCHIVE)
+	$(APPLY_PATCHES)
+	@touch $@
+
+$(build_target): $(src_done)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(rwho_environment) ./configure --prefix=/usr
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(rwho_environment) $(MAKE)
+	@touch $@
+
+$(install_target): $(build_target)
+	@mkdir -p $(RWHO_PKG)/usr/{bin,sbin}
+	@mkdir -p $(RWHO_PKG)/usr/share/man/man{1,8}
+	@mkdir -p $(RWHO_PKG)/var/spool/rwho
+	@mkdir -p $(RWHO_PKG)/usr/share/doc/$(src_dir_name)
+	@( cd $(SRC_DIR)/rwho ; \
+	   cat rwho > $(RWHO_PKG)/usr/bin/rwho ; \
+	   cat rwho.1 | gzip -9c > $(RWHO_PKG)/usr/share/man/man1/rwho.1.gz ; \
+	 )
+	@( cd $(SRC_DIR)/rwhod ; \
+	   cat rwhod > $(RWHO_PKG)/usr/sbin/rwhod ; \
+	   cat rwhod.8 | gzip -9c > $(RWHO_PKG)/usr/share/man/man8/rwhod.8.gz ; \
+	 )
+	@( cd $(SRC_DIR)/ruptime ; \
+	   cat ruptime > $(RWHO_PKG)/usr/bin/ruptime ; \
+	   cat ruptime.1 | gzip -9c > $(RWHO_PKG)/usr/share/man/man1/ruptime.1.gz ; \
+	 )
+	@chmod 755 $(RWHO_PKG)/usr/bin/*
+	@chmod 755 $(RWHO_PKG)/usr/sbin/*
+	@( cd $(SRC_DIR) ; \
+	   cp -a README \
+	         $(RWHO_PKG)/usr/share/doc/$(src_dir_name) ; \
+	 )
+	@( cd $(SRC_DIR) ; \
+	   if [ -r ChangeLog ]; then \
+	     DOCSDIR=`echo $(RWHO_PKG)/usr/share/doc/$(src_dir_name)` ; \
+	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
+	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
+	   fi \
+	 )
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
+	@mkdir -p $(TARGET_DEST_DIR)
+	@cd $(RWHO_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	@(cd $(RWHO_PKG); \
+	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	 )
+	@touch $@
+
+$(RWHO_PKG_DESCRIPTION_FILE): $(RWHO_PKG_DESCRIPTION_FILE_IN)
+	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
+
+$(build_rwho_pkg): $(install_target) $(RWHO_PKG_DESCRIPTION_FILE)
+	@cp $(RWHO_PKG_DESCRIPTION_FILE) $(RWHO_PKG)/.DESCRIPTION
+	@cp $(RWHO_PKG_INSTALL_SCRIPT) $(RWHO_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(RWHO_PKG)/.REQUIRES
+	@echo "pkgname=$(RWHO_PKG_NAME)"                            >  $(RWHO_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(RWHO_PKG_VERSION)"                          >> $(RWHO_PKG)/.PKGINFO ; \
+	 echo "arch=$(RWHO_PKG_ARCH)"                               >> $(RWHO_PKG)/.PKGINFO ; \
+	 echo "distroname=$(RWHO_PKG_DISTRO_NAME)"                  >> $(RWHO_PKG)/.PKGINFO ; \
+	 echo "distrover=$(RWHO_PKG_DISTRO_VERSION)"                >> $(RWHO_PKG)/.PKGINFO ; \
+	 echo "group=$(RWHO_PKG_GROUP)"                             >> $(RWHO_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(RWHO_PKG_SHORT_DESCRIPTION)\"" >> $(RWHO_PKG)/.PKGINFO ; \
+	 echo "url=$(RWHO_PKG_URL)"                                 >> $(RWHO_PKG)/.PKGINFO ; \
+	 echo "license=$(RWHO_PKG_LICENSE)"                         >> $(RWHO_PKG)/.PKGINFO
+	@$(FAKEROOT) sh -c "cd $(RWHO_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@touch $@

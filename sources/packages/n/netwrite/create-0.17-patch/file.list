@@ -1,0 +1,3 @@
+netwrite-0.17/configure
+netwrite-0.17/write/write.c
+netwrite-0.17/writed/writed.c

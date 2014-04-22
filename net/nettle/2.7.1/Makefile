@@ -1,0 +1,177 @@
+
+COMPONENT_TARGETS += $(TARGET_PC32)
+COMPONENT_TARGETS += $(TARGET_PC64)
+COMPONENT_TARGETS += $(TARGET_CB1X)
+COMPONENT_TARGETS += $(TARGET_VIP1830)
+COMPONENT_TARGETS += $(TARGET_BEAGLE)
+COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
+COMPONENT_TARGETS += $(TARGET_B74)
+
+#
+# The rest targets links staticaly with newlib or uclibc and not requires xz libraties
+#
+# COMPONENT_TARGETS += $(TARGET_CB1N)
+# COMPONENT_TARGETS += $(TARGET_GUARD)
+# COMPONENT_TARGETS += $(TARGET_VIP1830N)
+# COMPONENT_TARGETS += $(TARGET_L17UC)
+#
+
+
+NEED_ABS_PATH      = true
+
+COMPONENT_IS_3PP   = true
+
+
+include ../../../build-system/constants.mk
+
+
+SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/n/nettle
+
+
+ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
+REQUIRES           = net/nettle/2.7.1-x86_32
+else
+REQUIRES           = libs/gmp/5.1.3
+endif
+
+version            = 2.7.1
+tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/n/nettle/nettle-$(version).tar.gz
+SRC_ARCHIVE        = $(tar_gz_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/nettle-$(version)
+src_dir_name       = nettle-$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source_done
+
+PATCHES = PATCHES
+
+build_dir          = $(TARGET_BUILD_DIR)/build
+build_target       = $(TARGET_BUILD_DIR)/.build_done
+install_target     = $(TARGET_BUILD_DIR)/.install_done
+build_nettle_pkg   = $(TARGET_BUILD_DIR)/.nettle_pkg_done
+
+
+
+####### Targets
+
+PKG_GROUP = net
+
+#
+# *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
+#
+NETTLE_PKG_NAME                = nettle
+NETTLE_PKG_VERSION             = 2.7.1
+NETTLE_PKG_ARCH                = $(TOOLCHAIN)
+NETTLE_PKG_DISTRO_NAME         = kxLab
+NETTLE_PKG_DISTRO_VERSION      = 1.0
+NETTLE_PKG_GROUP               = $(PKG_GROUP)
+###                             |---handy-ruler-------------------------------|
+NETTLE_PKG_SHORT_DESCRIPTION   = nettle $(version)
+NETTLE_PKG_URL                 = http://www.kxLab.com
+NETTLE_PKG_LICENSE             = GPLv2
+NETTLE_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(NETTLE_PKG_NAME)-pkg-description
+NETTLE_PKG_DESCRIPTION_FILE_IN = $(NETTLE_PKG_NAME)-pkg-description.in
+NETTLE_PKG_INSTALL_SCRIPT      = $(NETTLE_PKG_NAME)-pkg-install.sh
+
+NETTLE_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(NETTLE_PKG_NAME)-package
+
+pkg_basename     = $(NETTLE_PKG_NAME)-$(NETTLE_PKG_VERSION)-$(NETTLE_PKG_ARCH)-$(NETTLE_PKG_DISTRO_NAME)-$(NETTLE_PKG_DISTRO_VERSION)
+pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(NETTLE_PKG_GROUP)/$(pkg_basename).tgz
+
+
+BUILD_TARGETS    = $(build_nettle_pkg)
+
+ROOTFS_TARGETS   = $(pkg_basename_tgz)
+
+PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+
+
+include ../../../build-system/core.mk
+
+
+env_sysroot  = DESTDIR=$(NETTLE_PKG)
+
+
+extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
+extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
+extra_configure_switches += --infodir=/usr/share/info
+extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --sysconfdir=/etc
+extra_configure_switches += --localstatedir=/var
+extra_configure_switches += --enable-static=yes
+extra_configure_switches += --enable-shared=yes
+
+ifneq ($(filter $(TOOLCHAIN),$(OMAP35X_EGLIBC_TOOLCHAIN_NAME)),)
+extra_configure_switches += --enable-arm-neon
+endif
+
+
+####### Dependencies
+
+$(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
+	$(UNPACK_SRC_ARCHIVE)
+	$(APPLY_PATCHES)
+	@touch $@
+
+$(build_target): $(src_done)
+	@mkdir -p $(build_dir)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
+	  --prefix=/usr               \
+	  --build=$(BUILD)            \
+	  --host=$(TARGET)            \
+	  $(extra_configure_switches)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
+	@touch $@
+
+$(install_target): $(build_target)
+	@mkdir -p $(NETTLE_PKG)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@chmod a+x $(NETTLE_PKG)/usr/lib$(LIBSUFFIX)/lib*.so.?.?
+	@rm -f $(NETTLE_PKG)/usr/share/info/dir
+	@gzip -9 $(NETTLE_PKG)/usr/share/info/*
+	@mkdir -p $(NETTLE_PKG)/usr/doc/$(src_dir_name)
+	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/COPYING* \
+	       $(NETTLE_PKG)/usr/doc/$(src_dir_name)
+	@mkdir -p $(NETTLE_PKG)/usr/share/doc/$(src_dir_name)
+	@( cd $(SRC_DIR) ; \
+	   cp -a AUTHORS COPYING* INSTALL NEWS README TODO descore.README nettle.html nettle.pdf \
+	         $(NETTLE_PKG)/usr/share/doc/$(src_dir_name) ; \
+	 )
+	@( cd $(SRC_DIR) ; \
+	   if [ -r ChangeLog ]; then \
+	     DOCSDIR=`echo $(NETTLE_PKG)/usr/share/doc/$(src_dir_name)` ; \
+	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
+	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
+	   fi \
+	 )
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
+	@mkdir -p $(TARGET_DEST_DIR)
+	@cd $(NETTLE_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	# tune pkg-config *.pc search path to the target destination for development
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" hogweed.pc ; \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" nettle.pc ; \
+	 )
+	@( cd $(NETTLE_PKG) ; \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
+	 )
+	@touch $@
+
+$(NETTLE_PKG_DESCRIPTION_FILE): $(NETTLE_PKG_DESCRIPTION_FILE_IN)
+	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
+
+$(build_nettle_pkg): $(install_target) $(NETTLE_PKG_DESCRIPTION_FILE)
+	@cp $(NETTLE_PKG_DESCRIPTION_FILE) $(NETTLE_PKG)/.DESCRIPTION
+	@cp $(NETTLE_PKG_INSTALL_SCRIPT) $(NETTLE_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(NETTLE_PKG)/.REQUIRES
+	@echo "pkgname=$(NETTLE_PKG_NAME)"                            >  $(NETTLE_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(NETTLE_PKG_VERSION)"                          >> $(NETTLE_PKG)/.PKGINFO ; \
+	 echo "arch=$(NETTLE_PKG_ARCH)"                               >> $(NETTLE_PKG)/.PKGINFO ; \
+	 echo "distroname=$(NETTLE_PKG_DISTRO_NAME)"                  >> $(NETTLE_PKG)/.PKGINFO ; \
+	 echo "distrover=$(NETTLE_PKG_DISTRO_VERSION)"                >> $(NETTLE_PKG)/.PKGINFO ; \
+	 echo "group=$(NETTLE_PKG_GROUP)"                             >> $(NETTLE_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(NETTLE_PKG_SHORT_DESCRIPTION)\"" >> $(NETTLE_PKG)/.PKGINFO ; \
+	 echo "url=$(NETTLE_PKG_URL)"                                 >> $(NETTLE_PKG)/.PKGINFO ; \
+	 echo "license=$(NETTLE_PKG_LICENSE)"                         >> $(NETTLE_PKG)/.PKGINFO
+	@$(FAKEROOT) sh -c "cd $(NETTLE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@touch $@

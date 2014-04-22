@@ -1,0 +1,6 @@
+./telnet/authenc.c
+./telnet/commands.c
+./telnet/externs.h
+./telnet/main.c
+./telnet/telnet.c
+./telnet/utilities.c

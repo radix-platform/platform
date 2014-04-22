@@ -31,6 +31,8 @@ $(tarballs):
 	done
 	@echo -e "\n======= Create Patches =======\n"
 	@( cd create-0.17-patch && ./create.patch.sh )
+	@( cd create-0.17-telnetd-patch && ./create.patch.sh )
+	@( cd create-0.17-telnet-patch && ./create.patch.sh )
 
 $(sha1s): %.$(suffix).sha1sum : %.$(suffix)
 	@for sha in $@ ; do \
@@ -48,3 +50,5 @@ $(sha1s): %.$(suffix).sha1sum : %.$(suffix)
 download_clean:
 	@rm -f $(tarballs) $(sha1s)
 	@rm -f ./patches/netkit-telnet-0.17.patch
+	@rm -f ./patches/netkit-telnet-0.17-telnetd.patch
+	@rm -f ./patches/netkit-telnet-0.17-telnet.patch

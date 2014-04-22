@@ -1,2 +1,3 @@
 
-../../../sources/packages/n/netkit-telnet/patches/netkit-telnet-0.17.patch -p0
+../../../sources/packages/n/netkit-telnet/patches/netkit-telnet-0.17-telnetd.patch -p0
+../../../sources/packages/n/telnet-OpenBSD/patches/telnet-OpenBSD-20020321.patch -p0

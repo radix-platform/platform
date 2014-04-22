@@ -1,0 +1,204 @@
+
+COMPONENT_TARGETS += $(TARGET_PC32)
+COMPONENT_TARGETS += $(TARGET_PC64)
+COMPONENT_TARGETS += $(TARGET_CB1X)
+COMPONENT_TARGETS += $(TARGET_VIP1830)
+COMPONENT_TARGETS += $(TARGET_BEAGLE)
+COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
+COMPONENT_TARGETS += $(TARGET_B74)
+
+#
+# The rest targets links staticaly with newlib or uclibc and not requires xz libraties
+#
+# COMPONENT_TARGETS += $(TARGET_CB1N)
+# COMPONENT_TARGETS += $(TARGET_GUARD)
+# COMPONENT_TARGETS += $(TARGET_VIP1830N)
+# COMPONENT_TARGETS += $(TARGET_L17UC)
+#
+
+
+NEED_ABS_PATH      = true
+
+COMPONENT_IS_3PP   = true
+
+
+include ../../../build-system/constants.mk
+
+
+SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/n/openssh
+
+
+REQUIRES           = libs/zlib/1.2.8
+REQUIRES          += net/tcp_wrappers/7.6
+REQUIRES          += net/openssl/1.0.1g
+
+
+version            = 6.6p1
+tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/n/openssh/openssh-$(version).tar.gz
+SRC_ARCHIVE        = $(tar_gz_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/openssh-$(version)
+src_dir_name       = openssh-$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source_done
+
+PATCHES = PATCHES
+
+build_dir          = $(TARGET_BUILD_DIR)/build
+build_target       = $(TARGET_BUILD_DIR)/.build_done
+install_target     = $(TARGET_BUILD_DIR)/.install_done
+build_openssh_pkg  = $(TARGET_BUILD_DIR)/.openssh_pkg_done
+
+
+sshd_script_dir    = $(CURDIR)/config/rc.d
+
+
+####### Targets
+
+PKG_GROUP = net
+
+#
+# *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
+#
+OPENSSH_PKG_NAME                = openssh
+OPENSSH_PKG_VERSION             = 6.6p1
+OPENSSH_PKG_ARCH                = $(TOOLCHAIN)
+OPENSSH_PKG_DISTRO_NAME         = kxLab
+OPENSSH_PKG_DISTRO_VERSION      = 1.0
+OPENSSH_PKG_GROUP               = $(PKG_GROUP)
+###                              |---handy-ruler-------------------------------|
+OPENSSH_PKG_SHORT_DESCRIPTION   = openssh $(version)
+OPENSSH_PKG_URL                 = http://www.kxLab.com
+OPENSSH_PKG_LICENSE             = GPLv2
+OPENSSH_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(OPENSSH_PKG_NAME)-pkg-description
+OPENSSH_PKG_DESCRIPTION_FILE_IN = $(OPENSSH_PKG_NAME)-pkg-description.in
+OPENSSH_PKG_INSTALL_SCRIPT      = $(OPENSSH_PKG_NAME)-pkg-install.sh
+
+OPENSSH_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(OPENSSH_PKG_NAME)-package
+
+pkg_basename     = $(OPENSSH_PKG_NAME)-$(OPENSSH_PKG_VERSION)-$(OPENSSH_PKG_ARCH)-$(OPENSSH_PKG_DISTRO_NAME)-$(OPENSSH_PKG_DISTRO_VERSION)
+pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(OPENSSH_PKG_GROUP)/$(pkg_basename).tgz
+
+
+BUILD_TARGETS    = $(build_openssh_pkg)
+
+ROOTFS_TARGETS   = $(pkg_basename_tgz)
+
+PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+
+
+include ../../../build-system/core.mk
+
+
+env_sysroot  = DESTDIR=$(OPENSSH_PKG)
+
+
+# To awoid errors when GCC options such as -Wl,-z,relro passed to LD
+# we are using GCC as linker (implemented into patch):
+#LD = $(CC_LINKER)
+
+
+extra_configure_switches  = --docdir=/usr/share/doc/$(src_dir_name)
+extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --sysconfdir=/etc/ssh
+extra_configure_switches += --disable-strip
+extra_configure_switches += --without-pam
+extra_configure_switches += --without-rpath
+extra_configure_switches += --with-md5-passwords
+extra_configure_switches += --with-tcp-wrappers
+extra_configure_switches += --with-default-path=/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin
+extra_configure_switches += --with-privsep-path=/var/empty
+extra_configure_switches += --with-privsep-user=sshd
+
+
+####### Dependencies
+
+$(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
+	$(UNPACK_SRC_ARCHIVE)
+	$(APPLY_PATCHES)
+	@touch $@
+
+$(build_target): $(src_done)
+	@mkdir -p $(build_dir)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
+	  --prefix=/usr               \
+	  --build=$(BUILD)            \
+	  --host=$(TARGET)            \
+	  $(extra_configure_switches)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
+	@touch $@
+
+$(install_target): $(build_target)
+	@mkdir -p $(OPENSSH_PKG)/etc/rc.d
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@mkdir -p $(OPENSSH_PKG)/var/empty
+	@chmod 755 $(OPENSSH_PKG)/var/empty
+	@( cd $(SRC_DIR)/contrib ; \
+	   cp -a ssh-copy-id $(OPENSSH_PKG)/usr/bin/ssh-copy-id ; \
+	   chmod 755 $(OPENSSH_PKG)/usr/bin/ssh-copy-id ; \
+	   cat ssh-copy-id.1 | gzip -9c > $(OPENSSH_PKG)/usr/share/man/man1/ssh-copy-id.1.gz ; \
+	 )
+	@( cd $(OPENSSH_PKG) ; \
+	   rm -f etc/ssh/ssh_host_dsa_key     ; \
+	   rm -f etc/ssh/ssh_host_dsa_key.pub ; \
+	   rm -f etc/ssh/ssh_host_rsa_key     ; \
+	   rm -f etc/ssh/ssh_host_rsa_key.pub ; \
+	   rm -f etc/ssh/ssh_host_key         ; \
+	   rm -f etc/ssh/ssh_host_key.pub     ; \
+	   mv etc/ssh/ssh_config  etc/ssh/ssh_config.new  ; \
+	   mv etc/ssh/sshd_config etc/ssh/sshd_config.new ; \
+	 )
+	@cat $(sshd_script_dir)/rc.sshd > $(OPENSSH_PKG)/etc/rc.d/rc.sshd.new
+	@chmod 755 $(OPENSSH_PKG)/etc/rc.d/rc.sshd.new
+	@if [ -d $(OPENSSH_PKG)/usr/share/man ]; then \
+	  ( cd $(OPENSSH_PKG)/usr/share/man ; \
+	    for manpagedir in `find . -type d -name "man*"` ; do \
+	      ( cd $$manpagedir ; \
+	        for eachpage in `find . -type l -maxdepth 1` ; do \
+	          ln -s `readlink $$eachpage`.gz $$eachpage.gz ; \
+	          rm $$eachpage ; \
+	        done ; \
+	        gzip -9 *.?  ; \
+	      ) \
+	    done \
+	  ) \
+	 fi
+	@mkdir -p $(OPENSSH_PKG)/usr/doc/$(src_dir_name)
+	@cp -a $(SRC_DIR)/CREDITS $(SRC_DIR)/LICENCE \
+	       $(OPENSSH_PKG)/usr/doc/$(src_dir_name)
+	@mkdir -p $(OPENSSH_PKG)/usr/share/doc/$(src_dir_name)
+	@( cd $(SRC_DIR) ; \
+	   cp -a CREDITS INSTALL LICENCE OVERVIEW PROTOCOL* README* TODO \
+	         $(OPENSSH_PKG)/usr/share/doc/$(src_dir_name) ; \
+	 )
+	@( cd $(SRC_DIR) ; \
+	   if [ -r ChangeLog ]; then \
+	     DOCSDIR=`echo $(OPENSSH_PKG)/usr/share/doc/$(src_dir_name)` ; \
+	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
+	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
+	   fi \
+	 )
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
+	@mkdir -p $(TARGET_DEST_DIR)
+	@cd $(OPENSSH_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	@( cd $(OPENSSH_PKG) ; \
+	   find . | xargs file | grep -e "executable" -e "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	 )
+	@touch $@
+
+$(OPENSSH_PKG_DESCRIPTION_FILE): $(OPENSSH_PKG_DESCRIPTION_FILE_IN)
+	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
+
+$(build_openssh_pkg): $(install_target) $(OPENSSH_PKG_DESCRIPTION_FILE)
+	@cp $(OPENSSH_PKG_DESCRIPTION_FILE) $(OPENSSH_PKG)/.DESCRIPTION
+	@cp $(OPENSSH_PKG_INSTALL_SCRIPT) $(OPENSSH_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(OPENSSH_PKG)/.REQUIRES
+	@echo "pkgname=$(OPENSSH_PKG_NAME)"                            >  $(OPENSSH_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(OPENSSH_PKG_VERSION)"                          >> $(OPENSSH_PKG)/.PKGINFO ; \
+	 echo "arch=$(OPENSSH_PKG_ARCH)"                               >> $(OPENSSH_PKG)/.PKGINFO ; \
+	 echo "distroname=$(OPENSSH_PKG_DISTRO_NAME)"                  >> $(OPENSSH_PKG)/.PKGINFO ; \
+	 echo "distrover=$(OPENSSH_PKG_DISTRO_VERSION)"                >> $(OPENSSH_PKG)/.PKGINFO ; \
+	 echo "group=$(OPENSSH_PKG_GROUP)"                             >> $(OPENSSH_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(OPENSSH_PKG_SHORT_DESCRIPTION)\"" >> $(OPENSSH_PKG)/.PKGINFO ; \
+	 echo "url=$(OPENSSH_PKG_URL)"                                 >> $(OPENSSH_PKG)/.PKGINFO ; \
+	 echo "license=$(OPENSSH_PKG_LICENSE)"                         >> $(OPENSSH_PKG)/.PKGINFO
+	@$(FAKEROOT) sh -c "cd $(OPENSSH_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@touch $@

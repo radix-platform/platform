@@ -32,7 +32,7 @@ post_install() {
   if [ -x /usr/bin/install-info ] ; then
     install-info --info-dir=usr/share/info usr/share/info/libext2fs.info.gz 2>/dev/null
   elif ! grep "libext2fs" usr/share/info/dir 1> /dev/null 2> /dev/null ; then
-  cat << EOF >> usr/info/dir
+  cat << EOF >> usr/share/info/dir
 
 Development
 * libext2fs: (libext2fs).       The EXT2FS library.

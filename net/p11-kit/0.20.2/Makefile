@@ -1,0 +1,199 @@
+
+COMPONENT_TARGETS += $(TARGET_PC32)
+COMPONENT_TARGETS += $(TARGET_PC64)
+COMPONENT_TARGETS += $(TARGET_CB1X)
+COMPONENT_TARGETS += $(TARGET_VIP1830)
+COMPONENT_TARGETS += $(TARGET_BEAGLE)
+COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
+COMPONENT_TARGETS += $(TARGET_B74)
+
+#
+# The rest targets links staticaly with newlib or uclibc and not requires xz libraties
+#
+# COMPONENT_TARGETS += $(TARGET_CB1N)
+# COMPONENT_TARGETS += $(TARGET_GUARD)
+# COMPONENT_TARGETS += $(TARGET_VIP1830N)
+# COMPONENT_TARGETS += $(TARGET_L17UC)
+#
+
+
+NEED_ABS_PATH      = true
+
+COMPONENT_IS_3PP   = true
+
+
+include ../../../build-system/constants.mk
+
+
+SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/n/p11-kit
+
+
+ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
+REQUIRES           = net/p11-kit/0.20.2-x86_32
+else
+REQUIRES           = libs/eglibc/2.18.1
+REQUIRES          += libs/libffi/3.0.13
+REQUIRES          += libs/libtasn1/3.4
+endif
+
+version            = 0.20.2
+tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/n/p11-kit/p11-kit-$(version).tar.gz
+SRC_ARCHIVE        = $(tar_gz_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/p11-kit-$(version)
+src_dir_name       = p11-kit-$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source_done
+
+PATCHES = PATCHES
+
+build_dir          = $(TARGET_BUILD_DIR)/build
+build_target       = $(TARGET_BUILD_DIR)/.build_done
+install_target     = $(TARGET_BUILD_DIR)/.install_done
+build_p11kit_pkg   = $(TARGET_BUILD_DIR)/.p11kit_pkg_done
+
+
+
+####### Targets
+
+PKG_GROUP = net
+
+#
+# *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
+#
+P11KIT_PKG_NAME                = p11-kit
+P11KIT_PKG_VERSION             = 0.20.2
+P11KIT_PKG_ARCH                = $(TOOLCHAIN)
+P11KIT_PKG_DISTRO_NAME         = kxLab
+P11KIT_PKG_DISTRO_VERSION      = 1.0
+P11KIT_PKG_GROUP               = $(PKG_GROUP)
+###                             |---handy-ruler-------------------------------|
+P11KIT_PKG_SHORT_DESCRIPTION   = p11-kit $(version)
+P11KIT_PKG_URL                 = http://www.kxLab.com
+P11KIT_PKG_LICENSE             = GPLv2
+P11KIT_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(P11KIT_PKG_NAME)-pkg-description
+P11KIT_PKG_DESCRIPTION_FILE_IN = $(P11KIT_PKG_NAME)-pkg-description.in
+P11KIT_PKG_INSTALL_SCRIPT      = $(P11KIT_PKG_NAME)-pkg-install.sh
+
+P11KIT_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(P11KIT_PKG_NAME)-package
+
+pkg_basename     = $(P11KIT_PKG_NAME)-$(P11KIT_PKG_VERSION)-$(P11KIT_PKG_ARCH)-$(P11KIT_PKG_DISTRO_NAME)-$(P11KIT_PKG_DISTRO_VERSION)
+pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(P11KIT_PKG_GROUP)/$(pkg_basename).tgz
+
+
+BUILD_TARGETS    = $(build_p11kit_pkg)
+
+ROOTFS_TARGETS   = $(pkg_basename_tgz)
+
+PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+
+
+include ../../../build-system/core.mk
+
+
+env_sysroot  = DESTDIR=$(P11KIT_PKG)
+
+
+extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
+extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --sysconfdir=/etc
+extra_configure_switches += --localstatedir=/var
+extra_configure_switches += --enable-doc
+extra_configure_switches += --enable-doc-html
+
+
+####### Dependencies
+
+$(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
+	$(UNPACK_SRC_ARCHIVE)
+	$(APPLY_PATCHES)
+	@touch $@
+
+$(build_target): $(src_done)
+	@mkdir -p $(build_dir)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
+	  --prefix=/usr               \
+	  --build=$(BUILD)            \
+	  --host=$(TARGET)            \
+	  $(extra_configure_switches)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
+	@touch $@
+
+$(install_target): $(build_target)
+	@mkdir -p $(P11KIT_PKG)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@mkdir -p $(P11KIT_PKG)/etc/pkcs11/modules
+	@if [ -d $(P11KIT_PKG)/usr/share/man ]; then \
+	  ( cd $(P11KIT_PKG)/usr/share/man ; \
+	    for manpagedir in `find . -type d -name "man*"` ; do \
+	      ( cd $$manpagedir ; \
+	        for eachpage in `find . -type l -maxdepth 1` ; do \
+	          ln -s `readlink $$eachpage`.gz $$eachpage.gz ; \
+	          rm $$eachpage ; \
+	        done ; \
+	        gzip -9 *.?  ; \
+	      ) \
+	    done \
+	  ) \
+	 fi
+	@mkdir -p $(P11KIT_PKG)/usr/doc/$(src_dir_name)
+	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/COPYING \
+	       $(P11KIT_PKG)/usr/doc/$(src_dir_name)
+	@mkdir -p $(P11KIT_PKG)/usr/share/doc/$(src_dir_name)
+	@( cd $(SRC_DIR) ; \
+	   cp -a AUTHORS COPYING HACKING NEWS README \
+	         $(P11KIT_PKG)/usr/share/doc/$(src_dir_name) ; \
+	   ln -sf ../../gtk-doc/html/p11-kit $(P11KIT_PKG)/usr/share/doc/$(src_dir_name)/html ; \
+	 )
+	@( cd $(SRC_DIR) ; \
+	   if [ -r ChangeLog ]; then \
+	     DOCSDIR=`echo $(P11KIT_PKG)/usr/share/doc/$(src_dir_name)` ; \
+	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
+	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
+	   fi \
+	 )
+	# remove toolchain path from target libtool *.la files
+	@( cd $(P11KIT_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libp11-kit.la ; \
+	 )
+	@( cd $(P11KIT_PKG)/usr/lib$(LIBSUFFIX)/pkcs11 ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" p11-kit-trust.la ; \
+	 )
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
+	@mkdir -p $(TARGET_DEST_DIR)
+	@cd $(P11KIT_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	# tune libtool *.la search path to the target destination for development
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libp11-kit.la  ; \
+	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libp11-kit.la  \
+	 )
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkcs11 ; \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" p11-kit-trust.la  ; \
+	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" p11-kit-trust.la  \
+	 )
+	# tune pkg-config *.pc search path to the target destination for development
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" p11-kit-1.pc \
+	 )
+	@( cd $(P11KIT_PKG) ; \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	 )
+	@touch $@
+
+$(P11KIT_PKG_DESCRIPTION_FILE): $(P11KIT_PKG_DESCRIPTION_FILE_IN)
+	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
+
+$(build_p11kit_pkg): $(install_target) $(P11KIT_PKG_DESCRIPTION_FILE)
+	@cp $(P11KIT_PKG_DESCRIPTION_FILE) $(P11KIT_PKG)/.DESCRIPTION
+	@cp $(P11KIT_PKG_INSTALL_SCRIPT) $(P11KIT_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(P11KIT_PKG)/.REQUIRES
+	@echo "pkgname=$(P11KIT_PKG_NAME)"                            >  $(P11KIT_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(P11KIT_PKG_VERSION)"                          >> $(P11KIT_PKG)/.PKGINFO ; \
+	 echo "arch=$(P11KIT_PKG_ARCH)"                               >> $(P11KIT_PKG)/.PKGINFO ; \
+	 echo "distroname=$(P11KIT_PKG_DISTRO_NAME)"                  >> $(P11KIT_PKG)/.PKGINFO ; \
+	 echo "distrover=$(P11KIT_PKG_DISTRO_VERSION)"                >> $(P11KIT_PKG)/.PKGINFO ; \
+	 echo "group=$(P11KIT_PKG_GROUP)"                             >> $(P11KIT_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(P11KIT_PKG_SHORT_DESCRIPTION)\"" >> $(P11KIT_PKG)/.PKGINFO ; \
+	 echo "url=$(P11KIT_PKG_URL)"                                 >> $(P11KIT_PKG)/.PKGINFO ; \
+	 echo "license=$(P11KIT_PKG_LICENSE)"                         >> $(P11KIT_PKG)/.PKGINFO
+	@$(FAKEROOT) sh -c "cd $(P11KIT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@touch $@

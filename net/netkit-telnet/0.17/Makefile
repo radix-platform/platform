@@ -26,6 +26,7 @@ include ../../../build-system/constants.mk
 
 
 SOURCE_REQUIRES     = $(SRC_PACKAGE_DIR)/packages/n/netkit-telnet
+SOURCE_REQUIRES    += $(SRC_PACKAGE_DIR)/packages/n/telnet-OpenBSD
 
 
 REQUIRES            = libs/eglibc/2.18.1
@@ -38,6 +39,8 @@ SRC_ARCHIVE         = $(tar_gz_archive)
 SRC_DIR             = $(TARGET_BUILD_DIR)/netkit-telnet-$(version)
 src_dir_name        = netkit-telnet-$(version)
 src_done            = $(TARGET_BUILD_DIR)/.source-done
+
+tar_bsd_archive     = $(SRC_PACKAGE_PATH)/packages/n/telnet-OpenBSD/telnet-OpenBSD-20020321.tar.gz
 
 
 PATCHES = PATCHES
@@ -92,12 +95,15 @@ telnet_environment = CFLAGS="$(telnet_CFLAGS)" CXXFLAGS="$(telnet_CFLAGS)"
 
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
+	rm -rf $(SRC_DIR)/telnet
+	tar -C $(SRC_DIR) -xzf $(tar_bsd_archive)
 	$(APPLY_PATCHES)
 	@touch $@
 
 $(build_target): $(src_done)
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(telnet_environment) ./configure --prefix=/usr
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(telnet_environment) $(MAKE)
+	@cd $(SRC_DIR)/telnetd && $(BUILD_ENVIRONMENT) $(telnet_environment) $(MAKE)
+	@cd $(SRC_DIR)/telnet  && $(BUILD_ENVIRONMENT) $(telnet_environment) $(MAKE)
 	@touch $@
 
 $(install_target): $(build_target)

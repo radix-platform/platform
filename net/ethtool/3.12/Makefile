@@ -1,0 +1,167 @@
+
+COMPONENT_TARGETS += $(TARGET_PC32)
+COMPONENT_TARGETS += $(TARGET_PC64)
+COMPONENT_TARGETS += $(TARGET_CB1X)
+COMPONENT_TARGETS += $(TARGET_VIP1830)
+COMPONENT_TARGETS += $(TARGET_BEAGLE)
+COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
+COMPONENT_TARGETS += $(TARGET_B74)
+
+#
+# The rest targets links staticaly with newlib or uclibc and not requires xz libraties
+#
+# COMPONENT_TARGETS += $(TARGET_CB1N)
+# COMPONENT_TARGETS += $(TARGET_GUARD)
+# COMPONENT_TARGETS += $(TARGET_VIP1830N)
+# COMPONENT_TARGETS += $(TARGET_L17UC)
+#
+
+
+NEED_ABS_PATH      = true
+
+COMPONENT_IS_3PP   = true
+
+
+include ../../../build-system/constants.mk
+
+
+SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/n/ethtool
+
+
+REQUIRES           = libs/eglibc/2.18.1
+
+
+version            = 3.12
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/n/ethtool/ethtool-$(version).tar.xz
+SRC_ARCHIVE        = $(tar_xz_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/ethtool-$(version)
+src_dir_name       = ethtool-$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source_done
+
+PATCHES = PATCHES
+
+build_dir          = $(TARGET_BUILD_DIR)/build
+build_target       = $(TARGET_BUILD_DIR)/.build_done
+install_target     = $(TARGET_BUILD_DIR)/.install_done
+build_ethtool_pkg  = $(TARGET_BUILD_DIR)/.ethtool_pkg_done
+
+
+
+####### Targets
+
+PKG_GROUP = net
+
+#
+# *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
+#
+ETHTOOL_PKG_NAME                = ethtool
+ETHTOOL_PKG_VERSION             = 3.12
+ETHTOOL_PKG_ARCH                = $(TOOLCHAIN)
+ETHTOOL_PKG_DISTRO_NAME         = kxLab
+ETHTOOL_PKG_DISTRO_VERSION      = 1.0
+ETHTOOL_PKG_GROUP               = $(PKG_GROUP)
+###                              |---handy-ruler-------------------------------|
+ETHTOOL_PKG_SHORT_DESCRIPTION   = ethtool $(version)
+ETHTOOL_PKG_URL                 = http://www.kxLab.com
+ETHTOOL_PKG_LICENSE             = GPLv2
+ETHTOOL_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(ETHTOOL_PKG_NAME)-pkg-description
+ETHTOOL_PKG_DESCRIPTION_FILE_IN = $(ETHTOOL_PKG_NAME)-pkg-description.in
+ETHTOOL_PKG_INSTALL_SCRIPT      = $(ETHTOOL_PKG_NAME)-pkg-install.sh
+
+ETHTOOL_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(ETHTOOL_PKG_NAME)-package
+
+pkg_basename     = $(ETHTOOL_PKG_NAME)-$(ETHTOOL_PKG_VERSION)-$(ETHTOOL_PKG_ARCH)-$(ETHTOOL_PKG_DISTRO_NAME)-$(ETHTOOL_PKG_DISTRO_VERSION)
+pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(ETHTOOL_PKG_GROUP)/$(pkg_basename).tgz
+
+
+BUILD_TARGETS    = $(build_ethtool_pkg)
+
+ROOTFS_TARGETS   = $(pkg_basename_tgz)
+
+PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+
+
+include ../../../build-system/core.mk
+
+
+env_sysroot  = DESTDIR=$(ETHTOOL_PKG)
+
+
+extra_configure_switches  = --docdir=/usr/share/doc/$(src_dir_name)
+extra_configure_switches += --mandir=/usr/share/man
+
+
+####### Dependencies
+
+$(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
+	$(UNPACK_SRC_ARCHIVE)
+	$(APPLY_PATCHES)
+	@touch $@
+
+$(build_target): $(src_done)
+	@mkdir -p $(build_dir)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
+	  --prefix=/usr               \
+	  --build=$(BUILD)            \
+	  --host=$(TARGET)            \
+	  $(extra_configure_switches)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
+	@touch $@
+
+$(install_target): $(build_target)
+	@mkdir -p $(ETHTOOL_PKG)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@if [ -d $(ETHTOOL_PKG)/usr/share/man ]; then \
+	  ( cd $(ETHTOOL_PKG)/usr/share/man ; \
+	    for manpagedir in `find . -type d -name "man*"` ; do \
+	      ( cd $$manpagedir ; \
+	        for eachpage in `find . -type l -maxdepth 1` ; do \
+	          ln -s `readlink $$eachpage`.gz $$eachpage.gz ; \
+	          rm $$eachpage ; \
+	        done ; \
+	        gzip -9 *.?  ; \
+	      ) \
+	    done \
+	  ) \
+	 fi
+	@mkdir -p $(ETHTOOL_PKG)/usr/doc/$(src_dir_name)
+	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/COPYING $(SRC_DIR)/LICENSE \
+	       $(ETHTOOL_PKG)/usr/doc/$(src_dir_name)
+	@mkdir -p $(ETHTOOL_PKG)/usr/share/doc/$(src_dir_name)
+	@( cd $(SRC_DIR) ; \
+	   cp -a AUTHORS COPYING INSTALL LICENSE NEWS README \
+	         $(ETHTOOL_PKG)/usr/share/doc/$(src_dir_name) ; \
+	 )
+	@( cd $(SRC_DIR) ; \
+	   if [ -r ChangeLog ]; then \
+	     DOCSDIR=`echo $(ETHTOOL_PKG)/usr/share/doc/$(src_dir_name)` ; \
+	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
+	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
+	   fi \
+	 )
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
+	@mkdir -p $(TARGET_DEST_DIR)
+	@cd $(ETHTOOL_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	@( cd $(ETHTOOL_PKG) ; \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	 )
+	@touch $@
+
+$(ETHTOOL_PKG_DESCRIPTION_FILE): $(ETHTOOL_PKG_DESCRIPTION_FILE_IN)
+	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
+
+$(build_ethtool_pkg): $(install_target) $(ETHTOOL_PKG_DESCRIPTION_FILE)
+	@cp $(ETHTOOL_PKG_DESCRIPTION_FILE) $(ETHTOOL_PKG)/.DESCRIPTION
+	@cp $(ETHTOOL_PKG_INSTALL_SCRIPT) $(ETHTOOL_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(ETHTOOL_PKG)/.REQUIRES
+	@echo "pkgname=$(ETHTOOL_PKG_NAME)"                            >  $(ETHTOOL_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(ETHTOOL_PKG_VERSION)"                          >> $(ETHTOOL_PKG)/.PKGINFO ; \
+	 echo "arch=$(ETHTOOL_PKG_ARCH)"                               >> $(ETHTOOL_PKG)/.PKGINFO ; \
+	 echo "distroname=$(ETHTOOL_PKG_DISTRO_NAME)"                  >> $(ETHTOOL_PKG)/.PKGINFO ; \
+	 echo "distrover=$(ETHTOOL_PKG_DISTRO_VERSION)"                >> $(ETHTOOL_PKG)/.PKGINFO ; \
+	 echo "group=$(ETHTOOL_PKG_GROUP)"                             >> $(ETHTOOL_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(ETHTOOL_PKG_SHORT_DESCRIPTION)\"" >> $(ETHTOOL_PKG)/.PKGINFO ; \
+	 echo "url=$(ETHTOOL_PKG_URL)"                                 >> $(ETHTOOL_PKG)/.PKGINFO ; \
+	 echo "license=$(ETHTOOL_PKG_LICENSE)"                         >> $(ETHTOOL_PKG)/.PKGINFO
+	@$(FAKEROOT) sh -c "cd $(ETHTOOL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@touch $@

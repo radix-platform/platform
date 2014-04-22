@@ -1,0 +1,180 @@
+
+COMPONENT_TARGETS   += $(TARGET_PC64)
+
+NEED_ABS_PATH        = true
+
+COMPONENT_IS_3PP     = true
+
+
+include ../../../build-system/constants.mk
+
+
+SOURCE_REQUIRES      = $(SRC_PACKAGE_DIR)/packages/n/gnutls
+
+REQUIRES             = libs/zlib/1.2.8
+REQUIRES            += libs/libffi/3.0.13
+REQUIRES            += libs/libidn/1.28
+REQUIRES            += libs/gmp/5.1.3
+REQUIRES            += libs/libtasn1/3.4
+REQUIRES            += net/p11-kit/0.20.2
+REQUIRES            += net/nettle/2.7.1
+REQUIRES            += dev/guile/2.0.9
+
+
+version              = 3.1.22
+tar_xz_archive       = $(SRC_PACKAGE_PATH)/packages/n/gnutls/gnutls-$(version).tar.xz
+SRC_ARCHIVE          = $(tar_xz_archive)
+SRC_DIR              = $(TARGET_BUILD_DIR)/gnutls-$(version)
+src_dir_name         = gnutls-$(version)
+src_done             = $(TARGET_BUILD_DIR)/.source_done
+
+PATCHES = PATCHES
+
+build_dir            = $(TARGET_BUILD_DIR)/build
+build_target         = $(TARGET_BUILD_DIR)/.build_done
+install_target       = $(TARGET_BUILD_DIR)/.install_done
+build_gnutls32_pkg   = $(TARGET_BUILD_DIR)/.gnutls32_pkg_done
+
+
+####### Targets
+
+PKG_GROUP = net
+#
+# *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
+#
+GNUTLS32_PKG_NAME                = gnutls32
+GNUTLS32_PKG_VERSION             = 3.1.22
+GNUTLS32_PKG_ARCH                = $(TOOLCHAIN)
+GNUTLS32_PKG_DISTRO_NAME         = kxLab
+GNUTLS32_PKG_DISTRO_VERSION      = 1.0
+GNUTLS32_PKG_GROUP               = $(PKG_GROUP)
+###                               |---handy-ruler-------------------------------|
+GNUTLS32_PKG_SHORT_DESCRIPTION   = gnutls32 $(version)
+GNUTLS32_PKG_URL                 = http://www.kxLab.com
+GNUTLS32_PKG_LICENSE             = GPLv2
+GNUTLS32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GNUTLS32_PKG_NAME)-pkg-description
+GNUTLS32_PKG_DESCRIPTION_FILE_IN = $(GNUTLS32_PKG_NAME)-pkg-description.in
+GNUTLS32_PKG_INSTALL_SCRIPT      = $(GNUTLS32_PKG_NAME)-pkg-install.sh
+
+GNUTLS32_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(GNUTLS32_PKG_NAME)-package
+
+pkg_basename     = $(GNUTLS32_PKG_NAME)-$(GNUTLS32_PKG_VERSION)-$(GNUTLS32_PKG_ARCH)-$(GNUTLS32_PKG_DISTRO_NAME)-$(GNUTLS32_PKG_DISTRO_VERSION)
+pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(GNUTLS32_PKG_GROUP)/$(pkg_basename).tgz
+
+
+BUILD_TARGETS    = $(build_gnutls32_pkg)
+
+ROOTFS_TARGETS   = $(pkg_basename_tgz)
+
+PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+
+
+include ../../../build-system/core.mk
+
+
+env_sysroot  = DESTDIR=$(GNUTLS32_PKG)
+
+
+CC          += -m32
+CXX         += -m32
+
+# owerwrite LDFLAGS:
+#
+LDFLAGS      = -L$(TARGET_DEST_DIR)/lib$(MULTILIB_X86_32_SUFFIX)
+LDFLAGS     += -L$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)
+
+ARCH_FLAGS   = -m32 -g -O3 -march=i486 -mtune=i686
+
+TARGET32     = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
+
+
+extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
+extra_configure_switches += --infodir=/usr/share/info
+extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --sysconfdir=/etc
+extra_configure_switches += --localstatedir=/var
+extra_configure_switches += --enable-static=yes
+extra_configure_switches += --enable-shared=yes
+extra_configure_switches += --disable-rpath
+extra_configure_switches += --enable-guile
+
+
+####### Dependencies
+
+$(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
+	$(UNPACK_SRC_ARCHIVE)
+	$(APPLY_PATCHES)
+	@touch $@
+
+$(build_target): $(src_done)
+	@mkdir -p $(build_dir)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
+	  --prefix=/usr               \
+	  --build=$(BUILD)            \
+	  --host=$(TARGET32)          \
+	  $(extra_configure_switches)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
+	@touch $@
+
+$(install_target): $(build_target)
+	@mkdir -p $(GNUTLS32_PKG)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@mkdir -p $(GNUTLS32_PKG)/usr/bin/32
+	@( cd $(GNUTLS32_PKG)/usr/bin ; \
+	   find . -type f | xargs mv -t 32 ; \
+	 )
+	@rm -rf $(GNUTLS32_PKG)/usr/include
+	@rm -rf $(GNUTLS32_PKG)/usr/share
+	# remove toolchain path from target libtool *.la files
+	@( cd $(GNUTLS32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libgnutls-openssl.la libgnutls-xssl.la libgnutls.la libgnutlsxx.la ; \
+	   sed -i "s,-L/usr/lib ,,g" libgnutls-openssl.la libgnutls-xssl.la libgnutls.la libgnutlsxx.la ; \
+	 )
+	@( cd $(GNUTLS32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/guile/2.0 ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" guile-gnutls-v-?.la ; \
+	   sed -i "s,-L/usr/lib ,,g" guile-gnutls-v-?.la ; \
+	 )
+	@( cd $(GNUTLS32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" gnutls.pc ; \
+	 )
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
+	@mkdir -p $(TARGET_DEST_DIR)
+	@cd $(GNUTLS32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	# tune libtool *.la search path to the target destination for development
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgnutls-openssl.la libgnutls-xssl.la libgnutls.la libgnutlsxx.la ; \
+	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libgnutls-openssl.la libgnutls-xssl.la libgnutls.la libgnutlsxx.la \
+	 )
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/guile/2.0 ; \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" guile-gnutls-v-?.la ; \
+	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" guile-gnutls-v-?.la  \
+	 )
+	# tune pkg-config *.pc search path to the target destination for development
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" gnutls.pc \
+	 )
+	@( cd $(GNUTLS32_PKG) ; \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
+	 )
+	@touch $@
+
+$(GNUTLS32_PKG_DESCRIPTION_FILE): $(GNUTLS32_PKG_DESCRIPTION_FILE_IN)
+	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
+
+$(build_gnutls32_pkg): $(install_target) $(GNUTLS32_PKG_DESCRIPTION_FILE)
+	@cp $(GNUTLS32_PKG_DESCRIPTION_FILE) $(GNUTLS32_PKG)/.DESCRIPTION
+	@cp $(GNUTLS32_PKG_INSTALL_SCRIPT) $(GNUTLS32_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(GNUTLS32_PKG)/.REQUIRES
+	@echo "pkgname=$(GNUTLS32_PKG_NAME)"                            >  $(GNUTLS32_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(GNUTLS32_PKG_VERSION)"                          >> $(GNUTLS32_PKG)/.PKGINFO ; \
+	 echo "arch=$(GNUTLS32_PKG_ARCH)"                               >> $(GNUTLS32_PKG)/.PKGINFO ; \
+	 echo "distroname=$(GNUTLS32_PKG_DISTRO_NAME)"                  >> $(GNUTLS32_PKG)/.PKGINFO ; \
+	 echo "distrover=$(GNUTLS32_PKG_DISTRO_VERSION)"                >> $(GNUTLS32_PKG)/.PKGINFO ; \
+	 echo "group=$(GNUTLS32_PKG_GROUP)"                             >> $(GNUTLS32_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(GNUTLS32_PKG_SHORT_DESCRIPTION)\"" >> $(GNUTLS32_PKG)/.PKGINFO ; \
+	 echo "url=$(GNUTLS32_PKG_URL)"                                 >> $(GNUTLS32_PKG)/.PKGINFO ; \
+	 echo "license=$(GNUTLS32_PKG_LICENSE)"                         >> $(GNUTLS32_PKG)/.PKGINFO
+	@$(FAKEROOT) sh -c "cd $(GNUTLS32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@touch $@

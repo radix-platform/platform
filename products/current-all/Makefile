@@ -34,6 +34,7 @@ endif
 REQUIRES          += libs/eglibc/2.18.1-zoneinfo
 REQUIRES          += dev/binutils/2.24
 REQUIRES          += dev/gcc/4.8.2
+REQUIRES          += dev/libtool/2.4.2
 
 #
 # Module Init Tools and Core libs:
@@ -41,6 +42,10 @@ REQUIRES          += dev/gcc/4.8.2
 REQUIRES          += app/kmod/16
 REQUIRES          += libs/libffi/3.0.13
 REQUIRES          += libs/libelf/0.8.13
+REQUIRES          += libs/libtasn1/3.4
+REQUIRES          += libs/libidn/1.28
+REQUIRES          += libs/libunistring/0.9.3
+REQUIRES          += libs/gc/7.2d
 REQUIRES          += app/gzip/1.6
 REQUIRES          += app/ncompress/4.2.4.4
 REQUIRES          += libs/libtermcap/1.2.3
@@ -77,7 +82,6 @@ REQUIRES          += app/shadow/4.1.5.1
 REQUIRES          += app/sysklogd/1.5
 REQUIRES          += app/procps/3.2.8
 
-
 #
 # Additional packages:
 #
@@ -90,7 +94,6 @@ REQUIRES          += app/usbutils/007
 REQUIRES          += app/pciutils/3.2.1
 # NOTE: app/udev - is built without introspection (because gobject-introspection cannot be cross compiled)
 REQUIRES          += app/udev/182
-
 
 #
 # Networking:
@@ -112,9 +115,19 @@ REQUIRES          += net/netkit-rwho/0.17
 REQUIRES          += net/netkit-telnet/0.17
 REQUIRES          += net/netkit-timed/0.17
 REQUIRES          += net/netwrite/0.17
+REQUIRES          += net/tftp-hpa/5.2
 
+REQUIRES          += net/p11-kit/0.20.2
+REQUIRES          += net/nettle/2.7.1
+REQUIRES          += dev/guile/2.0.9
+REQUIRES          += net/gnutls/3.1.22
 
 REQUIRES          += net/openssl/1.0.1g
+REQUIRES          += net/iputils/s20121221
+REQUIRES          += net/ethtool/3.12
+REQUIRES          += net/inetd/1.79
+REQUIRES          += net/openssh/6.6p1
+
 REQUIRES          += net/libgpg-error/1.12
 REQUIRES          += net/libassuan/2.1.1
 REQUIRES          += net/libksba/1.3.0
@@ -127,7 +140,6 @@ REQUIRES          += net/libgcrypt/1.6.1
 #
 # === python depends on openssl ===
 REQUIRES          += dev/python2/2.7.6
-
 
 
 #

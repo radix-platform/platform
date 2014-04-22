@@ -30,7 +30,7 @@ post_install() {
   if [ -x /usr/bin/install-info ] ; then
     install-info --info-dir=usr/share/info usr/share/info/diffutils.info.gz 2>/dev/null
   elif ! grep "diff3" usr/share/info/dir 1> /dev/null 2> /dev/null ; then
-  cat << EOF >> usr/info/dir
+  cat << EOF >> usr/share/info/dir
 
 Text creation and manipulation
 * Diffutils: (diffutils).       Comparing and merging files.

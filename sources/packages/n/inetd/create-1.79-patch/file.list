@@ -1,0 +1,3 @@
+inetd/Makefile
+inetd/inetd.8
+inetd/inetd.c

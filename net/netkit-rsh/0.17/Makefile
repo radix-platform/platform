@@ -150,7 +150,6 @@ $(install_target): $(build_target)
 	@(cd $(RSH_PKG); \
 	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )
-	exit 1
 	@touch $@
 
 $(RSH_PKG_DESCRIPTION_FILE): $(RSH_PKG_DESCRIPTION_FILE_IN)

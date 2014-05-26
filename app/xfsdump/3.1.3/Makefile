@@ -1,31 +1,21 @@
 
-COMPONENT_TARGETS += $(TARGET_PC32)
-COMPONENT_TARGETS += $(TARGET_PC64)
-COMPONENT_TARGETS += $(TARGET_CB1X)
-COMPONENT_TARGETS += $(TARGET_VIP1830)
-COMPONENT_TARGETS += $(TARGET_BEAGLE)
-COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
-COMPONENT_TARGETS += $(TARGET_B74)
-
-#
-# The rest targets links staticaly with newlib or uclibc and not requires bzip2 libraties
-#
-# COMPONENT_TARGETS += $(TARGET_CB1N)
-# COMPONENT_TARGETS += $(TARGET_GUARD)
-# COMPONENT_TARGETS += $(TARGET_VIP1830N)
-# COMPONENT_TARGETS += $(TARGET_L17UC)
-#
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
 
 
 NEED_ABS_PATH      = true
-
 COMPONENT_IS_3PP   = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/a/xfsdump
+SOURCE_REQUIRES    = sources/packages/a/xfsdump
 
 REQUIRES           = libs/ncurses/5.9
 REQUIRES          += app/util-linux/2.24.1
@@ -45,8 +35,6 @@ PATCHES = PATCHES
 
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
-build_xfsdump_pkg  = $(TARGET_BUILD_DIR)/.xfsdump_pkg_done
-
 
 
 ####### Targets
@@ -62,7 +50,7 @@ XFSDUMP_PKG_ARCH                = $(TOOLCHAIN)
 XFSDUMP_PKG_DISTRO_NAME         = kxLab
 XFSDUMP_PKG_DISTRO_VERSION      = 1.0
 XFSDUMP_PKG_GROUP               = $(PKG_GROUP)
-###                               |---handy-ruler-------------------------------|
+###                              |---handy-ruler-------------------------------|
 XFSDUMP_PKG_SHORT_DESCRIPTION   = xfsdump $(version)
 XFSDUMP_PKG_URL                 = http://www.kxLab.com
 XFSDUMP_PKG_LICENSE             = GPLv2
@@ -70,17 +58,21 @@ XFSDUMP_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(XFSDUMP_PKG_NAME)-pkg-de
 XFSDUMP_PKG_DESCRIPTION_FILE_IN = $(XFSDUMP_PKG_NAME)-pkg-description.in
 XFSDUMP_PKG_INSTALL_SCRIPT      = $(XFSDUMP_PKG_NAME)-pkg-install.sh
 
-XFSDUMP_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(XFSDUMP_PKG_NAME)-package
+XFSDUMP_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(XFSDUMP_PKG_NAME)-package
 
 pkg_basename     = $(XFSDUMP_PKG_NAME)-$(XFSDUMP_PKG_VERSION)-$(XFSDUMP_PKG_ARCH)-$(XFSDUMP_PKG_DISTRO_NAME)-$(XFSDUMP_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(XFSDUMP_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_xfsdump_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
@@ -146,7 +138,10 @@ $(install_target): $(build_target)
 $(XFSDUMP_PKG_DESCRIPTION_FILE): $(XFSDUMP_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_xfsdump_pkg): $(install_target) $(XFSDUMP_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(XFSDUMP_PKG_DESCRIPTION_FILE) $(XFSDUMP_PKG_INSTALL_SCRIPT)
 	@cp $(XFSDUMP_PKG_DESCRIPTION_FILE) $(XFSDUMP_PKG)/.DESCRIPTION
 	@cp $(XFSDUMP_PKG_INSTALL_SCRIPT) $(XFSDUMP_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(XFSDUMP_PKG)/.REQUIRES
@@ -160,4 +155,3 @@ $(build_xfsdump_pkg): $(install_target) $(XFSDUMP_PKG_DESCRIPTION_FILE)
 	 echo "url=$(XFSDUMP_PKG_URL)"                                 >> $(XFSDUMP_PKG)/.PKGINFO ; \
 	 echo "license=$(XFSDUMP_PKG_LICENSE)"                         >> $(XFSDUMP_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(XFSDUMP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

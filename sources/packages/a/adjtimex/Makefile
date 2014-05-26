@@ -1,5 +1,5 @@
 
-COMPONENT_TARGETS = $(TARGET_NOARCH)
+COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 
 
 include ../../../../build-system/constants.mk
@@ -28,29 +28,31 @@ include ../../../../build-system/core.mk
 
 
 $(tarball):
-	@echo -e "\n======= Downloading source tarballs =======\n"
-	@wget $(WGET_OPTIONS) -N $(url)/$(tarball)
+	@echo -e "\n======= Downloading $(tarball) file =======" ; \
+	 echo "$(url)/$(tarball)" | xargs -n 1 -P 100 wget $(WGET_OPTIONS) -i & wait %1
 
 $(patch): $(tarball)
-	@echo -e "\n======= Downloading patch =======\n"
-	@wget $(WGET_OPTIONS) -N $(url)/$(patch)
+	@echo -e "\n======= Downloading $(patch) file =======" ; \
+	 echo "$(url)/$(patch)" | xargs -n 1 -P 100 wget $(WGET_OPTIONS) -i & wait %1
 
-$(sha1s): %.$(suffix).sha1sum : %.$(suffix)
+$(sha1s): $(tarball)
 	@for sha in $@ ; do \
-	  echo -e "\n======= Downloading '$$sha' signature =======\n" ; \
-	  wget $(WGET_OPTIONS) -N $(url)/$$sha ; \
-	  touch $$sha ; \
-	  echo -e "\n======= Check the '$$sha' sha1sum =======\n" ; \
-	  sha1sum --check $$sha ; ret="$$?" ; \
-	  if [ "$$ret" == "1" ]; then \
-	    echo -e "\n======= ERROR: Bad '$$sha' sha1sum =======\n" ; \
-	    exit 1 ; \
-	  fi ; \
-	done
+	   echo -e "\n======= Downloading '$$sha' signature =======\n" ; \
+	   echo "$(url)/$$sha" | xargs -n 1 -P 100 wget $(WGET_OPTIONS) -i & wait %1 ; \
+	   touch $$sha ; \
+	   echo -e "\n======= Check the '$$sha' sha1sum =======\n" ; \
+	   sha1sum --check $$sha ; ret="$$?" ; \
+	   if [ "$$ret" == "1" ]; then \
+	     echo -e "\n======= ERROR: Bad '$$sha' sha1sum =======\n" ; \
+	     exit 1 ; \
+	   fi ; \
+	 done
+
+.NOTPARALLEL: $(src_tarball)
 
 $(src_tarball): $(tarball) $(patch) $(sha1s)
 	@tar xzf $(tarball)
-	@zcat $(patch) | patch -p0
+	@zcat $(patch) | patch -p0 > /dev/null 2>&1
 	@tar czf $(pkgname)-$(version).tar.gz $(pkgname)-$(version)
 	@rm -rf $(pkgname)-$(version)
 

@@ -1,17 +1,18 @@
 
-COMPONENT_TARGETS += $(TARGET_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_PC64)
 
 NEED_ABS_PATH      = true
-
 COMPONENT_IS_3PP   = true
+
+CREATE_X86_32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/l/libelf
+SOURCE_REQUIRES    = sources/packages/l/libelf
 
-REQUIRES           = libs/eglibc/2.18.1
+REQUIRES           = libs/eglibc/2.18.1-x86_32
 
 
 version            = 0.8.13
@@ -26,7 +27,6 @@ PATCHES = PATCHES
 build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
-build_libelf32_pkg = $(TARGET_BUILD_DIR)/.libelf32_pkg_done
 
 
 ####### Targets
@@ -35,14 +35,14 @@ PKG_GROUP = libs
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-LIBELF32_PKG_NAME                = libelf32
+LIBELF32_PKG_NAME                = libelf-x32
 LIBELF32_PKG_VERSION             = 0.8.13
 LIBELF32_PKG_ARCH                = $(TOOLCHAIN)
 LIBELF32_PKG_DISTRO_NAME         = kxLab
 LIBELF32_PKG_DISTRO_VERSION      = 1.0
 LIBELF32_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-LIBELF32_PKG_SHORT_DESCRIPTION   = libelf32 $(version)
+LIBELF32_PKG_SHORT_DESCRIPTION   = libelf-x32 $(version)
 LIBELF32_PKG_URL                 = http://www.kxLab.com
 LIBELF32_PKG_LICENSE             = GPLv2
 LIBELF32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBELF32_PKG_NAME)-pkg-description
@@ -52,27 +52,24 @@ LIBELF32_PKG_INSTALL_SCRIPT      = $(LIBELF32_PKG_NAME)-pkg-install.sh
 LIBELF32_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBELF32_PKG_NAME)-package
 
 pkg_basename     = $(LIBELF32_PKG_NAME)-$(LIBELF32_PKG_VERSION)-$(LIBELF32_PKG_ARCH)-$(LIBELF32_PKG_DISTRO_NAME)-$(LIBELF32_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(LIBELF32_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_libelf32_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
 
 
 env_sysroot  = instroot=$(LIBELF32_PKG)
-
-
-CC          += -m32
-
-ARCH_FLAGS   = -m32 -g -O3 -march=i486 -mtune=i686
-
-TARGET32     = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
 
 
 extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
@@ -121,7 +118,10 @@ $(install_target): $(build_target)
 $(LIBELF32_PKG_DESCRIPTION_FILE): $(LIBELF32_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_libelf32_pkg): $(install_target) $(LIBELF32_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(LIBELF32_PKG_DESCRIPTION_FILE) $(LIBELF32_PKG_INSTALL_SCRIPT)
 	@cp $(LIBELF32_PKG_DESCRIPTION_FILE) $(LIBELF32_PKG)/.DESCRIPTION
 	@cp $(LIBELF32_PKG_INSTALL_SCRIPT) $(LIBELF32_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(LIBELF32_PKG)/.REQUIRES
@@ -135,4 +135,3 @@ $(build_libelf32_pkg): $(install_target) $(LIBELF32_PKG_DESCRIPTION_FILE)
 	 echo "url=$(LIBELF32_PKG_URL)"                                 >> $(LIBELF32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBELF32_PKG_LICENSE)"                         >> $(LIBELF32_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(LIBELF32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

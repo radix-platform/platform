@@ -1,38 +1,24 @@
 
-COMPONENT_TARGETS += $(TARGET_PC32)
-COMPONENT_TARGETS += $(TARGET_PC64)
-COMPONENT_TARGETS += $(TARGET_CB1X)
-COMPONENT_TARGETS += $(TARGET_VIP1830)
-COMPONENT_TARGETS += $(TARGET_BEAGLE)
-COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
-COMPONENT_TARGETS += $(TARGET_B74)
-
-#
-# The rest targets links staticaly with newlib or uclibc and not requires xz libraties
-#
-# COMPONENT_TARGETS += $(TARGET_CB1N)
-# COMPONENT_TARGETS += $(TARGET_GUARD)
-# COMPONENT_TARGETS += $(TARGET_VIP1830N)
-# COMPONENT_TARGETS += $(TARGET_L17UC)
-#
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
 
 
 NEED_ABS_PATH      = true
-
 COMPONENT_IS_3PP   = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/l/popt
+SOURCE_REQUIRES    = sources/packages/l/popt
 
-
-ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
-REQUIRES           = libs/popt/1.16-x86_32
-else
 REQUIRES           = libs/eglibc/2.18.1
-endif
+
 
 version            = 1.16
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/popt/popt-$(version).tar.gz
@@ -46,8 +32,6 @@ PATCHES = PATCHES
 build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
-build_popt_pkg     = $(TARGET_BUILD_DIR)/.popt_pkg_done
-
 
 
 ####### Targets
@@ -74,14 +58,18 @@ POPT_PKG_INSTALL_SCRIPT      = $(POPT_PKG_NAME)-pkg-install.sh
 POPT_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(POPT_PKG_NAME)-package
 
 pkg_basename     = $(POPT_PKG_NAME)-$(POPT_PKG_VERSION)-$(POPT_PKG_ARCH)-$(POPT_PKG_DISTRO_NAME)-$(POPT_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(POPT_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_popt_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
@@ -179,7 +167,10 @@ $(install_target): $(build_target)
 $(POPT_PKG_DESCRIPTION_FILE): $(POPT_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_popt_pkg): $(install_target) $(POPT_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(POPT_PKG_DESCRIPTION_FILE) $(POPT_PKG_INSTALL_SCRIPT)
 	@cp $(POPT_PKG_DESCRIPTION_FILE) $(POPT_PKG)/.DESCRIPTION
 	@cp $(POPT_PKG_INSTALL_SCRIPT) $(POPT_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(POPT_PKG)/.REQUIRES
@@ -193,4 +184,3 @@ $(build_popt_pkg): $(install_target) $(POPT_PKG_DESCRIPTION_FILE)
 	 echo "url=$(POPT_PKG_URL)"                                 >> $(POPT_PKG)/.PKGINFO ; \
 	 echo "license=$(POPT_PKG_LICENSE)"                         >> $(POPT_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(POPT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

@@ -2,7 +2,7 @@
 
 VERSION=3.1.2
 
-tar --files-from=file.list -xzf ../xfsdump-$VERSION.tar.gz
+tar --files-from=file.list -xzvf ../xfsdump-$VERSION.tar.gz
 mv xfsdump-$VERSION xfsdump-$VERSION-orig
 
 cp -rf ./xfsdump-$VERSION-new ./xfsdump-$VERSION

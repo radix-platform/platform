@@ -1,5 +1,5 @@
 
-COMPONENT_TARGETS = $(TARGET_NOARCH)
+COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 
 
 include ../../../build-system/constants.mk
@@ -14,8 +14,12 @@ suffix      = tar.gz
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
+patches     = $(CURDIR)/patches/libiconv-1.14-gets-c89.patch
 
-BUILD_TARGETS = $(tarballs) $(sha1s)
+.NOTPARALLEL: $(patches)
+
+
+BUILD_TARGETS = $(tarballs) $(sha1s) $(patches)
 
 
 include ../../../build-system/core.mk
@@ -27,24 +31,26 @@ include ../../../build-system/core.mk
 $(tarballs):
 	@echo -e "\n======= Downloading source tarballs =======\n"
 	@for tarball in $(tarballs) ; do \
-	  wget $(WGET_OPTIONS) -N $(url)/$$tarball ; \
+	  wget $(WGET_OPTIONS) $(url)/$$tarball ; \
 	done
-	@echo -e "\n======= Create Patches =======\n"
-	@( cd create-1.14-gets-patch && ./create.patch.sh )
 
 $(sha1s): %.$(suffix).sha1sum : %.$(suffix)
 	@for sha in $@ ; do \
-	  echo -e "\n======= Downloading '$$sha' signature =======\n" ; \
-	  wget $(WGET_OPTIONS) -N $(url)/$$sha ; \
-	  touch $$sha ; \
-	  echo -e "\n======= Check the '$$sha' sha1sum =======\n" ; \
-	  sha1sum --check $$sha ; ret="$$?" ; \
-	  if [ "$$ret" == "1" ]; then \
-	    echo -e "\n======= ERROR: Bad '$$sha' sha1sum =======\n" ; \
-	    exit 1 ; \
-	  fi ; \
+	   echo -e "\n======= Downloading '$$sha' signature =======\n" ; \
+	   wget $(WGET_OPTIONS) $(url)/$$sha ; \
+	   touch $$sha ; \
+	   echo -e "\n======= Check the '$$sha' sha1sum =======\n" ; \
+	   sha1sum --check $$sha ; ret="$$?" ; \
+	   if [ "$$ret" == "1" ]; then \
+	     echo -e "\n======= ERROR: Bad '$$sha' sha1sum =======\n" ; \
+	     exit 1 ; \
+	   fi ; \
 	done
 
+$(patches): $(sha1s)
+	@echo -e "\n======= Create Patches =======\n" ; \
+	 ( cd create-1.14-gets-patch ; ./create.patch.sh ) ; \
+	 echo -e "\n"
+
 download_clean:
-	@rm -f $(tarballs) $(sha1s)
-	@rm -f ./patches/libiconv-1.14-gets-c89.patch
+	@rm -f $(tarballs) $(sha1s) $(patches)

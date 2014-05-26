@@ -1,33 +1,24 @@
 
-COMPONENT_TARGETS += $(TARGET_PC32)
-COMPONENT_TARGETS += $(TARGET_PC64)
-COMPONENT_TARGETS += $(TARGET_CB1X)
-COMPONENT_TARGETS += $(TARGET_VIP1830)
-COMPONENT_TARGETS += $(TARGET_BEAGLE)
-COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
-COMPONENT_TARGETS += $(TARGET_B74)
-
-#
-# The rest targets links staticaly with newlib or uclibc and not requires zlib libraties
-#
-# COMPONENT_TARGETS += $(TARGET_CB1N)
-# COMPONENT_TARGETS += $(TARGET_GUARD)
-# COMPONENT_TARGETS += $(TARGET_VIP1830N)
-# COMPONENT_TARGETS += $(TARGET_L17UC)
-#
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
 
 
 NEED_ABS_PATH      = true
-
 COMPONENT_IS_3PP   = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES     = $(SRC_PACKAGE_DIR)/packages/a/sysvinit-functions
+SOURCE_REQUIRES     = sources/packages/a/sysvinit-functions
 
 REQUIRES            = libs/popt/1.16
+
 
 version             = 8.54
 tar_bz2_archive     = $(SRC_PACKAGE_PATH)/packages/a/sysvinit-functions/function-src-$(version).tar.bz2
@@ -39,7 +30,7 @@ PATCHES = PATCHES
 
 build_target        = $(TARGET_BUILD_DIR)/.build_done
 install_target      = $(TARGET_BUILD_DIR)/.install_done
-build_sysvfunc_pkg  = $(TARGET_BUILD_DIR)/.sysvfunc_pkg_done
+
 
 FUNCTIONS_DESCRIPTION_FILE_IN = $(CURDIR)/README.functions.in
 FUNCTIONS_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/README.functions
@@ -69,14 +60,18 @@ SYSVFUNC_PKG_INSTALL_SCRIPT      = $(SYSVFUNC_PKG_NAME)-pkg-install.sh
 SYSVFUNC_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(SYSVFUNC_PKG_NAME)-package
 
 pkg_basename     = $(SYSVFUNC_PKG_NAME)-$(SYSVFUNC_PKG_VERSION)-$(SYSVFUNC_PKG_ARCH)-$(SYSVFUNC_PKG_DISTRO_NAME)-$(SYSVFUNC_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(SYSVFUNC_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_sysvfunc_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
@@ -135,7 +130,10 @@ $(install_target): $(build_target) $(FUNCTIONS_DESCRIPTION_FILE)
 $(SYSVFUNC_PKG_DESCRIPTION_FILE): $(SYSVFUNC_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_sysvfunc_pkg): $(install_target) $(SYSVFUNC_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(SYSVFUNC_PKG_DESCRIPTION_FILE) $(SYSVFUNC_PKG_INSTALL_SCRIPT)
 	@cp $(SYSVFUNC_PKG_DESCRIPTION_FILE) $(SYSVFUNC_PKG)/.DESCRIPTION
 	@cp $(SYSVFUNC_PKG_INSTALL_SCRIPT) $(SYSVFUNC_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(SYSVFUNC_PKG)/.REQUIRES
@@ -149,4 +147,3 @@ $(build_sysvfunc_pkg): $(install_target) $(SYSVFUNC_PKG_DESCRIPTION_FILE)
 	 echo "url=$(SYSVFUNC_PKG_URL)"                                 >> $(SYSVFUNC_PKG)/.PKGINFO ; \
 	 echo "license=$(SYSVFUNC_PKG_LICENSE)"                         >> $(SYSVFUNC_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(SYSVFUNC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

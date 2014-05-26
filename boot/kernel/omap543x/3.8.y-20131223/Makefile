@@ -1,5 +1,5 @@
 
-COMPONENT_TARGETS  = $(TARGET_OMAP5UEVM)
+COMPONENT_TARGETS  = $(HARDWARE_OMAP5UEVM)
 
 NEED_ABS_PATH      = true
 
@@ -9,7 +9,7 @@ COMPONENT_IS_3PP   = true
 include ../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES   += $(SRC_PACKAGE_DIR)/Linux/omap5-glsdk
+SOURCE_REQUIRES    = sources/Linux/omap5-glsdk
 
 REQUIRES           = base/pkgtool
 
@@ -41,9 +41,11 @@ boot_fs_dir_done   = $(TARGET_BUILD_DIR)/.bootfs_done
 PATCHES = PATCHES
 
 
-ifneq ($(filter $(TOOLCHAIN),$(OMAP543X_EGLIBC_TOOLCHAIN_NAME)),)
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_OMAP543X_EGLIBC)),)
 ARCH = arm
 endif
+
+USE_TARGET_DEST_DIR_SYSROOT = no
 
 device_tree_name     = omap5-uevm.dtb
 device_src_tree_name = omap5-uevm.dts
@@ -89,18 +91,33 @@ KERNEL_BIN_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(KERNEL_BIN_PKG_NAME)-
 KERNEL_BIN_PKG_DESCRIPTION_FILE_IN = $(KERNEL_BIN_PKG_NAME)-pkg-description.in
 KERNEL_BIN_PKG_INSTALL_SCRIPT      = $(KERNEL_BIN_PKG_NAME)-pkg-install.sh
 
-KERNEL_BIN_PKG   = $(CURDIR)/$(TARGET_BUILD_DIR)/$(KERNEL_BIN_PKG_NAME)-package
+KERNEL_BIN_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(KERNEL_BIN_PKG_NAME)-package
 
-build_kernel_pkg = $(TARGET_BUILD_DIR)/.kernel_pkg_done
+build_kernel_pkg   = $(TARGET_BUILD_DIR)/.kernel_pkg_done
 
-pkg_basename     = $(KERNEL_BIN_PKG_NAME)-$(KERNEL_BIN_PKG_VERSION)-$(KERNEL_BIN_PKG_ARCH)-$(KERNEL_BIN_PKG_DISTRO_NAME)-$(KERNEL_BIN_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(KERNEL_BIN_PKG_GROUP)/$(pkg_basename).tgz
+pkg_basename       = $(KERNEL_BIN_PKG_NAME)-$(KERNEL_BIN_PKG_VERSION)-$(KERNEL_BIN_PKG_ARCH)-$(KERNEL_BIN_PKG_DISTRO_NAME)-$(KERNEL_BIN_PKG_DISTRO_VERSION)
 
-BUILD_TARGETS    = $(build_kernel_pkg)
+pkg_archive        = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature      = $(call sign-name,$(pkg_archive))
+pkg_description    = $(call desc-name,$(pkg_archive))
+products           = $(call pkg-files,$(pkg_archive))
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+BUILD_TARGETS      = $(build_config)
+BUILD_TARGETS     += $(oldconfig_done)
+BUILD_TARGETS     += $(linux_uImage)
+BUILD_TARGETS     += $(linux_zImage)
+BUILD_TARGETS     += $(linux_kernel)
+BUILD_TARGETS     += $(linux_systemmap)
+BUILD_TARGETS     += $(linux_config)
+BUILD_TARGETS     += $(modules_done)
+BUILD_TARGETS     += $(device_dtb_done)
+BUILD_TARGETS     += $(devel_sources_done)
+BUILD_TARGETS     += $(boot_fs_dir_done)
+BUILD_TARGETS     += $(build_kernel_pkg)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+PRODUCT_TARGETS    = $(products)
+
+ROOTFS_TARGETS     = $(pkg_archive)
 
 
 include ../../../../build-system/core.mk
@@ -161,9 +178,8 @@ $(devel_sources_done): $(device_dtb_done)
 	@echo "Creating '$(devel_sources)' for building external modules"
 	@rm -rf $(devel_sources)
 	@mkdir -p $(devel_sources)
-	@cd $(TARGET_BUILD_DIR) && \
-	  CWD=$(CURDIR) $(BUILDSYSTEM)/install_targets --preserve-source-dir=true \
-	    $$(find * -path 'usr*' -type f -print)   $(TARGET_DEST_DIR)   $(HARDWARE)
+	# ======= Install kernel sources =======
+	@cd $(TARGET_BUILD_DIR) && cp -ar usr $(TARGET_DEST_DIR)
 	@echo "" > $(TARGET_DEST_DIR)/usr/src/.CONTENT
 	@echo "Configured '$(HARDWARE)' Linux sources for building external modules." >> $(TARGET_DEST_DIR)/usr/src/.CONTENT
 	@echo "" >> $(TARGET_DEST_DIR)/usr/src/.CONTENT
@@ -172,7 +188,6 @@ $(devel_sources_done): $(device_dtb_done)
 	  $$($(LN_S)f ../../../usr/src/linux-glsdk-$(full_version) build && \
 	     $(LN_S)f ../../../usr/src/linux-glsdk-$(full_version) source)
 	@touch $@
-
 
 $(boot_fs_dir_done): $(devel_sources_done)
 	@echo "Creating '$(boot_filesystem)' directory for collecting boot file system objects"
@@ -186,12 +201,7 @@ $(boot_fs_dir_done): $(devel_sources_done)
 	@cp -a $(board_dts) $(boot_filesystem)/$(device_src_tree_name)
 	@touch $@
 
-
-$(KERNEL_BIN_PKG_DESCRIPTION_FILE): $(KERNEL_BIN_PKG_DESCRIPTION_FILE_IN)
-	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
-
-
-$(build_kernel_pkg): $(boot_fs_dir_done) $(KERNEL_BIN_PKG_DESCRIPTION_FILE)
+$(build_kernel_pkg): $(boot_fs_dir_done)
 	@mkdir -p $(KERNEL_BIN_PKG)/boot
 	@mkdir -p $(KERNEL_BIN_PKG)/lib/modules/$(modules_version)
 	# Copy modules and firmware (without links to sources):
@@ -217,6 +227,15 @@ $(build_kernel_pkg): $(boot_fs_dir_done) $(KERNEL_BIN_PKG_DESCRIPTION_FILE)
 	@cp -a $(SRC_DIR)/COPYING $(SRC_DIR)/CREDITS $(SRC_DIR)/MAI* \
 	       $(SRC_DIR)/README $(SRC_DIR)/REPORTING-BUGS \
 	       $(KERNEL_BIN_PKG)/usr/doc/kernel-$(full_version)
+	@touch $@
+
+$(KERNEL_BIN_PKG_DESCRIPTION_FILE): $(KERNEL_BIN_PKG_DESCRIPTION_FILE_IN)
+	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
+
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(build_kernel_pkg) $(KERNEL_BIN_PKG_DESCRIPTION_FILE) $(KERNEL_BIN_PKG_INSTALL_SCRIPT)
 	@cp $(KERNEL_BIN_PKG_DESCRIPTION_FILE) $(KERNEL_BIN_PKG)/.DESCRIPTION
 	@cp $(KERNEL_BIN_PKG_INSTALL_SCRIPT) $(KERNEL_BIN_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(KERNEL_BIN_PKG)/.REQUIRES
@@ -230,4 +249,3 @@ $(build_kernel_pkg): $(boot_fs_dir_done) $(KERNEL_BIN_PKG_DESCRIPTION_FILE)
 	 echo "url=$(KERNEL_BIN_PKG_URL)"                                 >> $(KERNEL_BIN_PKG)/.PKGINFO ; \
 	 echo "license=$(KERNEL_BIN_PKG_LICENSE)"                         >> $(KERNEL_BIN_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(KERNEL_BIN_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

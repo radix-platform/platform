@@ -3,11 +3,11 @@
 VERSION=2.7.6
 
 tar -xJf ../Python-$VERSION.tar.xz
-patch -p0 < ../patches/Python-$VERSION-x86_32.patch
+patch -p0 < ../patches/Python-$VERSION-x86_32.patch > /dev/null 2>&1
 tar -cJf Python-$VERSION.tar.xz Python-$VERSION
 rm -rf Python-$VERSION
 
-tar --files-from=file.list -xJf ./Python-$VERSION.tar.xz
+tar --files-from=file.list -xJvf ./Python-$VERSION.tar.xz
 rm -f ./Python-$VERSION.tar.xz
 mv Python-$VERSION Python-$VERSION-orig
 

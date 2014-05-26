@@ -1,19 +1,19 @@
 
-COMPONENT_TARGETS += $(TARGET_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_PC64)
 
 NEED_ABS_PATH      = true
-
 COMPONENT_IS_3PP   = true
+
+CREATE_X86_32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/a/kmod
+SOURCE_REQUIRES    = sources/packages/a/kmod
 
-
-REQUIRES           = libs/zlib/1.2.8
-REQUIRES          += app/xz/5.0.5
+REQUIRES           = libs/zlib/1.2.8-x86_32
+REQUIRES          += app/xz/5.0.5-x86_32
 
 
 version            = 16
@@ -28,8 +28,6 @@ PATCHES = PATCHES
 build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
-build_kmod32_pkg   = $(TARGET_BUILD_DIR)/.kmod32_pkg_done
-
 
 
 ####### Targets
@@ -39,14 +37,14 @@ PKG_GROUP = app
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-KMOD32_PKG_NAME                = kmod32
+KMOD32_PKG_NAME                = kmod-x32
 KMOD32_PKG_VERSION             = 16
 KMOD32_PKG_ARCH                = $(TOOLCHAIN)
 KMOD32_PKG_DISTRO_NAME         = kxLab
 KMOD32_PKG_DISTRO_VERSION      = 1.0
 KMOD32_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-KMOD32_PKG_SHORT_DESCRIPTION   = kmod32 $(version)
+KMOD32_PKG_SHORT_DESCRIPTION   = kmod-x32 $(version)
 KMOD32_PKG_URL                 = http://www.kxLab.com
 KMOD32_PKG_LICENSE             = GPLv2
 KMOD32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(KMOD32_PKG_NAME)-pkg-description
@@ -56,14 +54,18 @@ KMOD32_PKG_INSTALL_SCRIPT      = $(KMOD32_PKG_NAME)-pkg-install.sh
 KMOD32_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(KMOD32_PKG_NAME)-package
 
 pkg_basename     = $(KMOD32_PKG_NAME)-$(KMOD32_PKG_VERSION)-$(KMOD32_PKG_ARCH)-$(KMOD32_PKG_DISTRO_NAME)-$(KMOD32_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(KMOD32_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_kmod32_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
@@ -71,15 +73,6 @@ include ../../../build-system/core.mk
 
 env_sysroot = DESTDIR=$(KMOD32_PKG)
 
-
-# owerwrite LDFLAGS:
-#
-LDFLAGS     = -L$(TARGET_DEST_DIR)/lib$(MULTILIB_X86_32_SUFFIX)
-LDFLAGS    += -L$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)
-
-ARCH_FLAGS  = -m32 -g -O3 -march=i486 -mtune=i686
-
-TARGET32    = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
 
 extra_configure_switches  = --libdir=/lib$(MULTILIB_X86_32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
@@ -155,7 +148,10 @@ $(install_target): $(build_target)
 $(KMOD32_PKG_DESCRIPTION_FILE): $(KMOD32_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_kmod32_pkg): $(install_target) $(KMOD32_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(KMOD32_PKG_DESCRIPTION_FILE) $(KMOD32_PKG_INSTALL_SCRIPT)
 	@cp $(KMOD32_PKG_DESCRIPTION_FILE) $(KMOD32_PKG)/.DESCRIPTION
 	@cp $(KMOD32_PKG_INSTALL_SCRIPT) $(KMOD32_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(KMOD32_PKG)/.REQUIRES
@@ -169,4 +165,3 @@ $(build_kmod32_pkg): $(install_target) $(KMOD32_PKG_DESCRIPTION_FILE)
 	 echo "url=$(KMOD32_PKG_URL)"                                 >> $(KMOD32_PKG)/.PKGINFO ; \
 	 echo "license=$(KMOD32_PKG_LICENSE)"                         >> $(KMOD32_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(KMOD32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

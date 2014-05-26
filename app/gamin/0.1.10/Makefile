@@ -1,31 +1,21 @@
 
-COMPONENT_TARGETS += $(TARGET_PC32)
-COMPONENT_TARGETS += $(TARGET_PC64)
-COMPONENT_TARGETS += $(TARGET_CB1X)
-COMPONENT_TARGETS += $(TARGET_VIP1830)
-COMPONENT_TARGETS += $(TARGET_BEAGLE)
-COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
-COMPONENT_TARGETS += $(TARGET_B74)
-
-#
-# The rest targets links staticaly with newlib or uclibc and not requires xz libraties
-#
-# COMPONENT_TARGETS += $(TARGET_CB1N)
-# COMPONENT_TARGETS += $(TARGET_GUARD)
-# COMPONENT_TARGETS += $(TARGET_VIP1830N)
-# COMPONENT_TARGETS += $(TARGET_L17UC)
-#
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
 
 
 NEED_ABS_PATH      = true
-
 COMPONENT_IS_3PP   = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/l/gamin
+SOURCE_REQUIRES    = sources/packages/l/gamin
 
 REQUIRES           = libs/glib2/2.40.0
 
@@ -42,9 +32,10 @@ PATCHES = PATCHES
 build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
-build_gamin_pkg    = $(TARGET_BUILD_DIR)/.gamin_pkg_done
 
-hw_cache           = $(CURDIR)/cross/hw.cache
+hw_cache_in        = $(CURDIR)/cross/hw.cache
+hw_cache           = $(CURDIR)/$(build_dir)/hw.cache
+
 gamin_config_file  = $(CURDIR)/config/gaminrc
 
 
@@ -72,14 +63,18 @@ GAMIN_PKG_INSTALL_SCRIPT      = $(GAMIN_PKG_NAME)-pkg-install.sh
 GAMIN_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(GAMIN_PKG_NAME)-package
 
 pkg_basename     = $(GAMIN_PKG_NAME)-$(GAMIN_PKG_VERSION)-$(GAMIN_PKG_ARCH)-$(GAMIN_PKG_DISTRO_NAME)-$(GAMIN_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(GAMIN_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_gamin_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
@@ -108,14 +103,13 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 
 $(build_target): $(src_done)
 	@mkdir -p $(build_dir)
-	@chmod a-w $(hw_cache)
+	@cp -a $(hw_cache_in) $(hw_cache)
 	@cd $(build_dir) && \
 	  $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
 	  --prefix=/usr               \
 	  --build=$(BUILD)            \
 	  --host=$(TARGET)            \
 	  $(extra_configure_switches)
-	@chmod +w $(hw_cache)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
 	@touch $@
 
@@ -147,7 +141,10 @@ $(install_target): $(build_target)
 $(GAMIN_PKG_DESCRIPTION_FILE): $(GAMIN_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_gamin_pkg): $(install_target) $(GAMIN_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(GAMIN_PKG_DESCRIPTION_FILE) $(GAMIN_PKG_INSTALL_SCRIPT)
 	@cp $(GAMIN_PKG_DESCRIPTION_FILE) $(GAMIN_PKG)/.DESCRIPTION
 	@cp $(GAMIN_PKG_INSTALL_SCRIPT) $(GAMIN_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(GAMIN_PKG)/.REQUIRES
@@ -161,4 +158,3 @@ $(build_gamin_pkg): $(install_target) $(GAMIN_PKG_DESCRIPTION_FILE)
 	 echo "url=$(GAMIN_PKG_URL)"                                 >> $(GAMIN_PKG)/.PKGINFO ; \
 	 echo "license=$(GAMIN_PKG_LICENSE)"                         >> $(GAMIN_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(GAMIN_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

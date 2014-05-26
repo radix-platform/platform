@@ -2,7 +2,7 @@
 
 VERSION=0.17
 
-tar --files-from=file.list -xzf ../netkit-rsh-$VERSION.tar.gz
+tar --files-from=file.list -xzvf ../netkit-rsh-$VERSION.tar.gz
 mv netkit-rsh-$VERSION netkit-rsh-$VERSION-orig
 
 cp -rf ./netkit-rsh-$VERSION-new ./netkit-rsh-$VERSION

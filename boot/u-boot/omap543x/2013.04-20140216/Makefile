@@ -1,5 +1,5 @@
 
-COMPONENT_TARGETS = $(TARGET_OMAP5UEVM)
+COMPONENT_TARGETS = $(HARDWARE_OMAP5UEVM)
 
 NEED_ABS_PATH     = true
 
@@ -9,7 +9,7 @@ COMPONENT_IS_3PP  = true
 include ../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES  += $(SRC_PACKAGE_DIR)/U-Boot/omap5-glsdk
+SOURCE_REQUIRES   = sources/U-Boot/omap5-glsdk
 
 REQUIRES          = boot/kernel/omap543x/3.8.y-20140222
 
@@ -43,9 +43,11 @@ boot_scr_emmc    = $(TARGET_BUILD_DIR)/boor.scr.emmc
 PATCHES = PATCHES
 
 
-ifneq ($(filter $(TOOLCHAIN),$(OMAP543X_EGLIBC_TOOLCHAIN_NAME)),)
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_OMAP543X_EGLIBC)),)
 ARCH = arm
 endif
+
+USE_TARGET_DEST_DIR_SYSROOT = no
 
 device_tree_name  = omap5-uevm.dtb
 
@@ -61,7 +63,7 @@ UBOOT_BIN_PKG_ARCH                = $(TOOLCHAIN)
 UBOOT_BIN_PKG_DISTRO_NAME         = kxLab
 UBOOT_BIN_PKG_DISTRO_VERSION      = 1.0
 UBOOT_BIN_PKG_GROUP               = $(PKG_GROUP)
-###                                 |---handy-ruler-------------------------------|
+###                                |---handy-ruler-------------------------------|
 UBOOT_BIN_PKG_SHORT_DESCRIPTION   = OMAP5 U-Boot $(version)
 UBOOT_BIN_PKG_URL                 = http://www.kxLab.com
 UBOOT_BIN_PKG_LICENSE             = GPLv2
@@ -69,18 +71,29 @@ UBOOT_BIN_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(UBOOT_BIN_PKG_NAME)-pk
 UBOOT_BIN_PKG_DESCRIPTION_FILE_IN = $(UBOOT_BIN_PKG_NAME)-pkg-description.in
 UBOOT_BIN_PKG_INSTALL_SCRIPT      = $(UBOOT_BIN_PKG_NAME)-pkg-install.sh
 
-UBOOT_BIN_PKG    = $(CURDIR)/$(TARGET_BUILD_DIR)/$(UBOOT_BIN_PKG_NAME)-package
+UBOOT_BIN_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(UBOOT_BIN_PKG_NAME)-package
 
-build_uboot_pkg  = $(TARGET_BUILD_DIR)/.u_boot_pkg_done
+build_uboot_pkg    = $(TARGET_BUILD_DIR)/.u_boot_pkg_done
 
-pkg_basename     = $(UBOOT_BIN_PKG_NAME)-$(UBOOT_BIN_PKG_VERSION)-$(UBOOT_BIN_PKG_ARCH)-$(UBOOT_BIN_PKG_DISTRO_NAME)-$(UBOOT_BIN_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(UBOOT_BIN_PKG_GROUP)/$(pkg_basename).tgz
+pkg_basename       = $(UBOOT_BIN_PKG_NAME)-$(UBOOT_BIN_PKG_VERSION)-$(UBOOT_BIN_PKG_ARCH)-$(UBOOT_BIN_PKG_DISTRO_NAME)-$(UBOOT_BIN_PKG_DISTRO_VERSION)
 
-BUILD_TARGETS    = $(build_uboot_pkg)
+pkg_archive        = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature      = $(call sign-name,$(pkg_archive))
+pkg_description    = $(call desc-name,$(pkg_archive))
+products           = $(call pkg-files,$(pkg_archive))
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+BUILD_TARGETS      = $(u_boot)
+BUILD_TARGETS     += $(boot_script_nfs)
+BUILD_TARGETS     += $(boot_script_sd)
+BUILD_TARGETS     += $(boot_script_emmc)
+BUILD_TARGETS     += $(boot_scr_nfs)
+BUILD_TARGETS     += $(boot_scr_sd)
+BUILD_TARGETS     += $(boot_scr_emmc)
+BUILD_TARGETS     += $(build_uboot_pkg)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+PRODUCT_TARGETS    = $(products)
+
+ROOTFS_TARGETS     = $(pkg_archive)
 
 
 include ../../../../build-system/core.mk
@@ -100,7 +113,6 @@ $(u_boot): $(src_done)
 	$(UMAKE)  $(u_boot_config)
 	$(UMAKE)
 	@touch $@
-
 
 $(boot_script_nfs): $(u_boot)
 	@( echo "mmc part" > $(boot_script_nfs) && \
@@ -126,7 +138,6 @@ $(boot_script_emmc): $(u_boot)
 	   echo "setenv fdt_high 0x84000000" >> $(boot_script_emmc) && \
 	   echo "bootm 0x80300000 - 0x825f0000" >> $(boot_script_emmc) )
 
-
 $(boot_scr_nfs): $(boot_script_nfs)
 	$(SRC_DIR)/tools/mkimage -A $(ARCH) -T script -C none -n "Boot Image" -d $< $@
 
@@ -136,11 +147,7 @@ $(boot_scr_sd): $(boot_script_sd)
 $(boot_scr_emmc): $(boot_script_emmc)
 	$(SRC_DIR)/tools/mkimage -A $(ARCH) -T script -C none -n "Boot Image" -d $< $@
 
-
-$(UBOOT_BIN_PKG_DESCRIPTION_FILE): $(UBOOT_BIN_PKG_DESCRIPTION_FILE_IN)
-	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
-
-$(build_uboot_pkg): $(u_boot) $(boot_scr_nfs) $(boot_scr_sd) $(boot_scr_emmc) $(UBOOT_BIN_PKG_DESCRIPTION_FILE) $(UBOOT_BIN_PKG_INSTALL_SCRIPT)
+$(build_uboot_pkg): $(u_boot) $(boot_scr_nfs) $(boot_scr_sd) $(boot_scr_emmc)
 	@mkdir -p $(TARGET_DEST_DIR)/bootfs
 	@mkdir -p $(UBOOT_BIN_PKG)/boot
 	# Copy U-Boot images:
@@ -158,6 +165,15 @@ $(build_uboot_pkg): $(u_boot) $(boot_scr_nfs) $(boot_scr_sd) $(boot_scr_emmc) $(
 	@mkdir -p $(UBOOT_BIN_PKG)/usr/doc/u-boot-$(version)
 	@cp -a $(SRC_DIR)/COPYING $(SRC_DIR)/CREDITS $(SRC_DIR)/README* $(SRC_DIR)/boards.cfg \
 	       $(UBOOT_BIN_PKG)/usr/doc/u-boot-$(version)
+	@touch $@
+
+$(UBOOT_BIN_PKG_DESCRIPTION_FILE): $(UBOOT_BIN_PKG_DESCRIPTION_FILE_IN)
+	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
+
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(build_uboot_pkg) $(UBOOT_BIN_PKG_DESCRIPTION_FILE) $(UBOOT_BIN_PKG_INSTALL_SCRIPT)
 	@cp $(UBOOT_BIN_PKG_DESCRIPTION_FILE) $(UBOOT_BIN_PKG)/.DESCRIPTION
 	@cp $(UBOOT_BIN_PKG_INSTALL_SCRIPT) $(UBOOT_BIN_PKG)/.INSTALL
 	@chmod a+x $(UBOOT_BIN_PKG)/.INSTALL
@@ -172,4 +188,3 @@ $(build_uboot_pkg): $(u_boot) $(boot_scr_nfs) $(boot_scr_sd) $(boot_scr_emmc) $(
 	 echo "url=$(UBOOT_BIN_PKG_URL)"                                 >> $(UBOOT_BIN_PKG)/.PKGINFO ; \
 	 echo "license=$(UBOOT_BIN_PKG_LICENSE)"                         >> $(UBOOT_BIN_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(UBOOT_BIN_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

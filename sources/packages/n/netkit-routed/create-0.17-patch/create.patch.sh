@@ -2,7 +2,7 @@
 
 VERSION=0.17
 
-tar --files-from=file.list -xzf ../netkit-routed-$VERSION.tar.gz
+tar --files-from=file.list -xzvf ../netkit-routed-$VERSION.tar.gz
 mv netkit-routed-$VERSION netkit-routed-$VERSION-orig
 
 cp -rf ./netkit-routed-$VERSION-new ./netkit-routed-$VERSION

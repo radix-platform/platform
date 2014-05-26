@@ -1,33 +1,39 @@
 
-COMPONENT_TARGETS += $(TARGET_PC32)
-COMPONENT_TARGETS += $(TARGET_PC64)
-COMPONENT_TARGETS += $(TARGET_CB1N)
-COMPONENT_TARGETS += $(TARGET_CB1X)
-COMPONENT_TARGETS += $(TARGET_GUARD)
-COMPONENT_TARGETS += $(TARGET_VIP1830N)
-COMPONENT_TARGETS += $(TARGET_VIP1830)
-COMPONENT_TARGETS += $(TARGET_L17UC)
-COMPONENT_TARGETS += $(TARGET_BEAGLE)
-COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
-COMPONENT_TARGETS += $(TARGET_B74)
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1N)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_AT91S)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830N)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_L17UC)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
 
 
 NEED_ABS_PATH = true
 
+
 include ../../build-system/constants.mk
 
-BIN_PKG_NAME              = pkgtool
-BIN_PKG_VERSION           = 0.0.1
-BIN_PKG_ARCH              = $(TOOLCHAIN)
-BIN_PKG_DISTRO_NAME       = kxLab
-BIN_PKG_DISTRO_VERSION    = 1.0
-BIN_PKG_GROUP             = base
-###                        |---handy-ruler-------------------------------|
-BIN_PKG_SHORT_DESCRIPTION = _kxLab Package Database Tools
-BIN_PKG_URL               = http://www.kxLab.com
-BIN_PKG_LICENSE           = Proprietary
-BIN_PKG_DESCRIPTION_FILE  = pkg-description
-BIN_PKG_INSTALL_SCRIPT    = pkg-install.sh
+
+PKG_GROUP = base
+
+BIN_PKG_NAME                = pkgtool
+BIN_PKG_VERSION             = 0.0.1
+BIN_PKG_ARCH                = $(TOOLCHAIN)
+BIN_PKG_DISTRO_NAME         = kxLab
+BIN_PKG_DISTRO_VERSION      = 1.0
+BIN_PKG_GROUP               = $(PKG_GROUP)
+###                          |---handy-ruler-------------------------------|
+BIN_PKG_SHORT_DESCRIPTION   = _kxLab Package Database Tools
+BIN_PKG_URL                 = http://www.kxLab.com
+BIN_PKG_LICENSE             = Proprietary
+BIN_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/pkg-description
+BIN_PKG_DESCRIPTION_FILE_IN = pkg-description.in
+BIN_PKG_INSTALL_SCRIPT      = pkg-install.sh
 
 
 BIN_PKG = $(TARGET_BUILD_DIR)/$(BIN_PKG_NAME)-package
@@ -47,14 +53,19 @@ scripts += $(BUILDSYSTEM)/pkgtool/remove-package
 
 build = $(TARGET_BUILD_DIR)/.done
 
-pkg_basename     = $(BIN_PKG_NAME)-$(BIN_PKG_VERSION)-$(BIN_PKG_ARCH)-$(BIN_PKG_DISTRO_NAME)-$(BIN_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(BIN_PKG_GROUP)/$(pkg_basename).tgz
+pkg_basename    = $(BIN_PKG_NAME)-$(BIN_PKG_VERSION)-$(BIN_PKG_ARCH)-$(BIN_PKG_DISTRO_NAME)-$(BIN_PKG_DISTRO_VERSION)
 
-BUILD_TARGETS    = $(build)
+# we need to have full path of product files for installation:
+pkg_archive     = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature   = $(call sign-name,$(pkg_archive))
+pkg_description = $(call desc-name,$(pkg_archive))
+products        = $(call pkg-files,$(pkg_archive))
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+BUILD_TARGETS   = $(build)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(BIN_PKG_GROUP)
+PRODUCT_TARGETS = $(products)
+
+ROOTFS_TARGETS  = $(pkg_archive)
 
 
 include ../../build-system/core.mk
@@ -63,6 +74,15 @@ include ../../build-system/core.mk
 $(build):
 	@mkdir -p $(BIN_PKG)/sbin/$(BIN_PKG_NAME)
 	@cp $(scripts) $(BIN_PKG)/sbin/$(BIN_PKG_NAME)
+	@touch $@
+
+$(BIN_PKG_DESCRIPTION_FILE): $(BIN_PKG_DESCRIPTION_FILE_IN)
+	@cat $< | $(SED) -e "s/@VERSION@/$(BIN_PKG_VERSION)/g" > $@
+
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(build) $(BIN_PKG_DESCRIPTION_FILE) $(BIN_PKG_INSTALL_SCRIPT)
 	@cp $(BIN_PKG_DESCRIPTION_FILE) $(BIN_PKG)/.DESCRIPTION
 	@cp $(BIN_PKG_INSTALL_SCRIPT) $(BIN_PKG)/.INSTALL
 	@$(BUILD_BIN_PKG_REQUIRES) $(BIN_PKG)/.REQUIRES
@@ -76,4 +96,3 @@ $(build):
 	 echo "url=$(BIN_PKG_URL)"                                 >> $(BIN_PKG)/.PKGINFO ; \
 	 echo "license=$(BIN_PKG_LICENSE)"                         >> $(BIN_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(BIN_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

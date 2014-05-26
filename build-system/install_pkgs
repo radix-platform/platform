@@ -43,13 +43,15 @@ sub install
 
   foreach my $target ( @{$targets} )
   {
+    my $pkg  = basename( $target );
+    my $cdir = dirname( $target );
     if( !$header_printed )
     {
-      print "\n======= Installing files =======\n";
+      print "\n======= Installing packages =======\n";
       $header_printed = 1;
     }
     print "Installing $target ...\n" if ( $verbose );
-    _kxLab::system( "$installpkg --root $rootfs_dest_dir $target" );
+    _kxLab::system( "cd $cdir; $installpkg --root $rootfs_dest_dir $pkg" );
     rootfs( $rootfs_dest_dir, $target );
   }
 }

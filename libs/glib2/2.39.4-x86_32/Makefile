@@ -1,22 +1,23 @@
 
-COMPONENT_TARGETS += $(TARGET_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_PC64)
 
 NEED_ABS_PATH      = true
-
 COMPONENT_IS_3PP   = true
+
+CREATE_X86_32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/GNOME/core/glib
+SOURCE_REQUIRES    = sources/GNOME/core/glib
 
-REQUIRES           = libs/zlib/1.2.8
-REQUIRES          += libs/libffi/3.0.13
-REQUIRES          += libs/libelf/0.8.13
-REQUIRES          += libs/pcre/8.34
-REQUIRES          += app/attr/2.4.47
-REQUIRES          += libs/libgamin/0.1.10
+REQUIRES           = libs/zlib/1.2.8-x86_32
+REQUIRES          += libs/libffi/3.0.13-x86_32
+REQUIRES          += libs/libelf/0.8.13-x86_32
+REQUIRES          += libs/pcre/8.34-x86_32
+REQUIRES          += app/attr/2.4.47-x86_32
+REQUIRES          += libs/libgamin/0.1.10-x86_32
 
 
 version            = 2.39.4
@@ -31,9 +32,9 @@ PATCHES = PATCHES
 build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
-build_glib2x32_pkg = $(TARGET_BUILD_DIR)/.glib2x32_pkg_done
 
-hw_cache           = $(CURDIR)/cross/hw.cache
+hw_cache_in        = $(CURDIR)/cross/hw.cache
+hw_cache           = $(CURDIR)/$(build_dir)/hw.cache
 
 
 ####### Targets
@@ -42,14 +43,14 @@ PKG_GROUP = libs
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-GLIB2_32_PKG_NAME                = glib2x32
+GLIB2_32_PKG_NAME                = glib2-x32
 GLIB2_32_PKG_VERSION             = 2.39.4
 GLIB2_32_PKG_ARCH                = $(TOOLCHAIN)
 GLIB2_32_PKG_DISTRO_NAME         = kxLab
 GLIB2_32_PKG_DISTRO_VERSION      = 1.0
 GLIB2_32_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-GLIB2_32_PKG_SHORT_DESCRIPTION   = glib2x32 $(version)
+GLIB2_32_PKG_SHORT_DESCRIPTION   = glib2-x32 $(version)
 GLIB2_32_PKG_URL                 = http://www.kxLab.com
 GLIB2_32_PKG_LICENSE             = GPLv2
 GLIB2_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GLIB2_32_PKG_NAME)-pkg-description
@@ -59,30 +60,24 @@ GLIB2_32_PKG_INSTALL_SCRIPT      = $(GLIB2_32_PKG_NAME)-pkg-install.sh
 GLIB2_32_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(GLIB2_32_PKG_NAME)-package
 
 pkg_basename     = $(GLIB2_32_PKG_NAME)-$(GLIB2_32_PKG_VERSION)-$(GLIB2_32_PKG_ARCH)-$(GLIB2_32_PKG_DISTRO_NAME)-$(GLIB2_32_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(GLIB2_32_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_glib2x32_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
 
 
 env_sysroot = DESTDIR=$(GLIB2_32_PKG)
-
-
-# owerwrite LDFLAGS:
-#
-LDFLAGS     = -L$(TARGET_DEST_DIR)/lib$(MULTILIB_X86_32_SUFFIX)
-LDFLAGS    += -L$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)
-
-ARCH_FLAGS  = -m32 -g -O3 -march=i486 -mtune=i686
-
-TARGET32    = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
 
 
 extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
@@ -107,13 +102,12 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 
 $(build_target): $(src_done)
 	@mkdir -p $(build_dir)
-	@chmod a-w $(hw_cache)
+	@cp -a $(hw_cache_in) $(hw_cache)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
 	  --prefix=/usr               \
 	  --build=$(BUILD)            \
 	  --host=$(TARGET32)          \
 	  $(extra_configure_switches)
-	@chmod +w $(hw_cache)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
 	@touch $@
 
@@ -162,7 +156,10 @@ $(install_target): $(build_target)
 $(GLIB2_32_PKG_DESCRIPTION_FILE): $(GLIB2_32_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_glib2x32_pkg): $(install_target) $(GLIB2_32_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(GLIB2_32_PKG_DESCRIPTION_FILE) $(GLIB2_32_PKG_INSTALL_SCRIPT)
 	@cp $(GLIB2_32_PKG_DESCRIPTION_FILE) $(GLIB2_32_PKG)/.DESCRIPTION
 	@cp $(GLIB2_32_PKG_INSTALL_SCRIPT) $(GLIB2_32_PKG)/.INSTALL
 	@chmod a+x $(GLIB2_32_PKG)/.INSTALL
@@ -177,4 +174,3 @@ $(build_glib2x32_pkg): $(install_target) $(GLIB2_32_PKG_DESCRIPTION_FILE)
 	 echo "url=$(GLIB2_32_PKG_URL)"                                 >> $(GLIB2_32_PKG)/.PKGINFO ; \
 	 echo "license=$(GLIB2_32_PKG_LICENSE)"                         >> $(GLIB2_32_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(GLIB2_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

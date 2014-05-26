@@ -1,17 +1,18 @@
 
-COMPONENT_TARGETS += $(TARGET_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_PC64)
 
 NEED_ABS_PATH      = true
-
 COMPONENT_IS_3PP   = true
+
+CREATE_X86_32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/a/acl
+SOURCE_REQUIRES    = sources/packages/a/acl
 
-REQUIRES           = app/attr/2.4.47
+REQUIRES           = app/attr/2.4.47-x86_32
 
 
 version            = 2.2.52
@@ -24,7 +25,6 @@ PATCHES = PATCHES
 
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
-build_acl32_pkg    = $(TARGET_BUILD_DIR)/.acl32_pkg_done
 
 
 ####### Targets
@@ -33,14 +33,14 @@ PKG_GROUP = app
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-ACL_32_PKG_NAME                = acl32
+ACL_32_PKG_NAME                = acl-x32
 ACL_32_PKG_VERSION             = 2.2.52
 ACL_32_PKG_ARCH                = $(TOOLCHAIN)
 ACL_32_PKG_DISTRO_NAME         = kxLab
 ACL_32_PKG_DISTRO_VERSION      = 1.0
 ACL_32_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-ACL_32_PKG_SHORT_DESCRIPTION   = acl32 $(version)
+ACL_32_PKG_SHORT_DESCRIPTION   = acl-x32 $(version)
 ACL_32_PKG_URL                 = http://www.kxLab.com
 ACL_32_PKG_LICENSE             = GPLv2
 ACL_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(ACL_32_PKG_NAME)-pkg-description
@@ -50,14 +50,19 @@ ACL_32_PKG_INSTALL_SCRIPT      = $(ACL_32_PKG_NAME)-pkg-install.sh
 ACL_32_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(ACL_32_PKG_NAME)-package
 
 pkg_basename     = $(ACL_32_PKG_NAME)-$(ACL_32_PKG_VERSION)-$(ACL_32_PKG_ARCH)-$(ACL_32_PKG_DISTRO_NAME)-$(ACL_32_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(ACL_32_PKG_GROUP)/$(pkg_basename).tgz
+
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
 
-BUILD_TARGETS    = $(build_acl32_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
@@ -75,16 +80,6 @@ extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --enable-shared
 
 
-CC         += -m32
-
-# owerwrite LDFLAGS:
-#
-LDFLAGS     = -L$(TARGET_DEST_DIR)/lib$(MULTILIB_X86_32_SUFFIX)
-LDFLAGS    += -L$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)
-
-ARCH_FLAGS  = -m32 -g -O3 -march=i486 -mtune=i686
-
-
 ####### Dependencies
 
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
@@ -98,7 +93,7 @@ $(build_target): $(src_done)
 	  --prefix=/usr               \
 	  --exec-prefix=/usr          \
 	  --build=$(BUILD)            \
-	  --host=$(TARGET)            \
+	  --host=$(TARGET32)          \
 	  $(extra_configure_switches)
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE)
 	@touch $@
@@ -143,7 +138,10 @@ $(install_target): $(build_target)
 $(ACL_32_PKG_DESCRIPTION_FILE): $(ACL_32_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_acl32_pkg): $(install_target) $(ACL_32_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(ACL_32_PKG_DESCRIPTION_FILE) $(ACL_32_PKG_INSTALL_SCRIPT)
 	@cp $(ACL_32_PKG_DESCRIPTION_FILE) $(ACL_32_PKG)/.DESCRIPTION
 	@cp $(ACL_32_PKG_INSTALL_SCRIPT) $(ACL_32_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(ACL_32_PKG)/.REQUIRES
@@ -157,4 +155,3 @@ $(build_acl32_pkg): $(install_target) $(ACL_32_PKG_DESCRIPTION_FILE)
 	 echo "url=$(ACL_32_PKG_URL)"                                 >> $(ACL_32_PKG)/.PKGINFO ; \
 	 echo "license=$(ACL_32_PKG_LICENSE)"                         >> $(ACL_32_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(ACL_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

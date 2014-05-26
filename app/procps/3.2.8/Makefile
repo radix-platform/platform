@@ -1,34 +1,23 @@
 
-COMPONENT_TARGETS += $(TARGET_PC32)
-COMPONENT_TARGETS += $(TARGET_PC64)
-COMPONENT_TARGETS += $(TARGET_CB1X)
-COMPONENT_TARGETS += $(TARGET_VIP1830)
-COMPONENT_TARGETS += $(TARGET_BEAGLE)
-COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
-COMPONENT_TARGETS += $(TARGET_B74)
-
-#
-# The rest targets links staticaly with newlib or uclibc and not requires xz libraties
-#
-# COMPONENT_TARGETS  += $(TARGET_CB1N)
-# COMPONENT_TARGETS  += $(TARGET_GUARD)
-# COMPONENT_TARGETS  += $(TARGET_VIP1830N)
-# COMPONENT_TARGETS  += $(TARGET_L17UC)
-#
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
 
 
 NEED_ABS_PATH     = true
-
 COMPONENT_IS_3PP  = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES   = $(SRC_PACKAGE_DIR)/packages/a/procps
-SOURCE_REQUIRES  += $(SRC_PACKAGE_DIR)/packages/a/procinfo
-SOURCE_REQUIRES  += $(SRC_PACKAGE_DIR)/packages/a/psmisc
-
+SOURCE_REQUIRES   = sources/packages/a/procps
+SOURCE_REQUIRES  += sources/packages/a/procinfo
+SOURCE_REQUIRES  += sources/packages/a/psmisc
 
 REQUIRES          = libs/ncurses/5.9
 REQUIRES         += libs/libtermcap/1.2.3
@@ -51,7 +40,7 @@ psmisc_archive    = $(SRC_PACKAGE_PATH)/packages/a/psmisc/psmisc-$(psmisc_versio
 PSMISC_SRC_DIR    = $(TARGET_BUILD_DIR)/psmisc-$(psmisc_version)
 psmisc_src_done   = $(TARGET_BUILD_DIR)/.psmisc-source-done
 
-ifneq ($(filter $(HARDWARE),$(TARGET_PC64)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 PATCHES = PATCHES.x86_64
 else
 PATCHES = PATCHES
@@ -59,10 +48,9 @@ endif
 
 build_target      = $(TARGET_BUILD_DIR)/.build_done
 install_target    = $(TARGET_BUILD_DIR)/.install_done
-build_procps_pkg  = $(TARGET_BUILD_DIR)/.procps_pkg_done
 
-
-cache_file        = $(CURDIR)/fix-malloc.cache
+cache_file_in     = $(CURDIR)/fix-malloc.cache
+cache_file        = $(CURDIR)/$(SRC_DIR)/fix-malloc.cache
 
 
 ####### Targets
@@ -89,14 +77,18 @@ PROCPS_PKG_INSTALL_SCRIPT      = $(PROCPS_PKG_NAME)-pkg-install.sh
 PROCPS_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(PROCPS_PKG_NAME)-package
 
 pkg_basename     = $(PROCPS_PKG_NAME)-$(PROCPS_PKG_VERSION)-$(PROCPS_PKG_ARCH)-$(PROCPS_PKG_DISTRO_NAME)-$(PROCPS_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(PROCPS_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_procps_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
@@ -121,7 +113,7 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP) $(procinfo_src_done) $(psmisc_src_don
 
 $(build_target): $(src_done)
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE)
-	@chmod 0444 $(cache_file)
+	@cp -a $(cache_file_in) $(cache_file)
 	@cd $(PSMISC_SRC_DIR) && \
 	    $(BUILD_ENVIRONMENT) ./configure \
 	      --prefix=/usr \
@@ -130,7 +122,6 @@ $(build_target): $(src_done)
 	      --cache-file=$(cache_file) \
 	      --build=$(BUILD) \
 	      --host=$(TARGET)
-	@chmod 0644 $(cache_file)
 	@cd $(PSMISC_SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE)
 	@cd $(PROCINFO_SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE)
 	@touch $@
@@ -256,7 +247,10 @@ $(install_target): $(build_target)
 $(PROCPS_PKG_DESCRIPTION_FILE): $(PROCPS_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_procps_pkg): $(install_target) $(PROCPS_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(PROCPS_PKG_DESCRIPTION_FILE) $(PROCPS_PKG_INSTALL_SCRIPT)
 	@cp $(PROCPS_PKG_DESCRIPTION_FILE) $(PROCPS_PKG)/.DESCRIPTION
 	@cp $(PROCPS_PKG_INSTALL_SCRIPT) $(PROCPS_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(PROCPS_PKG)/.REQUIRES
@@ -270,4 +264,3 @@ $(build_procps_pkg): $(install_target) $(PROCPS_PKG_DESCRIPTION_FILE)
 	 echo "url=$(PROCPS_PKG_URL)"                                 >> $(PROCPS_PKG)/.PKGINFO ; \
 	 echo "license=$(PROCPS_PKG_LICENSE)"                         >> $(PROCPS_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(PROCPS_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

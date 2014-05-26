@@ -1,35 +1,32 @@
 
-COMPONENT_TARGETS += $(TARGET_PC32)
-COMPONENT_TARGETS += $(TARGET_PC64)
-COMPONENT_TARGETS += $(TARGET_CB1X)
-COMPONENT_TARGETS += $(TARGET_VIP1830)
-COMPONENT_TARGETS += $(TARGET_BEAGLE)
-COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
-COMPONENT_TARGETS += $(TARGET_B74)
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
 
 #
 # The rest targets links staticaly and not requires gcc runtime libraties
 #
-# COMPONENT_TARGETS += $(TARGET_CB1N)
-# COMPONENT_TARGETS += $(TARGET_GUARD)
-# COMPONENT_TARGETS += $(TARGET_VIP1830N)
-# COMPONENT_TARGETS += $(TARGET_L17UC)
+# COMPONENT_TARGETS += $(HARDWARE_CB1N)
+# COMPONENT_TARGETS += $(HARDWARE_AT91S)
+# COMPONENT_TARGETS += $(HARDWARE_VIP1830N)
+# COMPONENT_TARGETS += $(HARDWARE_L17UC)
 #
 
 
 NEED_ABS_PATH      = true
-
 COMPONENT_IS_3PP   = true
 
 
 include ../../build-system/constants.mk
 
 
-REQUIRES           = dev/kernel-headers
-REQUIRES          += base/pkgtool
+REQUIRES           = base/pkgtool
 
 
-install_target     = $(TARGET_BUILD_DIR)/.install_done
 build_gcc_rt_pkg   = $(TARGET_BUILD_DIR)/.gcc_rt_pkg_done
 
 
@@ -60,17 +57,19 @@ GCC_RT_DEV_PKG_INSTALL_SCRIPT      = $(GCC_RT_DEV_PKG_NAME)-pkg-install.sh
 GCC_RT_DEV_PKG   = $(CURDIR)/$(TARGET_BUILD_DIR)/$(GCC_RT_DEV_PKG_NAME)-package
 
 pkg_basename     = $(GCC_RT_DEV_PKG_NAME)-$(GCC_RT_DEV_PKG_VERSION)-$(GCC_RT_DEV_PKG_ARCH)-$(GCC_RT_DEV_PKG_DISTRO_NAME)-$(GCC_RT_DEV_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(GCC_RT_DEV_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
 BUILD_TARGETS    = $(build_gcc_rt_pkg)
 
+PRODUCT_TARGETS  = $(products)
 #
 # Do not install 'gcc-runtime' to the target root filesystem
 #
-# ROOTFS_TARGETS   = $(pkg_basename_tgz)
-
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+# ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../build-system/core.mk
@@ -78,14 +77,14 @@ include ../../build-system/core.mk
 
 src_dir      = $(TOOLCHAIN_PATH)/$(TARGET)
 
-ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC)),)
 lib_compat   = yes
 else
 lib_compat   = no
 endif
 
 
-$(install_target):
+$(build_gcc_rt_pkg):
 	@mkdir -p $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX)
 	@( cd $(src_dir)/lib$(LIBSUFFIX) && \
 	   if [ "" != "`find -iname 'libasan*'     -exec echo '{}' \; -quit`" ] ; then cp -a libasan*     $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
@@ -117,7 +116,7 @@ $(install_target):
 	    if [ -d ldscripts ] ; then cp -rf ldscripts $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi ) ; \
 	 fi
 	@rm -f $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX)/*gdb.py
-ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC))
 	@rm -f $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/*gdb.py
 endif
 	@( cd $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; \
@@ -161,7 +160,10 @@ endif
 $(GCC_RT_DEV_PKG_DESCRIPTION_FILE): $(GCC_RT_DEV_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_gcc_rt_pkg): $(install_target) $(GCC_RT_DEV_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(build_gcc_rt_pkg) $(GCC_RT_DEV_PKG_DESCRIPTION_FILE) $(GCC_RT_DEV_PKG_INSTALL_SCRIPT)
 	@cp $(GCC_RT_DEV_PKG_DESCRIPTION_FILE) $(GCC_RT_DEV_PKG)/.DESCRIPTION
 	@cp $(GCC_RT_DEV_PKG_INSTALL_SCRIPT) $(GCC_RT_DEV_PKG)/.INSTALL
 	@$(BUILD_BIN_PKG_REQUIRES) $(GCC_RT_DEV_PKG)/.REQUIRES
@@ -175,4 +177,3 @@ $(build_gcc_rt_pkg): $(install_target) $(GCC_RT_DEV_PKG_DESCRIPTION_FILE)
 	 echo "url=$(GCC_RT_DEV_PKG_URL)"                                 >> $(GCC_RT_DEV_PKG)/.PKGINFO ; \
 	 echo "license=$(GCC_RT_DEV_PKG_LICENSE)"                         >> $(GCC_RT_DEV_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(GCC_RT_DEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

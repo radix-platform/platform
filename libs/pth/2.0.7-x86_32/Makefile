@@ -1,17 +1,18 @@
 
-COMPONENT_TARGETS += $(TARGET_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_PC64)
 
 NEED_ABS_PATH      = true
-
 COMPONENT_IS_3PP   = true
+
+CREATE_X86_32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/GNU/pth
+SOURCE_REQUIRES    = sources/GNU/pth
 
-REQUIRES           = libs/eglibc/2.18.1
+REQUIRES           = libs/eglibc/2.18.1-x86_32
 
 
 version            = 2.0.7
@@ -26,7 +27,6 @@ PATCHES = PATCHES
 build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
-build_pth32_pkg    = $(TARGET_BUILD_DIR)/.pth32_pkg_done
 
 
 ####### Targets
@@ -35,14 +35,14 @@ PKG_GROUP = libs
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-PTH32_PKG_NAME                = pth32
+PTH32_PKG_NAME                = pth-x32
 PTH32_PKG_VERSION             = 2.0.7
 PTH32_PKG_ARCH                = $(TOOLCHAIN)
 PTH32_PKG_DISTRO_NAME         = kxLab
 PTH32_PKG_DISTRO_VERSION      = 1.0
 PTH32_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
-PTH32_PKG_SHORT_DESCRIPTION   = pth32 $(version)
+PTH32_PKG_SHORT_DESCRIPTION   = pth-x32 $(version)
 PTH32_PKG_URL                 = http://www.kxLab.com
 PTH32_PKG_LICENSE             = GPLv2
 PTH32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(PTH32_PKG_NAME)-pkg-description
@@ -52,32 +52,24 @@ PTH32_PKG_INSTALL_SCRIPT      = $(PTH32_PKG_NAME)-pkg-install.sh
 PTH32_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(PTH32_PKG_NAME)-package
 
 pkg_basename     = $(PTH32_PKG_NAME)-$(PTH32_PKG_VERSION)-$(PTH32_PKG_ARCH)-$(PTH32_PKG_DISTRO_NAME)-$(PTH32_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(PTH32_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_pth32_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
 
 
 env_sysroot = DESTDIR=$(PTH32_PKG)
-
-
-CC         += -m32
-
-# owerwrite LDFLAGS:
-#
-LDFLAGS     = -L$(TARGET_DEST_DIR)/lib$(MULTILIB_X86_32_SUFFIX)
-LDFLAGS    += -L$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)
-
-ARCH_FLAGS  = -m32 -g -O3 -march=i486 -mtune=i686
-
-TARGET32    = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
 
 
 extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
@@ -103,12 +95,12 @@ $(build_target): $(src_done)
 	  --build=$(BUILD)            \
 	  --host=$(TARGET32)          \
 	  $(extra_configure_switches)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1
 	@touch $@
 
 $(install_target): $(build_target)
 	@mkdir -p $(PTH32_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@mkdir -p $(PTH32_PKG)/usr/bin/32
 	@( cd $(PTH32_PKG)/usr/bin ; \
 	   find . -type f | xargs mv -t 32 ; \
@@ -141,7 +133,10 @@ $(install_target): $(build_target)
 $(PTH32_PKG_DESCRIPTION_FILE): $(PTH32_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_pth32_pkg): $(install_target) $(PTH32_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(PTH32_PKG_DESCRIPTION_FILE) $(PTH32_PKG_INSTALL_SCRIPT)
 	@cp $(PTH32_PKG_DESCRIPTION_FILE) $(PTH32_PKG)/.DESCRIPTION
 	@cp $(PTH32_PKG_INSTALL_SCRIPT) $(PTH32_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(PTH32_PKG)/.REQUIRES
@@ -155,4 +150,3 @@ $(build_pth32_pkg): $(install_target) $(PTH32_PKG_DESCRIPTION_FILE)
 	 echo "url=$(PTH32_PKG_URL)"                                 >> $(PTH32_PKG)/.PKGINFO ; \
 	 echo "license=$(PTH32_PKG_LICENSE)"                         >> $(PTH32_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(PTH32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

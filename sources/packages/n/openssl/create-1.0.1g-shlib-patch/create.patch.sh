@@ -2,7 +2,7 @@
 
 VERSION=1.0.1g
 
-tar --files-from=file.list -xzf ../openssl-$VERSION.tar.gz
+tar --files-from=file.list -xzvf ../openssl-$VERSION.tar.gz
 mv openssl-$VERSION openssl-$VERSION-orig
 
 cp -rf ./openssl-$VERSION-new ./openssl-$VERSION

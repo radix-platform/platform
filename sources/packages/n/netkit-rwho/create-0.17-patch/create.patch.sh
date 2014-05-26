@@ -2,7 +2,7 @@
 
 VERSION=0.17
 
-tar --files-from=file.list -xzf ../netkit-rwho-$VERSION.tar.gz
+tar --files-from=file.list -xzvf ../netkit-rwho-$VERSION.tar.gz
 mv netkit-rwho-$VERSION netkit-rwho-$VERSION-orig
 
 cp -rf ./netkit-rwho-$VERSION-new ./netkit-rwho-$VERSION

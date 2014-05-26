@@ -2,7 +2,7 @@
 
 VERSION=2.7.6
 
-tar --files-from=file.list -xJf ../Python-$VERSION.tar.xz
+tar --files-from=file.list -xJvf ../Python-$VERSION.tar.xz
 mv Python-$VERSION Python-$VERSION-orig
 
 cp -rf ./Python-$VERSION-new ./Python-$VERSION

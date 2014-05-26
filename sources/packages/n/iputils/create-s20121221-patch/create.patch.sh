@@ -2,7 +2,7 @@
 
 VERSION=s20121221
 
-tar --files-from=file.list -xjf ../iputils-$VERSION.tar.bz2
+tar --files-from=file.list -xjvf ../iputils-$VERSION.tar.bz2
 mv iputils-$VERSION iputils-$VERSION-orig
 
 cp -rf ./iputils-$VERSION-new ./iputils-$VERSION

@@ -2,7 +2,7 @@
 
 VERSION=0.17
 
-tar --files-from=file.list -xzf ../netwrite-$VERSION.tar.gz
+tar --files-from=file.list -xzvf ../netwrite-$VERSION.tar.gz
 mv netwrite-$VERSION netwrite-$VERSION-orig
 
 cp -rf ./netwrite-$VERSION-new ./netwrite-$VERSION

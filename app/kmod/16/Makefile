@@ -1,39 +1,25 @@
 
-COMPONENT_TARGETS += $(TARGET_PC32)
-COMPONENT_TARGETS += $(TARGET_PC64)
-COMPONENT_TARGETS += $(TARGET_CB1X)
-COMPONENT_TARGETS += $(TARGET_VIP1830)
-COMPONENT_TARGETS += $(TARGET_BEAGLE)
-COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
-COMPONENT_TARGETS += $(TARGET_B74)
-
-#
-# The rest targets links staticaly with newlib or uclibc and not requires xz libraties
-#
-# COMPONENT_TARGETS += $(TARGET_CB1N)
-# COMPONENT_TARGETS += $(TARGET_GUARD)
-# COMPONENT_TARGETS += $(TARGET_VIP1830N)
-# COMPONENT_TARGETS += $(TARGET_L17UC)
-#
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
 
 
 NEED_ABS_PATH      = true
-
 COMPONENT_IS_3PP   = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/a/kmod
+SOURCE_REQUIRES    = sources/packages/a/kmod
 
-
-ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
-REQUIRES           = app/kmod/16-x86_32
-else
 REQUIRES           = libs/zlib/1.2.8
 REQUIRES          += app/xz/5.0.5
-endif
+
 
 version            = 16
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/a/kmod/kmod-$(version).tar.bz2
@@ -47,8 +33,6 @@ PATCHES = PATCHES
 build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
-build_kmod_pkg     = $(TARGET_BUILD_DIR)/.kmod_pkg_done
-
 
 
 ####### Targets
@@ -75,14 +59,18 @@ KMOD_PKG_INSTALL_SCRIPT      = $(KMOD_PKG_NAME)-pkg-install.sh
 KMOD_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(KMOD_PKG_NAME)-package
 
 pkg_basename     = $(KMOD_PKG_NAME)-$(KMOD_PKG_VERSION)-$(KMOD_PKG_ARCH)-$(KMOD_PKG_DISTRO_NAME)-$(KMOD_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(KMOD_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_kmod_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
@@ -191,7 +179,10 @@ $(install_target): $(build_target)
 $(KMOD_PKG_DESCRIPTION_FILE): $(KMOD_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_kmod_pkg): $(install_target) $(KMOD_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(KMOD_PKG_DESCRIPTION_FILE) $(KMOD_PKG_INSTALL_SCRIPT)
 	@cp $(KMOD_PKG_DESCRIPTION_FILE) $(KMOD_PKG)/.DESCRIPTION
 	@cp $(KMOD_PKG_INSTALL_SCRIPT) $(KMOD_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(KMOD_PKG)/.REQUIRES
@@ -205,4 +196,3 @@ $(build_kmod_pkg): $(install_target) $(KMOD_PKG_DESCRIPTION_FILE)
 	 echo "url=$(KMOD_PKG_URL)"                                 >> $(KMOD_PKG)/.PKGINFO ; \
 	 echo "license=$(KMOD_PKG_LICENSE)"                         >> $(KMOD_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(KMOD_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

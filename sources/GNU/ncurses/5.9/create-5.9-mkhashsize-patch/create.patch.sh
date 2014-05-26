@@ -3,11 +3,11 @@
 VERSION=5.9
 DATE=20130504
 
-tar -xzvf ../ncurses-$VERSION.tar.gz
+tar -xzf ../ncurses-$VERSION.tar.gz
 zcat ../patch-$VERSION-$DATE.sh.gz > ncurses-$VERSION/patch.sh
 chmod a+x ncurses-$VERSION/patch.sh
-( cd ncurses-$VERSION && ./patch.sh )
-tar -czvf ncurses-$VERSION.tar.gz ncurses-$VERSION
+( cd ncurses-$VERSION && ./patch.sh > /dev/null 2>&1 )
+tar -czf ncurses-$VERSION.tar.gz ncurses-$VERSION
 rm -rf ncurses-$VERSION
 
 tar --files-from=file.list -xzvf ./ncurses-$VERSION.tar.gz

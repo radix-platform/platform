@@ -1,9 +1,9 @@
 
-COMPONENT_TARGETS = $(TARGET_HOST)
+COMPONENT_TARGETS = $(HARDWARE_BUILD)
 
 include ../../../constants.mk
 
-SOURCE_REQUIRES = $(SRC_PACKAGE_DIR)/packages/a/fakeroot-ng
+SOURCE_REQUIRES = sources/packages/a/fakeroot-ng
 
 tar_bz2_archive = $(SRC_PACKAGE_PATH)/packages/a/fakeroot-ng/fakeroot-ng-0.18.tar.bz2
 src_dir         = fakeroot-ng-0.18
@@ -27,14 +27,12 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	@touch $@
 
-$(build_dir): $(src_done)
-	@mkdir -p $@
-
-$(build_target): $(build_dir)
-	@cd $< && $(environment) ../$(src_dir)/configure \
+$(build_target): $(src_done)
+	@mkdir -p $(build_dir)
+	@cd $(build_dir) && $(environment) ../$(src_dir)/configure \
 	  --prefix=/usr \
 	  $(extra_configure_switches)
-	@$(environment) $(MAKE) -C $< all
+	@$(environment) $(MAKE) -C $(build_dir) all
 	@cd $(build_dir) && mv fakeroot-ng fakeroot
 	@touch $@
 

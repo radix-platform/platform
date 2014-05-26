@@ -1,5 +1,5 @@
 
-COMPONENT_TARGETS = $(TARGET_NOARCH)
+COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 
 
 include ../../../../build-system/constants.mk
@@ -16,10 +16,15 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(version)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 dates       = 20130504
-patches     = $(addsuffix .sh.gz, $(addprefix patch-$(version)-, $(dates)))
+nc-patches  = $(addsuffix .sh.gz, $(addprefix patch-$(version)-, $(dates)))
+
+patches     = $(CURDIR)/patches/ncurses-5.9-mkhashsize.patch
+patches    += $(CURDIR)/patches/ncurses-5.9-cross.patch
+
+.NOTPARALLEL: $(patches)
 
 
-BUILD_TARGETS = $(tarballs) $(sha1s) $(patches)
+BUILD_TARGETS = $(tarballs) $(sha1s) $(nc-patches) $(patches)
 
 
 include ../../../../build-system/core.mk
@@ -29,34 +34,35 @@ include ../../../../build-system/core.mk
 
 
 $(tarballs):
-	@echo -e "\n======= Downloading source tarballs =======\n"
-	@for tarball in $(tarballs) ; do \
-	  wget $(WGET_OPTIONS) -N $(url)/$$tarball ; \
-	done
+	@echo -e "\n======= Downloading source tarballs =======" ; \
+	 for tarball in $(tarballs) ; do \
+	   echo "$(url)/$$tarball" | xargs -n 1 -P 100 wget $(WGET_OPTIONS) -i & \
+	 done ; wait
 
-$(sha1s): %.$(suffix).sha1sum : %.$(suffix)
+$(sha1s): $(tarballs)
 	@for sha in $@ ; do \
-	  echo -e "\n======= Downloading '$$sha' signature =======\n" ; \
-	  wget $(WGET_OPTIONS) -N $(url)/$$sha ; \
-	  touch $$sha ; \
-	  echo -e "\n======= Check the '$$sha' sha1sum =======\n" ; \
-	  sha1sum --check $$sha ; ret="$$?" ; \
-	  if [ "$$ret" == "1" ]; then \
-	    echo -e "\n======= ERROR: Bad '$$sha' sha1sum =======\n" ; \
-	    exit 1 ; \
-	  fi ; \
-	done
+	   echo -e "\n======= Downloading '$$sha' signature =======\n" ; \
+	   echo "$(url)/$$sha" | xargs -n 1 -P 100 wget $(WGET_OPTIONS) -i & wait %1 ; \
+	   touch $$sha ; \
+	   echo -e "\n======= Check the '$$sha' sha1sum =======\n" ; \
+	   sha1sum --check $$sha ; ret="$$?" ; \
+	   if [ "$$ret" == "1" ]; then \
+	     echo -e "\n======= ERROR: Bad '$$sha' sha1sum =======\n" ; \
+	     exit 1 ; \
+	   fi ; \
+	 done
 
-$(patches):
-	@echo -e "\n======= Downloading patches for $(pkgname)-$(version) =======\n"
-	@for patch in $(patches) ; do \
-	  wget -N $(url)/$$patch ; \
-	done
-	@echo -e "\n======= Create Patches =======\n"
-	@( cd create-5.9-mkhashsize-patch && ./create.patch.sh )
-	@( cd create-5.9-cross-patch && ./create.patch.sh )
+$(nc-patches):
+	@echo -e "\n======= Downloading patches for $(pkgname)-$(version) =======\n" ; \
+	 for patch in $(nc-patches) ; do \
+	   echo "$(url)/$$patch" | xargs -n 1 -P 100 wget $(WGET_OPTIONS) -i & \
+	 done ; wait
+
+$(patches): $(sha1s) $(nc-patches)
+	@echo -e "\n======= Create Patches =======\n" ; \
+	 ( cd create-5.9-mkhashsize-patch ; ./create.patch.sh ) ; \
+	 ( cd create-5.9-cross-patch ;      ./create.patch.sh ) ; \
+	 echo -e "\n"
 
 download_clean:
-	@rm -f $(tarballs) $(sha1s) $(patches)
-	@rm -f ./patches/ncurses-5.9-mkhashsize.patch
-	@rm -f ./patches/ncurses-5.9-cross.patch
+	@rm -f $(tarballs) $(sha1s) $(nc-patches) $(patches)

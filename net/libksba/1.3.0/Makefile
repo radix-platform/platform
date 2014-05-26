@@ -1,38 +1,24 @@
 
-COMPONENT_TARGETS += $(TARGET_PC32)
-COMPONENT_TARGETS += $(TARGET_PC64)
-COMPONENT_TARGETS += $(TARGET_CB1X)
-COMPONENT_TARGETS += $(TARGET_VIP1830)
-COMPONENT_TARGETS += $(TARGET_BEAGLE)
-COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
-COMPONENT_TARGETS += $(TARGET_B74)
-
-#
-# The rest targets links staticaly with newlib or uclibc and not requires xz libraties
-#
-# COMPONENT_TARGETS += $(TARGET_CB1N)
-# COMPONENT_TARGETS += $(TARGET_GUARD)
-# COMPONENT_TARGETS += $(TARGET_VIP1830N)
-# COMPONENT_TARGETS += $(TARGET_L17UC)
-#
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
 
 
 NEED_ABS_PATH      = true
-
 COMPONENT_IS_3PP   = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/n/libksba
+SOURCE_REQUIRES    = sources/packages/n/libksba
 
-
-ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
-REQUIRES           = net/libksba/1.3.0-x86_32
-else
 REQUIRES           = net/libgpg-error/1.12
-endif
+
 
 version            = 1.3.0
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/libksba/libksba-$(version).tar.bz2
@@ -46,8 +32,6 @@ PATCHES = PATCHES
 build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
-build_ksba_pkg     = $(TARGET_BUILD_DIR)/.ksba_pkg_done
-
 
 
 ####### Targets
@@ -74,14 +58,18 @@ KSBA_PKG_INSTALL_SCRIPT      = $(KSBA_PKG_NAME)-pkg-install.sh
 KSBA_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(KSBA_PKG_NAME)-package
 
 pkg_basename     = $(KSBA_PKG_NAME)-$(KSBA_PKG_VERSION)-$(KSBA_PKG_ARCH)-$(KSBA_PKG_DISTRO_NAME)-$(KSBA_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(KSBA_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_ksba_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
@@ -176,7 +164,10 @@ $(install_target): $(build_target)
 $(KSBA_PKG_DESCRIPTION_FILE): $(KSBA_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_ksba_pkg): $(install_target) $(KSBA_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(KSBA_PKG_DESCRIPTION_FILE) $(KSBA_PKG_INSTALL_SCRIPT)
 	@cp $(KSBA_PKG_DESCRIPTION_FILE) $(KSBA_PKG)/.DESCRIPTION
 	@cp $(KSBA_PKG_INSTALL_SCRIPT) $(KSBA_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(KSBA_PKG)/.REQUIRES
@@ -190,4 +181,3 @@ $(build_ksba_pkg): $(install_target) $(KSBA_PKG_DESCRIPTION_FILE)
 	 echo "url=$(KSBA_PKG_URL)"                                 >> $(KSBA_PKG)/.PKGINFO ; \
 	 echo "license=$(KSBA_PKG_LICENSE)"                         >> $(KSBA_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(KSBA_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

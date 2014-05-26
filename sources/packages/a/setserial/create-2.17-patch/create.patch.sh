@@ -2,7 +2,7 @@
 
 VERSION=2.17
 
-tar --files-from=file.list -xzf ../setserial-$VERSION.tar.gz
+tar --files-from=file.list -xzvf ../setserial-$VERSION.tar.gz
 mv setserial-$VERSION setserial-$VERSION-orig
 
 cp -rf ./setserial-$VERSION-new ./setserial-$VERSION

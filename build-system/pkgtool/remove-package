@@ -60,7 +60,7 @@ get_ref_counter() {
 }
 
 tarball_pkginfo() {
-  zcat $1 | $TAR -xvf - ".PKGINFO" -O  1> .PKGINFO  2> /dev/null
+  zcat $1 | $TAR -xvf - ".PKGINFO" -O  1> $TMP/.PKGINFO  2> /dev/null
   if [ ! "$?" = "0" ]; then
     echo "ERROR: Cannot extract package pkginfo from $1"
     EXITSTATUS=1
@@ -238,25 +238,25 @@ for PKGFILE in $* ; do
 
   # getting .PKGINFO file:
   if [ ! "$logfile" = "" ]; then
-    pkginfo pkginfo $logfile
-    if [ ! -f $CWD/.PKGINFO -o ! -s $CWD/.PKGINFO ]; then
-      rm -f $CWD/.PKGINFO
+    pkginfo --dest $TMP pkginfo $logfile
+    if [ ! -f $TMP/.PKGINFO -o ! -s $TMP/.PKGINFO ]; then
+      rm -f $TMP/.PKGINFO
       echo "ERROR: There is no package info in $1"
       EXITSTATUS=2
       exit $EXITSTATUS
     fi
   elif [ ! "$tarball" = "" ]; then
     tarball_pkginfo $tarball
-    if [ ! -f $CWD/.PKGINFO -o ! -s $CWD/.PKGINFO ]; then
-      rm -f $CWD/.PKGINFO
+    if [ ! -f $TMP/.PKGINFO -o ! -s $TMP/.PKGINFO ]; then
+      rm -f $TMP/.PKGINFO
       echo "ERROR: There is no package info in $1"
       EXITSTATUS=2
       exit $EXITSTATUS
     fi
   fi
 
-  if [ -f $CWD/.PKGINFO ]; then
-    . $CWD/.PKGINFO
+  if [ -f $TMP/.PKGINFO ]; then
+    . $TMP/.PKGINFO
     # check variables:
     if [ "$pkgname" = "" -o "$pkgver" = "" -o "$arch" = "" -o "$distroname" = "" -o "$distrover" = "" ]; then
       echo "ERROR: The file '.PKGINFO' doesn't contain necessary declarations."
@@ -264,7 +264,7 @@ for PKGFILE in $* ; do
       exit $EXITSTATUS 
     fi
   fi
-  rm -f $CWD/.PKGINFO
+  rm -f $TMP/.PKGINFO
 
   # check installed pkglog file:
   if [ ! -f $PKG_DB_PATH/$pkgname-$pkgver-$arch-$distroname-$distrover ]; then
@@ -292,46 +292,45 @@ for PKGFILE in $* ; do
   fi
 
   # pre remove script:
-  pkginfo install_script $logfile
-  if [ ! -x $CWD/.INSTALL -o ! -s $CWD/.INSTALL ]; then
-    rm -f $CWD/.INSTALL
+  pkginfo --dest $TMP install_script $logfile
+  if [ ! -x $TMP/.INSTALL -o ! -s $TMP/.INSTALL ]; then
+    rm -f $TMP/.INSTALL
   else
-    cp $CWD/.INSTALL $TARGET_ROOT_PATH
     ( cd $TARGET_ROOT_PATH
-      ./.INSTALL pre_remove
+      $TMP/.INSTALL pre_remove
       if [ ! "$?" = "0" ]; then
         echo "ERROR: Pre Remove script returns bad status."
         echo "ERROR: Pre Remove script returns bad status." >> $LOG_FILE
         cd $CWD
-        rm -f ./.INSTALL
+        rm -f $TMP/.INSTALL
         EXITSTATUS=21
         exit $EXITSTATUS
       fi
-      rm -f ./.INSTALL
+      rm -f $TMP/.INSTALL
     )
-    rm -f $CWD/.INSTALL
+    rm -f $TMP/.INSTALL
   fi
 
   # Getting saved links:
-  pkginfo restore_links $logfile
-  if [ ! -f .RESTORELINKS -o ! -s .RESTORELINKS ]; then
-    rm -f .RESTORELINKS
+  pkginfo --dest $TMP restore_links $logfile
+  if [ ! -f $TMP/.RESTORELINKS -o ! -s $TMP/.RESTORELINKS ]; then
+    rm -f $TMP/.RESTORELINKS
   else
-    cat .RESTORELINKS | extract_links | sort -u > $TMP/links$$
-    rm -f .RESTORELINKS
+    cat $TMP/.RESTORELINKS | extract_links | sort -u > $TMP/links$$
+    rm -f $TMP/.RESTORELINKS
   fi
   # Getting files:
-  pkginfo filelist $logfile
-  if [ ! -f .FILELIST -o ! -s .FILELIST ]; then
-    rm -f .FILELIST
+  pkginfo --dest $TMP filelist $logfile
+  if [ ! -f $TMP/.FILELIST -o ! -s $TMP/.FILELIST ]; then
+    rm -f $TMP/.FILELIST
   else
-    cat .FILELIST | sort -u > $TMP/files$$
-    rm -f .FILELIST
+    cat $TMP/.FILELIST | sort -u > $TMP/files$$
+    rm -f $TMP/.FILELIST
   fi
 
-  pkginfo description $logfile
-  strip_description ".DESCRIPTION" "$TMP/msg$$"
-  rm -f .DESCRIPTION
+  pkginfo --dest $TMP description $logfile
+  strip_description "$TMP/.DESCRIPTION" "$TMP/msg$$"
+  rm -f $TMP/.DESCRIPTION
 
   echo " Uncompressed Size: $uncompressed_size" >> $TMP/msg$$
   echo "       Total Files: $total_files"       >> $TMP/msg$$
@@ -371,22 +370,22 @@ for PKGFILE in $* ; do
   ( cd $PKG_DB_PATH; change-refs dec "$pkgname-$pkgver-$arch-$distroname-$distrover" )
 
   # post remove script:
-  pkginfo install_script $logfile
-  if [ ! -x .INSTALL -o ! -s .INSTALL ]; then
-    rm -f .INSTALL
+  pkginfo --dest $TMP install_script $logfile
+  if [ ! -x $TMP/.INSTALL -o ! -s $TMP/.INSTALL ]; then
+    rm -f $TMP/.INSTALL
   else
     ( cd $TARGET_ROOT_PATH
-      $CWD/.INSTALL post_remove
+      $TMP/.INSTALL post_remove
       if [ ! "$?" = "0" ]; then
         echo "ERROR: Post Remove script returns bad status."
         echo "ERROR: Post Remove script returns bad status." >> $LOG_FILE
         cd $CWD
-        rm -f .INSTALL
+        rm -f $TMP/.INSTALL
         EXITSTATUS=22
         exit $EXITSTATUS
       fi
     )
-    rm -f .INSTALL
+    rm -f $TMP/.INSTALL
   fi
 
   # mv logfile to removed_packages/ data base directory.
@@ -399,5 +398,4 @@ done
 # End of Main loop.
 ################################################################
 
-exit $EXITSTATUS 
-
+exit $EXITSTATUS

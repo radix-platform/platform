@@ -1,17 +1,18 @@
 
-COMPONENT_TARGETS += $(TARGET_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_PC64)
 
 NEED_ABS_PATH      = true
-
 COMPONENT_IS_3PP   = true
+
+CREATE_X86_32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/a/xz
+SOURCE_REQUIRES    = sources/packages/a/xz
 
-REQUIRES           = libs/eglibc/2.18.1
+REQUIRES           = libs/eglibc/2.18.1-x86_32
 
 
 version            = 5.0.5
@@ -26,7 +27,6 @@ PATCHES = PATCHES
 build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
-build_xz32_pkg     = $(TARGET_BUILD_DIR)/.xz32_pkg_done
 
 
 ####### Targets
@@ -35,14 +35,14 @@ PKG_GROUP = app
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-XZ32_PKG_NAME                = xz32
+XZ32_PKG_NAME                = xz-x32
 XZ32_PKG_VERSION             = 5.0.5
 XZ32_PKG_ARCH                = $(TOOLCHAIN)
 XZ32_PKG_DISTRO_NAME         = kxLab
 XZ32_PKG_DISTRO_VERSION      = 1.0
 XZ32_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
-XZ32_PKG_SHORT_DESCRIPTION   = xz32 $(version)
+XZ32_PKG_SHORT_DESCRIPTION   = xz-x32 $(version)
 XZ32_PKG_URL                 = http://www.kxLab.com
 XZ32_PKG_LICENSE             = GPLv2
 XZ32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(XZ32_PKG_NAME)-pkg-description
@@ -52,25 +52,24 @@ XZ32_PKG_INSTALL_SCRIPT      = $(XZ32_PKG_NAME)-pkg-install.sh
 XZ32_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(XZ32_PKG_NAME)-package
 
 pkg_basename     = $(XZ32_PKG_NAME)-$(XZ32_PKG_VERSION)-$(XZ32_PKG_ARCH)-$(XZ32_PKG_DISTRO_NAME)-$(XZ32_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(XZ32_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_xz32_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
 
 
 env_sysroot = DESTDIR=$(XZ32_PKG)
-
-
-ARCH_FLAGS  = -m32 -g -O3 -march=i486 -mtune=i686
-
-TARGET32    = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
 
 
 extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
@@ -81,8 +80,6 @@ extra_configure_switches += --program-prefix=
 extra_configure_switches += --program-suffix=
 extra_configure_switches += --disable-rpath
 extra_configure_switches += --enable-shared
-# uncomment next line to prevent building static *.a library:
-# extra_configure_switches += --disable-static
 
 
 ####### Dependencies
@@ -136,7 +133,10 @@ $(install_target): $(build_target)
 $(XZ32_PKG_DESCRIPTION_FILE): $(XZ32_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_xz32_pkg): $(install_target) $(XZ32_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(XZ32_PKG_DESCRIPTION_FILE) $(XZ32_PKG_INSTALL_SCRIPT)
 	@cp $(XZ32_PKG_DESCRIPTION_FILE) $(XZ32_PKG)/.DESCRIPTION
 	@cp $(XZ32_PKG_INSTALL_SCRIPT) $(XZ32_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(XZ32_PKG)/.REQUIRES
@@ -150,4 +150,3 @@ $(build_xz32_pkg): $(install_target) $(XZ32_PKG_DESCRIPTION_FILE)
 	 echo "url=$(XZ32_PKG_URL)"                                 >> $(XZ32_PKG)/.PKGINFO ; \
 	 echo "license=$(XZ32_PKG_LICENSE)"                         >> $(XZ32_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(XZ32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

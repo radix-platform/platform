@@ -35,9 +35,10 @@ sub do_clean
     print "\n=======\n" if ( $verbose );
     print "======= Cleaning in $printed_d...\n" if ( $verbose );
     print "=======\n" if ( $verbose );
-    _kxLab::system( "make -C $d local_clean" );
+#    _kxLab::system( "make -C $d local_clean" );
     _kxLab::system( "make -C $d download_clean" );
     unlink "$d/.makefile";
+    unlink <$d/.*_requires*>;
   }
 }
 
@@ -59,6 +60,8 @@ sub do_clean_list
 
 sub process_clean
 {
+  return if( ! $File::Find::dir =~ m/$top_dir\/sources/ );
+
   # add directory which contains 'Makefile' too.
   if( $_ eq "Makefile" ) { do_clean_list( $File::Find::dir ); }
 
@@ -99,7 +102,7 @@ if( $clean_count != 0 )
 {
   if( !$header_printed )
   {
-    print "\n======= Cleaning downloads tree =======\n";
+    print "\n======= Cleaning downloads tree =======\n\n" if ( $verbose );
     $header_printed = 1;
   }
 
@@ -109,6 +112,6 @@ if( $clean_count != 0 )
 }
 else
 {
-  print "Cleaning...   (nothing to be done).\n";
+  print "\nCleaning...   (nothing to be done).\n\n";
 }
 

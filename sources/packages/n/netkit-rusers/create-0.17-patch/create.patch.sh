@@ -2,7 +2,7 @@
 
 VERSION=0.17
 
-tar --files-from=file.list -xzf ../netkit-rusers-$VERSION.tar.gz
+tar --files-from=file.list -xzvf ../netkit-rusers-$VERSION.tar.gz
 mv netkit-rusers-$VERSION netkit-rusers-$VERSION-orig
 
 cp -rf ./netkit-rusers-$VERSION-new ./netkit-rusers-$VERSION

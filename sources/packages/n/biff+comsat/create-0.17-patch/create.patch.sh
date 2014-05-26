@@ -2,7 +2,7 @@
 
 VERSION=0.17
 
-tar --files-from=file.list -xzf ../biff+comsat-$VERSION.tar.gz
+tar --files-from=file.list -xzvf ../biff+comsat-$VERSION.tar.gz
 mv biff+comsat-$VERSION biff+comsat-$VERSION-orig
 
 cp -rf ./biff+comsat-$VERSION-new ./biff+comsat-$VERSION

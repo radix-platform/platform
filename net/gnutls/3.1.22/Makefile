@@ -1,36 +1,22 @@
 
-COMPONENT_TARGETS += $(TARGET_PC32)
-COMPONENT_TARGETS += $(TARGET_PC64)
-COMPONENT_TARGETS += $(TARGET_CB1X)
-COMPONENT_TARGETS += $(TARGET_VIP1830)
-COMPONENT_TARGETS += $(TARGET_BEAGLE)
-COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
-COMPONENT_TARGETS += $(TARGET_B74)
-
-#
-# The rest targets links staticaly with newlib or uclibc and not requires xz libraties
-#
-# COMPONENT_TARGETS += $(TARGET_CB1N)
-# COMPONENT_TARGETS += $(TARGET_GUARD)
-# COMPONENT_TARGETS += $(TARGET_VIP1830N)
-# COMPONENT_TARGETS += $(TARGET_L17UC)
-#
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
 
 
 NEED_ABS_PATH      = true
-
 COMPONENT_IS_3PP   = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/n/gnutls
+SOURCE_REQUIRES    = sources/packages/n/gnutls
 
-
-ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
-REQUIRES           = net/gnutls/3.1.22-x86_32
-else
 REQUIRES           = libs/zlib/1.2.8
 REQUIRES          += libs/libffi/3.0.13
 REQUIRES          += libs/libidn/1.28
@@ -39,7 +25,7 @@ REQUIRES          += libs/libtasn1/3.4
 REQUIRES          += net/p11-kit/0.20.2
 REQUIRES          += net/nettle/2.7.1
 REQUIRES          += dev/guile/2.0.9
-endif
+
 
 version            = 3.1.22
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/n/gnutls/gnutls-$(version).tar.xz
@@ -53,8 +39,6 @@ PATCHES = PATCHES
 build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
-build_gnutls_pkg   = $(TARGET_BUILD_DIR)/.gnutls_pkg_done
-
 
 
 ####### Targets
@@ -81,14 +65,18 @@ GNUTLS_PKG_INSTALL_SCRIPT      = $(GNUTLS_PKG_NAME)-pkg-install.sh
 GNUTLS_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(GNUTLS_PKG_NAME)-package
 
 pkg_basename     = $(GNUTLS_PKG_NAME)-$(GNUTLS_PKG_VERSION)-$(GNUTLS_PKG_ARCH)-$(GNUTLS_PKG_DISTRO_NAME)-$(GNUTLS_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(GNUTLS_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_gnutls_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
@@ -207,7 +195,10 @@ $(install_target): $(build_target)
 $(GNUTLS_PKG_DESCRIPTION_FILE): $(GNUTLS_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_gnutls_pkg): $(install_target) $(GNUTLS_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(GNUTLS_PKG_DESCRIPTION_FILE) $(GNUTLS_PKG_INSTALL_SCRIPT)
 	@cp $(GNUTLS_PKG_DESCRIPTION_FILE) $(GNUTLS_PKG)/.DESCRIPTION
 	@cp $(GNUTLS_PKG_INSTALL_SCRIPT) $(GNUTLS_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(GNUTLS_PKG)/.REQUIRES
@@ -221,4 +212,3 @@ $(build_gnutls_pkg): $(install_target) $(GNUTLS_PKG_DESCRIPTION_FILE)
 	 echo "url=$(GNUTLS_PKG_URL)"                                 >> $(GNUTLS_PKG)/.PKGINFO ; \
 	 echo "license=$(GNUTLS_PKG_LICENSE)"                         >> $(GNUTLS_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(GNUTLS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

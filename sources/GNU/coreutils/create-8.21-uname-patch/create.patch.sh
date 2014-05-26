@@ -2,7 +2,7 @@
 
 VERSION=8.21
 
-tar --files-from=file.list -xJf ../coreutils-$VERSION.tar.xz
+tar --files-from=file.list -xJvf ../coreutils-$VERSION.tar.xz
 mv coreutils-$VERSION coreutils-$VERSION-orig
 
 cp -rf ./coreutils-$VERSION-new ./coreutils-$VERSION

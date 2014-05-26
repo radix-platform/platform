@@ -1,35 +1,23 @@
 
-COMPONENT_TARGETS += $(TARGET_PC32)
-COMPONENT_TARGETS += $(TARGET_PC64)
-COMPONENT_TARGETS += $(TARGET_CB1X)
-COMPONENT_TARGETS += $(TARGET_VIP1830)
-COMPONENT_TARGETS += $(TARGET_BEAGLE)
-COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
-COMPONENT_TARGETS += $(TARGET_B74)
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
 
-#
-# The rest targets links staticaly with newlib or uclibc and not requires binutils on host
-#
-# COMPONENT_TARGETS += $(TARGET_CB1N)
-# COMPONENT_TARGETS += $(TARGET_GUARD)
-# COMPONENT_TARGETS += $(TARGET_VIP1830N)
-# COMPONENT_TARGETS += $(TARGET_L17UC)
-#
 
 NEED_ABS_PATH      = true
-
 COMPONENT_IS_3PP   = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/d/python2
-SOURCE_REQUIRES   += $(SRC_PACKAGE_DIR)/packages/d/python2-doc
+SOURCE_REQUIRES    = sources/packages/d/python2
+SOURCE_REQUIRES   += sources/packages/d/python2-doc
 
-ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
-REQUIRES           = dev/python2/2.7.6-x86_32
-else
 REQUIRES           = libs/zlib/1.2.8
 REQUIRES          += app/xz/5.0.5
 REQUIRES          += libs/libffi/3.0.13
@@ -37,8 +25,7 @@ REQUIRES          += libs/ncurses/5.9
 REQUIRES          += libs/libtermcap/1.2.3
 REQUIRES          += libs/readline/6.3
 REQUIRES          += libs/expat/2.1.0
-REQUIRES          += net/openssl/1.0.1f
-endif
+REQUIRES          += net/openssl/1.0.1g
 
 
 version            = 2.7.6
@@ -53,9 +40,9 @@ PATCHES = PATCHES
 
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
-build_python_pkg = $(TARGET_BUILD_DIR)/.python_pkg_done
 
-hw_cache           = $(CURDIR)/cross/hw.cache
+hw_cache_in        = $(CURDIR)/cross/hw.cache
+hw_cache           = $(CURDIR)/$(SRC_DIR)/hw.cache
 cross_patch        = $(SRC_PACKAGE_PATH_ABS)/packages/d/python2/patches/Python-$(version)-cross.patch
 
 ####### Targets
@@ -81,14 +68,18 @@ PYTHON_PKG_INSTALL_SCRIPT      = $(PYTHON_PKG_NAME)-pkg-install.sh
 PYTHON_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(PYTHON_PKG_NAME)-package
 
 pkg_basename     = $(PYTHON_PKG_NAME)-$(PYTHON_PKG_VERSION)-$(PYTHON_PKG_ARCH)-$(PYTHON_PKG_DISTRO_NAME)-$(PYTHON_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(PYTHON_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_python_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
@@ -96,9 +87,7 @@ include ../../../build-system/core.mk
 
 env_sysroot = DESTDIR=$(PYTHON_PKG)
 
-
 LDFLAGS    += -L.
-
 
 extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
@@ -122,7 +111,6 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	@touch $@
 
 $(build_target): $(src_done)
-	@chmod a-w $(hw_cache)
 	@( cd $(SRC_DIR) ; \
 	   ./configure ; \
 	   make python Parser/pgen ; \
@@ -131,19 +119,19 @@ $(build_target): $(src_done)
 	   make distclean ; \
 	 )
 	@( cd $(TARGET_BUILD_DIR) ; patch -p0 < $(cross_patch) )
+	@cp -a $(hw_cache_in) $(hw_cache)
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(python_environment) ./configure \
 	  --prefix=/usr               \
 	  --build=$(BUILD)            \
 	  --host=$(TARGET)            \
 	  $(extra_configure_switches)
-	@chmod +w $(hw_cache)
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(python_environment) $(MAKE)
 	@touch $@
 
 $(install_target): $(build_target)
 	@mkdir -p $(PYTHON_PKG)
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(python_environment) $(MAKE) install $(env_sysroot)
-ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC)),)
 	@( cd $(PYTHON_PKG)/usr/include/python2.7 ; \
 	   mv pyconfig.h pyconfig-64.h ; \
 	   echo ''                                       > pyconfig.h ; \
@@ -232,7 +220,10 @@ endif
 $(PYTHON_PKG_DESCRIPTION_FILE): $(PYTHON_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_python_pkg): $(install_target) $(PYTHON_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(PYTHON_PKG_DESCRIPTION_FILE) $(PYTHON_PKG_INSTALL_SCRIPT)
 	@cp $(PYTHON_PKG_DESCRIPTION_FILE) $(PYTHON_PKG)/.DESCRIPTION
 	@cp $(PYTHON_PKG_INSTALL_SCRIPT) $(PYTHON_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(PYTHON_PKG)/.REQUIRES
@@ -246,4 +237,3 @@ $(build_python_pkg): $(install_target) $(PYTHON_PKG_DESCRIPTION_FILE)
 	 echo "url=$(PYTHON_PKG_URL)"                                 >> $(PYTHON_PKG)/.PKGINFO ; \
 	 echo "license=$(PYTHON_PKG_LICENSE)"                         >> $(PYTHON_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(PYTHON_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

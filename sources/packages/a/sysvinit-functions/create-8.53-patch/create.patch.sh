@@ -2,7 +2,7 @@
 
 VERSION=8.53
 
-tar --files-from=file.list -xjf ../function-src-$VERSION.tar.bz2
+tar --files-from=file.list -xjvf ../function-src-$VERSION.tar.bz2
 mv function-src-$VERSION function-src-$VERSION-orig
 
 cp -rf ./function-src-$VERSION-new ./function-src-$VERSION

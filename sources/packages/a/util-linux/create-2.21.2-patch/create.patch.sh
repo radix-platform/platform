@@ -2,7 +2,7 @@
 
 VERSION=2.21.2
 
-tar --files-from=file.list -xzf ../util-linux-$VERSION.tar.gz
+tar --files-from=file.list -xzvf ../util-linux-$VERSION.tar.gz
 mv util-linux-$VERSION util-linux-$VERSION-orig
 
 cp -rf ./util-linux-$VERSION-new ./util-linux-$VERSION

@@ -2,7 +2,7 @@
 
 VERSION=7.6
 
-tar --files-from=file.list -xzf ../tcp_wrappers_$VERSION.tar.gz
+tar --files-from=file.list -xzvf ../tcp_wrappers_$VERSION.tar.gz
 ( cd tcp_wrappers_$VERSION ; chmod +w * )
 mv tcp_wrappers_$VERSION tcp_wrappers_$VERSION-orig
 

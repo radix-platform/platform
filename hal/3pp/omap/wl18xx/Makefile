@@ -1,5 +1,5 @@
 
-COMPONENT_TARGETS = $(TARGET_OMAP5UEVM)
+COMPONENT_TARGETS = $(HARDWARE_OMAP5UEVM)
 
 NEED_ABS_PATH     = true
 
@@ -9,9 +9,9 @@ COMPONENT_IS_3PP  = true
 include ../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES  += $(SRC_PACKAGE_DIR)/hal/omap/wl18xx/wl18xx
-SOURCE_REQUIRES  += $(SRC_PACKAGE_DIR)/hal/omap/wl18xx/compat-wireless
-SOURCE_REQUIRES  += $(SRC_PACKAGE_DIR)/hal/omap/wl18xx/compat
+SOURCE_REQUIRES   = sources/hal/omap/wl18xx/wl18xx
+SOURCE_REQUIRES  += sources/hal/omap/wl18xx/compat-wireless
+SOURCE_REQUIRES  += sources/hal/omap/wl18xx/compat
 
 REQUIRES          = hal/3pp/omap/sgx-ddk
 
@@ -47,7 +47,7 @@ modules_done      = $(build_dir)/.modules_done
 PATCHES = PATCHES
 
 
-ifneq ($(filter $(TOOLCHAIN),$(OMAP543X_EGLIBC_TOOLCHAIN_NAME)),)
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_OMAP543X_EGLIBC)),)
 ARCH = arm
 endif
 
@@ -60,6 +60,8 @@ extra_build_environment  += INSTALL_MOD_PATH=$(TARGET_DEST_DIR)
 extra_build_environment  += DESTDIR=$(TARGET_DEST_DIR)
 extra_build_environment  += __CROSS_INSTALL__=1
 
+USE_TARGET_DEST_DIR_SYSROOT = no
+
 
 ####### Targets
 
@@ -68,11 +70,7 @@ PKG_GROUP = boot
 
 WL18XX_BIN_PKG_NAME                = wl18xx
 WL18XX_BIN_PKG_VERSION             = ol_r8.a8.10
-ifeq ($(HARDWARE),$(TARGET_HOST))
-WL18XX_BIN_PKG_ARCH                = $(shell uname -m)
-else
 WL18XX_BIN_PKG_ARCH                = $(TOOLCHAIN)
-endif
 WL18XX_BIN_PKG_DISTRO_NAME         = kxLab
 WL18XX_BIN_PKG_DISTRO_VERSION      = 1.0
 WL18XX_BIN_PKG_GROUP               = $(PKG_GROUP)
@@ -88,24 +86,24 @@ WL18XX_BIN_PKG_INSTALL_SCRIPT_IN   = $(WL18XX_BIN_PKG_NAME)-pkg-install.sh.in
 WL18XX_BIN_PKG   = $(CURDIR)/$(TARGET_BUILD_DIR)/$(WL18XX_BIN_PKG_NAME)-package
 
 pkg_basename     = $(WL18XX_BIN_PKG_NAME)-$(WL18XX_BIN_PKG_VERSION)-$(WL18XX_BIN_PKG_ARCH)-$(WL18XX_BIN_PKG_DISTRO_NAME)-$(WL18XX_BIN_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(WL18XX_BIN_PKG_GROUP)/$(pkg_basename).tgz
 
-BUILD_TARGETS    = $(build_wl18xx_pkg)
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+BUILD_TARGETS    = $(modules_done)
+BUILD_TARGETS   += $(build_wl18xx_pkg)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+PRODUCT_TARGETS  = $(products)
 
-CLEANUP_FILES   += $(SRC_DIR)
-CLEANUP_FILES   += $(w_compat_src_dir)
-CLEANUP_FILES   += $(compat_src_dir)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../../build-system/core.mk
 
 
 ####### Dependencies
-
 
 $(w_compat_src_done): $(w_compat_archive)
 	@echo "Expanding $(w_compat_archive)"
@@ -154,15 +152,7 @@ $(modules_done): $(driver_selected)
 	$(LMAKE) install
 	@touch $@
 
-
-$(WL18XX_BIN_PKG_DESCRIPTION_FILE): $(WL18XX_BIN_PKG_DESCRIPTION_FILE_IN)
-	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
-
-$(WL18XX_BIN_PKG_INSTALL_SCRIPT): $(WL18XX_BIN_PKG_INSTALL_SCRIPT_IN)
-	@cat $< | $(SED) -e "s/@MODULES_VERSION@/$(modules_version)/g" > $@
-
-
-$(build_wl18xx_pkg): $(modules_done) $(WL18XX_BIN_PKG_DESCRIPTION_FILE) $(WL18XX_BIN_PKG_INSTALL_SCRIPT)
+$(build_wl18xx_pkg): $(modules_done)
 	@mkdir -p $(WL18XX_BIN_PKG)/lib/modules/$(modules_version)
 	# Copy modules and firmware (without links to sources):
 	@cd $(TARGET_DEST_DIR)/lib/modules/$(modules_version) && \
@@ -173,6 +163,18 @@ $(build_wl18xx_pkg): $(modules_done) $(WL18XX_BIN_PKG_DESCRIPTION_FILE) $(WL18XX
 	@mkdir -p $(WL18XX_BIN_PKG)/usr/doc/wl18xx-$(version)
 	@cp -a $(SRC_DIR)/COPYING \
 	       $(WL18XX_BIN_PKG)/usr/doc/wl18xx-$(version)
+	@touch $@
+
+$(WL18XX_BIN_PKG_DESCRIPTION_FILE): $(WL18XX_BIN_PKG_DESCRIPTION_FILE_IN)
+	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
+
+$(WL18XX_BIN_PKG_INSTALL_SCRIPT): $(WL18XX_BIN_PKG_INSTALL_SCRIPT_IN)
+	@cat $< | $(SED) -e "s/@MODULES_VERSION@/$(modules_version)/g" > $@
+
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(build_wl18xx_pkg) $(WL18XX_BIN_PKG_DESCRIPTION_FILE) $(WL18XX_BIN_PKG_INSTALL_SCRIPT)
 	@cp $(WL18XX_BIN_PKG_DESCRIPTION_FILE) $(WL18XX_BIN_PKG)/.DESCRIPTION
 	@cp $(WL18XX_BIN_PKG_INSTALL_SCRIPT) $(WL18XX_BIN_PKG)/.INSTALL
 	@chmod a+x $(WL18XX_BIN_PKG)/.INSTALL
@@ -187,4 +189,3 @@ $(build_wl18xx_pkg): $(modules_done) $(WL18XX_BIN_PKG_DESCRIPTION_FILE) $(WL18XX
 	 echo "url=$(WL18XX_BIN_PKG_URL)"                                 >> $(WL18XX_BIN_PKG)/.PKGINFO ; \
 	 echo "license=$(WL18XX_BIN_PKG_LICENSE)"                         >> $(WL18XX_BIN_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(WL18XX_BIN_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

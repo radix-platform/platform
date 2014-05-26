@@ -2,7 +2,7 @@
 
 VERSION=4.4.2
 
-tar --files-from=file.list -xzf ../findutils-$VERSION.tar.gz
+tar --files-from=file.list -xzvf ../findutils-$VERSION.tar.gz
 mv findutils-$VERSION findutils-$VERSION-orig
 
 cp -rf ./findutils-$VERSION-new ./findutils-$VERSION

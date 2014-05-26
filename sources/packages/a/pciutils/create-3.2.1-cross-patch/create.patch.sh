@@ -2,7 +2,7 @@
 
 VERSION=3.2.1
 
-tar --files-from=file.list -xJf ../pciutils-$VERSION.tar.xz
+tar --files-from=file.list -xJvf ../pciutils-$VERSION.tar.xz
 mv pciutils-$VERSION pciutils-$VERSION-orig
 
 cp -rf ./pciutils-$VERSION-new ./pciutils-$VERSION

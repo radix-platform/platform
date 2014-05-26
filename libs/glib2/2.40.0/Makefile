@@ -1,43 +1,29 @@
 
-COMPONENT_TARGETS += $(TARGET_PC32)
-COMPONENT_TARGETS += $(TARGET_PC64)
-COMPONENT_TARGETS += $(TARGET_CB1X)
-COMPONENT_TARGETS += $(TARGET_VIP1830)
-COMPONENT_TARGETS += $(TARGET_BEAGLE)
-COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
-COMPONENT_TARGETS += $(TARGET_B74)
-
-#
-# The rest targets links staticaly with newlib or uclibc and not requires xz libraties
-#
-# COMPONENT_TARGETS += $(TARGET_CB1N)
-# COMPONENT_TARGETS += $(TARGET_GUARD)
-# COMPONENT_TARGETS += $(TARGET_VIP1830N)
-# COMPONENT_TARGETS += $(TARGET_L17UC)
-#
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
 
 
 NEED_ABS_PATH      = true
-
 COMPONENT_IS_3PP   = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/GNOME/core/glib
+SOURCE_REQUIRES    = sources/GNOME/core/glib
 
-
-ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
-REQUIRES           = libs/glib2/2.40.0-x86_32
-else
 REQUIRES           = libs/zlib/1.2.8
 REQUIRES          += libs/libffi/3.0.13
 REQUIRES          += libs/libelf/0.8.13
 REQUIRES          += libs/pcre/8.34
 REQUIRES          += app/attr/2.4.47
 REQUIRES          += libs/libgamin/0.1.10
-endif
+
 
 version            = 2.40.0
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNOME/core/glib/glib-$(version).tar.xz
@@ -51,9 +37,9 @@ PATCHES = PATCHES
 build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
-build_glib2_pkg    = $(TARGET_BUILD_DIR)/.glib2_pkg_done
 
-hw_cache           = $(CURDIR)/cross/hw.cache
+hw_cache_in        = $(CURDIR)/cross/hw.cache
+hw_cache           = $(CURDIR)/$(build_dir)/hw.cache
 
 
 ####### Targets
@@ -81,14 +67,18 @@ GLIB2_PKG_INSTALL_SCRIPT_IN   = $(GLIB2_PKG_NAME)-pkg-install.sh.in
 GLIB2_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(GLIB2_PKG_NAME)-package
 
 pkg_basename     = $(GLIB2_PKG_NAME)-$(GLIB2_PKG_VERSION)-$(GLIB2_PKG_ARCH)-$(GLIB2_PKG_DISTRO_NAME)-$(GLIB2_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(GLIB2_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_glib2_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
@@ -122,14 +112,13 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 
 $(build_target): $(src_done)
 	@mkdir -p $(build_dir)
-	@chmod a-w $(hw_cache)
+	@cp -a $(hw_cache_in) $(hw_cache)
 	@cd $(build_dir) && \
 	  $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
 	  --prefix=/usr               \
 	  --build=$(BUILD)            \
 	  --host=$(TARGET)            \
 	  $(extra_configure_switches)
-	@chmod 0644 $(hw_cache)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
 	@touch $@
 
@@ -208,15 +197,16 @@ endif
 	 )
 	@touch $@
 
-
 $(GLIB2_PKG_DESCRIPTION_FILE): $(GLIB2_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
 $(GLIB2_PKG_INSTALL_SCRIPT): $(GLIB2_PKG_INSTALL_SCRIPT_IN)
 	@cat $< | $(SED) -e "s,@LIBDIR@,/usr/lib$(LIBSUFFIX),g" > $@
 
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
 
-$(build_glib2_pkg): $(install_target) $(GLIB2_PKG_DESCRIPTION_FILE) $(GLIB2_PKG_INSTALL_SCRIPT)
+$(pkg_archive): $(install_target) $(GLIB2_PKG_DESCRIPTION_FILE) $(GLIB2_PKG_INSTALL_SCRIPT)
 	@cp $(GLIB2_PKG_DESCRIPTION_FILE) $(GLIB2_PKG)/.DESCRIPTION
 	@cp $(GLIB2_PKG_INSTALL_SCRIPT) $(GLIB2_PKG)/.INSTALL
 	@chmod a+x $(GLIB2_PKG)/.INSTALL
@@ -231,4 +221,3 @@ $(build_glib2_pkg): $(install_target) $(GLIB2_PKG_DESCRIPTION_FILE) $(GLIB2_PKG_
 	 echo "url=$(GLIB2_PKG_URL)"                                 >> $(GLIB2_PKG)/.PKGINFO ; \
 	 echo "license=$(GLIB2_PKG_LICENSE)"                         >> $(GLIB2_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(GLIB2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

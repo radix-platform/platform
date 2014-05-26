@@ -1,153 +1,252 @@
 
-COMPONENT_TARGETS  = $(TARGET_PC32)
-COMPONENT_TARGETS += $(TARGET_PC64)
-COMPONENT_TARGETS += $(TARGET_CB1X)
-COMPONENT_TARGETS += $(TARGET_VIP1830)
-COMPONENT_TARGETS += $(TARGET_BEAGLE)
-COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
-COMPONENT_TARGETS += $(TARGET_B74)
-
-#
-# The rest targets links staticaly and not requires gcc runtime libraties
-#
-# COMPONENT_TARGETS += $(TARGET_CB1N)
-# COMPONENT_TARGETS += $(TARGET_GUARD)
-# COMPONENT_TARGETS += $(TARGET_VIP1830N)
-# COMPONENT_TARGETS += $(TARGET_L17UC)
-#
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
 
 
-NEED_ABS_PATH      = true
-
-COMPONENT_IS_3PP   = true
+NEED_ABS_PATH = true
 
 
 include ../../build-system/constants.mk
 
 
+#######
+####### Board Support Packages
+#######
 
-ifeq ($(HARDWARE),$(TARGET_OMAP5UEVM))
-REQUIRES           = hal/3pp/omap/wl18xx_fw
-REQUIRES          += boot/u-boot/omap543x/2013.04-20140216
+ifeq ($(HARDWARE),$(HARDWARE_OMAP5UEVM))
+REQUIRES  = hal/3pp/omap/wl18xx_fw
+REQUIRES += boot/u-boot/omap543x/2013.04-20140216
 endif
 
-REQUIRES          += libs/eglibc/2.18.1-zoneinfo
-REQUIRES          += dev/binutils/2.24
-REQUIRES          += dev/gcc/4.8.2
-REQUIRES          += dev/libtool/2.4.2
+#######
+####### The System
+#######
 
-#
-# Module Init Tools and Core libs:
-#
-REQUIRES          += app/kmod/16
-REQUIRES          += libs/libffi/3.0.13
-REQUIRES          += libs/libelf/0.8.13
-REQUIRES          += libs/libtasn1/3.4
-REQUIRES          += libs/libidn/1.28
-REQUIRES          += libs/libunistring/0.9.3
-REQUIRES          += libs/gc/7.2d
-REQUIRES          += app/gzip/1.6
-REQUIRES          += app/ncompress/4.2.4.4
-REQUIRES          += libs/libtermcap/1.2.3
-REQUIRES          += libs/readline/6.3
-REQUIRES          += app/gettext/0.18.3.2
-REQUIRES          += libs/pcre/8.34
+REQUIRES += libs/eglibc/2.18.1-zoneinfo
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/eglibc/2.18.1-x86_32
+endif
+REQUIRES += dev/binutils/2.24
+REQUIRES += dev/gcc/4.8.2
+REQUIRES += dev/libtool/2.4.2
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += dev/libtool/2.4.2-x86_32
+endif
 
-#
-# Core Utilites and SysVInit:
-#
-REQUIRES          += app/bash/4.3
-REQUIRES          += app/coreutils/8.22
-REQUIRES          += app/diffutils/3.3
-REQUIRES          += app/findutils/4.4.2
-REQUIRES          += app/sed/4.2.2
-REQUIRES          += app/grep/2.18
-REQUIRES          += app/sysvinit/2.88
-REQUIRES          += app/sysvinit-functions/8.54
-REQUIRES          += app/util-linux/2.24.1
-REQUIRES          += app/acl/2.2.52
+#######
+####### Module Init Tools and Core libs:
+#######
+REQUIRES += app/kmod/16
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/kmod/16-x86_32
+endif
+REQUIRES += libs/libffi/3.0.13
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libffi/3.0.13-x86_32
+endif
+REQUIRES += libs/libelf/0.8.13
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libelf/0.8.13-x86_32
+endif
+REQUIRES += libs/libtasn1/3.4
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libtasn1/3.4-x86_32
+endif
+REQUIRES += libs/libidn/1.28
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libidn/1.28-x86_32
+endif
+REQUIRES += libs/libunistring/0.9.3
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libunistring/0.9.3-x86_32
+endif
+REQUIRES += libs/gc/7.2d
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/gc/7.2d-x86_32
+endif
+REQUIRES += app/gzip/1.6
+REQUIRES += app/ncompress/4.2.4.4
+REQUIRES += libs/libtermcap/1.2.3
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libtermcap/1.2.3-x86_32
+endif
+REQUIRES += libs/readline/6.3
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/readline/6.3-x86_32
+endif
+REQUIRES += app/gettext/0.18.3.2
+REQUIRES += libs/pcre/8.34
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/pcre/8.34-x86_32
+endif
 
-#
-# File Systems support:
-#
-REQUIRES          += app/xfsprogs/3.1.11
-REQUIRES          += app/xfsdump/3.1.3
-REQUIRES          += app/e2fsprogs/1.42.9
-REQUIRES          += app/reiserfsprogs/3.6.24
-REQUIRES          += app/dosfstools/3.0.26
-REQUIRES          += app/jfsutils/1.1.15
-REQUIRES          += app/sysfsutils/2.1.0
+#######
+####### Core Utilites and SysVInit:
+#######
+REQUIRES += app/bash/4.3
+REQUIRES += app/coreutils/8.22
+REQUIRES += app/diffutils/3.3
+REQUIRES += app/findutils/4.4.2
+REQUIRES += app/sed/4.2.2
+REQUIRES += app/grep/2.18
+REQUIRES += app/sysvinit/2.88
+REQUIRES += app/sysvinit-functions/8.54
+REQUIRES += app/util-linux/2.24.1
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/util-linux/2.24.1-x86_32
+endif
+REQUIRES += app/acl/2.2.52
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/acl/2.2.52-x86_32
+endif
 
-REQUIRES          += app/shadow/4.1.5.1
-REQUIRES          += app/sysklogd/1.5
-REQUIRES          += app/procps/3.2.8
+#######
+####### File Systems support:
+#######
+REQUIRES += app/xfsprogs/3.1.11
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/xfsprogs/3.1.11-x86_32
+endif
+REQUIRES += app/xfsdump/3.1.3
+REQUIRES += app/e2fsprogs/1.42.9
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/e2fsprogs/1.42.9-x86_32
+endif
+REQUIRES += app/reiserfsprogs/3.6.24
+REQUIRES += app/dosfstools/3.0.26
+REQUIRES += app/jfsutils/1.1.15
+REQUIRES += app/sysfsutils/2.1.0
 
-#
-# Additional packages:
-#
-REQUIRES          += libs/expat/2.1.0
-REQUIRES          += libs/libgamin/0.1.10
-REQUIRES          += libs/glib2/2.40.0
-REQUIRES          += app/gamin/0.1.10
-REQUIRES          += libs/libusb/1.0.9
-REQUIRES          += app/usbutils/007
-REQUIRES          += app/pciutils/3.2.1
-# NOTE: app/udev - is built without introspection (because gobject-introspection cannot be cross compiled)
-REQUIRES          += app/udev/182
+#######
+####### Shadow, system log, procps:
+#######
+REQUIRES += app/shadow/4.1.5.1
+REQUIRES += app/sysklogd/1.5
+REQUIRES += app/procps/3.2.8
 
-#
-# Networking:
-#
-REQUIRES          += net/tcp_wrappers/7.6
-REQUIRES          += net/icmpinfo/1.11
-REQUIRES          += net/net-tools/1.60
-REQUIRES          += net/netdate/4
-REQUIRES          += net/biff+comsat/0.17
-REQUIRES          += net/bsd-finger/0.17
-REQUIRES          += net/netkit-bootparamd/0.17
-REQUIRES          += net/netkit-ftp/0.17
-REQUIRES          += net/netkit-ntalk/0.17
-REQUIRES          += net/netkit-routed/0.17
-REQUIRES          += net/netkit-rsh/0.17
-REQUIRES          += net/netkit-rusers/0.17
-REQUIRES          += net/netkit-rwall/0.17
-REQUIRES          += net/netkit-rwho/0.17
-REQUIRES          += net/netkit-telnet/0.17
-REQUIRES          += net/netkit-timed/0.17
-REQUIRES          += net/netwrite/0.17
-REQUIRES          += net/tftp-hpa/5.2
+#######
+####### Packages:
+#######
+REQUIRES += libs/expat/2.1.0
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/expat/2.1.0-x86_32
+endif
+REQUIRES += libs/libgamin/0.1.10
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libgamin/0.1.10-x86_32
+endif
+REQUIRES += libs/glib2/2.40.0
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/glib2/2.40.0-x86_32
+endif
+REQUIRES += app/gamin/0.1.10
+REQUIRES += libs/libusb/1.0.9
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libusb/1.0.9-x86_32
+endif
+REQUIRES += app/usbutils/007
+REQUIRES += app/pciutils/3.2.1
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/pciutils/3.2.1-x86_32
+endif
+###
+### NOTE: app/udev - is built without introspection (because
+###                  gobject-introspection cannot be cross compiled)
+###
+REQUIRES += app/udev/182
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/udev/182-x86_32
+endif
 
-REQUIRES          += net/p11-kit/0.20.2
-REQUIRES          += net/nettle/2.7.1
-REQUIRES          += dev/guile/2.0.9
-REQUIRES          += net/gnutls/3.1.22
+#######
+####### Networking:
+#######
+REQUIRES += net/tcp_wrappers/7.6
+REQUIRES += net/icmpinfo/1.11
+REQUIRES += net/net-tools/1.60
+REQUIRES += net/netdate/4
+REQUIRES += net/biff+comsat/0.17
+REQUIRES += net/bsd-finger/0.17
+REQUIRES += net/netkit-bootparamd/0.17
+REQUIRES += net/netkit-ftp/0.17
+REQUIRES += net/netkit-ntalk/0.17
+REQUIRES += net/netkit-routed/0.17
+REQUIRES += net/netkit-rsh/0.17
+REQUIRES += net/netkit-rusers/0.17
+REQUIRES += net/netkit-rwall/0.17
+REQUIRES += net/netkit-rwho/0.17
+REQUIRES += net/netkit-telnet/0.17
+REQUIRES += net/netkit-timed/0.17
+REQUIRES += net/netwrite/0.17
+REQUIRES += net/tftp-hpa/5.2
 
-REQUIRES          += net/openssl/1.0.1g
-REQUIRES          += net/iputils/s20121221
-REQUIRES          += net/ethtool/3.12
-REQUIRES          += net/inetd/1.79
-REQUIRES          += net/openssh/6.6p1
+REQUIRES += net/p11-kit/0.20.2
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/p11-kit/0.20.2-x86_32
+endif
+REQUIRES += net/nettle/2.7.1
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/nettle/2.7.1-x86_32
+endif
+REQUIRES += dev/guile/2.0.9
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += dev/guile/2.0.9-x86_32
+endif
+REQUIRES += net/gnutls/3.1.22
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/gnutls/3.1.22-x86_32
+endif
 
-REQUIRES          += net/libgpg-error/1.12
-REQUIRES          += net/libassuan/2.1.1
-REQUIRES          += net/libksba/1.3.0
-REQUIRES          += libs/pth/2.0.7
-REQUIRES          += net/libgcrypt/1.6.1
+REQUIRES += net/openssl/1.0.1g
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/openssl/1.0.1g-x86_32
+endif
+REQUIRES += net/iputils/s20121221
+REQUIRES += net/ethtool/3.12
+REQUIRES += net/inetd/1.79
+REQUIRES += net/openssh/6.6p1
+
+REQUIRES += net/libgpg-error/1.12
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/libgpg-error/1.12-x86_32
+endif
+REQUIRES += net/libassuan/2.1.1
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/libassuan/2.1.1-x86_32
+endif
+REQUIRES += net/libksba/1.3.0
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/libksba/1.3.0-x86_32
+endif
+REQUIRES += libs/pth/2.0.7
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/pth/2.0.7-x86_32
+endif
+REQUIRES += net/libgcrypt/1.6.1
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/libgcrypt/1.6.1-x86_32
+endif
 
 
-#
-# Additional DEV packages:
-#
-# === python depends on openssl ===
-REQUIRES          += dev/python2/2.7.6
+#######
+####### Additional DEV packages:
+#######
+REQUIRES += dev/python2/2.7.6
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += dev/python2/2.7.6-x86_32
+endif
 
-
-#
-# additional libs for bootstrap GCC:
-#
-# REQUIRES          += libs/mpc/1.0.2
-# REQUIRES          += app/cloog/0.18.2
-# REQUIRES          += libs/ppl/1.1
+#######
+####### additional libs for bootstrap GCC:
+#######
+# REQUIRES += libs/mpc/1.0.2
+# REQUIRES += app/cloog/0.18.2
+# REQUIRES += libs/ppl/1.1
 
 
 

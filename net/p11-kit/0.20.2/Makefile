@@ -1,40 +1,26 @@
 
-COMPONENT_TARGETS += $(TARGET_PC32)
-COMPONENT_TARGETS += $(TARGET_PC64)
-COMPONENT_TARGETS += $(TARGET_CB1X)
-COMPONENT_TARGETS += $(TARGET_VIP1830)
-COMPONENT_TARGETS += $(TARGET_BEAGLE)
-COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
-COMPONENT_TARGETS += $(TARGET_B74)
-
-#
-# The rest targets links staticaly with newlib or uclibc and not requires xz libraties
-#
-# COMPONENT_TARGETS += $(TARGET_CB1N)
-# COMPONENT_TARGETS += $(TARGET_GUARD)
-# COMPONENT_TARGETS += $(TARGET_VIP1830N)
-# COMPONENT_TARGETS += $(TARGET_L17UC)
-#
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
 
 
 NEED_ABS_PATH      = true
-
 COMPONENT_IS_3PP   = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/n/p11-kit
+SOURCE_REQUIRES    = sources/packages/n/p11-kit
 
-
-ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
-REQUIRES           = net/p11-kit/0.20.2-x86_32
-else
 REQUIRES           = libs/eglibc/2.18.1
 REQUIRES          += libs/libffi/3.0.13
 REQUIRES          += libs/libtasn1/3.4
-endif
+
 
 version            = 0.20.2
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/n/p11-kit/p11-kit-$(version).tar.gz
@@ -48,8 +34,6 @@ PATCHES = PATCHES
 build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
-build_p11kit_pkg   = $(TARGET_BUILD_DIR)/.p11kit_pkg_done
-
 
 
 ####### Targets
@@ -76,14 +60,18 @@ P11KIT_PKG_INSTALL_SCRIPT      = $(P11KIT_PKG_NAME)-pkg-install.sh
 P11KIT_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(P11KIT_PKG_NAME)-package
 
 pkg_basename     = $(P11KIT_PKG_NAME)-$(P11KIT_PKG_VERSION)-$(P11KIT_PKG_ARCH)-$(P11KIT_PKG_DISTRO_NAME)-$(P11KIT_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(P11KIT_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_p11kit_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
@@ -182,7 +170,10 @@ $(install_target): $(build_target)
 $(P11KIT_PKG_DESCRIPTION_FILE): $(P11KIT_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_p11kit_pkg): $(install_target) $(P11KIT_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(P11KIT_PKG_DESCRIPTION_FILE) $(P11KIT_PKG_INSTALL_SCRIPT)
 	@cp $(P11KIT_PKG_DESCRIPTION_FILE) $(P11KIT_PKG)/.DESCRIPTION
 	@cp $(P11KIT_PKG_INSTALL_SCRIPT) $(P11KIT_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(P11KIT_PKG)/.REQUIRES
@@ -196,4 +187,3 @@ $(build_p11kit_pkg): $(install_target) $(P11KIT_PKG_DESCRIPTION_FILE)
 	 echo "url=$(P11KIT_PKG_URL)"                                 >> $(P11KIT_PKG)/.PKGINFO ; \
 	 echo "license=$(P11KIT_PKG_LICENSE)"                         >> $(P11KIT_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(P11KIT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

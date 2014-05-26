@@ -2,7 +2,7 @@
 
 VERSION=none
 
-tar --files-from=file.list -xzf ../netdate.tar.gz
+tar --files-from=file.list -xzvf ../netdate.tar.gz
 mv netdate netdate-orig
 
 cp -rf ./netdate-new ./netdate

@@ -2,7 +2,7 @@
 
 VERSION=2.2.52
 
-tar --files-from=file.list -xzf ../acl-$VERSION.src.tar.gz
+tar --files-from=file.list -xzvf ../acl-$VERSION.src.tar.gz
 mv acl-$VERSION acl-$VERSION-orig
 
 cp -rf ./acl-$VERSION-new ./acl-$VERSION

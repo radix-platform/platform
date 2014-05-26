@@ -71,7 +71,7 @@ get_ref_counter() {
 }
 
 tarball_pkginfo() {
-  zcat $1 | $TAR -xvf - ".PKGINFO" -O  1> .PKGINFO  2> /dev/null
+  zcat $1 | $TAR -xvf - ".PKGINFO" -O  1> $TMP/.PKGINFO  2> /dev/null
   if [ ! "$?" = "0" ]; then
     echo "ERROR: Cannot extract package info from $1"
     EXITSTATUS=1
@@ -239,25 +239,25 @@ fi
 
 # getting .PKGINFO file:
 if [ ! "$logfile" = "" ]; then
-  pkginfo pkginfo $logfile
-  if [ ! -f $CWD/.PKGINFO -o ! -s $CWD/.PKGINFO ]; then
-    rm -f $CWD/.PKGINFO
+  pkginfo --dest $TMP pkginfo $logfile
+  if [ ! -f $TMP/.PKGINFO -o ! -s $TMP/.PKGINFO ]; then
+    rm -f $TMP/.PKGINFO
     echo "ERROR: There is no package info in $1"
     EXITSTATUS=2
     exit $EXITSTATUS
   fi
 elif [ ! "$tarball" = "" ]; then
   tarball_pkginfo $tarball
-  if [ ! -f $CWD/.PKGINFO -o ! -s $CWD/.PKGINFO ]; then
-    rm -f $CWD/.PKGINFO
+  if [ ! -f $TMP/.PKGINFO -o ! -s $TMP/.PKGINFO ]; then
+    rm -f $TMP/.PKGINFO
     echo "ERROR: There is no package info in $1"
     EXITSTATUS=2
     exit $EXITSTATUS
   fi
 fi
 
-if [ -f $CWD/.PKGINFO ]; then
-  . $CWD/.PKGINFO
+if [ -f $TMP/.PKGINFO ]; then
+  . $TMP/.PKGINFO
   # check variables:
   if [ "$pkgname" = "" -o "$pkgver" = "" -o "$arch" = "" -o "$distroname" = "" -o "$distrover" = "" ]; then
     echo "ERROR: The file '.PKGINFO' doesn't contain necessary declarations."
@@ -265,20 +265,20 @@ if [ -f $CWD/.PKGINFO ]; then
     exit $EXITSTATUS 
   fi
 fi
-rm -f $CWD/.PKGINFO
+rm -f $TMP/.PKGINFO
 
 # check installed pkglog file:
 if [ ! -f $PKG_DB_PATH/$pkgname-$pkgver-$arch-$distroname-$distrover ]; then
   if [ ! "$tarball" = "" ]; then
     # try to create new logfile from pkg tarball in the current directory.
-    zcat $tarball | $TAR -xf - .PKGINFO .INSTALL .FILELIST .REQUIRES .DESCRIPTION .RESTORELINKS  2> /dev/null
+    zcat $tarball | $TAR -C $TMP -xf - .PKGINFO .INSTALL .FILELIST .REQUIRES .DESCRIPTION .RESTORELINKS  2> /dev/null
     # do not check ret code because not all of .* files should be present in tarball
-    if [ -f ".PKGINFO" ]; then
-      pkglog $CWD/.PKGINFO . > /dev/null 2>&1
+    if [ -f "$TMP/.PKGINFO" ]; then
+      pkglog $TMP/.PKGINFO $TMP > /dev/null 2>&1
     fi
-    rm -f $CWD/.PKGINFO $CWD/.INSTALL $CWD/.FILELIST $CWD/.REQUIRES $CWD/.DESCRIPTION $CWD/.RESTORELINKS
-    if [ -f $CWD/$pkgname-$pkgver-$arch-$distroname-$distrover ]; then
-      mv -f $CWD/$pkgname-$pkgver-$arch-$distroname-$distrover $PKG_DB_PATH
+    rm -f $TMP/.PKGINFO $TMP/.INSTALL $TMP/.FILELIST $TMP/.REQUIRES $TMP/.DESCRIPTION $TMP/.RESTORELINKS
+    if [ -f $TMP/$pkgname-$pkgver-$arch-$distroname-$distrover ]; then
+      mv -f $TMP/$pkgname-$pkgver-$arch-$distroname-$distrover $PKG_DB_PATH
       log_is_restored=1
     else
       echo "ERROR: The '$PKG_DB_PATH/$pkgname-$pkgver-$arch-$distroname-$distrover' file cannot be restored."
@@ -296,7 +296,7 @@ if [ ! -f $PKG_DB_PATH/$pkgname-$pkgver-$arch-$distroname-$distrover ]; then
     echo "ERROR: The '$PKG_DB_PATH/$pkgname-$pkgver-$arch-$distroname-$distrover' file cannot be restored."
     EXITSTATUS=26
     exit $EXITSTATUS
-  fi 
+  fi
 fi
 # So continue with logfile
 logfile=$PKG_DB_PATH/$pkgname-$pkgver-$arch-$distroname-$distrover
@@ -307,25 +307,25 @@ echo "======= `LANG=en LANGUAGE=en date` ======="  >> $LOG_FILE
 echo -n "Checking: `basename $logfile`: "          >> $LOG_FILE
 
 # Getting saved links:
-pkginfo restore_links $logfile
-if [ ! -f .RESTORELINKS -o ! -s .RESTORELINKS ]; then
-  rm -f $CWD/.RESTORELINKS
+pkginfo --dest $TMP restore_links $logfile
+if [ ! -f $TMP/.RESTORELINKS -o ! -s $TMP/.RESTORELINKS ]; then
+  rm -f $TMP/.RESTORELINKS
 else
-  cat .RESTORELINKS | extract_links | sort -u > $TMP/links$$
-  rm -f $CWD/.RESTORELINKS
+  cat $TMP/.RESTORELINKS | extract_links | sort -u > $TMP/links$$
+  rm -f $TMP/.RESTORELINKS
 fi
 # Getting files:
-pkginfo filelist $logfile
-if [ ! -f .FILELIST -o ! -s .FILELIST ]; then
-  rm -f $CWD/.FILELIST
+pkginfo --dest $TMP filelist $logfile
+if [ ! -f $TMP/.FILELIST -o ! -s $TMP/.FILELIST ]; then
+  rm -f $TMP/.FILELIST
 else
-  cat .FILELIST | sort -u > $TMP/files$$
-  rm -f $CWD/.FILELIST
+  cat $TMP/.FILELIST | sort -u > $TMP/files$$
+  rm -f $TMP/.FILELIST
 fi
 
-pkginfo description $logfile
-strip_description ".DESCRIPTION" "$TMP/msg$$"
-rm -f .DESCRIPTION
+pkginfo --dest $TMP description $logfile
+strip_description "$TMP/.DESCRIPTION" "$TMP/msg$$"
+rm -f $TMP/.DESCRIPTION
 
 echo " Uncompressed Size: $uncompressed_size" >> $TMP/msg$$
 echo "       Total Files: $total_files"       >> $TMP/msg$$
@@ -419,5 +419,5 @@ fi
 # End of Main loop.
 ################################################################
 
-exit $EXITSTATUS 
+exit $EXITSTATUS
 

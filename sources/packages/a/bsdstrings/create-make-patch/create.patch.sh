@@ -2,7 +2,7 @@
 
 VERSION=none
 
-tar --files-from=file.list -xzf ../bsdstrings.tar.gz
+tar --files-from=file.list -xzvf ../bsdstrings.tar.gz
 mv bsdstrings bsdstrings-orig
 
 cp -rf ./bsdstrings-new ./bsdstrings

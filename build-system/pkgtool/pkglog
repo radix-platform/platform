@@ -1,8 +1,16 @@
 #!/bin/sh
 
+# EXIT STATUS 92 = Cannot create '/tmp/...' directory
+
+TMP=$(mktemp -d /tmp/XXXXXXXX) || { echo "Cannot create '/tmp/...' directory" ; exit 92; }
+trap "rm -rf $TMP" EXIT
+
+
 pkginfo=$1
 shift
 TARGET_DIR_NAME=$1
+
+pkginfo_src_dir="`dirname $pkginfo`"
 
 usage() {
   echo ""
@@ -40,10 +48,10 @@ if [ "$pkgname" = "" -o "$pkgver" = "" -o "$arch" = "" -o "$distroname" = "" -o 
   echo "  license    - LICENSE type {GPL|LGPL|BSD|Proprietary}."
   echo ""
   usage
-  exit 1 
+  exit 1
 fi
 
-if [ ! -r "./.INSTALL" -o ! -r "./.FILELIST" ]; then
+if [ ! -r "$pkginfo_src_dir/.INSTALL" -o ! -r "$pkginfo_src_dir/.FILELIST" ]; then
   echo "ERROR: The current directory should contains following files:"
   echo "  .INSTALL   - installation script;"
   echo "  .FILELIST  - list of presented files in the created package."
@@ -51,12 +59,12 @@ if [ ! -r "./.INSTALL" -o ! -r "./.FILELIST" ]; then
   echo "It seems like that package is not created yet."
   echo ""
   usage
-  exit 1 
+  exit 1
 fi
 
 strip_description() {
   outfile=$1
-  infile="./.DESCRIPTION"
+  infile="$pkginfo_src_dir/.DESCRIPTION"
   > $outfile
   LINENUMS="`cat $infile | grep -n -e "$pkgname" | cut -f 1 -d ':'`"
   if [ "$LINENUMS" = "" ]; then
@@ -96,45 +104,43 @@ if [ ! "$total_files" = "" ]; then
   echo "TOTAL FILES: $total_files"             >> $logfile
 fi
 echo "REFERENCE COUNTER: 0"                    >> $logfile
-if [ -f ".REQUIRES" ]; then
+if [ -f "$pkginfo_src_dir/.REQUIRES" ]; then
   echo "REQUIRES:"                             >> $logfile
-  cat ./.REQUIRES                              >> $logfile
+  cat $pkginfo_src_dir/.REQUIRES               >> $logfile
 fi
-if [ -f "./.DESCRIPTION" ]; then
-  strip_description .description.tmp
+if [ -f "$pkginfo_src_dir/.DESCRIPTION" ]; then
+  strip_description $TMP/description$$
   echo "PACKAGE DESCRIPTION:"                  >> $logfile
-  cat .description.tmp                         >> $logfile
-  rm -f .description.tmp
+  cat $TMP/description$$                       >> $logfile
+  rm -f $TMP/description$$
 fi
 echo "RESTORE LINKS:"                          >> $logfile
-if [ -f "./.RESTORELINKS" ]; then
-  cat .RESTORELINKS                            >> $logfile
+if [ -f "$pkginfo_src_dir/.RESTORELINKS" ]; then
+  cat $pkginfo_src_dir/.RESTORELINKS           >> $logfile
 fi
-if [ ! -f "./.INSTALL" ]; then
+if [ ! -f "$pkginfo_src_dir/.INSTALL" ]; then
   echo "ERROR: Install script '.INSTALL' is not present."
   exit 1
 fi
 echo "INSTALL SCRIPT:"                         >> $logfile
-cat .INSTALL                                   >> $logfile
-if [ ! -f "./.FILELIST" ]; then
+cat $pkginfo_src_dir/.INSTALL                  >> $logfile
+if [ ! -f "$pkginfo_src_dir/.FILELIST" ]; then
   echo "ERROR: File list '.FILELIST' is not present."
   exit 1
 fi
 echo "FILE LIST:"                              >> $logfile
-cat .FILELIST                                  >> $logfile
+cat $pkginfo_src_dir/.FILELIST                 >> $logfile
 
 if [ ! "$TARGET_DIR_NAME" = "." ]; then
-  # ./errmsg$$ - is a unique temporary file
-  mkdir -p "$TARGET_DIR_NAME" 2> ./errmsg$$
+  # $TMP/errmsg$$ - is a unique temporary file
+  mkdir -p "$TARGET_DIR_NAME" 2> $TMP/errmsg$$
   if [ "$?" = "1" ]; then
     echo
-    echo "ERROR: `cat ./errmsg$$`"
+    echo "ERROR: `cat $TMP/errmsg$$`"
     echo "Find the $logfile in the current directory."
     echo
-    rm -f ./errmsg$$
     exit 1
   fi
-  rm -f ./errmsg$$
   echo
   echo "Moving $logfile to $TARGET_DIR_NAME directory..."
   mv $logfile $TARGET_DIR_NAME

@@ -2,7 +2,7 @@
 
 VERSION=1.4.0
 
-tar --files-from=file.list -xJf ../ziptool-$VERSION.tar.xz
+tar --files-from=file.list -xJvf ../ziptool-$VERSION.tar.xz
 mv ziptool-$VERSION ziptool-$VERSION-orig
 
 cp -rf ./ziptool-$VERSION-new ./ziptool-$VERSION

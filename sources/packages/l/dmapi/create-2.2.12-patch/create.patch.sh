@@ -2,7 +2,7 @@
 
 VERSION=2.2.12
 
-tar --files-from=file.list -xzf ../dmapi-$VERSION.tar.gz
+tar --files-from=file.list -xzvf ../dmapi-$VERSION.tar.gz
 mv dmapi-$VERSION dmapi-$VERSION-orig
 
 cp -rf ./dmapi-$VERSION-new ./dmapi-$VERSION

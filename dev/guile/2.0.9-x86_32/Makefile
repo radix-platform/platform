@@ -1,24 +1,25 @@
 
-COMPONENT_TARGETS += $(TARGET_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_PC64)
 
 NEED_ABS_PATH      = true
-
 COMPONENT_IS_3PP   = true
+
+CREATE_X86_32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/GNU/guile
+SOURCE_REQUIRES    = sources/GNU/guile
 
-REQUIRES           = libs/eglibc/2.18.1
-REQUIRES          += libs/libffi/3.0.13
-REQUIRES          += libs/gmp/5.1.3
-REQUIRES          += libs/readline/6.3
-REQUIRES          += libs/ncurses/5.9
-REQUIRES          += dev/libtool/2.4.2
-REQUIRES          += libs/libunistring/0.9.3
-REQUIRES          += libs/gc/7.2d
+REQUIRES           = libs/eglibc/2.18.1-x86_32
+REQUIRES          += libs/libffi/3.0.13-x86_32
+REQUIRES          += libs/gmp/5.1.3-x86_32
+REQUIRES          += libs/readline/6.3-x86_32
+REQUIRES          += libs/ncurses/5.9-x86_32
+REQUIRES          += dev/libtool/2.4.2-x86_32
+REQUIRES          += libs/libunistring/0.9.3-x86_32
+REQUIRES          += libs/gc/7.2d-x86_32
 
 
 version            = 2.0.9
@@ -33,7 +34,6 @@ PATCHES = PATCHES
 build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
-build_guile32_pkg  = $(TARGET_BUILD_DIR)/.guile32_pkg_done
 
 
 ####### Targets
@@ -42,14 +42,14 @@ PKG_GROUP = dev
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-GUILE32_PKG_NAME                = guile32
+GUILE32_PKG_NAME                = guile-x32
 GUILE32_PKG_VERSION             = 2.0.9
 GUILE32_PKG_ARCH                = $(TOOLCHAIN)
 GUILE32_PKG_DISTRO_NAME         = kxLab
 GUILE32_PKG_DISTRO_VERSION      = 1.0
 GUILE32_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
-GUILE32_PKG_SHORT_DESCRIPTION   = guile32 $(version)
+GUILE32_PKG_SHORT_DESCRIPTION   = guile-x32 $(version)
 GUILE32_PKG_URL                 = http://www.kxLab.com
 GUILE32_PKG_LICENSE             = GPLv2
 GUILE32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GUILE32_PKG_NAME)-pkg-description
@@ -59,36 +59,24 @@ GUILE32_PKG_INSTALL_SCRIPT      = $(GUILE32_PKG_NAME)-pkg-install.sh
 GUILE32_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(GUILE32_PKG_NAME)-package
 
 pkg_basename     = $(GUILE32_PKG_NAME)-$(GUILE32_PKG_VERSION)-$(GUILE32_PKG_ARCH)-$(GUILE32_PKG_DISTRO_NAME)-$(GUILE32_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(GUILE32_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_guile32_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
 
 
 env_sysroot  = DESTDIR=$(GUILE32_PKG)
-
-
-CC          += -m32
-
-# overwrite PKG_CONFIG_PATH:
-#
-PKG_CONFIG_PATH = $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig
-
-# overwrite LDFLAGS:
-#
-LDFLAGS      = -L$(TARGET_DEST_DIR)/lib$(MULTILIB_X86_32_SUFFIX)
-LDFLAGS     += -L$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)
-
-ARCH_FLAGS   = -m32 -g -O2 -march=i486 -mtune=i686
-
-TARGET32     = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
 
 
 extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
@@ -171,7 +159,10 @@ $(install_target): $(build_target)
 $(GUILE32_PKG_DESCRIPTION_FILE): $(GUILE32_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_guile32_pkg): $(install_target) $(GUILE32_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(GUILE32_PKG_DESCRIPTION_FILE) $(GUILE32_PKG_INSTALL_SCRIPT)
 	@cp $(GUILE32_PKG_DESCRIPTION_FILE) $(GUILE32_PKG)/.DESCRIPTION
 	@cp $(GUILE32_PKG_INSTALL_SCRIPT) $(GUILE32_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(GUILE32_PKG)/.REQUIRES
@@ -185,4 +176,3 @@ $(build_guile32_pkg): $(install_target) $(GUILE32_PKG_DESCRIPTION_FILE)
 	 echo "url=$(GUILE32_PKG_URL)"                                 >> $(GUILE32_PKG)/.PKGINFO ; \
 	 echo "license=$(GUILE32_PKG_LICENSE)"                         >> $(GUILE32_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(GUILE32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

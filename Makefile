@@ -1,5 +1,5 @@
 
-COMPONENT_TARGETS = $(TARGET_HOST)
+COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 
 # Always include build-system/core.mk using relative path:
 include build-system/core.mk
@@ -10,5 +10,6 @@ include build-system/core.mk
 # for building any TOOLCHAINS components can be done by following
 # command:
 #
-# $ make global_clean 
+# $ make global_clean
+# $ make downloads_clean
 #

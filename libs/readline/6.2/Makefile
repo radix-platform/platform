@@ -1,39 +1,25 @@
 
-COMPONENT_TARGETS += $(TARGET_PC32)
-COMPONENT_TARGETS += $(TARGET_PC64)
-COMPONENT_TARGETS += $(TARGET_CB1X)
-COMPONENT_TARGETS += $(TARGET_VIP1830)
-COMPONENT_TARGETS += $(TARGET_BEAGLE)
-COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
-COMPONENT_TARGETS += $(TARGET_B74)
-
-#
-# The rest targets links staticaly with newlib or uclibc and not requires xz libraties
-#
-# COMPONENT_TARGETS += $(TARGET_CB1N)
-# COMPONENT_TARGETS += $(TARGET_GUARD)
-# COMPONENT_TARGETS += $(TARGET_VIP1830N)
-# COMPONENT_TARGETS += $(TARGET_L17UC)
-#
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
 
 
 NEED_ABS_PATH      = true
-
 COMPONENT_IS_3PP   = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/GNU/readline
+SOURCE_REQUIRES    = sources/GNU/readline
 
-
-ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
-REQUIRES           = libs/readline/6.2-x86_32
-else
 REQUIRES           = libs/ncurses/5.9
 REQUIRES          += libs/libtermcap/1.2.3
-endif
+
 
 version            = 6.2
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/GNU/readline/readline-$(version).tar.gz
@@ -47,8 +33,6 @@ PATCHES = PATCHES
 build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
-build_readline_pkg = $(TARGET_BUILD_DIR)/.readline_pkg_done
-
 
 
 ####### Targets
@@ -75,14 +59,18 @@ READLINE_PKG_INSTALL_SCRIPT      = $(READLINE_PKG_NAME)-pkg-install.sh
 READLINE_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(READLINE_PKG_NAME)-package
 
 pkg_basename     = $(READLINE_PKG_NAME)-$(READLINE_PKG_VERSION)-$(READLINE_PKG_ARCH)-$(READLINE_PKG_DISTRO_NAME)-$(READLINE_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(READLINE_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_readline_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
@@ -170,7 +158,10 @@ $(install_target): $(build_target)
 $(READLINE_PKG_DESCRIPTION_FILE): $(READLINE_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_readline_pkg): $(install_target) $(READLINE_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(READLINE_PKG_DESCRIPTION_FILE) $(READLINE_PKG_INSTALL_SCRIPT)
 	@cp $(READLINE_PKG_DESCRIPTION_FILE) $(READLINE_PKG)/.DESCRIPTION
 	@cp $(READLINE_PKG_INSTALL_SCRIPT) $(READLINE_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(READLINE_PKG)/.REQUIRES
@@ -184,4 +175,3 @@ $(build_readline_pkg): $(install_target) $(READLINE_PKG_DESCRIPTION_FILE)
 	 echo "url=$(READLINE_PKG_URL)"                                 >> $(READLINE_PKG)/.PKGINFO ; \
 	 echo "license=$(READLINE_PKG_LICENSE)"                         >> $(READLINE_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(READLINE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

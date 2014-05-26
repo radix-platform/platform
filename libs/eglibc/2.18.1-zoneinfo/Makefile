@@ -1,23 +1,22 @@
 
-COMPONENT_TARGETS += $(TARGET_PC32)
-COMPONENT_TARGETS += $(TARGET_PC64)
-COMPONENT_TARGETS += $(TARGET_CB1X)
-COMPONENT_TARGETS += $(TARGET_VIP1830)
-COMPONENT_TARGETS += $(TARGET_BEAGLE)
-COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
-COMPONENT_TARGETS += $(TARGET_B74)
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
 
 #
 # The rest targets links staticaly with newlib or uclibc and not requires eglibc libraties
 #
-# COMPONENT_TARGETS += $(TARGET_CB1N)
-# COMPONENT_TARGETS += $(TARGET_GUARD)
-# COMPONENT_TARGETS += $(TARGET_VIP1830N)
-# COMPONENT_TARGETS += $(TARGET_L17UC)
+# COMPONENT_TARGETS += $(HARDWARE_CB1N)
+# COMPONENT_TARGETS += $(HARDWARE_AT91S)
+# COMPONENT_TARGETS += $(HARDWARE_VIP1830N)
+# COMPONENT_TARGETS += $(HARDWARE_L17UC)
 #
 
 NEED_ABS_PATH      = true
-
 COMPONENT_IS_3PP   = true
 
 
@@ -27,7 +26,7 @@ include ../../../build-system/constants.mk
 version    = 2.18.1
 tz_version = 2013i
 
-SOURCE_REQUIRES   = $(SRC_PACKAGE_DIR)/iana/tz
+SOURCE_REQUIRES   = sources/iana/tz
 
 
 REQUIRES          = libs/eglibc/2.18.1-i18n
@@ -39,10 +38,7 @@ tar_gz_data_archive       = $(SRC_PACKAGE_PATH)/iana/tz/tzdata$(tz_version).tar.
 
 SRC_DIR           = $(TARGET_BUILD_DIR)/timezone
 src_done          = $(TARGET_BUILD_DIR)/.source-done
-
-install_target    = $(TARGET_BUILD_DIR)/.installed
-
-build_tzinfo_pkg  = $(TARGET_BUILD_DIR)/.eglibc_zoneinfo_pkg_done
+install_target    = $(TARGET_BUILD_DIR)/.install_done
 
 
 ####### Targets
@@ -69,14 +65,17 @@ EGLIBC_TZ_PKG_INSTALL_SCRIPT      = $(EGLIBC_TZ_PKG_NAME)-pkg-install.sh
 EGLIBC_TZ_PKG    = $(CURDIR)/$(TARGET_BUILD_DIR)/$(EGLIBC_TZ_PKG_NAME)-package
 
 pkg_basename     = $(EGLIBC_TZ_PKG_NAME)-$(EGLIBC_TZ_PKG_VERSION)-$(EGLIBC_TZ_PKG_ARCH)-$(EGLIBC_TZ_PKG_DISTRO_NAME)-$(EGLIBC_TZ_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(EGLIBC_TZ_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_tzinfo_pkg)
+BUILD_TARGETS    = $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
@@ -84,7 +83,7 @@ include ../../../build-system/core.mk
 
 OPTIMIZATION_FLAGS  = -O3
 
-ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC))
 OPTIMIZATION_FLAGS += -fPIC
 endif
 
@@ -120,17 +119,18 @@ $(install_target): $(src_done)
 	   for file in *.8 ; do \
 	     gzip -9 --force $$file; \
 	   done )
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
+	@mkdir -p $(TARGET_DEST_DIR)
+	@cd $(EGLIBC_TZ_PKG) && cp -rf * $(TARGET_DEST_DIR)
 	@touch $@
-
 
 $(EGLIBC_TZ_PKG_DESCRIPTION_FILE): $(EGLIBC_TZ_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
 
-$(build_tzinfo_pkg): $(install_target) $(EGLIBC_TZ_PKG_DESCRIPTION_FILE)
-	# Install the same to $(TARGET_DEST_DIR)
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(EGLIBC_TZ_PKG) && cp -rf * $(TARGET_DEST_DIR)
+$(pkg_archive): $(install_target) $(EGLIBC_TZ_PKG_DESCRIPTION_FILE) $(EGLIBC_TZ_PKG_INSTALL_SCRIPT)
 	@cp $(EGLIBC_TZ_PKG_DESCRIPTION_FILE) $(EGLIBC_TZ_PKG)/.DESCRIPTION
 	@cp $(EGLIBC_TZ_PKG_INSTALL_SCRIPT) $(EGLIBC_TZ_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(EGLIBC_TZ_PKG)/.REQUIRES
@@ -144,4 +144,3 @@ $(build_tzinfo_pkg): $(install_target) $(EGLIBC_TZ_PKG_DESCRIPTION_FILE)
 	 echo "url=$(EGLIBC_TZ_PKG_URL)"                                 >> $(EGLIBC_TZ_PKG)/.PKGINFO ; \
 	 echo "license=$(EGLIBC_TZ_PKG_LICENSE)"                         >> $(EGLIBC_TZ_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(EGLIBC_TZ_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

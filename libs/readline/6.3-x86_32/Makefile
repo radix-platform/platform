@@ -1,18 +1,19 @@
 
-COMPONENT_TARGETS += $(TARGET_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_PC64)
 
 NEED_ABS_PATH      = true
-
 COMPONENT_IS_3PP   = true
+
+CREATE_X86_32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES      = $(SRC_PACKAGE_DIR)/GNU/readline
+SOURCE_REQUIRES      = sources/GNU/readline
 
-REQUIRES             = libs/ncurses/5.9
-REQUIRES            += libs/libtermcap/1.2.3
+REQUIRES             = libs/ncurses/5.9-x86_32
+REQUIRES            += libs/libtermcap/1.2.3-x86_32
 
 
 version              = 6.3
@@ -27,7 +28,6 @@ PATCHES = PATCHES
 build_dir            = $(TARGET_BUILD_DIR)/build
 build_target         = $(TARGET_BUILD_DIR)/.build_done
 install_target       = $(TARGET_BUILD_DIR)/.install_done
-build_readline32_pkg = $(TARGET_BUILD_DIR)/.readline32_pkg_done
 
 
 ####### Targets
@@ -36,14 +36,14 @@ PKG_GROUP = libs
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-READLINE32_PKG_NAME                = readline32
+READLINE32_PKG_NAME                = readline-x32
 READLINE32_PKG_VERSION             = 6.3
 READLINE32_PKG_ARCH                = $(TOOLCHAIN)
 READLINE32_PKG_DISTRO_NAME         = kxLab
 READLINE32_PKG_DISTRO_VERSION      = 1.0
 READLINE32_PKG_GROUP               = $(PKG_GROUP)
 ###                                 |---handy-ruler-------------------------------|
-READLINE32_PKG_SHORT_DESCRIPTION   = readline32 $(version)
+READLINE32_PKG_SHORT_DESCRIPTION   = readline-x32 $(version)
 READLINE32_PKG_URL                 = http://www.kxLab.com
 READLINE32_PKG_LICENSE             = GPLv2
 READLINE32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(READLINE32_PKG_NAME)-pkg-description
@@ -53,32 +53,24 @@ READLINE32_PKG_INSTALL_SCRIPT      = $(READLINE32_PKG_NAME)-pkg-install.sh
 READLINE32_PKG   = $(CURDIR)/$(TARGET_BUILD_DIR)/$(READLINE32_PKG_NAME)-package
 
 pkg_basename     = $(READLINE32_PKG_NAME)-$(READLINE32_PKG_VERSION)-$(READLINE32_PKG_ARCH)-$(READLINE32_PKG_DISTRO_NAME)-$(READLINE32_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(READLINE32_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_readline32_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
 
 
 env_sysroot = DESTDIR=$(READLINE32_PKG)
-
-
-CC         += -m32
-
-# owerwrite LDFLAGS:
-#
-LDFLAGS     = -L$(TARGET_DEST_DIR)/lib$(MULTILIB_X86_32_SUFFIX)
-LDFLAGS    += -L$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)
-
-ARCH_FLAGS  = -m32 -g -O3 -march=i486 -mtune=i686
-
-TARGET32    = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
 
 
 extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
@@ -128,7 +120,10 @@ $(install_target): $(build_target)
 $(READLINE32_PKG_DESCRIPTION_FILE): $(READLINE32_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_readline32_pkg): $(install_target) $(READLINE32_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(READLINE32_PKG_DESCRIPTION_FILE) $(READLINE32_PKG_INSTALL_SCRIPT)
 	@cp $(READLINE32_PKG_DESCRIPTION_FILE) $(READLINE32_PKG)/.DESCRIPTION
 	@cp $(READLINE32_PKG_INSTALL_SCRIPT) $(READLINE32_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(READLINE32_PKG)/.REQUIRES
@@ -142,4 +137,3 @@ $(build_readline32_pkg): $(install_target) $(READLINE32_PKG_DESCRIPTION_FILE)
 	 echo "url=$(READLINE32_PKG_URL)"                                 >> $(READLINE32_PKG)/.PKGINFO ; \
 	 echo "license=$(READLINE32_PKG_LICENSE)"                         >> $(READLINE32_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(READLINE32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

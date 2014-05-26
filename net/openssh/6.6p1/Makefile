@@ -1,32 +1,21 @@
 
-COMPONENT_TARGETS += $(TARGET_PC32)
-COMPONENT_TARGETS += $(TARGET_PC64)
-COMPONENT_TARGETS += $(TARGET_CB1X)
-COMPONENT_TARGETS += $(TARGET_VIP1830)
-COMPONENT_TARGETS += $(TARGET_BEAGLE)
-COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
-COMPONENT_TARGETS += $(TARGET_B74)
-
-#
-# The rest targets links staticaly with newlib or uclibc and not requires xz libraties
-#
-# COMPONENT_TARGETS += $(TARGET_CB1N)
-# COMPONENT_TARGETS += $(TARGET_GUARD)
-# COMPONENT_TARGETS += $(TARGET_VIP1830N)
-# COMPONENT_TARGETS += $(TARGET_L17UC)
-#
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
 
 
 NEED_ABS_PATH      = true
-
 COMPONENT_IS_3PP   = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/n/openssh
-
+SOURCE_REQUIRES    = sources/packages/n/openssh
 
 REQUIRES           = libs/zlib/1.2.8
 REQUIRES          += net/tcp_wrappers/7.6
@@ -45,8 +34,6 @@ PATCHES = PATCHES
 build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
-build_openssh_pkg  = $(TARGET_BUILD_DIR)/.openssh_pkg_done
-
 
 sshd_script_dir    = $(CURDIR)/config/rc.d
 
@@ -75,14 +62,18 @@ OPENSSH_PKG_INSTALL_SCRIPT      = $(OPENSSH_PKG_NAME)-pkg-install.sh
 OPENSSH_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(OPENSSH_PKG_NAME)-package
 
 pkg_basename     = $(OPENSSH_PKG_NAME)-$(OPENSSH_PKG_VERSION)-$(OPENSSH_PKG_ARCH)-$(OPENSSH_PKG_DISTRO_NAME)-$(OPENSSH_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(OPENSSH_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_openssh_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
@@ -187,7 +178,10 @@ $(install_target): $(build_target)
 $(OPENSSH_PKG_DESCRIPTION_FILE): $(OPENSSH_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_openssh_pkg): $(install_target) $(OPENSSH_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(OPENSSH_PKG_DESCRIPTION_FILE) $(OPENSSH_PKG_INSTALL_SCRIPT)
 	@cp $(OPENSSH_PKG_DESCRIPTION_FILE) $(OPENSSH_PKG)/.DESCRIPTION
 	@cp $(OPENSSH_PKG_INSTALL_SCRIPT) $(OPENSSH_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(OPENSSH_PKG)/.REQUIRES
@@ -201,4 +195,3 @@ $(build_openssh_pkg): $(install_target) $(OPENSSH_PKG_DESCRIPTION_FILE)
 	 echo "url=$(OPENSSH_PKG_URL)"                                 >> $(OPENSSH_PKG)/.PKGINFO ; \
 	 echo "license=$(OPENSSH_PKG_LICENSE)"                         >> $(OPENSSH_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(OPENSSH_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

@@ -1,38 +1,24 @@
 
-COMPONENT_TARGETS += $(TARGET_PC32)
-COMPONENT_TARGETS += $(TARGET_PC64)
-COMPONENT_TARGETS += $(TARGET_CB1X)
-COMPONENT_TARGETS += $(TARGET_VIP1830)
-COMPONENT_TARGETS += $(TARGET_BEAGLE)
-COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
-COMPONENT_TARGETS += $(TARGET_B74)
-
-#
-# The rest targets links staticaly with newlib or uclibc and not requires xz libraties
-#
-# COMPONENT_TARGETS += $(TARGET_CB1N)
-# COMPONENT_TARGETS += $(TARGET_GUARD)
-# COMPONENT_TARGETS += $(TARGET_VIP1830N)
-# COMPONENT_TARGETS += $(TARGET_L17UC)
-#
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
 
 
 NEED_ABS_PATH      = true
-
 COMPONENT_IS_3PP   = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/a/CLooG
+SOURCE_REQUIRES    = sources/packages/a/CLooG
 
-
-ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
-REQUIRES           = app/cloog/0.18.2-x86_32
-else
 REQUIRES           = libs/gmp/5.1.3
-endif
+
 
 version            = 0.18.2
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/a/CLooG/cloog-$(version).tar.gz
@@ -46,8 +32,6 @@ PATCHES = PATCHES
 build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
-build_cloog_pkg    = $(TARGET_BUILD_DIR)/.cloog_pkg_done
-
 
 
 ####### Targets
@@ -74,14 +58,18 @@ CLOOG_PKG_INSTALL_SCRIPT      = $(CLOOG_PKG_NAME)-pkg-install.sh
 CLOOG_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(CLOOG_PKG_NAME)-package
 
 pkg_basename     = $(CLOOG_PKG_NAME)-$(CLOOG_PKG_VERSION)-$(CLOOG_PKG_ARCH)-$(CLOOG_PKG_DISTRO_NAME)-$(CLOOG_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(CLOOG_PKG_GROUP)/$(pkg_basename).tgz
+
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
 
 BUILD_TARGETS    = $(build_cloog_pkg)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
@@ -171,7 +159,10 @@ $(install_target): $(build_target)
 $(CLOOG_PKG_DESCRIPTION_FILE): $(CLOOG_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_cloog_pkg): $(install_target) $(CLOOG_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(CLOOG_PKG_DESCRIPTION_FILE) $(CLOOG_PKG_INSTALL_SCRIPT)
 	@cp $(CLOOG_PKG_DESCRIPTION_FILE) $(CLOOG_PKG)/.DESCRIPTION
 	@cp $(CLOOG_PKG_INSTALL_SCRIPT) $(CLOOG_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(CLOOG_PKG)/.REQUIRES
@@ -185,4 +176,3 @@ $(build_cloog_pkg): $(install_target) $(CLOOG_PKG_DESCRIPTION_FILE)
 	 echo "url=$(CLOOG_PKG_URL)"                                 >> $(CLOOG_PKG)/.PKGINFO ; \
 	 echo "license=$(CLOOG_PKG_LICENSE)"                         >> $(CLOOG_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(CLOOG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

@@ -2,7 +2,7 @@
 
 VERSION=3.1.11
 
-tar --files-from=file.list -xzf ../xfsprogs-$VERSION.tar.gz
+tar --files-from=file.list -xzvf ../xfsprogs-$VERSION.tar.gz
 mv xfsprogs-$VERSION xfsprogs-$VERSION-orig
 
 cp -rf ./xfsprogs-$VERSION-new ./xfsprogs-$VERSION

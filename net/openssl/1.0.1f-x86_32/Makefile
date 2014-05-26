@@ -1,18 +1,19 @@
 
-COMPONENT_TARGETS  += $(TARGET_PC64)
+COMPONENT_TARGETS   = $(HARDWARE_PC64)
 
 NEED_ABS_PATH       = true
-
 COMPONENT_IS_3PP    = true
+
+CREATE_X86_32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES     = $(SRC_PACKAGE_DIR)/packages/n/openssl
+SOURCE_REQUIRES     = sources/packages/n/openssl
 
-REQUIRES            = libs/zlib/1.2.8
-REQUIRES           += libs/gmp/5.1.3
+REQUIRES            = libs/zlib/1.2.8-x86_32
+REQUIRES           += libs/gmp/5.1.3-x86_32
 
 
 version             = 1.0.1f
@@ -27,7 +28,6 @@ PATCHES = PATCHES
 build_dir           = $(TARGET_BUILD_DIR)/build
 build_target        = $(TARGET_BUILD_DIR)/.build_done
 install_target      = $(TARGET_BUILD_DIR)/.install_done
-build_openssl32_pkg = $(TARGET_BUILD_DIR)/.openssl32_pkg_done
 
 
 ####### Targets
@@ -36,14 +36,14 @@ PKG_GROUP = net
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-OPENSSL32_PKG_NAME                = openssl32
+OPENSSL32_PKG_NAME                = openssl-x32
 OPENSSL32_PKG_VERSION             = 1.0.1f
 OPENSSL32_PKG_ARCH                = $(TOOLCHAIN)
 OPENSSL32_PKG_DISTRO_NAME         = kxLab
 OPENSSL32_PKG_DISTRO_VERSION      = 1.0
 OPENSSL32_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
-OPENSSL32_PKG_SHORT_DESCRIPTION   = openssl32 $(version)
+OPENSSL32_PKG_SHORT_DESCRIPTION   = openssl-x32 $(version)
 OPENSSL32_PKG_URL                 = http://www.kxLab.com
 OPENSSL32_PKG_LICENSE             = GPLv2
 OPENSSL32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(OPENSSL32_PKG_NAME)-pkg-description
@@ -53,33 +53,24 @@ OPENSSL32_PKG_INSTALL_SCRIPT      = $(OPENSSL32_PKG_NAME)-pkg-install.sh
 OPENSSL32_PKG    = $(CURDIR)/$(TARGET_BUILD_DIR)/$(OPENSSL32_PKG_NAME)-package
 
 pkg_basename     = $(OPENSSL32_PKG_NAME)-$(OPENSSL32_PKG_VERSION)-$(OPENSSL32_PKG_ARCH)-$(OPENSSL32_PKG_DISTRO_NAME)-$(OPENSSL32_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(OPENSSL32_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_openssl32_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
 
 
 env_sysroot  = INSTALL_PREFIX=$(OPENSSL32_PKG)
-
-
-CC          += -m32
-CXX         += -m32
-
-# owerwrite LDFLAGS:
-#
-LDFLAGS      = -L$(TARGET_DEST_DIR)/lib$(MULTILIB_X86_32_SUFFIX)
-LDFLAGS     += -L$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)
-
-ARCH_FLAGS   = -m32 -g -O3 -march=i486 -mtune=i686
-
-TARGET32     = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
 
 
 extra_configure_switches  = --libdir=lib$(MULTILIB_X86_32_SUFFIX)
@@ -144,7 +135,10 @@ $(install_target): $(build_target)
 $(OPENSSL32_PKG_DESCRIPTION_FILE): $(OPENSSL32_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_openssl32_pkg): $(install_target) $(OPENSSL32_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(OPENSSL32_PKG_DESCRIPTION_FILE) $(OPENSSL32_PKG_INSTALL_SCRIPT)
 	@cp $(OPENSSL32_PKG_DESCRIPTION_FILE) $(OPENSSL32_PKG)/.DESCRIPTION
 	@cp $(OPENSSL32_PKG_INSTALL_SCRIPT) $(OPENSSL32_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(OPENSSL32_PKG)/.REQUIRES
@@ -158,4 +152,3 @@ $(build_openssl32_pkg): $(install_target) $(OPENSSL32_PKG_DESCRIPTION_FILE)
 	 echo "url=$(OPENSSL32_PKG_URL)"                                 >> $(OPENSSL32_PKG)/.PKGINFO ; \
 	 echo "license=$(OPENSSL32_PKG_LICENSE)"                         >> $(OPENSSL32_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(OPENSSL32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

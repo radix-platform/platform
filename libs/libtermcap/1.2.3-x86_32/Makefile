@@ -1,30 +1,30 @@
 
-COMPONENT_TARGETS  += $(TARGET_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_PC64)
 
-NEED_ABS_PATH       = true
+NEED_ABS_PATH      = true
+COMPONENT_IS_3PP   = true
 
-COMPONENT_IS_3PP    = true
+CREATE_X86_32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES     = $(SRC_PACKAGE_DIR)/packages/l/termcap-compat
+SOURCE_REQUIRES    = sources/packages/l/termcap-compat
 
-REQUIRES            = libs/ncurses/5.9
+REQUIRES           = libs/ncurses/5.9-x86_32
 
 
-version             = 1.2.3
-tar_gz_archive      = $(SRC_PACKAGE_PATH)/packages/l/termcap-compat/termcap-compat_$(version).tar.gz
-SRC_ARCHIVE         = $(tar_gz_archive)
-SRC_DIR             = $(TARGET_BUILD_DIR)/termcap-compat-$(version)
-src_done            = $(TARGET_BUILD_DIR)/.source_done
+version            = 1.2.3
+tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/termcap-compat/termcap-compat_$(version).tar.gz
+SRC_ARCHIVE        = $(tar_gz_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/termcap-compat-$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
 
-build_target        = $(TARGET_BUILD_DIR)/.build_done
-install_target      = $(TARGET_BUILD_DIR)/.install_done
-build_termcap32_pkg = $(TARGET_BUILD_DIR)/.termcap32_pkg_done
+build_target       = $(TARGET_BUILD_DIR)/.build_done
+install_target     = $(TARGET_BUILD_DIR)/.install_done
 
 
 ####### Targets
@@ -33,14 +33,14 @@ PKG_GROUP = libs
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-TERMCAP_32_PKG_NAME                = libtermcap32
+TERMCAP_32_PKG_NAME                = libtermcap-x32
 TERMCAP_32_PKG_VERSION             = 1.2.3
 TERMCAP_32_PKG_ARCH                = $(TOOLCHAIN)
 TERMCAP_32_PKG_DISTRO_NAME         = kxLab
 TERMCAP_32_PKG_DISTRO_VERSION      = 1.0
 TERMCAP_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                 |---handy-ruler-------------------------------|
-TERMCAP_32_PKG_SHORT_DESCRIPTION   = libtermcap32 $(version)
+TERMCAP_32_PKG_SHORT_DESCRIPTION   = libtermcap-x32 $(version)
 TERMCAP_32_PKG_URL                 = http://www.kxLab.com
 TERMCAP_32_PKG_LICENSE             = GPLv2
 TERMCAP_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(TERMCAP_32_PKG_NAME)-pkg-description
@@ -50,23 +50,21 @@ TERMCAP_32_PKG_INSTALL_SCRIPT      = $(TERMCAP_32_PKG_NAME)-pkg-install.sh
 TERMCAP_32_PKG   = $(CURDIR)/$(TARGET_BUILD_DIR)/$(TERMCAP_32_PKG_NAME)-package
 
 pkg_basename     = $(TERMCAP_32_PKG_NAME)-$(TERMCAP_32_PKG_VERSION)-$(TERMCAP_32_PKG_ARCH)-$(TERMCAP_32_PKG_DISTRO_NAME)-$(TERMCAP_32_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(TERMCAP_32_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_termcap32_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
-
-
-
-CC         += -m32
-
-ARCH_FLAGS  = -m32 -g -O3 -march=i486 -mtune=i686
 
 
 ####### Dependencies
@@ -108,7 +106,10 @@ $(install_target): $(build_target)
 $(TERMCAP_32_PKG_DESCRIPTION_FILE): $(TERMCAP_32_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_termcap32_pkg): $(install_target) $(TERMCAP_32_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(TERMCAP_32_PKG_DESCRIPTION_FILE) $(TERMCAP_32_PKG_INSTALL_SCRIPT)
 	@cp $(TERMCAP_32_PKG_DESCRIPTION_FILE) $(TERMCAP_32_PKG)/.DESCRIPTION
 	@cp $(TERMCAP_32_PKG_INSTALL_SCRIPT) $(TERMCAP_32_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(TERMCAP_32_PKG)/.REQUIRES
@@ -122,4 +123,3 @@ $(build_termcap32_pkg): $(install_target) $(TERMCAP_32_PKG_DESCRIPTION_FILE)
 	 echo "url=$(TERMCAP_32_PKG_URL)"                                 >> $(TERMCAP_32_PKG)/.PKGINFO ; \
 	 echo "license=$(TERMCAP_32_PKG_LICENSE)"                         >> $(TERMCAP_32_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(TERMCAP_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

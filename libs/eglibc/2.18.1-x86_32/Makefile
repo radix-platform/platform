@@ -1,24 +1,24 @@
 
-COMPONENT_TARGETS += $(TARGET_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_PC64)
 
 NEED_ABS_PATH      = true
-
 COMPONENT_IS_3PP   = true
+
+CREATE_X86_32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
 
 
-version = 2.18.1
+SOURCE_REQUIRES    = sources/GNU/EGLIBC/2.18.1
 
-SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/GNU/EGLIBC/$(version)
-
-
-REQUIRES           = dev/kernel-headers
+REQUIRES           = libs/eglibc/2.18.1
+REQUIRES          += dev/kernel-headers
 REQUIRES          += dev/gcc-runtime
 REQUIRES          += base/pkgtool
 
 
+version            = 2.18.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/GNU/EGLIBC/$(version)/eglibc-$(version).tar.bz2
 tar_bz2_archive_ports = $(SRC_PACKAGE_PATH)/GNU/EGLIBC/2.18.1/eglibc-ports-2.18.1.tar.bz2
 
@@ -30,6 +30,7 @@ src_done           = $(TARGET_BUILD_DIR)/.source-done
 PATCHES            = PATCHES
 
 build_dir          = $(TARGET_BUILD_DIR)/build
+build_target       = $(TARGET_BUILD_DIR)/.built
 install_target     = $(TARGET_BUILD_DIR)/.installed
 
 
@@ -43,14 +44,14 @@ PKG_GROUP = libs
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-EGLIBC32_PKG_NAME                = eglibc32
+EGLIBC32_PKG_NAME                = eglibc-x32
 EGLIBC32_PKG_VERSION             = 2.18.1
 EGLIBC32_PKG_ARCH                = $(TOOLCHAIN)
 EGLIBC32_PKG_DISTRO_NAME         = kxLab
 EGLIBC32_PKG_DISTRO_VERSION      = 1.0
 EGLIBC32_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-EGLIBC32_PKG_SHORT_DESCRIPTION   = eglibc32 $(version) header files
+EGLIBC32_PKG_SHORT_DESCRIPTION   = eglibc-x32 $(version) header files
 EGLIBC32_PKG_URL                 = http://www.kxLab.com
 EGLIBC32_PKG_LICENSE             = GPLv2
 EGLIBC32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(EGLIBC32_PKG_NAME)-pkg-description
@@ -60,14 +61,19 @@ EGLIBC32_PKG_INSTALL_SCRIPT      = $(EGLIBC32_PKG_NAME)-pkg-install.sh
 EGLIBC32_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(EGLIBC32_PKG_NAME)-package
 
 pkg_basename     = $(EGLIBC32_PKG_NAME)-$(EGLIBC32_PKG_VERSION)-$(EGLIBC32_PKG_ARCH)-$(EGLIBC32_PKG_DISTRO_NAME)-$(EGLIBC32_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(EGLIBC32_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_eglibc32_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
+BUILD_TARGETS   += $(build_eglibc32_pkg)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
@@ -77,12 +83,6 @@ env_sysroot = install_root=$(EGLIBC32_PKG)
 
 
 OPTIMIZATION_FLAGS  = -O3
-
-CC         += -m32
-
-ARCH_FLAGS  = -m32 -g -O3 -march=i486 -mtune=i686
-
-TARGET32    = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
 
 
 extra_configure_switches  += --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
@@ -107,27 +107,26 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	@mv $(SRC_DIR)/eglibc-ports-2.18.1 $(SRC_DIR)/ports
 	@touch $@
 
-$(install_target): $(src_done)
-	echo $(CC)
+$(build_target): $(src_done)
 	@mkdir -p $(build_dir)
-	@mkdir -p $(EGLIBC32_PKG)
 	@echo "slibdir=/lib$(MULTILIB_X86_32_SUFFIX)" >> $(build_dir)/configparms
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(env_sysroot) ../$(src_dir_name)/configure \
 	  --prefix=/usr                \
 	  --build=$(BUILD)             \
 	  --host=$(TARGET32)           \
 	  $(extra_configure_switches)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) all install $(env_sysroot)
-	# fake LOCALES installation to allow implementation of iconv and intl into EGLIBC
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) SUPPORTED-LOCALES="" \
-	                                                 localedata/install-locales $(env_sysroot)
-	@rm -f $(EGLIBC32_PKG)/usr/share/info/dir
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
 	@touch $@
 
-$(EGLIBC32_PKG_DESCRIPTION_FILE): $(EGLIBC32_PKG_DESCRIPTION_FILE_IN)
-	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
+$(install_target): $(build_target)
+	@mkdir -p $(EGLIBC32_PKG)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
+	# fake LOCALES installation to allow implementation of iconv and intl into EGLIBC
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 SUPPORTED-LOCALES="" \
+	                                                     localedata/install-locales $(env_sysroot)
+	@touch $@
 
-$(build_eglibc32_pkg): $(install_target) $(EGLIBC32_PKG_DESCRIPTION_FILE)
+$(build_eglibc32_pkg): $(install_target)
 	# Remove not needed stuff
 	@rm -rf $(EGLIBC32_PKG)/etc
 	@rm -rf $(EGLIBC32_PKG)/sbin
@@ -139,7 +138,7 @@ $(build_eglibc32_pkg): $(install_target) $(EGLIBC32_PKG_DESCRIPTION_FILE)
 	@rm -rf $(EGLIBC32_PKG)/usr/include
 	@( mkdir -p $(EGLIBC32_PKG)/usr/include/gnu ; \
 	   mv $(EGLIBC32_PKG)/usr/stubs-32.h $(EGLIBC32_PKG)/usr/include/gnu )
-	# Install the same to $(TARGET_DEST_DIR)
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(EGLIBC32_PKG) && cp -rf * $(TARGET_DEST_DIR)
 	@( cd $(EGLIBC32_PKG); \
@@ -148,6 +147,15 @@ $(build_eglibc32_pkg): $(install_target) $(EGLIBC32_PKG_DESCRIPTION_FILE)
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
 	   find . | xargs file | grep "relocatable" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
 	 )
+	@touch $@
+
+$(EGLIBC32_PKG_DESCRIPTION_FILE): $(EGLIBC32_PKG_DESCRIPTION_FILE_IN)
+	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
+
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(build_eglibc32_pkg) $(EGLIBC32_PKG_DESCRIPTION_FILE) $(EGLIBC32_PKG_INSTALL_SCRIPT)
 	@cp $(EGLIBC32_PKG_DESCRIPTION_FILE) $(EGLIBC32_PKG)/.DESCRIPTION
 	@cp $(EGLIBC32_PKG_INSTALL_SCRIPT) $(EGLIBC32_PKG)/.INSTALL
 	@$(BUILD_BIN_PKG_REQUIRES) $(EGLIBC32_PKG)/.REQUIRES
@@ -161,4 +169,3 @@ $(build_eglibc32_pkg): $(install_target) $(EGLIBC32_PKG_DESCRIPTION_FILE)
 	 echo "url=$(EGLIBC32_PKG_URL)"                                 >> $(EGLIBC32_PKG)/.PKGINFO ; \
 	 echo "license=$(EGLIBC32_PKG_LICENSE)"                         >> $(EGLIBC32_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(EGLIBC32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

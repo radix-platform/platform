@@ -2,7 +2,7 @@
 
 VERSION=0.17
 
-tar --files-from=file.list -xzf ../netkit-ntalk-$VERSION.tar.gz
+tar --files-from=file.list -xzvf ../netkit-ntalk-$VERSION.tar.gz
 mv netkit-ntalk-$VERSION netkit-ntalk-$VERSION-orig
 
 cp -rf ./netkit-ntalk-$VERSION-new ./netkit-ntalk-$VERSION

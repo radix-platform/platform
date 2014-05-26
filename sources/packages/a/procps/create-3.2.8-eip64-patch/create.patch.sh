@@ -3,7 +3,7 @@
 VERSION=3.2.8
 
 tar -xzf ../procps-$VERSION.tar.gz
-patch -p0 < ../patches/procps-$VERSION.patch
+patch -p0 < ../patches/procps-$VERSION.patch > /dev/null 2>&1
 tar -czf ./procps-$VERSION.tar.gz procps-$VERSION
 rm -rf procps-$VERSION
 

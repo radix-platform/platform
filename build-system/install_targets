@@ -10,6 +10,28 @@ use File::Basename;
 use File::Temp;
 use _kxLab;
 
+
+#
+# Install file(s)
+#
+# usage:
+#   $0 [options] source[ source] destination hardware
+#
+# where:
+#        'source' - the list of source files to be installed into dest directory
+#   'destination' - is a destination directory for installation all source files
+#      'hardware' - is a HARDWARE variant
+#
+# options:
+#   --preserve-source-dir=true  - preserve source directory tree in the dest dir,
+#                                 for example, if source is foo/bar/file then we
+#                                 will have destination such as  dest/foo/bar/file.
+#
+#   --preserve-source-dir=one   - preserve source directory depth is only 1. Its
+#                                 mean that if we have source like foo/bar/file,
+#                                 then destination will be dest/bar/file.
+#
+
 # Global variables
 my $header_printed = 0;
 
@@ -89,6 +111,11 @@ sub install
     if( $preserve_source_dir eq "true" )
     {
       $path = dirname( $target );
+    }
+    elsif( $preserve_source_dir eq "one" )
+    {
+      $path = dirname( $target );
+      $path = basename( $path );
     }
 
     if( -d $target )

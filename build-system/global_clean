@@ -18,25 +18,12 @@ my @targets;
 my $verbose = $ENV{VERBOSE};
 
 my %seen;
-my ( @dist_clean_dirs, @clean_dirs, @dist_clean_dirs_all, @clean_dirs_all );
-my ( $dist_clean_count, $clean_count );
+my ( @clean_dirs, @clean_dirs_all );
+my ( $clean_count );
 
 sub do_clean
 {
   unlink "$top_dir/.makefile";
-
-  foreach my $d ( @dist_clean_dirs )
-  {
-    my $printed_d;
-
-    $printed_d = $d;
-    $printed_d =~ s/^$top_dir\///;
-
-    print "\n=======\n" if ( $verbose );
-    print "======= Dist cleaning in $printed_d...\n" if ( $verbose );
-    print "=======\n" if ( $verbose );
-    _kxLab::system( "make -C $d local_dist_clean" );
-  }
 
   foreach my $d ( @clean_dirs )
   {
@@ -49,8 +36,12 @@ sub do_clean
     print "======= Cleaning in $printed_d...\n" if ( $verbose );
     print "=======\n" if ( $verbose );
     _kxLab::system( "make -C $d local_clean" );
+    # remove requires and .makefile:
     unlink "$d/.makefile";
+    unlink <$d/.*_requires*>;
+    # remove lists of files installed into $top_dir/dist/products and $top_dir/dist/rootfs:
     unlink <$d/.*.rootfs>;
+    unlink <$d/.*.dist*>;
   }
 }
 
@@ -61,10 +52,8 @@ sub do_clean_list
 
   chomp $cwd;
 
+  # skip directories which doesn't contain 'Makefile':
   return if( ! -f "$cwd/Makefile" );
-
-  # needs dist clean:
-  if( <$cwd/.*dist> ) { push @dist_clean_dirs_all, $cwd; }
 
   # needs clean:
   push @clean_dirs_all, $cwd;
@@ -72,17 +61,17 @@ sub do_clean_list
 
 sub process_clean
 {
-  # add directory which contains '.makefile' too.
+  # skip doc, dist, sources directories:
+  return if( $File::Find::dir =~ m/$top_dir\/doc/ );
+  return if( $File::Find::dir =~ m/$top_dir\/dist/ );
+  return if( $File::Find::dir =~ m/$top_dir\/sources/ );
+
+  # add directories which contains '.makefile' too.
   if( $_ eq ".makefile" ) { do_clean_list( $File::Find::dir ); }
 
   return if( ! -d $_ );
 
-  return if( $File::Find::name =~ m/doc/ );
-  return if( $File::Find::name =~ m/dist/ );
-# All Makefiles in source directories shouldn't clean downloaded 3pp packages.
-# So we can clean its here:
-#  return if( $File::Find::name =~ m/sources/ );
-
+  # select directories such as .$(TOOLCHAIN_NAMES):
   foreach my $d ( @targets )
   {
     if( $d eq $_ ) { do_clean_list( $File::Find::dir ); }
@@ -109,33 +98,27 @@ find( \&process_clean, "$top_dir" );
 
 # get unique names:
 %seen = ();
-@dist_clean_dirs = grep { ! $seen{ $_ }++ } @dist_clean_dirs_all;
-@dist_clean_dirs = reverse( keys %seen );
-
-# get unique names:
-%seen = ();
 @clean_dirs = grep { ! $seen{ $_ }++ } @clean_dirs_all;
 @clean_dirs = reverse( keys %seen );
 
-$dist_clean_count = @dist_clean_dirs;
 $clean_count = @clean_dirs;
 
-if( $dist_clean_count != 0 || $clean_count != 0 )
+if( $clean_count != 0 )
 {
   if( !$header_printed )
   {
-    print "\n======= Cleaning build tree =======\n";
+    print "\n======= Cleaning build tree =======\n\n" if ( $verbose );
     $header_printed = 1;
   }
 
   do_clean();
 
+  # remove DEST_DIR_ABS
   _kxLab::system( "rm -rf $top_dir/dist" );
 
   print "\n";
 }
 else
 {
-  print "Cleaning...   (nothing to be done).\n";
+  print "\nCleaning...   (nothing to be done).\n\n";
 }
-

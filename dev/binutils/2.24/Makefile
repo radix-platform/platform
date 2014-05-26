@@ -1,31 +1,29 @@
 
-COMPONENT_TARGETS += $(TARGET_PC32)
-COMPONENT_TARGETS += $(TARGET_PC64)
-COMPONENT_TARGETS += $(TARGET_CB1X)
-COMPONENT_TARGETS += $(TARGET_VIP1830)
-COMPONENT_TARGETS += $(TARGET_BEAGLE)
-COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
-COMPONENT_TARGETS += $(TARGET_B74)
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
 
 #
 # The rest targets links staticaly with newlib or uclibc and not requires binutils on host
 #
-# COMPONENT_TARGETS += $(TARGET_CB1N)
-# COMPONENT_TARGETS += $(TARGET_GUARD)
-# COMPONENT_TARGETS += $(TARGET_VIP1830N)
-# COMPONENT_TARGETS += $(TARGET_L17UC)
+# COMPONENT_TARGETS += $(HARDWARE_CB1N)
+# COMPONENT_TARGETS += $(HARDWARE_AT91S)
+# COMPONENT_TARGETS += $(HARDWARE_VIP1830N)
+# COMPONENT_TARGETS += $(HARDWARE_L17UC)
 #
 
 NEED_ABS_PATH      = true
-
 COMPONENT_IS_3PP   = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/GNU/binutils
-
+SOURCE_REQUIRES    = sources/GNU/binutils
 
 REQUIRES           = libs/eglibc/2.18.1
 
@@ -42,7 +40,6 @@ PATCHES = PATCHES
 build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
-build_binutils_pkg = $(TARGET_BUILD_DIR)/.binutils_pkg_done
 
 
 ####### Targets
@@ -69,14 +66,18 @@ BINUTILS_DEV_PKG_INSTALL_SCRIPT      = $(BINUTILS_DEV_PKG_NAME)-pkg-install.sh
 BINUTILS_DEV_PKG = $(CURDIR)/$(TARGET_BUILD_DIR)/$(BINUTILS_DEV_PKG_NAME)-package
 
 pkg_basename     = $(BINUTILS_DEV_PKG_NAME)-$(BINUTILS_DEV_PKG_VERSION)-$(BINUTILS_DEV_PKG_ARCH)-$(BINUTILS_DEV_PKG_DISTRO_NAME)-$(BINUTILS_DEV_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(BINUTILS_DEV_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_binutils_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
@@ -91,7 +92,7 @@ DEFAULT_LD  = ld.bfd
 #   --enable-threads, --enable-plugins - are GOLD related options
 #   --enable-multilib - default 'yes'
 
-ifeq ($(TOOLCHAIN),$(A1X_EGLIBC_TOOLCHAIN_NAME))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_A1X_EGLIBC))
 # experimental gold linker( DEFAULT_LD=ld.bfd ):
 extra_configure_switches += --enable-gold=yes
 extra_configure_switches += --enable-ld=default
@@ -113,7 +114,7 @@ extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --docdir=/usr/share/doc
 endif
 
-ifeq ($(TOOLCHAIN),$(OMAP35X_EGLIBC_TOOLCHAIN_NAME))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_OMAP35X_EGLIBC))
 extra_configure_switches += --with-cpu=cortex-a8
 extra_configure_switches += --with-arch=armv7-a
 extra_configure_switches += --enable-targets=$(TARGET),arm-radix-linux-gnu
@@ -124,7 +125,7 @@ extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --docdir=/usr/share/doc
 endif
 
-ifeq ($(TOOLCHAIN),$(OMAP543X_EGLIBC_TOOLCHAIN_NAME))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_OMAP543X_EGLIBC))
 # experimental gold linker( DEFAULT_LD=ld.bfd ):
 extra_configure_switches += --enable-gold=yes
 extra_configure_switches += --enable-ld=default
@@ -147,7 +148,7 @@ extra_configure_switches += --docdir=/usr/share/doc
 endif
 
 
-ifeq ($(TOOLCHAIN),$(DM644X_EGLIBC_TOOLCHAIN_NAME))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_DM644X_EGLIBC))
 extra_configure_switches += --enable-interwork
 extra_configure_switches += --enable-multilib
 extra_configure_switches += --with-float=soft
@@ -162,7 +163,7 @@ extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --docdir=/usr/share/doc
 endif
 
-ifeq ($(TOOLCHAIN),$(BCM74X_EGLIBC_TOOLCHAIN_NAME))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_BCM74X_EGLIBC))
 extra_configure_switches += --enable-multilib
 extra_configure_switches += --with-arch=mips32
 extra_configure_switches += --disable-werror
@@ -174,7 +175,7 @@ extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --docdir=/usr/share/doc
 endif
 
-ifeq ($(TOOLCHAIN),$(I686_EGLIBC_TOOLCHAIN_NAME))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_I686_EGLIBC))
 extra_configure_switches += '--with-pkgversion=Radix $(SYSTEM_VERSION)'
 extra_configure_switches += '--with-bugurl=http://www.radix.pro'
 # experimental gold linker( DEFAULT_LD=ld.bfd ):
@@ -202,7 +203,7 @@ extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --docdir=/usr/share/doc
 endif
 
-ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC))
 extra_configure_switches += '--with-pkgversion=Radix $(SYSTEM_VERSION)'
 extra_configure_switches += '--with-bugurl=http://www.radix.pro'
 # experimental gold linker( DEFAULT_LD=ld.bfd ):
@@ -309,7 +310,7 @@ $(install_target): $(build_target)
 	     fi ; \
 	   done \
 	 )
-ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC))
 	@mkdir -p $(BINUTILS_DEV_PKG)/lib64
 	@ln -sf ../lib$(LIBSUFFIX) $(BINUTILS_DEV_PKG)/usr/$(TARGET)/lib64
 	@ln -sf ../lib$(MULTILIB_X86_32_SUFFIX) $(BINUTILS_DEV_PKG)/usr/$(TARGET)/lib32
@@ -334,7 +335,10 @@ endif
 $(BINUTILS_DEV_PKG_DESCRIPTION_FILE): $(BINUTILS_DEV_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_binutils_pkg): $(install_target) $(BINUTILS_DEV_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(BINUTILS_DEV_PKG_DESCRIPTION_FILE) $(BINUTILS_DEV_PKG_INSTALL_SCRIPT)
 	@cp $(BINUTILS_DEV_PKG_DESCRIPTION_FILE) $(BINUTILS_DEV_PKG)/.DESCRIPTION
 	@cp $(BINUTILS_DEV_PKG_INSTALL_SCRIPT) $(BINUTILS_DEV_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(BINUTILS_DEV_PKG)/.REQUIRES
@@ -348,4 +352,3 @@ $(build_binutils_pkg): $(install_target) $(BINUTILS_DEV_PKG_DESCRIPTION_FILE)
 	 echo "url=$(BINUTILS_DEV_PKG_URL)"                                 >> $(BINUTILS_DEV_PKG)/.PKGINFO ; \
 	 echo "license=$(BINUTILS_DEV_PKG_LICENSE)"                         >> $(BINUTILS_DEV_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(BINUTILS_DEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

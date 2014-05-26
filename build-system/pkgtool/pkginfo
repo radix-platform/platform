@@ -1,8 +1,12 @@
 #!/bin/sh
 
+# 17 = exit if called with no arguments
+# 26 = Destination directory has not specified
+EXITSTATUS=0
+
 usage() {
   echo
-  echo "Usage: $0 operation pkglogfile"
+  echo "Usage: $0 [--dest dir] operation pkglogfile"
   echo
   echo "Where the following operations are available:"
   echo "  filelist       - creates .FILELIST"
@@ -14,9 +18,39 @@ usage() {
   echo
 }
 
+DEST_DIR=. # current dir by default
+while [ 0 ]; do
+  if [ "$1" = "-h" -o "$1" = "--help" ]; then
+    usage
+    exit 0
+  elif [ "$1" = "--dest" ]; then
+    if [ "$2" = "" ]; then
+      usage
+      echo "ERROR: Destination directory has not specified. Check --dest option."
+      EXITSTATUS=26
+      exit $EXITSTATUS
+    fi
+    DEST_DIR="$2"
+    shift 2
+  else
+    break
+  fi
+done
+
+#
+# usage(), exit if called with no arguments:
+#
+if [ $# = 0 ]; then
+  usage
+  echo "ERROR: arguments were not specified. Check options."
+  EXITSTATUS=17
+  exit $EXITSTATUS
+fi
+
+
 filelist() {
   logfile=$1
-  outfile=".FILELIST"
+  outfile="$DEST_DIR/.FILELIST"
   LINENUM="`cat $logfile | grep -n -e "FILE LIST:" | cut -f 1 -d ':'`"
   if [ "$LINENUM" = "" ]; then
     echo "File list is not present."
@@ -39,7 +73,7 @@ filelist() {
 
 install_script() {
   logfile=$1
-  outfile=".INSTALL"
+  outfile="$DEST_DIR/.INSTALL"
   START_LINE="`cat $logfile | grep -n -e "INSTALL SCRIPT:" | cut -f 1 -d ':'`"
   let START_LINE+=1
   STOP_LINE="`cat $logfile | grep -n -e "FILE LIST:" | cut -f 1 -d ':'`"
@@ -70,7 +104,7 @@ install_script() {
 
 restore_links() {
   logfile=$1
-  outfile=".RESTORELINKS"
+  outfile="$DEST_DIR/.RESTORELINKS"
   START_LINE="`cat $logfile | grep -n -e "RESTORE LINKS:" | cut -f 1 -d ':'`"
   let START_LINE+=1
   STOP_LINE="`cat $logfile | grep -n -e "INSTALL SCRIPT:" | cut -f 1 -d ':'`"
@@ -100,7 +134,7 @@ restore_links() {
 
 description() {
   logfile=$1
-  outfile=".DESCRIPTION"
+  outfile="$DEST_DIR/.DESCRIPTION"
   START_LINE="`cat $logfile | grep -n -e "PACKAGE DESCRIPTION:" | cut -f 1 -d ':'`"
   let START_LINE+=1
   STOP_LINE="`cat $logfile | grep -n -e "RESTORE LINKS:" | cut -f 1 -d ':'`"
@@ -130,7 +164,7 @@ description() {
 
 requires() {
   logfile=$1
-  outfile=".REQUIRES"
+  outfile="$DEST_DIR/.REQUIRES"
   START_LINE="`cat $logfile | grep -n -e "REQUIRES:" | cut -f 1 -d ':'`"
   let START_LINE+=1
   STOP_LINE="`cat $logfile | grep -n -e "PACKAGE DESCRIPTION:" | cut -f 1 -d ':'`"
@@ -160,7 +194,7 @@ requires() {
 
 references() {
   logfile=$1
-  outfile=".REFERENCES"
+  outfile="$DEST_DIR/.REFERENCES"
   START_LINE="`cat $logfile | grep -n -e "REFERENCE COUNTER:" | cut -f 1 -d ':'`"
   let START_LINE+=1
   STOP_LINE="`cat $logfile | grep -n -e "REQUIRES:" | cut -f 1 -d ':'`"
@@ -190,7 +224,7 @@ references() {
 
 pkginfo() {
   logfile=$1
-  outfile=".PKGINFO"
+  outfile="$DEST_DIR/.PKGINFO"
   LINENUM_PN="`cat $logfile | grep -n -e "PACKAGE NAME:" | cut -f 1 -d ':'`"
   if [ "$LINENUM_PN" = "" ]; then
     echo "ERROR: There is no PACKAGE NAME."

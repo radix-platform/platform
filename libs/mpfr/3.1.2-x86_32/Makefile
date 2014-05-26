@@ -1,17 +1,18 @@
 
-COMPONENT_TARGETS += $(TARGET_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_PC64)
 
 NEED_ABS_PATH      = true
-
 COMPONENT_IS_3PP   = true
+
+CREATE_X86_32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/GNU/mpfr
+SOURCE_REQUIRES    = sources/GNU/mpfr
 
-REQUIRES           = libs/gmp/5.1.3
+REQUIRES           = libs/gmp/5.1.3-x86_32
 
 
 version            = 3.1.2
@@ -26,7 +27,6 @@ PATCHES = PATCHES
 build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
-build_mpfr32_pkg   = $(TARGET_BUILD_DIR)/.mpfr32_pkg_done
 
 
 ####### Targets
@@ -35,14 +35,14 @@ PKG_GROUP = libs
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-MPFR32_PKG_NAME                = mpfr32
+MPFR32_PKG_NAME                = mpfr-x32
 MPFR32_PKG_VERSION             = 3.1.2
 MPFR32_PKG_ARCH                = $(TOOLCHAIN)
 MPFR32_PKG_DISTRO_NAME         = kxLab
 MPFR32_PKG_DISTRO_VERSION      = 1.0
 MPFR32_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-MPFR32_PKG_SHORT_DESCRIPTION   = mpfr32 $(version)
+MPFR32_PKG_SHORT_DESCRIPTION   = mpfr-x32 $(version)
 MPFR32_PKG_URL                 = http://www.kxLab.com
 MPFR32_PKG_LICENSE             = GPLv2
 MPFR32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(MPFR32_PKG_NAME)-pkg-description
@@ -52,30 +52,24 @@ MPFR32_PKG_INSTALL_SCRIPT      = $(MPFR32_PKG_NAME)-pkg-install.sh
 MPFR32_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(MPFR32_PKG_NAME)-package
 
 pkg_basename     = $(MPFR32_PKG_NAME)-$(MPFR32_PKG_VERSION)-$(MPFR32_PKG_ARCH)-$(MPFR32_PKG_DISTRO_NAME)-$(MPFR32_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(MPFR32_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_mpfr32_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
 
 
 env_sysroot = DESTDIR=$(MPFR32_PKG)
-
-
-# owerwrite LDFLAGS:
-#
-LDFLAGS     = -L$(TARGET_DEST_DIR)/lib$(MULTILIB_X86_32_SUFFIX)
-LDFLAGS    += -L$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)
-
-ARCH_FLAGS  = -m32 -g -O3 -march=i486 -mtune=i686
-
-TARGET32    = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
 
 
 extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
@@ -131,7 +125,10 @@ $(install_target): $(build_target)
 $(MPFR32_PKG_DESCRIPTION_FILE): $(MPFR32_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_mpfr32_pkg): $(install_target) $(MPFR32_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(MPFR32_PKG_DESCRIPTION_FILE) $(MPFR32_PKG_INSTALL_SCRIPT)
 	@cp $(MPFR32_PKG_DESCRIPTION_FILE) $(MPFR32_PKG)/.DESCRIPTION
 	@cp $(MPFR32_PKG_INSTALL_SCRIPT) $(MPFR32_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(MPFR32_PKG)/.REQUIRES
@@ -145,4 +142,3 @@ $(build_mpfr32_pkg): $(install_target) $(MPFR32_PKG_DESCRIPTION_FILE)
 	 echo "url=$(MPFR32_PKG_URL)"                                 >> $(MPFR32_PKG)/.PKGINFO ; \
 	 echo "license=$(MPFR32_PKG_LICENSE)"                         >> $(MPFR32_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(MPFR32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

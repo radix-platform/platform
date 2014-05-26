@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+          |-----handy-ruler------------------------------------------------------|
+libusb-x32: libusb-x32 @VERSION@ (x86_32 USB library)
+libusb-x32:
+libusb-x32: This is libusb, a library which allows userspace application access
+libusb-x32: to USB devices. It is used to connect to USB devices like scanners
+libusb-x32: and printers.
+libusb-x32:
+libusb-x32: http://libusb.org
+libusb-x32:
+libusb-x32:
+libusb-x32:
+libusb-x32:

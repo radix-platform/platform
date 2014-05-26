@@ -1,31 +1,21 @@
 
-COMPONENT_TARGETS += $(TARGET_PC32)
-COMPONENT_TARGETS += $(TARGET_PC64)
-COMPONENT_TARGETS += $(TARGET_CB1X)
-COMPONENT_TARGETS += $(TARGET_VIP1830)
-COMPONENT_TARGETS += $(TARGET_BEAGLE)
-COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
-COMPONENT_TARGETS += $(TARGET_B74)
-
-#
-# The rest targets links staticaly with newlib or uclibc and not requires bzip2 libraties
-#
-# COMPONENT_TARGETS += $(TARGET_CB1N)
-# COMPONENT_TARGETS += $(TARGET_GUARD)
-# COMPONENT_TARGETS += $(TARGET_VIP1830N)
-# COMPONENT_TARGETS += $(TARGET_L17UC)
-#
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
 
 
 NEED_ABS_PATH       = true
-
 COMPONENT_IS_3PP    = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES     = $(SRC_PACKAGE_DIR)/packages/a/jfsutils
+SOURCE_REQUIRES     = sources/packages/a/jfsutils
 
 REQUIRES            = app/util-linux/2.24.1
 
@@ -42,8 +32,6 @@ PATCHES = PATCHES
 build_dir           = $(TARGET_BUILD_DIR)/build
 build_target        = $(TARGET_BUILD_DIR)/.build_done
 install_target      = $(TARGET_BUILD_DIR)/.install_done
-build_jfsutils_pkg  = $(TARGET_BUILD_DIR)/.jfsutils_pkg_done
-
 
 
 ####### Targets
@@ -70,14 +58,18 @@ JFSUTILS_PKG_INSTALL_SCRIPT      = $(JFSUTILS_PKG_NAME)-pkg-install.sh
 JFSUTILS_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(JFSUTILS_PKG_NAME)-package
 
 pkg_basename     = $(JFSUTILS_PKG_NAME)-$(JFSUTILS_PKG_VERSION)-$(JFSUTILS_PKG_ARCH)-$(JFSUTILS_PKG_DISTRO_NAME)-$(JFSUTILS_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(JFSUTILS_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_jfsutils_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
@@ -160,7 +152,10 @@ $(install_target): $(build_target)
 $(JFSUTILS_PKG_DESCRIPTION_FILE): $(JFSUTILS_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_jfsutils_pkg): $(install_target) $(JFSUTILS_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(JFSUTILS_PKG_DESCRIPTION_FILE) $(JFSUTILS_PKG_INSTALL_SCRIPT)
 	@cp $(JFSUTILS_PKG_DESCRIPTION_FILE) $(JFSUTILS_PKG)/.DESCRIPTION
 	@cp $(JFSUTILS_PKG_INSTALL_SCRIPT) $(JFSUTILS_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(JFSUTILS_PKG)/.REQUIRES
@@ -174,4 +169,3 @@ $(build_jfsutils_pkg): $(install_target) $(JFSUTILS_PKG_DESCRIPTION_FILE)
 	 echo "url=$(JFSUTILS_PKG_URL)"                                 >> $(JFSUTILS_PKG)/.PKGINFO ; \
 	 echo "license=$(JFSUTILS_PKG_LICENSE)"                         >> $(JFSUTILS_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(JFSUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

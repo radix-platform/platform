@@ -51,7 +51,7 @@ EOF
 
 
 tarball_requires() {
-  zcat $1 | $TAR -xvf - ".REQUIRES" -O  1> .REQUIRES  2> /dev/null
+  zcat $1 | $TAR -xvf - ".REQUIRES" -O  1> $TMP/.REQUIRES  2> /dev/null
   if [ ! "$?" = "0" ]; then
     echo "ERROR: Cannot extract package requires from $1"
     EXITSTATUS=1
@@ -138,15 +138,15 @@ fi
 
 # getting .REQUIRES file:
 if [ ! "$logfile" = "" ]; then
-  pkginfo requires $logfile
-  if [ ! -f $CWD/.REQUIRES -o ! -s $CWD/.REQUIRES ]; then
-    rm -f $CWD/.REQUIRES
+  pkginfo --dest $TMP requires $logfile
+  if [ ! -f $TMP/.REQUIRES -o ! -s $TMP/.REQUIRES ]; then
+    rm -f $TMP/.REQUIRES
     exit 1
   fi
 elif [ ! "$tarball" = "" ]; then
   tarball_requires $tarball
-  if [ ! -f $CWD/.REQUIRES -o ! -s $CWD/.REQUIRES ]; then
-    rm -f $CWD/.REQUIRES
+  if [ ! -f $TMP/.REQUIRES -o ! -s $TMP/.REQUIRES ]; then
+    rm -f $TMP/.REQUIRES
     exit 1
   fi
 fi
@@ -156,10 +156,10 @@ echo "Requires of `basename $PKGFILE`:"
 echo ""
 
 # read lines:
-LINENUMS=`sed -n "$=" $CWD/.REQUIRES | tr '\n' '\0'`
+LINENUMS=`sed -n "$=" $TMP/.REQUIRES | tr '\n' '\0'`
 LINENUM_REQ=1
 while [ "$LINENUM_REQ" -le "$LINENUMS" ]; do
-  LINE="`sed -n "$LINENUM_REQ p" $CWD/.REQUIRES | tr '\n' '\0'`"
+  LINE="`sed -n "$LINENUM_REQ p" $TMP/.REQUIRES | tr '\n' '\0'`"
   let LINENUM_REQ+=1
   reqname=`echo "$LINE" | cut -f 1 -d '='`
   reqver=`echo "$LINE" | cut -f 2 -d '='`
@@ -169,21 +169,21 @@ while [ "$LINENUM_REQ" -le "$LINENUMS" ]; do
       echo "Package '$reqname' version: $reqver: Is not installed."
     fi
     for reqfile in `find $PKG_DB_PATH -type f -name "$reqname-*" | sort -r` ; do
-      pkginfo pkginfo $reqfile
-      if [ -f "$CWD/.PKGINFO" ]; then
+      pkginfo --dest $TMP pkginfo $reqfile
+      if [ -f "$TMP/.PKGINFO" ]; then
         unset pkgname
         unset pkgver
 
-        . $CWD/.PKGINFO
+        . $TMP/.PKGINFO
 
         if [ "$pkgver" == "$reqver" -o "$pkgver" \> "$reqver" ]; then
-          rm -f $CWD/.PKGINFO
+          rm -f $TMP/.PKGINFO
           break
         elif [ "$pkgver" \< "$reqver" ]; then
           echo "$pkgname:$reqver:OLD" >&2
           echo "Package '$pkgname' version: $reqver: Too old."
         fi
-        rm -f $CWD/.PKGINFO
+        rm -f $TMP/.PKGINFO
       else
         EXITSTATUS=2
         echo "$pkgname:$reqver:NOTINSTALLED" >&2
@@ -192,7 +192,7 @@ while [ "$LINENUM_REQ" -le "$LINENUMS" ]; do
     done
   fi
 done
-rm -f $CWD/.REQUIRES
+rm -f $TMP/.REQUIRES
 #
 # End of Main loop.
 ################################################################

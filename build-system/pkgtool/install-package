@@ -73,7 +73,7 @@ package_info() {
     if [ "$pkgname" = "" -o "$pkgver" = "" -o "$arch" = "" -o "$distroname" = "" -o "$distrover" = "" ]; then
       echo "ERROR: The file '.PKGINFO' doesn't contain necessary declarations."
       EXITSTATUS=11
-      exit $EXITSTATUS 
+      exit $EXITSTATUS
     fi
   else
     echo "ERROR: There is no package info in $1"
@@ -475,9 +475,19 @@ EOF
     rm -f $TMP/freqs$$ $TMP/hreqs$$
   fi
 
+  # unpack package service files:
+  cat << EOF > $TMP/pkg.service.files$$
+.DESCRIPTION
+.FILELIST
+.INSTALL
+.PKGINFO
+.REQUIRES
+.RESTORELINKS
+EOF
+  zcat $pkgtarball | $TAR -C $TMP --files-from=$TMP/pkg.service.files$$ -xf - > /dev/null 2>&1
   ( cd $DEST
-    if [ -x ".INSTALL" ]; then
-      ./.INSTALL pre_install
+    if [ -x $TMP/.INSTALL ]; then
+      $TMP/.INSTALL pre_install
       if [ ! "$?" = "0" ]; then
         echo "ERROR: Pre Install script returns bad status."
         echo "ERROR: Pre Install script returns bad status." >> $LOG_FILE
@@ -487,8 +497,8 @@ EOF
       fi
     fi
   )
-  # unpack archive:
-  zcat $pkgtarball | $TAR -xf - -C $DEST/  > /dev/null 2>&1
+  # unpack archive excluding service files:
+  zcat $pkgtarball | $TAR -C $DEST --exclude-from=$TMP/pkg.service.files$$ -xf -  > /dev/null 2>&1
   if [ ! "$?" = "0" ]; then
     echo "ERROR: $TAR has returned error code."
     echo "ERROR: $TAR has returned error code." >> $LOG_FILE
@@ -496,11 +506,11 @@ EOF
     exit $EXITSTATUS
   fi
   ( cd $DEST
-    if [ -f ".RESTORELINKS" ]; then
-      sh ./.RESTORELINKS
+    if [ -f $TMP/.RESTORELINKS ]; then
+      sh $TMP/.RESTORELINKS
     fi
-    if [ -x ".INSTALL" ]; then
-      ./.INSTALL post_install
+    if [ -x $TMP/.INSTALL ]; then
+      $TMP/.INSTALL post_install
       if [ ! "$?" = "0" ]; then
         echo "ERROR: Post Install script returns bad status."
         echo "ERROR: Post Install script returns bad status." >> $LOG_FILE
@@ -509,20 +519,19 @@ EOF
         exit $EXITSTATUS
       fi
     fi
-    pkglog ./.PKGINFO $SETUP_DB_PATH/packages  > /dev/null 2>&1
+    pkglog $TMP/.PKGINFO $SETUP_DB_PATH/packages  > /dev/null 2>&1
     if [ ! "$?" = "0" ]; then
       echo "WARNING: Log file has not been created."
       echo "WARNING: Log file has not been created." >> $LOG_FILE
     fi
     # Increase REFERENCE COUNTER in the required packages:
-    ( . ./.PKGINFO
+    ( . $TMP/.PKGINFO
       cd $SETUP_DB_PATH/packages; change-refs inc "$pkgname-$pkgver-$arch-$distroname-$distrover"
     )
     # check deprecated log file:
-    ( . ./.PKGINFO
-      cd $SETUP_DB_PATH/removed_packages; rm -f "$pkgname-$pkgver-$arch-$distroname-$distrover" )
-
-    rm -f ./.DESCRIPTION ./.FILELIST ./.INSTALL ./.PKGINFO ./.REQUIRES ./.RESTORELINKS
+    ( . $TMP/.PKGINFO
+      cd $SETUP_DB_PATH/removed_packages; rm -f "$pkgname-$pkgver-$arch-$distroname-$distrover"
+    )
   )
   echo "SUCCESS: Package has been installed." >> $LOG_FILE
 done

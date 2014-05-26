@@ -2,7 +2,7 @@
 
 VERSION=3.3
 
-tar --files-from=file.list -xJf ../diffutils-$VERSION.tar.xz
+tar --files-from=file.list -xJvf ../diffutils-$VERSION.tar.xz
 mv diffutils-$VERSION diffutils-$VERSION-orig
 
 cp -rf ./diffutils-$VERSION-new ./diffutils-$VERSION

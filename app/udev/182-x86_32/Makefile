@@ -1,22 +1,24 @@
 
-COMPONENT_TARGETS += $(TARGET_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_PC64)
 
 NEED_ABS_PATH      = true
-
 COMPONENT_IS_3PP   = true
+
+CREATE_X86_32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/a/udev
+SOURCE_REQUIRES    = sources/packages/a/udev
 
-REQUIRES           = app/kmod/16
-REQUIRES          += libs/pcre/8.34
-REQUIRES          += app/util-linux/2.24.1
-REQUIRES          += libs/glib2/2.40.0
+REQUIRES           = app/kmod/16-x86_32
+REQUIRES          += libs/pcre/8.34-x86_32
+REQUIRES          += app/util-linux/2.24.1-x86_32
+REQUIRES          += libs/glib2/2.40.0-x86_32
+REQUIRES          += libs/libusb/1.0.9-x86_32
 REQUIRES          += app/usbutils/007
-REQUIRES          += app/pciutils/3.2.1
+REQUIRES          += app/pciutils/3.2.1-x86_32
 
 
 version            = 182
@@ -31,7 +33,6 @@ PATCHES = PATCHES
 build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
-build_udev32_pkg   = $(TARGET_BUILD_DIR)/.udev32_pkg_done
 
 
 ####### Targets
@@ -40,14 +41,14 @@ PKG_GROUP = app
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-UDEV32_PKG_NAME                = udev32
+UDEV32_PKG_NAME                = udev-x32
 UDEV32_PKG_VERSION             = 182
 UDEV32_PKG_ARCH                = $(TOOLCHAIN)
 UDEV32_PKG_DISTRO_NAME         = kxLab
 UDEV32_PKG_DISTRO_VERSION      = 1.0
 UDEV32_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-UDEV32_PKG_SHORT_DESCRIPTION   = udev32 $(version)
+UDEV32_PKG_SHORT_DESCRIPTION   = udev-x32 $(version)
 UDEV32_PKG_URL                 = http://www.kxLab.com
 UDEV32_PKG_LICENSE             = GPLv2
 UDEV32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(UDEV32_PKG_NAME)-pkg-description
@@ -57,14 +58,18 @@ UDEV32_PKG_INSTALL_SCRIPT      = $(UDEV32_PKG_NAME)-pkg-install.sh
 UDEV32_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(UDEV32_PKG_NAME)-package
 
 pkg_basename     = $(UDEV32_PKG_NAME)-$(UDEV32_PKG_VERSION)-$(UDEV32_PKG_ARCH)-$(UDEV32_PKG_DISTRO_NAME)-$(UDEV32_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(UDEV32_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_udev32_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
@@ -72,24 +77,7 @@ include ../../../build-system/core.mk
 
 env_sysroot      = DESTDIR=$(UDEV32_PKG)
 
-
-CC              += -m32
-CXX             += -m32
-
 CFLAGS          += -isystem $(TARGET_DEST_DIR)/usr/include -D__linux__
-
-# owerwrite LDFLAGS:
-#
-LDFLAGS          = -L$(TARGET_DEST_DIR)/lib$(MULTILIB_X86_32_SUFFIX)
-LDFLAGS         += -L$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)
-
-# owerwrite PKG_CONFIG_PATH:
-#
-PKG_CONFIG_PATH  = $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig
-
-ARCH_FLAGS       = -m32 -g -O3 -march=i486 -mtune=i686
-
-TARGET32         = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
 
 
 extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
@@ -165,7 +153,10 @@ $(install_target): $(build_target)
 $(UDEV32_PKG_DESCRIPTION_FILE): $(UDEV32_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_udev32_pkg): $(install_target) $(UDEV32_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(UDEV32_PKG_DESCRIPTION_FILE) $(UDEV32_PKG_INSTALL_SCRIPT)
 	@cp $(UDEV32_PKG_DESCRIPTION_FILE) $(UDEV32_PKG)/.DESCRIPTION
 	@cp $(UDEV32_PKG_INSTALL_SCRIPT) $(UDEV32_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(UDEV32_PKG)/.REQUIRES
@@ -179,4 +170,3 @@ $(build_udev32_pkg): $(install_target) $(UDEV32_PKG_DESCRIPTION_FILE)
 	 echo "url=$(UDEV32_PKG_URL)"                                 >> $(UDEV32_PKG)/.PKGINFO ; \
 	 echo "license=$(UDEV32_PKG_LICENSE)"                         >> $(UDEV32_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(UDEV32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

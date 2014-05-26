@@ -1,6 +1,7 @@
 
-COMPONENT_TARGETS = $(TARGET_HOST)
+COMPONENT_TARGETS = $(HARDWARE_BUILD)
 
+include constants.mk
 
 REQUIRES  = build-system/3pp/fakeroot/0.18
 REQUIRES += build-system/progs

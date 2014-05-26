@@ -2,7 +2,7 @@
 
 VERSION=182
 
-tar --files-from=file.list -xJf ../udev-$VERSION.tar.xz
+tar --files-from=file.list -xJvf ../udev-$VERSION.tar.xz
 mv udev-$VERSION udev-$VERSION-orig
 
 cp -rf ./udev-$VERSION-new ./udev-$VERSION

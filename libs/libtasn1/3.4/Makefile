@@ -1,38 +1,24 @@
 
-COMPONENT_TARGETS += $(TARGET_PC32)
-COMPONENT_TARGETS += $(TARGET_PC64)
-COMPONENT_TARGETS += $(TARGET_CB1X)
-COMPONENT_TARGETS += $(TARGET_VIP1830)
-COMPONENT_TARGETS += $(TARGET_BEAGLE)
-COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
-COMPONENT_TARGETS += $(TARGET_B74)
-
-#
-# The rest targets links staticaly with newlib or uclibc and not requires xz libraties
-#
-# COMPONENT_TARGETS += $(TARGET_CB1N)
-# COMPONENT_TARGETS += $(TARGET_GUARD)
-# COMPONENT_TARGETS += $(TARGET_VIP1830N)
-# COMPONENT_TARGETS += $(TARGET_L17UC)
-#
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
 
 
 NEED_ABS_PATH      = true
-
 COMPONENT_IS_3PP   = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/GNU/libtasn1
+SOURCE_REQUIRES    = sources/GNU/libtasn1
 
-
-ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
-REQUIRES           = libs/libtasn1/3.4-x86_32
-else
 REQUIRES           = libs/eglibc/2.18.1
-endif
+
 
 version            = 3.4
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/GNU/libtasn1/libtasn1-$(version).tar.gz
@@ -46,8 +32,6 @@ PATCHES = PATCHES
 build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
-build_tasn_pkg     = $(TARGET_BUILD_DIR)/.tasn_pkg_done
-
 
 
 ####### Targets
@@ -74,14 +58,18 @@ TASN_PKG_INSTALL_SCRIPT      = $(TASN_PKG_NAME)-pkg-install.sh
 TASN_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(TASN_PKG_NAME)-package
 
 pkg_basename     = $(TASN_PKG_NAME)-$(TASN_PKG_VERSION)-$(TASN_PKG_ARCH)-$(TASN_PKG_DISTRO_NAME)-$(TASN_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(TASN_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
 BUILD_TARGETS    = $(build_tasn_pkg)
+BUILD_TARGETS   += $(install_tasn_pkg)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
@@ -178,7 +166,10 @@ $(install_target): $(build_target)
 $(TASN_PKG_DESCRIPTION_FILE): $(TASN_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_tasn_pkg): $(install_target) $(TASN_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(TASN_PKG_DESCRIPTION_FILE) $(TASN_PKG_INSTALL_SCRIPT)
 	@cp $(TASN_PKG_DESCRIPTION_FILE) $(TASN_PKG)/.DESCRIPTION
 	@cp $(TASN_PKG_INSTALL_SCRIPT) $(TASN_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(TASN_PKG)/.REQUIRES
@@ -192,4 +183,3 @@ $(build_tasn_pkg): $(install_target) $(TASN_PKG_DESCRIPTION_FILE)
 	 echo "url=$(TASN_PKG_URL)"                                 >> $(TASN_PKG)/.PKGINFO ; \
 	 echo "license=$(TASN_PKG_LICENSE)"                         >> $(TASN_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(TASN_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

@@ -2,7 +2,7 @@
 
 VERSION=0.17
 
-tar --files-from=file.list -xzf ../netkit-telnet-$VERSION.tar.gz
+tar --files-from=file.list -xzvf ../netkit-telnet-$VERSION.tar.gz
 mv netkit-telnet-$VERSION netkit-telnet-$VERSION-orig
 
 cp -rf ./netkit-telnet-$VERSION-new ./netkit-telnet-$VERSION

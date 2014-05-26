@@ -2,7 +2,7 @@
 
 VERSION=0.17
 
-tar --files-from=file.list -xzf ../netkit-bootparamd-$VERSION.tar.gz
+tar --files-from=file.list -xzvf ../netkit-bootparamd-$VERSION.tar.gz
 mv netkit-bootparamd-$VERSION netkit-bootparamd-$VERSION-orig
 
 cp -rf ./netkit-bootparamd-$VERSION-new ./netkit-bootparamd-$VERSION

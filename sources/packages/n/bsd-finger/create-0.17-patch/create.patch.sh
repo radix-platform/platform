@@ -2,7 +2,7 @@
 
 VERSION=0.17
 
-tar --files-from=file.list -xzf ../bsd-finger-$VERSION.tar.gz
+tar --files-from=file.list -xzvf ../bsd-finger-$VERSION.tar.gz
 mv bsd-finger-$VERSION bsd-finger-$VERSION-orig
 
 cp -rf ./bsd-finger-$VERSION-new ./bsd-finger-$VERSION

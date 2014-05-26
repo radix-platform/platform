@@ -1,17 +1,18 @@
 
-COMPONENT_TARGETS += $(TARGET_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_PC64)
 
 NEED_ABS_PATH      = true
-
 COMPONENT_IS_3PP   = true
+
+CREATE_X86_32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/l/ppl
+SOURCE_REQUIRES    = sources/packages/l/ppl
 
-REQUIRES           = libs/gmp/5.1.3
+REQUIRES           = libs/gmp/5.1.3-x86_32
 
 
 version            = 1.1
@@ -26,7 +27,6 @@ PATCHES = PATCHES
 build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
-build_ppl32_pkg    = $(TARGET_BUILD_DIR)/.ppl32_pkg_done
 
 
 ####### Targets
@@ -35,14 +35,14 @@ PKG_GROUP = libs
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-PPL32_PKG_NAME                = ppl32
+PPL32_PKG_NAME                = ppl-x32
 PPL32_PKG_VERSION             = 1.1
 PPL32_PKG_ARCH                = $(TOOLCHAIN)
 PPL32_PKG_DISTRO_NAME         = kxLab
 PPL32_PKG_DISTRO_VERSION      = 1.0
 PPL32_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
-PPL32_PKG_SHORT_DESCRIPTION   = ppl32 $(version)
+PPL32_PKG_SHORT_DESCRIPTION   = ppl-x32 $(version)
 PPL32_PKG_URL                 = http://www.kxLab.com
 PPL32_PKG_LICENSE             = GPLv2
 PPL32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(PPL32_PKG_NAME)-pkg-description
@@ -52,30 +52,24 @@ PPL32_PKG_INSTALL_SCRIPT      = $(PPL32_PKG_NAME)-pkg-install.sh
 PPL32_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(PPL32_PKG_NAME)-package
 
 pkg_basename     = $(PPL32_PKG_NAME)-$(PPL32_PKG_VERSION)-$(PPL32_PKG_ARCH)-$(PPL32_PKG_DISTRO_NAME)-$(PPL32_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(PPL32_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_ppl32_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
 
 
 env_sysroot = DESTDIR=$(PPL32_PKG)
-
-
-# owerwrite LDFLAGS:
-#
-LDFLAGS     = -L$(TARGET_DEST_DIR)/lib$(MULTILIB_X86_32_SUFFIX)
-LDFLAGS    += -L$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)
-
-ARCH_FLAGS  = -m32 -g -O3 -march=i486 -mtune=i686
-
-TARGET32    = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
 
 
 extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
@@ -137,7 +131,10 @@ $(install_target): $(build_target)
 $(PPL32_PKG_DESCRIPTION_FILE): $(PPL32_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_ppl32_pkg): $(install_target) $(PPL32_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(PPL32_PKG_DESCRIPTION_FILE) $(PPL32_PKG_INSTALL_SCRIPT)
 	@cp $(PPL32_PKG_DESCRIPTION_FILE) $(PPL32_PKG)/.DESCRIPTION
 	@cp $(PPL32_PKG_INSTALL_SCRIPT) $(PPL32_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(PPL32_PKG)/.REQUIRES
@@ -151,4 +148,3 @@ $(build_ppl32_pkg): $(install_target) $(PPL32_PKG_DESCRIPTION_FILE)
 	 echo "url=$(PPL32_PKG_URL)"                                 >> $(PPL32_PKG)/.PKGINFO ; \
 	 echo "license=$(PPL32_PKG_LICENSE)"                         >> $(PPL32_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(PPL32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

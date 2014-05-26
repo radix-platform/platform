@@ -2,6 +2,12 @@
 
 program=`basename $0`
 
+# EXIT STATUS 92 = Cannot create '/tmp/...' directory
+
+TMP=$(mktemp -d /tmp/XXXXXXXX) || { echo "Cannot create '/tmp/...' directory" ; exit 92; }
+trap "rm -rf $TMP" EXIT
+
+
 usage() {
   echo ""
   echo "Usage: cd /SETUP_DB_PATH/packages; $program operation pkglogfile"
@@ -15,9 +21,9 @@ usage() {
 get_pkg_name_from_logfile() {
   logfile=$1
   if [ -f ./$logfile ]; then
-    pkginfo pkginfo $logfile
-    if [ ! -f .PKGINFO -o ! -s .PKGINFO ]; then
-      rm -f ./.PKGINFO
+    pkginfo --dest $TMP pkginfo $logfile
+    if [ ! -f $TMP/.PKGINFO -o ! -s $TMP/.PKGINFO ]; then
+      rm -f $TMP/.PKGINFO
     else
       # store current values
       cst01=pkgname
@@ -32,8 +38,8 @@ get_pkg_name_from_logfile() {
       cst10=uncompressed_size
       cst11=total_files
 
-      . ./.PKGINFO
-      rm -f ./.PKGINFO
+      . $TMP/.PKGINFO
+      rm -f $TMP/.PKGINFO
       if [ "$pkgname" = "" ]; then
         echo ""
       else
@@ -176,19 +182,19 @@ fi
 logfile=$1
 
 
-pkginfo requires $logfile
-if [ ! -f .REQUIRES -o ! -s .REQUIRES ]; then
-  rm -f ./.REQUIRES
+pkginfo --dest $TMP requires $logfile
+if [ ! -f $TMP/.REQUIRES -o ! -s $TMP/.REQUIRES ]; then
+  rm -f $TMP/.REQUIRES
   exit 0
 fi
 
-pkginfo pkginfo $logfile
-if [ ! -f .PKGINFO -o ! -s .PKGINFO ]; then
-  rm -f ./.PKGINFO
+pkginfo --dest $TMP pkginfo $logfile
+if [ ! -f $TMP/.PKGINFO -o ! -s $TMP/.PKGINFO ]; then
+  rm -f $TMP/.PKGINFO
   exit 0
 else
-  . ./.PKGINFO
-  rm -f ./.PKGINFO
+  . $TMP/.PKGINFO
+  rm -f $TMP/.PKGINFO
   if [ "$pkgname" = "" -o "$pkgver" = "" ]; then
     echo "$program: ERROR: pkglogfile doesn't contain necessary declarations."
     exit 0
@@ -196,10 +202,10 @@ else
 fi
 
 # read lines:
-LINENUMS=`sed -n "$=" .REQUIRES | tr '\n' '\0'`
+LINENUMS=`sed -n "$=" $TMP/.REQUIRES | tr '\n' '\0'`
 LINENUM_REQ=1
 while [ "$LINENUM_REQ" -le "$LINENUMS" ]; do
-  LINE="`sed -n "$LINENUM_REQ p" .REQUIRES | tr '\n' '\0'`"
+  LINE="`sed -n "$LINENUM_REQ p" $TMP/.REQUIRES | tr '\n' '\0'`"
   let LINENUM_REQ+=1
   pnam=`echo "$LINE" | cut -f 1 -d '='`
   pver=`echo "$LINE" | cut -f 2 -d '='`
@@ -212,6 +218,6 @@ while [ "$LINENUM_REQ" -le "$LINENUMS" ]; do
     fi
   done
 done
-rm -f ./.REQUIRES
+rm -f $TMP/.REQUIRES
 
 exit 0

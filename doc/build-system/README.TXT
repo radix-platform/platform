@@ -1,6 +1,5 @@
 
 First step:
-   $ cd build-system
    $ make
 
 Special targets:

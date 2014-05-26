@@ -1,5 +1,5 @@
 
-COMPONENT_TARGETS = $(TARGET_OMAP5UEVM)
+COMPONENT_TARGETS = $(HARDWARE_OMAP5UEVM)
 
 NEED_ABS_PATH     = true
 
@@ -9,7 +9,7 @@ COMPONENT_IS_3PP  = true
 include ../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES  += $(SRC_PACKAGE_DIR)/hal/omap/wl18xx_fw
+SOURCE_REQUIRES   = sources/hal/omap/wl18xx_fw
 
 REQUIRES          = hal/3pp/omap/wl18xx
 
@@ -30,11 +30,7 @@ PKG_GROUP = boot
 
 WL18FW_BIN_PKG_NAME                = wl18fw
 WL18FW_BIN_PKG_VERSION             = ol_r8.a8.10
-ifeq ($(HARDWARE),$(TARGET_HOST))
-WL18FW_BIN_PKG_ARCH                = $(shell uname -m)
-else
 WL18FW_BIN_PKG_ARCH                = $(TOOLCHAIN)
-endif
 WL18FW_BIN_PKG_DISTRO_NAME         = kxLab
 WL18FW_BIN_PKG_DISTRO_VERSION      = 1.0
 WL18FW_BIN_PKG_GROUP               = $(PKG_GROUP)
@@ -51,13 +47,17 @@ WL18FW_BIN_PKG   = $(CURDIR)/$(TARGET_BUILD_DIR)/$(WL18FW_BIN_PKG_NAME)-package
 build_wl18fw_pkg = $(TARGET_BUILD_DIR)/.wl18fw_pkg_done
 
 pkg_basename     = $(WL18FW_BIN_PKG_NAME)-$(WL18FW_BIN_PKG_VERSION)-$(WL18FW_BIN_PKG_ARCH)-$(WL18FW_BIN_PKG_DISTRO_NAME)-$(WL18FW_BIN_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(WL18FW_BIN_PKG_GROUP)/$(pkg_basename).tgz
+
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
 BUILD_TARGETS    = $(build_wl18fw_pkg)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../../build-system/core.mk
@@ -71,12 +71,7 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(APPLY_PATCHES)
 	@touch $@
 
-
-$(WL18FW_BIN_PKG_DESCRIPTION_FILE): $(WL18FW_BIN_PKG_DESCRIPTION_FILE_IN)
-	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
-
-
-$(build_wl18fw_pkg): $(src_done) $(WL18FW_BIN_PKG_DESCRIPTION_FILE) $(WL18FW_BIN_PKG_INSTALL_SCRIPT)
+$(build_wl18fw_pkg): $(src_done)
 	@mkdir -p $(WL18FW_BIN_PKG)/lib/firmware
 	@mkdir -p $(WL18FW_BIN_PKG)/etc/firmware/ti-connectivity
 	# Copy firmware:
@@ -93,6 +88,15 @@ $(build_wl18fw_pkg): $(src_done) $(WL18FW_BIN_PKG_DESCRIPTION_FILE) $(WL18FW_BIN
 	@mkdir -p $(WL18FW_BIN_PKG)/usr/doc/wl18fw-$(version)
 	@cp -a $(SRC_DIR)/Android.mk $(SRC_DIR)/LICENCE \
 	       $(WL18FW_BIN_PKG)/usr/doc/wl18fw-$(version)
+	@touch $@
+
+$(WL18FW_BIN_PKG_DESCRIPTION_FILE): $(WL18FW_BIN_PKG_DESCRIPTION_FILE_IN)
+	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
+
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(build_wl18fw_pkg) $(WL18FW_BIN_PKG_DESCRIPTION_FILE) $(WL18FW_BIN_PKG_INSTALL_SCRIPT)
 	@cp $(WL18FW_BIN_PKG_DESCRIPTION_FILE) $(WL18FW_BIN_PKG)/.DESCRIPTION
 	@cp $(WL18FW_BIN_PKG_INSTALL_SCRIPT) $(WL18FW_BIN_PKG)/.INSTALL
 	@chmod a+x $(WL18FW_BIN_PKG)/.INSTALL
@@ -107,4 +111,3 @@ $(build_wl18fw_pkg): $(src_done) $(WL18FW_BIN_PKG_DESCRIPTION_FILE) $(WL18FW_BIN
 	 echo "url=$(WL18FW_BIN_PKG_URL)"                                 >> $(WL18FW_BIN_PKG)/.PKGINFO ; \
 	 echo "license=$(WL18FW_BIN_PKG_LICENSE)"                         >> $(WL18FW_BIN_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(WL18FW_BIN_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

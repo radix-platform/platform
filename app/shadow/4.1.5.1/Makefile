@@ -1,32 +1,21 @@
 
-COMPONENT_TARGETS += $(TARGET_PC32)
-COMPONENT_TARGETS += $(TARGET_PC64)
-COMPONENT_TARGETS += $(TARGET_CB1X)
-COMPONENT_TARGETS += $(TARGET_VIP1830)
-COMPONENT_TARGETS += $(TARGET_BEAGLE)
-COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
-COMPONENT_TARGETS += $(TARGET_B74)
-
-#
-# The rest targets links staticaly with newlib or uclibc and not requires xz libraties
-#
-# COMPONENT_TARGETS += $(TARGET_CB1N)
-# COMPONENT_TARGETS += $(TARGET_GUARD)
-# COMPONENT_TARGETS += $(TARGET_VIP1830N)
-# COMPONENT_TARGETS += $(TARGET_L17UC)
-#
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
 
 
 NEED_ABS_PATH      = true
-
 COMPONENT_IS_3PP   = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/a/shadow
-
+SOURCE_REQUIRES    = sources/packages/a/shadow
 
 REQUIRES           = libs/eglibc/2.18.1
 
@@ -43,8 +32,6 @@ PATCHES = PATCHES
 build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
-build_shadow_pkg   = $(TARGET_BUILD_DIR)/.shadow_pkg_done
-
 
 adduser_script_dir = $(CURDIR)/scripts
 
@@ -73,14 +60,18 @@ SHADOW_PKG_INSTALL_SCRIPT      = $(SHADOW_PKG_NAME)-pkg-install.sh
 SHADOW_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(SHADOW_PKG_NAME)-package
 
 pkg_basename     = $(SHADOW_PKG_NAME)-$(SHADOW_PKG_VERSION)-$(SHADOW_PKG_ARCH)-$(SHADOW_PKG_DISTRO_NAME)-$(SHADOW_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(SHADOW_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_shadow_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
@@ -94,7 +85,6 @@ extra_configure_switches  = --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --without-libcrack
 extra_configure_switches += --disable-shared
-#extra_configure_switches += --disable-rpath
 
 
 ####### Dependencies
@@ -177,7 +167,10 @@ $(install_target): $(build_target)
 $(SHADOW_PKG_DESCRIPTION_FILE): $(SHADOW_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_shadow_pkg): $(install_target) $(SHADOW_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(SHADOW_PKG_DESCRIPTION_FILE) $(SHADOW_PKG_INSTALL_SCRIPT)
 	@cp $(SHADOW_PKG_DESCRIPTION_FILE) $(SHADOW_PKG)/.DESCRIPTION
 	@cp $(SHADOW_PKG_INSTALL_SCRIPT) $(SHADOW_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(SHADOW_PKG)/.REQUIRES
@@ -191,4 +184,3 @@ $(build_shadow_pkg): $(install_target) $(SHADOW_PKG_DESCRIPTION_FILE)
 	 echo "url=$(SHADOW_PKG_URL)"                                 >> $(SHADOW_PKG)/.PKGINFO ; \
 	 echo "license=$(SHADOW_PKG_LICENSE)"                         >> $(SHADOW_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(SHADOW_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

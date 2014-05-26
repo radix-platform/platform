@@ -1,24 +1,25 @@
 
-COMPONENT_TARGETS += $(TARGET_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_PC64)
 
 NEED_ABS_PATH      = true
-
 COMPONENT_IS_3PP   = true
+
+CREATE_X86_32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/d/python2
+SOURCE_REQUIRES    = sources/packages/d/python2
 
-REQUIRES           = libs/zlib/1.2.8
-REQUIRES          += app/xz/5.0.5
-REQUIRES          += libs/libffi/3.0.13
-REQUIRES          += libs/ncurses/5.9
-REQUIRES          += libs/libtermcap/1.2.3
-REQUIRES          += libs/readline/6.3
-REQUIRES          += libs/expat/2.1.0
-REQUIRES          += net/openssl/1.0.1f
+REQUIRES           = libs/zlib/1.2.8-x86_32
+REQUIRES          += app/xz/5.0.5-x86_32
+REQUIRES          += libs/libffi/3.0.13-x86_32
+REQUIRES          += libs/ncurses/5.9-x86_32
+REQUIRES          += libs/libtermcap/1.2.3-x86_32
+REQUIRES          += libs/readline/6.3-x86_32
+REQUIRES          += libs/expat/2.1.0-x86_32
+REQUIRES          += net/openssl/1.0.1g-x86_32
 
 
 version            = 2.7.6
@@ -32,9 +33,9 @@ PATCHES = PATCHES
 
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
-build_python32_pkg = $(TARGET_BUILD_DIR)/.python32_pkg_done
 
-hw_cache           = $(CURDIR)/cross/hw.cache
+hw_cache_in        = $(CURDIR)/cross/hw.cache
+hw_cache           = $(CURDIR)/$(SRC_DIR)/hw.cache
 cross_patch        = $(SRC_PACKAGE_PATH_ABS)/packages/d/python2/patches/Python-$(version)-cross32.patch
 
 ####### Targets
@@ -43,14 +44,14 @@ PKG_GROUP = dev
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-PYTHON32_PKG_NAME                = python2x32
+PYTHON32_PKG_NAME                = python2-x32
 PYTHON32_PKG_VERSION             = 2.7.6
 PYTHON32_PKG_ARCH                = $(TOOLCHAIN)
 PYTHON32_PKG_DISTRO_NAME         = kxLab
 PYTHON32_PKG_DISTRO_VERSION      = 1.0
 PYTHON32_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-PYTHON32_PKG_SHORT_DESCRIPTION   = python2x32 $(version)
+PYTHON32_PKG_SHORT_DESCRIPTION   = python2-x32 $(version)
 PYTHON32_PKG_URL                 = http://www.kxLab.com
 PYTHON32_PKG_LICENSE             = GPLv2
 PYTHON32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(PYTHON32_PKG_NAME)-pkg-description
@@ -60,14 +61,18 @@ PYTHON32_PKG_INSTALL_SCRIPT      = $(PYTHON32_PKG_NAME)-pkg-install.sh
 PYTHON32_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(PYTHON32_PKG_NAME)-package
 
 pkg_basename     = $(PYTHON32_PKG_NAME)-$(PYTHON32_PKG_VERSION)-$(PYTHON32_PKG_ARCH)-$(PYTHON32_PKG_DISTRO_NAME)-$(PYTHON32_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(PYTHON32_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_python32_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
@@ -75,19 +80,7 @@ include ../../../build-system/core.mk
 
 env_sysroot = DESTDIR=$(PYTHON32_PKG)
 
-
-CC         += -m32
-
-# owerwrite LDFLAGS:
-#
-LDFLAGS     = -L$(TARGET_DEST_DIR)/lib$(MULTILIB_X86_32_SUFFIX)
-LDFLAGS    += -L$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)
 LDFLAGS    += -L.
-
-ARCH_FLAGS  = -m32 -g -O3 -march=i486 -mtune=i686
-
-TARGET32    = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
-
 
 extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
@@ -111,7 +104,6 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	@touch $@
 
 $(build_target): $(src_done)
-	@chmod a-w $(hw_cache)
 	@( cd $(SRC_DIR) ; \
 	   ./configure ; \
 	   make python Parser/pgen ; \
@@ -120,12 +112,12 @@ $(build_target): $(src_done)
 	   make distclean ; \
 	 )
 	@( cd $(TARGET_BUILD_DIR) ; patch -p0 < $(cross_patch) )
+	@cp -a $(hw_cache_in) $(hw_cache)
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(python_environment) ./configure \
 	  --prefix=/usr               \
 	  --build=$(BUILD)            \
 	  --host=$(TARGET32)          \
 	  $(extra_configure_switches)
-	@chmod +w $(hw_cache)
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(python_environment) $(MAKE)
 	@touch $@
 
@@ -172,7 +164,10 @@ $(install_target): $(build_target)
 $(PYTHON32_PKG_DESCRIPTION_FILE): $(PYTHON32_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_python32_pkg): $(install_target) $(PYTHON32_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(PYTHON32_PKG_DESCRIPTION_FILE) $(PYTHON32_PKG_INSTALL_SCRIPT)
 	@cp $(PYTHON32_PKG_DESCRIPTION_FILE) $(PYTHON32_PKG)/.DESCRIPTION
 	@cp $(PYTHON32_PKG_INSTALL_SCRIPT) $(PYTHON32_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(PYTHON32_PKG)/.REQUIRES
@@ -186,4 +181,3 @@ $(build_python32_pkg): $(install_target) $(PYTHON32_PKG_DESCRIPTION_FILE)
 	 echo "url=$(PYTHON32_PKG_URL)"                                 >> $(PYTHON32_PKG)/.PKGINFO ; \
 	 echo "license=$(PYTHON32_PKG_LICENSE)"                         >> $(PYTHON32_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(PYTHON32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

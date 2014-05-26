@@ -2,7 +2,7 @@
 
 VERSION=1.11
 
-tar --files-from=file.list -xzf ../icmpinfo-$VERSION.tar.gz
+tar --files-from=file.list -xzvf ../icmpinfo-$VERSION.tar.gz
 mv icmpinfo-$VERSION icmpinfo-$VERSION-orig
 
 cp -rf ./icmpinfo-$VERSION-new ./icmpinfo-$VERSION

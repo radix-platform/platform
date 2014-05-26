@@ -1,17 +1,18 @@
 
-COMPONENT_TARGETS   += $(TARGET_PC64)
+COMPONENT_TARGETS    = $(HARDWARE_PC64)
 
 NEED_ABS_PATH        = true
-
 COMPONENT_IS_3PP     = true
+
+CREATE_X86_32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES      = $(SRC_PACKAGE_DIR)/packages/n/nettle
+SOURCE_REQUIRES      = sources/packages/n/nettle
 
-REQUIRES             = libs/gmp/5.1.3
+REQUIRES             = libs/gmp/5.1.3-x86_32
 
 
 version              = 2.7.1
@@ -26,7 +27,6 @@ PATCHES = PATCHES
 build_dir            = $(TARGET_BUILD_DIR)/build
 build_target         = $(TARGET_BUILD_DIR)/.build_done
 install_target       = $(TARGET_BUILD_DIR)/.install_done
-build_nettle32_pkg   = $(TARGET_BUILD_DIR)/.nettle32_pkg_done
 
 
 ####### Targets
@@ -35,14 +35,14 @@ PKG_GROUP = net
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-NETTLE32_PKG_NAME                = nettle32
+NETTLE32_PKG_NAME                = nettle-x32
 NETTLE32_PKG_VERSION             = 2.7.1
 NETTLE32_PKG_ARCH                = $(TOOLCHAIN)
 NETTLE32_PKG_DISTRO_NAME         = kxLab
 NETTLE32_PKG_DISTRO_VERSION      = 1.0
 NETTLE32_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-NETTLE32_PKG_SHORT_DESCRIPTION   = nettle32 $(version)
+NETTLE32_PKG_SHORT_DESCRIPTION   = nettle-x32 $(version)
 NETTLE32_PKG_URL                 = http://www.kxLab.com
 NETTLE32_PKG_LICENSE             = GPLv2
 NETTLE32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(NETTLE32_PKG_NAME)-pkg-description
@@ -52,33 +52,24 @@ NETTLE32_PKG_INSTALL_SCRIPT      = $(NETTLE32_PKG_NAME)-pkg-install.sh
 NETTLE32_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(NETTLE32_PKG_NAME)-package
 
 pkg_basename     = $(NETTLE32_PKG_NAME)-$(NETTLE32_PKG_VERSION)-$(NETTLE32_PKG_ARCH)-$(NETTLE32_PKG_DISTRO_NAME)-$(NETTLE32_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(NETTLE32_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_nettle32_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
 
 
 env_sysroot  = DESTDIR=$(NETTLE32_PKG)
-
-
-CC          += -m32
-CXX         += -m32
-
-# owerwrite LDFLAGS:
-#
-LDFLAGS      = -L$(TARGET_DEST_DIR)/lib$(MULTILIB_X86_32_SUFFIX)
-LDFLAGS     += -L$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)
-
-ARCH_FLAGS   = -m32 -g -O3 -march=i486 -mtune=i686
-
-TARGET32     = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
 
 
 extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
@@ -136,7 +127,10 @@ $(install_target): $(build_target)
 $(NETTLE32_PKG_DESCRIPTION_FILE): $(NETTLE32_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_nettle32_pkg): $(install_target) $(NETTLE32_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(NETTLE32_PKG_DESCRIPTION_FILE) $(NETTLE32_PKG_INSTALL_SCRIPT)
 	@cp $(NETTLE32_PKG_DESCRIPTION_FILE) $(NETTLE32_PKG)/.DESCRIPTION
 	@cp $(NETTLE32_PKG_INSTALL_SCRIPT) $(NETTLE32_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(NETTLE32_PKG)/.REQUIRES
@@ -150,4 +144,3 @@ $(build_nettle32_pkg): $(install_target) $(NETTLE32_PKG_DESCRIPTION_FILE)
 	 echo "url=$(NETTLE32_PKG_URL)"                                 >> $(NETTLE32_PKG)/.PKGINFO ; \
 	 echo "license=$(NETTLE32_PKG_LICENSE)"                         >> $(NETTLE32_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(NETTLE32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

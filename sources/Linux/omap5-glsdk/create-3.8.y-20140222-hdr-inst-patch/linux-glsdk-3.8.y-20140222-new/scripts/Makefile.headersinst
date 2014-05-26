@@ -98,6 +98,7 @@ __headersinst: $(subdirs) $(install-file)
 	@:
 
 targets += $(install-file)
+.NOTPARALLEL: $(install-file)
 $(install-file): scripts/headers_install.pl $(input-files) FORCE
 	$(if $(unwanted),$(call cmd,remove),)
 	$(if $(wildcard $(dir $@)),,$(shell mkdir -p $(dir $@)))

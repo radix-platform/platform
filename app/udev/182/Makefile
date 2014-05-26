@@ -1,43 +1,29 @@
 
-COMPONENT_TARGETS += $(TARGET_PC32)
-COMPONENT_TARGETS += $(TARGET_PC64)
-COMPONENT_TARGETS += $(TARGET_CB1X)
-COMPONENT_TARGETS += $(TARGET_VIP1830)
-COMPONENT_TARGETS += $(TARGET_BEAGLE)
-COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
-COMPONENT_TARGETS += $(TARGET_B74)
-
-#
-# The rest targets links staticaly with newlib or uclibc and not requires xz libraties
-#
-# COMPONENT_TARGETS += $(TARGET_CB1N)
-# COMPONENT_TARGETS += $(TARGET_GUARD)
-# COMPONENT_TARGETS += $(TARGET_VIP1830N)
-# COMPONENT_TARGETS += $(TARGET_L17UC)
-#
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
 
 
 NEED_ABS_PATH      = true
-
 COMPONENT_IS_3PP   = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/a/udev
+SOURCE_REQUIRES    = sources/packages/a/udev
 
-
-ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
-REQUIRES           = app/udev/182-x86_32
-else
 REQUIRES           = app/kmod/16
 REQUIRES          += libs/pcre/8.34
 REQUIRES          += app/util-linux/2.24.1
 REQUIRES          += libs/glib2/2.40.0
 REQUIRES          += app/usbutils/007
 REQUIRES          += app/pciutils/3.2.1
-endif
+
 
 version            = 182
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/a/udev/udev-$(version).tar.xz
@@ -51,7 +37,6 @@ PATCHES = PATCHES
 build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
-build_udev_pkg     = $(TARGET_BUILD_DIR)/.udev_pkg_done
 
 config_dir         = $(CURDIR)/config
 
@@ -80,14 +65,18 @@ UDEV_PKG_INSTALL_SCRIPT      = $(UDEV_PKG_NAME)-pkg-install.sh
 UDEV_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(UDEV_PKG_NAME)-package
 
 pkg_basename     = $(UDEV_PKG_NAME)-$(UDEV_PKG_VERSION)-$(UDEV_PKG_ARCH)-$(UDEV_PKG_DISTRO_NAME)-$(UDEV_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(UDEV_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_udev_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
@@ -219,7 +208,10 @@ $(install_target): $(build_target)
 $(UDEV_PKG_DESCRIPTION_FILE): $(UDEV_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_udev_pkg): $(install_target) $(UDEV_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(UDEV_PKG_DESCRIPTION_FILE) $(UDEV_PKG_INSTALL_SCRIPT)
 	@cp $(UDEV_PKG_DESCRIPTION_FILE) $(UDEV_PKG)/.DESCRIPTION
 	@cp $(UDEV_PKG_INSTALL_SCRIPT) $(UDEV_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(UDEV_PKG)/.REQUIRES
@@ -233,4 +225,3 @@ $(build_udev_pkg): $(install_target) $(UDEV_PKG_DESCRIPTION_FILE)
 	 echo "url=$(UDEV_PKG_URL)"                                 >> $(UDEV_PKG)/.PKGINFO ; \
 	 echo "license=$(UDEV_PKG_LICENSE)"                         >> $(UDEV_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(UDEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

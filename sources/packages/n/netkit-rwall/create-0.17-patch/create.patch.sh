@@ -2,7 +2,7 @@
 
 VERSION=0.17
 
-tar --files-from=file.list -xzf ../netkit-rwall-$VERSION.tar.gz
+tar --files-from=file.list -xzvf ../netkit-rwall-$VERSION.tar.gz
 mv netkit-rwall-$VERSION netkit-rwall-$VERSION-orig
 
 cp -rf ./netkit-rwall-$VERSION-new ./netkit-rwall-$VERSION

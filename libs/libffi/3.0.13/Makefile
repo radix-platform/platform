@@ -1,38 +1,24 @@
 
-COMPONENT_TARGETS += $(TARGET_PC32)
-COMPONENT_TARGETS += $(TARGET_PC64)
-COMPONENT_TARGETS += $(TARGET_CB1X)
-COMPONENT_TARGETS += $(TARGET_VIP1830)
-COMPONENT_TARGETS += $(TARGET_BEAGLE)
-COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
-COMPONENT_TARGETS += $(TARGET_B74)
-
-#
-# The rest targets links staticaly with newlib or uclibc and not requires xz libraties
-#
-# COMPONENT_TARGETS += $(TARGET_CB1N)
-# COMPONENT_TARGETS += $(TARGET_GUARD)
-# COMPONENT_TARGETS += $(TARGET_VIP1830N)
-# COMPONENT_TARGETS += $(TARGET_L17UC)
-#
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
 
 
 NEED_ABS_PATH      = true
-
 COMPONENT_IS_3PP   = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = $(SRC_PACKAGE_DIR)/packages/l/libffi
+SOURCE_REQUIRES    = sources/packages/l/libffi
 
-
-ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
-REQUIRES           = libs/libffi/3.0.13-x86_32
-else
 REQUIRES           = libs/eglibc/2.18.1
-endif
+
 
 version            = 3.0.13
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/libffi/libffi-$(version).tar.gz
@@ -46,8 +32,6 @@ PATCHES = PATCHES
 build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
-build_libffi_pkg   = $(TARGET_BUILD_DIR)/.libffi_pkg_done
-
 
 
 ####### Targets
@@ -74,14 +58,18 @@ LIBFFI_PKG_INSTALL_SCRIPT      = $(LIBFFI_PKG_NAME)-pkg-install.sh
 LIBFFI_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBFFI_PKG_NAME)-package
 
 pkg_basename     = $(LIBFFI_PKG_NAME)-$(LIBFFI_PKG_VERSION)-$(LIBFFI_PKG_ARCH)-$(LIBFFI_PKG_DISTRO_NAME)-$(LIBFFI_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(LIBFFI_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_libffi_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
@@ -170,7 +158,10 @@ $(install_target): $(build_target)
 $(LIBFFI_PKG_DESCRIPTION_FILE): $(LIBFFI_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_libffi_pkg): $(install_target) $(LIBFFI_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(LIBFFI_PKG_DESCRIPTION_FILE) $(LIBFFI_PKG_INSTALL_SCRIPT)
 	@cp $(LIBFFI_PKG_DESCRIPTION_FILE) $(LIBFFI_PKG)/.DESCRIPTION
 	@cp $(LIBFFI_PKG_INSTALL_SCRIPT) $(LIBFFI_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(LIBFFI_PKG)/.REQUIRES
@@ -184,4 +175,3 @@ $(build_libffi_pkg): $(install_target) $(LIBFFI_PKG_DESCRIPTION_FILE)
 	 echo "url=$(LIBFFI_PKG_URL)"                                 >> $(LIBFFI_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBFFI_PKG_LICENSE)"                         >> $(LIBFFI_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(LIBFFI_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

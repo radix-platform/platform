@@ -2,7 +2,7 @@
 
 VERSION=1.0.6
 
-tar --files-from=file.list -xzf ../bzip2-$VERSION.tar.gz
+tar --files-from=file.list -xzvf ../bzip2-$VERSION.tar.gz
 mv bzip2-$VERSION bzip2-$VERSION-orig
 
 cp -rf ./bzip2-$VERSION-new ./bzip2-$VERSION

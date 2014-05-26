@@ -1,32 +1,21 @@
 
-COMPONENT_TARGETS  += $(TARGET_PC32)
-COMPONENT_TARGETS  += $(TARGET_PC64)
-COMPONENT_TARGETS  += $(TARGET_CB1X)
-COMPONENT_TARGETS  += $(TARGET_VIP1830)
-COMPONENT_TARGETS  += $(TARGET_BEAGLE)
-COMPONENT_TARGETS  += $(TARGET_OMAP5UEVM)
-COMPONENT_TARGETS  += $(TARGET_B74)
-
-#
-# The rest targets links staticaly with newlib or uclibc and not requires xz libraties
-#
-# COMPONENT_TARGETS  += $(TARGET_CB1N)
-# COMPONENT_TARGETS  += $(TARGET_GUARD)
-# COMPONENT_TARGETS  += $(TARGET_VIP1830N)
-# COMPONENT_TARGETS  += $(TARGET_L17UC)
-#
+COMPONENT_TARGETS   = $(HARDWARE_PC32)
+COMPONENT_TARGETS  += $(HARDWARE_PC64)
+COMPONENT_TARGETS  += $(HARDWARE_CB1X)
+COMPONENT_TARGETS  += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS  += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS  += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS  += $(HARDWARE_B74)
 
 
 NEED_ABS_PATH       = true
-
 COMPONENT_IS_3PP    = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES     = $(SRC_PACKAGE_DIR)/GNU/coreutils
-
+SOURCE_REQUIRES     = sources/GNU/coreutils
 
 REQUIRES           += libs/eglibc/2.18.1
 
@@ -40,7 +29,7 @@ src_done            = $(TARGET_BUILD_DIR)/.source_done
 
 man_pages_dir       = $(CURDIR)/man-pages
 
-ifneq ($(filter $(HARDWARE),$(TARGET_PC32) $(TARGET_PC64)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32) $(HARDWARE_PC64)),)
 PATCHES = PATCHES
 else
 PATCHES = PATCHES.noman
@@ -49,7 +38,6 @@ endif
 build_dir           = $(TARGET_BUILD_DIR)/build
 build_target        = $(TARGET_BUILD_DIR)/.build_done
 install_target      = $(TARGET_BUILD_DIR)/.install_done
-build_coreutils_pkg = $(TARGET_BUILD_DIR)/.coreutils_pkg_done
 
 
 
@@ -77,14 +65,18 @@ COREUTILS_PKG_INSTALL_SCRIPT      = $(COREUTILS_PKG_NAME)-pkg-install.sh
 COREUTILS_PKG    = $(CURDIR)/$(TARGET_BUILD_DIR)/$(COREUTILS_PKG_NAME)-package
 
 pkg_basename     = $(COREUTILS_PKG_NAME)-$(COREUTILS_PKG_VERSION)-$(COREUTILS_PKG_ARCH)-$(COREUTILS_PKG_DISTRO_NAME)-$(COREUTILS_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(COREUTILS_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_coreutils_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
@@ -104,11 +96,6 @@ extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --disable-rpath
 extra_configure_switches += --bindir=/bin
 extra_configure_switches += --without-gmp
-
-
-ifeq ($(filter $(HARDWARE),$(TARGET_PC32) $(TARGET_PC64)),)
-#extra_configure_switches += --cache-file=$(CURDIR)/cross.cache
-endif
 
 
 ####### Dependencies
@@ -135,7 +122,7 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(COREUTILS_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) install $(env_sysroot)
-ifeq ($(filter $(HARDWARE),$(TARGET_PC32) $(TARGET_PC64)),)
+ifeq ($(filter $(HARDWARE),$(HARDWARE_PC32) $(HARDWARE_PC64)),)
 	@mkdir -p $(COREUTILS_PKG)/usr/share/man
 	@( cd $(COREUTILS_PKG)/usr/share/man ; \
 	   tar xzf $(man_pages_dir)/man1-$(version) \
@@ -200,7 +187,10 @@ endif
 $(COREUTILS_PKG_DESCRIPTION_FILE): $(COREUTILS_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_coreutils_pkg): $(install_target) $(COREUTILS_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(COREUTILS_PKG_DESCRIPTION_FILE) $(COREUTILS_PKG_INSTALL_SCRIPT)
 	@cp $(COREUTILS_PKG_DESCRIPTION_FILE) $(COREUTILS_PKG)/.DESCRIPTION
 	@cp $(COREUTILS_PKG_INSTALL_SCRIPT) $(COREUTILS_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(COREUTILS_PKG)/.REQUIRES
@@ -214,4 +204,3 @@ $(build_coreutils_pkg): $(install_target) $(COREUTILS_PKG_DESCRIPTION_FILE)
 	 echo "url=$(COREUTILS_PKG_URL)"                                 >> $(COREUTILS_PKG)/.PKGINFO ; \
 	 echo "license=$(COREUTILS_PKG_LICENSE)"                         >> $(COREUTILS_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(COREUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

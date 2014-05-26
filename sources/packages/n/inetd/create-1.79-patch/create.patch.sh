@@ -2,7 +2,7 @@
 
 VERSION=1.79
 
-tar --files-from=file.list -xzf ../inetd-OpenBSD-$VERSION.tar.gz
+tar --files-from=file.list -xzvf ../inetd-OpenBSD-$VERSION.tar.gz
 mv inetd inetd-orig
 
 cp -rf ./inetd-new ./inetd

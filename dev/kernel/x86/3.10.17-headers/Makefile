@@ -1,22 +1,20 @@
 
-COMPONENT_TARGETS += $(TARGET_PC32)
-COMPONENT_TARGETS += $(TARGET_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
 
 NEED_ABS_PATH     = true
-
 COMPONENT_IS_3PP  = true
 
 
 include ../../../../build-system/constants.mk
 
 
-version          = 3.10.17
-
-SOURCE_REQUIRES  = $(SRC_PACKAGE_DIR)/Linux/v3.x
+SOURCE_REQUIRES  = sources/Linux/v3.x
 
 REQUIRES         = base/pkgtool
 
 
+version          = 3.10.17
 modules_version  = 3.10.17
 full_version     = $(version)
 tar_bz2_archive  = $(SRC_PACKAGE_PATH)/Linux/v3.x/linux-$(version).tar.bz2
@@ -30,10 +28,11 @@ build_kh_pkg = $(TARGET_BUILD_DIR)/.kernel_headers_pkg_done
 
 PATCHES =
 
-ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME) $(I686_EGLIBC_TOOLCHAIN_NAME)),)
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC) $(TOOLCHAIN_I686_EGLIBC)),)
 ARCH = x86
 endif
 
+USE_TARGET_DEST_DIR_SYSROOT = no
 
 ####### Targets
 
@@ -60,13 +59,17 @@ KH_DEV_PKG_INSTALL_SCRIPT      = $(KH_DEV_PKG_NAME)-pkg-install.sh
 KH_DEV_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(KH_DEV_PKG_NAME)-package
 
 pkg_basename     = $(KH_DEV_PKG_NAME)-$(KH_DEV_PKG_VERSION)-$(KH_DEV_PKG_ARCH)-$(KH_DEV_PKG_DISTRO_NAME)-$(KH_DEV_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(KH_DEV_PKG_GROUP)/$(pkg_basename).tgz
+
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
 BUILD_TARGETS    = $(build_kh_pkg)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../../build-system/core.mk
@@ -90,17 +93,23 @@ $(KH_DEV_PKG)/usr/include/linux/autoconf.h: $(SRC_DIR)/include/generated/uapi/li
 	           INSTALL_HDR_PATH=$(KH_DEV_PKG)/usr
 	touch $@
 
-$(KH_DEV_PKG_DESCRIPTION_FILE): $(KH_DEV_PKG_DESCRIPTION_FILE_IN)
-	@cat $< | $(SED) -e "s/@KERNEL_VERSION@/$(version)/g" > $@
-
-$(build_kh_pkg): $(KH_DEV_PKG)/usr/include/linux/autoconf.h $(KH_DEV_PKG_DESCRIPTION_FILE)
+$(build_kh_pkg): $(KH_DEV_PKG)/usr/include/linux/autoconf.h
 	@( cd $(KH_DEV_PKG)/usr/include ; \
 	   for file in `find . -name *.install*` ; do \
 	     rm -f $$file; \
 	   done )
-	# Install the same to $(TARGET_DEST_DIR)
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(KH_DEV_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	@touch $@
+
+$(KH_DEV_PKG_DESCRIPTION_FILE): $(KH_DEV_PKG_DESCRIPTION_FILE_IN)
+	@cat $< | $(SED) -e "s/@KERNEL_VERSION@/$(version)/g" > $@
+
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(build_kh_pkg) $(KH_DEV_PKG_DESCRIPTION_FILE) $(KH_DEV_PKG_INSTALL_SCRIPT)
 	@cp $(KH_DEV_PKG_DESCRIPTION_FILE) $(KH_DEV_PKG)/.DESCRIPTION
 	@cp $(KH_DEV_PKG_INSTALL_SCRIPT) $(KH_DEV_PKG)/.INSTALL
 	@$(BUILD_BIN_PKG_REQUIRES) $(KH_DEV_PKG)/.REQUIRES
@@ -114,4 +123,3 @@ $(build_kh_pkg): $(KH_DEV_PKG)/usr/include/linux/autoconf.h $(KH_DEV_PKG_DESCRIP
 	 echo "url=$(KH_DEV_PKG_URL)"                                 >> $(KH_DEV_PKG)/.PKGINFO ; \
 	 echo "license=$(KH_DEV_PKG_LICENSE)"                         >> $(KH_DEV_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(KH_DEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

@@ -1,5 +1,5 @@
 
-COMPONENT_TARGETS = $(TARGET_OMAP5UEVM)
+COMPONENT_TARGETS = $(HARDWARE_OMAP5UEVM)
 
 NEED_ABS_PATH     = true
 
@@ -41,22 +41,23 @@ KS_DEV_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(KS_DEV_PKG_NAME)-package
 build_ks_pkg     = $(TARGET_BUILD_DIR)/.kernel_sources_pkg_done
 
 pkg_basename     = $(KS_DEV_PKG_NAME)-$(KS_DEV_PKG_VERSION)-$(KS_DEV_PKG_ARCH)-$(KS_DEV_PKG_DISTRO_NAME)-$(KS_DEV_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(KS_DEV_PKG_GROUP)/$(pkg_basename).tgz
+
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
 BUILD_TARGETS    = $(build_ks_pkg)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../../build-system/core.mk
 
 
-$(KS_DEV_PKG_DESCRIPTION_FILE): $(KS_DEV_PKG_DESCRIPTION_FILE_IN)
-	@cat $< | $(SED) -e "s/@KERNEL_VERSION@/$(kernel_version)/g" > $@
-
-$(build_ks_pkg): $(KS_DEV_PKG_DESCRIPTION_FILE)
+$(build_ks_pkg):
 	@mkdir -p $(KS_DEV_PKG)/usr/src
 	@cd $(TARGET_DEST_DIR)/usr/src && \
 	 cp -rf linux-glsdk-$(kernel_version) $(KS_DEV_PKG)/usr/src
@@ -68,6 +69,15 @@ $(build_ks_pkg): $(KS_DEV_PKG_DESCRIPTION_FILE)
 	@cd $(KS_DEV_PKG)/lib/modules/$(modules_version) && \
 	 $(LN_S)f ../../../usr/src/linux build && \
 	 $(LN_S)f ../../../usr/src/linux source
+	@touch $@
+
+$(KS_DEV_PKG_DESCRIPTION_FILE): $(KS_DEV_PKG_DESCRIPTION_FILE_IN)
+	@cat $< | $(SED) -e "s/@KERNEL_VERSION@/$(kernel_version)/g" > $@
+
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(build_ks_pkg) $(KS_DEV_PKG_DESCRIPTION_FILE) $(KS_DEV_PKG_INSTALL_SCRIPT)
 	@cp $(KS_DEV_PKG_DESCRIPTION_FILE) $(KS_DEV_PKG)/.DESCRIPTION
 	@cp $(KS_DEV_PKG_INSTALL_SCRIPT) $(KS_DEV_PKG)/.INSTALL
 	@$(BUILD_BIN_PKG_REQUIRES) $(KS_DEV_PKG)/.REQUIRES
@@ -81,4 +91,3 @@ $(build_ks_pkg): $(KS_DEV_PKG_DESCRIPTION_FILE)
 	 echo "url=$(KS_DEV_PKG_URL)"                                 >> $(KS_DEV_PKG)/.PKGINFO ; \
 	 echo "license=$(KS_DEV_PKG_LICENSE)"                         >> $(KS_DEV_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(KS_DEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

@@ -2,7 +2,7 @@
 
 VERSION=2.4.47
 
-tar --files-from=file.list -xzf ../attr-$VERSION.src.tar.gz
+tar --files-from=file.list -xzvf ../attr-$VERSION.src.tar.gz
 mv attr-$VERSION attr-$VERSION-orig
 
 cp -rf ./attr-$VERSION-new ./attr-$VERSION

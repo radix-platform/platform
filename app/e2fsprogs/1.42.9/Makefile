@@ -1,38 +1,24 @@
 
-COMPONENT_TARGETS += $(TARGET_PC32)
-COMPONENT_TARGETS += $(TARGET_PC64)
-COMPONENT_TARGETS += $(TARGET_CB1X)
-COMPONENT_TARGETS += $(TARGET_VIP1830)
-COMPONENT_TARGETS += $(TARGET_BEAGLE)
-COMPONENT_TARGETS += $(TARGET_OMAP5UEVM)
-COMPONENT_TARGETS += $(TARGET_B74)
-
-#
-# The rest targets links staticaly with newlib or uclibc and not requires bzip2 libraties
-#
-# COMPONENT_TARGETS += $(TARGET_CB1N)
-# COMPONENT_TARGETS += $(TARGET_GUARD)
-# COMPONENT_TARGETS += $(TARGET_VIP1830N)
-# COMPONENT_TARGETS += $(TARGET_L17UC)
-#
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
 
 
 NEED_ABS_PATH      = true
-
 COMPONENT_IS_3PP   = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES     = $(SRC_PACKAGE_DIR)/packages/a/e2fsprogs
+SOURCE_REQUIRES     = sources/packages/a/e2fsprogs
 
-
-ifneq ($(filter $(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME)),)
-REQUIRES            = app/e2fsprogs/1.42.9-x86_32
-else
 REQUIRES            = app/util-linux/2.24.1
-endif
+
 
 version             = 1.42.9
 tar_xz_archive      = $(SRC_PACKAGE_PATH)/packages/a/e2fsprogs/e2fsprogs-$(version).tar.xz
@@ -46,8 +32,6 @@ PATCHES = PATCHES
 build_dir           = $(TARGET_BUILD_DIR)/build
 build_target        = $(TARGET_BUILD_DIR)/.build_done
 install_target      = $(TARGET_BUILD_DIR)/.install_done
-build_e2fsprogs_pkg = $(TARGET_BUILD_DIR)/.e2fsprogs_pkg_done
-
 
 
 ####### Targets
@@ -74,14 +58,18 @@ E2FSPROGS_PKG_INSTALL_SCRIPT      = $(E2FSPROGS_PKG_NAME)-pkg-install.sh
 E2FSPROGS_PKG    = $(CURDIR)/$(TARGET_BUILD_DIR)/$(E2FSPROGS_PKG_NAME)-package
 
 pkg_basename     = $(E2FSPROGS_PKG_NAME)-$(E2FSPROGS_PKG_VERSION)-$(E2FSPROGS_PKG_ARCH)-$(E2FSPROGS_PKG_DISTRO_NAME)-$(E2FSPROGS_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(E2FSPROGS_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_e2fsprogs_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
@@ -209,7 +197,10 @@ $(install_target): $(build_target)
 $(E2FSPROGS_PKG_DESCRIPTION_FILE): $(E2FSPROGS_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_e2fsprogs_pkg): $(install_target) $(E2FSPROGS_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(E2FSPROGS_PKG_DESCRIPTION_FILE) $(E2FSPROGS_PKG_INSTALL_SCRIPT)
 	@cp $(E2FSPROGS_PKG_DESCRIPTION_FILE) $(E2FSPROGS_PKG)/.DESCRIPTION
 	@cp $(E2FSPROGS_PKG_INSTALL_SCRIPT) $(E2FSPROGS_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(E2FSPROGS_PKG)/.REQUIRES
@@ -223,4 +214,3 @@ $(build_e2fsprogs_pkg): $(install_target) $(E2FSPROGS_PKG_DESCRIPTION_FILE)
 	 echo "url=$(E2FSPROGS_PKG_URL)"                                 >> $(E2FSPROGS_PKG)/.PKGINFO ; \
 	 echo "license=$(E2FSPROGS_PKG_LICENSE)"                         >> $(E2FSPROGS_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(E2FSPROGS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

@@ -1,5 +1,5 @@
 
-COMPONENT_TARGETS = $(TARGET_OMAP5UEVM)
+COMPONENT_TARGETS = $(HARDWARE_OMAP5UEVM)
 
 NEED_ABS_PATH     = true
 
@@ -9,7 +9,7 @@ COMPONENT_IS_3PP  = true
 include ../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES  += $(SRC_PACKAGE_DIR)/hal/omap/sgx-ddk
+SOURCE_REQUIRES   = sources/hal/omap/sgx-ddk
 
 REQUIRES          = boot/kernel/omap543x/3.8.y-20140222
 
@@ -34,7 +34,7 @@ modules_done      = $(build_dir)/.modules_done
 PATCHES = PATCHES
 
 
-ifneq ($(filter $(TOOLCHAIN),$(OMAP543X_EGLIBC_TOOLCHAIN_NAME)),)
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_OMAP543X_EGLIBC)),)
 ARCH = arm
 endif
 
@@ -42,10 +42,11 @@ extra_build_environment  = KERNELDIR=$(kernel_sources)
 extra_build_environment += DISCIMAGE=$(TARGET_DEST_DIR)
 extra_build_environment += INSTALL_MOD_PATH=$(TARGET_DEST_DIR)
 
-ifneq ($(filter $(TOOLCHAIN),$(OMAP543X_EGLIBC_TOOLCHAIN_NAME)),)
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_OMAP543X_EGLIBC)),)
 SGX_KERNEL_MODULE_PATH  = $(CURDIR)/$(SRC_DIR)/eurasia_km/eurasiacon/build/linux2/omap5430_linux
 endif
 
+USE_TARGET_DEST_DIR_SYSROOT = no
 
 ####### Targets
 
@@ -54,11 +55,7 @@ PKG_GROUP = boot
 
 SGXDDK_BIN_PKG_NAME                = sgxddk
 SGXDDK_BIN_PKG_VERSION             = 1.9.0.11
-ifeq ($(HARDWARE),$(TARGET_HOST))
-SGXDDK_BIN_PKG_ARCH                = $(shell uname -m)
-else
 SGXDDK_BIN_PKG_ARCH                = $(TOOLCHAIN)
-endif
 SGXDDK_BIN_PKG_DISTRO_NAME         = kxLab
 SGXDDK_BIN_PKG_DISTRO_VERSION      = 1.0
 SGXDDK_BIN_PKG_GROUP               = $(PKG_GROUP)
@@ -74,15 +71,18 @@ SGXDDK_BIN_PKG_INSTALL_SCRIPT_IN   = $(SGXDDK_BIN_PKG_NAME)-pkg-install.sh.in
 SGXDDK_BIN_PKG   = $(CURDIR)/$(TARGET_BUILD_DIR)/$(SGXDDK_BIN_PKG_NAME)-package
 
 pkg_basename     = $(SGXDDK_BIN_PKG_NAME)-$(SGXDDK_BIN_PKG_VERSION)-$(SGXDDK_BIN_PKG_ARCH)-$(SGXDDK_BIN_PKG_DISTRO_NAME)-$(SGXDDK_BIN_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(SGXDDK_BIN_PKG_GROUP)/$(pkg_basename).tgz
 
-BUILD_TARGETS    = $(build_sgxddk_pkg)
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+BUILD_TARGETS    = $(modules_done)
+BUILD_TARGETS   += $(build_sgxddk_pkg)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+PRODUCT_TARGETS  = $(products)
 
-CLEANUP_FILES   += $(SRC_DIR)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../../build-system/core.mk
@@ -104,15 +104,7 @@ $(modules_done): $(src_done)
 	$(LMAKE) kbuild_install
 	@touch $@
 
-
-$(SGXDDK_BIN_PKG_DESCRIPTION_FILE): $(SGXDDK_BIN_PKG_DESCRIPTION_FILE_IN)
-	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
-
-$(SGXDDK_BIN_PKG_INSTALL_SCRIPT): $(SGXDDK_BIN_PKG_INSTALL_SCRIPT_IN)
-	@cat $< | $(SED) -e "s/@MODULES_VERSION@/$(modules_version)/g" > $@
-
-
-$(build_sgxddk_pkg): $(modules_done) $(SGXDDK_BIN_PKG_DESCRIPTION_FILE) $(SGXDDK_BIN_PKG_INSTALL_SCRIPT)
+$(build_sgxddk_pkg): $(modules_done)
 	@mkdir -p $(SGXDDK_BIN_PKG)/lib/modules/$(modules_version)
 	# Copy modules and firmware (without links to sources):
 	@cd $(TARGET_DEST_DIR)/lib/modules/$(modules_version) && \
@@ -124,6 +116,18 @@ $(build_sgxddk_pkg): $(modules_done) $(SGXDDK_BIN_PKG_DESCRIPTION_FILE) $(SGXDDK
 	@cp -a $(SRC_DIR)/eurasia_km/*-COPYING \
 	       $(SRC_DIR)/eurasia_km/INSTALL $(SRC_DIR)/eurasia_km/README \
 	       $(SGXDDK_BIN_PKG)/usr/doc/sgxddk-$(version)
+	@touch $@
+
+$(SGXDDK_BIN_PKG_DESCRIPTION_FILE): $(SGXDDK_BIN_PKG_DESCRIPTION_FILE_IN)
+	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
+
+$(SGXDDK_BIN_PKG_INSTALL_SCRIPT): $(SGXDDK_BIN_PKG_INSTALL_SCRIPT_IN)
+	@cat $< | $(SED) -e "s/@MODULES_VERSION@/$(modules_version)/g" > $@
+
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(build_sgxddk_pkg) $(SGXDDK_BIN_PKG_DESCRIPTION_FILE) $(SGXDDK_BIN_PKG_INSTALL_SCRIPT)
 	@cp $(SGXDDK_BIN_PKG_DESCRIPTION_FILE) $(SGXDDK_BIN_PKG)/.DESCRIPTION
 	@cp $(SGXDDK_BIN_PKG_INSTALL_SCRIPT) $(SGXDDK_BIN_PKG)/.INSTALL
 	@chmod a+x $(SGXDDK_BIN_PKG)/.INSTALL
@@ -138,4 +142,3 @@ $(build_sgxddk_pkg): $(modules_done) $(SGXDDK_BIN_PKG_DESCRIPTION_FILE) $(SGXDDK
 	 echo "url=$(SGXDDK_BIN_PKG_URL)"                                 >> $(SGXDDK_BIN_PKG)/.PKGINFO ; \
 	 echo "license=$(SGXDDK_BIN_PKG_LICENSE)"                         >> $(SGXDDK_BIN_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(SGXDDK_BIN_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

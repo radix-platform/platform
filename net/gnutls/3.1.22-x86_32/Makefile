@@ -1,24 +1,25 @@
 
-COMPONENT_TARGETS   += $(TARGET_PC64)
+COMPONENT_TARGETS    = $(HARDWARE_PC64)
 
 NEED_ABS_PATH        = true
-
 COMPONENT_IS_3PP     = true
+
+CREATE_X86_32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES      = $(SRC_PACKAGE_DIR)/packages/n/gnutls
+SOURCE_REQUIRES      = sources/packages/n/gnutls
 
-REQUIRES             = libs/zlib/1.2.8
-REQUIRES            += libs/libffi/3.0.13
-REQUIRES            += libs/libidn/1.28
-REQUIRES            += libs/gmp/5.1.3
-REQUIRES            += libs/libtasn1/3.4
-REQUIRES            += net/p11-kit/0.20.2
-REQUIRES            += net/nettle/2.7.1
-REQUIRES            += dev/guile/2.0.9
+REQUIRES             = libs/zlib/1.2.8-x86_32
+REQUIRES            += libs/libffi/3.0.13-x86_32
+REQUIRES            += libs/libidn/1.28-x86_32
+REQUIRES            += libs/gmp/5.1.3-x86_32
+REQUIRES            += libs/libtasn1/3.4-x86_32
+REQUIRES            += net/p11-kit/0.20.2-x86_32
+REQUIRES            += net/nettle/2.7.1-x86_32
+REQUIRES            += dev/guile/2.0.9-x86_32
 
 
 version              = 3.1.22
@@ -33,7 +34,6 @@ PATCHES = PATCHES
 build_dir            = $(TARGET_BUILD_DIR)/build
 build_target         = $(TARGET_BUILD_DIR)/.build_done
 install_target       = $(TARGET_BUILD_DIR)/.install_done
-build_gnutls32_pkg   = $(TARGET_BUILD_DIR)/.gnutls32_pkg_done
 
 
 ####### Targets
@@ -42,14 +42,14 @@ PKG_GROUP = net
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-GNUTLS32_PKG_NAME                = gnutls32
+GNUTLS32_PKG_NAME                = gnutls-x32
 GNUTLS32_PKG_VERSION             = 3.1.22
 GNUTLS32_PKG_ARCH                = $(TOOLCHAIN)
 GNUTLS32_PKG_DISTRO_NAME         = kxLab
 GNUTLS32_PKG_DISTRO_VERSION      = 1.0
 GNUTLS32_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-GNUTLS32_PKG_SHORT_DESCRIPTION   = gnutls32 $(version)
+GNUTLS32_PKG_SHORT_DESCRIPTION   = gnutls-x32 $(version)
 GNUTLS32_PKG_URL                 = http://www.kxLab.com
 GNUTLS32_PKG_LICENSE             = GPLv2
 GNUTLS32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GNUTLS32_PKG_NAME)-pkg-description
@@ -59,33 +59,24 @@ GNUTLS32_PKG_INSTALL_SCRIPT      = $(GNUTLS32_PKG_NAME)-pkg-install.sh
 GNUTLS32_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(GNUTLS32_PKG_NAME)-package
 
 pkg_basename     = $(GNUTLS32_PKG_NAME)-$(GNUTLS32_PKG_VERSION)-$(GNUTLS32_PKG_ARCH)-$(GNUTLS32_PKG_DISTRO_NAME)-$(GNUTLS32_PKG_DISTRO_VERSION)
-pkg_basename_tgz = $(TARGET_BUILD_DIR)/$(GNUTLS32_PKG_GROUP)/$(pkg_basename).tgz
 
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_gnutls32_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-ROOTFS_TARGETS   = $(pkg_basename_tgz)
+PRODUCT_TARGETS  = $(products)
 
-PRODUCT_TARGETS  = $(TARGET_BUILD_DIR)/$(PKG_GROUP)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
 
 
 env_sysroot  = DESTDIR=$(GNUTLS32_PKG)
-
-
-CC          += -m32
-CXX         += -m32
-
-# owerwrite LDFLAGS:
-#
-LDFLAGS      = -L$(TARGET_DEST_DIR)/lib$(MULTILIB_X86_32_SUFFIX)
-LDFLAGS     += -L$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)
-
-ARCH_FLAGS   = -m32 -g -O3 -march=i486 -mtune=i686
-
-TARGET32     = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
 
 
 extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
@@ -163,7 +154,10 @@ $(install_target): $(build_target)
 $(GNUTLS32_PKG_DESCRIPTION_FILE): $(GNUTLS32_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
-$(build_gnutls32_pkg): $(install_target) $(GNUTLS32_PKG_DESCRIPTION_FILE)
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(GNUTLS32_PKG_DESCRIPTION_FILE) $(GNUTLS32_PKG_INSTALL_SCRIPT)
 	@cp $(GNUTLS32_PKG_DESCRIPTION_FILE) $(GNUTLS32_PKG)/.DESCRIPTION
 	@cp $(GNUTLS32_PKG_INSTALL_SCRIPT) $(GNUTLS32_PKG)/.INSTALL
 	@$(BUILD_PKG_REQUIRES) $(GNUTLS32_PKG)/.REQUIRES
@@ -177,4 +171,3 @@ $(build_gnutls32_pkg): $(install_target) $(GNUTLS32_PKG_DESCRIPTION_FILE)
 	 echo "url=$(GNUTLS32_PKG_URL)"                                 >> $(GNUTLS32_PKG)/.PKGINFO ; \
 	 echo "license=$(GNUTLS32_PKG_LICENSE)"                         >> $(GNUTLS32_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(GNUTLS32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
-	@touch $@

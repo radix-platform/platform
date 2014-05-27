@@ -12,7 +12,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/mpfr
 
-REQUIRES           = libs/gmp/5.1.3-x86_32
+REQUIRES           = libs/mpfr/3.1.2
+REQUIRES          += libs/gmp/5.1.3-x86_32
 
 
 version            = 3.1.2

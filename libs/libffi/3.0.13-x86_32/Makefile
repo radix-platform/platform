@@ -12,7 +12,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/libffi
 
-REQUIRES           = libs/eglibc/2.18.1-x86_32
+REQUIRES           = libs/libffi/3.0.13
+REQUIRES          += libs/eglibc/2.18.1-x86_32
 
 
 version            = 3.0.13

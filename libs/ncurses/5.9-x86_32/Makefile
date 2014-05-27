@@ -12,7 +12,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES      = sources/GNU/ncurses/5.9
 
-REQUIRES             = app/gpm/1.20.7-x86_32
+REQUIRES             = libs/ncurses/5.9
+REQUIRES            += app/gpm/1.20.7-x86_32
 
 
 version              = 5.9

@@ -12,7 +12,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES      = sources/packages/a/pciutils
 
-REQUIRES             = libs/zlib/1.2.8-x86_32
+REQUIRES             = app/pciutils/3.2.1
+REQUIRES            += libs/zlib/1.2.8-x86_32
 REQUIRES            += app/kmod/16-x86_32
 
 

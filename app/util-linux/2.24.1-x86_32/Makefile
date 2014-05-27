@@ -12,7 +12,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES       = sources/packages/a/util-linux
 
-REQUIRES              = libs/zlib/1.2.8-x86_32
+REQUIRES              = app/util-linux/2.24.1
+REQUIRES             += libs/zlib/1.2.8-x86_32
 REQUIRES             += libs/libtermcap/1.2.3-x86_32
 
 

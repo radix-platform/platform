@@ -12,7 +12,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES      = sources/GNU/readline
 
-REQUIRES             = libs/ncurses/5.9-x86_32
+REQUIRES             = libs/readline/6.3
+REQUIRES            += libs/ncurses/5.9-x86_32
 REQUIRES            += libs/libtermcap/1.2.3-x86_32
 
 

@@ -12,7 +12,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES      = sources/packages/n/libassuan
 
-REQUIRES             = net/libgpg-error/1.12-x86_32
+REQUIRES             = net/libassuan/2.1.1
+REQUIRES            += net/libgpg-error/1.12-x86_32
 
 
 version              = 2.1.1

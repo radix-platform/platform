@@ -12,7 +12,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES      = sources/packages/n/libgpg-error
 
-REQUIRES             = libs/eglibc/2.18.1-x86_32
+REQUIRES             = net/libgpg-error/1.12
+REQUIRES            += libs/eglibc/2.18.1-x86_32
 
 
 version              = 1.12

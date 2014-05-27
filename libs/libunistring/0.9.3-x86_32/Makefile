@@ -12,7 +12,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/libunistring
 
-REQUIRES           = libs/eglibc/2.18.1-x86_32
+REQUIRES           = libs/libunistring/0.9.3
+REQUIRES          += libs/eglibc/2.18.1-x86_32
 
 
 version            = 0.9.3

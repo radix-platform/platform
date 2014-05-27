@@ -12,7 +12,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES      = sources/packages/a/xfsprogs
 
-REQUIRES             = app/util-linux/2.24.1-x86_32
+REQUIRES             = app/xfsprogs/3.1.11
+REQUIRES            += app/util-linux/2.24.1-x86_32
 
 
 version              = 3.1.11

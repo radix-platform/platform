@@ -12,7 +12,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/expat
 
-REQUIRES           = libs/eglibc/2.18.1-x86_32
+REQUIRES           = libs/expat/2.1.0
+REQUIRES          += libs/eglibc/2.18.1-x86_32
 
 
 version            = 2.1.0

@@ -12,7 +12,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES      = sources/packages/n/nettle
 
-REQUIRES             = libs/gmp/5.1.3-x86_32
+REQUIRES             = net/nettle/2.7.1
+REQUIRES            += libs/gmp/5.1.3-x86_32
 
 
 version              = 2.7.1

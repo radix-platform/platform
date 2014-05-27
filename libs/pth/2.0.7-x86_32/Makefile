@@ -12,7 +12,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/pth
 
-REQUIRES           = libs/eglibc/2.18.1-x86_32
+REQUIRES           = libs/pth/2.0.7
+REQUIRES          += libs/eglibc/2.18.1-x86_32
 
 
 version            = 2.0.7

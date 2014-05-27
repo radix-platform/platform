@@ -12,7 +12,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES     = sources/packages/n/openssl
 
-REQUIRES            = libs/zlib/1.2.8-x86_32
+REQUIRES            = net/openssl/1.0.1g
+REQUIRES           += libs/zlib/1.2.8-x86_32
 REQUIRES           += libs/gmp/5.1.3-x86_32
 
 

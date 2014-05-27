@@ -12,7 +12,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/a/acl
 
-REQUIRES           = app/attr/2.4.47-x86_32
+REQUIRES           = app/acl/2.2.52
+REQUIRES          += app/attr/2.4.47-x86_32
 
 
 version            = 2.2.52

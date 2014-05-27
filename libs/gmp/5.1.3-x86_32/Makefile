@@ -12,7 +12,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/gmp
 
-REQUIRES           = libs/eglibc/2.18.1-x86_32
+REQUIRES           = libs/gmp/5.1.3
+REQUIRES          += libs/eglibc/2.18.1-x86_32
 
 
 version            = 5.1.3

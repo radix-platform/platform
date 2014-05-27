@@ -12,7 +12,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES      = sources/packages/n/libgcrypt
 
-REQUIRES             = net/libgpg-error/1.12-x86_32
+REQUIRES             = net/libgcrypt/1.6.1
+REQUIRES            += net/libgpg-error/1.12-x86_32
 REQUIRES            += net/libassuan/2.1.1-x86_32
 REQUIRES            += net/libksba/1.3.0-x86_32
 REQUIRES            += libs/pth/2.0.7-x86_32

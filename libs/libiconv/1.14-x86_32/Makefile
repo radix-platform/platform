@@ -12,7 +12,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/libiconv
 
-REQUIRES           = app/gettext/0.18.3.2-x86_32
+REQUIRES           = libs/libiconv/1.14
+REQUIRES          += app/gettext/0.18.3.2-x86_32
 
 
 version            = 1.14

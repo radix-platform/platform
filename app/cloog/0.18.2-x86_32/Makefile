@@ -12,7 +12,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/a/CLooG
 
-REQUIRES           = libs/gmp/5.1.3-x86_32
+REQUIRES           = app/cloog/0.18.2
+REQUIRES          += libs/gmp/5.1.3-x86_32
 
 
 version            = 0.18.2

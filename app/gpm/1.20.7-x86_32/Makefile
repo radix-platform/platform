@@ -12,7 +12,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/a/gpm
 
-REQUIRES           = app/inputattach/1.4.7-x86_32
+REQUIRES           = app/gpm/1.20.7
+REQUIRES          += app/inputattach/1.4.7-x86_32
 
 
 version            = 1.20.7

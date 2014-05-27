@@ -12,7 +12,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/zlib
 
-REQUIRES           = libs/eglibc/2.18.1-x86_32
+REQUIRES           = libs/zlib/1.2.8
+REQUIRES          += libs/eglibc/2.18.1-x86_32
 
 
 version            = 1.2.8

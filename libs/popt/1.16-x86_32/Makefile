@@ -12,7 +12,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/popt
 
-REQUIRES           = libs/eglibc/2.18.1-x86_32
+REQUIRES           = libs/popt/1.16
+REQUIRES          += libs/eglibc/2.18.1-x86_32
 
 
 version            = 1.16

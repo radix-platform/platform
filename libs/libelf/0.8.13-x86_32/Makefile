@@ -12,7 +12,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/libelf
 
-REQUIRES           = libs/eglibc/2.18.1-x86_32
+REQUIRES           = libs/libelf/0.8.13
+REQUIRES          += libs/eglibc/2.18.1-x86_32
 
 
 version            = 0.8.13

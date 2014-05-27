@@ -12,7 +12,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/d/python2
 
-REQUIRES           = libs/zlib/1.2.8-x86_32
+REQUIRES           = dev/python2/2.7.6
+REQUIRES          += libs/zlib/1.2.8-x86_32
 REQUIRES          += app/xz/5.0.5-x86_32
 REQUIRES          += libs/libffi/3.0.13-x86_32
 REQUIRES          += libs/ncurses/5.9-x86_32

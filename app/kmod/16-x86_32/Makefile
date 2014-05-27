@@ -12,7 +12,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/a/kmod
 
-REQUIRES           = libs/zlib/1.2.8-x86_32
+REQUIRES           = app/kmod/16
+REQUIRES          += libs/zlib/1.2.8-x86_32
 REQUIRES          += app/xz/5.0.5-x86_32
 
 

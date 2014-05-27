@@ -12,7 +12,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/a/attr
 
-REQUIRES           = libs/eglibc/2.18.1-x86_32
+REQUIRES           = app/attr/2.4.47
+REQUIRES          += libs/eglibc/2.18.1-x86_32
 
 
 version            = 2.4.47

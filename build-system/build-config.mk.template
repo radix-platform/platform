@@ -12,7 +12,7 @@ ENABLE_CB1N       = true
 ENABLE_CB1X       = true
 
 # TARGET: arm-at91sam7s-elf-newlib:
-ENABLE_GUARD      = true
+ENABLE_AT91S      = true
 
 # TARGET: arm-dm644x-elf-newlib:
 ENABLE_VIP1830N   = true

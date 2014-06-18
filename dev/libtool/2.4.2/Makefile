@@ -17,7 +17,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/libtool
 
-REQUIRES           = libs/eglibc/2.18.1
+REQUIRES           = libs/eglibc/2.19.1
 
 
 version            = 2.4.2

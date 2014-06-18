@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+      |-----handy-ruler------------------------------------------------------|
+eglibc: eglibc @VERSION@ (Embedded GNU C libraries)
+eglibc:
+eglibc: This package contains the EGLIBC libraries and header files.
+eglibc:
+eglibc: Embedded GLIBC (EGLIBC) was a variant of the GNU C Library (GLIBC)
+eglibc: that wass designed to work well on embedded systems. EGLIBC strived
+eglibc: to be source and binary compatible with GLIBC. EGLIBC's goals
+eglibc: included reduced footprint, configurable components, better support
+eglibc: for cross-compilation and cross-testing.
+eglibc:
+eglibc:

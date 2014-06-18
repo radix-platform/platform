@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/gamin
 
 REQUIRES           = libs/libgamin/0.1.10
-REQUIRES          += libs/eglibc/2.18.1-x86_32
+REQUIRES          += libs/eglibc/2.19.1-x86_32
 
 
 version            = 0.1.10

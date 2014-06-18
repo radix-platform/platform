@@ -17,7 +17,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES     = sources/packages/n/net-tools
 
-REQUIRES            = libs/eglibc/2.18.1
+REQUIRES            = libs/eglibc/2.19.1
 
 
 version             = 1.60-20140218

@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/libusb
 
 REQUIRES           = libs/libusb/1.0.9
-REQUIRES          += libs/eglibc/2.18.1-x86_32
+REQUIRES          += libs/eglibc/2.19.1-x86_32
 
 
 version            = 1.0.9

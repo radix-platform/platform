@@ -17,7 +17,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/n/p11-kit
 
-REQUIRES           = libs/eglibc/2.18.1
+REQUIRES           = libs/eglibc/2.19.1
 REQUIRES          += libs/libffi/3.0.13
 REQUIRES          += libs/libtasn1/3.4
 

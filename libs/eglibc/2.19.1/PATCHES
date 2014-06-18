@@ -1,0 +1,3 @@
+
+../../../sources/GNU/EGLIBC/2.19.1/patches/eglibc-2.19.1-i18n.patch -p0
+../../../sources/GNU/EGLIBC/2.19.1/patches/eglibc-2.19.1-zoneinfo.patch -p0

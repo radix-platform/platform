@@ -17,7 +17,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/guile
 
-REQUIRES           = libs/eglibc/2.18.1
+REQUIRES           = libs/eglibc/2.19.1
 REQUIRES          += libs/libffi/3.0.13
 REQUIRES          += libs/gmp/5.1.3
 REQUIRES          += libs/readline/6.3

@@ -17,7 +17,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES     = sources/packages/a/ncompress
 
-REQUIRES            = libs/eglibc/2.18.1
+REQUIRES            = libs/eglibc/2.19.1
 
 
 version             = 4.2.4.4

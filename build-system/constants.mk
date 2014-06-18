@@ -314,12 +314,12 @@ OMAP35X_EGLIBC_HARDWARE_VARIANTS := $(HARDWARE_BEAGLE)
 TOOLCHAIN_OMAP543X_EGLIBC    = omap543x-eglibc
 
 OMAP543X_EGLIBC_ARCH         = arm-omap543x-linux-gnueabihf
-OMAP543X_EGLIBC_VERSION      = 1.0.6
+OMAP543X_EGLIBC_VERSION      = 1.0.7
 OMAP543X_EGLIBC_DIR          = arm-OMAP543X-linux-eglibc
 OMAP543X_EGLIBC_PATH         = $(TOOLCHAINS_BASE_PATH)/$(OMAP543X_EGLIBC_DIR)
 
 OMAP543X_EGLIBC_ARCH_DEFS    = -D__OMAP543X__=1
-OMAP543X_EGLIBC_ARCH_FLAGS   = -march=armv7-a -mtune=cortex-a15 -mfloat-abi=softfp -mfpu=neon-vfpv4 -mabi=aapcs-linux -fomit-frame-pointer
+OMAP543X_EGLIBC_ARCH_FLAGS   = -march=armv7-a -mtune=cortex-a15 -mfloat-abi=hard -mfpu=neon-vfpv4 -mabi=aapcs-linux -fomit-frame-pointer
 
 OMAP543X_EGLIBC_SYSROOT      = sys-root
 OMAP543X_EGLIBC_DEST_SYSROOT = yes

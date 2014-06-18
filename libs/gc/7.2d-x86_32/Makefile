@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/gc
 
 REQUIRES           = libs/gc/7.2d
-REQUIRES          += libs/eglibc/2.18.1-x86_32
+REQUIRES          += libs/eglibc/2.19.1-x86_32
 
 
 version            = 7.2

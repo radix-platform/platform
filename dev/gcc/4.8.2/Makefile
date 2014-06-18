@@ -28,7 +28,7 @@ SOURCE_REQUIRES   += sources/GNU/gmp
 SOURCE_REQUIRES   += sources/GNU/mpfr
 SOURCE_REQUIRES   += sources/GNU/mpc
 
-REQUIRES           = libs/eglibc/2.18.1
+REQUIRES           = libs/eglibc/2.19.1
 REQUIRES          += dev/binutils/2.24
 
 
@@ -155,6 +155,7 @@ ifeq ($(TOOLCHAIN),$(TOOLCHAIN_OMAP543X_EGLIBC))
 extra_configure_switches += --with-arch=armv7-a
 extra_configure_switches += --with-tune=cortex-a15
 extra_configure_switches += --with-fpu=neon-vfpv4
+extra_configure_switches += --with-float=hard
 extra_configure_switches += --with-abi=aapcs-linux
 endif
 

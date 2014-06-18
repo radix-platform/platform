@@ -16,6 +16,7 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/wl18xx-ol_r8.a8.10-build.patch
 patches    += $(CURDIR)/patches/wl18xx-ol_r8.a8.10-neon-vfpv4.patch
+patches    += $(CURDIR)/patches/wl18xx-ol_r8.a8.10-vfpv3-d16.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -52,6 +53,7 @@ $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-ol_r8.a8.10-build-patch ;      ./create.patch.sh ) ; \
 	 ( cd create-ol_r8.a8.10-neon-vfpv4-patch ; ./create.patch.sh ) ; \
+	 ( cd create-ol_r8.a8.10-vfpv3-d16-patch ;  ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

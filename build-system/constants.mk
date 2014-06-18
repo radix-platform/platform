@@ -319,7 +319,7 @@ OMAP543X_EGLIBC_DIR          = arm-OMAP543X-linux-eglibc
 OMAP543X_EGLIBC_PATH         = $(TOOLCHAINS_BASE_PATH)/$(OMAP543X_EGLIBC_DIR)
 
 OMAP543X_EGLIBC_ARCH_DEFS    = -D__OMAP543X__=1
-OMAP543X_EGLIBC_ARCH_FLAGS   = -march=armv7-a -mtune=cortex-a15 -mfloat-abi=hard -mfpu=neon-vfpv4 -mabi=aapcs-linux -fomit-frame-pointer
+OMAP543X_EGLIBC_ARCH_FLAGS   = -march=armv7-a -mtune=cortex-a15 -mfloat-abi=hard -mfpu=vfpv3-d16 -mabi=aapcs-linux -fomit-frame-pointer
 
 OMAP543X_EGLIBC_SYSROOT      = sys-root
 OMAP543X_EGLIBC_DEST_SYSROOT = yes

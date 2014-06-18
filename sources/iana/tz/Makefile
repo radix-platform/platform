@@ -10,7 +10,13 @@ url         = $(DOWNLOAD_SERVER)/sources/iana/tz
 versions    = 2013i
 versions   += 2013h
 
-tarballs    = $(addsuffix .tar.gz, $(addprefix tz*, $(versions)))
+tarballs    = $(sort \
+                $(shell \
+                  for tarball in $(addsuffix .tar.gz, $(addprefix tz+, $(versions))) ; do \
+                    echo -n "`echo "$$tarball" | sed -e 's/+/code/g'` " ; \
+                    echo -n "`echo "$$tarball" | sed -e 's/+/data/g'` " ; \
+                  done ) \
+               )
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 

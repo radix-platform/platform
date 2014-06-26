@@ -3,6 +3,15 @@
 ifndef CORE_MK
 
 #######
+####### helpful variables
+#######
+
+comma := ,
+empty :=
+space := $(empty) $(empty)
+
+
+#######
 ####### Set up TOP_BUILD_DIR, TOP_BUILD_DIR_ABS and BUILDSYSTEM variables
 #######
 
@@ -346,7 +355,7 @@ rootfs_clean:
 
 
 # MAKE goals which not depended from Makefile
-__quick_targets := help local_clean global_clean downloads_clean build-config.mk $(HACK_TARGETS)
+__quick_targets := help ccache_stats local_clean global_clean downloads_clean build-config.mk $(HACK_TARGETS)
 
 
 
@@ -511,7 +520,9 @@ help:
 	@echo ""
 	@shtool echo -e "   %Bglobal_clean%b       - clean up %Bwhole%b sourses tree excluding downloaded"
 	@shtool echo -e "                        source tarballs;"
-	@shtool echo -e "   %Bdownloads_clean%b    - remove %Ball%b sourse tarball from '%Bsourses%b' directory."
+	@shtool echo -e "   %Bdownloads_clean%b    - remove %Ball%b sourse tarball from '%Bsourses%b' directory;"
+	@echo ""
+	@shtool echo -e "   %Bccache_stats%b       - show the %Bccache%b statistic."
 	@echo ""
 	@shtool echo -e "Local Makefile is prepared for following target HW platforms:"
 	@echo ""
@@ -521,6 +532,25 @@ help:
 	@echo ""
 	@shtool echo -e "%BEnjoy%b."
 	@echo ""
+
+ccache_stats:
+ifeq ($(NO_CCACHE),)
+	@echo ""
+	@shtool echo -e "%BCCACHE statistic:%b"
+	@echo ""
+	@CCACHE_DIR=$(CACHED_CC_OUTPUT) $(CCACHE) -s
+	@echo ""
+	@shtool echo -e "To set max %Bcache%b size make use the following command"
+	@echo ""
+	@shtool echo -e "   %B$$%b CCACHE_DIR=$(CACHED_CC_OUTPUT) $(CCACHE)%B-M%b 64%BG%b"
+	@echo ""
+	@shtool echo -e "see %BCCACHE%b(%B1%b) for more information."
+	@echo ""
+else
+	@echo ""
+	@shtool echo -e "%BCCACHE%b disabled by setting '%BNO_CCACHE%b=$(NO_CCACHE)' variable for this Makefile."
+	@echo ""
+endif
 
 
 #######

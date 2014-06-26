@@ -1,0 +1,116 @@
+#!/usr/bin/make -f
+# Sample debian/rules that uses debhelper.
+# GNU copyright 1997 to 1999 by Joey Hess.
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+# This is the debhelper compatability version to use.
+export DH_COMPAT=3
+
+configure: configure-stamp
+configure-stamp:
+	dh_testdir
+	# Add here commands to configure the package.
+	
+	patch -p0 < debian/patch.paul
+	patch -p0 < debian/patch.multibyte
+	patch -p0 < debian/patch.CAN-2004-0234_0235
+	patch -p0 < debian/patch.header-overflow
+	patch -p1 < debian/patch.redhat-sec2
+	patch -p1 < debian/patch.CVE-2006-4335-CVE-2006-4337-CVE-2006-4338
+	patch -p1 < debian/patch.CVE-2007-2030.patch
+
+	touch configure-stamp
+
+build: configure-stamp build-stamp
+build-stamp:
+	dh_testdir
+
+	# Add here commands to compile the package.
+	$(MAKE)
+	#/usr/bin/docbook-to-man debian/lha.sgml > lha.1
+
+	touch build-stamp
+
+clean:
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp configure-stamp
+
+	# Add here commands to clean up after the build process.
+	-$(MAKE) clean
+
+	# delete copied docs.
+	rm -f MACHINES MACHINES2 PROBLEMS README
+	rm -f header.doc debian/lha.euc.1.gz debian/lha.1.gz
+	cp debian/org/lha.h src/lha.h
+	cp debian/org/header.c src/header.c
+	cp debian/org/lharc.c src/lharc.c
+	cp debian/org/util.c src/util.c
+	cp debian/org/lhext.c src/lhext.c
+	cp debian/org/lhlist.c src/lhlist.c
+	cp debian/org/lha_macro.h src/lha_macro.h
+
+	dh_clean
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs
+
+	# Add here commands to install the package into debian/lha.
+	# $(MAKE) install BINDIR=$(CURDIR)/debian/lha/usr/bin \
+	#		MANDIR=$(CURDIR)/debian/lha/usr/share/man \
+	#		MANSECT=1
+	install -m 755 src/lha $(CURDIR)/debian/lha/usr/bin
+
+	# Copy the filenames without the .euc extension
+	cp MACHINES.euc MACHINES 
+	cp MACHINES2.euc MACHINES2
+	cp PROBLEMS.euc PROBLEMS 
+	cp README.euc README 
+	cp header.doc.euc header.doc
+
+	gzip -9 -c man/lha.n > debian/lha.euc.1.gz
+	gzip -9 -c debian/lha.1 > debian/lha.1.gz
+	install -m 644 debian/lha.euc.1.gz $(CURDIR)/debian/lha/usr/share/man/ja/man1/lha.1.gz
+	install -m 644 debian/lha.1.gz $(CURDIR)/debian/lha/usr/share/man/man1/lha.1.gz
+
+# Build architecture-independent files here.
+binary-indep: build install
+# We have nothing to do by default.
+
+# Build architecture-dependent files here.
+binary-arch: build install
+	dh_testdir
+	dh_testroot
+#	dh_installdebconf	
+	dh_installdocs
+	dh_installexamples
+	dh_installmenu
+#	dh_installlogrotate
+#	dh_installemacsen
+#	dh_installpam
+#	dh_installmime
+#	dh_installinit
+#	dh_installcron
+#	dh_installman
+#	dh_installinfo
+#	dh_undocumented
+	dh_installchangelogs CHANGES.euc
+	dh_link
+	dh_strip
+	dh_compress
+	dh_fixperms
+#	dh_makeshlibs
+	dh_installdeb
+#	dh_perl
+	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install configure

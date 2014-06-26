@@ -90,7 +90,41 @@ toolchain-sysroot = $($(strip                                          \
 ################################################################
 
 
+#######
+####### Setup ccache:
+#######
 
+ifeq ($(NO_CCACHE),)
+CCACHE = /usr/bin/ccache$(space)
+
+ifeq ($(wildcard $(CCACHE)),)
+$(info )
+$(info #######)
+$(info ####### Please install 'ccache' package)
+$(info ####### or disable ccache with "NO_CCACHE=1 make ...")
+$(info #######)
+$(info )
+$(error Error: ccache not found)
+endif
+
+ifeq ($(wildcard $(CACHED_CC_OUTPUT)),)
+$(info )
+$(info #######)
+$(info ####### Please create directory $(CACHED_CC_OUTPUT) for cached compiler output)
+$(info ####### or disable ccache with "NO_CCACHE=1 make ...")
+$(info #######)
+$(info )
+$(error Error: cached compiler output directory doesn't exist)
+endif
+
+export CCACHE_BASEDIR = $(TOP_BUILD_DIR_ABS)
+export CCACHE_DIR     = $(CACHED_CC_OUTPUT)
+export CCACHE_UMASK   = 000
+
+unexport CCACHE_PREFIX
+else
+CCACHE =
+endif
 
 
 
@@ -116,8 +150,8 @@ HW_FLAGS           = -D__HARDWARE__=$(call hw_id,$(HARDWARE)) $(HW_DEFS)
 endif
 
 ifeq ($(filter $(TOOLCHAIN), $(TOOLCHAIN_NOARCH) $(TOOLCHAIN_BUILD_MACHINE)),)
-CC                 = $(TOOLCHAIN_PATH)/bin/$(TARGET)-gcc
-CXX                = $(TOOLCHAIN_PATH)/bin/$(TARGET)-g++
+CC                 = $(CCACHE)$(TOOLCHAIN_PATH)/bin/$(TARGET)-gcc
+CXX                = $(CCACHE)$(TOOLCHAIN_PATH)/bin/$(TARGET)-g++
 AS                 = $(TOOLCHAIN_PATH)/bin/$(TARGET)-as
 AR                 = $(TOOLCHAIN_PATH)/bin/$(TARGET)-ar
 LD                 = $(TOOLCHAIN_PATH)/bin/$(TARGET)-ld

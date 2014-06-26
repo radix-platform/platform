@@ -1,0 +1,10 @@
+--- src/lha.h	Thu Oct  5 19:35:38 2000
++++ src/lha.h	Wed Aug 22 15:49:55 2001
+@@ -16,6 +16,7 @@
+ #include <sys/types.h>
+ #include <sys/file.h>
+ #include <sys/stat.h>
++#include <stdlib.h>
+ 
+ #include <signal.h>
+

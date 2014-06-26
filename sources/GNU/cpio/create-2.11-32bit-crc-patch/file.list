@@ -1,0 +1,5 @@
+cpio-2.11/src/copyin.c
+cpio-2.11/src/copyout.c
+cpio-2.11/src/cpiohdr.h
+cpio-2.11/src/extern.h
+cpio-2.11/src/global.c

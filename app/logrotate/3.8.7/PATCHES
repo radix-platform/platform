@@ -1,0 +1,2 @@
+
+../../../sources/packages/a/logrotate/patches/logrotate-3.8.7.patch -p0

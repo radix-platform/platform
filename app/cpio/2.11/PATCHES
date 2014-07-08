@@ -1,0 +1,3 @@
+
+../../../sources/GNU/cpio/patches/cpio-2.11-32bit-crc.patch -p0
+../../../sources/GNU/cpio/patches/cpio-2.11-gets-stat.patch -p0

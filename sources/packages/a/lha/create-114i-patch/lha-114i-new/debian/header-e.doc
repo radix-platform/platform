@@ -36,23 +36,23 @@ Extension part
                               1 ext-type              1 ext-type
                               . ........              . ........
                               2 next-header size      2 next-header size
-  
+
 -----------------------------------------------------------------------------
 
     a. Types of header
 
       level-0 header
           Same format as conventional LHarc, LArc.  Separator for directory
-	  name is '\' as default.
+          name is '\' as default.
 
       level-1 header
           This header is used as default. Archive type -lh0 made with -x0 can
-	  be unfrozen by LHarc but there will be no checking on CRC.
+          be unfrozen by LHarc but there will be no checking on CRC.
 
       level-2 header
           Header for supporting long file names.  I would like to standarize
-	  on this format in the future.  Please follow this if you wish to
-	  make utilities related ti LH.
+          on this format in the future.  Please follow this if you wish to
+          make utilities related ti LH.
 
     b. method ID for freeze/unfreeze
 
@@ -74,10 +74,10 @@ Extension part
               + improved encoding of position and trees
 
       -lh6-   32k sliding dictionary(max 256 bytes) + static Huffman
-			  + improved encoding of position and trees
+              + improved encoding of position and trees
 
       -lh7-   64k sliding dictionary(max 256 bytes) + static Huffman
-			  + improved encoding of position and trees
+              + improved encoding of position and trees
 
       -lzs-   2k sliding dictionary(max 17 bytes)
 

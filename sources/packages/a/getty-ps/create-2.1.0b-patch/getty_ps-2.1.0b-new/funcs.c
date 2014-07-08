@@ -52,6 +52,7 @@
 #include <signal.h>
 #include <unistd.h>
 #include <stdarg.h>
+#include <stdlib.h>
 #include <syslog.h>
 #include <netdb.h>
 #include <errno.h>

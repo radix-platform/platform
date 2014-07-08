@@ -58,7 +58,8 @@ pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
 
 
-BUILD_TARGETS    = $(build_attr32_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
 PRODUCT_TARGETS  = $(products)
 

@@ -1,6 +1,7 @@
 lha-114i/Makefile
 lha-114i/man/lha.man
 lha-114i/man/lha.n
+lha-114i/src/Makefile
 lha-114i/src/header.c
 lha-114i/src/huf.c
 lha-114i/src/lha.h

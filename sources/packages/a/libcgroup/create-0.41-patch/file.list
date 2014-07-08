@@ -1,3 +1,4 @@
+libcgroup-0.41/configure
 libcgroup-0.41/samples/cgred.conf
 libcgroup-0.41/scripts/init.d/cgconfig.in
 libcgroup-0.41/scripts/init.d/cgred.in

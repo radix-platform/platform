@@ -14,8 +14,8 @@ SHELL=/bin/sh
 MAKE = make
 
 #CC			= cc
-CC			= gcc
-SWITCHES	= -DNEED_INCREMENTAL_INDICATOR \
+CC       ?= gcc
+SWITCHES  = -DNEED_INCREMENTAL_INDICATOR \
  -DTMP_FILENAME_TEMPLATE="\"/tmp/lhXXXXXX\""
 
 #MACHINE     = -DSYSTIME_HAS_NO_TM -DFTIME -DEUC
@@ -33,7 +33,7 @@ INSTALL = install
 INSTALLBIN = -s -m 755
 INSTALLMAN = -m 644
 
-SUBDIRS = src man
+SUBDIRS = src
 
 O		= .o
 

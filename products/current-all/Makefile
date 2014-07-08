@@ -84,6 +84,10 @@ REQUIRES += libs/pcre/8.34
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/pcre/8.34-x86_32
 endif
+REQUIRES += dev/lua/5.2.3
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += dev/lua/5.2.3-x86_32
+endif
 
 #######
 ####### Core Utilites and SysVInit:
@@ -162,6 +166,33 @@ REQUIRES += app/udev/182
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += app/udev/182-x86_32
 endif
+REQUIRES += app/tar/1.27.1
+REQUIRES += app/cpio/1.11
+REQUIRES += app/ed/1.9
+REQUIRES += app/file/5.19
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/file/5.19-x86_32
+endif
+REQUIRES += app/gawk/4.1.1
+REQUIRES += app/getty-ps/2.1.0b
+REQUIRES += app/hdparm/9.43
+REQUIRES += app/less/451
+REQUIRES += app/lha/114i
+
+REQUIRES += app/dcron/4.5
+REQUIRES += app/logrotate/3.8.7
+
+REQUIRES += app/libcgroup/0.41
+
+#######
+####### SCSI:
+#######
+REQUIRES += libs/sg3_utils/1.39
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/sg3_utils/1.39-x86_32
+endif
+REQUIRES += app/sdparm/1.08
+
 
 #######
 ####### Networking:

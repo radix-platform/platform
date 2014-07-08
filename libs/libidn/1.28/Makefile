@@ -126,7 +126,6 @@ $(install_target): $(build_target)
 	  ) \
 	 fi
 	@mkdir -p $(LIBIDN_PKG)/usr/doc/$(src_dir_name)
-	@mkdir -p $(LIBIDN_PKG)/usr/share/doc/$(src_dir_name)
 	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/COPYING* \
 	       $(LIBIDN_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(LIBIDN_PKG)/usr/share/doc/$(src_dir_name)

@@ -167,7 +167,7 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += app/udev/182-x86_32
 endif
 REQUIRES += app/tar/1.27.1
-REQUIRES += app/cpio/1.11
+REQUIRES += app/cpio/2.11
 REQUIRES += app/ed/1.9
 REQUIRES += app/file/5.19
 ifeq ($(HARDWARE),$(HARDWARE_PC64))

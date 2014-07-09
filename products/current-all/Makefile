@@ -90,6 +90,15 @@ REQUIRES += dev/lua/5.2.3-x86_32
 endif
 
 #######
+####### Secure:
+#######
+REQUIRES += secure/cracklib/2.9.1
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += secure/cracklib/2.9.1-x86_32
+endif
+
+
+#######
 ####### Core Utilites and SysVInit:
 #######
 REQUIRES += app/bash/4.3

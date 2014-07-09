@@ -79,14 +79,31 @@ REQUIRES += libs/readline/6.3
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/readline/6.3-x86_32
 endif
+REQUIRES += libs/expat/2.1.0
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/expat/2.1.0-x86_32
+endif
 REQUIRES += app/gettext/0.18.3.2
 REQUIRES += libs/pcre/8.34
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/pcre/8.34-x86_32
 endif
+
+REQUIRES += libs/mpc/1.0.2
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/mpc/1.0.2-x86_32
+endif
 REQUIRES += dev/lua/5.2.3
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += dev/lua/5.2.3-x86_32
+endif
+REQUIRES += net/openssl/1.0.1g
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/openssl/1.0.1g-x86_32
+endif
+REQUIRES += dev/python2/2.7.6
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += dev/python2/2.7.6-x86_32
 endif
 
 #######
@@ -145,10 +162,6 @@ REQUIRES += app/procps/3.2.8
 #######
 ####### Packages:
 #######
-REQUIRES += libs/expat/2.1.0
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/expat/2.1.0-x86_32
-endif
 REQUIRES += libs/libgamin/0.1.10
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/libgamin/0.1.10-x86_32
@@ -242,10 +255,6 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += net/gnutls/3.1.22-x86_32
 endif
 
-REQUIRES += net/openssl/1.0.1g
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += net/openssl/1.0.1g-x86_32
-endif
 REQUIRES += net/iputils/s20121221
 REQUIRES += net/ethtool/3.12
 REQUIRES += net/inetd/1.79
@@ -276,18 +285,12 @@ endif
 #######
 ####### Additional DEV packages:
 #######
-REQUIRES += dev/python2/2.7.6
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += dev/python2/2.7.6-x86_32
-endif
 
 #######
 ####### additional libs for bootstrap GCC:
 #######
-# REQUIRES += libs/mpc/1.0.2
 # REQUIRES += app/cloog/0.18.2
 # REQUIRES += libs/ppl/1.1
-
 
 
 install_target     = $(TARGET_BUILD_DIR)/.install_done

@@ -15,6 +15,7 @@ SOURCE_REQUIRES    = sources/packages/l/cracklib
 REQUIRES           = secure/cracklib/2.9.1
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 REQUIRES          += libs/zlib/1.2.8-x86_32
+REQUIRES          += dev/python2/2.7.6-x86_32
 
 
 version            = 2.9.1
@@ -127,7 +128,6 @@ $(install_target): $(build_target)
 	@( cd $(CRACKLIB_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/python?.?/site-packages ; \
 	  sed -i "s,$(TARGET_DEST_DIR),,g" _cracklib.la \
 	 )
-	exit 1
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(CRACKLIB_32_PKG) && cp -rf * $(TARGET_DEST_DIR)

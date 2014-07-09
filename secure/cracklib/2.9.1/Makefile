@@ -19,6 +19,7 @@ SOURCE_REQUIRES    = sources/packages/l/cracklib
 
 REQUIRES           = libs/eglibc/2.19.1
 REQUIRES          += libs/zlib/1.2.8
+REQUIRES          += dev/python2/2.7.6
 
 
 version            = 2.9.1
@@ -187,7 +188,6 @@ $(install_target): $(build_target)
 	@( cd $(CRACKLIB_PKG)/usr/lib$(LIBSUFFIX)/python?.?/site-packages ; \
 	  sed -i "s,$(TARGET_DEST_DIR),,g" _cracklib.la \
 	 )
-	exit 1
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(CRACKLIB_PKG) && cp -rf * $(TARGET_DEST_DIR)

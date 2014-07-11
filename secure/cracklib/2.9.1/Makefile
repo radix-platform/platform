@@ -144,7 +144,7 @@ $(install_target): $(build_target)
 	@mkdir -p $(CRACKLIB_PKG)/usr/share/dict
 	@gzip -9 $(CRACKLIB_PKG)/var/cache/cracklib/cracklib-small
 	@( cd $(CRACKLIB_PKG)/usr/share/dict ; \
-	   ln -sf ../../../var/cache/cracklib/cracklib-small.gz words.gz ; \
+	   ln -sf ../../../var/cache/cracklib/cracklib-small.gz cracklib.gz ; \
 	 )
 	# ======= man pages =======
 	@mkdir -p $(CRACKLIB_PKG)/usr/share/man/man8

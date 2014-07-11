@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+                 |-----handy-ruler------------------------------------------------------|
+words-en_CA-small: words-en_CA-small @VERSION@ (@WORDLIST@ wordlist)
+words-en_CA-small:
+words-en_CA-small: This package provides the /usr/share/dict/@WORDLIST@
+words-en_CA-small: file containing a list of English words with @COUNTRY@ spellings.
+words-en_CA-small: This list can be used by spelling checkers, and by programs such
+words-en_CA-small: as look(1).
+words-en_CA-small:
+words-en_CA-small: There are also normal size, 'large', 'huge', and 'insane' versions
+words-en_CA-small: of this word list, and there are words-en_US* and words-en_GB*
+words-en_CA-small: packages as well.
+words-en_CA-small:

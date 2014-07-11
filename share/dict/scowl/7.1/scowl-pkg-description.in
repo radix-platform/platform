@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+     |-----handy-ruler------------------------------------------------------|
+scowl: SCOWL @VERSION@ (Spell Checker Oriented Word Lists)
+scowl:
+scowl: SCOWL is a database of English words that can be used to create
+scowl: word lists suitable for use in spell checkers of various sizes and
+scowl: dialects (America, British (both -ise and -ize) and Canadian).
+scowl:
+scowl: The scowl package installs the raw SCOWL 'final/' word lists into
+scowl: /usr/share/dict/scowl/. See /usr/share/doc/scowl-@VERSION@/README
+scowl: for documentation about those individual word list files.
+scowl:
+scowl:

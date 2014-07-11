@@ -27,11 +27,16 @@ post_install() {
   if [ -r proc/sys/kernel/osrelease -a ! -r /etc/system-installer ]; then
     extra_words=
     if [ -x /bin/hostname ] ; then
-      echo `/bin/hostname` >> /usr/share/dict/host-words
-      extra_words=/usr/share/dict/host-words
+      echo `/bin/hostname` >> /usr/share/dict/host-name
+      extra_words=/usr/share/dict/host-name
     fi
-    LD_PRELOAD=/usr/lib/libcrack.so \
-    /usr/sbin/create-cracklib-dict -o /var/cache/cracklib/pq_dict /usr/share/dict/words ${extra_words}
+
+    if [ ! -r var/cache/cracklib/pq_dict.hwm -o \
+         ! -r var/cache/cracklib/pq_dict.pwd -o \
+         ! -r var/cache/cracklib/pq_dict.pwi    ]; then
+      LD_PRELOAD=/usr/lib/libcrack.so \
+      /usr/sbin/create-cracklib-dict -o /var/cache/cracklib/pq_dict /usr/share/dict/cracklib ${extra_words}
+    fi
   fi
 }
 
@@ -54,7 +59,9 @@ pre_remove() {
 
 # arg 1:  the old package version
 post_remove() {
-  /bin/true
+  rm -f var/cache/cracklib/pq_dict.hwm
+  rm -f var/cache/cracklib/pq_dict.pwd
+  rm -f var/cache/cracklib/pq_dict.pwi
 }
 
 

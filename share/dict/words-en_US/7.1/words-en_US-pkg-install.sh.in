@@ -23,10 +23,10 @@ pre_install() {
 post_install() {
   slink=`echo @WORDLIST@ | cut -f 1 -d '-'`
   ( cd usr/share/dict
-    if [ ! -L usa -o ! -f `readlink usa` ] ; then
+    if [ ! -L "usa" -o ! -f "`readlink usa`" ] ; then
       ln -sf @WORDLIST@ usa
     fi
-    if [ ! -L $slink -o ! -f `readlink $slink` ] ; then
+    if [ ! -L "$slink" -o ! -f "`readlink $slink`" ] ; then
       ln -sf @WORDLIST@ $slink
     fi
   )
@@ -53,10 +53,10 @@ pre_remove() {
 post_remove() {
   slink=`echo @WORDLIST@ | cut -f 1 -d '-'`
   ( cd usr/share/dict
-    if [ -L usa -a ! -f `readlink usa` ] ; then
+    if [ -L "usa" -a ! -f "`readlink usa`" ] ; then
       rm -f usa
     fi
-    if [ -L $slink -a ! -f `readlink $slink` ] ; then
+    if [ -L "$slink" -a ! -f "`readlink $slink`" ] ; then
       rm -f $slink
     fi
   )

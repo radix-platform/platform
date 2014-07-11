@@ -54,7 +54,7 @@ WORDS_PKG_URL                 = http://www.kxLab.com
 WORDS_PKG_LICENSE             = public
 WORDS_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(WORDS_PKG_NAME)-pkg-description
 WORDS_PKG_DESCRIPTION_FILE_IN = $(WORDS_PKG_NAME)-pkg-description.in
-WORDS_PKG_INSTALL_SCRIPT      = $(WORDS_PKG_NAME)-pkg-install.sh
+WORDS_PKG_INSTALL_SCRIPT      = $(TARGET_BUILD_DIR)/$(WORDS_PKG_NAME)-pkg-install.sh
 WORDS_PKG_INSTALL_SCRIPT_IN   = $(WORDS_PKG_NAME)-pkg-install.sh.in
 
 WORDS_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(WORDS_PKG_NAME)-package

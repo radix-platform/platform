@@ -1,0 +1,46 @@
+.TH @WORDLIST@ 5 "10 July 2014" "Andrey V.Kosteltsev" "Users' Manual"
+.SH NAME
+.B @WORDLIST@
+\- a list of @LANGUAGE@ words
+.SH DESCRIPTION
+.B /usr/share/dict/@WORDLIST@
+is an ASCII file which contains an alphabetic list of words, one per
+line.
+.SH FILES
+The directory
+.I /usr/share/dict
+can contain word lists for many languages.
+.I /usr/share/dict/words
+is a symbolic link to the currently-chosen
+.I /usr/share/dict/<language>
+file.
+.PP
+Word lists for other languages may be added using the English name for
+that language, e.g.,
+.IR /usr/share/dict/french ,
+.IR /usr/share/dict/danish ,
+etc.
+These should, if possible, use an ISO 8859 character set which is appropriate
+for the language in question; if possible the Latin1 (ISO 8859-1) character set
+should be used (this is often not possible).
+.SH "SEE ALSO"
+.BR ispell (1),
+.BR look (1),
+and the
+.I Filesystem Hierarchy
+.IB Standard .
+.SH HISTORY
+The words lists are not specific, and may be generated from any number
+of sources.
+.PP
+The system word list used to be
+.IR /usr/dict/words .
+For compatibility, software should check that location if
+.I /usr/share/dict/words
+does not exist.
+.SH AUTHOR
+Word lists are collected and maintained by various authors.
+.PP
+This @LANGUAGE@ word lists are built from the Official Dictionaries found at
+.IB ftp://ftp.gnu.org/gnu/aspell/dict/0index.html
+for Aspell 0.60.

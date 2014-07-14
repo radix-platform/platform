@@ -65,6 +65,10 @@ REQUIRES += libs/libunistring/0.9.3
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/libunistring/0.9.3-x86_32
 endif
+REQUIRES += libs/keyutils/1.5.9
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/keyutils/1.5.9-x86_32
+endif
 REQUIRES += libs/gc/7.2d
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/gc/7.2d-x86_32

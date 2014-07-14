@@ -110,6 +110,41 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += dev/python2/2.7.6-x86_32
 endif
 
+#######
+####### Secure:
+#######
+REQUIRES += secure/cracklib/2.9.1
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += secure/cracklib/2.9.1-x86_32
+endif
+
+#######
+####### Dictionaries for /usr/share/dict (see FHS):
+#######
+REQUIRES += share/dict/scowl/7.1
+REQUIRES += share/dict/words-ca/2.1.5-1
+REQUIRES += share/dict/words-de/2.1
+REQUIRES += share/dict/words-en_CA/7.1
+REQUIRES += share/dict/words-en_CA-huge/7.1
+REQUIRES += share/dict/words-en_CA-insane/7.1
+REQUIRES += share/dict/words-en_CA-large/7.1
+REQUIRES += share/dict/words-en_CA-small/7.1
+REQUIRES += share/dict/words-en_GB/7.1
+REQUIRES += share/dict/words-en_GB-huge/7.1
+REQUIRES += share/dict/words-en_GB-insane/7.1
+REQUIRES += share/dict/words-en_GB-large/7.1
+REQUIRES += share/dict/words-en_GB-small/7.1
+REQUIRES += share/dict/words-en_US/7.1
+REQUIRES += share/dict/words-en_US-huge/7.1
+REQUIRES += share/dict/words-en_US-insane/7.1
+REQUIRES += share/dict/words-en_US-large/7.1
+REQUIRES += share/dict/words-en_US-small/7.1
+REQUIRES += share/dict/words-es/1.11-2
+REQUIRES += share/dict/words-fi/0.7-0
+REQUIRES += share/dict/words-fr/0.50-3
+REQUIRES += share/dict/words-it/2.2
+REQUIRES += share/dict/words-ru/0.99f7-1
+
 
 #######
 ####### Core Utilites and SysVInit:
@@ -276,35 +311,6 @@ REQUIRES += net/libgcrypt/1.6.1
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += net/libgcrypt/1.6.1-x86_32
 endif
-
-
-#######
-####### Dictionaries for /usr/share/dict (see FHS):
-#######
-REQUIRES += share/dict/scowl/7.1
-REQUIRES += share/dict/words-ca/2.1.5-1
-REQUIRES += share/dict/words-de/2.1
-REQUIRES += share/dict/words-en_CA/7.1
-REQUIRES += share/dict/words-en_CA-huge/7.1
-REQUIRES += share/dict/words-en_CA-insane/7.1
-REQUIRES += share/dict/words-en_CA-large/7.1
-REQUIRES += share/dict/words-en_CA-small/7.1
-REQUIRES += share/dict/words-en_GB/7.1
-REQUIRES += share/dict/words-en_GB-huge/7.1
-REQUIRES += share/dict/words-en_GB-insane/7.1
-REQUIRES += share/dict/words-en_GB-large/7.1
-REQUIRES += share/dict/words-en_GB-small/7.1
-REQUIRES += share/dict/words-en_US/7.1
-REQUIRES += share/dict/words-en_US-huge/7.1
-REQUIRES += share/dict/words-en_US-insane/7.1
-REQUIRES += share/dict/words-en_US-large/7.1
-REQUIRES += share/dict/words-en_US-small/7.1
-REQUIRES += share/dict/words-es/1.11-2
-REQUIRES += share/dict/words-fi/0.7-0
-REQUIRES += share/dict/words-fr/0.50-3
-REQUIRES += share/dict/words-it/2.2
-REQUIRES += share/dict/words-ru/0.99f7-1
-
 
 
 #######

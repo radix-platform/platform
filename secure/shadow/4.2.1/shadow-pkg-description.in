@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+      |-----handy-ruler------------------------------------------------------|
+shadow: shadow @VERSION@ (shadow password suite)
+shadow:
+shadow: This set of login related programs utilizes an alternate,
+shadow: non-readable file to contain the actual encrypted passwords.
+shadow: This is presumed to increase system security by increasing the
+shadow: difficulty with which system crackers obtain encrypted passwords.
+shadow: It was written by Julianne Frances Haugh and the Linux port is
+shadow: maintained by Tomasz Kloczko.
+shadow:
+shadow:
+shadow:

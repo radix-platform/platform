@@ -1,0 +1,279 @@
+
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
+
+
+NEED_ABS_PATH      = true
+COMPONENT_IS_3PP   = true
+
+
+include ../../../build-system/constants.mk
+
+
+SOURCE_REQUIRES    = sources/packages/s/Linux-PAM
+
+REQUIRES           = libs/eglibc/2.19.1
+REQUIRES          += secure/cracklib/2.9.1
+REQUIRES          += dev/flex/2.5.39
+
+
+version            = 1.1.8
+tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/s/Linux-PAM/Linux-PAM-$(version).tar.bz2
+SRC_ARCHIVE        = $(tar_bz2_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/Linux-PAM-$(version)
+src_dir_name       = Linux-PAM-$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source_done
+
+doc_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/s/Linux-PAM/Linux-PAM-$(version)-docs.tar.bz2
+
+PATCHES = PATCHES
+
+build_dir          = $(TARGET_BUILD_DIR)/build
+build_target       = $(TARGET_BUILD_DIR)/.build_done
+install_target     = $(TARGET_BUILD_DIR)/.install_done
+
+
+####### Targets
+
+PKG_GROUP = libs
+
+#
+# *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
+#
+PAM_PKG_NAME                = pam
+PAM_PKG_VERSION             = 1.1.8
+PAM_PKG_ARCH                = $(TOOLCHAIN)
+PAM_PKG_DISTRO_NAME         = kxLab
+PAM_PKG_DISTRO_VERSION      = 1.0
+PAM_PKG_GROUP               = $(PKG_GROUP)
+###                          |---handy-ruler-------------------------------|
+PAM_PKG_SHORT_DESCRIPTION   = pam $(version)
+PAM_PKG_URL                 = http://www.kxLab.com
+PAM_PKG_LICENSE             = BSD
+PAM_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(PAM_PKG_NAME)-pkg-description
+PAM_PKG_DESCRIPTION_FILE_IN = $(PAM_PKG_NAME)-pkg-description.in
+PAM_PKG_INSTALL_SCRIPT      = $(PAM_PKG_NAME)-pkg-install.sh
+
+PAM_PKG          = $(CURDIR)/$(TARGET_BUILD_DIR)/$(PAM_PKG_NAME)-package
+
+pkg_basename     = $(PAM_PKG_NAME)-$(PAM_PKG_VERSION)-$(PAM_PKG_ARCH)-$(PAM_PKG_DISTRO_NAME)-$(PAM_PKG_DISTRO_VERSION)
+
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
+
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
+
+PRODUCT_TARGETS  = $(products)
+
+ROOTFS_TARGETS   = $(pkg_archive)
+
+
+include ../../../build-system/core.mk
+
+
+CC_FOR_BUILD  = gcc
+BUILD_CFLAGS  = -I/usr/include
+BUILD_LDFLAGS = -L/usr/lib64
+
+env_build = CC_FOR_BUILD=$(CC_FOR_BUILD)   \
+            BUILD_CFLAGS=$(BUILD_CFLAGS)   \
+            BUILD_LDFLAGS=$(BUILD_LDFLAGS)
+
+
+env_sysroot = DESTDIR=$(PAM_PKG)
+
+
+extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
+extra_configure_switches += --includedir=/usr/include/security
+extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
+extra_configure_switches += --infodir=/usr/share/info
+extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --sysconfdir=/etc
+extra_configure_switches += --localstatedir=/var/lib
+extra_configure_switches += --enable-nis
+extra_configure_switches += --disable-prelude
+extra_configure_switches += --disable-selinux
+extra_configure_switches += --disable-audit
+extra_configure_switches += --disable-db
+extra_configure_switches += --enable-isadir=../../lib$(LIBSUFFIX)/security
+extra_configure_switches += --without-libiconv-prefix
+extra_configure_switches += --disable-rpath
+extra_configure_switches += --enable-static=yes
+extra_configure_switches += --enable-shared=yes
+
+
+
+####### Dependencies
+
+$(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
+	$(UNPACK_SRC_ARCHIVE)
+	$(APPLY_PATCHES)
+	@tar xjf $(doc_bz2_archive) -C $(TARGET_BUILD_DIR)
+	@touch $@
+
+$(build_target): $(src_done)
+	@mkdir -p $(build_dir)
+	@cd $(build_dir) && \
+	  $(BUILD_ENVIRONMENT) $(env_build) ../$(src_dir_name)/configure \
+	  --prefix=/usr               \
+	  --build=$(BUILD)            \
+	  --host=$(TARGET)            \
+	  $(extra_configure_switches)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
+	@touch $@
+
+$(install_target): $(build_target)
+	@mkdir -p $(PAM_PKG)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@mkdir -p $(PAM_PKG)/var/lib
+	@chmod -v 4755 $(PAM_PKG)/sbin/unix_chkpwd
+	@mkdir -p $(PAM_PKG)/lib$(LIBSUFFIX)
+	@( cd $(PAM_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   for file in lib*.so.?.* ; do \
+	     mv $$file ../../lib$(LIBSUFFIX) ; \
+	     ln -sf ../../lib$(LIBSUFFIX)/$$file . ; \
+	   done ; \
+	   cp -a lib*.so.? ../../lib$(LIBSUFFIX) ; \
+	 )
+	@( cd $(PAM_PKG)/usr/lib$(LIBSUFFIX)/security ; \
+	   ln -sf pam_unix.so pam_unix_acct.so    ; \
+	   ln -sf pam_unix.so pam_unix_auth.so    ; \
+	   ln -sf pam_unix.so pam_unix_passwd.so  ; \
+	   ln -sf pam_unix.so pam_unix_session.so ; \
+	 )
+	# ======= edit etc/security/limits.conf =======
+	@( cd $(PAM_PKG)/etc/security ; \
+	   sed -i 's,# End of file,*               -       rtprio          0\n# End of file,'       limits.conf ; \
+	   sed -i 's,# End of file,*               -       nice            0\n# End of file,'       limits.conf ; \
+	   sed -i 's,# End of file,@audio          -       rtprio          65\n# End of file,'      limits.conf ; \
+	   sed -i 's,# End of file,@audio          -       nice           -10\n# End of file,'      limits.conf ; \
+	   sed -i 's,# End of file,@audio          -       memlock         40000\n\n# End of file,' limits.conf ; \
+	 )
+	@mkdir -p $(PAM_PKG)/usr/share/doc/$(src_dir_name)/conf
+	@cp -a $(build_dir)/conf/pam_conv1/pam_conv1 \
+	       $(PAM_PKG)/usr/share/doc/$(src_dir_name)/conf
+	@cp -a $(SRC_DIR)/conf/pam_conv1/README \
+	       $(PAM_PKG)/usr/share/doc/$(src_dir_name)/conf
+	# ======= install etc/pam.d base PAM configuration =======
+	@mkdir -p $(PAM_PKG)/etc/pam.d
+	@cp -a $(CURDIR)/pam.d/* $(PAM_PKG)/etc/pam.d
+	# ======= prepare new files for post install =======
+	@( cd $(PAM_PKG)/etc ; \
+	   mv environment environment.new ; \
+	 )
+	@( cd $(PAM_PKG)/etc/security ; \
+	   mv access.conf    access.conf.new    ; \
+	   mv group.conf     group.conf.new     ; \
+	   mv limits.conf    limits.conf.new    ; \
+	   mv namespace.conf namespace.conf.new ; \
+	   mv pam_env.conf   pam_env.conf.new   ; \
+	   mv time.conf      time.conf.new      ; \
+	 )
+	# ======= archive man pages =======
+	@if [ -d $(PAM_PKG)/usr/share/man ]; then \
+	  ( cd $(PAM_PKG)/usr/share/man ; \
+	    for manpagedir in `find . -type d -name "man*"` ; do \
+	      ( cd $$manpagedir ; \
+	        for eachpage in `find . -type l -maxdepth 1` ; do \
+	          ln -s `readlink $$eachpage`.gz $$eachpage.gz ; \
+	          rm $$eachpage ; \
+	        done ; \
+	        gzip -9 *.?  ; \
+	      ) \
+	    done \
+	  ) \
+	 fi
+	# ======= install package documentation =======
+	@mkdir -p $(PAM_PKG)/usr/doc/$(src_dir_name)
+	@cp -a $(SRC_DIR)/COPYING $(SRC_DIR)/Copyright \
+	       $(PAM_PKG)/usr/doc/$(src_dir_name)
+	@mkdir -p $(PAM_PKG)/usr/share/doc/$(src_dir_name)/html
+	@( cd $(SRC_DIR) ; \
+	   cp -a ABOUT-NLS AUTHORS CHANGELOG \
+	         COPYING Copyright INSTALL NEWS README \
+	         $(PAM_PKG)/usr/share/doc/$(src_dir_name) ; \
+	 )
+	@( cd $(PAM_PKG)/usr/share/doc/$(src_dir_name) ; mv index.html html )
+	@( cd $(SRC_DIR) ; \
+	   if [ -r ChangeLog ]; then \
+	     DOCSDIR=`echo $(PAM_PKG)/usr/share/doc/$(src_dir_name)` ; \
+	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
+	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
+	   fi \
+	 )
+	# ======= install html documentation =======
+	@mkdir -p $(PAM_PKG)/usr/share/doc/$(src_dir_name)/html/{adg,mwg,sag}
+	@( cd $(SRC_DIR)/doc/adg ; \
+	   cp -a *.txt $(PAM_PKG)/usr/share/doc/$(src_dir_name) ; \
+	   cp -a html/*.html $(PAM_PKG)/usr/share/doc/$(src_dir_name)/html/adg ; \
+	 )
+	@( cd $(SRC_DIR)/doc/mwg ; \
+	   cp -a *.txt $(PAM_PKG)/usr/share/doc/$(src_dir_name) ; \
+	   cp -a html/*.html $(PAM_PKG)/usr/share/doc/$(src_dir_name)/html/mwg ; \
+	 )
+	@( cd $(SRC_DIR)/doc/sag ; \
+	   cp -a *.txt $(PAM_PKG)/usr/share/doc/$(src_dir_name) ; \
+	   cp -a html/*.html $(PAM_PKG)/usr/share/doc/$(src_dir_name)/html/sag ; \
+	 )
+	@( cd $(PAM_PKG)/usr/share/doc/$(src_dir_name)/html ; \
+	   sed -i "s,Linux-PAM_SAG,sag/Linux-PAM_SAG," index.html ; \
+	   sed -i 's,<td width="20%" align="left"> </td>,<td width="20%" align="left"><a accesskey="h" href="../index.html">Home</a></td>,' sag/Linux-PAM_SAG.html ; \
+	   sed -i "s,Linux-PAM_MWG,mwg/Linux-PAM_MWG," index.html ; \
+	   sed -i 's,<td width="20%" align="left"> </td>,<td width="20%" align="left"><a accesskey="h" href="../index.html">Home</a></td>,' mwg/Linux-PAM_MWG.html ; \
+	   sed -i "s,Linux-PAM_ADG,adg/Linux-PAM_ADG," index.html ; \
+	   sed -i 's,<td width="20%" align="left"> </td>,<td width="20%" align="left"><a accesskey="h" href="../index.html">Home</a></td>,' adg/Linux-PAM_ADG.html ; \
+	 )
+	# ======= remove toolchain path from target libtool *.la files =======
+	@( cd $(PAM_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libpam.la libpam_misc.la libpamc.la \
+	 )
+	@( cd $(PAM_PKG)/usr/lib$(LIBSUFFIX)/security ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" pam_*.la \
+	 )
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
+	@mkdir -p $(TARGET_DEST_DIR)
+	@cd $(PAM_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	# ======= tune libtool *.la search path to the target destination for development =======
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libpam.la libpam_misc.la libpamc.la ; \
+	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libpam.la libpam_misc.la libpamc.la \
+	 )
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/security ; \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" pam_*.la ; \
+	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" pam_*.la \
+	 )
+	@(cd $(PAM_PKG); \
+	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	  find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
+	 )
+	@touch $@
+
+$(PAM_PKG_DESCRIPTION_FILE): $(PAM_PKG_DESCRIPTION_FILE_IN)
+	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
+
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(PAM_PKG_DESCRIPTION_FILE) $(PAM_PKG_INSTALL_SCRIPT)
+	@cp $(PAM_PKG_DESCRIPTION_FILE) $(PAM_PKG)/.DESCRIPTION
+	@cp $(PAM_PKG_INSTALL_SCRIPT) $(PAM_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(PAM_PKG)/.REQUIRES
+	@echo "pkgname=$(PAM_PKG_NAME)"                            >  $(PAM_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(PAM_PKG_VERSION)"                          >> $(PAM_PKG)/.PKGINFO ; \
+	 echo "arch=$(PAM_PKG_ARCH)"                               >> $(PAM_PKG)/.PKGINFO ; \
+	 echo "distroname=$(PAM_PKG_DISTRO_NAME)"                  >> $(PAM_PKG)/.PKGINFO ; \
+	 echo "distrover=$(PAM_PKG_DISTRO_VERSION)"                >> $(PAM_PKG)/.PKGINFO ; \
+	 echo "group=$(PAM_PKG_GROUP)"                             >> $(PAM_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(PAM_PKG_SHORT_DESCRIPTION)\"" >> $(PAM_PKG)/.PKGINFO ; \
+	 echo "url=$(PAM_PKG_URL)"                                 >> $(PAM_PKG)/.PKGINFO ; \
+	 echo "license=$(PAM_PKG_LICENSE)"                         >> $(PAM_PKG)/.PKGINFO
+	@$(FAKEROOT) sh -c "cd $(PAM_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

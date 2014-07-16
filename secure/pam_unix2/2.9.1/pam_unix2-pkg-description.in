@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+         |-----handy-ruler------------------------------------------------------|
+pam_unix2: pam_unix2 @VERSION@ (Standard PAM password authentication module)
+pam_unix2:
+pam_unix2: PAM module for traditional password authentication.
+pam_unix2: It uses standard calls from the glibc NSS libraries to retrieve and
+pam_unix2: set account information as well as authentication. Usually this is
+pam_unix2: obtained from the the local files '/etc/passwd' and '/etc/shadow'
+pam_unix2: or from a NIS map.
+pam_unix2:
+pam_unix2:
+pam_unix2:
+pam_unix2:

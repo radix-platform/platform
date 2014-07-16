@@ -15,14 +15,18 @@ COMPONENT_IS_3PP   = true
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/packages/a/shadow
+SOURCE_REQUIRES    = sources/packages/s/shadow
 
 REQUIRES           = libs/eglibc/2.19.1
+REQUIRES          += secure/cracklib/2.9.1
+REQUIRES          += secure/pam/1.1.8
+REQUIRES          += secure/pam_unix2/2.9.1
+REQUIRES          += app/acl/2.2.52
 
 
-version            = 4.1.5.1
-tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/a/shadow/shadow_$(version).orig.tar.gz
-SRC_ARCHIVE        = $(tar_gz_archive)
+version            = 4.2.1
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/s/shadow/shadow-$(version).tar.xz
+SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/shadow-$(version)
 src_dir_name       = shadow-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
@@ -34,6 +38,8 @@ build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
 
 adduser_script_dir = $(CURDIR)/scripts
+pam_d_dir          = $(CURDIR)/pam.d
+license            = $(CURDIR)/license/LICENSE
 
 
 ####### Targets
@@ -44,7 +50,7 @@ PKG_GROUP = app
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 SHADOW_PKG_NAME                = shadow
-SHADOW_PKG_VERSION             = 4.1.5.1
+SHADOW_PKG_VERSION             = 4.2.1
 SHADOW_PKG_ARCH                = $(TOOLCHAIN)
 SHADOW_PKG_DISTRO_NAME         = kxLab
 SHADOW_PKG_DISTRO_VERSION      = 1.0
@@ -80,11 +86,19 @@ include ../../../build-system/core.mk
 env_sysroot = DESTDIR=$(SHADOW_PKG)
 
 
-extra_configure_switches  = --mandir=/usr/share/man
-extra_configure_switches  = --docdir=/usr/share/doc/$(src_dir_name)
+extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
+extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --sysconfdir=/etc
-extra_configure_switches += --without-libcrack
-extra_configure_switches += --disable-shared
+extra_configure_switches += --with-libcrack
+extra_configure_switches += --with-libpam
+extra_configure_switches += --with-acl
+extra_configure_switches += --with-attr
+extra_configure_switches += --with-group-name-max-length=32
+extra_configure_switches += --enable-subordinate-ids=no
+extra_configure_switches += --without-selinux
+extra_configure_switches += --without-audit
+extra_configure_switches += --disable-rpath
 
 
 ####### Dependencies
@@ -92,6 +106,8 @@ extra_configure_switches += --disable-shared
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
+	# ======= Supress etc/pam.d/* ; we prowide our own =======
+	@( cd $(SRC_DIR) ; sed -i '/^SUBDIRS/s/pam\.d//' etc/Makefile.in )
 	@touch $@
 
 $(build_target): $(src_done)
@@ -108,16 +124,26 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(SHADOW_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
-	# /bin/groups is provided by coreutils
+	# ======= Provide etc/pam.d =======
+	@mkdir -p $(SHADOW_PKG)/etc/pam.d
+	@for file in passwd chgpasswd chpasswd newusers ; do \
+	   cp -a $(pam_d_dir)/$$file $(SHADOW_PKG)/etc/pam.d/$$file.new ; \
+	 done
+	@for file in chage groupadd groupdel \
+	             groupmod shadow useradd usermod userdel ; do \
+	   cp -a $(pam_d_dir)/default.pam $(SHADOW_PKG)/etc/pam.d/$$file.new ; \
+	 done
+	@cp $(SRC_DIR)/etc/pam.d/groupmems $(SHADOW_PKG)/etc/pam.d/groupmems.new
+	# ======= /bin/groups is provided by coreutils =======
 	@rm -f $(SHADOW_PKG)/bin/groups
 	@find $(SHADOW_PKG) -name groups.1 -exec rm {} \;
-	@mv $(SHADOW_PKG)/etc/login.access $(SHADOW_PKG)/etc/login.access.new
 	@mv $(SHADOW_PKG)/etc/login.defs $(SHADOW_PKG)/etc/login.defs.new
-	@rm -f $(SHADOW_PKG)/etc/limits
+	# ======= Create symbolic links =======
 	@cp -a $(build_dir)/src/sulogin $(SHADOW_PKG)/sbin
 	@( cd $(SHADOW_PKG)/bin ; ln -sf ../sbin/sulogin . )
 	@mkdir -p $(SHADOW_PKG)/var/log
 	@touch $(SHADOW_PKG)/var/log/faillog.new
+	@touch $(SHADOW_PKG)/var/log/lastlog.new
 	@cp -a $(adduser_script_dir)/adduser $(SHADOW_PKG)/usr/sbin
 	@chmod 0755 $(SHADOW_PKG)/usr/sbin/adduser
 	@( cd $(SHADOW_PKG)/usr/bin ; \
@@ -126,7 +152,7 @@ $(install_target): $(build_target)
 	   ln -s ../sbin/faillog ; \
 	   ln -s ../sbin/lastlog ; \
 	 )
-	# Use 4711 rather than 4755 permissions where setuid root is required:
+	# ======= Use 4711 rather than 4755 permissions where setuid root is required =======
 	@find $(SHADOW_PKG) -type f -perm 4755 -exec chmod 4711 "{}" \;
 	@if [ -d $(SHADOW_PKG)/usr/share/man ]; then \
 	  ( cd $(SHADOW_PKG)/usr/share/man ; \
@@ -142,6 +168,7 @@ $(install_target): $(build_target)
 	  ) \
 	 fi
 	@mkdir -p $(SHADOW_PKG)/usr/doc/$(src_dir_name)
+	@cp -a $(license) $(SHADOW_PKG)/usr/doc/$(src_dir_name)
 	@cp -a $(SRC_DIR)/COPYING* \
 	       $(SHADOW_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(SHADOW_PKG)/usr/share/doc/$(src_dir_name)
@@ -159,6 +186,7 @@ $(install_target): $(build_target)
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(SHADOW_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	# ======= Strip binaries =======
 	@(cd $(SHADOW_PKG); \
 	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null \
 	 )

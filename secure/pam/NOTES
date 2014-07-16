@@ -1,0 +1,38 @@
+
+/* begin *
+
+   If we will deside to remove SunRPC from  GLIBC  and
+   port 'platform' to libtirpc & rpcbind then PAM will
+   requires additional packages:
+
+     pam
+      ├── cracklib                    - already done
+      ├── flex                        - already done
+      │
+      │      ┌── rpcbind
+      │      │
+      └── libtirpc
+             │
+             └── krb5
+                 ├── e2fsprogs        - already done
+                 ├── keyutils         - already done
+                 ├── perl
+                 └── openldap-client
+                     └── cyrus-sasl
+                         └── openssl  - already done
+
+
+   Flex is needed for  pam_conv1 utility wich works on
+   the target machine. Please see:
+
+         /usr/share/doc/Linux-PAM-1.1.8/conf/*
+
+   for more information.
+
+   Following packages  should  be  reconfigured if you
+   deside to use Linux-PAM:
+
+     shadow
+     libcgroup
+
+ * end */

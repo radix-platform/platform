@@ -1,0 +1,7 @@
+shadow-4.2.1/etc/login.defs
+shadow-4.2.1/etc/useradd
+shadow-4.2.1/libmisc/xmalloc.c
+shadow-4.2.1/src/Makefile.am
+shadow-4.2.1/src/Makefile.in
+shadow-4.2.1/src/login.c
+shadow-4.2.1/src/usermod.c

@@ -142,7 +142,6 @@ $(install_target): $(build_target)
 	  ) \
 	 fi
 	@mkdir -p $(GUILE_PKG)/usr/doc/$(src_dir_name)
-	@mkdir -p $(GUILE_PKG)/usr/share/doc/$(src_dir_name)
 	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/COPYING* \
 	       $(GUILE_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(GUILE_PKG)/usr/share/doc/$(src_dir_name)

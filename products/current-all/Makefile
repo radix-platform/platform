@@ -97,6 +97,14 @@ REQUIRES += libs/mpc/1.0.2
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/mpc/1.0.2-x86_32
 endif
+REQUIRES += dev/flex/2.5.39
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += dev/flex/2.5.39-x86_32
+endif
+REQUIRES += dev/bison/2.7
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += dev/bison/2.7-x86_32
+endif
 REQUIRES += dev/lua/5.2.3
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += dev/lua/5.2.3-x86_32

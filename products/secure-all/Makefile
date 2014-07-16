@@ -97,6 +97,14 @@ REQUIRES += libs/mpc/1.0.2
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/mpc/1.0.2-x86_32
 endif
+REQUIRES += dev/flex/2.5.39
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += dev/flex/2.5.39-x86_32
+endif
+REQUIRES += dev/bison/2.7
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += dev/bison/2.7-x86_32
+endif
 REQUIRES += dev/lua/5.2.3
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += dev/lua/5.2.3-x86_32
@@ -117,6 +125,15 @@ REQUIRES += secure/cracklib/2.9.1
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += secure/cracklib/2.9.1-x86_32
 endif
+REQUIRES += secure/pam/1.1.8
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += secure/pam/1.1.8-x86_32
+endif
+REQUIRES += secure/pam_unix2/2.9.1
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += secure/pam_unix2/2.9.1-x86_32
+endif
+
 
 #######
 ####### Dictionaries for /usr/share/dict (see FHS):
@@ -186,7 +203,7 @@ REQUIRES += app/sysfsutils/2.1.0
 #######
 ####### Shadow, system log, procps:
 #######
-REQUIRES += app/shadow/4.1.5.1
+REQUIRES += secure/shadow/4.2.1
 REQUIRES += app/sysklogd/1.5
 REQUIRES += app/procps/3.2.8
 
@@ -235,7 +252,10 @@ REQUIRES += app/lha/114i
 REQUIRES += app/dcron/4.5
 REQUIRES += app/logrotate/3.8.7
 
-REQUIRES += app/libcgroup/0.41
+REQUIRES += secure/libcgroup/0.41
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += secure/libcgroup/0.41-x86_32
+endif
 
 #######
 ####### SCSI:

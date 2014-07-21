@@ -117,6 +117,52 @@ REQUIRES += dev/python2/2.7.6
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += dev/python2/2.7.6-x86_32
 endif
+REQUIRES += app/db/6.1.19
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/db/6.1.19-x86_32
+endif
+REQUIRES += libs/gdbm/1.11
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/gdbm/1.11-x86_32
+endif
+REQUIRES += dev/perl/5.18.2
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += dev/perl/5.18.2-x86_32
+endif
+REQUIRES += libs/aspell/0.60.6.1
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/aspell/0.60.6.1-x86_32
+endif
+
+REQUIRES += libs/dict/aspell6-ca/2.1.5-1
+REQUIRES += libs/dict/aspell6-de/2.1
+REQUIRES += libs/dict/aspell6-en/7.1-0
+REQUIRES += libs/dict/aspell6-es/1.11-2
+REQUIRES += libs/dict/aspell6-fi/0.7-0
+REQUIRES += libs/dict/aspell6-fr/0.50-3
+REQUIRES += libs/dict/aspell6-it/2.2
+REQUIRES += libs/dict/aspell6-ru/0.99f7-1
+
+REQUIRES += dev/check/0.9.13
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += dev/check/0.9.13-x86_32
+endif
+REQUIRES += app/kbd/2.0.2
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/kbd/2.0.2-x86_32
+endif
+
+REQUIRES += app/ctags/5.8
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/ctags/5.8-x86_32
+endif
+
+REQUIRES += app/dialog/1.2-20140112
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/dialog/1.2-20140112-x86_32
+endif
+
+
 
 #######
 ####### Secure:
@@ -267,6 +313,8 @@ endif
 REQUIRES += app/sdparm/1.08
 
 
+
+
 #######
 ####### Networking:
 #######
@@ -288,6 +336,8 @@ REQUIRES += net/netkit-telnet/0.17
 REQUIRES += net/netkit-timed/0.17
 REQUIRES += net/netwrite/0.17
 REQUIRES += net/tftp-hpa/5.2
+
+REQUIRES += net/dhcpcd/6.4.2
 
 REQUIRES += net/p11-kit/0.20.2
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
@@ -331,6 +381,9 @@ REQUIRES += net/libgcrypt/1.6.1
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += net/libgcrypt/1.6.1-x86_32
 endif
+
+
+REQUIRES += app/vim/7.4-373
 
 
 #######

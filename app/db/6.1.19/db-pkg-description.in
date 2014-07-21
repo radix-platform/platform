@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+  |-----handy-ruler------------------------------------------------------|
+db: db 12.1.@VERSION@ (Berkeley DB)
+db:
+db: This is Berkeley DB 12c Release 1 from Oracle.
+db:
+db: To view release and installation documentation, load the distribution
+db: file /usr/share/doc/db-@VERSION@/html/index.html into your web browser.
+db: Technical support can be obtained by visiting the Berkeley DB Oracle
+db: Technical Network (OTN) forum, here:
+db:
+db:   https://forums.oracle.com/forums/forum.jspa?forumID=271
+db:

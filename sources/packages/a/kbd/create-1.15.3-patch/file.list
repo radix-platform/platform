@@ -1,0 +1,8 @@
+kbd-1.15.3/configure
+kbd-1.15.3/data/keymaps/i386/include/euro2.map
+kbd-1.15.3/data/keymaps/i386/qwerty/nl.map
+kbd-1.15.3/man/man1/showkey.1
+kbd-1.15.3/man/man8/setkeycodes.8
+kbd-1.15.3/po/Makefile.in.in
+kbd-1.15.3/po/es.po
+kbd-1.15.3/src/unicode_start

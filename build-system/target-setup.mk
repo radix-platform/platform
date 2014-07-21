@@ -159,6 +159,7 @@ RANLIB             = $(TOOLCHAIN_PATH)/bin/$(TARGET)-ranlib
 SIZE               = $(TOOLCHAIN_PATH)/bin/$(TARGET)-size
 STRIP              = $(TOOLCHAIN_PATH)/bin/$(TARGET)-strip
 OBJCOPY            = $(TOOLCHAIN_PATH)/bin/$(TARGET)-objcopy
+OBJDUMP            = $(TOOLCHAIN_PATH)/bin/$(TARGET)-objdump
 NM                 = $(TOOLCHAIN_PATH)/bin/$(TARGET)-nm
 CROSS_PREFIX       = $(TOOLCHAIN_PATH)/bin/$(TARGET)-
 else
@@ -172,6 +173,7 @@ RANLIB             = $(TOOLCHAIN_PATH)/bin/ranlib
 SIZE               = $(TOOLCHAIN_PATH)/bin/size
 STRIP              = $(TOOLCHAIN_PATH)/bin/strip
 OBJCOPY            = $(TOOLCHAIN_PATH)/bin/objcopy
+OBJDUMP            = $(TOOLCHAIN_PATH)/bin/objdump
 NM                 = $(TOOLCHAIN_PATH)/bin/nm
 else
 # TOOLCHAIN_NOARCH doesn't need these variables but:
@@ -184,6 +186,7 @@ RANLIB             = ranlib
 SIZE               = size
 STRIP              = strip
 OBJCOPY            = objcopy
+OBJDUMP            = objdump
 NM                 = nm
 endif
 endif

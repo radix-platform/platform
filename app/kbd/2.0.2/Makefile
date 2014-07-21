@@ -19,6 +19,8 @@ SOURCE_REQUIRES    = sources/packages/a/kbd
 
 REQUIRES           = libs/eglibc/2.19.1
 REQUIRES          += dev/check/0.9.13
+REQUIRES          += secure/pam/1.1.8
+REQUIRES          += secure/pam_unix2/2.9.1
 
 
 version            = 2.0.2

@@ -395,6 +395,7 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/slang/2.2.4-x86_32
 endif
 
+REQUIRES += app/mc/4.8.12
 
 
 #######

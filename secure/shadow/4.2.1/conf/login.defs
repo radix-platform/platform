@@ -8,16 +8,29 @@
 #
 # Comment lines (lines beginning with "#") and blank lines are ignored.
 #
-
+# Following variables are replaced by Linux-PAM:
 #
-# Delay in seconds before being allowed another attempt after a login failure
+#   FAIL_DELAY
+#   FAILLOG_ENAB
+#   LASTLOG_ENAB
+#   MAIL_CHECK_ENAB
+#   OBSCURE_CHECKS_ENAB
+#   PORTTIME_CHECKS_ENAB
+#   QUOTAS_ENAB
+#   CONSOLE
+#   MOTD_FILE
+#   FTMP_FILE
+#   NOLOGINS_FILE
+#   ENV_HZ
+#   PASS_MIN_LEN
+#   SU_WHEEL_ONLY
+#   CRACKLIB_DICTPATH
+#   PASS_CHANGE_TRIES
+#   PASS_ALWAYS_WARN
+#   CHFN_AUTH
+#   ENCRYPT_METHOD
+#   ENVIRON_FILE
 #
-FAIL_DELAY		3
-
-#
-# Enable logging and display of /var/log/faillog login(1) failure info.
-#
-FAILLOG_ENAB		yes
 
 #
 # Enable display of unknown usernames when login(1) failures are recorded.
@@ -30,34 +43,6 @@ LOG_UNKFAIL_ENAB	no
 LOG_OK_LOGINS		no
 
 #
-# Enable logging and display of /var/log/lastlog login(1) time info.
-#
-LASTLOG_ENAB		yes
-
-#
-# Enable checking and display of mailbox status upon login.
-#
-# Disable if the shell startup files already check for mail
-# ("mailx -e" or equivalent).
-#
-MAIL_CHECK_ENAB		yes
-
-#
-# Enable additional checks upon password changes.
-#
-OBSCURE_CHECKS_ENAB	yes
-
-#
-# Enable checking of time restrictions specified in /etc/porttime.
-#
-PORTTIME_CHECKS_ENAB	yes
-
-#
-# Enable setting of ulimit, umask, and niceness from passwd(5) gecos field.
-#
-QUOTAS_ENAB		yes
-
-#
 # Enable "syslog" logging of su(1) activity - in addition to sulog file logging.
 # SYSLOG_SG_ENAB does the same for newgrp(1) and sg(1).
 #
@@ -65,48 +50,10 @@ SYSLOG_SU_ENAB		yes
 SYSLOG_SG_ENAB		yes
 
 #
-# If defined, either full pathname of a file containing device names or
-# a ":" delimited list of device names.  Root logins will be allowed only
-# from these devices.
-#
-CONSOLE		/etc/securetty
-#CONSOLE	console:tty01:tty02:tty03:tty04
-
-#
-# If defined, all su(1) activity is logged to this file.
-#
-#SULOG_FILE	/var/log/sulog
-
-#
-# If defined, ":" delimited list of "message of the day" files to
-# be displayed upon login.
-#
-MOTD_FILE	/etc/motd
-#MOTD_FILE	/etc/motd:/usr/lib/news/news-motd
-
-#
-# If defined, this file will be output before each login(1) prompt.
-#
-#ISSUE_FILE	/etc/issue
-
-#
 # If defined, file which maps tty line to TERM environment parameter.
 # Each line of the file is in a format similar to "vt100  tty01".
 #
 #TTYTYPE_FILE	/etc/ttytype
-
-#
-# If defined, login(1) failures will be logged here in a utmp format.
-# last(1), when invoked as lastb(1), will read /var/log/btmp, so...
-#
-FTMP_FILE	/var/log/btmp
-
-#
-# If defined, name of file whose presence will inhibit non-root
-# logins.  The content of this file should be a message indicating
-# why logins are inhibited.
-#
-NOLOGINS_FILE	/etc/nologin
 
 #
 # If defined, the command name to display when running "su -".  For
@@ -116,13 +63,6 @@ NOLOGINS_FILE	/etc/nologin
 #
 SU_NAME		su
 
-#
-# *REQUIRED*
-#   Directory where mailboxes reside, _or_ name of file, relative to the
-#   home directory.  If you _do_ define both, MAIL_DIR takes precedence.
-#
-MAIL_DIR	/var/spool/mail
-#MAIL_FILE	.mail
 
 #
 # If defined, file which inhibits all the usual chatter during the login
@@ -139,14 +79,6 @@ HUSHLOGIN_FILE	.hushlogin
 #
 #ENV_TZ		TZ=CST6CDT
 #ENV_TZ		/etc/tzname
-
-#
-# If defined, an HZ environment parameter spec.
-#
-# for Linux/x86
-ENV_HZ		HZ=100
-# For Linux/Alpha...
-#ENV_HZ		HZ=1024
 
 #
 # *REQUIRED*  The default PATH settings, for superuser and normal users.
@@ -205,21 +137,7 @@ UMASK		022
 #
 PASS_MAX_DAYS	99999
 PASS_MIN_DAYS	0
-PASS_MIN_LEN	5
 PASS_WARN_AGE	7
-
-#
-# If "yes", the user must be listed as a member of the first gid 0 group
-# in /etc/group (called "root" on most Linux systems) to be able to "su"
-# to uid 0 accounts.  If the group doesn't exist or is empty, no one
-# will be able to "su" to uid 0.
-#
-SU_WHEEL_ONLY	no
-
-#
-# If compiled with cracklib support, sets the path to the dictionaries
-#
-CRACKLIB_DICTPATH	/var/cache/cracklib/pq_dict
 
 #
 # Min/max values for automatic uid selection in useradd(8)
@@ -258,26 +176,11 @@ LOGIN_RETRIES		5
 LOGIN_TIMEOUT		60
 
 #
-# Maximum number of attempts to change password if rejected (too easy)
-#
-PASS_CHANGE_TRIES	5
-
-#
-# Warn about weak passwords (but still allow them) if you are root.
-#
-PASS_ALWAYS_WARN	yes
-
-#
 # Number of significant characters in the password for crypt().
 # Default is 8, don't change unless your crypt() is better.
 # Ignored if MD5_CRYPT_ENAB set to "yes".
 #
-#PASS_MAX_LEN		8
-
-#
-# Require password before chfn(1)/chsh(1) can make any changes.
-#
-CHFN_AUTH		yes
+#PASS_MAX_LEN		12
 
 #
 # Which fields may be changed by regular users using chfn(1) - use
@@ -310,19 +213,6 @@ CHFN_RESTRICT		frwh
 #MD5_CRYPT_ENAB	no
 
 #
-# Only works if compiled with ENCRYPTMETHOD_SELECT defined:
-# If set to MD5, MD5-based algorithm will be used for encrypting password
-# If set to SHA256, SHA256-based algorithm will be used for encrypting password
-# If set to SHA512, SHA512-based algorithm will be used for encrypting password
-# If set to DES, DES-based algorithm will be used for encrypting password (default)
-# Overrides the MD5_CRYPT_ENAB option
-#
-# Note: If you use PAM, it is recommended to use a value consistent with
-# the PAM modules configuration.
-#
-#ENCRYPT_METHOD DES
-
-#
 # Only works if ENCRYPT_METHOD is set to SHA256 or SHA512.
 #
 # Define the number of SHA rounds.
@@ -335,42 +225,14 @@ CHFN_RESTRICT		frwh
 # If only one of the MIN or MAX values is set, then this value will be used.
 # If MIN > MAX, the highest value will be used.
 #
-# SHA_CRYPT_MIN_ROUNDS 5000
-# SHA_CRYPT_MAX_ROUNDS 5000
-
-#
-# List of groups to add to the user's supplementary group set
-# when logging in from the console (as determined by the CONSOLE
-# setting).  Default is none.
-#
-# Use with caution - it is possible for users to gain permanent
-# access to these groups, even when not logged in from the console.
-# How to do it is left as an exercise for the reader...
-#
-# Most of these groups are self-explanatory, but in the case of
-# "lp", it is because group lp is needed to use a scanner that
-# is part of a multifunction printer.
-#
-# Note that users are added to these default groups only when
-# logging into a shell with /bin/login, not when using a login
-# manager such as kdm.  In that case, users who should have
-# hardware access must be added to the appropriate groups
-# when the user is added with adduser or useradd, or by editing
-# /etc/group directly, preferably using "vigr"
-#
-CONSOLE_GROUPS         floppy:audio:cdrom:video:lp:scanner
+# SHA_CRYPT_MIN_ROUNDS	5000
+# SHA_CRYPT_MAX_ROUNDS	5000
 
 #
 # Should login be allowed if we can't cd to the home directory?
 # Default is no.
 #
 DEFAULT_HOME	yes
-
-#
-# If this file exists and is readable, login environment will be
-# read from it.  Every line should be in the form name=value.
-#
-ENVIRON_FILE	/etc/environment
 
 #
 # If defined, this command is run when removing a user.
@@ -386,7 +248,7 @@ ENVIRON_FILE	/etc/environment
 #
 # This also enables userdel(8) to remove user groups if no members exist.
 #
-USERGROUPS_ENAB yes
+USERGROUPS_ENAB	yes
 
 #
 # If set to a non-zero number, the shadow utilities will make sure that
@@ -405,5 +267,5 @@ USERGROUPS_ENAB yes
 # This option is overridden with the -M or -m flags on the useradd(8)
 # command-line.
 #
-#CREATE_HOME     yes
+#CREATE_HOME	yes
 

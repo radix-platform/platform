@@ -1,0 +1,5 @@
+mc-4.8.10/doc/man/mc.1.in
+mc-4.8.10/doc/man/ru/mc.1.in
+mc-4.8.10/misc/ext.d/image.sh
+mc-4.8.10/src/filemanager/file.c
+mc-4.8.10/src/filemanager/midnight.c

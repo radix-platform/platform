@@ -1,0 +1,631 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+</head>
+<body>
+
+<div style="padding: 0 1.5em; text-align: justify;">
+<h3>PAM Explanation</h3>
+</div>
+
+<div style="padding: 0 1.5em; text-align: justify;">
+<p>The Pluggable Authentication Modules system allows an administrator 
+to fully control how authentication is done on a system, and releaves a 
+developer from implementing all kinds of authentication mechanisms.</p>
+</div>
+
+<div style="padding: 0 1.5em; text-align: justify;">
+<p>The "old" way of doing authentication is through /etc/passwd, which 
+contained the username, uid and password. As long as everybody used 
+/etc/passwd there was nog problem, but when different schemes came into 
+play, like NIS, Kerberos, LDAP, and even the shadow system, it meant 
+that developers needed to support all these different ways in their 
+product, which created a enormous amount of duplicated code and a lot of
+ overhead for the developers. To overcome this issue PAM was created. 
+PAM provides a single interface for the developer to talk to. It just 
+tells an application if a user is allowed or not. Meaning that the 
+developer only has to support PAM.</p>
+</div>
+
+<div style="padding: 0 1.5em; text-align: justify;">
+<p>By means of modules the administrator can on the fly change the e.g. 
+the login policy for a certain system from /etc/passwd to kerberos 
+without the users or applications noticing the change. And as long as 
+all programs on a certain system, responsible for user authentication, 
+work with PAM all should be fine.</p>
+</div>
+
+<div style="padding: 0 1.5em; text-align: justify;">
+<p><table border="0">
+<tbody><tr><td align="center" bgcolor="#ffeedd">login</td>
+    <td align="center" bgcolor="#ddccbb">ftp</td>
+    <td align="center" bgcolor="#bbaa99">telnet</td>
+    <td align="center" bgcolor="#998877">ssh</td></tr>
+<tr><td colspan="4" align="center" bgcolor="#fedcba">PAM API</td></tr>
+<tr><td colspan="2" align="center" bgcolor="#fedcba">PAM library</td>
+    <td colspan="2" align="center" bgcolor="#fedcba">PAM configuration</td></tr>
+<tr><td colspan="4" align="center" bgcolor="#fedcba">PAM SPI</td></tr>
+<tr><td bgcolor="#dcba98">account checks</td>
+    <td bgcolor="#ba9876">authentication</td>
+    <td bgcolor="#987654">session management</td>
+    <td bgcolor="#765432">password management</td></tr>
+</tbody></table>
+</div>
+
+</p>
+<div style="padding: 0 1.5em; text-align: justify;">
+<p>As said PAM is a modular system, hence the name. The 
+configuration of PAM can be done in two different ways. You could have 
+one long configuration file, or you could have a /etc/pam.d directory 
+which contains several files for the configuration. This document will 
+only discuss the /etc/pam.d variant.</p>
+</div>
+
+<div style="padding: 0 1.5em; text-align: justify;">
+<p>Within the /etc/pam.d directory there are files for every program 
+that needs authentication. In each file there are rules for that 
+specific service. Of course there would be a lot of duplication if your 
+created rules specific for every service, since most services will use 
+the same way of authentication. To solve this issue there is an include 
+statement that you can use in the configuration files.</p>
+<pre>auth include file
+</pre>
+which includes the auth sections from the mentioned file.<p></p>
+</div>
+
+<div style="padding: 0 1.5em; text-align: justify;">
+<p>On Red Hat based systems the included file is often system-auth, 
+while for Debian based system you have a common-* file per "type" in the
+ configuration file.</p>
+</div>
+
+<div style="padding: 0 1.5em; text-align: justify;">
+<p>The "type" mentioned is the first colomn in the configuration file. The complete syntax for the file is:
+</p>
+<pre>type  control  module-path  module-arguments</pre>
+</div>
+
+<div style="padding: 0 1.5em; text-align: justify;">
+The type can be:
+<table border="1">
+<tbody><tr>
+    <th>Type</th>
+    <th>Function</th>
+    <th>Description</th>
+    </tr>
+<tr>
+    <td>account</td>
+    <td>pam_acct_mgmt</td>
+    <td>Tests if the user is allowed to access the service, meaning if 
+the password is not expired, if the user is allowed during this time of 
+day, if the load is not too high, etc.</td>
+    </tr>
+<tr>
+    <td rowspan="2">auth</td>
+    <td>pam_authenticate</td>
+    <td>This is the actual authentication. In the good old fashioned way
+ it means that the password is checked to see if the user is who he or 
+she claims to be.</td>
+    </tr>
+<tr>
+    <td>pam_setcred</td>
+    <td>Sets UID, GID and limits</td>
+    </tr>
+<tr>
+    <td rowspan="2">session</td>
+    <td>pam_open_session</td>
+    <td>Things that should be done when the user is authenticated, and thus logs in.</td>
+    </tr>
+<tr>
+    <td>pam_close_session</td>
+    <td>Things that should be done when the user logs off.</td>
+    </tr>
+<tr>
+    <td>password</td>
+    <td>pam_chauthtok</td>
+    <td>Used when the user wants to change the authentication credentials (password). Check password length, strength, etc.</td>
+    </tr>
+</tbody></table><p></p>
+</div>
+
+<div style="padding: 0 1.5em; text-align: justify;">
+<p>Per type you can have multiple lines. So you can have "stacked" 
+modules that describe what should be done, or to what rules the username
+ and credentials should comply, before a user is authenticated to the 
+system.</p>
+</div>
+
+<div style="padding: 0 1.5em; text-align: justify;">
+<p>The second column in our configuration file is the "control" column. 
+The field tells PAM what it should do when the module reports a failure.
+ This field can be:
+</p>
+</div>
+<div style="padding: 0 1.5em; text-align: justify;">
+<dl>
+<dt>[value1=action1 value2=action2 ...]</dt>
+    <dd><p>PAM started with some predefined actions, which are described
+ below. The use of [...] in the control field is a later addition that 
+gives you full control of PAMs actions. The list below is split in two 
+parts, those that are relevant for system administrators and those that 
+are needed for debugging modules. Within the remainder of this document 
+we are only concerned about the administrators part.</p>
+	<p>For system administrators:
+	</p><dl>
+	    <dt>abort</dt>
+		<dd>Critical error (?module fail now request)</dd>
+	    <dt>acct_expired</dt>
+		<dd>User account has expired</dd>
+	    <dt>auth_err</dt>
+		<dd>Authentication failure</dd>
+	    <dt>authinfo_unavail</dt>
+		<dd>Underlying authentication service can not retrieve authentication information</dd>
+	    <dt>authtok_err</dt>
+		<dd>Authentication token manipulation error</dd>
+	    <dt>authtok_expired</dt>
+		<dd>user's authentication token has expired</dd>
+	    <dt>authtok_disable_aging</dt>
+		<dd>Authentication token aging disabled</dd>
+	    <dt>authtok_recover_err</dt>
+		<dd>Authentication information cannot be recovered</dd>
+	    <dt>cred_err</dt>
+		<dd>Failure setting user credentials</dd>
+	    <dt>cred_expired</dt>
+		<dd>User credentials expired</dd>
+	    <dt>cred_insufficient</dt>
+		<dd>Can not access authentication data due to insufficient credentials</dd>
+	    <dt>cred_unavail</dt>
+		<dd>Underlying authentication service can not retrieve user credentials unavailable</dd>
+	    <dt>default</dt>
+		<dd>all not explicitly mentioned values</dd>
+	    <dt>ignore</dt>
+		<dd>Ignore underlying account module regardless of whether the control flag is required, optional, or sufficient</dd>
+	    <dt>maxtries</dt>
+		<dd>An authentication service has maintained a retry count which has been reached.  No further retries should be attempted</dd>
+	    <dt>module_unknown</dt>
+		<dd>module is not known</dd>
+	    <dt>new_authtok_reqd</dt>
+		<dd>New authentication token required. This is normally returned if 
+the machine security policies require that the password should be 
+changed beccause the password is NULL or it has aged</dd>
+	    <dt>perm_denied</dt>
+		<dd>Permission denied</dd>
+	    <dt>session_err</dt>
+		<dd>Can not make/remove an entry for the specified session</dd>
+	    <dt>success</dt>
+		<dd>Successful function return</dd>
+	    <dt>try_again</dt>
+		<dd>Preliminary check by password service</dd>
+	    <dt>user_unknown</dt>
+		<dd>User not known to the underlying authenticaiton module</dd>
+	</dl><p></p>
+
+	<p>Debugging modules:
+	</p><dl>
+	    <dt>authtok_lock_busy</dt>
+		<dd>Authentication token lock busy</dd>
+	    <dt>bad_item</dt>
+		<dd>Bad item passed to pam_*_item()</dd>
+	    <dt>buf_err</dt>
+		<dd>Memory buffer error</dd>
+	    <dt>conv_again</dt>
+		<dd>conversation function is event driven and data is not available yet</dd>
+	    <dt>conv_err</dt>
+		<dd>Conversation error</dd>
+	    <dt>incomplete</dt>
+		<dd>please call this function again to complete authentication stack. Before calling again, verify that conversation is completed</dd>
+	    <dt>no_module_data</dt>
+		<dd>No module specific data is present</dd>
+	    <dt>open_err</dt>
+		<dd>The module could not be loaded</dd>
+	    <dt>service_err</dt>
+		<dd>Error in service module</dd>
+	    <dt>symbol_err</dt>
+		<dd>Symbol not found</dd>
+	    <dt>system_err</dt>
+		<dd>System error</dd>
+	</dl>
+	<p></p>
+	<p>The action part can be any of:
+	</p><dl>
+	<dt>ignore</dt>
+	    <dd>The return status will not contribute to the return code.</dd>
+	<dt>bad</dt>
+	    <dd>The return status is set to fail.</dd>
+	<dt>die</dt>
+	    <dd>The return status is set to fail and the stack is terminated immediately and the return status reported to the application</dd>
+	<dt>ok</dt>
+	    <dd>If the modules fails, the total stack state will be fail, if 
+the stack was already fail, the return code of this module will do 
+nothing.</dd>
+	<dt>done</dt>
+	    <dd>Some as ok, but with direct termination of the stack</dd>
+	<dt>reset</dt>
+	    <dd>Clear all memory of the state of the module stack and start again with the next module.</dd>
+	</dl>
+   </dd>
+<p></p>
+<dt><span style="font-weight:bold; color:black">requisite</span> ([success=ok new_authtok_reqd=ok ignore=ignore default=die])</dt>
+    <dd>When the module reports failure, the user gets denied 
+immediately. Meaning that e.g. a non-existend username can immediately 
+be denied. The downside is that an attacker knows that the username is 
+invalid.</dd>
+<dt><span style="font-weight:bold; color:black">required</span> ([success=ok new_authtok_reqd=ok ignore=ignore default=bad])</dt><dt>
+    </dt><dd>When the module reports failure, the user gets denied after
+ all other lines in the type-section are checked. The reason that even 
+when the user is denied access all other lines are checked has to do 
+with system reponse. By checking all other lines a possible attacked has
+ no clue which module created the denial state, and thus makes it harder
+ for the attacker to create an alternative attack method.</dd>
+<dt><span style="font-weight:bold; color:black">sufficient</span> ([success=done new_authtok_reqd=done default=ignore])</dt>
+    <dd>If no status is set by a previous required module and this 
+module reports success, the PAM framework returns success to the 
+application immediately without trying any other modules. A failure 
+means that the remaining lines are checked.</dd><dd>
+</dd><dt><span style="font-weight:bold; color:black">optional</span> ([success=ok new_authtok_reqd=ok default=ignore])</dt>
+    <dd>According to the pam(8) manpage, will only cause an operation to fail if it's the only module in the stack for that facility</dd>
+</dl>
+</div>
+
+<div style="padding: 0 1.5em; text-align: justify;">
+<p>The third field in the configuration is the "module-path". This tells
+ PAM the modules to use and most the times the path to find the module. 
+According to the LFS, the modules should be located in /lib/security. 
+However the PAM default is /usr/lib/security.</p>
+</div>
+
+<div style="padding: 0 1.5em; text-align: justify;">
+<p>The last field is the "module-arguments" which varies per module.</p>
+</div>
+
+<div style="padding: 0 1.5em; text-align: justify;">
+<h3>PAM examples</h3>
+<p>The examples below are a mix of Debian, Red Hat and CentOS system configurations mixed with additional features.</p>
+
+<p>The following examples are tested with login and with sshd. Do know 
+if you should replace system-auth (RHEL) or common-* (Debian) files with
+ it.</p>
+</div>
+
+<div style="padding: 0 1.5em; text-align: justify;">
+<h4>Example: Be a minimal plain old Unix replacement</h4>
+<p>To act as a normal unix machine using /etc/passwd, /etc/shadow and 
+/etc/group we use the pam_unix.so. We need this anyway to support the 
+system accounts of our system like root.</p>
+</div>
+
+<div style="padding: 0 1.5em; text-align: left;">
+<pre>
+# Per default the pam_unix.so module treats empty password fields as
+# disabled accounts. The "nullok" option overrides this behaviour.
+# To disable an account according to CERT policies, change the
+# password field to * and set the login shell to /bin/false.
+#
+# The "md5" option enables MD5 passwords.  Without this option, the
+# default is Unix crypt.
+auth		sufficient	pam_unix.so nullok
+auth		required	pam_deny.so
+
+account		required	pam_unix.so
+account		required	pam_permit.so
+
+session		required	pam_unix.so
+
+# NOT tested
+password	sufficient	pam_unix.so shadow nullok md5
+password	required	pam_deny.so
+</pre>
+</div>
+
+<div style="padding: 0 1.5em; text-align: justify;">
+<h4>Example: plain old unix towards pam only control</h4>
+<p>Especially for the login functionality, there are a couple of 
+"native" files that give a system administrator control of who is 
+allowed to do what from where with which restrictions. The first ones 
+that you will probably know are the hosts.allow and hosts.deny files. 
+But also /etc/securetty, /etc/login.defs, and a couple more. If we want 
+to control everything through pam we have to adjust our stack a little 
+bit.</p>
+
+<p>Let's start with the auth section:</p>
+</div>
+
+<div style="padding: 0 1.5em; text-align: left;">
+<pre>
+# Load the /etc/security/pam_env.conf file. Just to be sure
+auth		required	pam_env.so
+
+# Enforce a minimal delay in case of failure (in microseconds).
+# (Replaces the `FAIL_DELAY' setting from login.defs)
+# Note that other modules may require another minimal delay. (for example,
+# to disable any delay, you should add the nodelay option to pam_unix)
+auth		optional	pam_faildelay.so delay=3000000
+
+# Disallows other than root logins when /etc/nologin exists
+# (Replaces the `NOLOGINS_FILE' option from login.defs)
+auth		requisite	pam_nologin.so
+
+# Disallows root logins except on tty's listed in /etc/securetty
+# (Replaces the `CONSOLE' setting from login.defs)
+auth       [success=ok ignore=ignore user_unknown=ignore default=die]  pam_securetty.so
+
+# Check if the users shell exists
+# (Uses /etc/shells)
+auth		required	pam_shells.so
+
+# Outputs an issue file prior to each login prompt
+# (Replaces the ISSUE_FILE option from login.defs).
+auth		optional	pam_issue.so issue=/etc/issue
+
+# This allows certain extra groups to be granted to a user
+# based on things like time of day, tty, service, and user.
+# Please edit /etc/security/group.conf to fit your needs
+# (Replaces the `CONSOLE_GROUPS' option in login.defs)
+auth		optional	pam_group.so
+
+auth            sufficient      pam_unix.so nullok
+auth            required        pam_deny.so
+
+</pre><p></p>
+</div>
+
+<div style="padding: 0 1.5em; text-align: justify;">
+<p>Next we adjust the account section:</p>
+</div>
+
+<div style="padding: 0 1.5em; text-align: left;">
+<pre>
+# Edit /etc/security/time.conf if you need to set time
+# restrainst on logins.
+# (Replaces the `PORTTIME_CHECKS_ENAB' option from login.defs
+# as well as /etc/porttime)
+account		requisite	pam_time.so
+
+# Edit /etc/security/access.conf if you need to set
+# access limits.
+# (Replaces /etc/login.access file)
+account		required	pam_access.so
+
+account         required        pam_unix.so
+account         required        pam_permit.so
+</pre><p></p>
+</div>
+
+<div style="padding: 0 1.5em; text-align: justify;">
+<p>Then the session section:</p>
+</div>
+
+<div style="padding: 0 1.5em; text-align: left;">
+<pre>
+# This module parses environment configuration file(s)
+# and also allows you to use an extended config
+# file /etc/security/pam_env.conf.
+
+# Backwards compatibility for /etc/environment
+session		required	pam_env.so readenv=1 envfile=/etc/environment
+
+# Setting the locale or i18n settings
+# Debian: locale variables are also kept into /etc/default/locale in etch
+#         reading this file *in addition to /etc/environment* does not hurt
+# RHEL:   locale variables are kept in /etc/sysconfig/i18n
+#
+# Debian: session       required   pam_env.so readenv=1 envfile=/etc/default/locale
+# RHEL: session       required   pam_env.so readenv=1 envfile=/etc/sysconfig/i18n
+
+# Sets up user limits according to /etc/security/limits.conf
+# (Replaces the use of /etc/limits in old login)
+session		required	pam_limits.so
+
+# Sets the umask
+# (Replaces UMASK setting in login.defs)
+# Does not seem to have any influence on the umask...
+# needs more testing
+session		optional	pam_umask.so umask=0077
+
+# The following two options report some additional
+# information when a user logs in. sshd also reports
+# this information, so to prevent duplicate messages
+# set in sshd_config:
+# PrintLastLog no
+# PrintMotd no
+# (Replaces the `LASTLOG_ENAB' and `MOTD_FILE' options
+# from login.defs)
+session		optional	pam_lastlog.so
+session		optional	pam_motd.so
+
+# Prints the status of the user's mailbox upon succesful login
+# (Replaces the `MAIL_CHECK_ENAB' option from login.defs). 
+#
+# This also defines the MAIL environment variable
+# However, userdel also needs MAIL_DIR and MAIL_FILE variables
+# in /etc/login.defs to make sure that removing a user 
+# also removes the user's mail spool file.
+# See comments in /etc/login.defs
+session		optional	pam_mail.so standard
+
+# Create home dir if it does not exist on login
+session		required	pam_mkhomedir.so skel=/etc/skel/ umask=0022
+
+# SELinux needs to intervene at login time to ensure that the process
+# starts in the proper default security context.
+# Uncomment the following line to enable SELinux
+# session required pam_selinux.so select_context
+# Did NOT test this:
+# session         required        pam_unix.so
+
+session		required	pam_unix.so
+</pre><p></p>
+</div>
+
+<div style="padding: 0 1.5em; text-align: justify;">
+<p>And last the password section:</p>
+</div>
+
+<div style="padding: 0 1.5em; text-align: left;">
+<pre>
+# Alternate strength checking for password. Note that this
+# requires the libpam-cracklib package to be installed.
+# You will need to comment out the password line above and
+# uncomment the next two in order to use this.
+# (Replaces the `OBSCURE_CHECKS_ENAB', `CRACKLIB_DICTPATH')
+#
+
+# This is NOT tested
+
+password	required	pam_cracklib.so retry=3 minlen=6 difok=3
+password	required	pam_unix.so use_authtok nullok md5
+password        required        pam_deny.so
+</pre><p></p>
+</div>
+
+<div style="padding: 0 1.5em; text-align: justify;">
+<h4>Example: migrate to ldap</h4>
+<p>This section builds on the previous one, but adds LDAP  support. We 
+assume that users having a UID above 500 are in LDAP and all others are 
+in the default files (passwd, shadow, group). The password for the users
+ in LDAP is also placed in LDAP.</p>
+
+<p>One extra feature supported is the fact that we need to be able to 
+login to our servers with a normal unix account (root) when there is 
+trouble with LDAP.</p>
+
+<p>Let's start with the auth section:</p>
+</div>
+
+<div style="padding: 0 1.5em; text-align: left;">
+<pre>
+auth		required	pam_env.so
+auth		optional	pam_faildelay.so delay=3000000
+auth		requisite	pam_nologin.so
+auth       [success=ok ignore=ignore user_unknown=ignore default=die]  pam_securetty.so
+auth		required	pam_shells.so
+auth		optional	pam_issue.so issue=/etc/issue
+auth		optional	pam_group.so
+
+# We assume that UIDs above 500 are in LDAP
+# If LDAP fails we want to still be able to login through local accounts
+auth            sufficient      pam_unix.so nullok
+auth		requisite	pam_succeed_if.so uid &gt;= 500 quiet
+auth		sufficient	pam_ldap.so use_first_pass
+auth            required        pam_deny.so
+
+</pre><p></p>
+</div>
+
+<div style="padding: 0 1.5em; text-align: justify;">
+<p>Next we adjust the account section:</p>
+</div>
+
+<div style="padding: 0 1.5em; text-align: left;">
+<pre>
+account		requisite	pam_time.so
+account		required	pam_access.so
+
+# If the user id is below 500 end the account section, if LDAP failes
+# we can still login with a local account
+account         required        pam_unix.so
+account		sufficient	pam_succeed_if.so uid &lt; 500 quit
+account	[default=bad success=ok user_unknown=ignore] pam_ldap.so
+account         required        pam_permit.so
+</pre><p></p>
+</div>
+
+<div style="padding: 0 1.5em; text-align: justify;">
+<p>Then the session section:</p>
+</div>
+
+<div style="padding: 0 1.5em; text-align: left;">
+<pre>
+session		required	pam_env.so readenv=1 envfile=/etc/environment
+session		required	pam_env.so readenv=1 envfile=/etc/sysconfig/i18n
+session		required	pam_limits.so
+session		optional	pam_umask.so umask=0077
+session		optional	pam_lastlog.so
+session		optional	pam_motd.so
+session		optional	pam_mail.so standard
+session		required	pam_mkhomedir.so skel=/etc/skel/ umask=0022
+
+session		required	pam_unix.so
+</pre><p></p>
+</div>
+
+<div style="padding: 0 1.5em; text-align: justify;">
+<p>And last the password section:</p>
+</div>
+
+<div style="padding: 0 1.5em; text-align: left;">
+<pre>
+# This is NOT tested
+# We need pam_ldap.so to set the password in LDAP
+# Additional rules we might need:
+# password    sufficient    pam_unix.so md5 obscure min=4 max=8 nullok try_first_pass
+# password    sufficient    pam_ldap.so
+
+password	required	pam_cracklib.so retry=3 minlen=6 difok=3
+password	sufficient	pam_unix.so use_authtok md5
+password	required	pam_ldap.so use_authtok
+password        required        pam_deny.so
+</pre><p></p>
+</div>
+
+<div style="padding: 0 1.5em; text-align: justify;">
+<h4>Example: add kerberos support</h4>
+<p>Only tested with LDAP, kerberos still needs testing.</p>
+
+<p>This example expands the above one, with kerberos. The users above 
+UID 500 are still in LDAP, but their password is stored in kerberos.</p>
+
+<p>NOTE: Debian supplies: <a href="http://www.eyrie.org/%7Eeagle/software/pam-krb5/">http://www.eyrie.org/~eagle/software/pam-krb5/</a><br>
+RHEL supplies: <a href="http://people.redhat.com/nalin/pam_krb5/">http://people.redhat.com/nalin/pam_krb5/</a></p>
+</div>
+
+<div style="padding: 0 1.5em; text-align: left;">
+<pre>
+auth		required	pam_env.so
+auth		optional	pam_faildelay.so delay=3000000
+auth		requisite	pam_nologin.so
+auth [success=ok ignore=ignore user_unknown=ignore default=die]  pam_securetty.so
+auth		required	pam_shells.so
+auth		optional	pam_issue.so issue=/etc/issue
+auth		optional	pam_group.so
+
+# pam_ldap.so is in here for migration purposes, when all your
+# users are kerberized you can remove the pam_ldap.so line
+auth		sufficient	pam_unix.so nullok try_first_pass
+auth		requisite	pam_succeed_if.so uid &gt;= 500 quiet
+auth            sufficient      pam_ldap.so use_first_pass
+auth		sufficient	pam_krb5.so use_first_pass
+auth		required	pam_deny.so
+
+account		requisite	pam_time.so
+account		required	pam_access.so
+
+account		sufficient	pam_unix.so broken_shadow
+account		sufficient	pam_succeed_if.so uid &lt; 500 quiet
+account		required	pam_ldap.so
+account	[default=bad success=ok user_unknown=ignore] pam_krb5.so
+account		required	pam_permit.so
+
+session		required	pam_env.so readenv=1 envfile=/etc/environment
+session		required	pam_env.so readenv=1 envfile=/etc/sysconfig/i18n
+session		required	pam_limits.so
+session		optional	pam_umask.so umask=0077
+session		optional	pam_lastlog.so
+session		optional	pam_motd.so
+session		optional	pam_mail.so standard
+session		required	pam_mkhomedir.so skel=/etc/skel/ umask=0022
+
+# pam_ldap.so for session?
+session		optional	pam_keyinit.so revoke
+session		required	pam_unix.so
+session		optional	pam_krb5.so minimum_uid=500
+
+# Set password in krb database
+password	requisite	pam_cracklib.so try_first_pass retry=3
+password	sufficient	pam_unix.so md5 shadow nullok use_authtok
+password	required	pam_krb5.so use_authtok clear_on_fail
+password	required	pam_deny.so
+</pre>
+</div>
+</body>
+</html>

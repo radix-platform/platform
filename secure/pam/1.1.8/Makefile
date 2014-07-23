@@ -165,6 +165,14 @@ $(install_target): $(build_target)
 	# ======= install etc/pam.d base PAM configuration =======
 	@mkdir -p $(PAM_PKG)/etc/pam.d
 	@cp -a $(CURDIR)/pam.d/* $(PAM_PKG)/etc/pam.d
+	@( cd $(PAM_PKG)/etc/security ; \
+	   echo ""                                                                    >> access.conf ; \
+	   echo "#"                                                                   >> access.conf ; \
+	   echo "# User 'root' should get access from all till set up correct policy" >> access.conf ; \
+	   echo "#"                                                                   >> access.conf ; \
+	   echo "+ : root : ALL"                                                      >> access.conf ; \
+	   echo ""                                                                    >> access.conf ; \
+	 )
 	# ======= prepare new files for post install =======
 	@( cd $(PAM_PKG)/etc ; \
 	   mv environment environment.new ; \

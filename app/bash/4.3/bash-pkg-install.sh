@@ -21,10 +21,13 @@ post_install() {
   if grep -wq bin/bash etc/shells ; then
     true
   else
-    echo bin/bash >> etc/shells
+    echo "/bin/bash" >> etc/shells
   fi
   ( cd usr/bin ; rm -rf bash )
   ( cd usr/bin ; ln -sf ../../bin/bash bash )
+  if [ ! -r bin/sh -a ! -L bin/sh ]; then
+    ( cd bin ; ln -sf bash sh )
+  fi
 }
 
 # arg 1:  the new package version

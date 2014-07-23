@@ -1,0 +1,7 @@
+#
+# /etc/pam.d/system-session
+#
+
+session   optional    pam_loginuid.so
+session   required    pam_unix.so
+

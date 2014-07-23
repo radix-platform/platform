@@ -22,15 +22,18 @@ pre_install() {
 # arg 1:  the new package version
 post_install() {
   install_file etc/pam.d/chage.new
+  install_file etc/pam.d/chfn.new
   install_file etc/pam.d/chgpasswd.new
   install_file etc/pam.d/chpasswd.new
+  install_file etc/pam.d/chsh.new
   install_file etc/pam.d/groupadd.new
   install_file etc/pam.d/groupdel.new
   install_file etc/pam.d/groupmems.new
   install_file etc/pam.d/groupmod.new
+  install_file etc/pam.d/login.new
   install_file etc/pam.d/newusers.new
   install_file etc/pam.d/passwd.new
-  install_file etc/pam.d/shadow.new
+  install_file etc/pam.d/su.new
   install_file etc/pam.d/useradd.new
   install_file etc/pam.d/userdel.new
   install_file etc/pam.d/usermod.new

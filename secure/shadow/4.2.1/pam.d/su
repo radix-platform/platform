@@ -1,0 +1,20 @@
+#
+# /etc/pam.d/su
+#
+
+# always allow root
+auth      sufficient  pam_rootok.so
+auth      include     system-auth
+
+# only wheel members should be able to become root
+auth      requisite   pam_wheel.so group=wheel trust use_uid
+
+# include the default account settings
+account   include     system-account
+
+# set default environment variables for the service user
+session   required    pam_env.so
+
+# include system session defaults
+session   include     system-session
+

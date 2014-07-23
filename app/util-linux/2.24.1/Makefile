@@ -290,6 +290,7 @@ $(install_target): $(build_target)
 	 )
 	# ======= Install setserial-$(setserial_version) =======
 	@mkdir -p $(UTILLINUX_PKG)/sbin
+	@mkdir -p $(UTILLINUX_PKG)/var/lock/subsys
 	@cat $(SETSERIAL_SRC_DIR)/setserial > $(UTILLINUX_PKG)/sbin/setserial
 	@chmod 0755 $(UTILLINUX_PKG)/sbin/setserial
 	@mkdir -p $(UTILLINUX_PKG)/usr/share/man/man8

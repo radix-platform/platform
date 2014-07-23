@@ -40,6 +40,8 @@ install_target     = $(TARGET_BUILD_DIR)/.install_done
 adduser_script_dir = $(CURDIR)/scripts
 pam_d_dir          = $(CURDIR)/pam.d
 license            = $(CURDIR)/license/LICENSE
+login_defs         = $(CURDIR)/conf/login.defs
+pam_doc_dir        = $(CURDIR)/doc
 
 
 ####### Targets
@@ -126,17 +128,17 @@ $(install_target): $(build_target)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
 	# ======= Provide etc/pam.d =======
 	@mkdir -p $(SHADOW_PKG)/etc/pam.d
-	@for file in passwd chgpasswd chpasswd newusers ; do \
+	@for file in login passwd su ; do \
 	   cp -a $(pam_d_dir)/$$file $(SHADOW_PKG)/etc/pam.d/$$file.new ; \
 	 done
-	@for file in chage groupadd groupdel \
-	             groupmod shadow useradd usermod userdel ; do \
-	   cp -a $(pam_d_dir)/default.pam $(SHADOW_PKG)/etc/pam.d/$$file.new ; \
+	@for PROG in chage chfn chgpasswd chpasswd chsh groupadd groupdel \
+	             groupmems groupmod newusers useradd userdel usermod ; do \
+	   cat $(pam_d_dir)/default.pam | sed "s/@PROG@/$$PROG/" > $(SHADOW_PKG)/etc/pam.d/$$PROG.new ; \
 	 done
-	@cp $(SRC_DIR)/etc/pam.d/groupmems $(SHADOW_PKG)/etc/pam.d/groupmems.new
 	# ======= /bin/groups is provided by coreutils =======
 	@rm -f $(SHADOW_PKG)/bin/groups
 	@find $(SHADOW_PKG) -name groups.1 -exec rm {} \;
+	@cp -a $(login_defs) $(SHADOW_PKG)/etc/login.defs
 	@mv $(SHADOW_PKG)/etc/login.defs $(SHADOW_PKG)/etc/login.defs.new
 	# ======= Create symbolic links =======
 	@cp -a $(build_dir)/src/sulogin $(SHADOW_PKG)/sbin
@@ -171,11 +173,13 @@ $(install_target): $(build_target)
 	@cp -a $(license) $(SHADOW_PKG)/usr/doc/$(src_dir_name)
 	@cp -a $(SRC_DIR)/COPYING* \
 	       $(SHADOW_PKG)/usr/doc/$(src_dir_name)
-	@mkdir -p $(SHADOW_PKG)/usr/share/doc/$(src_dir_name)
+	@mkdir -p $(SHADOW_PKG)/usr/share/doc/$(src_dir_name)/PAM
 	@( cd $(SRC_DIR) ; \
 	   cp -a COPYING* NEWS README* TODO doc/{README*,HOWTO,WISHLIST,*.txt} \
 	         $(SHADOW_PKG)/usr/share/doc/$(src_dir_name) \
 	 )
+	@cp -a $(pam_doc_dir)/* $(SHADOW_PKG)/usr/share/doc/$(src_dir_name)/PAM
+	# ======= Install ChangeLog into docdir =======
 	@( cd $(SRC_DIR) ; \
 	   if [ -r ChangeLog ]; then \
 	     DOCSDIR=`echo $(SHADOW_PKG)/usr/share/doc/$(src_dir_name)` ; \
@@ -187,8 +191,8 @@ $(install_target): $(build_target)
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(SHADOW_PKG) && cp -rf * $(TARGET_DEST_DIR)
 	# ======= Strip binaries =======
-	@(cd $(SHADOW_PKG); \
-	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null \
+	@( cd $(SHADOW_PKG); \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null \
 	 )
 	@touch $@
 

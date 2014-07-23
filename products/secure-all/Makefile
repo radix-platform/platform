@@ -385,6 +385,17 @@ endif
 
 REQUIRES += app/vim/7.4-373
 
+REQUIRES += libs/libpng/libpng14/1.4.13
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libpng/libpng14/1.4.13-x86_32
+endif
+
+REQUIRES += libs/slang/2.2.4
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/slang/2.2.4-x86_32
+endif
+
+
 
 #######
 ####### Additional DEV packages:

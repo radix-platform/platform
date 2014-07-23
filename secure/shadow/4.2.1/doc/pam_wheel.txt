@@ -1,0 +1,27 @@
+
+Protect su with pam_wheel:
+=========================
+
+You need to add a new group "wheel" to your system.
+
+   # addgroup --system wheel
+
+Add users that should be able to su to this group.
+
+   # usermod -a -G wheel user1
+
+Then add the following line to /etc/pam.d/su:
+
+   auth requisite pam_wheel.so group=wheel
+
+Other users will not be able to become root, they
+ willget a denied message if they try to become root.
+
+test1@deby:~$ su -
+su: Permission denied
+
+If you want wheel members to be able to su without
+a password add the following.
+
+   auth sufficient pam_wheel.so group=wheel trust use_uid
+.

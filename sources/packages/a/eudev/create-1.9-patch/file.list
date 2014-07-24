@@ -1,0 +1,3 @@
+eudev-1.9/rules/60-cdrom_id.rules
+eudev-1.9/rule_generator/write_cd_rules
+eudev-1.9/rule_generator/write_cd_rules.in

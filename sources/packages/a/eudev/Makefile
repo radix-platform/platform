@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/eudev-1.9.patch
+patches    += $(CURDIR)/patches/eudev-1.9-mips.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -49,7 +50,8 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-1.9-patch ; ./create.patch.sh ) ; \
+	 ( cd create-1.9-patch      ; ./create.patch.sh ) ; \
+	 ( cd create-1.9-mips-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

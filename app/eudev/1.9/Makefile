@@ -15,7 +15,7 @@ COMPONENT_IS_3PP   = true
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/packages/a/udev
+SOURCE_REQUIRES    = sources/packages/a/eudev
 
 REQUIRES           = app/kmod/16
 REQUIRES          += libs/pcre/8.34
@@ -25,14 +25,18 @@ REQUIRES          += app/usbutils/007
 REQUIRES          += app/pciutils/3.2.1
 
 
-version            = 182
-tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/a/udev/udev-$(version).tar.xz
-SRC_ARCHIVE        = $(tar_xz_archive)
-SRC_DIR            = $(TARGET_BUILD_DIR)/udev-$(version)
-src_dir_name       = udev-$(version)
+version            = 1.9
+tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/a/eudev/eudev-$(version).tar.gz
+SRC_ARCHIVE        = $(tar_gz_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/eudev-$(version)
+src_dir_name       = eudev-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_BCM74X_EGLIBC)),)
+PATCHES = PATCHES.mips
+else
 PATCHES = PATCHES
+endif
 
 build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
@@ -48,23 +52,23 @@ PKG_GROUP = app
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-UDEV_PKG_NAME                = udev
-UDEV_PKG_VERSION             = 182
-UDEV_PKG_ARCH                = $(TOOLCHAIN)
-UDEV_PKG_DISTRO_NAME         = kxLab
-UDEV_PKG_DISTRO_VERSION      = 1.0
-UDEV_PKG_GROUP               = $(PKG_GROUP)
-###                           |---handy-ruler-------------------------------|
-UDEV_PKG_SHORT_DESCRIPTION   = udev $(version)
-UDEV_PKG_URL                 = http://www.kxLab.com
-UDEV_PKG_LICENSE             = GPLv2
-UDEV_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(UDEV_PKG_NAME)-pkg-description
-UDEV_PKG_DESCRIPTION_FILE_IN = $(UDEV_PKG_NAME)-pkg-description.in
-UDEV_PKG_INSTALL_SCRIPT      = $(UDEV_PKG_NAME)-pkg-install.sh
+EUDEV_PKG_NAME                = eudev
+EUDEV_PKG_VERSION             = 1.9
+EUDEV_PKG_ARCH                = $(TOOLCHAIN)
+EUDEV_PKG_DISTRO_NAME         = kxLab
+EUDEV_PKG_DISTRO_VERSION      = 1.0
+EUDEV_PKG_GROUP               = $(PKG_GROUP)
+###                            |---handy-ruler-------------------------------|
+EUDEV_PKG_SHORT_DESCRIPTION   = eudev $(version)
+EUDEV_PKG_URL                 = http://www.kxLab.com
+EUDEV_PKG_LICENSE             = GPLv2
+EUDEV_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(EUDEV_PKG_NAME)-pkg-description
+EUDEV_PKG_DESCRIPTION_FILE_IN = $(EUDEV_PKG_NAME)-pkg-description.in
+EUDEV_PKG_INSTALL_SCRIPT      = $(EUDEV_PKG_NAME)-pkg-install.sh
 
-UDEV_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(UDEV_PKG_NAME)-package
+EUDEV_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(EUDEV_PKG_NAME)-package
 
-pkg_basename     = $(UDEV_PKG_NAME)-$(UDEV_PKG_VERSION)-$(UDEV_PKG_ARCH)-$(UDEV_PKG_DISTRO_NAME)-$(UDEV_PKG_DISTRO_VERSION)
+pkg_basename     = $(EUDEV_PKG_NAME)-$(EUDEV_PKG_VERSION)-$(EUDEV_PKG_ARCH)-$(EUDEV_PKG_DISTRO_NAME)-$(EUDEV_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
 pkg_signature    = $(call sign-name,$(pkg_archive))
@@ -76,13 +80,13 @@ BUILD_TARGETS   += $(install_target)
 
 PRODUCT_TARGETS  = $(products)
 
-ROOTFS_TARGETS   = $(pkg_archive)
+#ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
 
 
-env_sysroot = DESTDIR=$(UDEV_PKG)
+env_sysroot = DESTDIR=$(EUDEV_PKG)
 
 
 extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
@@ -91,18 +95,23 @@ extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
 
 extra_configure_switches += --with-rootprefix=/
-extra_configure_switches += --with-firmware-path=/lib/firmware/updates:/lib/firmware
-extra_configure_switches += --with-usb-ids-path=/usr/share/hwdata
-extra_configure_switches += --with-pci-ids-path=/usr/share/hwdata
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --bindir=/sbin
 extra_configure_switches += --sbindir=/sbin
 extra_configure_switches += --libexecdir=/lib
-extra_configure_switches += --enable-introspection=no
+extra_configure_switches += --with-firmware-path=/lib/firmware/updates:/lib/firmware
+extra_configure_switches += --with-usb-ids-path=/usr/share/hwdata
+extra_configure_switches += --with-pci-ids-path=/usr/share/hwdata
+extra_configure_switches += --enable-gudev
+extra_configure_switches += --disable-introspection
 extra_configure_switches += --enable-floppy
 extra_configure_switches += --enable-static
 extra_configure_switches += --enable-rule_generator
 extra_configure_switches += --with-systemdsystemunitdir=no
+extra_configure_switches += --disable-selinux
+
+extra_configure_switches += --enable-libkmod
+# OR extra_configure_switches += --with-modprobe=/sbin/modprobe
 
 
 ####### Dependencies
@@ -123,34 +132,32 @@ $(build_target): $(src_done)
 	@touch $@
 
 $(install_target): $(build_target)
-	@mkdir -p $(UDEV_PKG)
+	@mkdir -p $(EUDEV_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
 	# ======= change mode of script in udev libexec (--libexec=/lib) directory =======
-	@chmod a+x $(UDEV_PKG)/lib/udev/rule_generator.functions
-	@( cd $(UDEV_PKG)/sbin ; ln -sf ../lib/udev/scsi_id scsi_id )
-	@mv $(UDEV_PKG)/lib/udev/udevd $(UDEV_PKG)/sbin
-	@ln -sf ../../sbin/udevd $(UDEV_PKG)/lib/udev/udevd
-	@mkdir -p $(UDEV_PKG)/run \
-	          $(UDEV_PKG)/{etc,lib}/modprobe.d \
-	          $(UDEV_PKG)/etc/rc.d \
-	          $(UDEV_PKG)/etc/udev/rules.d \
-	          $(UDEV_PKG)/lib/firmware
-	@cp -a $(config_dir)/udev.conf $(UDEV_PKG)/etc/udev/udev.conf
+	@chmod a+x $(EUDEV_PKG)/lib/udev/rule_generator.functions
+	@( cd $(EUDEV_PKG)/sbin ; ln -sf ../lib/udev/scsi_id scsi_id )
+	@ln -sf ../../sbin/udevd $(EUDEV_PKG)/lib/udev/udevd
+	@mkdir -p $(EUDEV_PKG)/run \
+	          $(EUDEV_PKG)/{etc,lib}/modprobe.d \
+	          $(EUDEV_PKG)/etc/rc.d \
+	          $(EUDEV_PKG)/etc/udev/rules.d \
+	          $(EUDEV_PKG)/lib/firmware
+	@cp -a $(config_dir)/udev.conf $(EUDEV_PKG)/etc/udev/udev.conf
 	# ======= Copy custom rules =======
-	@cp -a $(config_dir)/rules.d/* $(UDEV_PKG)/lib/udev/rules.d
+	@cp -a $(config_dir)/rules.d/* $(EUDEV_PKG)/lib/udev/rules.d
 	# ======= Copy the init script and module-init-tools stuff =======
-	@cp -a $(config_dir)/rc.d/rc.udev.new  $(UDEV_PKG)/etc/rc.d/rc.udev.new
-	@cp -a $(config_dir)/modprobe.d/*.conf $(UDEV_PKG)/lib/modprobe.d
-	@cp -a $(config_dir)/modprobe.d/README $(UDEV_PKG)/etc/modprobe.d
-	@cp -a $(config_dir)/lib/udev/devices/MAKE-FIXED-DEVICES $(UDEV_PKG)/lib/udev/devices
+	@cp -a $(config_dir)/rc.d/rc.udev.new  $(EUDEV_PKG)/etc/rc.d/rc.udev.new
+	@cp -a $(config_dir)/modprobe.d/*.conf $(EUDEV_PKG)/lib/modprobe.d
+	@cp -a $(config_dir)/modprobe.d/README $(EUDEV_PKG)/etc/modprobe.d
 	# ======= Change access mode of files and directories =======
-	@find $(UDEV_PKG)/etc $(UDEV_PKG)/lib/modprobe.d -type f -exec chmod 644 {} \;
-	@find $(UDEV_PKG)/etc -type d -exec chmod 755 {} \;
-	@chmod 0755 $(UDEV_PKG)/etc/rc.d/rc.udev.new
-	@chmod 0755 $(UDEV_PKG)/lib/udev/*
+	@find $(EUDEV_PKG)/etc $(EUDEV_PKG)/lib/modprobe.d -type f -exec chmod 644 {} \;
+	@find $(EUDEV_PKG)/etc -type d -exec chmod 755 {} \;
+	@chmod 0755 $(EUDEV_PKG)/etc/rc.d/rc.udev.new
+	@chmod 0755 $(EUDEV_PKG)/lib/udev/*
 	# ======= Gzip man pages =======
-	@if [ -d $(UDEV_PKG)/usr/share/man ]; then \
-	  ( cd $(UDEV_PKG)/usr/share/man ; \
+	@if [ -d $(EUDEV_PKG)/usr/share/man ]; then \
+	  ( cd $(EUDEV_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \
 	      ( cd $$manpagedir ; \
 	        for eachpage in `find . -type l -maxdepth 1` ; do \
@@ -162,28 +169,34 @@ $(install_target): $(build_target)
 	    done \
 	  ) \
 	 fi
-	@mkdir -p $(UDEV_PKG)/usr/doc/$(src_dir_name)
+	@mkdir -p $(EUDEV_PKG)/usr/doc/$(src_dir_name)
 	@cp -a $(SRC_DIR)/COPYING \
-	       $(UDEV_PKG)/usr/doc/$(src_dir_name)
-	@mkdir -p $(UDEV_PKG)/usr/share/doc/$(src_dir_name)
+	       $(EUDEV_PKG)/usr/doc/$(src_dir_name)
+	@mkdir -p $(EUDEV_PKG)/usr/share/doc/$(src_dir_name)/html/{gudev,libudev}
 	@( cd $(SRC_DIR) ; \
-	   cp -a COPYING INSTALL NEWS README TODO \
-	         $(UDEV_PKG)/usr/share/doc/$(src_dir_name) \
+	   cp -a COPYING README \
+	         $(EUDEV_PKG)/usr/share/doc/$(src_dir_name) \
+	 )
+	@( cd $(SRC_DIR)/docs/gudev/html ; \
+	   cp -a *.html *.png *.css $(EUDEV_PKG)/usr/share/doc/$(src_dir_name)/html/gudev ; \
+	 )
+	@( cd $(SRC_DIR)/docs/libudev/html ; \
+	   cp -a *.html *.png *.css $(EUDEV_PKG)/usr/share/doc/$(src_dir_name)/html/libudev ; \
 	 )
 	@( cd $(SRC_DIR) ; \
 	   if [ -r ChangeLog ]; then \
-	     DOCSDIR=`echo $(UDEV_PKG)/usr/share/doc/$(src_dir_name)` ; \
+	     DOCSDIR=`echo $(EUDEV_PKG)/usr/share/doc/$(src_dir_name)` ; \
 	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
 	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \
 	 )
 	# ======= remove target destination path from target libtool *.la files =======
-	@( cd $(UDEV_PKG)/usr/lib$(LIBSUFFIX) ; \
+	@( cd $(EUDEV_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libgudev-?.?.la libudev.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(UDEV_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	@cd $(EUDEV_PKG) && cp -rf * $(TARGET_DEST_DIR)
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgudev-?.?.la libudev.la ; \
@@ -196,32 +209,33 @@ $(install_target): $(build_target)
 	 )
 	# ======= tune pkg-config *.pc in /usr/share/pkgconfig/udev.pc file =======
 	@( cd $(TARGET_DEST_DIR)/usr/share/pkgconfig ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" udev.pc ; \
 	   sed -i "s,/lib,$(TARGET_DEST_DIR)/lib,g" udev.pc ; \
 	 )
-	@( cd $(UDEV_PKG); \
+	@( cd $(EUDEV_PKG); \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
 	@touch $@
 
-$(UDEV_PKG_DESCRIPTION_FILE): $(UDEV_PKG_DESCRIPTION_FILE_IN)
+$(EUDEV_PKG_DESCRIPTION_FILE): $(EUDEV_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
 $(pkg_signature)   : $(pkg_archive) ;
 $(pkg_description) : $(pkg_archive) ;
 
-$(pkg_archive): $(install_target) $(UDEV_PKG_DESCRIPTION_FILE) $(UDEV_PKG_INSTALL_SCRIPT)
-	@cp $(UDEV_PKG_DESCRIPTION_FILE) $(UDEV_PKG)/.DESCRIPTION
-	@cp $(UDEV_PKG_INSTALL_SCRIPT) $(UDEV_PKG)/.INSTALL
-	@$(BUILD_PKG_REQUIRES) $(UDEV_PKG)/.REQUIRES
-	@echo "pkgname=$(UDEV_PKG_NAME)"                            >  $(UDEV_PKG)/.PKGINFO ; \
-	 echo "pkgver=$(UDEV_PKG_VERSION)"                          >> $(UDEV_PKG)/.PKGINFO ; \
-	 echo "arch=$(UDEV_PKG_ARCH)"                               >> $(UDEV_PKG)/.PKGINFO ; \
-	 echo "distroname=$(UDEV_PKG_DISTRO_NAME)"                  >> $(UDEV_PKG)/.PKGINFO ; \
-	 echo "distrover=$(UDEV_PKG_DISTRO_VERSION)"                >> $(UDEV_PKG)/.PKGINFO ; \
-	 echo "group=$(UDEV_PKG_GROUP)"                             >> $(UDEV_PKG)/.PKGINFO ; \
-	 echo "short_description=\"$(UDEV_PKG_SHORT_DESCRIPTION)\"" >> $(UDEV_PKG)/.PKGINFO ; \
-	 echo "url=$(UDEV_PKG_URL)"                                 >> $(UDEV_PKG)/.PKGINFO ; \
-	 echo "license=$(UDEV_PKG_LICENSE)"                         >> $(UDEV_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(UDEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+$(pkg_archive): $(install_target) $(EUDEV_PKG_DESCRIPTION_FILE) $(EUDEV_PKG_INSTALL_SCRIPT)
+	@cp $(EUDEV_PKG_DESCRIPTION_FILE) $(EUDEV_PKG)/.DESCRIPTION
+	@cp $(EUDEV_PKG_INSTALL_SCRIPT) $(EUDEV_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(EUDEV_PKG)/.REQUIRES
+	@echo "pkgname=$(EUDEV_PKG_NAME)"                            >  $(EUDEV_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(EUDEV_PKG_VERSION)"                          >> $(EUDEV_PKG)/.PKGINFO ; \
+	 echo "arch=$(EUDEV_PKG_ARCH)"                               >> $(EUDEV_PKG)/.PKGINFO ; \
+	 echo "distroname=$(EUDEV_PKG_DISTRO_NAME)"                  >> $(EUDEV_PKG)/.PKGINFO ; \
+	 echo "distrover=$(EUDEV_PKG_DISTRO_VERSION)"                >> $(EUDEV_PKG)/.PKGINFO ; \
+	 echo "group=$(EUDEV_PKG_GROUP)"                             >> $(EUDEV_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(EUDEV_PKG_SHORT_DESCRIPTION)\"" >> $(EUDEV_PKG)/.PKGINFO ; \
+	 echo "url=$(EUDEV_PKG_URL)"                                 >> $(EUDEV_PKG)/.PKGINFO ; \
+	 echo "license=$(EUDEV_PKG_LICENSE)"                         >> $(EUDEV_PKG)/.PKGINFO
+	@$(FAKEROOT) sh -c "cd $(EUDEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -51,7 +51,7 @@ GUILE32_PKG_DISTRO_VERSION      = 1.0
 GUILE32_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
 GUILE32_PKG_SHORT_DESCRIPTION   = guile-x32 $(version)
-GUILE32_PKG_URL                 = http://www.kxLab.com
+GUILE32_PKG_URL                 = $(BUG_URL)
 GUILE32_PKG_LICENSE             = GPLv2
 GUILE32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GUILE32_PKG_NAME)-pkg-description
 GUILE32_PKG_DESCRIPTION_FILE_IN = $(GUILE32_PKG_NAME)-pkg-description.in

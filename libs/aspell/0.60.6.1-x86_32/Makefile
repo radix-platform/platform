@@ -45,7 +45,7 @@ ASPELL_32_PKG_DISTRO_VERSION      = 1.0
 ASPELL_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
 ASPELL_32_PKG_SHORT_DESCRIPTION   = aspell-x32 $(version)
-ASPELL_32_PKG_URL                 = http://www.kxLab.com
+ASPELL_32_PKG_URL                 = $(BUG_URL)
 ASPELL_32_PKG_LICENSE             = LGPLv2
 ASPELL_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(ASPELL_32_PKG_NAME)-pkg-description
 ASPELL_32_PKG_DESCRIPTION_FILE_IN = $(ASPELL_32_PKG_NAME)-pkg-description.in

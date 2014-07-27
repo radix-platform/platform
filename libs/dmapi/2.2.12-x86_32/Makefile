@@ -42,7 +42,7 @@ DMAPI_32_PKG_DISTRO_VERSION      = 1.0
 DMAPI_32_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
 DMAPI_32_PKG_SHORT_DESCRIPTION   = dmapi-x32 $(version)
-DMAPI_32_PKG_URL                 = http://www.kxLab.com
+DMAPI_32_PKG_URL                 = $(BUG_URL)
 DMAPI_32_PKG_LICENSE             = GPLv2
 DMAPI_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(DMAPI_32_PKG_NAME)-pkg-description
 DMAPI_32_PKG_DESCRIPTION_FILE_IN = $(DMAPI_32_PKG_NAME)-pkg-description.in

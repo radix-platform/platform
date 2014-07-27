@@ -2,6 +2,7 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
@@ -51,7 +52,7 @@ OPENSSL_PKG_DISTRO_VERSION      = 1.0
 OPENSSL_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
 OPENSSL_PKG_SHORT_DESCRIPTION   = openssl $(version)
-OPENSSL_PKG_URL                 = http://www.kxLab.com
+OPENSSL_PKG_URL                 = $(BUG_URL)
 OPENSSL_PKG_LICENSE             = GPLv2
 OPENSSL_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(OPENSSL_PKG_NAME)-pkg-description
 OPENSSL_PKG_DESCRIPTION_FILE_IN = $(OPENSSL_PKG_NAME)-pkg-description.in
@@ -96,6 +97,9 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 arch = x86_64
 endif
 ifeq ($(HARDWARE),$(HARDWARE_CB1X))
+arch = arm
+endif
+ifeq ($(HARDWARE),$(HARDWARE_CB2X))
 arch = arm
 endif
 ifeq ($(HARDWARE),$(HARDWARE_VIP1830))

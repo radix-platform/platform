@@ -61,7 +61,7 @@ SGXDDK_BIN_PKG_DISTRO_VERSION      = 1.0
 SGXDDK_BIN_PKG_GROUP               = $(PKG_GROUP)
 ###                                 |---handy-ruler-------------------------------|
 SGXDDK_BIN_PKG_SHORT_DESCRIPTION   = SGX DDK $(version) for Linux kernel
-SGXDDK_BIN_PKG_URL                 = http://www.kxLab.com
+SGXDDK_BIN_PKG_URL                 = $(BUG_URL)
 SGXDDK_BIN_PKG_LICENSE             = GPLv2
 SGXDDK_BIN_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(SGXDDK_BIN_PKG_NAME)-pkg-description
 SGXDDK_BIN_PKG_DESCRIPTION_FILE_IN = $(SGXDDK_BIN_PKG_NAME)-pkg-description.in

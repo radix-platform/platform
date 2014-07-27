@@ -45,7 +45,7 @@ LIBPNG_32_PKG_DISTRO_VERSION      = 1.0
 LIBPNG_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
 LIBPNG_32_PKG_SHORT_DESCRIPTION   = libpng14-x32 $(version)
-LIBPNG_32_PKG_URL                 = http://www.kxLab.com
+LIBPNG_32_PKG_URL                 = $(BUG_URL)
 LIBPNG_32_PKG_LICENSE             = custom:libpng
 LIBPNG_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBPNG_32_PKG_NAME)-pkg-description
 LIBPNG_32_PKG_DESCRIPTION_FILE_IN = $(LIBPNG_32_PKG_NAME)-pkg-description.in

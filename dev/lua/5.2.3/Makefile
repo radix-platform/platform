@@ -2,6 +2,7 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
@@ -51,7 +52,7 @@ LUA_PKG_DISTRO_VERSION      = 1.0
 LUA_PKG_GROUP               = $(PKG_GROUP)
 ###                          |---handy-ruler-------------------------------|
 LUA_PKG_SHORT_DESCRIPTION   = lua $(version)
-LUA_PKG_URL                 = http://www.kxLab.com
+LUA_PKG_URL                 = $(BUG_URL)
 LUA_PKG_LICENSE             = MIT
 LUA_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LUA_PKG_NAME)-pkg-description
 LUA_PKG_DESCRIPTION_FILE_IN = $(LUA_PKG_NAME)-pkg-description.in

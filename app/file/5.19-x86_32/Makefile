@@ -45,7 +45,7 @@ FILE_32_PKG_DISTRO_VERSION      = 1.0
 FILE_32_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
 FILE_32_PKG_SHORT_DESCRIPTION   = file-x32 $(version)
-FILE_32_PKG_URL                 = http://www.kxLab.com
+FILE_32_PKG_URL                 = $(BUG_URL)
 FILE_32_PKG_LICENSE             = GPLv2
 FILE_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(FILE_32_PKG_NAME)-pkg-description
 FILE_32_PKG_DESCRIPTION_FILE_IN = $(FILE_32_PKG_NAME)-pkg-description.in

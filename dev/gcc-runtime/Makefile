@@ -2,6 +2,7 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
@@ -41,14 +42,14 @@ PKG_GROUP = libs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 GCC_RT_DEV_PKG_NAME                = gcc-runtime
-GCC_RT_DEV_PKG_VERSION             = 4.8.2
+GCC_RT_DEV_PKG_VERSION             = 4.9.1
 GCC_RT_DEV_PKG_ARCH                = $(TOOLCHAIN)
 GCC_RT_DEV_PKG_DISTRO_NAME         = kxLab
 GCC_RT_DEV_PKG_DISTRO_VERSION      = 1.0
 GCC_RT_DEV_PKG_GROUP               = $(PKG_GROUP)
 ###                                 |---handy-ruler-------------------------------|
 GCC_RT_DEV_PKG_SHORT_DESCRIPTION   = GCC $(version) runtime libraries
-GCC_RT_DEV_PKG_URL                 = http://www.kxLab.com
+GCC_RT_DEV_PKG_URL                 = $(BUG_URL)
 GCC_RT_DEV_PKG_LICENSE             = GPLv2
 GCC_RT_DEV_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GCC_RT_DEV_PKG_NAME)-pkg-description
 GCC_RT_DEV_PKG_DESCRIPTION_FILE_IN = $(GCC_RT_DEV_PKG_NAME)-pkg-description.in
@@ -89,30 +90,38 @@ $(build_gcc_rt_pkg):
 	@( cd $(src_dir)/lib$(LIBSUFFIX) && \
 	   if [ "" != "`find -iname 'libasan*'     -exec echo '{}' \; -quit`" ] ; then cp -a libasan*     $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
 	   if [ "" != "`find -iname 'libatomic*'   -exec echo '{}' \; -quit`" ] ; then cp -a libatomic*   $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
+	   if [ "" != "`find -iname 'libcilkrts*'  -exec echo '{}' \; -quit`" ] ; then cp -a libcilkrts*  $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
 	   if [ "" != "`find -iname 'libgcc*'      -exec echo '{}' \; -quit`" ] ; then cp -a libgcc*      $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
 	   if [ "" != "`find -iname 'libgomp*'     -exec echo '{}' \; -quit`" ] ; then cp -a libgomp*     $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
 	   if [ "" != "`find -iname 'libitm*'      -exec echo '{}' \; -quit`" ] ; then cp -a libitm*      $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
+	   if [ "" != "`find -iname 'liblsan*'     -exec echo '{}' \; -quit`" ] ; then cp -a liblsan*     $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
 	   if [ "" != "`find -iname 'libmudflap*'  -exec echo '{}' \; -quit`" ] ; then cp -a libmudflap*  $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
 	   if [ "" != "`find -iname 'libquadmath*' -exec echo '{}' \; -quit`" ] ; then cp -a libquadmath* $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
 	   if [ "" != "`find -iname 'libssp*'      -exec echo '{}' \; -quit`" ] ; then cp -a libssp*      $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
 	   if [ "" != "`find -iname 'libstdc*'     -exec echo '{}' \; -quit`" ] ; then cp -a libstdc*     $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
 	   if [ "" != "`find -iname 'libsupc*'     -exec echo '{}' \; -quit`" ] ; then cp -a libsupc*     $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
 	   if [ "" != "`find -iname 'libtsan*'     -exec echo '{}' \; -quit`" ] ; then cp -a libtsan*     $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
+	   if [ "" != "`find -iname 'libubsan*'    -exec echo '{}' \; -quit`" ] ; then cp -a libubsan*    $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
+	   if [ "" != "`find -iname 'libvtv*'      -exec echo '{}' \; -quit`" ] ; then cp -a libvtv*      $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
 	   if [ -d ldscripts ] ; then cp -rf ldscripts $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi )
 	@if test "$(lib_compat)" == "yes" ; then \
 	  mkdir  -p $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	  ( cd $(src_dir)/lib$(MULTILIB_X86_32_SUFFIX) && \
 	    if [ "" != "`find -iname 'libasan*'     -exec echo '{}' \; -quit`" ] ; then cp -a libasan*     $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
 	    if [ "" != "`find -iname 'libatomic*'   -exec echo '{}' \; -quit`" ] ; then cp -a libatomic*   $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
+	    if [ "" != "`find -iname 'libcilkrts*'  -exec echo '{}' \; -quit`" ] ; then cp -a libcilkrts*  $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
 	    if [ "" != "`find -iname 'libgcc*'      -exec echo '{}' \; -quit`" ] ; then cp -a libgcc*      $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
 	    if [ "" != "`find -iname 'libgomp*'     -exec echo '{}' \; -quit`" ] ; then cp -a libgomp*     $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
 	    if [ "" != "`find -iname 'libitm*'      -exec echo '{}' \; -quit`" ] ; then cp -a libitm*      $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
+	    if [ "" != "`find -iname 'liblsan*'     -exec echo '{}' \; -quit`" ] ; then cp -a liblsan*     $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
 	    if [ "" != "`find -iname 'libmudflap*'  -exec echo '{}' \; -quit`" ] ; then cp -a libmudflap*  $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
 	    if [ "" != "`find -iname 'libquadmath*' -exec echo '{}' \; -quit`" ] ; then cp -a libquadmath* $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
 	    if [ "" != "`find -iname 'libssp*'      -exec echo '{}' \; -quit`" ] ; then cp -a libssp*      $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
 	    if [ "" != "`find -iname 'libstdc*'     -exec echo '{}' \; -quit`" ] ; then cp -a libstdc*     $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
 	    if [ "" != "`find -iname 'libsupc*'     -exec echo '{}' \; -quit`" ] ; then cp -a libsupc*     $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
-	    if [ "" != "`find -iname 'libtsan*'     -exec echo '{}' \; -quit`" ] ; then cp -a libtsan*     $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi ; \
+	    if [ "" != "`find -iname 'libtsan*'     -exec echo '{}' \; -quit`" ] ; then cp -a libtsan*     $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
+	    if [ "" != "`find -iname 'libubsan*'    -exec echo '{}' \; -quit`" ] ; then cp -a libubsan*    $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
+	    if [ "" != "`find -iname 'libvtv*'      -exec echo '{}' \; -quit`" ] ; then cp -a libvtv*      $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
 	    if [ -d ldscripts ] ; then cp -rf ldscripts $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi ) ; \
 	 fi
 	@rm -f $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX)/*gdb.py

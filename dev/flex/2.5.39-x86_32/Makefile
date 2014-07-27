@@ -44,7 +44,7 @@ FLEX_32_PKG_DISTRO_VERSION      = 1.0
 FLEX_32_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
 FLEX_32_PKG_SHORT_DESCRIPTION   = flex-x32 $(version)
-FLEX_32_PKG_URL                 = http://www.kxLab.com
+FLEX_32_PKG_URL                 = $(BUG_URL)
 FLEX_32_PKG_LICENSE             = BSD
 FLEX_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(FLEX_32_PKG_NAME)-pkg-description
 FLEX_32_PKG_DESCRIPTION_FILE_IN = $(FLEX_32_PKG_NAME)-pkg-description.in

@@ -47,7 +47,7 @@ GPM32_PKG_DISTRO_VERSION      = 1.0
 GPM32_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
 GPM32_PKG_SHORT_DESCRIPTION   = gpm-x32 $(version) library
-GPM32_PKG_URL                 = http://www.kxLab.com
+GPM32_PKG_URL                 = $(BUG_URL)
 GPM32_PKG_LICENSE             = GPLv2
 GPM32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GPM32_PKG_NAME)-pkg-description
 GPM32_PKG_DESCRIPTION_FILE_IN = $(GPM32_PKG_NAME)-pkg-description.in

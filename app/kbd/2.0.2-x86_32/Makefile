@@ -47,7 +47,7 @@ KBD_32_PKG_DISTRO_VERSION      = 1.0
 KBD_32_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 KBD_32_PKG_SHORT_DESCRIPTION   = kbd-x32 $(version)
-KBD_32_PKG_URL                 = http://www.kxLab.com
+KBD_32_PKG_URL                 = $(BUG_URL)
 KBD_32_PKG_LICENSE             = LGPLv2
 KBD_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(KBD_32_PKG_NAME)-pkg-description
 KBD_32_PKG_DESCRIPTION_FILE_IN = $(KBD_32_PKG_NAME)-pkg-description.in

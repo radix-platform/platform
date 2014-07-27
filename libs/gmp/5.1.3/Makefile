@@ -2,6 +2,7 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
@@ -49,7 +50,7 @@ GMP_PKG_DISTRO_VERSION      = 1.0
 GMP_PKG_GROUP               = $(PKG_GROUP)
 ###                          |---handy-ruler-------------------------------|
 GMP_PKG_SHORT_DESCRIPTION   = gmp $(version)
-GMP_PKG_URL                 = http://www.kxLab.com
+GMP_PKG_URL                 = $(BUG_URL)
 GMP_PKG_LICENSE             = GPLv2
 GMP_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GMP_PKG_NAME)-pkg-description
 GMP_PKG_DESCRIPTION_FILE_IN = $(GMP_PKG_NAME)-pkg-description.in

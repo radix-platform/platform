@@ -12,7 +12,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/a/udev
 
-REQUIRES           = app/udev/182
+REQUIRES           = libs/udev/182
 REQUIRES          += app/kmod/16-x86_32
 REQUIRES          += libs/pcre/8.34-x86_32
 REQUIRES          += app/util-linux/2.24.1-x86_32
@@ -38,19 +38,19 @@ install_target     = $(TARGET_BUILD_DIR)/.install_done
 
 ####### Targets
 
-PKG_GROUP = app
+PKG_GROUP = libs
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-UDEV32_PKG_NAME                = udev-x32
+UDEV32_PKG_NAME                = libudev-x32
 UDEV32_PKG_VERSION             = 182
 UDEV32_PKG_ARCH                = $(TOOLCHAIN)
 UDEV32_PKG_DISTRO_NAME         = kxLab
 UDEV32_PKG_DISTRO_VERSION      = 1.0
 UDEV32_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-UDEV32_PKG_SHORT_DESCRIPTION   = udev-x32 $(version)
-UDEV32_PKG_URL                 = http://www.kxLab.com
+UDEV32_PKG_SHORT_DESCRIPTION   = libudev-x32 $(version)
+UDEV32_PKG_URL                 = $(BUG_URL)
 UDEV32_PKG_LICENSE             = GPLv2
 UDEV32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(UDEV32_PKG_NAME)-pkg-description
 UDEV32_PKG_DESCRIPTION_FILE_IN = $(UDEV32_PKG_NAME)-pkg-description.in
@@ -137,17 +137,17 @@ $(install_target): $(build_target)
 	@cd $(UDEV32_PKG) && cp -rf * $(TARGET_DEST_DIR)
 	# tune libtool *.la search path to the target destination for development
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgudev-?.?.la libudev.la ; \
-	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libgudev-?.?.la libudev.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgudev-?.?.la libudev.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libgudev-?.?.la libudev.la \
 	 )
 	# tune pkg-config *.pc search path to the target destination for development
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" gudev-?.?.pc libudev.pc \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" gudev-?.?.pc libudev.pc \
 	 )
-	@(cd $(UDEV32_PKG); \
-	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
+	@( cd $(UDEV32_PKG); \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
 	@touch $@
 

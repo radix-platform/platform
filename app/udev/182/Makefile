@@ -2,6 +2,7 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
@@ -17,7 +18,9 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/a/udev
 
-REQUIRES           = app/kmod/16
+REQUIRES           = libs/udev/182
+REQUIRES          += app/kmod/16
+REQUIRES          += libs/libffi/3.0.13
 REQUIRES          += libs/pcre/8.34
 REQUIRES          += app/util-linux/2.24.1
 REQUIRES          += libs/glib2/2.40.0
@@ -56,7 +59,7 @@ UDEV_PKG_DISTRO_VERSION      = 1.0
 UDEV_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
 UDEV_PKG_SHORT_DESCRIPTION   = udev $(version)
-UDEV_PKG_URL                 = http://www.kxLab.com
+UDEV_PKG_URL                 = $(BUG_URL)
 UDEV_PKG_LICENSE             = GPLv2
 UDEV_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(UDEV_PKG_NAME)-pkg-description
 UDEV_PKG_DESCRIPTION_FILE_IN = $(UDEV_PKG_NAME)-pkg-description.in
@@ -125,6 +128,11 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(UDEV_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	# ======= remove libraries installed by libs/eudev package ======
+	@rm -rf $(UDEV_PKG)/lib$(LIBSUFFIX)/libudev.*
+	@rm -rf $(UDEV_PKG)/lib$(LIBSUFFIX)/libgudev-*
+	@rm -rf $(UDEV_PKG)/usr/lib$(LIBSUFFIX)
+	@rm -rf $(UDEV_PKG)/usr/include
 	# ======= change mode of script in udev libexec (--libexec=/lib) directory =======
 	@chmod a+x $(UDEV_PKG)/lib/udev/rule_generator.functions
 	@( cd $(UDEV_PKG)/sbin ; ln -sf ../lib/udev/scsi_id scsi_id )
@@ -177,31 +185,15 @@ $(install_target): $(build_target)
 	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \
 	 )
-	# ======= remove target destination path from target libtool *.la files =======
-	@( cd $(UDEV_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" libgudev-?.?.la libudev.la ; \
-	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(UDEV_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	# ======= tune libtool *.la search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgudev-?.?.la libudev.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libgudev-?.?.la libudev.la \
-	 )
-	# ======= tune pkg-config *.pc search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" gudev-?.?.pc libudev.pc ; \
-	   sed -i "s,/lib,$(TARGET_DEST_DIR)/lib,g" udev.pc \
-	 )
 	# ======= tune pkg-config *.pc in /usr/share/pkgconfig/udev.pc file =======
 	@( cd $(TARGET_DEST_DIR)/usr/share/pkgconfig ; \
 	   sed -i "s,/lib,$(TARGET_DEST_DIR)/lib,g" udev.pc ; \
 	 )
 	@( cd $(UDEV_PKG); \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
 	@touch $@
 

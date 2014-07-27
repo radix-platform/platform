@@ -2,6 +2,7 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
@@ -26,6 +27,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/GNU/binutils
 
 REQUIRES           = libs/eglibc/2.19.1
+REQUIRES          += libs/zlib/1.2.8
 
 
 version            = 2.24
@@ -57,7 +59,7 @@ BINUTILS_DEV_PKG_DISTRO_VERSION      = 1.0
 BINUTILS_DEV_PKG_GROUP               = $(PKG_GROUP)
 ###                                   |---handy-ruler-------------------------------|
 BINUTILS_DEV_PKG_SHORT_DESCRIPTION   = GNU Binutils $(version)
-BINUTILS_DEV_PKG_URL                 = http://www.kxLab.com
+BINUTILS_DEV_PKG_URL                 = $(BUG_URL)
 BINUTILS_DEV_PKG_LICENSE             = GPLv2
 BINUTILS_DEV_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(BINUTILS_DEV_PKG_NAME)-pkg-description
 BINUTILS_DEV_PKG_DESCRIPTION_FILE_IN = $(BINUTILS_DEV_PKG_NAME)-pkg-description.in
@@ -114,9 +116,42 @@ extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --docdir=/usr/share/doc
 endif
 
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_A2X_EGLIBC))
+# experimental gold linker( DEFAULT_LD=ld.bfd ):
+extra_configure_switches += --enable-gold=yes
+extra_configure_switches += --enable-ld=default
+extra_configure_switches += --enable-werror=no
+# standard options:
+extra_configure_switches += --enable-interwork
+extra_configure_switches += --enable-multilib
+extra_configure_switches += --with-cpu=cortex-a7
+extra_configure_switches += --with-arch=armv7ve
+extra_configure_switches += --with-fpu=neon-vfpv4
+extra_configure_switches += --with-abi=aapcs
+extra_configure_switches += --enable-threads
+extra_configure_switches += --enable-plugins
+extra_configure_switches += --enable-targets=$(TARGET),arm-radix-linux-gnu
+extra_configure_switches += --enable-shared
+extra_configure_switches += --libdir=/usr/lib
+extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --infodir=/usr/share/info
+extra_configure_switches += --docdir=/usr/share/doc
+endif
+
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_OMAP35X_EGLIBC))
+# experimental gold linker( DEFAULT_LD=ld.bfd ):
+extra_configure_switches += --enable-gold=yes
+extra_configure_switches += --enable-ld=default
+extra_configure_switches += --enable-werror=no
+# standard options:
+extra_configure_switches += --enable-interwork
+extra_configure_switches += --enable-multilib
 extra_configure_switches += --with-cpu=cortex-a8
 extra_configure_switches += --with-arch=armv7-a
+extra_configure_switches += --with-fpu=neon
+extra_configure_switches += --with-abi=aapcs
+extra_configure_switches += --enable-threads
+extra_configure_switches += --enable-plugins
 extra_configure_switches += --enable-targets=$(TARGET),arm-radix-linux-gnu
 extra_configure_switches += --enable-shared
 extra_configure_switches += --libdir=/usr/lib
@@ -149,6 +184,7 @@ endif
 
 
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_DM644X_EGLIBC))
+extra_configure_switches += --enable-werror=no
 extra_configure_switches += --enable-interwork
 extra_configure_switches += --enable-multilib
 extra_configure_switches += --with-float=soft

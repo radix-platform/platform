@@ -2,6 +2,7 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
@@ -76,7 +77,7 @@ GCC_DEV_PKG_DISTRO_VERSION      = 1.0
 GCC_DEV_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
 GCC_DEV_PKG_SHORT_DESCRIPTION   = GNU GCC $(version)
-GCC_DEV_PKG_URL                 = http://www.kxLab.com
+GCC_DEV_PKG_URL                 = $(BUG_URL)
 GCC_DEV_PKG_LICENSE             = GPLv2
 GCC_DEV_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GCC_DEV_PKG_NAME)-pkg-description
 GCC_DEV_PKG_DESCRIPTION_FILE_IN = $(GCC_DEV_PKG_NAME)-pkg-description.in
@@ -142,13 +143,16 @@ ifeq ($(TOOLCHAIN),$(TOOLCHAIN_A1X_EGLIBC))
 extra_configure_switches += --with-cpu=cortex-a8
 extra_configure_switches += --with-arch=armv7-a
 extra_configure_switches += --with-fpu=neon
+extra_configure_switches += --with-float=hard
 extra_configure_switches += --with-abi=aapcs-linux
 endif
 
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_OMAP35X_EGLIBC))
 extra_configure_switches += --with-cpu=cortex-a8
 extra_configure_switches += --with-arch=armv7-a
-extra_configure_switches += --with-dwarf2
+extra_configure_switches += --with-fpu=neon
+extra_configure_switches += --with-float=hard
+extra_configure_switches += --with-abi=aapcs-linux
 endif
 
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_OMAP543X_EGLIBC))
@@ -229,11 +233,11 @@ $(install_target): $(build_target)
 	$(BUILD_ENVIRONMENT) $(MAKE) -C $(build_dir) install $(env_sysroot)
 	$(BUILD_ENVIRONMENT) $(MAKE) -C $(build_dir) install-info $(env_sysroot)
 	@chmod 755 $(GCC_DEV_PKG)/usr/lib$(LIBSUFFIX)/libgcc_s.so.1
-ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC))
 	@chmod 755 $(GCC_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/libgcc_s.so.1
 endif
 	@rm -f $(GCC_DEV_PKG)/usr/lib$(LIBSUFFIX)/*gdb.py
-ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC))
 	@rm -f $(GCC_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/*gdb.py
 endif
 	@mkdir -p $(GCC_DEV_PKG)/lib
@@ -310,7 +314,7 @@ endif
 	     sed -i "s,'$(TOOLCHAIN_PATH)/.*la,,g" libtsan.la ; \
 	   fi \
 	 )
-ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC))
 	@( cd $(GCC_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	  sed -i "s,'$(TOOLCHAIN_PATH)/.*la,,g" libasan.la \
 	 )
@@ -342,7 +346,7 @@ endif
 	                                            libmudflap.la libmudflapth.la libssp.la \
 	                                            libssp_nonshared.la libstdc++.la libsupc++.la ; \
 	 )
-ifeq ($(TOOLCHAIN),$(X86_64_EGLIBC_TOOLCHAIN_NAME))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC))
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libasan.la libatomic.la libgomp.la libitm.la \
 	                                            libmudflap.la libmudflapth.la libquadmath.la libssp.la \

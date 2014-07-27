@@ -44,7 +44,7 @@ GDBM_32_PKG_DISTRO_VERSION      = 1.0
 GDBM_32_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
 GDBM_32_PKG_SHORT_DESCRIPTION   = gdbm-x32 $(version)
-GDBM_32_PKG_URL                 = http://www.kxLab.com
+GDBM_32_PKG_URL                 = $(BUG_URL)
 GDBM_32_PKG_LICENSE             = GPLv3
 GDBM_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GDBM_32_PKG_NAME)-pkg-description
 GDBM_32_PKG_DESCRIPTION_FILE_IN = $(GDBM_32_PKG_NAME)-pkg-description.in

@@ -50,7 +50,7 @@ PERL_32_PKG_DISTRO_VERSION      = 1.0
 PERL_32_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
 PERL_32_PKG_SHORT_DESCRIPTION   = perl-x32 $(version)
-PERL_32_PKG_URL                 = http://www.kxLab.com
+PERL_32_PKG_URL                 = $(BUG_URL)
 PERL_32_PKG_LICENSE             = GPLv1
 PERL_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(PERL_32_PKG_NAME)-pkg-description
 PERL_32_PKG_DESCRIPTION_FILE_IN = $(PERL_32_PKG_NAME)-pkg-description.in

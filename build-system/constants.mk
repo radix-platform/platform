@@ -7,6 +7,10 @@ ifndef CONSTANTS_MK
 
 SYSTEM_VERSION       = 0.0.1
 
+BUG_URL              = http://www.radix.pro
+#BUG_URL              = http://www.spbtsc.luxoft.com
+
+
 DOWNLOAD_SERVER      = ftp://ftp.radix.pro
 #DOWNLOAD_SERVER      = ftp://ftp.spbtsc.luxoft.com
 
@@ -83,10 +87,16 @@ HARDWARE_BUILD      = build
 HARDWARE_PC32       = pc32
 # {x86|x86_64} Personal Computer:
 HARDWARE_PC64       = pc64
+
 # A1N newlib devices (cubieboard 1):
 HARDWARE_CB1N       = cb1n
 # A1X devices (cubieboard 1 eglibc):
 HARDWARE_CB1X       = cb1x
+# A2N newlib devices (cubieboard 2,3):
+HARDWARE_CB2N       = cb2n
+# A2X devices (cubieboard 2,3 eglibc):
+HARDWARE_CB2X       = cb2x
+
 # AT91SAM7S devices:
 HARDWARE_AT91S      = at91s
 # DM644X newlib devices:
@@ -111,6 +121,8 @@ HARDWARE_B74        = b74
         PC64_ID_STD = 10
         CB1N_ID_STD = 20
         CB1X_ID_STD = 21
+        CB2N_ID_STD = 22
+        CB2X_ID_STD = 23
        AT91S_ID_STD = 30
     VIP1830N_ID_STD = 40
      VIP1830_ID_STD = 41
@@ -169,7 +181,7 @@ BUILD_MACHINE_HARDWARE_VARIANTS := $(HARDWARE_BUILD)
 TOOLCHAIN_I686_EGLIBC        = i686-eglibc
 
 I686_EGLIBC_ARCH             = i486-radix-linux-gnu
-I686_EGLIBC_VERSION          = 1.0.6
+I686_EGLIBC_VERSION          = 1.0.7
 I686_EGLIBC_DIR              = i486-PC-linux-eglibc
 I686_EGLIBC_PATH             = $(TOOLCHAINS_BASE_PATH)/$(I686_EGLIBC_DIR)
 
@@ -187,7 +199,7 @@ I686_EGLIBC_HARDWARE_VARIANTS := $(HARDWARE_PC32)
 TOOLCHAIN_X86_64_EGLIBC      = x86_64-eglibc
 
 X86_64_EGLIBC_ARCH           = x86_64-radix-linux-gnu
-X86_64_EGLIBC_VERSION        = 1.0.6
+X86_64_EGLIBC_VERSION        = 1.0.7
 X86_64_EGLIBC_DIR            = x86_64-PC-linux-eglibc
 X86_64_EGLIBC_PATH           = $(TOOLCHAINS_BASE_PATH)/$(X86_64_EGLIBC_DIR)
 
@@ -204,7 +216,7 @@ X86_64_EGLIBC_HARDWARE_VARIANTS := $(HARDWARE_PC64)
 TOOLCHAIN_A1X_NEWLIB         = a1x-newlib
 
 A1X_NEWLIB_ARCH              = arm-a1x-eabi
-A1X_NEWLIB_VERSION           = 1.0.6
+A1X_NEWLIB_VERSION           = 1.0.7
 A1X_NEWLIB_DIR               = arm-A1X-eabi-newlib
 A1X_NEWLIB_PATH              = $(TOOLCHAINS_BASE_PATH)/$(A1X_NEWLIB_DIR)
 
@@ -217,13 +229,13 @@ A1X_NEWLIB_HARDWARE_VARIANTS := $(HARDWARE_CB1N)
 # A1X-EGLIBC
 TOOLCHAIN_A1X_EGLIBC         = a1x-eglibc
 
-A1X_EGLIBC_ARCH              = arm-a1x-linux-gnueabi
-A1X_EGLIBC_VERSION           = 1.0.6
+A1X_EGLIBC_ARCH              = arm-a1x-linux-gnueabihf
+A1X_EGLIBC_VERSION           = 1.0.7
 A1X_EGLIBC_DIR               = arm-A1X-linux-eglibc
 A1X_EGLIBC_PATH              = $(TOOLCHAINS_BASE_PATH)/$(A1X_EGLIBC_DIR)
 
 A1X_EGLIBC_ARCH_DEFS         = -D__ALLWINNER_1X__=1
-A1X_EGLIBC_ARCH_FLAGS        = -march=armv7-a -mtune=cortex-a8 -mfloat-abi=softfp -mfpu=vfpv3 -mabi=aapcs-linux -fomit-frame-pointer
+A1X_EGLIBC_ARCH_FLAGS        = -march=armv7-a -mtune=cortex-a8 -mfloat-abi=hard -mfpu=neon -mabi=aapcs-linux -fomit-frame-pointer
 
 A1X_EGLIBC_SYSROOT           = sys-root
 A1X_EGLIBC_DEST_SYSROOT      = yes
@@ -232,11 +244,43 @@ A1X_EGLIBC_HARDWARE_VARIANTS := $(HARDWARE_CB1X)
 
 
 
+# A2X-NEWLIB
+TOOLCHAIN_A2X_NEWLIB         = a2x-newlib
+
+A2X_NEWLIB_ARCH              = arm-a2x-eabi
+A2X_NEWLIB_VERSION           = 1.0.7
+A2X_NEWLIB_DIR               = arm-A2X-eabi-newlib
+A2X_NEWLIB_PATH              = $(TOOLCHAINS_BASE_PATH)/$(A2X_NEWLIB_DIR)
+
+A2X_NEWLIB_ARCH_DEFS         = -D__ALLWINNER_2N__=1
+
+A2X_NEWLIB_HARDWARE_VARIANTS := $(HARDWARE_CB2N)
+
+
+
+# A1X-EGLIBC
+TOOLCHAIN_A2X_EGLIBC         = a2x-eglibc
+
+A2X_EGLIBC_ARCH              = arm-a2x-linux-gnueabihf
+A2X_EGLIBC_VERSION           = 1.0.7
+A2X_EGLIBC_DIR               = arm-A2X-linux-eglibc
+A2X_EGLIBC_PATH              = $(TOOLCHAINS_BASE_PATH)/$(A2X_EGLIBC_DIR)
+
+A2X_EGLIBC_ARCH_DEFS         = -D__ALLWINNER_2X__=1
+A2X_EGLIBC_ARCH_FLAGS        = -march=armv7ve -mtune=cortex-a7 -mfloat-abi=hard -mfpu=neon-vfpv4 -mabi=aapcs-linux -fomit-frame-pointer
+
+A2X_EGLIBC_SYSROOT           = sys-root
+A2X_EGLIBC_DEST_SYSROOT      = yes
+
+A2X_EGLIBC_HARDWARE_VARIANTS := $(HARDWARE_CB2X)
+
+
+
 # AT91SAM7S-NEWLIB
 TOOLCHAIN_AT91SAM7S_NEWLIB   = at91sam7s-newlib
 
 AT91SAM7S_NEWLIB_ARCH        = arm-at91sam7s-eabi
-AT91SAM7S_NEWLIB_VERSION     = 1.0.6
+AT91SAM7S_NEWLIB_VERSION     = 1.0.7
 AT91SAM7S_NEWLIB_DIR         = arm-AT91SAM7S-eabi-newlib
 AT91SAM7S_NEWLIB_PATH        = $(TOOLCHAINS_BASE_PATH)/$(AT91SAM7S_NEWLIB_DIR)
 
@@ -250,7 +294,7 @@ AT91SAM7S_NEWLIB_HARDWARE_VARIANTS := $(HARDWARE_AT91S)
 TOOLCHAIN_DM644X_NEWLIB      = dm644x-newlib
 
 DM644X_NEWLIB_ARCH           = arm-dm644x-eabi
-DM644X_NEWLIB_VERSION        = 1.0.6
+DM644X_NEWLIB_VERSION        = 1.0.7
 DM644X_NEWLIB_DIR            = arm-DM644X-eabi-newlib
 DM644X_NEWLIB_PATH           = $(TOOLCHAINS_BASE_PATH)/$(DM644X_NEWLIB_DIR)
 
@@ -264,7 +308,7 @@ DM644X_NEWLIB_HARDWARE_VARIANTS := $(HARDWARE_VIP1830N)
 TOOLCHAIN_DM644X_EGLIBC      = dm644x-eglibc
 
 DM644X_EGLIBC_ARCH           = arm-dm644x-linux-gnueabi
-DM644X_EGLIBC_VERSION        = 1.0.6
+DM644X_EGLIBC_VERSION        = 1.0.7
 DM644X_EGLIBC_DIR            = arm-DM644X-linux-eglibc
 DM644X_EGLIBC_PATH           = $(TOOLCHAINS_BASE_PATH)/$(DM644X_EGLIBC_DIR)
 
@@ -282,7 +326,7 @@ DM644X_EGLIBC_HARDWARE_VARIANTS := $(HARDWARE_VIP1830)
 TOOLCHAIN_LPC17XX_UCLIBC     = lpc17xx-uclibc
 
 LPC17XX_UCLIBC_ARCH          = arm-lpc17xx-uclinuxeabi
-LPC17XX_UCLIBC_VERSION       = 1.0.6
+LPC17XX_UCLIBC_VERSION       = 1.0.7
 LPC17XX_UCLIBC_DIR           = arm-LPC17XX-uclinuxeabi
 LPC17XX_UCLIBC_PATH          = $(TOOLCHAINS_BASE_PATH)/$(LPC17XX_UCLIBC_DIR)
 
@@ -297,13 +341,13 @@ LPC17XX_UCLIBC_HARDWARE_VARIANTS := $(HARDWARE_L17UC)
 # OMAP35X-EGLIBC
 TOOLCHAIN_OMAP35X_EGLIBC     = omap35x-eglibc
 
-OMAP35X_EGLIBC_ARCH          = arm-omap35x-linux-gnueabi
-OMAP35X_EGLIBC_VERSION       = 1.0.6
+OMAP35X_EGLIBC_ARCH          = arm-omap35x-linux-gnueabihf
+OMAP35X_EGLIBC_VERSION       = 1.0.7
 OMAP35X_EGLIBC_DIR           = arm-OMAP35X-linux-eglibc
 OMAP35X_EGLIBC_PATH          = $(TOOLCHAINS_BASE_PATH)/$(OMAP35X_EGLIBC_DIR)
 
 OMAP35X_EGLIBC_ARCH_DEFS     = -D__OMAP35X__=1
-OMAP35X_EGLIBC_ARCH_FLAGS    = -march=armv7-a -mtune=cortex-a8 -mfloat-abi=softfp -mfpu=neon -mabi=aapcs-linux -fomit-frame-pointer
+OMAP35X_EGLIBC_ARCH_FLAGS    = -march=armv7-a -mtune=cortex-a8 -mfloat-abi=hard -mfpu=neon -mabi=aapcs-linux -fomit-frame-pointer
 
 OMAP35X_EGLIBC_SYSROOT       = sys-root
 OMAP35X_EGLIBC_DEST_SYSROOT  = yes
@@ -334,7 +378,7 @@ OMAP543X_EGLIBC_HARDWARE_VARIANTS := $(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)
 TOOLCHAIN_BCM74X_EGLIBC      = bcm74x-eglibc
 
 BCM74X_EGLIBC_ARCH           = mipsel-bcm74x-linux-gnu
-BCM74X_EGLIBC_VERSION        = 1.0.6
+BCM74X_EGLIBC_VERSION        = 1.0.7
 BCM74X_EGLIBC_DIR            = mipsel-BCM74X-linux-eglibc
 BCM74X_EGLIBC_PATH           = $(TOOLCHAINS_BASE_PATH)/$(BCM74X_EGLIBC_DIR)
 

@@ -46,7 +46,7 @@ PAM_32_PKG_DISTRO_VERSION      = 1.0
 PAM_32_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 PAM_32_PKG_SHORT_DESCRIPTION   = pam-x32 $(version)
-PAM_32_PKG_URL                 = http://www.kxLab.com
+PAM_32_PKG_URL                 = $(BUG_URL)
 PAM_32_PKG_LICENSE             = BSD
 PAM_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(PAM_32_PKG_NAME)-pkg-description
 PAM_32_PKG_DESCRIPTION_FILE_IN = $(PAM_32_PKG_NAME)-pkg-description.in

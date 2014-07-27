@@ -42,7 +42,7 @@ ZLIB32_PKG_DISTRO_VERSION      = 1.0
 ZLIB32_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 ZLIB32_PKG_SHORT_DESCRIPTION   = zlib-x32 $(version)
-ZLIB32_PKG_URL                 = http://www.kxLab.com
+ZLIB32_PKG_URL                 = $(BUG_URL)
 ZLIB32_PKG_LICENSE             = GPLv2
 ZLIB32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(ZLIB32_PKG_NAME)-pkg-description
 ZLIB32_PKG_DESCRIPTION_FILE_IN = $(ZLIB32_PKG_NAME)-pkg-description.in

@@ -42,7 +42,7 @@ INPUTATTACH32_PKG_DISTRO_VERSION      = 1.0
 INPUTATTACH32_PKG_GROUP               = $(PKG_GROUP)
 ###                                    |---handy-ruler-------------------------------|
 INPUTATTACH32_PKG_SHORT_DESCRIPTION   = inputattach-x32 $(version)
-INPUTATTACH32_PKG_URL                 = http://www.kxLab.com
+INPUTATTACH32_PKG_URL                 = $(BUG_URL)
 INPUTATTACH32_PKG_LICENSE             = GPLv2
 INPUTATTACH32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(INPUTATTACH32_PKG_NAME)-pkg-description
 INPUTATTACH32_PKG_DESCRIPTION_FILE_IN = $(INPUTATTACH32_PKG_NAME)-pkg-description.in

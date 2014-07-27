@@ -2,6 +2,7 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
@@ -53,7 +54,7 @@ PAM_PKG_DISTRO_VERSION      = 1.0
 PAM_PKG_GROUP               = $(PKG_GROUP)
 ###                          |---handy-ruler-------------------------------|
 PAM_PKG_SHORT_DESCRIPTION   = pam $(version)
-PAM_PKG_URL                 = http://www.kxLab.com
+PAM_PKG_URL                 = $(BUG_URL)
 PAM_PKG_LICENSE             = BSD
 PAM_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(PAM_PKG_NAME)-pkg-description
 PAM_PKG_DESCRIPTION_FILE_IN = $(PAM_PKG_NAME)-pkg-description.in

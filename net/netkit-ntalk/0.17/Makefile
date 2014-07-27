@@ -2,6 +2,7 @@
 COMPONENT_TARGETS   = $(HARDWARE_PC32)
 COMPONENT_TARGETS  += $(HARDWARE_PC64)
 COMPONENT_TARGETS  += $(HARDWARE_CB1X)
+COMPONENT_TARGETS  += $(HARDWARE_CB2X)
 COMPONENT_TARGETS  += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS  += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS  += $(HARDWARE_OMAP5UEVM)
@@ -50,7 +51,7 @@ NTALK_PKG_DISTRO_VERSION      = 1.0
 NTALK_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
 NTALK_PKG_SHORT_DESCRIPTION   = netkit-ntalk $(version)
-NTALK_PKG_URL                 = http://www.kxLab.com
+NTALK_PKG_URL                 = $(BUG_URL)
 NTALK_PKG_LICENSE             = BSD
 NTALK_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(NTALK_PKG_NAME)-pkg-description
 NTALK_PKG_DESCRIPTION_FILE_IN = $(NTALK_PKG_NAME)-pkg-description.in

@@ -42,7 +42,7 @@ DB_32_PKG_DISTRO_VERSION      = 1.0
 DB_32_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
 DB_32_PKG_SHORT_DESCRIPTION   = db-x32 $(version)
-DB_32_PKG_URL                 = http://www.kxLab.com
+DB_32_PKG_URL                 = $(BUG_URL)
 DB_32_PKG_LICENSE             = AGPLv3
 DB_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(DB_32_PKG_NAME)-pkg-description
 DB_32_PKG_DESCRIPTION_FILE_IN = $(DB_32_PKG_NAME)-pkg-description.in

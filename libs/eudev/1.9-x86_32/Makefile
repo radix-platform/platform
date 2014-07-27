@@ -12,8 +12,9 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/a/eudev
 
-REQUIRES           = app/udev/182
+REQUIRES           = libs/eudev/1.9
 REQUIRES          += app/kmod/16-x86_32
+REQUIRES          += libs/libffi/3.0.13-x86_32
 REQUIRES          += libs/pcre/8.34-x86_32
 REQUIRES          += app/util-linux/2.24.1-x86_32
 REQUIRES          += libs/glib2/2.40.0-x86_32
@@ -38,19 +39,19 @@ install_target     = $(TARGET_BUILD_DIR)/.install_done
 
 ####### Targets
 
-PKG_GROUP = app
+PKG_GROUP = libs
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-EUDEV_32_PKG_NAME                = eudev-x32
+EUDEV_32_PKG_NAME                = libeudev-x32
 EUDEV_32_PKG_VERSION             = 1.9
 EUDEV_32_PKG_ARCH                = $(TOOLCHAIN)
 EUDEV_32_PKG_DISTRO_NAME         = kxLab
 EUDEV_32_PKG_DISTRO_VERSION      = 1.0
 EUDEV_32_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-EUDEV_32_PKG_SHORT_DESCRIPTION   = eudev-x32 $(version)
-EUDEV_32_PKG_URL                 = http://www.kxLab.com
+EUDEV_32_PKG_SHORT_DESCRIPTION   = libeudev-x32 $(version)
+EUDEV_32_PKG_URL                 = $(BUG_URL)
 EUDEV_32_PKG_LICENSE             = GPLv2
 EUDEV_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(EUDEV_32_PKG_NAME)-pkg-description
 EUDEV_32_PKG_DESCRIPTION_FILE_IN = $(EUDEV_32_PKG_NAME)-pkg-description.in
@@ -141,12 +142,12 @@ $(install_target): $(build_target)
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(EUDEV_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	# tune libtool *.la search path to the target destination for development
+	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgudev-?.?.la libudev.la ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libgudev-?.?.la libudev.la \
 	 )
-	# tune pkg-config *.pc search path to the target destination for development
+	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" gudev-?.?.pc libudev.pc \
 	 )

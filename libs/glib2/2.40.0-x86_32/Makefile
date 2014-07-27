@@ -52,7 +52,7 @@ GLIB2_32_PKG_DISTRO_VERSION      = 1.0
 GLIB2_32_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
 GLIB2_32_PKG_SHORT_DESCRIPTION   = glib2-x32 $(version)
-GLIB2_32_PKG_URL                 = http://www.kxLab.com
+GLIB2_32_PKG_URL                 = $(BUG_URL)
 GLIB2_32_PKG_LICENSE             = GPLv2
 GLIB2_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GLIB2_32_PKG_NAME)-pkg-description
 GLIB2_32_PKG_DESCRIPTION_FILE_IN = $(GLIB2_32_PKG_NAME)-pkg-description.in

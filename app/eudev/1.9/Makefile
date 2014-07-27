@@ -2,6 +2,7 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
@@ -17,7 +18,9 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/a/eudev
 
-REQUIRES           = app/kmod/16
+REQUIRES           = libs/eudev/1.9
+REQUIRES          += app/kmod/16
+REQUIRES          += libs/libffi/3.0.13
 REQUIRES          += libs/pcre/8.34
 REQUIRES          += app/util-linux/2.24.1
 REQUIRES          += libs/glib2/2.40.0
@@ -60,7 +63,7 @@ EUDEV_PKG_DISTRO_VERSION      = 1.0
 EUDEV_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
 EUDEV_PKG_SHORT_DESCRIPTION   = eudev $(version)
-EUDEV_PKG_URL                 = http://www.kxLab.com
+EUDEV_PKG_URL                 = $(BUG_URL)
 EUDEV_PKG_LICENSE             = GPLv2
 EUDEV_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(EUDEV_PKG_NAME)-pkg-description
 EUDEV_PKG_DESCRIPTION_FILE_IN = $(EUDEV_PKG_NAME)-pkg-description.in
@@ -80,7 +83,7 @@ BUILD_TARGETS   += $(install_target)
 
 PRODUCT_TARGETS  = $(products)
 
-#ROOTFS_TARGETS   = $(pkg_archive)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
@@ -134,6 +137,10 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(EUDEV_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	# ======= remove libraries installed by libs/eudev package ======
+	@rm -rf $(EUDEV_PKG)/lib$(LIBSUFFIX)/libudev.*
+	@rm -rf $(EUDEV_PKG)/usr/lib$(LIBSUFFIX)
+	@rm -rf $(EUDEV_PKG)/usr/include
 	# ======= change mode of script in udev libexec (--libexec=/lib) directory =======
 	@chmod a+x $(EUDEV_PKG)/lib/udev/rule_generator.functions
 	@( cd $(EUDEV_PKG)/sbin ; ln -sf ../lib/udev/scsi_id scsi_id )
@@ -172,16 +179,10 @@ $(install_target): $(build_target)
 	@mkdir -p $(EUDEV_PKG)/usr/doc/$(src_dir_name)
 	@cp -a $(SRC_DIR)/COPYING \
 	       $(EUDEV_PKG)/usr/doc/$(src_dir_name)
-	@mkdir -p $(EUDEV_PKG)/usr/share/doc/$(src_dir_name)/html/{gudev,libudev}
+	@mkdir -p $(EUDEV_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
 	   cp -a COPYING README \
 	         $(EUDEV_PKG)/usr/share/doc/$(src_dir_name) \
-	 )
-	@( cd $(SRC_DIR)/docs/gudev/html ; \
-	   cp -a *.html *.png *.css $(EUDEV_PKG)/usr/share/doc/$(src_dir_name)/html/gudev ; \
-	 )
-	@( cd $(SRC_DIR)/docs/libudev/html ; \
-	   cp -a *.html *.png *.css $(EUDEV_PKG)/usr/share/doc/$(src_dir_name)/html/libudev ; \
 	 )
 	@( cd $(SRC_DIR) ; \
 	   if [ -r ChangeLog ]; then \
@@ -190,23 +191,9 @@ $(install_target): $(build_target)
 	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \
 	 )
-	# ======= remove target destination path from target libtool *.la files =======
-	@( cd $(EUDEV_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" libgudev-?.?.la libudev.la ; \
-	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(EUDEV_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	# ======= tune libtool *.la search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgudev-?.?.la libudev.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libgudev-?.?.la libudev.la \
-	 )
-	# ======= tune pkg-config *.pc search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" gudev-?.?.pc libudev.pc ; \
-	   sed -i "s,/lib,$(TARGET_DEST_DIR)/lib,g" udev.pc \
-	 )
 	# ======= tune pkg-config *.pc in /usr/share/pkgconfig/udev.pc file =======
 	@( cd $(TARGET_DEST_DIR)/usr/share/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" udev.pc ; \
@@ -214,8 +201,6 @@ $(install_target): $(build_target)
 	 )
 	@( cd $(EUDEV_PKG); \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
 	@touch $@
 

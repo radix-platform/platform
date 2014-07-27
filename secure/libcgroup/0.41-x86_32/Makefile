@@ -45,7 +45,7 @@ CGROUP_32_PKG_DISTRO_VERSION      = 1.0
 CGROUP_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
 CGROUP_32_PKG_SHORT_DESCRIPTION   = libcgroup-x32 $(version)
-CGROUP_32_PKG_URL                 = http://www.kxLab.com
+CGROUP_32_PKG_URL                 = $(BUG_URL)
 CGROUP_32_PKG_LICENSE             = LGPLv2
 CGROUP_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(CGROUP_32_PKG_NAME)-pkg-description
 CGROUP_32_PKG_DESCRIPTION_FILE_IN = $(CGROUP_32_PKG_NAME)-pkg-description.in

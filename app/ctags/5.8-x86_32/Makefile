@@ -44,7 +44,7 @@ CTAGS_32_PKG_DISTRO_VERSION      = 1.0
 CTAGS_32_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
 CTAGS_32_PKG_SHORT_DESCRIPTION   = ctags-x32 $(version)
-CTAGS_32_PKG_URL                 = http://www.kxLab.com
+CTAGS_32_PKG_URL                 = $(BUG_URL)
 CTAGS_32_PKG_LICENSE             = GPLv2
 CTAGS_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(CTAGS_32_PKG_NAME)-pkg-description
 CTAGS_32_PKG_DESCRIPTION_FILE_IN = $(CTAGS_32_PKG_NAME)-pkg-description.in

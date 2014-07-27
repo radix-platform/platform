@@ -47,7 +47,7 @@ PCRE32_PKG_DISTRO_VERSION      = 1.0
 PCRE32_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 PCRE32_PKG_SHORT_DESCRIPTION   = pcre-x32 $(version)
-PCRE32_PKG_URL                 = http://www.kxLab.com
+PCRE32_PKG_URL                 = $(BUG_URL)
 PCRE32_PKG_LICENSE             = GPLv2
 PCRE32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(PCRE32_PKG_NAME)-pkg-description
 PCRE32_PKG_DESCRIPTION_FILE_IN = $(PCRE32_PKG_NAME)-pkg-description.in

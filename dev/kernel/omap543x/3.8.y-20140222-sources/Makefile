@@ -29,7 +29,7 @@ KS_DEV_PKG_DISTRO_VERSION      = 1.0
 KS_DEV_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 KS_DEV_PKG_SHORT_DESCRIPTION   = Linux $(version) sources
-KS_DEV_PKG_URL                 = http://www.kxLab.com
+KS_DEV_PKG_URL                 = $(BUG_URL)
 KS_DEV_PKG_LICENSE             = GPLv2
 KS_DEV_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(KS_DEV_PKG_NAME)-pkg-description
 KS_DEV_PKG_DESCRIPTION_FILE_IN = $(KS_DEV_PKG_NAME)-pkg-description.in

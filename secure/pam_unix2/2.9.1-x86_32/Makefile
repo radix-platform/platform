@@ -45,7 +45,7 @@ PAM_U2_32_PKG_DISTRO_VERSION      = 1.0
 PAM_U2_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
 PAM_U2_32_PKG_SHORT_DESCRIPTION   = pam_unix2-x32 $(version)
-PAM_U2_32_PKG_URL                 = http://www.kxLab.com
+PAM_U2_32_PKG_URL                 = $(BUG_URL)
 PAM_U2_32_PKG_LICENSE             = GPLv2
 PAM_U2_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(PAM_U2_32_PKG_NAME)-pkg-description
 PAM_U2_32_PKG_DESCRIPTION_FILE_IN = $(PAM_U2_32_PKG_NAME)-pkg-description.in

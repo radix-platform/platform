@@ -65,7 +65,7 @@ UBOOT_BIN_PKG_DISTRO_VERSION      = 1.0
 UBOOT_BIN_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
 UBOOT_BIN_PKG_SHORT_DESCRIPTION   = OMAP5 U-Boot $(version)
-UBOOT_BIN_PKG_URL                 = http://www.kxLab.com
+UBOOT_BIN_PKG_URL                 = $(BUG_URL)
 UBOOT_BIN_PKG_LICENSE             = GPLv2
 UBOOT_BIN_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(UBOOT_BIN_PKG_NAME)-pkg-description
 UBOOT_BIN_PKG_DESCRIPTION_FILE_IN = $(UBOOT_BIN_PKG_NAME)-pkg-description.in

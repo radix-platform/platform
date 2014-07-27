@@ -42,7 +42,7 @@ TERMCAP_32_PKG_DISTRO_VERSION      = 1.0
 TERMCAP_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                 |---handy-ruler-------------------------------|
 TERMCAP_32_PKG_SHORT_DESCRIPTION   = libtermcap-x32 $(version)
-TERMCAP_32_PKG_URL                 = http://www.kxLab.com
+TERMCAP_32_PKG_URL                 = $(BUG_URL)
 TERMCAP_32_PKG_LICENSE             = GPLv2
 TERMCAP_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(TERMCAP_32_PKG_NAME)-pkg-description
 TERMCAP_32_PKG_DESCRIPTION_FILE_IN = $(TERMCAP_32_PKG_NAME)-pkg-description.in

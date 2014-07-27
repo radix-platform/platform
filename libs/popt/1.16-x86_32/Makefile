@@ -44,7 +44,7 @@ POPT32_PKG_DISTRO_VERSION      = 1.0
 POPT32_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 POPT32_PKG_SHORT_DESCRIPTION   = popt-x32 $(version)
-POPT32_PKG_URL                 = http://www.kxLab.com
+POPT32_PKG_URL                 = $(BUG_URL)
 POPT32_PKG_LICENSE             = GPLv2
 POPT32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(POPT32_PKG_NAME)-pkg-description
 POPT32_PKG_DESCRIPTION_FILE_IN = $(POPT32_PKG_NAME)-pkg-description.in

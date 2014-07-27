@@ -47,7 +47,7 @@ DIALOG_32_PKG_DISTRO_VERSION      = 1.0
 DIALOG_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
 DIALOG_32_PKG_SHORT_DESCRIPTION   = dialog-x32 $(version)
-DIALOG_32_PKG_URL                 = http://www.kxLab.com
+DIALOG_32_PKG_URL                 = $(BUG_URL)
 DIALOG_32_PKG_LICENSE             = LGPLv2
 DIALOG_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(DIALOG_32_PKG_NAME)-pkg-description
 DIALOG_32_PKG_DESCRIPTION_FILE_IN = $(DIALOG_32_PKG_NAME)-pkg-description.in

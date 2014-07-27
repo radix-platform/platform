@@ -47,7 +47,7 @@ UTILLINUX_32_PKG_DISTRO_VERSION      = 1.0
 UTILLINUX_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                   |---handy-ruler-------------------------------|
 UTILLINUX_32_PKG_SHORT_DESCRIPTION   = util-linux-x32 $(version)
-UTILLINUX_32_PKG_URL                 = http://www.kxLab.com
+UTILLINUX_32_PKG_URL                 = $(BUG_URL)
 UTILLINUX_32_PKG_LICENSE             = GPLv2
 UTILLINUX_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(UTILLINUX_32_PKG_NAME)-pkg-description
 UTILLINUX_32_PKG_DESCRIPTION_FILE_IN = $(UTILLINUX_32_PKG_NAME)-pkg-description.in

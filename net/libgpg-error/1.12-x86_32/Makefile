@@ -44,7 +44,7 @@ GPGERROR32_PKG_DISTRO_VERSION      = 1.0
 GPGERROR32_PKG_GROUP               = $(PKG_GROUP)
 ###                                 |---handy-ruler-------------------------------|
 GPGERROR32_PKG_SHORT_DESCRIPTION   = libgpg-error-x32 $(version)
-GPGERROR32_PKG_URL                 = http://www.kxLab.com
+GPGERROR32_PKG_URL                 = $(BUG_URL)
 GPGERROR32_PKG_LICENSE             = GPLv2
 GPGERROR32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GPGERROR32_PKG_NAME)-pkg-description
 GPGERROR32_PKG_DESCRIPTION_FILE_IN = $(GPGERROR32_PKG_NAME)-pkg-description.in

@@ -44,7 +44,7 @@ PTH32_PKG_DISTRO_VERSION      = 1.0
 PTH32_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
 PTH32_PKG_SHORT_DESCRIPTION   = pth-x32 $(version)
-PTH32_PKG_URL                 = http://www.kxLab.com
+PTH32_PKG_URL                 = $(BUG_URL)
 PTH32_PKG_LICENSE             = GPLv2
 PTH32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(PTH32_PKG_NAME)-pkg-description
 PTH32_PKG_DESCRIPTION_FILE_IN = $(PTH32_PKG_NAME)-pkg-description.in

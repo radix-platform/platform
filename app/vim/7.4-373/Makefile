@@ -2,6 +2,7 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
@@ -61,7 +62,7 @@ VIM_PKG_DISTRO_VERSION      = 1.0
 VIM_PKG_GROUP               = $(PKG_GROUP)
 ###                          |---handy-ruler-------------------------------|
 VIM_PKG_SHORT_DESCRIPTION   = vim $(version)
-VIM_PKG_URL                 = http://www.kxLab.com
+VIM_PKG_URL                 = $(BUG_URL)
 VIM_PKG_LICENSE             = vim
 VIM_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(VIM_PKG_NAME)-pkg-description
 VIM_PKG_DESCRIPTION_FILE_IN = $(VIM_PKG_NAME)-pkg-description.in

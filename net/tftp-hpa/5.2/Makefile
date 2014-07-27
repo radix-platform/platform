@@ -2,6 +2,7 @@
 COMPONENT_TARGETS   = $(HARDWARE_PC32)
 COMPONENT_TARGETS  += $(HARDWARE_PC64)
 COMPONENT_TARGETS  += $(HARDWARE_CB1X)
+COMPONENT_TARGETS  += $(HARDWARE_CB2X)
 COMPONENT_TARGETS  += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS  += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS  += $(HARDWARE_OMAP5UEVM)
@@ -51,7 +52,7 @@ TFTP_PKG_DISTRO_VERSION      = 1.0
 TFTP_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
 TFTP_PKG_SHORT_DESCRIPTION   = tftp-hpa $(version)
-TFTP_PKG_URL                 = http://www.kxLab.com
+TFTP_PKG_URL                 = $(BUG_URL)
 TFTP_PKG_LICENSE             = BSD
 TFTP_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(TFTP_PKG_NAME)-pkg-description
 TFTP_PKG_DESCRIPTION_FILE_IN = $(TFTP_PKG_NAME)-pkg-description.in

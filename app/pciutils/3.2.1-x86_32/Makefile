@@ -46,7 +46,7 @@ PCIUTILS32_PKG_DISTRO_VERSION      = 1.0
 PCIUTILS32_PKG_GROUP               = $(PKG_GROUP)
 ###                                 |---handy-ruler-------------------------------|
 PCIUTILS32_PKG_SHORT_DESCRIPTION   = pciutils-x32 $(version)
-PCIUTILS32_PKG_URL                 = http://www.kxLab.com
+PCIUTILS32_PKG_URL                 = $(BUG_URL)
 PCIUTILS32_PKG_LICENSE             = GPLv2
 PCIUTILS32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(PCIUTILS32_PKG_NAME)-pkg-description
 PCIUTILS32_PKG_DESCRIPTION_FILE_IN = $(PCIUTILS32_PKG_NAME)-pkg-description.in

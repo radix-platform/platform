@@ -45,7 +45,7 @@ MPC32_PKG_DISTRO_VERSION      = 1.0
 MPC32_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
 MPC32_PKG_SHORT_DESCRIPTION   = mpc-x32 $(version)
-MPC32_PKG_URL                 = http://www.kxLab.com
+MPC32_PKG_URL                 = $(BUG_URL)
 MPC32_PKG_LICENSE             = GPLv2
 MPC32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(MPC32_PKG_NAME)-pkg-description
 MPC32_PKG_DESCRIPTION_FILE_IN = $(MPC32_PKG_NAME)-pkg-description.in

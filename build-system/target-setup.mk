@@ -273,7 +273,7 @@ BUILD_MULTILIB_SUFFIX = $(shell echo $(shell gcc -print-multi-os-directory) | se
 
 
 
-OPTIMIZATION_FLAGS ?= -O2
+OPTIMIZATION_FLAGS ?= -O3
 
 
 ################################################################

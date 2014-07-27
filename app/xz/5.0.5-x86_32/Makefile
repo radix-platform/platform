@@ -44,7 +44,7 @@ XZ32_PKG_DISTRO_VERSION      = 1.0
 XZ32_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
 XZ32_PKG_SHORT_DESCRIPTION   = xz-x32 $(version)
-XZ32_PKG_URL                 = http://www.kxLab.com
+XZ32_PKG_URL                 = $(BUG_URL)
 XZ32_PKG_LICENSE             = GPLv2
 XZ32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(XZ32_PKG_NAME)-pkg-description
 XZ32_PKG_DESCRIPTION_FILE_IN = $(XZ32_PKG_NAME)-pkg-description.in

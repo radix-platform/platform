@@ -42,7 +42,7 @@ BZIP2_32_PKG_DISTRO_VERSION      = 1.0
 BZIP2_32_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
 BZIP2_32_PKG_SHORT_DESCRIPTION   = bzip2-x32 $(version)
-BZIP2_32_PKG_URL                 = http://www.kxLab.com
+BZIP2_32_PKG_URL                 = $(BUG_URL)
 BZIP2_32_PKG_LICENSE             = GPLv2
 BZIP2_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(BZIP2_32_PKG_NAME)-pkg-description
 BZIP2_32_PKG_DESCRIPTION_FILE_IN = $(BZIP2_32_PKG_NAME)-pkg-description.in

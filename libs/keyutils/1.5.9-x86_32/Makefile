@@ -43,7 +43,7 @@ KEYUTILS_32_PKG_DISTRO_VERSION      = 1.0
 KEYUTILS_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                  |---handy-ruler-------------------------------|
 KEYUTILS_32_PKG_SHORT_DESCRIPTION   = keyutils-x32 $(version)
-KEYUTILS_32_PKG_URL                 = http://www.kxLab.com
+KEYUTILS_32_PKG_URL                 = $(BUG_URL)
 KEYUTILS_32_PKG_LICENSE             = LGPLv2
 KEYUTILS_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(KEYUTILS_32_PKG_NAME)-pkg-description
 KEYUTILS_32_PKG_DESCRIPTION_FILE_IN = $(KEYUTILS_32_PKG_NAME)-pkg-description.in

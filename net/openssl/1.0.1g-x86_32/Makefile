@@ -45,7 +45,7 @@ OPENSSL32_PKG_DISTRO_VERSION      = 1.0
 OPENSSL32_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
 OPENSSL32_PKG_SHORT_DESCRIPTION   = openssl-x32 $(version)
-OPENSSL32_PKG_URL                 = http://www.kxLab.com
+OPENSSL32_PKG_URL                 = $(BUG_URL)
 OPENSSL32_PKG_LICENSE             = GPLv2
 OPENSSL32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(OPENSSL32_PKG_NAME)-pkg-description
 OPENSSL32_PKG_DESCRIPTION_FILE_IN = $(OPENSSL32_PKG_NAME)-pkg-description.in

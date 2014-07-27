@@ -49,7 +49,7 @@ NCURSES32_PKG_DISTRO_VERSION      = 1.0
 NCURSES32_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
 NCURSES32_PKG_SHORT_DESCRIPTION   = ncurses-x32 $(version)
-NCURSES32_PKG_URL                 = http://www.kxLab.com
+NCURSES32_PKG_URL                 = $(BUG_URL)
 NCURSES32_PKG_LICENSE             = GPLv2
 NCURSES32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(NCURSES32_PKG_NAME)-pkg-description
 NCURSES32_PKG_DESCRIPTION_FILE_IN = $(NCURSES32_PKG_NAME)-pkg-description.in

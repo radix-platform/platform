@@ -1,0 +1,4 @@
+
+../../../sources/GNU/gcc/gcc-4.9.1/patches/gcc-4.9.1-backtrace.patch -p0
+../../../sources/GNU/gcc/gcc-4.9.1/patches/gcc-4.9.1-fixinc-gmp-inside.patch -p0
+../../../sources/GNU/gcc/gcc-4.9.1/patches/gcc-4.9.1-gmp-inside.patch -p0

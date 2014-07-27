@@ -2,6 +2,7 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
@@ -48,7 +49,7 @@ LHA_PKG_DISTRO_VERSION      = 1.0
 LHA_PKG_GROUP               = $(PKG_GROUP)
 ###                          |---handy-ruler-------------------------------|
 LHA_PKG_SHORT_DESCRIPTION   = lha $(version)
-LHA_PKG_URL                 = http://www.kxLab.com
+LHA_PKG_URL                 = $(BUG_URL)
 LHA_PKG_LICENSE             = GPLv2
 LHA_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LHA_PKG_NAME)-pkg-description
 LHA_PKG_DESCRIPTION_FILE_IN = $(LHA_PKG_NAME)-pkg-description.in

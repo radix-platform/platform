@@ -42,7 +42,7 @@ ATTR_32_PKG_DISTRO_VERSION      = 1.0
 ATTR_32_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
 ATTR_32_PKG_SHORT_DESCRIPTION   = attr-x32 $(version)
-ATTR_32_PKG_URL                 = http://www.kxLab.com
+ATTR_32_PKG_URL                 = $(BUG_URL)
 ATTR_32_PKG_LICENSE             = GPLv2
 ATTR_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(ATTR_32_PKG_NAME)-pkg-description
 ATTR_32_PKG_DESCRIPTION_FILE_IN = $(ATTR_32_PKG_NAME)-pkg-description.in

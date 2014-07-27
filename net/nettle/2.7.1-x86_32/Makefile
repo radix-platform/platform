@@ -44,7 +44,7 @@ NETTLE32_PKG_DISTRO_VERSION      = 1.0
 NETTLE32_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
 NETTLE32_PKG_SHORT_DESCRIPTION   = nettle-x32 $(version)
-NETTLE32_PKG_URL                 = http://www.kxLab.com
+NETTLE32_PKG_URL                 = $(BUG_URL)
 NETTLE32_PKG_LICENSE             = GPLv2
 NETTLE32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(NETTLE32_PKG_NAME)-pkg-description
 NETTLE32_PKG_DESCRIPTION_FILE_IN = $(NETTLE32_PKG_NAME)-pkg-description.in

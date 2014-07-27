@@ -46,7 +46,7 @@ KMOD32_PKG_DISTRO_VERSION      = 1.0
 KMOD32_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 KMOD32_PKG_SHORT_DESCRIPTION   = kmod-x32 $(version)
-KMOD32_PKG_URL                 = http://www.kxLab.com
+KMOD32_PKG_URL                 = $(BUG_URL)
 KMOD32_PKG_LICENSE             = GPLv2
 KMOD32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(KMOD32_PKG_NAME)-pkg-description
 KMOD32_PKG_DESCRIPTION_FILE_IN = $(KMOD32_PKG_NAME)-pkg-description.in

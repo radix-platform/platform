@@ -44,7 +44,7 @@ LIBTOOL32_PKG_DISTRO_VERSION      = 1.0
 LIBTOOL32_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
 LIBTOOL32_PKG_SHORT_DESCRIPTION   = libtool-x32 $(version)
-LIBTOOL32_PKG_URL                 = http://www.kxLab.com
+LIBTOOL32_PKG_URL                 = $(BUG_URL)
 LIBTOOL32_PKG_LICENSE             = GPLv2
 LIBTOOL32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBTOOL32_PKG_NAME)-pkg-description
 LIBTOOL32_PKG_DESCRIPTION_FILE_IN = $(LIBTOOL32_PKG_NAME)-pkg-description.in

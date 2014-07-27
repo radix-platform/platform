@@ -2,6 +2,7 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
@@ -48,7 +49,7 @@ DB_PKG_DISTRO_VERSION      = 1.0
 DB_PKG_GROUP               = $(PKG_GROUP)
 ###                         |---handy-ruler-------------------------------|
 DB_PKG_SHORT_DESCRIPTION   = db $(version)
-DB_PKG_URL                 = http://www.kxLab.com
+DB_PKG_URL                 = $(BUG_URL)
 DB_PKG_LICENSE             = AGPLv3
 DB_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(DB_PKG_NAME)-pkg-description
 DB_PKG_DESCRIPTION_FILE_IN = $(DB_PKG_NAME)-pkg-description.in

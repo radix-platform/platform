@@ -2,6 +2,7 @@
 COMPONENT_TARGETS   = $(HARDWARE_PC32)
 COMPONENT_TARGETS  += $(HARDWARE_PC64)
 COMPONENT_TARGETS  += $(HARDWARE_CB1X)
+COMPONENT_TARGETS  += $(HARDWARE_CB2X)
 COMPONENT_TARGETS  += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS  += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS  += $(HARDWARE_OMAP5UEVM)
@@ -49,7 +50,7 @@ USBUTILS_PKG_DISTRO_VERSION      = 1.0
 USBUTILS_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
 USBUTILS_PKG_SHORT_DESCRIPTION   = usbutils $(version)
-USBUTILS_PKG_URL                 = http://www.kxLab.com
+USBUTILS_PKG_URL                 = $(BUG_URL)
 USBUTILS_PKG_LICENSE             = GPLv2
 USBUTILS_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(USBUTILS_PKG_NAME)-pkg-description
 USBUTILS_PKG_DESCRIPTION_FILE_IN = $(USBUTILS_PKG_NAME)-pkg-description.in
@@ -115,10 +116,7 @@ $(install_target): $(build_target)
 	mv $(USBUTILS_PKG)/sbin/update-usbids.sh $(USBUTILS_PKG)/usr/sbin/update-usbids.sh
 	@( cd $(USBUTILS_PKG)/usr/sbin ; ln -sf update-usbids.sh update-usbids )
 	@( cd $(USBUTILS_PKG)/sbin ; ln -sf ../usr/sbin/update-usbids.sh . )
-	@mkdir -p $(USBUTILS_PKG)/usr/lib$(LIBSUFFIX)/pkgconfig
-	@mv $(USBUTILS_PKG)/usr/share/pkgconfig/usbutils.pc $(USBUTILS_PKG)/usr/lib$(LIBSUFFIX)/pkgconfig
-	@rm -rf $(USBUTILS_PKG)/usr/share/pkgconfig
-	@ln -sf ../lib$(LIBSUFFIX)/pkgconfig $(USBUTILS_PKG)/usr/share/pkgconfig
+	# ====== Install Documentation =======
 	@if [ -d $(USBUTILS_PKG)/usr/share/man ]; then \
 	  ( cd $(USBUTILS_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \
@@ -151,11 +149,11 @@ $(install_target): $(build_target)
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(USBUTILS_PKG) && cp -arf * $(TARGET_DEST_DIR)
 	# tune pkg-config *.pc search path to the target destination of USB device database
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" usbutils.pc \
+	@( cd $(TARGET_DEST_DIR)/usr/share/pkgconfig ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" usbutils.pc \
 	 )
-	@(cd $(USBUTILS_PKG); \
-	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	@( cd $(USBUTILS_PKG); \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )
 	@touch $@
 

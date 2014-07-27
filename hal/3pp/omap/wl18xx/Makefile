@@ -76,7 +76,7 @@ WL18XX_BIN_PKG_DISTRO_VERSION      = 1.0
 WL18XX_BIN_PKG_GROUP               = $(PKG_GROUP)
 ###                                 |---handy-ruler-------------------------------|
 WL18XX_BIN_PKG_SHORT_DESCRIPTION   = wl18xx $(version) for Linux kernel
-WL18XX_BIN_PKG_URL                 = http://www.kxLab.com
+WL18XX_BIN_PKG_URL                 = $(BUG_URL)
 WL18XX_BIN_PKG_LICENSE             = GPLv2
 WL18XX_BIN_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(WL18XX_BIN_PKG_NAME)-pkg-description
 WL18XX_BIN_PKG_DESCRIPTION_FILE_IN = $(WL18XX_BIN_PKG_NAME)-pkg-description.in

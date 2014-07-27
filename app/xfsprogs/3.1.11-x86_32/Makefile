@@ -43,7 +43,7 @@ XFSPROGS_32_PKG_DISTRO_VERSION      = 1.0
 XFSPROGS_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                  |---handy-ruler-------------------------------|
 XFSPROGS_32_PKG_SHORT_DESCRIPTION   = xfsprogs-x32 $(version)
-XFSPROGS_32_PKG_URL                 = http://www.kxLab.com
+XFSPROGS_32_PKG_URL                 = $(BUG_URL)
 XFSPROGS_32_PKG_LICENSE             = GPLv2
 XFSPROGS_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(XFSPROGS_32_PKG_NAME)-pkg-description
 XFSPROGS_32_PKG_DESCRIPTION_FILE_IN = $(XFSPROGS_32_PKG_NAME)-pkg-description.in

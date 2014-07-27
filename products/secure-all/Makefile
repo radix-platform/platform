@@ -2,6 +2,7 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
@@ -32,7 +33,7 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/eglibc/2.19.1-x86_32
 endif
 REQUIRES += dev/binutils/2.24
-REQUIRES += dev/gcc/4.8.2
+REQUIRES += dev/gcc/4.9.1
 REQUIRES += dev/libtool/2.4.2
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += dev/libtool/2.4.2-x86_32
@@ -274,14 +275,29 @@ REQUIRES += app/pciutils/3.2.1
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += app/pciutils/3.2.1-x86_32
 endif
+
 ###
 ### NOTE: app/udev - is built without introspection (because
 ###                  gobject-introspection cannot be cross compiled)
 ###
-REQUIRES += app/udev/182
+
+## REQUIRES += app/udev/182
+## ifeq ($(HARDWARE),$(HARDWARE_PC64))
+## REQUIRES += app/udev/182-x86_32
+## endif
+## ifneq ($(HARDWARE),$(HARDWARE_OMAP5UEVM))
+## REQUIRES += app/udev/182
+## endif
+
+REQUIRES += libs/eudev/1.9
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += app/udev/182-x86_32
+REQUIRES += libs/eudev/1.9-x86_32
 endif
+ifneq ($(HARDWARE),$(HARDWARE_OMAP5UEVM))
+REQUIRES += app/eudev/1.9
+endif
+
+
 REQUIRES += app/tar/1.27.1
 REQUIRES += app/cpio/2.11
 REQUIRES += app/ed/1.9

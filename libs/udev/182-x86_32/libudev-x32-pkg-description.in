@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+           |-----handy-ruler------------------------------------------------------|
+libudev-x32: libudev-x32 @VERSION@ (x86_32 libraries for udev)
+libudev-x32:
+libudev-x32: libudev provides shared and static library to access the devices
+libudev-x32: which are actually present. It creates or removes device node
+libudev-x32: files usually located in the /dev directory.
+libudev-x32:
+libudev-x32: Kay Sievers is the udev maintainer.
+libudev-x32:
+libudev-x32:
+libudev-x32:
+libudev-x32:

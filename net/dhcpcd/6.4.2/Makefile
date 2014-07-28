@@ -19,7 +19,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/n/dhcpcd
 
 REQUIRES           = libs/eglibc/2.19.1
-REQUIRES          += app/udev/182
+REQUIRES          += libs/eudev/1.9
 
 
 version            = 6.4.2

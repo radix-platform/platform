@@ -94,6 +94,11 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/pcre/8.34-x86_32
 endif
 
+REQUIRES += app/utempter/1.1.6
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/utempter/1.1.6-x86_32
+endif
+
 REQUIRES += libs/mpc/1.0.2
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/mpc/1.0.2-x86_32
@@ -410,6 +415,7 @@ REQUIRES += libs/slang/2.2.4
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/slang/2.2.4-x86_32
 endif
+
 
 REQUIRES += app/mc/4.8.12
 

@@ -43,7 +43,7 @@ PKG_GROUP = dev
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 KH_DEV_PKG_NAME                = kernel-headers
-KH_DEV_PKG_VERSION             = 3.4-20140514
+KH_DEV_PKG_VERSION             = 3.4.90
 KH_DEV_PKG_ARCH                = $(TOOLCHAIN)
 KH_DEV_PKG_DISTRO_NAME         = kxLab
 KH_DEV_PKG_DISTRO_VERSION      = 1.0

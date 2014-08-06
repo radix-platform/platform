@@ -1,5 +1,5 @@
 #
-# /etc/pam.d/system-password
+# /etc/pam.d/system-passwd
 #
 
 # check new passwords for strength (man pam_cracklib)

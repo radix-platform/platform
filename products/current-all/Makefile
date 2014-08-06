@@ -119,6 +119,10 @@ REQUIRES += net/openssl/1.0.1g
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += net/openssl/1.0.1g-x86_32
 endif
+REQUIRES += libs/libevent/2.0.21
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libevent/2.0.21-x86_32
+endif
 REQUIRES += dev/python2/2.7.6
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += dev/python2/2.7.6-x86_32
@@ -167,6 +171,34 @@ REQUIRES += app/dialog/1.2-20140112
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += app/dialog/1.2-20140112-x86_32
 endif
+
+
+#######
+####### Dictionaries for /usr/share/dict (see FHS):
+#######
+REQUIRES += share/dict/scowl/7.1
+REQUIRES += share/dict/words-ca/2.1.5-1
+REQUIRES += share/dict/words-de/2.1
+REQUIRES += share/dict/words-en_CA/7.1
+REQUIRES += share/dict/words-en_CA-huge/7.1
+REQUIRES += share/dict/words-en_CA-insane/7.1
+REQUIRES += share/dict/words-en_CA-large/7.1
+REQUIRES += share/dict/words-en_CA-small/7.1
+REQUIRES += share/dict/words-en_GB/7.1
+REQUIRES += share/dict/words-en_GB-huge/7.1
+REQUIRES += share/dict/words-en_GB-insane/7.1
+REQUIRES += share/dict/words-en_GB-large/7.1
+REQUIRES += share/dict/words-en_GB-small/7.1
+REQUIRES += share/dict/words-en_US/7.1
+REQUIRES += share/dict/words-en_US-huge/7.1
+REQUIRES += share/dict/words-en_US-insane/7.1
+REQUIRES += share/dict/words-en_US-large/7.1
+REQUIRES += share/dict/words-en_US-small/7.1
+REQUIRES += share/dict/words-es/1.11-2
+REQUIRES += share/dict/words-fi/0.7-0
+REQUIRES += share/dict/words-fr/0.50-3
+REQUIRES += share/dict/words-it/2.2
+REQUIRES += share/dict/words-ru/0.99f7-1
 
 
 #######
@@ -274,6 +306,9 @@ REQUIRES += app/dcron/4.5
 REQUIRES += app/logrotate/3.8.7
 
 REQUIRES += app/libcgroup/0.41
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/libcgroup/0.41-x86_32
+endif
 
 #######
 ####### SCSI:
@@ -353,34 +388,6 @@ REQUIRES += net/libgcrypt/1.6.1-x86_32
 endif
 
 
-#######
-####### Dictionaries for /usr/share/dict (see FHS):
-#######
-REQUIRES += share/dict/scowl/7.1
-REQUIRES += share/dict/words-ca/2.1.5-1
-REQUIRES += share/dict/words-de/2.1
-REQUIRES += share/dict/words-en_CA/7.1
-REQUIRES += share/dict/words-en_CA-huge/7.1
-REQUIRES += share/dict/words-en_CA-insane/7.1
-REQUIRES += share/dict/words-en_CA-large/7.1
-REQUIRES += share/dict/words-en_CA-small/7.1
-REQUIRES += share/dict/words-en_GB/7.1
-REQUIRES += share/dict/words-en_GB-huge/7.1
-REQUIRES += share/dict/words-en_GB-insane/7.1
-REQUIRES += share/dict/words-en_GB-large/7.1
-REQUIRES += share/dict/words-en_GB-small/7.1
-REQUIRES += share/dict/words-en_US/7.1
-REQUIRES += share/dict/words-en_US-huge/7.1
-REQUIRES += share/dict/words-en_US-insane/7.1
-REQUIRES += share/dict/words-en_US-large/7.1
-REQUIRES += share/dict/words-en_US-small/7.1
-REQUIRES += share/dict/words-es/1.11-2
-REQUIRES += share/dict/words-fi/0.7-0
-REQUIRES += share/dict/words-fr/0.50-3
-REQUIRES += share/dict/words-it/2.2
-REQUIRES += share/dict/words-ru/0.99f7-1
-
-
 REQUIRES += app/vim/7.4-373
 
 REQUIRES += libs/libpng/libpng14/1.4.13
@@ -394,6 +401,58 @@ REQUIRES += libs/slang/2.2.4-x86_32
 endif
 
 REQUIRES += app/mc/4.8.12
+REQUIRES += app/tmux/1.9a
+
+
+#######
+####### Media packages:
+#######
+
+REQUIRES += libs/alsa-lib/1.0.28
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/alsa-lib/1.0.28-x86_32
+endif
+REQUIRES += libs/alsa-oss/1.0.28
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/alsa-oss/1.0.28-x86_32
+endif
+REQUIRES += libs/libogg/1.3.2
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libogg/1.3.2-x86_32
+endif
+REQUIRES += libs/libvorbis/1.3.4
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libvorbis/1.3.4-x86_32
+endif
+REQUIRES += app/flac/1.3.0
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/flac/1.3.0-x86_32
+endif
+REQUIRES += libs/libsndfile/1.0.25
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libsndfile/1.0.25-x86_32
+endif
+REQUIRES += libs/libsamplerate/0.1.8
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libsamplerate/0.1.8-x86_32
+endif
+
+REQUIRES += app/alsa-utils/1.0.28
+
+REQUIRES += libs/audiofile/0.3.6
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/audiofile/0.3.6-x86_32
+endif
+REQUIRES += app/esound/0.2.41
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/esound/0.2.41-x86_32
+endif
+
+REQUIRES += app/mpg123/1.20.1
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/mpg123/1.20.1-x86_32
+endif
+
 
 
 #######

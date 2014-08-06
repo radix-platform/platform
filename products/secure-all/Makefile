@@ -24,6 +24,10 @@ REQUIRES  = hal/3pp/omap/wl18xx_fw
 REQUIRES += boot/u-boot/omap543x/2013.04-20140216
 endif
 
+ifeq ($(HARDWARE),$(HARDWARE_CB1X))
+REQUIRES += boot/u-boot/A10/20140713
+endif
+
 #######
 ####### The System
 #######
@@ -119,6 +123,10 @@ REQUIRES += net/openssl/1.0.1g
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += net/openssl/1.0.1g-x86_32
 endif
+REQUIRES += libs/libevent/2.0.21
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libevent/2.0.21-x86_32
+endif
 REQUIRES += dev/python2/2.7.6
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += dev/python2/2.7.6-x86_32
@@ -167,7 +175,6 @@ REQUIRES += app/dialog/1.2-20140112
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += app/dialog/1.2-20140112-x86_32
 endif
-
 
 
 #######
@@ -334,8 +341,6 @@ endif
 REQUIRES += app/sdparm/1.08
 
 
-
-
 #######
 ####### Networking:
 #######
@@ -418,6 +423,58 @@ endif
 
 
 REQUIRES += app/mc/4.8.12
+REQUIRES += app/tmux/1.9a
+
+
+#######
+####### Media packages:
+#######
+
+REQUIRES += libs/alsa-lib/1.0.28
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/alsa-lib/1.0.28-x86_32
+endif
+REQUIRES += libs/alsa-oss/1.0.28
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/alsa-oss/1.0.28-x86_32
+endif
+REQUIRES += libs/libogg/1.3.2
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libogg/1.3.2-x86_32
+endif
+REQUIRES += libs/libvorbis/1.3.4
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libvorbis/1.3.4-x86_32
+endif
+REQUIRES += app/flac/1.3.0
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/flac/1.3.0-x86_32
+endif
+REQUIRES += libs/libsndfile/1.0.25
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libsndfile/1.0.25-x86_32
+endif
+REQUIRES += libs/libsamplerate/0.1.8
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libsamplerate/0.1.8-x86_32
+endif
+
+REQUIRES += app/alsa-utils/1.0.28
+
+REQUIRES += libs/audiofile/0.3.6
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/audiofile/0.3.6-x86_32
+endif
+REQUIRES += app/esound/0.2.41
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/esound/0.2.41-x86_32
+endif
+
+REQUIRES += app/mpg123/1.20.1
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/mpg123/1.20.1-x86_32
+endif
+
 
 
 #######

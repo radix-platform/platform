@@ -64,5 +64,5 @@ session   optional    pam_mail.so       dir=/var/spool/mail   standard quiet
 
 # include the default session and password settings
 session   include     system-session
-password  include     system-password
+password  include     system-passwd
 

@@ -161,15 +161,15 @@ $(install_target): $(build_target)
 	 )
 	# remove toolchain path from target libtool *.la files
 	@( cd $(LIBCGROUP_PKG)/usr/lib$(LIBSUFFIX) ; \
-	  sed -i "s,$(TARGET_DEST_DIR),,g" libcgroup.la  \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libcgroup.la  \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(LIBCGROUP_PKG) && cp -rf * $(TARGET_DEST_DIR)
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libcgroup.la ; \
-	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libcgroup.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libcgroup.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libcgroup.la \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \

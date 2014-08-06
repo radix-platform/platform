@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+              |-----handy-ruler------------------------------------------------------|
+libsndfile-x32: libsndfile-x32 @VERSION@ (C library for reading and writing wav files)
+libsndfile-x32:
+libsndfile-x32: Libsndfile is a C library for reading and writing files containing
+libsndfile-x32: sampled sound (such as MS Windows WAV and Apple/SGI AIFF format).
+libsndfile-x32:
+libsndfile-x32: Homepage:  http://www.mega-nerd.com/libsndfile/
+libsndfile-x32:
+libsndfile-x32:
+libsndfile-x32:
+libsndfile-x32:
+libsndfile-x32:

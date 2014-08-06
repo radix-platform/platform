@@ -136,8 +136,10 @@ endif
 	     ln -sf $$file . ; \
 	   done \
 	 )
-	@mkdir -p $(COREUTILS_PKG)/etc
+	@mkdir -p $(COREUTILS_PKG)/etc/profile.d
 	@cat $(CURDIR)/dir-colors/DIR_COLORS > $(COREUTILS_PKG)/etc/DIR_COLORS.new
+	@cp -a $(CURDIR)/dir-colors/coreutils-dircolors.* $(COREUTILS_PKG)/etc/profile.d
+	@chmod 0755 $(COREUTILS_PKG)/etc/profile.d/coreutils-dircolors.*
 	@( cd $(COREUTILS_PKG)/bin ; ln -sf install ginstall )
 	@( cd $(COREUTILS_PKG)/usr/bin ; ln -sf ../../bin/ginstall ginstall )
 	@( cd $(COREUTILS_PKG)/usr/share/man/man1 ; ln -sf install.1 ginstall.1 )

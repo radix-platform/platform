@@ -10,6 +10,8 @@ PATH="/sbin:/bin"
 # remove trailing slash from udev_root
 UDEV_ROOT=$(echo "${udev_root}" |sed 's/\/*$//')
 
+UDEV_VERSION=
+
 check_mounted() {
   grep -E -q "^[^[:space:]]+ $1 $2" /proc/mounts
   return $?
@@ -19,6 +21,13 @@ mount_devpts() {
   if ! check_mounted $UDEV_ROOT/pts devpts ; then
     mkdir $UDEV_ROOT/pts 2> /dev/null
     mount -n -o mode=0620,gid=5 -t devpts devpts $UDEV_ROOT/pts
+  fi
+}
+
+mount_devshm() {
+  if ! check_mounted $UDEV_ROOT/shm tmpfs ; then
+    mkdir $UDEV_ROOT/shm 2> /dev/null
+    mount -n -o mode=1777 -t tmpfs tmpfs $UDEV_ROOT/shm
   fi
 }
 
@@ -65,6 +74,8 @@ case "$1" in
       echo "FATAL:  Refusing to run /etc/rc.d/rc.udev."
       sleep 10
       exit 1
+    else
+      UDEV_VERSION=`udevd --version`
     fi
 
     # Disable hotplug helper since udevd listens to netlink:
@@ -102,9 +113,19 @@ case "$1" in
     # Mount devpts
     mount_devpts
 
+    if [ "$UDEV_VERSION" -ge "215" -a ! -d /lib/udev/devices ] ; then
+      # Mount tmpfs at /dev/shm if this directory doesn't exist in /lib/udev/devices directory
+      # otherwise it will be copy after daemon start and mounted according to /etc/fstab entry
+      mount_devshm
+    fi
+
     if ! /sbin/pidof udevd 1>/dev/null 2>/dev/null; then # start udevd
       echo "Starting udevd:  /sbin/udevd --daemon"
       /sbin/udevd --daemon
+      if [ "$UDEV_VERSION" -ge "215" -a -d /lib/udev/devices ] ; then
+        # copy static devices manualy (udevd v182 does it automaticaly)
+        cp --preserve=all --recursive --update /lib/udev/devices/* $UDEV_ROOT
+      fi
       # Since udev is just now being started we want to use add events:
       echo "Triggering udev events:  /sbin/udevadm trigger --action=add"
       # Call udevtrigger and udevsettle to do the device configuration:
@@ -158,13 +179,17 @@ case "$1" in
   reload)
     echo "Reloading udev rules"
     udevadm control --reload
-    cp --preserve=all --recursive --update /lib/udev/devices/* $UDEV_ROOT
+    if [ -d /lib/udev/devices ] ; then
+      cp --preserve=all --recursive --update /lib/udev/devices/* $UDEV_ROOT
+    fi
     ;;
   force-reload)
     echo "Updating all available device nodes in $UDEV_ROOT"
     udevadm control --reload
     rm -rf $UDEV_ROOT/.udev $UDEV_ROOT/disk
-    cp --preserve=all --recursive --update /lib/udev/devices/* $UDEV_ROOT
+    if [ -d /lib/udev/devices ] ; then
+      cp --preserve=all --recursive --update /lib/udev/devices/* $UDEV_ROOT
+    fi
     ;;
 
   *)

@@ -305,9 +305,7 @@ REQUIRES += libs/eudev/1.9
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/eudev/1.9-x86_32
 endif
-ifneq ($(HARDWARE),$(HARDWARE_OMAP5UEVM))
 REQUIRES += app/eudev/1.9
-endif
 
 
 REQUIRES += app/tar/1.27.1

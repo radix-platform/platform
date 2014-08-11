@@ -18,7 +18,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/n/gnutls
 
-REQUIRES           = libs/zlib/1.2.8
+REQUIRES           = dev/gcc/4.9.1
+REQUIRES          += libs/zlib/1.2.8
 REQUIRES          += libs/libffi/3.0.13
 REQUIRES          += libs/libidn/1.28
 REQUIRES          += libs/gmp/5.1.3

@@ -18,7 +18,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/m/audiofile
 
-REQUIRES           = libs/alsa-lib/1.0.28
+REQUIRES           = dev/gcc/4.9.1
+REQUIRES          += libs/alsa-lib/1.0.28
 REQUIRES          += libs/libogg/1.3.2
 REQUIRES          += app/flac/1.3.0
 

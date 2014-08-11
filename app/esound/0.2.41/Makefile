@@ -18,7 +18,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNOME/core/esound
 
-REQUIRES           = libs/audiofile/0.3.6
+REQUIRES           = dev/gcc/4.9.1
+REQUIRES          += libs/audiofile/0.3.6
 REQUIRES          += libs/libogg/1.3.2
 REQUIRES          += app/flac/1.3.0
 

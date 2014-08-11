@@ -18,7 +18,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/m/xiph/flac
 
-REQUIRES           = libs/libogg/1.3.2
+REQUIRES           = dev/gcc/4.9.1
+REQUIRES          += libs/libogg/1.3.2
 
 
 version            = 1.3.0

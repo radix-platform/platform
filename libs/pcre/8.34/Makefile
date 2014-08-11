@@ -18,7 +18,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/pcre
 
-REQUIRES           = libs/zlib/1.2.8
+REQUIRES           = dev/gcc/4.9.1
+REQUIRES          += libs/zlib/1.2.8
 REQUIRES          += app/bzip2/1.0.6
 REQUIRES          += libs/libtermcap/1.2.3
 REQUIRES          += libs/readline/6.3

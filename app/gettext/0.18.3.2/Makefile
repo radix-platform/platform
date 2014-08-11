@@ -19,6 +19,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/GNU/gettext
 
 REQUIRES           = libs/eglibc/2.19.1
+REQUIRES          += dev/gcc/4.9.1
 
 
 version            = 0.18.3.2

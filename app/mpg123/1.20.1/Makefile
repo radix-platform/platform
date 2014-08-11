@@ -18,7 +18,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/m/mpg123
 
-REQUIRES           = libs/alsa-lib/1.0.28
+REQUIRES           = dev/gcc/4.9.1
+REQUIRES          += libs/alsa-lib/1.0.28
 REQUIRES          += libs/alsa-oss/1.0.28
 REQUIRES          += libs/audiofile/0.3.6
 REQUIRES          += libs/libogg/1.3.2

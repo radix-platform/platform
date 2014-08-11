@@ -18,7 +18,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/ppl
 
-REQUIRES           = libs/gmp/5.1.3
+REQUIRES           = dev/gcc/4.9.1
+REQUIRES          += libs/gmp/5.1.3
 
 
 version            = 1.1

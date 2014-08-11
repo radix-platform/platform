@@ -19,6 +19,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/db
 
 REQUIRES           = libs/eglibc/2.19.1
+REQUIRES          += dev/gcc/4.9.1
 
 
 version            = 6.1.19

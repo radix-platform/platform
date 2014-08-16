@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+        |-----handy-ruler------------------------------------------------------|
+lame-x32: lame-x32 @VERSION@ (MPEG Audio Layer III (MP3) encoder)
+lame-x32:
+lame-x32: Originally developed by Mike Cheng (www.uq.net.au/~zzmcheng) and
+lame-x32: was latter developed by Mark Taylor (www.mp3dev.org). Currently
+lame-x32: maintained by The LAME Project.
+lame-x32:
+lame-x32: LAME uses the MPGLIB decoding engine, from the MPG123 package,
+lame-x32: written by: Michael Hipp (www.mpg123.de) MPGLIB is released under
+lame-x32: the GPL.
+lame-x32:
+lame-x32:

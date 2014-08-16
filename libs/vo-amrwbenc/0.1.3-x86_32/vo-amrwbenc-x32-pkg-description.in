@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+               |-----handy-ruler------------------------------------------------------|
+vo-amrwbenc-x32: vo-amrwbenc-x32 @VERSION@ (VisualOn AMR-WB encoder library)
+vo-amrwbenc-x32:
+vo-amrwbenc-x32: This library contains an encoder implementation of the Adaptive
+vo-amrwbenc-x32: Multi Rate Wideband (AMR-WB) audio codec. The library is based on
+vo-amrwbenc-x32: a codec implementation by VisualOn as part of the Stagefright
+vo-amrwbenc-x32: framework from the Google Android project.
+vo-amrwbenc-x32:
+vo-amrwbenc-x32:
+vo-amrwbenc-x32:
+vo-amrwbenc-x32:
+vo-amrwbenc-x32:

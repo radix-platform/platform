@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+          |-----handy-ruler------------------------------------------------------|
+libmad-x32: libmad-x32 @VERSION@ (high-quality MPEG audio library)
+libmad-x32:
+libmad-x32: MAD (libmad) is a high-quality MPEG audio decoder. It currently
+libmad-x32: supports MPEG-1 and the MPEG-2 extension to Lower Sampling
+libmad-x32: Frequencies, as well as the so-called MPEG 2.5 format. All three
+libmad-x32: audio layers (Layer I, Layer II, and Layer III a.k.a. MP3) are
+libmad-x32: fully implemented. Because MAD provides full 24-bit PCM output,
+libmad-x32: applications using MAD are able to produce high quality audio.
+libmad-x32:
+libmad-x32: MAD (libmad) was written by Robert Leslie.
+libmad-x32:

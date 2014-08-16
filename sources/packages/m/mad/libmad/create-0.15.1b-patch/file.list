@@ -1,0 +1,6 @@
+libmad-0.15.1b/configure
+libmad-0.15.1b/configure.ac
+libmad-0.15.1b/fixed.h
+libmad-0.15.1b/imdct_l_arm.S
+libmad-0.15.1b/layer12.c
+libmad-0.15.1b/layer3.c

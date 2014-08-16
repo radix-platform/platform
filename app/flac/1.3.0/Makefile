@@ -54,7 +54,7 @@ FLAC_PKG_SHORT_DESCRIPTION   = flac $(version)
 FLAC_PKG_URL                 = $(BUG_URL)
 FLAC_PKG_LICENSE             = Xiph
 FLAC_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(FLAC_PKG_NAME)-pkg-description
-FLAC_PKG_DESCRIPTION_FLAC_IN = $(FLAC_PKG_NAME)-pkg-description.in
+FLAC_PKG_DESCRIPTION_FILE_IN = $(FLAC_PKG_NAME)-pkg-description.in
 FLAC_PKG_INSTALL_SCRIPT      = $(FLAC_PKG_NAME)-pkg-install.sh
 
 FLAC_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(FLAC_PKG_NAME)-package
@@ -170,7 +170,7 @@ $(install_target): $(build_target)
 	 )
 	@touch $@
 
-$(FLAC_PKG_DESCRIPTION_FILE): $(FLAC_PKG_DESCRIPTION_FLAC_IN)
+$(FLAC_PKG_DESCRIPTION_FILE): $(FLAC_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
 $(pkg_signature)   : $(pkg_archive) ;

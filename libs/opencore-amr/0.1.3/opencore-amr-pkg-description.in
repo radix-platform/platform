@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+            |-----handy-ruler------------------------------------------------------|
+opencore-amr: opencore-amr @VERSION@ (Adaptive Multi Rate speech codec)
+opencore-amr:
+opencore-amr: The implementation of the 3GPP TS 26.073 specification for the
+opencore-amr: Adaptive Multi Rate (AMR) speech codec and implementation of the
+opencore-amr: 3GPP TS 26.173 specification for the Adaptive Multi-Rate - Wideband
+opencore-amr: (AMR-WB) speech decoder.
+opencore-amr:
+opencore-amr: The implementation is derived from the OpenCORE framework, part of
+opencore-amr: the Google Android project.
+opencore-amr:
+opencore-amr:

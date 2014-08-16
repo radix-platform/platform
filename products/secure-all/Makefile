@@ -231,6 +231,8 @@ REQUIRES += app/diffutils/3.3
 REQUIRES += app/findutils/4.4.2
 REQUIRES += app/sed/4.2.2
 REQUIRES += app/grep/2.18
+REQUIRES += app/texinfo/5.2
+REQUIRES += dev/gperf/3.0.4
 REQUIRES += app/sysvinit/2.88
 REQUIRES += app/sysvinit-functions/8.54
 REQUIRES += app/util-linux/2.24.1
@@ -467,10 +469,64 @@ REQUIRES += app/esound/0.2.41
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += app/esound/0.2.41-x86_32
 endif
+REQUIRES += libs/libao/1.1.0
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libao/1.1.0-x86_32
+endif
 
 REQUIRES += app/mpg123/1.20.1
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += app/mpg123/1.20.1-x86_32
+endif
+
+REQUIRES += libs/libmad/0.15.1b
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libmad/0.15.1b-x86_32
+endif
+REQUIRES += libs/libid3tag/0.15.1b
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libid3tag/0.15.1b-x86_32
+endif
+REQUIRES += libs/wavpack/4.70.0
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/wavpack/4.70.0-x86_32
+endif
+REQUIRES += libs/opencore-amr/0.1.3
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/opencore-amr/0.1.3-x86_32
+endif
+REQUIRES += libs/fdk-aac/0.1.3
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/fdk-aac/0.1.3-x86_32
+endif
+REQUIRES += libs/vo-aacenc/0.1.3
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/vo-aacenc/0.1.3-x86_32
+endif
+REQUIRES += libs/vo-amrwbenc/0.1.3
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/vo-amrwbenc/0.1.3-x86_32
+endif
+REQUIRES += libs/gsm/1.0.13
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/gsm/1.0.13-x86_32
+endif
+REQUIRES += libs/opus/1.1
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/opus/1.1-x86_32
+endif
+REQUIRES += libs/lame/3.99.5
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/lame/3.99.5-x86_32
+endif
+REQUIRES += libs/portaudio/19-20140130
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/portaudio/19-20140130-x86_32
+endif
+
+REQUIRES += app/sox/14.4.1
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/sox/14.4.1-x86_32
 endif
 
 

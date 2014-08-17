@@ -87,7 +87,12 @@ extra_configure_switches += --enable-example
 extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --enable-static=yes
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB2X) $(HARDWARE_BEAGLE) $(HARDWARE_OMAP5UEVM)),)
+#
+# NOTE:
+# ====
+#   Do not use '--enable-armv7neon' for OMAP543X.
+#
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB2X) $(HARDWARE_BEAGLE)),)
 extra_configure_switches += --enable-armv7neon
 endif
 

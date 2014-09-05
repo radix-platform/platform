@@ -19,6 +19,7 @@ patches       = $(CURDIR)/patches/linux-glsdk-3.8.y-20131223-memset.patch
 patches      += $(CURDIR)/patches/linux-glsdk-3.8.y-20140222-hdr-inst.patch
 patches      += $(CURDIR)/patches/linux-glsdk-3.8.y-20140222-l1-cache.patch
 patches      += $(CURDIR)/patches/linux-glsdk-3.8.y-20140222-memset.patch
+patches      += $(CURDIR)/patches/linux-glsdk-3.8.y-20140222-memset-3.12.patch
 patches      += $(CURDIR)/patches/linux-glsdk-3.8.y-20140222-neon-vfpv4.patch
 patches      += $(CURDIR)/patches/linux-glsdk-3.8.y-20140222-vfpv3-d16.patch
 
@@ -65,12 +66,13 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-3.8.y-20131223-memset-patch ;     ./create.patch.sh ) ; \
-	 ( cd create-3.8.y-20140222-hdr-inst-patch ;   ./create.patch.sh ) ; \
-	 ( cd create-3.8.y-20140222-l1-cache-patch ;   ./create.patch.sh ) ; \
-	 ( cd create-3.8.y-20140222-memset-patch ;     ./create.patch.sh ) ; \
-	 ( cd create-3.8.y-20140222-neon-vfpv4-patch ; ./create.patch.sh ) ; \
-	 ( cd create-3.8.y-20140222-vfpv3-d16-patch ;  ./create.patch.sh ) ; \
+	 ( cd create-3.8.y-20131223-memset-patch ;      ./create.patch.sh ) ; \
+	 ( cd create-3.8.y-20140222-hdr-inst-patch ;    ./create.patch.sh ) ; \
+	 ( cd create-3.8.y-20140222-l1-cache-patch ;    ./create.patch.sh ) ; \
+	 ( cd create-3.8.y-20140222-memset-patch ;      ./create.patch.sh ) ; \
+	 ( cd create-3.8.y-20140222-memset-3.12-patch ; ./create.patch.sh ) ; \
+	 ( cd create-3.8.y-20140222-neon-vfpv4-patch ;  ./create.patch.sh ) ; \
+	 ( cd create-3.8.y-20140222-vfpv3-d16-patch ;   ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

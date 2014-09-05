@@ -1,3 +1,2 @@
 
-../../../../sources/Linux/omap5-glsdk/patches/linux-glsdk-3.8.y-20140222-memset.patch     -p0
-../../../../sources/Linux/omap5-glsdk/patches/linux-glsdk-3.8.y-20140222-neon-vfpv4.patch -p0
+../../../../sources/Linux/omap5-glsdk/patches/linux-glsdk-3.8.y-20140222-memset-3.12.patch -p0

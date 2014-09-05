@@ -123,6 +123,8 @@ ROOTFS_TARGETS     = $(pkg_archive)
 include ../../../../build-system/core.mk
 
 
+OPTIMIZATION_FLAGS = -O2
+
 ####### Dependencies
 
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
@@ -177,16 +179,20 @@ $(device_dtb_done): $(modules_done)
 $(devel_sources_done): $(device_dtb_done)
 	@echo "Creating '$(devel_sources)' for building external modules"
 	@rm -rf $(devel_sources)
-	@mkdir -p $(devel_sources)
+	@( cd $(TARGET_DEST_DIR)/lib/modules/$(modules_version) ; \
+	   if [ -L  build ] ; then rm -f  build ; fi            ; \
+	   if [ -L source ] ; then rm -f source ; fi            ; \
+	 )
+	@mkdir -p $(TARGET_DEST_DIR)/usr/src
 	# ======= Install kernel sources =======
-	@cd $(TARGET_BUILD_DIR) cp -ar usr $(TARGET_DEST_DIR)
 	@echo "" > $(TARGET_DEST_DIR)/usr/src/.CONTENT
 	@echo "Configured '$(HARDWARE)' Linux sources for building external modules." >> $(TARGET_DEST_DIR)/usr/src/.CONTENT
 	@echo "" >> $(TARGET_DEST_DIR)/usr/src/.CONTENT
-	@cp -rf $(build_dir) $(TARGET_DEST_DIR)/usr/src
-	@cd $(TARGET_DEST_DIR)/lib/modules/$(modules_version) && \
-	  $$($(LN_S)f ../../../usr/src/linux-glsdk-$(full_version) build && \
-	     $(LN_S)f ../../../usr/src/linux-glsdk-$(full_version) source)
+	@cp -a $(build_dir) $(TARGET_DEST_DIR)/usr/src
+	@( cd $(TARGET_DEST_DIR)/lib/modules/$(modules_version)       ; \
+	   ln -sf ../../../usr/src/linux-glsdk-$(full_version) build  ; \
+	   ln -sf ../../../usr/src/linux-glsdk-$(full_version) source ; \
+	 )
 	@touch $@
 
 $(boot_fs_dir_done): $(devel_sources_done)

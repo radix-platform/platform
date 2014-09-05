@@ -26,6 +26,13 @@ export MAKE
 
 DESTDIR?=
 
+#
+# Disable '-msoft-float' replacement (see: 'kernel'/arch/arm/vfp/Makefile)
+#
+KBUILD_CFLAGS := $(KBUILD_CFLAGS:-msoft-float=)
+KBUILD_AFLAGS := $(KBUILD_AFLAGS:-msoft-float=)
+
+
 ifneq ($(KERNELRELEASE),)
 
 -include $(COMPAT_CONFIG)

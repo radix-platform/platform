@@ -1,5 +1,5 @@
 
-COMPONENT_TARGETS  = $(HARDWARE_CB1X)
+COMPONENT_TARGETS  = $(HARDWARE_CB2X)
 
 NEED_ABS_PATH      = true
 
@@ -40,7 +40,7 @@ boot_fs_dir_done   = $(TARGET_BUILD_DIR)/.bootfs_done
 PATCHES = PATCHES
 
 
-ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_A1X_EGLIBC)),)
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_A2X_EGLIBC)),)
 ARCH = arm
 endif
 

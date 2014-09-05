@@ -1,4 +1,4 @@
 
 ../../../../sources/hal/omap/wl18xx/wl18xx/patches/wl18xx-ol_r8.a8.10-build.patch                   -p0
-../../../../sources/hal/omap/wl18xx/wl18xx/patches/wl18xx-ol_r8.a8.10-vfpv3-d16.patch               -p0
+../../../../sources/hal/omap/wl18xx/wl18xx/patches/wl18xx-ol_r8.a8.10-neon-vfpv4.patch              -p0
 ../../../../sources/hal/omap/wl18xx/compat-wireless/patches/compat-wireless-ol_r8.a8.10-cross.patch -p0

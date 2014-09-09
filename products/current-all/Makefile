@@ -24,6 +24,14 @@ REQUIRES  = hal/3pp/omap/wl18xx_fw
 REQUIRES += boot/u-boot/omap543x/2013.04-20140216
 endif
 
+ifeq ($(HARDWARE),$(HARDWARE_CB1X))
+REQUIRES += boot/u-boot/A10/20140713
+endif
+
+ifeq ($(HARDWARE),$(HARDWARE_CB2X))
+REQUIRES += boot/u-boot/A20/20140713
+endif
+
 #######
 ####### The System
 #######

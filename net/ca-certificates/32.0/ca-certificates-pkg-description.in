@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+               |-----handy-ruler------------------------------------------------------|
+ca-certificates: ca-certificates @VERSION@ (PEM Files of CA Certificates)
+ca-certificates:
+ca-certificates: This package includes PEM files of CA certificates to allow SSL-based
+ca-certificates: applications to check for the authenticity of SSL connections.
+ca-certificates:
+ca-certificates: see:
+ca-certificates:   http://www.cacert.org/index.php?id=3
+ca-certificates:   http://www.spi-inc.org/ca
+ca-certificates:   http://mozilla.org
+ca-certificates:   http://packages.qa.debian.org/c/ca-certificates.html
+ca-certificates:

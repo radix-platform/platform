@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+     |-----handy-ruler------------------------------------------------------|
+which: which @VERSION@ (shows the full path to shell commands)
+which:
+which: GNU 'which' takes one or more arguments. For each of its arguments
+which: it prints to stdout the full path of the executables that would
+which: have been executed when this argument had been entered at the shell
+which: prompt. It does this by searching for an executable or script in the
+which: directories listed in the environment variable PATH using the same
+which: algorithm as bash(1). 'Which' is a built-in function in many shells.
+which:
+which: The GNU version of which was written by Carlo Wood.
+which:

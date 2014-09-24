@@ -1,0 +1,7 @@
+make-3.82/ChangeLog
+make-3.82/NEWS
+make-3.82/main.c
+make-3.82/read.c
+make-3.82/tests/ChangeLog
+make-3.82/tests/run_make_tests.pl
+make-3.82/tests/scripts/features/reinvoke

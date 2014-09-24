@@ -131,6 +131,7 @@ ifeq ($(filter $(HARDWARE),$(HARDWARE_PC32) $(HARDWARE_PC64)),)
 endif
 	@rm -rf $(COREUTILS_PKG)/usr/share/locale/*/LC_TIME
 	@mkdir -p $(COREUTILS_PKG)/bin $(COREUTILS_PKG)/usr/bin
+	@( cd $(COREUTILS_PKG)/bin ; mv mktemp mktemp-gnu )
 	@( cd $(COREUTILS_PKG)/usr/bin ; \
 	   for file in ../../bin/* ; do \
 	     ln -sf $$file . ; \
@@ -142,6 +143,7 @@ endif
 	@chmod 0755 $(COREUTILS_PKG)/etc/profile.d/coreutils-dircolors.*
 	@( cd $(COREUTILS_PKG)/bin ; ln -sf install ginstall )
 	@( cd $(COREUTILS_PKG)/usr/bin ; ln -sf ../../bin/ginstall ginstall )
+	@( cd $(COREUTILS_PKG)/usr/share/man/man1 ; mv mktemp.1 mktemp-gnu.1 )
 	@( cd $(COREUTILS_PKG)/usr/share/man/man1 ; ln -sf install.1 ginstall.1 )
 	# ======= Remove 'hostname', 'kill', 'su', 'uptime' =======
 	@for dupe in hostname kill su uptime ; do \

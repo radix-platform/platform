@@ -74,6 +74,10 @@ REQUIRES += libs/libunistring/0.9.3
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/libunistring/0.9.3-x86_32
 endif
+REQUIRES += libs/lzo/2.08
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/lzo/2.08-x86_32
+endif
 REQUIRES += libs/keyutils/1.5.9
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/keyutils/1.5.9-x86_32
@@ -411,6 +415,7 @@ REQUIRES += net/libgcrypt/1.6.1
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += net/libgcrypt/1.6.1-x86_32
 endif
+REQUIRES += net/ca-certificates/32.0
 
 
 REQUIRES += app/vim/7.4-373
@@ -533,6 +538,22 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += app/sox/14.4.1-x86_32
 endif
 
+
+REQUIRES += app/patch/2.7
+REQUIRES += dev/make/4.0
+REQUIRES += dev/m4/1.4.17
+REQUIRES += dev/autoconf/2.69
+REQUIRES += dev/automake/1.14
+REQUIRES += dev/autoconf-archive/2014.02.28
+REQUIRES += app/which/2.20
+
+REQUIRES += app/bin/4.4
+
+
+#
+# It would be better to build 'btrfs' after gd, png, jpeg, freetype (when its will be ready)
+#
+REQUIRES += app/btrfs-progs/3.16
 
 
 #######

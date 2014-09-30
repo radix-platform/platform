@@ -45,8 +45,8 @@ PKG_GROUP = app
 GZIP_PKG_NAME                = gzip
 GZIP_PKG_VERSION             = 1.6
 GZIP_PKG_ARCH                = $(TOOLCHAIN)
-GZIP_PKG_DISTRO_NAME         = kxLab
-GZIP_PKG_DISTRO_VERSION      = 1.0
+GZIP_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+GZIP_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GZIP_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
 GZIP_PKG_SHORT_DESCRIPTION   = gzip $(version)

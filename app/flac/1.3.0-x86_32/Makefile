@@ -39,8 +39,8 @@ PKG_GROUP = app
 FLAC_32_PKG_NAME                = flac-x32
 FLAC_32_PKG_VERSION             = 1.3.0
 FLAC_32_PKG_ARCH                = $(TOOLCHAIN)
-FLAC_32_PKG_DISTRO_NAME         = kxLab
-FLAC_32_PKG_DISTRO_VERSION      = 1.0
+FLAC_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+FLAC_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 FLAC_32_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
 FLAC_32_PKG_SHORT_DESCRIPTION   = flac-x32 $(version)

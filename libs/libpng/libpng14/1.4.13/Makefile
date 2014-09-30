@@ -46,8 +46,8 @@ PKG_GROUP = libs
 LIBPNG_PKG_NAME                = libpng14
 LIBPNG_PKG_VERSION             = 1.4.13
 LIBPNG_PKG_ARCH                = $(TOOLCHAIN)
-LIBPNG_PKG_DISTRO_NAME         = kxLab
-LIBPNG_PKG_DISTRO_VERSION      = 1.0
+LIBPNG_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+LIBPNG_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBPNG_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 LIBPNG_PKG_SHORT_DESCRIPTION   = libpng14 $(version)

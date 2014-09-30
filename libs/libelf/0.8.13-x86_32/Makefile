@@ -39,8 +39,8 @@ PKG_GROUP = libs
 LIBELF32_PKG_NAME                = libelf-x32
 LIBELF32_PKG_VERSION             = 0.8.13
 LIBELF32_PKG_ARCH                = $(TOOLCHAIN)
-LIBELF32_PKG_DISTRO_NAME         = kxLab
-LIBELF32_PKG_DISTRO_VERSION      = 1.0
+LIBELF32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+LIBELF32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBELF32_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
 LIBELF32_PKG_SHORT_DESCRIPTION   = libelf-x32 $(version)

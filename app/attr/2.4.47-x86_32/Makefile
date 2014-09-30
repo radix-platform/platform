@@ -37,8 +37,8 @@ PKG_GROUP = app
 ATTR_32_PKG_NAME                = attr-x32
 ATTR_32_PKG_VERSION             = 2.4.47
 ATTR_32_PKG_ARCH                = $(TOOLCHAIN)
-ATTR_32_PKG_DISTRO_NAME         = kxLab
-ATTR_32_PKG_DISTRO_VERSION      = 1.0
+ATTR_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+ATTR_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 ATTR_32_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
 ATTR_32_PKG_SHORT_DESCRIPTION   = attr-x32 $(version)

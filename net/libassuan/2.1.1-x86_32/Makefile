@@ -39,8 +39,8 @@ PKG_GROUP = net
 ASSUAN32_PKG_NAME                = libassuan-x32
 ASSUAN32_PKG_VERSION             = 2.1.1
 ASSUAN32_PKG_ARCH                = $(TOOLCHAIN)
-ASSUAN32_PKG_DISTRO_NAME         = kxLab
-ASSUAN32_PKG_DISTRO_VERSION      = 1.0
+ASSUAN32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+ASSUAN32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 ASSUAN32_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
 ASSUAN32_PKG_SHORT_DESCRIPTION   = libassuan-x32 $(version)

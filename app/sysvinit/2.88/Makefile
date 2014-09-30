@@ -43,8 +43,8 @@ PKG_GROUP = app
 SYSVINIT_PKG_NAME                = sysvinit
 SYSVINIT_PKG_VERSION             = 2.88
 SYSVINIT_PKG_ARCH                = $(TOOLCHAIN)
-SYSVINIT_PKG_DISTRO_NAME         = kxLab
-SYSVINIT_PKG_DISTRO_VERSION      = 1.0
+SYSVINIT_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+SYSVINIT_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 SYSVINIT_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
 SYSVINIT_PKG_SHORT_DESCRIPTION   = sysvinit $(version)

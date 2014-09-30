@@ -45,8 +45,8 @@ PKG_GROUP = app
 JFSUTILS_PKG_NAME                = jfsutils
 JFSUTILS_PKG_VERSION             = 1.1.15
 JFSUTILS_PKG_ARCH                = $(TOOLCHAIN)
-JFSUTILS_PKG_DISTRO_NAME         = kxLab
-JFSUTILS_PKG_DISTRO_VERSION      = 1.0
+JFSUTILS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+JFSUTILS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 JFSUTILS_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
 JFSUTILS_PKG_SHORT_DESCRIPTION   = jfsutils $(version)

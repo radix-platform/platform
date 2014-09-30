@@ -52,8 +52,8 @@ PKG_GROUP = libs
 CRACKLIB_PKG_NAME                = cracklib
 CRACKLIB_PKG_VERSION             = 2.9.1
 CRACKLIB_PKG_ARCH                = $(TOOLCHAIN)
-CRACKLIB_PKG_DISTRO_NAME         = kxLab
-CRACKLIB_PKG_DISTRO_VERSION      = 1.0
+CRACKLIB_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+CRACKLIB_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 CRACKLIB_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
 CRACKLIB_PKG_SHORT_DESCRIPTION   = cracklib $(version)

@@ -72,8 +72,8 @@ PKG_GROUP = dev
 GCC_DEV_PKG_NAME                = gcc
 GCC_DEV_PKG_VERSION             = 4.8.2
 GCC_DEV_PKG_ARCH                = $(TOOLCHAIN)
-GCC_DEV_PKG_DISTRO_NAME         = kxLab
-GCC_DEV_PKG_DISTRO_VERSION      = 1.0
+GCC_DEV_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+GCC_DEV_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GCC_DEV_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
 GCC_DEV_PKG_SHORT_DESCRIPTION   = GNU GCC $(version)
@@ -177,15 +177,15 @@ extra_configure_switches += --enable-target-optspace
 endif
 
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_I686_EGLIBC))
-extra_configure_switches += '--with-pkgversion=Radix $(SYSTEM_VERSION)'
-extra_configure_switches += '--with-bugurl=http://www.radix.pro'
+extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
+extra_configure_switches += '--with-bugurl=$(BUG_URL)'
 extra_configure_switches += --with-arch=i486
 extra_configure_switches += --with-tune=i686
 endif
 
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC))
-extra_configure_switches += '--with-pkgversion=Radix $(SYSTEM_VERSION)'
-extra_configure_switches += '--with-bugurl=http://www.radix.pro'
+extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
+extra_configure_switches += '--with-bugurl=$(BUG_URL)'
 extra_configure_switches += --with-multilib-list=m64,m32
 endif
 

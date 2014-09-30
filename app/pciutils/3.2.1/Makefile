@@ -46,8 +46,8 @@ PKG_GROUP = app
 PCIUTILS_PKG_NAME                = pciutils
 PCIUTILS_PKG_VERSION             = 3.2.1
 PCIUTILS_PKG_ARCH                = $(TOOLCHAIN)
-PCIUTILS_PKG_DISTRO_NAME         = kxLab
-PCIUTILS_PKG_DISTRO_VERSION      = 1.0
+PCIUTILS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+PCIUTILS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 PCIUTILS_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
 PCIUTILS_PKG_SHORT_DESCRIPTION   = pciutils $(version)

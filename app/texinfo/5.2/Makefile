@@ -51,8 +51,8 @@ PKG_GROUP = app
 TEXINFO_PKG_NAME                = texinfo
 TEXINFO_PKG_VERSION             = 5.2
 TEXINFO_PKG_ARCH                = $(TOOLCHAIN)
-TEXINFO_PKG_DISTRO_NAME         = kxLab
-TEXINFO_PKG_DISTRO_VERSION      = 1.0
+TEXINFO_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+TEXINFO_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 TEXINFO_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
 TEXINFO_PKG_SHORT_DESCRIPTION   = texinfo $(version)

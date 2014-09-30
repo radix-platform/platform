@@ -37,8 +37,8 @@ PKG_GROUP = app
 DB_32_PKG_NAME                = db-x32
 DB_32_PKG_VERSION             = 6.1.19
 DB_32_PKG_ARCH                = $(TOOLCHAIN)
-DB_32_PKG_DISTRO_NAME         = kxLab
-DB_32_PKG_DISTRO_VERSION      = 1.0
+DB_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+DB_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 DB_32_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
 DB_32_PKG_SHORT_DESCRIPTION   = db-x32 $(version)

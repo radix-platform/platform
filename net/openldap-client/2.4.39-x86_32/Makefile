@@ -40,8 +40,8 @@ PKG_GROUP = net
 OPENLDAP_32_PKG_NAME                = openldap-client-x32
 OPENLDAP_32_PKG_VERSION             = 2.4.39
 OPENLDAP_32_PKG_ARCH                = $(TOOLCHAIN)
-OPENLDAP_32_PKG_DISTRO_NAME         = kxLab
-OPENLDAP_32_PKG_DISTRO_VERSION      = 1.0
+OPENLDAP_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+OPENLDAP_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 OPENLDAP_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                  |---handy-ruler-------------------------------|
 OPENLDAP_32_PKG_SHORT_DESCRIPTION   = openldap-client-x32 $(version)

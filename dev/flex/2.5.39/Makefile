@@ -45,8 +45,8 @@ PKG_GROUP = dev
 FLEX_PKG_NAME                = flex
 FLEX_PKG_VERSION             = 2.5.39
 FLEX_PKG_ARCH                = $(TOOLCHAIN)
-FLEX_PKG_DISTRO_NAME         = kxLab
-FLEX_PKG_DISTRO_VERSION      = 1.0
+FLEX_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+FLEX_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 FLEX_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
 FLEX_PKG_SHORT_DESCRIPTION   = flex $(version)

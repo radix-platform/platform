@@ -48,8 +48,8 @@ PKG_GROUP = dev
 AUTOMAKE_PKG_NAME                = automake
 AUTOMAKE_PKG_VERSION             = 1.14
 AUTOMAKE_PKG_ARCH                = $(TOOLCHAIN)
-AUTOMAKE_PKG_DISTRO_NAME         = kxLab
-AUTOMAKE_PKG_DISTRO_VERSION      = 1.0
+AUTOMAKE_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+AUTOMAKE_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 AUTOMAKE_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
 AUTOMAKE_PKG_SHORT_DESCRIPTION   = automake $(version)

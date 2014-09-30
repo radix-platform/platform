@@ -24,8 +24,8 @@ PKG_GROUP = dev
 KS_DEV_PKG_NAME                = kernel-sources
 KS_DEV_PKG_VERSION             = 3.8.13
 KS_DEV_PKG_ARCH                = $(TOOLCHAIN)
-KS_DEV_PKG_DISTRO_NAME         = kxLab
-KS_DEV_PKG_DISTRO_VERSION      = 1.0
+KS_DEV_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+KS_DEV_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 KS_DEV_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 KS_DEV_PKG_SHORT_DESCRIPTION   = Linux $(version) sources

@@ -44,8 +44,8 @@ PKG_GROUP = app
 HDPARM_PKG_NAME                = hdparm
 HDPARM_PKG_VERSION             = 9.43
 HDPARM_PKG_ARCH                = $(TOOLCHAIN)
-HDPARM_PKG_DISTRO_NAME         = kxLab
-HDPARM_PKG_DISTRO_VERSION      = 1.0
+HDPARM_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+HDPARM_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 HDPARM_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 HDPARM_PKG_SHORT_DESCRIPTION   = hdparm $(version)

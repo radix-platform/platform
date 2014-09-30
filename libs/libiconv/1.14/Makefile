@@ -45,8 +45,8 @@ PKG_GROUP = libs
 ICONV_PKG_NAME                = libiconv
 ICONV_PKG_VERSION             = 1.14
 ICONV_PKG_ARCH                = $(TOOLCHAIN)
-ICONV_PKG_DISTRO_NAME         = kxLab
-ICONV_PKG_DISTRO_VERSION      = 1.0
+ICONV_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+ICONV_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 ICONV_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
 ICONV_PKG_SHORT_DESCRIPTION   = libiconv $(version)

@@ -42,8 +42,8 @@ PKG_GROUP = libs
 LIBID3TAG_32_PKG_NAME                = libid3tag-x32
 LIBID3TAG_32_PKG_VERSION             = 0.15.1b
 LIBID3TAG_32_PKG_ARCH                = $(TOOLCHAIN)
-LIBID3TAG_32_PKG_DISTRO_NAME         = kxLab
-LIBID3TAG_32_PKG_DISTRO_VERSION      = 1.0
+LIBID3TAG_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+LIBID3TAG_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBID3TAG_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                   |---handy-ruler-------------------------------|
 LIBID3TAG_32_PKG_SHORT_DESCRIPTION   = libid3tag-x32 $(version)

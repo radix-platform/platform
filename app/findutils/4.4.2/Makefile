@@ -45,8 +45,8 @@ PKG_GROUP = app
 FINDUTILS_PKG_NAME                = findutils
 FINDUTILS_PKG_VERSION             = 4.4.2
 FINDUTILS_PKG_ARCH                = $(TOOLCHAIN)
-FINDUTILS_PKG_DISTRO_NAME         = kxLab
-FINDUTILS_PKG_DISTRO_VERSION      = 1.0
+FINDUTILS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+FINDUTILS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 FINDUTILS_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
 FINDUTILS_PKG_SHORT_DESCRIPTION   = findutils $(version)

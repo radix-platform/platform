@@ -37,8 +37,8 @@ PKG_GROUP = app
 BZIP2_32_PKG_NAME                = bzip2-x32
 BZIP2_32_PKG_VERSION             = 1.0.6
 BZIP2_32_PKG_ARCH                = $(TOOLCHAIN)
-BZIP2_32_PKG_DISTRO_NAME         = kxLab
-BZIP2_32_PKG_DISTRO_VERSION      = 1.0
+BZIP2_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+BZIP2_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 BZIP2_32_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
 BZIP2_32_PKG_SHORT_DESCRIPTION   = bzip2-x32 $(version)

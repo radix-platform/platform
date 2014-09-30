@@ -45,8 +45,8 @@ PKG_GROUP = net
 COMSAT_PKG_NAME                = biff+comsat
 COMSAT_PKG_VERSION             = 0.17
 COMSAT_PKG_ARCH                = $(TOOLCHAIN)
-COMSAT_PKG_DISTRO_NAME         = kxLab
-COMSAT_PKG_DISTRO_VERSION      = 1.0
+COMSAT_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+COMSAT_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 COMSAT_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 COMSAT_PKG_SHORT_DESCRIPTION   = biff+comsat $(version)

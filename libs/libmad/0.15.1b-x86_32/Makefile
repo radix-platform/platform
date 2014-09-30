@@ -41,8 +41,8 @@ PKG_GROUP = libs
 LIBMAD_32_PKG_NAME                = libmad-x32
 LIBMAD_32_PKG_VERSION             = 0.15.1b
 LIBMAD_32_PKG_ARCH                = $(TOOLCHAIN)
-LIBMAD_32_PKG_DISTRO_NAME         = kxLab
-LIBMAD_32_PKG_DISTRO_VERSION      = 1.0
+LIBMAD_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+LIBMAD_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBMAD_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
 LIBMAD_32_PKG_SHORT_DESCRIPTION   = libmad-x32 $(version)

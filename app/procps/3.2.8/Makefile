@@ -64,8 +64,8 @@ PKG_GROUP = app
 PROCPS_PKG_NAME                = procps
 PROCPS_PKG_VERSION             = 3.2.8
 PROCPS_PKG_ARCH                = $(TOOLCHAIN)
-PROCPS_PKG_DISTRO_NAME         = kxLab
-PROCPS_PKG_DISTRO_VERSION      = 1.0
+PROCPS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+PROCPS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 PROCPS_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 PROCPS_PKG_SHORT_DESCRIPTION   = procps $(version)

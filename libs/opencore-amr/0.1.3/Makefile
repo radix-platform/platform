@@ -45,8 +45,8 @@ PKG_GROUP = libs
 OPENCORE_AMR_PKG_NAME                = opencore-amr
 OPENCORE_AMR_PKG_VERSION             = 0.1.3
 OPENCORE_AMR_PKG_ARCH                = $(TOOLCHAIN)
-OPENCORE_AMR_PKG_DISTRO_NAME         = kxLab
-OPENCORE_AMR_PKG_DISTRO_VERSION      = 1.0
+OPENCORE_AMR_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+OPENCORE_AMR_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 OPENCORE_AMR_PKG_GROUP               = $(PKG_GROUP)
 ###                                   |---handy-ruler-------------------------------|
 OPENCORE_AMR_PKG_SHORT_DESCRIPTION   = opencore-amr $(version)

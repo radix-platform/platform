@@ -44,8 +44,8 @@ PKG_GROUP = app
 LHA_PKG_NAME                = lha
 LHA_PKG_VERSION             = 114i
 LHA_PKG_ARCH                = $(TOOLCHAIN)
-LHA_PKG_DISTRO_NAME         = kxLab
-LHA_PKG_DISTRO_VERSION      = 1.0
+LHA_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+LHA_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LHA_PKG_GROUP               = $(PKG_GROUP)
 ###                          |---handy-ruler-------------------------------|
 LHA_PKG_SHORT_DESCRIPTION   = lha $(version)

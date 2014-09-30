@@ -47,8 +47,8 @@ PKG_GROUP = net
 NETDATE_PKG_NAME                = netdate
 NETDATE_PKG_VERSION             = 4
 NETDATE_PKG_ARCH                = $(TOOLCHAIN)
-NETDATE_PKG_DISTRO_NAME         = kxLab
-NETDATE_PKG_DISTRO_VERSION      = 1.0
+NETDATE_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+NETDATE_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 NETDATE_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
 NETDATE_PKG_SHORT_DESCRIPTION   = netdate $(version)th Berkeley Distribution

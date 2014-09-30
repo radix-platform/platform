@@ -45,8 +45,8 @@ PKG_GROUP = libs
 UDEV32_PKG_NAME                = libudev-x32
 UDEV32_PKG_VERSION             = 182
 UDEV32_PKG_ARCH                = $(TOOLCHAIN)
-UDEV32_PKG_DISTRO_NAME         = kxLab
-UDEV32_PKG_DISTRO_VERSION      = 1.0
+UDEV32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+UDEV32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 UDEV32_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 UDEV32_PKG_SHORT_DESCRIPTION   = libudev-x32 $(version)

@@ -45,8 +45,8 @@ PKG_GROUP = libs
 TASN_PKG_NAME                = libtasn1
 TASN_PKG_VERSION             = 3.4
 TASN_PKG_ARCH                = $(TOOLCHAIN)
-TASN_PKG_DISTRO_NAME         = kxLab
-TASN_PKG_DISTRO_VERSION      = 1.0
+TASN_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+TASN_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 TASN_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
 TASN_PKG_SHORT_DESCRIPTION   = libtasn1 $(version)

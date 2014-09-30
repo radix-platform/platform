@@ -38,8 +38,8 @@ PKG_GROUP = app
 XFSPROGS_32_PKG_NAME                = xfsprogs-x32
 XFSPROGS_32_PKG_VERSION             = 3.1.11
 XFSPROGS_32_PKG_ARCH                = $(TOOLCHAIN)
-XFSPROGS_32_PKG_DISTRO_NAME         = kxLab
-XFSPROGS_32_PKG_DISTRO_VERSION      = 1.0
+XFSPROGS_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+XFSPROGS_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 XFSPROGS_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                  |---handy-ruler-------------------------------|
 XFSPROGS_32_PKG_SHORT_DESCRIPTION   = xfsprogs-x32 $(version)

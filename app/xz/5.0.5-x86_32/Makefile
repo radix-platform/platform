@@ -39,8 +39,8 @@ PKG_GROUP = app
 XZ32_PKG_NAME                = xz-x32
 XZ32_PKG_VERSION             = 5.0.5
 XZ32_PKG_ARCH                = $(TOOLCHAIN)
-XZ32_PKG_DISTRO_NAME         = kxLab
-XZ32_PKG_DISTRO_VERSION      = 1.0
+XZ32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+XZ32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 XZ32_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
 XZ32_PKG_SHORT_DESCRIPTION   = xz-x32 $(version)

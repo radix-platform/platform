@@ -44,8 +44,8 @@ PKG_GROUP = libs
 GCC_RT_DEV_PKG_NAME                = gcc-runtime
 GCC_RT_DEV_PKG_VERSION             = 4.9.1
 GCC_RT_DEV_PKG_ARCH                = $(TOOLCHAIN)
-GCC_RT_DEV_PKG_DISTRO_NAME         = kxLab
-GCC_RT_DEV_PKG_DISTRO_VERSION      = 1.0
+GCC_RT_DEV_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+GCC_RT_DEV_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GCC_RT_DEV_PKG_GROUP               = $(PKG_GROUP)
 ###                                 |---handy-ruler-------------------------------|
 GCC_RT_DEV_PKG_SHORT_DESCRIPTION   = GCC $(version) runtime libraries

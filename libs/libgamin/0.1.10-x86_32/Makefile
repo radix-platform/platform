@@ -42,8 +42,8 @@ PKG_GROUP = libs
 GAMIN32_PKG_NAME                = libgamin-x32
 GAMIN32_PKG_VERSION             = 0.1.10
 GAMIN32_PKG_ARCH                = $(TOOLCHAIN)
-GAMIN32_PKG_DISTRO_NAME         = kxLab
-GAMIN32_PKG_DISTRO_VERSION      = 1.0
+GAMIN32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+GAMIN32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GAMIN32_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
 GAMIN32_PKG_SHORT_DESCRIPTION   = libgamin-x32 $(version)

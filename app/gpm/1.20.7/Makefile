@@ -47,8 +47,8 @@ PKG_GROUP = app
 GPM_PKG_NAME                = gpm
 GPM_PKG_VERSION             = 1.20.7
 GPM_PKG_ARCH                = $(TOOLCHAIN)
-GPM_PKG_DISTRO_NAME         = kxLab
-GPM_PKG_DISTRO_VERSION      = 1.0
+GPM_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+GPM_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GPM_PKG_GROUP               = $(PKG_GROUP)
 ###                          |---handy-ruler-------------------------------|
 GPM_PKG_SHORT_DESCRIPTION   = gpm $(version)

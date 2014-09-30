@@ -39,8 +39,8 @@ PKG_GROUP = libs
 WAVPACK_32_PKG_NAME                = wavpack-x32
 WAVPACK_32_PKG_VERSION             = 4.70.0
 WAVPACK_32_PKG_ARCH                = $(TOOLCHAIN)
-WAVPACK_32_PKG_DISTRO_NAME         = kxLab
-WAVPACK_32_PKG_DISTRO_VERSION      = 1.0
+WAVPACK_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+WAVPACK_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 WAVPACK_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                 |---handy-ruler-------------------------------|
 WAVPACK_32_PKG_SHORT_DESCRIPTION   = wavpack-x32 $(version)

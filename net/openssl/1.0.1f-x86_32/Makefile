@@ -40,8 +40,8 @@ PKG_GROUP = net
 OPENSSL32_PKG_NAME                = openssl-x32
 OPENSSL32_PKG_VERSION             = 1.0.1f
 OPENSSL32_PKG_ARCH                = $(TOOLCHAIN)
-OPENSSL32_PKG_DISTRO_NAME         = kxLab
-OPENSSL32_PKG_DISTRO_VERSION      = 1.0
+OPENSSL32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+OPENSSL32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 OPENSSL32_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
 OPENSSL32_PKG_SHORT_DESCRIPTION   = openssl-x32 $(version)

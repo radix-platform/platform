@@ -52,8 +52,8 @@ PKG_GROUP = dev
 PERL_PKG_NAME                = perl
 PERL_PKG_VERSION             = 5.18.2
 PERL_PKG_ARCH                = $(TOOLCHAIN)
-PERL_PKG_DISTRO_NAME         = kxLab
-PERL_PKG_DISTRO_VERSION      = 1.0
+PERL_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+PERL_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 PERL_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
 PERL_PKG_SHORT_DESCRIPTION   = perl $(version)

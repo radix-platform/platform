@@ -49,8 +49,8 @@ PKG_GROUP = net
 SASL_PKG_NAME                = cyrus-sasl
 SASL_PKG_VERSION             = 2.1.26
 SASL_PKG_ARCH                = $(TOOLCHAIN)
-SASL_PKG_DISTRO_NAME         = kxLab
-SASL_PKG_DISTRO_VERSION      = 1.0
+SASL_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+SASL_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 SASL_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
 SASL_PKG_SHORT_DESCRIPTION   = cyrus-sasl $(version)

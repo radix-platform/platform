@@ -39,8 +39,8 @@ PKG_GROUP = libs
 ALSA_OSS_32_PKG_NAME                = alsa-oss-x32
 ALSA_OSS_32_PKG_VERSION             = 1.0.28
 ALSA_OSS_32_PKG_ARCH                = $(TOOLCHAIN)
-ALSA_OSS_32_PKG_DISTRO_NAME         = kxLab
-ALSA_OSS_32_PKG_DISTRO_VERSION      = 1.0
+ALSA_OSS_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+ALSA_OSS_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 ALSA_OSS_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                  |---handy-ruler-------------------------------|
 ALSA_OSS_32_PKG_SHORT_DESCRIPTION   = alsa-oss-x32 $(version)

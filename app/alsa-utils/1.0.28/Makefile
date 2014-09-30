@@ -52,8 +52,8 @@ PKG_GROUP = app
 ALSA_UTILS_PKG_NAME                = alsa-utils
 ALSA_UTILS_PKG_VERSION             = 1.0.28
 ALSA_UTILS_PKG_ARCH                = $(TOOLCHAIN)
-ALSA_UTILS_PKG_DISTRO_NAME         = kxLab
-ALSA_UTILS_PKG_DISTRO_VERSION      = 1.0
+ALSA_UTILS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+ALSA_UTILS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 ALSA_UTILS_PKG_GROUP               = $(PKG_GROUP)
 ###                                 |---handy-ruler-------------------------------|
 ALSA_UTILS_PKG_SHORT_DESCRIPTION   = alsa-utils $(version)

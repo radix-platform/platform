@@ -57,8 +57,8 @@ PKG_GROUP = app
 VIM_PKG_NAME                = vim
 VIM_PKG_VERSION             = 7.4-373
 VIM_PKG_ARCH                = $(TOOLCHAIN)
-VIM_PKG_DISTRO_NAME         = kxLab
-VIM_PKG_DISTRO_VERSION      = 1.0
+VIM_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+VIM_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 VIM_PKG_GROUP               = $(PKG_GROUP)
 ###                          |---handy-ruler-------------------------------|
 VIM_PKG_SHORT_DESCRIPTION   = vim $(version)

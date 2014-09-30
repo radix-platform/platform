@@ -47,8 +47,8 @@ PKG_GROUP = app
 TMUX_PKG_NAME                = tmux
 TMUX_PKG_VERSION             = 1.9a
 TMUX_PKG_ARCH                = $(TOOLCHAIN)
-TMUX_PKG_DISTRO_NAME         = kxLab
-TMUX_PKG_DISTRO_VERSION      = 1.0
+TMUX_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+TMUX_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 TMUX_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
 TMUX_PKG_SHORT_DESCRIPTION   = tmux $(version)

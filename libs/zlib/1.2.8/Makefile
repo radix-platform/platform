@@ -43,8 +43,8 @@ PKG_GROUP = libs
 ZLIB_PKG_NAME                = zlib
 ZLIB_PKG_VERSION             = 1.2.8
 ZLIB_PKG_ARCH                = $(TOOLCHAIN)
-ZLIB_PKG_DISTRO_NAME         = kxLab
-ZLIB_PKG_DISTRO_VERSION      = 1.0
+ZLIB_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+ZLIB_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 ZLIB_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
 ZLIB_PKG_SHORT_DESCRIPTION   = zlib $(version)

@@ -39,8 +39,8 @@ PKG_GROUP = libs
 LIBIDN32_PKG_NAME                = libidn-x32
 LIBIDN32_PKG_VERSION             = 1.28
 LIBIDN32_PKG_ARCH                = $(TOOLCHAIN)
-LIBIDN32_PKG_DISTRO_NAME         = kxLab
-LIBIDN32_PKG_DISTRO_VERSION      = 1.0
+LIBIDN32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+LIBIDN32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBIDN32_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
 LIBIDN32_PKG_SHORT_DESCRIPTION   = libidn-x32 $(version)

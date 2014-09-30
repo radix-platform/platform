@@ -47,8 +47,8 @@ PKG_GROUP = app
 SYSVFUNC_PKG_NAME                = sysvinit-functions
 SYSVFUNC_PKG_VERSION             = 8.54
 SYSVFUNC_PKG_ARCH                = $(TOOLCHAIN)
-SYSVFUNC_PKG_DISTRO_NAME         = kxLab
-SYSVFUNC_PKG_DISTRO_VERSION      = 1.0
+SYSVFUNC_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+SYSVFUNC_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 SYSVFUNC_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
 SYSVFUNC_PKG_SHORT_DESCRIPTION   = sysvinit-functions $(version)

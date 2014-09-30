@@ -42,8 +42,8 @@ PKG_GROUP = net
 GCRYPT32_PKG_NAME                = libgcrypt-x32
 GCRYPT32_PKG_VERSION             = 1.6.1
 GCRYPT32_PKG_ARCH                = $(TOOLCHAIN)
-GCRYPT32_PKG_DISTRO_NAME         = kxLab
-GCRYPT32_PKG_DISTRO_VERSION      = 1.0
+GCRYPT32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+GCRYPT32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GCRYPT32_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
 GCRYPT32_PKG_SHORT_DESCRIPTION   = libgcrypt-x32 $(version)

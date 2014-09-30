@@ -9,6 +9,8 @@ use warnings FATAL => 'all';
 use File::Basename;
 use _kxLab;
 
+my $distro = _kxLab::distro_name();
+
 my @arguments;
 my ( $base, $hardware );
 
@@ -51,7 +53,7 @@ while( <F> )
   $pkg_name   = basename( $pkg );
   $pkg_dir    = dirname( $pkg );
   $rootfs_dir = $pkg_dir;
-  $rootfs_dir =~ s!/var/log/_kxLab/packages$!!;
+  $rootfs_dir =~ s!/var/log/_$distro/packages$!!;
 
   _kxLab::system( "cd $pkg_dir && $removepkg --skip-refs --root $rootfs_dir $pkg_name" );
 }

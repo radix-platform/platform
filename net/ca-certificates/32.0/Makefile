@@ -61,8 +61,8 @@ PKG_GROUP = net
 CACERTS_PKG_NAME                = ca-certificates
 CACERTS_PKG_VERSION             = 32.0
 CACERTS_PKG_ARCH                = $(TOOLCHAIN)
-CACERTS_PKG_DISTRO_NAME         = kxLab
-CACERTS_PKG_DISTRO_VERSION      = 1.0
+CACERTS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+CACERTS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 CACERTS_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
 CACERTS_PKG_SHORT_DESCRIPTION   = ca-certificates $(version)

@@ -45,8 +45,8 @@ PKG_GROUP = app
 CTAGS_PKG_NAME                = ctags
 CTAGS_PKG_VERSION             = 5.8
 CTAGS_PKG_ARCH                = $(TOOLCHAIN)
-CTAGS_PKG_DISTRO_NAME         = kxLab
-CTAGS_PKG_DISTRO_VERSION      = 1.0
+CTAGS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+CTAGS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 CTAGS_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
 CTAGS_PKG_SHORT_DESCRIPTION   = ctags $(version)

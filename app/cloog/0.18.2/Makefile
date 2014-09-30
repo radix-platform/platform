@@ -45,8 +45,8 @@ PKG_GROUP = app
 CLOOG_PKG_NAME                = cloog
 CLOOG_PKG_VERSION             = 0.18.2
 CLOOG_PKG_ARCH                = $(TOOLCHAIN)
-CLOOG_PKG_DISTRO_NAME         = kxLab
-CLOOG_PKG_DISTRO_VERSION      = 1.0
+CLOOG_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+CLOOG_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 CLOOG_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
 CLOOG_PKG_SHORT_DESCRIPTION   = cloog $(version)

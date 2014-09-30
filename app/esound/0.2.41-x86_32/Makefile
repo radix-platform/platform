@@ -41,8 +41,8 @@ PKG_GROUP = app
 ESOUND_32_PKG_NAME                  = esound-x32
 ESOUND_32_PKG_VERSION               = 0.2.41
 ESOUND_32_PKG_ARCH                  = $(TOOLCHAIN)
-ESOUND_32_PKG_DISTRO_NAME           = kxLab
-ESOUND_32_PKG_DISTRO_VERSION        = 1.0
+ESOUND_32_PKG_DISTRO_NAME           = $(DISTRO_NAME)
+ESOUND_32_PKG_DISTRO_VERSION        = $(DISTRO_VERSION)
 ESOUND_32_PKG_GROUP                 = $(PKG_GROUP)
 ###                                  |---handy-ruler-------------------------------|
 ESOUND_32_PKG_SHORT_DESCRIPTION     = esound-x32 $(version)

@@ -70,8 +70,8 @@ PKG_GROUP = app
 CMDUTILS_PKG_NAME                = bin
 CMDUTILS_PKG_VERSION             = 4.4
 CMDUTILS_PKG_ARCH                = $(TOOLCHAIN)
-CMDUTILS_PKG_DISTRO_NAME         = kxLab
-CMDUTILS_PKG_DISTRO_VERSION      = 1.0
+CMDUTILS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+CMDUTILS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 CMDUTILS_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
 CMDUTILS_PKG_SHORT_DESCRIPTION   = bin $(version)

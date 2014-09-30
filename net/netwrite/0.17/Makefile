@@ -45,8 +45,8 @@ PKG_GROUP = net
 NETWRITE_PKG_NAME                = netwrite
 NETWRITE_PKG_VERSION             = 0.17
 NETWRITE_PKG_ARCH                = $(TOOLCHAIN)
-NETWRITE_PKG_DISTRO_NAME         = kxLab
-NETWRITE_PKG_DISTRO_VERSION      = 1.0
+NETWRITE_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+NETWRITE_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 NETWRITE_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
 NETWRITE_PKG_SHORT_DESCRIPTION   = netwrite $(version)

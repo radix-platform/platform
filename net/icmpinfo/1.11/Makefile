@@ -45,8 +45,8 @@ PKG_GROUP = net
 ICMPINFO_PKG_NAME                = icmpinfo
 ICMPINFO_PKG_VERSION             = 1.11
 ICMPINFO_PKG_ARCH                = $(TOOLCHAIN)
-ICMPINFO_PKG_DISTRO_NAME         = kxLab
-ICMPINFO_PKG_DISTRO_VERSION      = 1.0
+ICMPINFO_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+ICMPINFO_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 ICMPINFO_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
 ICMPINFO_PKG_SHORT_DESCRIPTION   = icmpinfo $(version)

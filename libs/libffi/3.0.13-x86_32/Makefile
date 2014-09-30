@@ -39,8 +39,8 @@ PKG_GROUP = libs
 LIBFFI32_PKG_NAME                = libffi-x32
 LIBFFI32_PKG_VERSION             = 3.0.13
 LIBFFI32_PKG_ARCH                = $(TOOLCHAIN)
-LIBFFI32_PKG_DISTRO_NAME         = kxLab
-LIBFFI32_PKG_DISTRO_VERSION      = 1.0
+LIBFFI32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+LIBFFI32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBFFI32_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
 LIBFFI32_PKG_SHORT_DESCRIPTION   = libffi-x32 $(version)

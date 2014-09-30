@@ -46,8 +46,8 @@ PKG_GROUP = dict
 WORDS_PKG_NAME                = words-en_GB-huge
 WORDS_PKG_VERSION             = 7.1
 WORDS_PKG_ARCH                = $(TOOLCHAIN)
-WORDS_PKG_DISTRO_NAME         = kxLab
-WORDS_PKG_DISTRO_VERSION      = 1.0
+WORDS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+WORDS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 WORDS_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
 WORDS_PKG_SHORT_DESCRIPTION   = words-en_GB-huge $(version)

@@ -39,8 +39,8 @@ PKG_GROUP = libs
 GDBM_32_PKG_NAME                = gdbm-x32
 GDBM_32_PKG_VERSION             = 1.11
 GDBM_32_PKG_ARCH                = $(TOOLCHAIN)
-GDBM_32_PKG_DISTRO_NAME         = kxLab
-GDBM_32_PKG_DISTRO_VERSION      = 1.0
+GDBM_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+GDBM_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GDBM_32_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
 GDBM_32_PKG_SHORT_DESCRIPTION   = gdbm-x32 $(version)

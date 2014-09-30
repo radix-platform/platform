@@ -45,8 +45,8 @@ PKG_GROUP = libs
 FDK_AAC_PKG_NAME                = fdk-aac
 FDK_AAC_PKG_VERSION             = 0.1.3
 FDK_AAC_PKG_ARCH                = $(TOOLCHAIN)
-FDK_AAC_PKG_DISTRO_NAME         = kxLab
-FDK_AAC_PKG_DISTRO_VERSION      = 1.0
+FDK_AAC_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+FDK_AAC_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 FDK_AAC_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
 FDK_AAC_PKG_SHORT_DESCRIPTION   = fdk-aac $(version)

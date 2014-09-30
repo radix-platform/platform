@@ -47,8 +47,8 @@ PKG_GROUP = libs
 LIBEVENT_PKG_NAME                = libevent
 LIBEVENT_PKG_VERSION             = 2.0.21
 LIBEVENT_PKG_ARCH                = $(TOOLCHAIN)
-LIBEVENT_PKG_DISTRO_NAME         = kxLab
-LIBEVENT_PKG_DISTRO_VERSION      = 1.0
+LIBEVENT_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+LIBEVENT_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBEVENT_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 LIBEVENT_PKG_SHORT_DESCRIPTION   = libevent $(version)

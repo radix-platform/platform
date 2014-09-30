@@ -57,8 +57,8 @@ PKG_GROUP = net
 CURL_PKG_NAME                = curl
 CURL_PKG_VERSION             = 7.38.0
 CURL_PKG_ARCH                = $(TOOLCHAIN)
-CURL_PKG_DISTRO_NAME         = kxLab
-CURL_PKG_DISTRO_VERSION      = 1.0
+CURL_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+CURL_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 CURL_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
 CURL_PKG_SHORT_DESCRIPTION   = curl $(version)

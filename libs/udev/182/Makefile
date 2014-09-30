@@ -53,8 +53,8 @@ PKG_GROUP = libs
 UDEV_PKG_NAME                = libudev
 UDEV_PKG_VERSION             = 182
 UDEV_PKG_ARCH                = $(TOOLCHAIN)
-UDEV_PKG_DISTRO_NAME         = kxLab
-UDEV_PKG_DISTRO_VERSION      = 1.0
+UDEV_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+UDEV_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 UDEV_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
 UDEV_PKG_SHORT_DESCRIPTION   = libudev $(version)

@@ -44,8 +44,8 @@ PKG_GROUP = app
 UTEMPTER_PKG_NAME                = utempter
 UTEMPTER_PKG_VERSION             = 1.1.6
 UTEMPTER_PKG_ARCH                = $(TOOLCHAIN)
-UTEMPTER_PKG_DISTRO_NAME         = kxLab
-UTEMPTER_PKG_DISTRO_VERSION      = 1.0
+UTEMPTER_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+UTEMPTER_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 UTEMPTER_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
 UTEMPTER_PKG_SHORT_DESCRIPTION   = utempter $(version)

@@ -48,8 +48,8 @@ PKG_GROUP = libs
 GAMIN_PKG_NAME                = libgamin
 GAMIN_PKG_VERSION             = 0.1.10
 GAMIN_PKG_ARCH                = $(TOOLCHAIN)
-GAMIN_PKG_DISTRO_NAME         = kxLab
-GAMIN_PKG_DISTRO_VERSION      = 1.0
+GAMIN_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+GAMIN_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GAMIN_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
 GAMIN_PKG_SHORT_DESCRIPTION   = libgamin $(version)

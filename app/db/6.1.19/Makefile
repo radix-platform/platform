@@ -45,8 +45,8 @@ PKG_GROUP = app
 DB_PKG_NAME                = db
 DB_PKG_VERSION             = 6.1.19
 DB_PKG_ARCH                = $(TOOLCHAIN)
-DB_PKG_DISTRO_NAME         = kxLab
-DB_PKG_DISTRO_VERSION      = 1.0
+DB_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+DB_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 DB_PKG_GROUP               = $(PKG_GROUP)
 ###                         |---handy-ruler-------------------------------|
 DB_PKG_SHORT_DESCRIPTION   = db $(version)

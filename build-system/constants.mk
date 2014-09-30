@@ -7,17 +7,29 @@ ifndef CONSTANTS_MK
 
 SYSTEM_VERSION       = 0.0.1
 
+#
+# Distribution:
+#
+DISTRO_NAME          = radix
+#DISTRO_NAME          = luxoft
+
+DISTRO_VERSION       = 1.0
+
 BUG_URL              = http://www.radix.pro
 #BUG_URL              = http://www.spbtsc.luxoft.com
 
 
+#
+# Download Sources:
+#
 DOWNLOAD_SERVER      = ftp://ftp.radix.pro
 #DOWNLOAD_SERVER      = ftp://ftp.spbtsc.luxoft.com
 
 WGET_OPTIONS         = -q -N
 
-CACHED_CC_OUTPUT     = /opt/extra/ccache
 
+
+CACHED_CC_OUTPUT     = /opt/extra/ccache
 
 TOOLCHAINS_BASE_PATH = /opt/toolchain
 

@@ -45,8 +45,8 @@ PKG_GROUP = app
 SDPARM_PKG_NAME                = sdparm
 SDPARM_PKG_VERSION             = 1.08
 SDPARM_PKG_ARCH                = $(TOOLCHAIN)
-SDPARM_PKG_DISTRO_NAME         = kxLab
-SDPARM_PKG_DISTRO_VERSION      = 1.0
+SDPARM_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+SDPARM_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 SDPARM_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 SDPARM_PKG_SHORT_DESCRIPTION   = sdparm $(version)

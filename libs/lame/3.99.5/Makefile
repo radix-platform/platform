@@ -46,8 +46,8 @@ PKG_GROUP = libs
 LAME_PKG_NAME                = lame
 LAME_PKG_VERSION             = 3.99.5
 LAME_PKG_ARCH                = $(TOOLCHAIN)
-LAME_PKG_DISTRO_NAME         = kxLab
-LAME_PKG_DISTRO_VERSION      = 1.0
+LAME_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+LAME_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LAME_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
 LAME_PKG_SHORT_DESCRIPTION   = lame $(version)

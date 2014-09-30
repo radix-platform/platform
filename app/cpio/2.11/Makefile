@@ -46,8 +46,8 @@ PKG_GROUP = app
 CPIO_PKG_NAME                = cpio
 CPIO_PKG_VERSION             = 2.11
 CPIO_PKG_ARCH                = $(TOOLCHAIN)
-CPIO_PKG_DISTRO_NAME         = kxLab
-CPIO_PKG_DISTRO_VERSION      = 1.0
+CPIO_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+CPIO_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 CPIO_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
 CPIO_PKG_SHORT_DESCRIPTION   = cpio $(version)

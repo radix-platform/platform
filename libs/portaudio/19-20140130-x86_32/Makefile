@@ -40,8 +40,8 @@ PKG_GROUP = libs
 PORTAUDIO_32_PKG_NAME                = portaudio-x32
 PORTAUDIO_32_PKG_VERSION             = 19-20140130
 PORTAUDIO_32_PKG_ARCH                = $(TOOLCHAIN)
-PORTAUDIO_32_PKG_DISTRO_NAME         = kxLab
-PORTAUDIO_32_PKG_DISTRO_VERSION      = 1.0
+PORTAUDIO_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+PORTAUDIO_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 PORTAUDIO_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                   |---handy-ruler-------------------------------|
 PORTAUDIO_32_PKG_SHORT_DESCRIPTION   = portaudio-x32 $(version)

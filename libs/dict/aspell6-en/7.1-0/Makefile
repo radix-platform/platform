@@ -47,8 +47,8 @@ PKG_GROUP = dict
 ASPELL6_PKG_NAME                = aspell6-en
 ASPELL6_PKG_VERSION             = 7.1-0
 ASPELL6_PKG_ARCH                = $(TOOLCHAIN)
-ASPELL6_PKG_DISTRO_NAME         = kxLab
-ASPELL6_PKG_DISTRO_VERSION      = 1.0
+ASPELL6_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+ASPELL6_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 ASPELL6_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
 ASPELL6_PKG_SHORT_DESCRIPTION   = aspell6-en $(version)

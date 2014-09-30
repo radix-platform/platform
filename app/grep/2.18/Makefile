@@ -45,8 +45,8 @@ PKG_GROUP = app
 GREP_PKG_NAME                = grep
 GREP_PKG_VERSION             = 2.18
 GREP_PKG_ARCH                = $(TOOLCHAIN)
-GREP_PKG_DISTRO_NAME         = kxLab
-GREP_PKG_DISTRO_VERSION      = 1.0
+GREP_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+GREP_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GREP_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
 GREP_PKG_SHORT_DESCRIPTION   = grep $(version)

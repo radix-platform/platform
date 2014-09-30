@@ -45,8 +45,8 @@ PKG_GROUP = net
 NETTOOLS_PKG_NAME                = net-tools
 NETTOOLS_PKG_VERSION             = 1.60
 NETTOOLS_PKG_ARCH                = $(TOOLCHAIN)
-NETTOOLS_PKG_DISTRO_NAME         = kxLab
-NETTOOLS_PKG_DISTRO_VERSION      = 1.0
+NETTOOLS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+NETTOOLS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 NETTOOLS_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
 NETTOOLS_PKG_SHORT_DESCRIPTION   = net-tools $(version)

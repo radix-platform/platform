@@ -44,8 +44,8 @@ PKG_GROUP = app
 ATTR_PKG_NAME                = attr
 ATTR_PKG_VERSION             = 2.4.47
 ATTR_PKG_ARCH                = $(TOOLCHAIN)
-ATTR_PKG_DISTRO_NAME         = kxLab
-ATTR_PKG_DISTRO_VERSION      = 1.0
+ATTR_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+ATTR_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 ATTR_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
 ATTR_PKG_SHORT_DESCRIPTION   = attr $(version)

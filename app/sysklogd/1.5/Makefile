@@ -46,8 +46,8 @@ PKG_GROUP = app
 SYSKLOGD_PKG_NAME                = sysklogd
 SYSKLOGD_PKG_VERSION             = 1.5
 SYSKLOGD_PKG_ARCH                = $(TOOLCHAIN)
-SYSKLOGD_PKG_DISTRO_NAME         = kxLab
-SYSKLOGD_PKG_DISTRO_VERSION      = 1.0
+SYSKLOGD_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+SYSKLOGD_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 SYSKLOGD_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
 SYSKLOGD_PKG_SHORT_DESCRIPTION   = sysklogd $(version)

@@ -46,8 +46,8 @@ PKG_GROUP = dev
 LIBTOOL_PKG_NAME                = libtool
 LIBTOOL_PKG_VERSION             = 2.4.2
 LIBTOOL_PKG_ARCH                = $(TOOLCHAIN)
-LIBTOOL_PKG_DISTRO_NAME         = kxLab
-LIBTOOL_PKG_DISTRO_VERSION      = 1.0
+LIBTOOL_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+LIBTOOL_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBTOOL_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
 LIBTOOL_PKG_SHORT_DESCRIPTION   = libtool $(version)

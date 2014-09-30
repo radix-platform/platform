@@ -40,8 +40,8 @@ PKG_GROUP = libs
 GC32_PKG_NAME                = gc-x32
 GC32_PKG_VERSION             = 7.2d
 GC32_PKG_ARCH                = $(TOOLCHAIN)
-GC32_PKG_DISTRO_NAME         = kxLab
-GC32_PKG_DISTRO_VERSION      = 1.0
+GC32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+GC32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GC32_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
 GC32_PKG_SHORT_DESCRIPTION   = gc-x32 $(version)$(version_suffix)

@@ -39,8 +39,8 @@ PKG_GROUP = libs
 GMP32_PKG_NAME                = gmp-x32
 GMP32_PKG_VERSION             = 5.1.3
 GMP32_PKG_ARCH                = $(TOOLCHAIN)
-GMP32_PKG_DISTRO_NAME         = kxLab
-GMP32_PKG_DISTRO_VERSION      = 1.0
+GMP32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+GMP32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GMP32_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
 GMP32_PKG_SHORT_DESCRIPTION   = gmp-x32 $(version)

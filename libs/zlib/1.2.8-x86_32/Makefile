@@ -37,8 +37,8 @@ PKG_GROUP = libs
 ZLIB32_PKG_NAME                = zlib-x32
 ZLIB32_PKG_VERSION             = 1.2.8
 ZLIB32_PKG_ARCH                = $(TOOLCHAIN)
-ZLIB32_PKG_DISTRO_NAME         = kxLab
-ZLIB32_PKG_DISTRO_VERSION      = 1.0
+ZLIB32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+ZLIB32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 ZLIB32_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 ZLIB32_PKG_SHORT_DESCRIPTION   = zlib-x32 $(version)

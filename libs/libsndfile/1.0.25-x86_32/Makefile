@@ -42,8 +42,8 @@ PKG_GROUP = libs
 LIBSNDFILE_32_PKG_NAME                = libsndfile-x32
 LIBSNDFILE_32_PKG_VERSION             = 1.0.25
 LIBSNDFILE_32_PKG_ARCH                = $(TOOLCHAIN)
-LIBSNDFILE_32_PKG_DISTRO_NAME         = kxLab
-LIBSNDFILE_32_PKG_DISTRO_VERSION      = 1.0
+LIBSNDFILE_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+LIBSNDFILE_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBSNDFILE_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                    |---handy-ruler-------------------------------|
 LIBSNDFILE_32_PKG_SHORT_DESCRIPTION   = libsndfile-x32 $(version)

@@ -41,8 +41,8 @@ PKG_GROUP = libs
 PAM_32_PKG_NAME                = pam-x32
 PAM_32_PKG_VERSION             = 1.1.8
 PAM_32_PKG_ARCH                = $(TOOLCHAIN)
-PAM_32_PKG_DISTRO_NAME         = kxLab
-PAM_32_PKG_DISTRO_VERSION      = 1.0
+PAM_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+PAM_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 PAM_32_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 PAM_32_PKG_SHORT_DESCRIPTION   = pam-x32 $(version)

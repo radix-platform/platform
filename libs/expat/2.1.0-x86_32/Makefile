@@ -39,8 +39,8 @@ PKG_GROUP = libs
 EXPAT32_PKG_NAME                = expat-x32
 EXPAT32_PKG_VERSION             = 2.1.0
 EXPAT32_PKG_ARCH                = $(TOOLCHAIN)
-EXPAT32_PKG_DISTRO_NAME         = kxLab
-EXPAT32_PKG_DISTRO_VERSION      = 1.0
+EXPAT32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+EXPAT32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 EXPAT32_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
 EXPAT32_PKG_SHORT_DESCRIPTION   = expat-x32 $(version)

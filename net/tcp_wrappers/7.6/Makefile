@@ -45,8 +45,8 @@ PKG_GROUP = net
 TCP_WRAP_PKG_NAME                = tcp_wrappers
 TCP_WRAP_PKG_VERSION             = 7.6
 TCP_WRAP_PKG_ARCH                = $(TOOLCHAIN)
-TCP_WRAP_PKG_DISTRO_NAME         = kxLab
-TCP_WRAP_PKG_DISTRO_VERSION      = 1.0
+TCP_WRAP_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+TCP_WRAP_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 TCP_WRAP_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
 TCP_WRAP_PKG_SHORT_DESCRIPTION   = tcp_wrappers $(version)

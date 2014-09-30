@@ -45,8 +45,8 @@ PKG_GROUP = libs
 LIBELF_PKG_NAME                = libelf
 LIBELF_PKG_VERSION             = 0.8.13
 LIBELF_PKG_ARCH                = $(TOOLCHAIN)
-LIBELF_PKG_DISTRO_NAME         = kxLab
-LIBELF_PKG_DISTRO_VERSION      = 1.0
+LIBELF_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+LIBELF_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBELF_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 LIBELF_PKG_SHORT_DESCRIPTION   = libelf $(version)

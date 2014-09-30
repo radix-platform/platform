@@ -44,8 +44,8 @@ PKG_GROUP = app
 SYSFSUTILS_PKG_NAME                = sysfsutils
 SYSFSUTILS_PKG_VERSION             = 2.1.0
 SYSFSUTILS_PKG_ARCH                = $(TOOLCHAIN)
-SYSFSUTILS_PKG_DISTRO_NAME         = kxLab
-SYSFSUTILS_PKG_DISTRO_VERSION      = 1.0
+SYSFSUTILS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+SYSFSUTILS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 SYSFSUTILS_PKG_GROUP               = $(PKG_GROUP)
 ###                                 |---handy-ruler-------------------------------|
 SYSFSUTILS_PKG_SHORT_DESCRIPTION   = sysfsutils $(version)

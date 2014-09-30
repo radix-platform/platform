@@ -46,8 +46,8 @@ PKG_GROUP = dev
 GPERF_PKG_NAME                = gperf
 GPERF_PKG_VERSION             = 3.0.4
 GPERF_PKG_ARCH                = $(TOOLCHAIN)
-GPERF_PKG_DISTRO_NAME         = kxLab
-GPERF_PKG_DISTRO_VERSION      = 1.0
+GPERF_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+GPERF_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GPERF_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
 GPERF_PKG_SHORT_DESCRIPTION   = gperf $(version)

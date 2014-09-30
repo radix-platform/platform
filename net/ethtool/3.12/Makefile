@@ -45,8 +45,8 @@ PKG_GROUP = net
 ETHTOOL_PKG_NAME                = ethtool
 ETHTOOL_PKG_VERSION             = 3.12
 ETHTOOL_PKG_ARCH                = $(TOOLCHAIN)
-ETHTOOL_PKG_DISTRO_NAME         = kxLab
-ETHTOOL_PKG_DISTRO_VERSION      = 1.0
+ETHTOOL_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+ETHTOOL_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 ETHTOOL_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
 ETHTOOL_PKG_SHORT_DESCRIPTION   = ethtool $(version)

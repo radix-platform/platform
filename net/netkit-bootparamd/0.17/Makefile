@@ -45,8 +45,8 @@ PKG_GROUP = net
 BOOTPARAMD_PKG_NAME                = netkit-bootparamd
 BOOTPARAMD_PKG_VERSION             = 0.17
 BOOTPARAMD_PKG_ARCH                = $(TOOLCHAIN)
-BOOTPARAMD_PKG_DISTRO_NAME         = kxLab
-BOOTPARAMD_PKG_DISTRO_VERSION      = 1.0
+BOOTPARAMD_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+BOOTPARAMD_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 BOOTPARAMD_PKG_GROUP               = $(PKG_GROUP)
 ###                                 |---handy-ruler-------------------------------|
 BOOTPARAMD_PKG_SHORT_DESCRIPTION   = netkit-bootparamd $(version)

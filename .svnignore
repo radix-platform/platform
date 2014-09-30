@@ -11,6 +11,13 @@ build-system/progs/config.log
 build-system/progs/config.status
 build-system/progs/configure
 
+# generated scripts
+build-system/pkgtool/check-db-integrity
+build-system/pkgtool/check-package
+build-system/pkgtool/check-requires
+build-system/pkgtool/install-package
+build-system/pkgtool/remove-package
+
 # Target build dirs
 .a1x-newlib/
 .a1x-eglibc/

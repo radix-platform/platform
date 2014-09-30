@@ -1,8 +1,29 @@
 
+use File::Basename;
+
 use strict;
 use warnings FATAL => 'all';
 
+my $path = dirname( __FILE__ );
+
 package _kxLab;
+
+
+sub distro_name
+{
+  my $name = "kxLab";
+
+  open( FILE, "< $path/constants.mk" );
+
+  while( <FILE> )
+  {
+    if( /^DISTRO_NAME(.+= +)(.+)/ )
+    {
+      $name = $2;
+    }
+  }
+  return $name;
+}
 
 sub error
 {

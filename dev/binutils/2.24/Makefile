@@ -54,8 +54,8 @@ PKG_GROUP = dev
 BINUTILS_DEV_PKG_NAME                = binutils
 BINUTILS_DEV_PKG_VERSION             = 2.24
 BINUTILS_DEV_PKG_ARCH                = $(TOOLCHAIN)
-BINUTILS_DEV_PKG_DISTRO_NAME         = kxLab
-BINUTILS_DEV_PKG_DISTRO_VERSION      = 1.0
+BINUTILS_DEV_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+BINUTILS_DEV_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 BINUTILS_DEV_PKG_GROUP               = $(PKG_GROUP)
 ###                                   |---handy-ruler-------------------------------|
 BINUTILS_DEV_PKG_SHORT_DESCRIPTION   = GNU Binutils $(version)
@@ -212,8 +212,8 @@ extra_configure_switches += --docdir=/usr/share/doc
 endif
 
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_I686_EGLIBC))
-extra_configure_switches += '--with-pkgversion=Radix $(SYSTEM_VERSION)'
-extra_configure_switches += '--with-bugurl=http://www.radix.pro'
+extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
+extra_configure_switches += '--with-bugurl=$(BUG_URL)'
 # experimental gold linker( DEFAULT_LD=ld.bfd ):
 extra_configure_switches += --enable-gold=yes
 extra_configure_switches += --enable-ld=default
@@ -231,7 +231,7 @@ extra_configure_switches += --disable-initfini-array
 # standard options:
 extra_configure_switches += --enable-threads
 extra_configure_switches += --enable-plugins
-extra_configure_switches += --enable-targets=$(TARGET),i486-kxLab-linux-gnu,i486-kxLab-linux-gnulibc1,i486-kxLab-linux-gnuaout
+extra_configure_switches += --enable-targets=$(TARGET),i486-$(DISTRO_NAME)-linux-gnu,i486-$(DISTRO_NAME)-linux-gnulibc1,i486-$(DISTRO_NAME)-linux-gnuaout
 extra_configure_switches += --enable-shared
 extra_configure_switches += --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --mandir=/usr/share/man
@@ -240,8 +240,8 @@ extra_configure_switches += --docdir=/usr/share/doc
 endif
 
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC))
-extra_configure_switches += '--with-pkgversion=Radix $(SYSTEM_VERSION)'
-extra_configure_switches += '--with-bugurl=http://www.radix.pro'
+extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
+extra_configure_switches += '--with-bugurl=$(BUG_URL)'
 # experimental gold linker( DEFAULT_LD=ld.bfd ):
 extra_configure_switches += --enable-gold=yes
 extra_configure_switches += --enable-ld=default
@@ -260,7 +260,7 @@ extra_configure_switches += --disable-initfini-array
 extra_configure_switches += --enable-multilib
 extra_configure_switches += --enable-threads
 extra_configure_switches += --enable-plugins
-extra_configure_switches += --enable-targets=$(TARGET),x86_64-kxLab-linux,x86_64-kxLab-linux-gnulibc1,x86_64-kxLab-linux-gnuaout
+extra_configure_switches += --enable-targets=$(TARGET),x86_64-$(DISTRO_NAME)-linux,x86_64-$(DISTRO_NAME)-linux-gnulibc1,x86_64-$(DISTRO_NAME)-linux-gnuaout
 extra_configure_switches += --enable-64-bit-bfd
 extra_configure_switches += --enable-shared
 extra_configure_switches += --libdir=/usr/lib$(LIBSUFFIX)

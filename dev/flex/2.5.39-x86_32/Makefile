@@ -39,8 +39,8 @@ PKG_GROUP = dev
 FLEX_32_PKG_NAME                = flex-x32
 FLEX_32_PKG_VERSION             = 2.5.39
 FLEX_32_PKG_ARCH                = $(TOOLCHAIN)
-FLEX_32_PKG_DISTRO_NAME         = kxLab
-FLEX_32_PKG_DISTRO_VERSION      = 1.0
+FLEX_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+FLEX_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 FLEX_32_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
 FLEX_32_PKG_SHORT_DESCRIPTION   = flex-x32 $(version)

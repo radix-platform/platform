@@ -55,8 +55,8 @@ PKG_GROUP = app
 SOX_32_PKG_NAME                = sox-x32
 SOX_32_PKG_VERSION             = 14.4.1
 SOX_32_PKG_ARCH                = $(TOOLCHAIN)
-SOX_32_PKG_DISTRO_NAME         = kxLab
-SOX_32_PKG_DISTRO_VERSION      = 1.0
+SOX_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+SOX_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 SOX_32_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 SOX_32_PKG_SHORT_DESCRIPTION   = sox-x32 $(version)

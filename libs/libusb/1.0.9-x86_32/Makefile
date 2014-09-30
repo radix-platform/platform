@@ -39,8 +39,8 @@ PKG_GROUP = libs
 LIBUSB32_PKG_NAME                = libusb-x32
 LIBUSB32_PKG_VERSION             = 1.0.9
 LIBUSB32_PKG_ARCH                = $(TOOLCHAIN)
-LIBUSB32_PKG_DISTRO_NAME         = kxLab
-LIBUSB32_PKG_DISTRO_VERSION      = 1.0
+LIBUSB32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+LIBUSB32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBUSB32_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
 LIBUSB32_PKG_SHORT_DESCRIPTION   = libusb-x32 $(version)

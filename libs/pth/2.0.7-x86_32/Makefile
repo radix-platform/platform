@@ -39,8 +39,8 @@ PKG_GROUP = libs
 PTH32_PKG_NAME                = pth-x32
 PTH32_PKG_VERSION             = 2.0.7
 PTH32_PKG_ARCH                = $(TOOLCHAIN)
-PTH32_PKG_DISTRO_NAME         = kxLab
-PTH32_PKG_DISTRO_VERSION      = 1.0
+PTH32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+PTH32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 PTH32_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
 PTH32_PKG_SHORT_DESCRIPTION   = pth-x32 $(version)

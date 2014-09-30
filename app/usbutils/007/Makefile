@@ -45,8 +45,8 @@ PKG_GROUP = app
 USBUTILS_PKG_NAME                = usbutils
 USBUTILS_PKG_VERSION             = 007
 USBUTILS_PKG_ARCH                = $(TOOLCHAIN)
-USBUTILS_PKG_DISTRO_NAME         = kxLab
-USBUTILS_PKG_DISTRO_VERSION      = 1.0
+USBUTILS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+USBUTILS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 USBUTILS_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
 USBUTILS_PKG_SHORT_DESCRIPTION   = usbutils $(version)

@@ -39,8 +39,8 @@ PKG_GROUP = libs
 TASN32_PKG_NAME                = libtasn1-x32
 TASN32_PKG_VERSION             = 3.4
 TASN32_PKG_ARCH                = $(TOOLCHAIN)
-TASN32_PKG_DISTRO_NAME         = kxLab
-TASN32_PKG_DISTRO_VERSION      = 1.0
+TASN32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+TASN32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 TASN32_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 TASN32_PKG_SHORT_DESCRIPTION   = libtasn1-x32 $(version)

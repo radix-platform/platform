@@ -46,8 +46,8 @@ PKG_GROUP = libs
 READLINE_PKG_NAME                = readline
 READLINE_PKG_VERSION             = 6.2
 READLINE_PKG_ARCH                = $(TOOLCHAIN)
-READLINE_PKG_DISTRO_NAME         = kxLab
-READLINE_PKG_DISTRO_VERSION      = 1.0
+READLINE_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+READLINE_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 READLINE_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
 READLINE_PKG_SHORT_DESCRIPTION   = readline $(version)

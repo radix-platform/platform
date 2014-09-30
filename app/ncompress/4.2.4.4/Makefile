@@ -43,8 +43,8 @@ PKG_GROUP = app
 NCOMPRESS_PKG_NAME                = ncompress
 NCOMPRESS_PKG_VERSION             = 4.2.4.4
 NCOMPRESS_PKG_ARCH                = $(TOOLCHAIN)
-NCOMPRESS_PKG_DISTRO_NAME         = kxLab
-NCOMPRESS_PKG_DISTRO_VERSION      = 1.0
+NCOMPRESS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+NCOMPRESS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 NCOMPRESS_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
 NCOMPRESS_PKG_SHORT_DESCRIPTION   = ncompress $(version)

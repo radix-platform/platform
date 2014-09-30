@@ -53,8 +53,8 @@ PKG_GROUP = net
 GNUTLS_PKG_NAME                = gnutls
 GNUTLS_PKG_VERSION             = 3.1.22
 GNUTLS_PKG_ARCH                = $(TOOLCHAIN)
-GNUTLS_PKG_DISTRO_NAME         = kxLab
-GNUTLS_PKG_DISTRO_VERSION      = 1.0
+GNUTLS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+GNUTLS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GNUTLS_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 GNUTLS_PKG_SHORT_DESCRIPTION   = gnutls $(version)

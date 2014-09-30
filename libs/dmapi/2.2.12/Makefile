@@ -44,8 +44,8 @@ PKG_GROUP = libs
 DMAPI_PKG_NAME                = dmapi
 DMAPI_PKG_VERSION             = 2.2.12
 DMAPI_PKG_ARCH                = $(TOOLCHAIN)
-DMAPI_PKG_DISTRO_NAME         = kxLab
-DMAPI_PKG_DISTRO_VERSION      = 1.0
+DMAPI_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+DMAPI_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 DMAPI_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
 DMAPI_PKG_SHORT_DESCRIPTION   = dmapi $(version)

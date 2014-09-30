@@ -47,8 +47,8 @@ PKG_GROUP = libs
 EGLIBC32_PKG_NAME                = eglibc-x32
 EGLIBC32_PKG_VERSION             = 2.19.1
 EGLIBC32_PKG_ARCH                = $(TOOLCHAIN)
-EGLIBC32_PKG_DISTRO_NAME         = kxLab
-EGLIBC32_PKG_DISTRO_VERSION      = 1.0
+EGLIBC32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+EGLIBC32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 EGLIBC32_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
 EGLIBC32_PKG_SHORT_DESCRIPTION   = eglibc-x32 $(version) header files

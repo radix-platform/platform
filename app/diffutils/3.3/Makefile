@@ -45,8 +45,8 @@ PKG_GROUP = app
 DIFFUTILS_PKG_NAME                = diffutils
 DIFFUTILS_PKG_VERSION             = 3.3
 DIFFUTILS_PKG_ARCH                = $(TOOLCHAIN)
-DIFFUTILS_PKG_DISTRO_NAME         = kxLab
-DIFFUTILS_PKG_DISTRO_VERSION      = 1.0
+DIFFUTILS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+DIFFUTILS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 DIFFUTILS_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
 DIFFUTILS_PKG_SHORT_DESCRIPTION   = diffutils $(version)

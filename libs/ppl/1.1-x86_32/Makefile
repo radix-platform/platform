@@ -39,8 +39,8 @@ PKG_GROUP = libs
 PPL32_PKG_NAME                = ppl-x32
 PPL32_PKG_VERSION             = 1.1
 PPL32_PKG_ARCH                = $(TOOLCHAIN)
-PPL32_PKG_DISTRO_NAME         = kxLab
-PPL32_PKG_DISTRO_VERSION      = 1.0
+PPL32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+PPL32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 PPL32_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
 PPL32_PKG_SHORT_DESCRIPTION   = ppl-x32 $(version)

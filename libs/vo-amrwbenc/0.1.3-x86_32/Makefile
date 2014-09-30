@@ -39,8 +39,8 @@ PKG_GROUP = libs
 VO_AMRWBENC_32_PKG_NAME                = vo-amrwbenc-x32
 VO_AMRWBENC_32_PKG_VERSION             = 0.1.3
 VO_AMRWBENC_32_PKG_ARCH                = $(TOOLCHAIN)
-VO_AMRWBENC_32_PKG_DISTRO_NAME         = kxLab
-VO_AMRWBENC_32_PKG_DISTRO_VERSION      = 1.0
+VO_AMRWBENC_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+VO_AMRWBENC_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 VO_AMRWBENC_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                      |---handy-ruler-------------------------------|
 VO_AMRWBENC_32_PKG_SHORT_DESCRIPTION   = vo-amrwbenc-x32 $(version)

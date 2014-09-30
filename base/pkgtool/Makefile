@@ -27,11 +27,11 @@ PKG_GROUP = base
 BIN_PKG_NAME                = pkgtool
 BIN_PKG_VERSION             = 0.0.1
 BIN_PKG_ARCH                = $(TOOLCHAIN)
-BIN_PKG_DISTRO_NAME         = kxLab
-BIN_PKG_DISTRO_VERSION      = 1.0
+BIN_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+BIN_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 BIN_PKG_GROUP               = $(PKG_GROUP)
 ###                          |---handy-ruler-------------------------------|
-BIN_PKG_SHORT_DESCRIPTION   = _kxLab Package Database Tools
+BIN_PKG_SHORT_DESCRIPTION   = $(DISTRO_NAME) - Package Database Tools
 BIN_PKG_URL                 = $(BUG_URL)
 BIN_PKG_LICENSE             = Proprietary
 BIN_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/pkg-description

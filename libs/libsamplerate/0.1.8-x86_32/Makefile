@@ -42,8 +42,8 @@ PKG_GROUP = libs
 LIBSAMPLERATE_32_PKG_NAME                = libsamplerate-x32
 LIBSAMPLERATE_32_PKG_VERSION             = 0.1.8
 LIBSAMPLERATE_32_PKG_ARCH                = $(TOOLCHAIN)
-LIBSAMPLERATE_32_PKG_DISTRO_NAME         = kxLab
-LIBSAMPLERATE_32_PKG_DISTRO_VERSION      = 1.0
+LIBSAMPLERATE_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+LIBSAMPLERATE_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBSAMPLERATE_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                       |---handy-ruler-------------------------------|
 LIBSAMPLERATE_32_PKG_SHORT_DESCRIPTION   = libsamplerate-x32 $(version)

@@ -39,8 +39,8 @@ PKG_GROUP = net
 GPGERROR32_PKG_NAME                = libgpg-error-x32
 GPGERROR32_PKG_VERSION             = 1.12
 GPGERROR32_PKG_ARCH                = $(TOOLCHAIN)
-GPGERROR32_PKG_DISTRO_NAME         = kxLab
-GPGERROR32_PKG_DISTRO_VERSION      = 1.0
+GPGERROR32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+GPGERROR32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GPGERROR32_PKG_GROUP               = $(PKG_GROUP)
 ###                                 |---handy-ruler-------------------------------|
 GPGERROR32_PKG_SHORT_DESCRIPTION   = libgpg-error-x32 $(version)

@@ -39,8 +39,8 @@ PKG_GROUP = app
 CGROUP_32_PKG_NAME                = libcgroup-x32
 CGROUP_32_PKG_VERSION             = 0.41
 CGROUP_32_PKG_ARCH                = $(TOOLCHAIN)
-CGROUP_32_PKG_DISTRO_NAME         = kxLab
-CGROUP_32_PKG_DISTRO_VERSION      = 1.0
+CGROUP_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+CGROUP_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 CGROUP_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
 CGROUP_32_PKG_SHORT_DESCRIPTION   = libcgroup-x32 $(version)

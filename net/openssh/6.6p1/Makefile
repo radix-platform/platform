@@ -49,8 +49,8 @@ PKG_GROUP = net
 OPENSSH_PKG_NAME                = openssh
 OPENSSH_PKG_VERSION             = 6.6p1
 OPENSSH_PKG_ARCH                = $(TOOLCHAIN)
-OPENSSH_PKG_DISTRO_NAME         = kxLab
-OPENSSH_PKG_DISTRO_VERSION      = 1.0
+OPENSSH_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+OPENSSH_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 OPENSSH_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
 OPENSSH_PKG_SHORT_DESCRIPTION   = openssh $(version)

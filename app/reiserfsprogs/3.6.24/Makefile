@@ -45,8 +45,8 @@ PKG_GROUP = app
 REISERFS_PKG_NAME                = reiserfsprogs
 REISERFS_PKG_VERSION             = 3.6.24
 REISERFS_PKG_ARCH                = $(TOOLCHAIN)
-REISERFS_PKG_DISTRO_NAME         = kxLab
-REISERFS_PKG_DISTRO_VERSION      = 1.0
+REISERFS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+REISERFS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 REISERFS_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
 REISERFS_PKG_SHORT_DESCRIPTION   = reiserfsprogs $(version)

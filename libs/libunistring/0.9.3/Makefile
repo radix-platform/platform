@@ -45,8 +45,8 @@ PKG_GROUP = libs
 LIBUNISTR_PKG_NAME                = libunistring
 LIBUNISTR_PKG_VERSION             = 0.9.3
 LIBUNISTR_PKG_ARCH                = $(TOOLCHAIN)
-LIBUNISTR_PKG_DISTRO_NAME         = kxLab
-LIBUNISTR_PKG_DISTRO_VERSION      = 1.0
+LIBUNISTR_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+LIBUNISTR_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBUNISTR_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
 LIBUNISTR_PKG_SHORT_DESCRIPTION   = libunistring $(version)

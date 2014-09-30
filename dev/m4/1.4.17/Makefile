@@ -45,8 +45,8 @@ PKG_GROUP = dev
 M4_PKG_NAME                = m4
 M4_PKG_VERSION             = 1.4.17
 M4_PKG_ARCH                = $(TOOLCHAIN)
-M4_PKG_DISTRO_NAME         = kxLab
-M4_PKG_DISTRO_VERSION      = 1.0
+M4_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+M4_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 M4_PKG_GROUP               = $(PKG_GROUP)
 ###                         |---handy-ruler-------------------------------|
 M4_PKG_SHORT_DESCRIPTION   = m4 $(version)

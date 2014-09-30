@@ -45,8 +45,8 @@ PKG_GROUP = net
 FINGER_PKG_NAME                = bsd-finger
 FINGER_PKG_VERSION             = 0.17
 FINGER_PKG_ARCH                = $(TOOLCHAIN)
-FINGER_PKG_DISTRO_NAME         = kxLab
-FINGER_PKG_DISTRO_VERSION      = 1.0
+FINGER_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+FINGER_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 FINGER_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 FINGER_PKG_SHORT_DESCRIPTION   = bsd-finger $(version)

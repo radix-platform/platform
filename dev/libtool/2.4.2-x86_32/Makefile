@@ -39,8 +39,8 @@ PKG_GROUP = dev
 LIBTOOL32_PKG_NAME                = libtool-x32
 LIBTOOL32_PKG_VERSION             = 2.4.2
 LIBTOOL32_PKG_ARCH                = $(TOOLCHAIN)
-LIBTOOL32_PKG_DISTRO_NAME         = kxLab
-LIBTOOL32_PKG_DISTRO_VERSION      = 1.0
+LIBTOOL32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+LIBTOOL32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBTOOL32_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
 LIBTOOL32_PKG_SHORT_DESCRIPTION   = libtool-x32 $(version)

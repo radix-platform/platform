@@ -48,8 +48,8 @@ PKG_GROUP = app
 XFSDUMP_PKG_NAME                = xfsdump
 XFSDUMP_PKG_VERSION             = 3.1.3
 XFSDUMP_PKG_ARCH                = $(TOOLCHAIN)
-XFSDUMP_PKG_DISTRO_NAME         = kxLab
-XFSDUMP_PKG_DISTRO_VERSION      = 1.0
+XFSDUMP_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+XFSDUMP_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 XFSDUMP_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
 XFSDUMP_PKG_SHORT_DESCRIPTION   = xfsdump $(version)

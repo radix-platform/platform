@@ -40,8 +40,8 @@ PKG_GROUP = app
 FILE_32_PKG_NAME                = file-x32
 FILE_32_PKG_VERSION             = 5.19
 FILE_32_PKG_ARCH                = $(TOOLCHAIN)
-FILE_32_PKG_DISTRO_NAME         = kxLab
-FILE_32_PKG_DISTRO_VERSION      = 1.0
+FILE_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+FILE_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 FILE_32_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
 FILE_32_PKG_SHORT_DESCRIPTION   = file-x32 $(version)

@@ -46,8 +46,8 @@ PKG_GROUP = app
 LIBCGROUP_PKG_NAME                = libcgroup
 LIBCGROUP_PKG_VERSION             = 0.41
 LIBCGROUP_PKG_ARCH                = $(TOOLCHAIN)
-LIBCGROUP_PKG_DISTRO_NAME         = kxLab
-LIBCGROUP_PKG_DISTRO_VERSION      = 1.0
+LIBCGROUP_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+LIBCGROUP_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBCGROUP_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
 LIBCGROUP_PKG_SHORT_DESCRIPTION   = libcgroup $(version)

@@ -47,8 +47,8 @@ PKG_GROUP = app
 LESS_PKG_NAME                = less
 LESS_PKG_VERSION             = 451
 LESS_PKG_ARCH                = $(TOOLCHAIN)
-LESS_PKG_DISTRO_NAME         = kxLab
-LESS_PKG_DISTRO_VERSION      = 1.0
+LESS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+LESS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LESS_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
 LESS_PKG_SHORT_DESCRIPTION   = less $(version)

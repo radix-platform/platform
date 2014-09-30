@@ -51,8 +51,8 @@ PKG_GROUP = app
 MPG123_PKG_NAME                = mpg123
 MPG123_PKG_VERSION             = 1.20.1
 MPG123_PKG_ARCH                = $(TOOLCHAIN)
-MPG123_PKG_DISTRO_NAME         = kxLab
-MPG123_PKG_DISTRO_VERSION      = 1.0
+MPG123_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+MPG123_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 MPG123_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 MPG123_PKG_SHORT_DESCRIPTION   = mpg123 $(version)

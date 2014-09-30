@@ -46,8 +46,8 @@ PKG_GROUP = libs
 PPL_PKG_NAME                = ppl
 PPL_PKG_VERSION             = 1.1
 PPL_PKG_ARCH                = $(TOOLCHAIN)
-PPL_PKG_DISTRO_NAME         = kxLab
-PPL_PKG_DISTRO_VERSION      = 1.0
+PPL_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+PPL_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 PPL_PKG_GROUP               = $(PKG_GROUP)
 ###                          |---handy-ruler-------------------------------|
 PPL_PKG_SHORT_DESCRIPTION   = ppl $(version)

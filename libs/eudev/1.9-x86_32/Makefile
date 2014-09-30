@@ -46,8 +46,8 @@ PKG_GROUP = libs
 EUDEV_32_PKG_NAME                = libeudev-x32
 EUDEV_32_PKG_VERSION             = 1.9
 EUDEV_32_PKG_ARCH                = $(TOOLCHAIN)
-EUDEV_32_PKG_DISTRO_NAME         = kxLab
-EUDEV_32_PKG_DISTRO_VERSION      = 1.0
+EUDEV_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+EUDEV_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 EUDEV_32_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
 EUDEV_32_PKG_SHORT_DESCRIPTION   = libeudev-x32 $(version)

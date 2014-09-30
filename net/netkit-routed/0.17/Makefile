@@ -45,8 +45,8 @@ PKG_GROUP = net
 ROUTED_PKG_NAME                = netkit-routed
 ROUTED_PKG_VERSION             = 0.18
 ROUTED_PKG_ARCH                = $(TOOLCHAIN)
-ROUTED_PKG_DISTRO_NAME         = kxLab
-ROUTED_PKG_DISTRO_VERSION      = 1.0
+ROUTED_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+ROUTED_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 ROUTED_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 ROUTED_PKG_SHORT_DESCRIPTION   = netkit-routed $(version)

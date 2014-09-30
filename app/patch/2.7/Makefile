@@ -45,8 +45,8 @@ PKG_GROUP = app
 PATCH_PKG_NAME                = patch
 PATCH_PKG_VERSION             = 2.7
 PATCH_PKG_ARCH                = $(TOOLCHAIN)
-PATCH_PKG_DISTRO_NAME         = kxLab
-PATCH_PKG_DISTRO_VERSION      = 1.0
+PATCH_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+PATCH_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 PATCH_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
 PATCH_PKG_SHORT_DESCRIPTION   = patch $(version)

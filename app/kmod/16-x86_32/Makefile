@@ -41,8 +41,8 @@ PKG_GROUP = app
 KMOD32_PKG_NAME                = kmod-x32
 KMOD32_PKG_VERSION             = 16
 KMOD32_PKG_ARCH                = $(TOOLCHAIN)
-KMOD32_PKG_DISTRO_NAME         = kxLab
-KMOD32_PKG_DISTRO_VERSION      = 1.0
+KMOD32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+KMOD32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 KMOD32_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 KMOD32_PKG_SHORT_DESCRIPTION   = kmod-x32 $(version)

@@ -49,8 +49,8 @@ PKG_GROUP = net
 TELNET_PKG_NAME                = netkit-telnet
 TELNET_PKG_VERSION             = 0.17
 TELNET_PKG_ARCH                = $(TOOLCHAIN)
-TELNET_PKG_DISTRO_NAME         = kxLab
-TELNET_PKG_DISTRO_VERSION      = 1.0
+TELNET_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+TELNET_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 TELNET_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 TELNET_PKG_SHORT_DESCRIPTION   = netkit-telnet $(version)

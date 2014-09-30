@@ -44,8 +44,8 @@ PKG_GROUP = dict
 SCOWL_PKG_NAME                = scowl
 SCOWL_PKG_VERSION             = 7.1
 SCOWL_PKG_ARCH                = $(TOOLCHAIN)
-SCOWL_PKG_DISTRO_NAME         = kxLab
-SCOWL_PKG_DISTRO_VERSION      = 1.0
+SCOWL_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+SCOWL_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 SCOWL_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
 SCOWL_PKG_SHORT_DESCRIPTION   = scowl $(version)

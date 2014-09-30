@@ -74,8 +74,8 @@ PKG_GROUP = boot
 KERNEL_BIN_PKG_NAME                = kernel
 KERNEL_BIN_PKG_VERSION             = 3.4.90
 KERNEL_BIN_PKG_ARCH                = $(TOOLCHAIN)
-KERNEL_BIN_PKG_DISTRO_NAME         = kxLab
-KERNEL_BIN_PKG_DISTRO_VERSION      = 1.0
+KERNEL_BIN_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+KERNEL_BIN_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 KERNEL_BIN_PKG_GROUP               = $(PKG_GROUP)
 ###                                 |---handy-ruler-------------------------------|
 KERNEL_BIN_PKG_SHORT_DESCRIPTION   = Linux $(version) Kernel

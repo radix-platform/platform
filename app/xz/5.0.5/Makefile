@@ -45,8 +45,8 @@ PKG_GROUP = app
 XZ_PKG_NAME                = xz
 XZ_PKG_VERSION             = 5.0.5
 XZ_PKG_ARCH                = $(TOOLCHAIN)
-XZ_PKG_DISTRO_NAME         = kxLab
-XZ_PKG_DISTRO_VERSION      = 1.0
+XZ_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+XZ_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 XZ_PKG_GROUP               = $(PKG_GROUP)
 ###                         |---handy-ruler-------------------------------|
 XZ_PKG_SHORT_DESCRIPTION   = xz $(version)

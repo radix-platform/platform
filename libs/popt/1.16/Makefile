@@ -45,8 +45,8 @@ PKG_GROUP = libs
 POPT_PKG_NAME                = popt
 POPT_PKG_VERSION             = 1.16
 POPT_PKG_ARCH                = $(TOOLCHAIN)
-POPT_PKG_DISTRO_NAME         = kxLab
-POPT_PKG_DISTRO_VERSION      = 1.0
+POPT_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+POPT_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 POPT_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
 POPT_PKG_SHORT_DESCRIPTION   = popt $(version)

@@ -38,8 +38,8 @@ PKG_GROUP = libs
 KEYUTILS_32_PKG_NAME                = keyutils-x32
 KEYUTILS_32_PKG_VERSION             = 1.5.9
 KEYUTILS_32_PKG_ARCH                = $(TOOLCHAIN)
-KEYUTILS_32_PKG_DISTRO_NAME         = kxLab
-KEYUTILS_32_PKG_DISTRO_VERSION      = 1.0
+KEYUTILS_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+KEYUTILS_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 KEYUTILS_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                  |---handy-ruler-------------------------------|
 KEYUTILS_32_PKG_SHORT_DESCRIPTION   = keyutils-x32 $(version)

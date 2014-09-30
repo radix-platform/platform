@@ -39,8 +39,8 @@ PKG_GROUP = net
 NETTLE32_PKG_NAME                = nettle-x32
 NETTLE32_PKG_VERSION             = 2.7.1
 NETTLE32_PKG_ARCH                = $(TOOLCHAIN)
-NETTLE32_PKG_DISTRO_NAME         = kxLab
-NETTLE32_PKG_DISTRO_VERSION      = 1.0
+NETTLE32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+NETTLE32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 NETTLE32_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
 NETTLE32_PKG_SHORT_DESCRIPTION   = nettle-x32 $(version)

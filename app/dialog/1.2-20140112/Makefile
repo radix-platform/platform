@@ -50,8 +50,8 @@ PKG_GROUP = app
 DIALOG_PKG_NAME                = dialog
 DIALOG_PKG_VERSION             = 1.2-20140112
 DIALOG_PKG_ARCH                = $(TOOLCHAIN)
-DIALOG_PKG_DISTRO_NAME         = kxLab
-DIALOG_PKG_DISTRO_VERSION      = 1.0
+DIALOG_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+DIALOG_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 DIALOG_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 DIALOG_PKG_SHORT_DESCRIPTION   = dialog $(version)

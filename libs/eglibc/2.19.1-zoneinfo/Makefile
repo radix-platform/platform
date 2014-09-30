@@ -52,8 +52,8 @@ PKG_GROUP = libs
 EGLIBC_TZ_PKG_NAME                = eglibc-zoneinfo
 EGLIBC_TZ_PKG_VERSION             = 2.19.1
 EGLIBC_TZ_PKG_ARCH                = $(TOOLCHAIN)
-EGLIBC_TZ_PKG_DISTRO_NAME         = kxLab
-EGLIBC_TZ_PKG_DISTRO_VERSION      = 1.0
+EGLIBC_TZ_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+EGLIBC_TZ_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 EGLIBC_TZ_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
 EGLIBC_TZ_PKG_SHORT_DESCRIPTION   = eglibc-zoneinfo $(version) timezone db

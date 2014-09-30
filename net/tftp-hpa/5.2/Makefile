@@ -47,8 +47,8 @@ PKG_GROUP = net
 TFTP_PKG_NAME                = tftp-hpa
 TFTP_PKG_VERSION             = 5.2
 TFTP_PKG_ARCH                = $(TOOLCHAIN)
-TFTP_PKG_DISTRO_NAME         = kxLab
-TFTP_PKG_DISTRO_VERSION      = 1.0
+TFTP_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+TFTP_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 TFTP_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
 TFTP_PKG_SHORT_DESCRIPTION   = tftp-hpa $(version)

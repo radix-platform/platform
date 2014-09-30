@@ -50,8 +50,8 @@ PKG_GROUP = net
 INETD_PKG_NAME                = inetd
 INETD_PKG_VERSION             = 1.79
 INETD_PKG_ARCH                = $(TOOLCHAIN)
-INETD_PKG_DISTRO_NAME         = kxLab
-INETD_PKG_DISTRO_VERSION      = 1.0
+INETD_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+INETD_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 INETD_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
 INETD_PKG_SHORT_DESCRIPTION   = inetd $(version)

@@ -41,8 +41,8 @@ PKG_GROUP = app
 ACPID_PKG_NAME                = acpid
 ACPID_PKG_VERSION             = 2.0.22
 ACPID_PKG_ARCH                = $(TOOLCHAIN)
-ACPID_PKG_DISTRO_NAME         = kxLab
-ACPID_PKG_DISTRO_VERSION      = 1.0
+ACPID_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+ACPID_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 ACPID_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
 ACPID_PKG_SHORT_DESCRIPTION   = acpid $(version)

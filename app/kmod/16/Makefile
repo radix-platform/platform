@@ -46,8 +46,8 @@ PKG_GROUP = app
 KMOD_PKG_NAME                = kmod
 KMOD_PKG_VERSION             = 16
 KMOD_PKG_ARCH                = $(TOOLCHAIN)
-KMOD_PKG_DISTRO_NAME         = kxLab
-KMOD_PKG_DISTRO_VERSION      = 1.0
+KMOD_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+KMOD_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 KMOD_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
 KMOD_PKG_SHORT_DESCRIPTION   = kmod $(version)

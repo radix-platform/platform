@@ -46,8 +46,8 @@ PKG_GROUP = app
 GETTEXT_PKG_NAME                = gettext
 GETTEXT_PKG_VERSION             = 0.18.3.2
 GETTEXT_PKG_ARCH                = $(TOOLCHAIN)
-GETTEXT_PKG_DISTRO_NAME         = kxLab
-GETTEXT_PKG_DISTRO_VERSION      = 1.0
+GETTEXT_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+GETTEXT_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GETTEXT_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
 GETTEXT_PKG_SHORT_DESCRIPTION   = GNU gettext $(version)

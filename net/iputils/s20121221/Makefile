@@ -48,8 +48,8 @@ PKG_GROUP = net
 IPUTILS_PKG_NAME                = iputils
 IPUTILS_PKG_VERSION             = s20121221
 IPUTILS_PKG_ARCH                = $(TOOLCHAIN)
-IPUTILS_PKG_DISTRO_NAME         = kxLab
-IPUTILS_PKG_DISTRO_VERSION      = 1.0
+IPUTILS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+IPUTILS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 IPUTILS_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
 IPUTILS_PKG_SHORT_DESCRIPTION   = iputils $(version)

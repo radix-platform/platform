@@ -42,8 +42,8 @@ PKG_GROUP = app
 GPM32_PKG_NAME                = gpm-x32
 GPM32_PKG_VERSION             = 1.20.7
 GPM32_PKG_ARCH                = $(TOOLCHAIN)
-GPM32_PKG_DISTRO_NAME         = kxLab
-GPM32_PKG_DISTRO_VERSION      = 1.0
+GPM32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+GPM32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GPM32_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
 GPM32_PKG_SHORT_DESCRIPTION   = gpm-x32 $(version) library

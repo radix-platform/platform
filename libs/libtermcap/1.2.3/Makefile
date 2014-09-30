@@ -43,8 +43,8 @@ PKG_GROUP = libs
 TERMCAP_PKG_NAME                = libtermcap
 TERMCAP_PKG_VERSION             = 1.2.3
 TERMCAP_PKG_ARCH                = $(TOOLCHAIN)
-TERMCAP_PKG_DISTRO_NAME         = kxLab
-TERMCAP_PKG_DISTRO_VERSION      = 1.0
+TERMCAP_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+TERMCAP_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 TERMCAP_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
 TERMCAP_PKG_SHORT_DESCRIPTION   = libtermcap $(version)

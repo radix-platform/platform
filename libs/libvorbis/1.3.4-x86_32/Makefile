@@ -39,8 +39,8 @@ PKG_GROUP = libs
 LIBVORBIS_32_PKG_NAME                = libvorbis-x32
 LIBVORBIS_32_PKG_VERSION             = 1.3.4
 LIBVORBIS_32_PKG_ARCH                = $(TOOLCHAIN)
-LIBVORBIS_32_PKG_DISTRO_NAME         = kxLab
-LIBVORBIS_32_PKG_DISTRO_VERSION      = 1.0
+LIBVORBIS_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+LIBVORBIS_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBVORBIS_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                   |---handy-ruler-------------------------------|
 LIBVORBIS_32_PKG_SHORT_DESCRIPTION   = libvorbis-x32 $(version)

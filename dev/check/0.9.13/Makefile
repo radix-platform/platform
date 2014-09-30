@@ -45,8 +45,8 @@ PKG_GROUP = dev
 CHECK_PKG_NAME                = check
 CHECK_PKG_VERSION             = 0.9.13
 CHECK_PKG_ARCH                = $(TOOLCHAIN)
-CHECK_PKG_DISTRO_NAME         = kxLab
-CHECK_PKG_DISTRO_VERSION      = 1.0
+CHECK_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+CHECK_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 CHECK_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
 CHECK_PKG_SHORT_DESCRIPTION   = check $(version)

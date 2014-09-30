@@ -58,8 +58,8 @@ PKG_GROUP = libs
 EGLIBC_I18N_PKG_NAME                = eglibc-i18n
 EGLIBC_I18N_PKG_VERSION             = 2.19.1
 EGLIBC_I18N_PKG_ARCH                = $(TOOLCHAIN)
-EGLIBC_I18N_PKG_DISTRO_NAME         = kxLab
-EGLIBC_I18N_PKG_DISTRO_VERSION      = 1.0
+EGLIBC_I18N_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+EGLIBC_I18N_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 EGLIBC_I18N_PKG_GROUP               = $(PKG_GROUP)
 ###                                  |---handy-ruler-------------------------------|
 EGLIBC_I18N_PKG_SHORT_DESCRIPTION   = eglibc-i18n $(version) locales

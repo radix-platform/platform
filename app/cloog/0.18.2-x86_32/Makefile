@@ -39,8 +39,8 @@ PKG_GROUP = app
 CLOOG32_PKG_NAME                = cloog-x32
 CLOOG32_PKG_VERSION             = 0.18.2
 CLOOG32_PKG_ARCH                = $(TOOLCHAIN)
-CLOOG32_PKG_DISTRO_NAME         = kxLab
-CLOOG32_PKG_DISTRO_VERSION      = 1.0
+CLOOG32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+CLOOG32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 CLOOG32_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
 CLOOG32_PKG_SHORT_DESCRIPTION   = cloog-x32 $(version)

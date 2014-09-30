@@ -45,8 +45,8 @@ PKG_GROUP = app
 WHICH_PKG_NAME                = which
 WHICH_PKG_VERSION             = 2.20
 WHICH_PKG_ARCH                = $(TOOLCHAIN)
-WHICH_PKG_DISTRO_NAME         = kxLab
-WHICH_PKG_DISTRO_VERSION      = 1.0
+WHICH_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+WHICH_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 WHICH_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
 WHICH_PKG_SHORT_DESCRIPTION   = which $(version)

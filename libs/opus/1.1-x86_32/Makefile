@@ -39,8 +39,8 @@ PKG_GROUP = libs
 OPUS_32_PKG_NAME                = opus-x32
 OPUS_32_PKG_VERSION             = 1.1
 OPUS_32_PKG_ARCH                = $(TOOLCHAIN)
-OPUS_32_PKG_DISTRO_NAME         = kxLab
-OPUS_32_PKG_DISTRO_VERSION      = 1.0
+OPUS_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+OPUS_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 OPUS_32_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
 OPUS_32_PKG_SHORT_DESCRIPTION   = opus-x32 $(version)

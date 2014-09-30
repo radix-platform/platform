@@ -45,8 +45,8 @@ PKG_GROUP = net
 KSBA_PKG_NAME                = libksba
 KSBA_PKG_VERSION             = 1.3.0
 KSBA_PKG_ARCH                = $(TOOLCHAIN)
-KSBA_PKG_DISTRO_NAME         = kxLab
-KSBA_PKG_DISTRO_VERSION      = 1.0
+KSBA_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+KSBA_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 KSBA_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
 KSBA_PKG_SHORT_DESCRIPTION   = libksba $(version)

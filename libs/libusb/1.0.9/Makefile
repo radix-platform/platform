@@ -45,8 +45,8 @@ PKG_GROUP = libs
 LIBUSB_PKG_NAME                = libusb
 LIBUSB_PKG_VERSION             = 1.0.9
 LIBUSB_PKG_ARCH                = $(TOOLCHAIN)
-LIBUSB_PKG_DISTRO_NAME         = kxLab
-LIBUSB_PKG_DISTRO_VERSION      = 1.0
+LIBUSB_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+LIBUSB_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBUSB_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 LIBUSB_PKG_SHORT_DESCRIPTION   = libusb $(version)

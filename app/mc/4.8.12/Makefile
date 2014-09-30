@@ -60,8 +60,8 @@ PKG_GROUP = app
 MC_PKG_NAME                = mc
 MC_PKG_VERSION             = 4.8.12
 MC_PKG_ARCH                = $(TOOLCHAIN)
-MC_PKG_DISTRO_NAME         = kxLab
-MC_PKG_DISTRO_VERSION      = 1.0
+MC_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+MC_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 MC_PKG_GROUP               = $(PKG_GROUP)
 ###                         |---handy-ruler-------------------------------|
 MC_PKG_SHORT_DESCRIPTION   = mc $(version)

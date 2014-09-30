@@ -45,8 +45,8 @@ PKG_GROUP = libs
 LZO_PKG_NAME                = lzo
 LZO_PKG_VERSION             = 2.08
 LZO_PKG_ARCH                = $(TOOLCHAIN)
-LZO_PKG_DISTRO_NAME         = kxLab
-LZO_PKG_DISTRO_VERSION      = 1.0
+LZO_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+LZO_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LZO_PKG_GROUP               = $(PKG_GROUP)
 ###                          |---handy-ruler-------------------------------|
 LZO_PKG_SHORT_DESCRIPTION   = lzo $(version)

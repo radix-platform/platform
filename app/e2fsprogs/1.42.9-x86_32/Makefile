@@ -39,8 +39,8 @@ PKG_GROUP = app
 E2FSPROGS_32_PKG_NAME                = e2fsprogs-x32
 E2FSPROGS_32_PKG_VERSION             = 1.42.9
 E2FSPROGS_32_PKG_ARCH                = $(TOOLCHAIN)
-E2FSPROGS_32_PKG_DISTRO_NAME         = kxLab
-E2FSPROGS_32_PKG_DISTRO_VERSION      = 1.0
+E2FSPROGS_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+E2FSPROGS_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 E2FSPROGS_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                   |---handy-ruler-------------------------------|
 E2FSPROGS_32_PKG_SHORT_DESCRIPTION   = e2fsprogs-x32 $(version)

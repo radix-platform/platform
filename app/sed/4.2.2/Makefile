@@ -45,8 +45,8 @@ PKG_GROUP = app
 SED_PKG_NAME                = sed
 SED_PKG_VERSION             = 4.2.2
 SED_PKG_ARCH                = $(TOOLCHAIN)
-SED_PKG_DISTRO_NAME         = kxLab
-SED_PKG_DISTRO_VERSION      = 1.0
+SED_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+SED_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 SED_PKG_GROUP               = $(PKG_GROUP)
 ###                          |---handy-ruler-------------------------------|
 SED_PKG_SHORT_DESCRIPTION   = sed $(version)

@@ -62,8 +62,8 @@ PKG_GROUP = app
 SOX_PKG_NAME                = sox
 SOX_PKG_VERSION             = 14.4.1
 SOX_PKG_ARCH                = $(TOOLCHAIN)
-SOX_PKG_DISTRO_NAME         = kxLab
-SOX_PKG_DISTRO_VERSION      = 1.0
+SOX_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+SOX_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 SOX_PKG_GROUP               = $(PKG_GROUP)
 ###                          |---handy-ruler-------------------------------|
 SOX_PKG_SHORT_DESCRIPTION   = sox $(version)

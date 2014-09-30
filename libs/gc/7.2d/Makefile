@@ -47,8 +47,8 @@ PKG_GROUP = libs
 GC_PKG_NAME                = gc
 GC_PKG_VERSION             = 7.2d
 GC_PKG_ARCH                = $(TOOLCHAIN)
-GC_PKG_DISTRO_NAME         = kxLab
-GC_PKG_DISTRO_VERSION      = 1.0
+GC_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+GC_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GC_PKG_GROUP               = $(PKG_GROUP)
 ###                         |---handy-ruler-------------------------------|
 GC_PKG_SHORT_DESCRIPTION   = gc $(version)$(version_suffix)

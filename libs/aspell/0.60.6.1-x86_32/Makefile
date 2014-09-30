@@ -40,8 +40,8 @@ PKG_GROUP = libs
 ASPELL_32_PKG_NAME                = aspell-x32
 ASPELL_32_PKG_VERSION             = 0.60.6.1
 ASPELL_32_PKG_ARCH                = $(TOOLCHAIN)
-ASPELL_32_PKG_DISTRO_NAME         = kxLab
-ASPELL_32_PKG_DISTRO_VERSION      = 1.0
+ASPELL_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+ASPELL_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 ASPELL_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
 ASPELL_32_PKG_SHORT_DESCRIPTION   = aspell-x32 $(version)

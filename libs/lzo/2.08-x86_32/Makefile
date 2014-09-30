@@ -39,8 +39,8 @@ PKG_GROUP = libs
 LZO_32_PKG_NAME                = lzo-x32
 LZO_32_PKG_VERSION             = 2.08
 LZO_32_PKG_ARCH                = $(TOOLCHAIN)
-LZO_32_PKG_DISTRO_NAME         = kxLab
-LZO_32_PKG_DISTRO_VERSION      = 1.0
+LZO_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+LZO_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LZO_32_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 LZO_32_PKG_SHORT_DESCRIPTION   = lzo-x32 $(version)

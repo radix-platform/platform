@@ -48,8 +48,8 @@ PKG_GROUP = dev
 PYTHON32_PKG_NAME                = python2-x32
 PYTHON32_PKG_VERSION             = 2.7.6
 PYTHON32_PKG_ARCH                = $(TOOLCHAIN)
-PYTHON32_PKG_DISTRO_NAME         = kxLab
-PYTHON32_PKG_DISTRO_VERSION      = 1.0
+PYTHON32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+PYTHON32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 PYTHON32_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
 PYTHON32_PKG_SHORT_DESCRIPTION   = python2-x32 $(version)

@@ -45,8 +45,8 @@ PKG_GROUP = net
 RSH_PKG_NAME                = netkit-rsh
 RSH_PKG_VERSION             = 0.17
 RSH_PKG_ARCH                = $(TOOLCHAIN)
-RSH_PKG_DISTRO_NAME         = kxLab
-RSH_PKG_DISTRO_VERSION      = 1.0
+RSH_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+RSH_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 RSH_PKG_GROUP               = $(PKG_GROUP)
 ###                          |---handy-ruler-------------------------------|
 RSH_PKG_SHORT_DESCRIPTION   = netkit-rsh $(version)

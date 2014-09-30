@@ -45,8 +45,8 @@ PKG_GROUP = net
 ASSUAN_PKG_NAME                = libassuan
 ASSUAN_PKG_VERSION             = 2.1.1
 ASSUAN_PKG_ARCH                = $(TOOLCHAIN)
-ASSUAN_PKG_DISTRO_NAME         = kxLab
-ASSUAN_PKG_DISTRO_VERSION      = 1.0
+ASSUAN_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+ASSUAN_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 ASSUAN_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 ASSUAN_PKG_SHORT_DESCRIPTION   = libassuan $(version)

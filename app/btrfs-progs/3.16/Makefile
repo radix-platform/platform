@@ -47,8 +47,8 @@ PKG_GROUP = app
 BTRFS_PKG_NAME                = btrfs-progs
 BTRFS_PKG_VERSION             = 3.16
 BTRFS_PKG_ARCH                = $(TOOLCHAIN)
-BTRFS_PKG_DISTRO_NAME         = kxLab
-BTRFS_PKG_DISTRO_VERSION      = 1.0
+BTRFS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+BTRFS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 BTRFS_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
 BTRFS_PKG_SHORT_DESCRIPTION   = btrfs-progs $(version)

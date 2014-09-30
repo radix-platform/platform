@@ -52,8 +52,8 @@ PKG_GROUP = dev
 GUILE_PKG_NAME                = guile
 GUILE_PKG_VERSION             = 2.0.9
 GUILE_PKG_ARCH                = $(TOOLCHAIN)
-GUILE_PKG_DISTRO_NAME         = kxLab
-GUILE_PKG_DISTRO_VERSION      = 1.0
+GUILE_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+GUILE_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GUILE_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
 GUILE_PKG_SHORT_DESCRIPTION   = guile $(version)

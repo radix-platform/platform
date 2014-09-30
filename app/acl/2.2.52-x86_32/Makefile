@@ -37,8 +37,8 @@ PKG_GROUP = app
 ACL_32_PKG_NAME                = acl-x32
 ACL_32_PKG_VERSION             = 2.2.52
 ACL_32_PKG_ARCH                = $(TOOLCHAIN)
-ACL_32_PKG_DISTRO_NAME         = kxLab
-ACL_32_PKG_DISTRO_VERSION      = 1.0
+ACL_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+ACL_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 ACL_32_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 ACL_32_PKG_SHORT_DESCRIPTION   = acl-x32 $(version)

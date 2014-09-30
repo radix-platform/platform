@@ -51,8 +51,8 @@ PKG_GROUP = libs
 LIBAO_PKG_NAME                = libao
 LIBAO_PKG_VERSION             = 1.1.0
 LIBAO_PKG_ARCH                = $(TOOLCHAIN)
-LIBAO_PKG_DISTRO_NAME         = kxLab
-LIBAO_PKG_DISTRO_VERSION      = 1.0
+LIBAO_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+LIBAO_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBAO_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
 LIBAO_PKG_SHORT_DESCRIPTION   = libao $(version)

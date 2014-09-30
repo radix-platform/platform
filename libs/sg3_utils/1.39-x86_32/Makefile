@@ -38,8 +38,8 @@ PKG_GROUP = libs
 SG3_UTILS32_PKG_NAME                = sg3_utils-x32
 SG3_UTILS32_PKG_VERSION             = 1.39
 SG3_UTILS32_PKG_ARCH                = $(TOOLCHAIN)
-SG3_UTILS32_PKG_DISTRO_NAME         = kxLab
-SG3_UTILS32_PKG_DISTRO_VERSION      = 1.0
+SG3_UTILS32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+SG3_UTILS32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 SG3_UTILS32_PKG_GROUP               = $(PKG_GROUP)
 ###                                  |---handy-ruler-------------------------------|
 SG3_UTILS32_PKG_SHORT_DESCRIPTION   = sg3_utils-x32 $(version)

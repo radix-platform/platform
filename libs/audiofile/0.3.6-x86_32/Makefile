@@ -41,8 +41,8 @@ PKG_GROUP = libs
 AUDIOFILE_32_PKG_NAME                = audiofile-x32
 AUDIOFILE_32_PKG_VERSION             = 0.3.6
 AUDIOFILE_32_PKG_ARCH                = $(TOOLCHAIN)
-AUDIOFILE_32_PKG_DISTRO_NAME         = kxLab
-AUDIOFILE_32_PKG_DISTRO_VERSION      = 1.0
+AUDIOFILE_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+AUDIOFILE_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 AUDIOFILE_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                   |---handy-ruler-------------------------------|
 AUDIOFILE_32_PKG_SHORT_DESCRIPTION   = audiofile-x32 $(version)

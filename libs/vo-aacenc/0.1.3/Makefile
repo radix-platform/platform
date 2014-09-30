@@ -45,8 +45,8 @@ PKG_GROUP = libs
 VO_AACENC_PKG_NAME                = vo-aacenc
 VO_AACENC_PKG_VERSION             = 0.1.3
 VO_AACENC_PKG_ARCH                = $(TOOLCHAIN)
-VO_AACENC_PKG_DISTRO_NAME         = kxLab
-VO_AACENC_PKG_DISTRO_VERSION      = 1.0
+VO_AACENC_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+VO_AACENC_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 VO_AACENC_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
 VO_AACENC_PKG_SHORT_DESCRIPTION   = vo-aacenc $(version)

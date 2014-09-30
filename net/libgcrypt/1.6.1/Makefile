@@ -48,8 +48,8 @@ PKG_GROUP = net
 GCRYPT_PKG_NAME                = libgcrypt
 GCRYPT_PKG_VERSION             = 1.6.1
 GCRYPT_PKG_ARCH                = $(TOOLCHAIN)
-GCRYPT_PKG_DISTRO_NAME         = kxLab
-GCRYPT_PKG_DISTRO_VERSION      = 1.0
+GCRYPT_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+GCRYPT_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GCRYPT_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 GCRYPT_PKG_SHORT_DESCRIPTION   = libgcrypt $(version)

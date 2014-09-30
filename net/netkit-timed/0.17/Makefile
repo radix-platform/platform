@@ -45,8 +45,8 @@ PKG_GROUP = net
 TIMED_PKG_NAME                = netkit-timed
 TIMED_PKG_VERSION             = 0.17
 TIMED_PKG_ARCH                = $(TOOLCHAIN)
-TIMED_PKG_DISTRO_NAME         = kxLab
-TIMED_PKG_DISTRO_VERSION      = 1.0
+TIMED_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+TIMED_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 TIMED_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
 TIMED_PKG_SHORT_DESCRIPTION   = netkit-timed $(version)

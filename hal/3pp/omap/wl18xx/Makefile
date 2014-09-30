@@ -71,8 +71,8 @@ PKG_GROUP = boot
 WL18XX_BIN_PKG_NAME                = wl18xx
 WL18XX_BIN_PKG_VERSION             = ol_r8.a8.10
 WL18XX_BIN_PKG_ARCH                = $(TOOLCHAIN)
-WL18XX_BIN_PKG_DISTRO_NAME         = kxLab
-WL18XX_BIN_PKG_DISTRO_VERSION      = 1.0
+WL18XX_BIN_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+WL18XX_BIN_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 WL18XX_BIN_PKG_GROUP               = $(PKG_GROUP)
 ###                                 |---handy-ruler-------------------------------|
 WL18XX_BIN_PKG_SHORT_DESCRIPTION   = wl18xx $(version) for Linux kernel

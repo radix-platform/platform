@@ -42,8 +42,8 @@ PKG_GROUP = libs
 SLANG_32_PKG_NAME                = slang-x32
 SLANG_32_PKG_VERSION             = 2.2.4
 SLANG_32_PKG_ARCH                = $(TOOLCHAIN)
-SLANG_32_PKG_DISTRO_NAME         = kxLab
-SLANG_32_PKG_DISTRO_VERSION      = 1.0
+SLANG_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+SLANG_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 SLANG_32_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
 SLANG_32_PKG_SHORT_DESCRIPTION   = slang-x32 $(version)

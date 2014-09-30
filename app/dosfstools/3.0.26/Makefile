@@ -44,8 +44,8 @@ PKG_GROUP = app
 DOSFS_PKG_NAME                = dosfstools
 DOSFS_PKG_VERSION             = 3.0.26
 DOSFS_PKG_ARCH                = $(TOOLCHAIN)
-DOSFS_PKG_DISTRO_NAME         = kxLab
-DOSFS_PKG_DISTRO_VERSION      = 1.0
+DOSFS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+DOSFS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 DOSFS_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
 DOSFS_PKG_SHORT_DESCRIPTION   = dosfstools $(version)

@@ -47,8 +47,8 @@ PKG_GROUP = app
 GETTY_PS_PKG_NAME                = getty-ps
 GETTY_PS_PKG_VERSION             = 2.1.0b
 GETTY_PS_PKG_ARCH                = $(TOOLCHAIN)
-GETTY_PS_PKG_DISTRO_NAME         = kxLab
-GETTY_PS_PKG_DISTRO_VERSION      = 1.0
+GETTY_PS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+GETTY_PS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GETTY_PS_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
 GETTY_PS_PKG_SHORT_DESCRIPTION   = getty-ps $(version)

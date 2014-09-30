@@ -45,8 +45,8 @@ PKG_GROUP = libs
 OPUS_PKG_NAME                = opus
 OPUS_PKG_VERSION             = 1.1
 OPUS_PKG_ARCH                = $(TOOLCHAIN)
-OPUS_PKG_DISTRO_NAME         = kxLab
-OPUS_PKG_DISTRO_VERSION      = 1.0
+OPUS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+OPUS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 OPUS_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
 OPUS_PKG_SHORT_DESCRIPTION   = opus $(version)

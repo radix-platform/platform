@@ -49,8 +49,8 @@ PKG_GROUP = libs
 PCRE_PKG_NAME                = pcre
 PCRE_PKG_VERSION             = 8.34
 PCRE_PKG_ARCH                = $(TOOLCHAIN)
-PCRE_PKG_DISTRO_NAME         = kxLab
-PCRE_PKG_DISTRO_VERSION      = 1.0
+PCRE_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+PCRE_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 PCRE_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
 PCRE_PKG_SHORT_DESCRIPTION   = pcre $(version)

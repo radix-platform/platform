@@ -40,8 +40,8 @@ PKG_GROUP = libs
 MPC32_PKG_NAME                = mpc-x32
 MPC32_PKG_VERSION             = 1.0.2
 MPC32_PKG_ARCH                = $(TOOLCHAIN)
-MPC32_PKG_DISTRO_NAME         = kxLab
-MPC32_PKG_DISTRO_VERSION      = 1.0
+MPC32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+MPC32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 MPC32_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
 MPC32_PKG_SHORT_DESCRIPTION   = mpc-x32 $(version)

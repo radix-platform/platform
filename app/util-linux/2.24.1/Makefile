@@ -77,8 +77,8 @@ PKG_GROUP = app
 UTILLINUX_PKG_NAME                = util-linux
 UTILLINUX_PKG_VERSION             = 2.24.1
 UTILLINUX_PKG_ARCH                = $(TOOLCHAIN)
-UTILLINUX_PKG_DISTRO_NAME         = kxLab
-UTILLINUX_PKG_DISTRO_VERSION      = 1.0
+UTILLINUX_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+UTILLINUX_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 UTILLINUX_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
 UTILLINUX_PKG_SHORT_DESCRIPTION   = util-linux $(version)

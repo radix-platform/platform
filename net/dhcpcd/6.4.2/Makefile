@@ -46,8 +46,8 @@ PKG_GROUP = net
 DHCPCD_PKG_NAME                = dhcpcd
 DHCPCD_PKG_VERSION             = 6.4.2
 DHCPCD_PKG_ARCH                = $(TOOLCHAIN)
-DHCPCD_PKG_DISTRO_NAME         = kxLab
-DHCPCD_PKG_DISTRO_VERSION      = 1.0
+DHCPCD_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+DHCPCD_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 DHCPCD_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 DHCPCD_PKG_SHORT_DESCRIPTION   = dhcpcd $(version)

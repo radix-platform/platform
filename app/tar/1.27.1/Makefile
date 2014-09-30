@@ -48,8 +48,8 @@ PKG_GROUP = app
 TAR_PKG_NAME                = tar
 TAR_PKG_VERSION             = 1.27.1
 TAR_PKG_ARCH                = $(TOOLCHAIN)
-TAR_PKG_DISTRO_NAME         = kxLab
-TAR_PKG_DISTRO_VERSION      = 1.0
+TAR_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+TAR_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 TAR_PKG_GROUP               = $(PKG_GROUP)
 ###                          |---handy-ruler-------------------------------|
 TAR_PKG_SHORT_DESCRIPTION   = tar $(version)

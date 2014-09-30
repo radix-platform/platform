@@ -45,8 +45,8 @@ PKG_GROUP = net
 RWHO_PKG_NAME                = netkit-rwho
 RWHO_PKG_VERSION             = 0.17
 RWHO_PKG_ARCH                = $(TOOLCHAIN)
-RWHO_PKG_DISTRO_NAME         = kxLab
-RWHO_PKG_DISTRO_VERSION      = 1.0
+RWHO_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+RWHO_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 RWHO_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
 RWHO_PKG_SHORT_DESCRIPTION   = netkit-rwho $(version)

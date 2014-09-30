@@ -46,8 +46,8 @@ PKG_GROUP = net
 NTALK_PKG_NAME                = netkit-ntalk
 NTALK_PKG_VERSION             = 0.17
 NTALK_PKG_ARCH                = $(TOOLCHAIN)
-NTALK_PKG_DISTRO_NAME         = kxLab
-NTALK_PKG_DISTRO_VERSION      = 1.0
+NTALK_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+NTALK_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 NTALK_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
 NTALK_PKG_SHORT_DESCRIPTION   = netkit-ntalk $(version)

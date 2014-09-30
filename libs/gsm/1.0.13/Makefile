@@ -47,8 +47,8 @@ PKG_GROUP = libs
 LIBGSM_PKG_NAME                = gsm
 LIBGSM_PKG_VERSION             = 1.0.13
 LIBGSM_PKG_ARCH                = $(TOOLCHAIN)
-LIBGSM_PKG_DISTRO_NAME         = kxLab
-LIBGSM_PKG_DISTRO_VERSION      = 1.0
+LIBGSM_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+LIBGSM_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBGSM_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 LIBGSM_PKG_SHORT_DESCRIPTION   = gsm $(version)

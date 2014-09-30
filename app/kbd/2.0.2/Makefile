@@ -49,8 +49,8 @@ PKG_GROUP = app
 KBD_PKG_NAME                = kbd
 KBD_PKG_VERSION             = 2.0.2
 KBD_PKG_ARCH                = $(TOOLCHAIN)
-KBD_PKG_DISTRO_NAME         = kxLab
-KBD_PKG_DISTRO_VERSION      = 1.0
+KBD_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+KBD_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 KBD_PKG_GROUP               = $(PKG_GROUP)
 ###                          |---handy-ruler-------------------------------|
 KBD_PKG_SHORT_DESCRIPTION   = kbd $(version)

@@ -46,8 +46,8 @@ PKG_GROUP = libs
 GMP_PKG_NAME                = gmp
 GMP_PKG_VERSION             = 5.1.3
 GMP_PKG_ARCH                = $(TOOLCHAIN)
-GMP_PKG_DISTRO_NAME         = kxLab
-GMP_PKG_DISTRO_VERSION      = 1.0
+GMP_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+GMP_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GMP_PKG_GROUP               = $(PKG_GROUP)
 ###                          |---handy-ruler-------------------------------|
 GMP_PKG_SHORT_DESCRIPTION   = gmp $(version)

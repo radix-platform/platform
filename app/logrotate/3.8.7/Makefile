@@ -48,8 +48,8 @@ PKG_GROUP = app
 LOGROTATE_PKG_NAME                = logrotate
 LOGROTATE_PKG_VERSION             = 3.8.7
 LOGROTATE_PKG_ARCH                = $(TOOLCHAIN)
-LOGROTATE_PKG_DISTRO_NAME         = kxLab
-LOGROTATE_PKG_DISTRO_VERSION      = 1.0
+LOGROTATE_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+LOGROTATE_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LOGROTATE_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
 LOGROTATE_PKG_SHORT_DESCRIPTION   = logrotate $(version)

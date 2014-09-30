@@ -60,8 +60,8 @@ PKG_GROUP = boot
 UBOOT_BIN_PKG_NAME                = u-boot
 UBOOT_BIN_PKG_VERSION             = 2013.04-20140216
 UBOOT_BIN_PKG_ARCH                = $(TOOLCHAIN)
-UBOOT_BIN_PKG_DISTRO_NAME         = kxLab
-UBOOT_BIN_PKG_DISTRO_VERSION      = 1.0
+UBOOT_BIN_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+UBOOT_BIN_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 UBOOT_BIN_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
 UBOOT_BIN_PKG_SHORT_DESCRIPTION   = OMAP5 U-Boot $(version)

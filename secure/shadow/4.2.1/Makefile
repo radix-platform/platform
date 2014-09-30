@@ -55,8 +55,8 @@ PKG_GROUP = app
 SHADOW_PKG_NAME                = shadow
 SHADOW_PKG_VERSION             = 4.2.1
 SHADOW_PKG_ARCH                = $(TOOLCHAIN)
-SHADOW_PKG_DISTRO_NAME         = kxLab
-SHADOW_PKG_DISTRO_VERSION      = 1.0
+SHADOW_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+SHADOW_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 SHADOW_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 SHADOW_PKG_SHORT_DESCRIPTION   = shadow $(version)

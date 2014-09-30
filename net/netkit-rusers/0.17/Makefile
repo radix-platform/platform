@@ -45,8 +45,8 @@ PKG_GROUP = net
 RUSERS_PKG_NAME                = netkit-rusers
 RUSERS_PKG_VERSION             = 0.17
 RUSERS_PKG_ARCH                = $(TOOLCHAIN)
-RUSERS_PKG_DISTRO_NAME         = kxLab
-RUSERS_PKG_DISTRO_VERSION      = 1.0
+RUSERS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+RUSERS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 RUSERS_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 RUSERS_PKG_SHORT_DESCRIPTION   = netkit-rusers $(version)

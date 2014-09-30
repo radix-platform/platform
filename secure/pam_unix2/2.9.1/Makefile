@@ -46,8 +46,8 @@ PKG_GROUP = libs
 PAM_U2_PKG_NAME                = pam_unix2
 PAM_U2_PKG_VERSION             = 2.9.1
 PAM_U2_PKG_ARCH                = $(TOOLCHAIN)
-PAM_U2_PKG_DISTRO_NAME         = kxLab
-PAM_U2_PKG_DISTRO_VERSION      = 1.0
+PAM_U2_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+PAM_U2_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 PAM_U2_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 PAM_U2_PKG_SHORT_DESCRIPTION   = pam_unix2 $(version)

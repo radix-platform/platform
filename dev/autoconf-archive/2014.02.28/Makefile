@@ -47,8 +47,8 @@ PKG_GROUP = dev
 AC_ARCHIVE_PKG_NAME                = autoconf-archive
 AC_ARCHIVE_PKG_VERSION             = 2014.02.28
 AC_ARCHIVE_PKG_ARCH                = $(TOOLCHAIN)
-AC_ARCHIVE_PKG_DISTRO_NAME         = kxLab
-AC_ARCHIVE_PKG_DISTRO_VERSION      = 1.0
+AC_ARCHIVE_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+AC_ARCHIVE_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 AC_ARCHIVE_PKG_GROUP               = $(PKG_GROUP)
 ###                                 |---handy-ruler-------------------------------|
 AC_ARCHIVE_PKG_SHORT_DESCRIPTION   = autoconf-archive $(version)

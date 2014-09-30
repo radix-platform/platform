@@ -45,8 +45,8 @@ PKG_GROUP = net
 RWALL_PKG_NAME                = netkit-rwall
 RWALL_PKG_VERSION             = 0.17
 RWALL_PKG_ARCH                = $(TOOLCHAIN)
-RWALL_PKG_DISTRO_NAME         = kxLab
-RWALL_PKG_DISTRO_VERSION      = 1.0
+RWALL_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+RWALL_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 RWALL_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
 RWALL_PKG_SHORT_DESCRIPTION   = netkit-rwall $(version)

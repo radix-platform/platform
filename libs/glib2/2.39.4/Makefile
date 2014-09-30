@@ -53,8 +53,8 @@ PKG_GROUP = libs
 GLIB2_PKG_NAME                = glib2
 GLIB2_PKG_VERSION             = 2.39.4
 GLIB2_PKG_ARCH                = $(TOOLCHAIN)
-GLIB2_PKG_DISTRO_NAME         = kxLab
-GLIB2_PKG_DISTRO_VERSION      = 1.0
+GLIB2_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+GLIB2_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GLIB2_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
 GLIB2_PKG_SHORT_DESCRIPTION   = glib2 $(version)

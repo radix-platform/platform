@@ -45,8 +45,8 @@ PKG_GROUP = net
 FTP_PKG_NAME                = netkit-ftp
 FTP_PKG_VERSION             = 0.17
 FTP_PKG_ARCH                = $(TOOLCHAIN)
-FTP_PKG_DISTRO_NAME         = kxLab
-FTP_PKG_DISTRO_VERSION      = 1.0
+FTP_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+FTP_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 FTP_PKG_GROUP               = $(PKG_GROUP)
 ###                                 |---handy-ruler-------------------------------|
 FTP_PKG_SHORT_DESCRIPTION   = netkit-ftp $(version)

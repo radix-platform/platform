@@ -48,8 +48,8 @@ PKG_GROUP = app
 BASH_PKG_NAME                = bash
 BASH_PKG_VERSION             = 4.2
 BASH_PKG_ARCH                = $(TOOLCHAIN)
-BASH_PKG_DISTRO_NAME         = kxLab
-BASH_PKG_DISTRO_VERSION      = 1.0
+BASH_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+BASH_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 BASH_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
 BASH_PKG_SHORT_DESCRIPTION   = bash $(version)

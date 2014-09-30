@@ -43,8 +43,8 @@ PKG_GROUP = app
 ACL_PKG_NAME                = acl
 ACL_PKG_VERSION             = 2.2.52
 ACL_PKG_ARCH                = $(TOOLCHAIN)
-ACL_PKG_DISTRO_NAME         = kxLab
-ACL_PKG_DISTRO_VERSION      = 1.0
+ACL_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+ACL_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 ACL_PKG_GROUP               = $(PKG_GROUP)
 ###                          |---handy-ruler-------------------------------|
 ACL_PKG_SHORT_DESCRIPTION   = acl $(version)

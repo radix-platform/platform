@@ -52,8 +52,8 @@ PKG_GROUP = app
 COREUTILS_PKG_NAME                = coreutils
 COREUTILS_PKG_VERSION             = 8.22
 COREUTILS_PKG_ARCH                = $(TOOLCHAIN)
-COREUTILS_PKG_DISTRO_NAME         = kxLab
-COREUTILS_PKG_DISTRO_VERSION      = 1.0
+COREUTILS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+COREUTILS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 COREUTILS_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
 COREUTILS_PKG_SHORT_DESCRIPTION   = coreutils $(version)

@@ -49,8 +49,8 @@ PKG_GROUP = dev
 AUTOCONF_PKG_NAME                = autoconf
 AUTOCONF_PKG_VERSION             = 2.69
 AUTOCONF_PKG_ARCH                = $(TOOLCHAIN)
-AUTOCONF_PKG_DISTRO_NAME         = kxLab
-AUTOCONF_PKG_DISTRO_VERSION      = 1.0
+AUTOCONF_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+AUTOCONF_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 AUTOCONF_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
 AUTOCONF_PKG_SHORT_DESCRIPTION   = autoconf $(version)

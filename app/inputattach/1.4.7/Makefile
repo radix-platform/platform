@@ -43,8 +43,8 @@ PKG_GROUP = app
 INPUTATTACH_PKG_NAME                = inputattach
 INPUTATTACH_PKG_VERSION             = 1.4.7
 INPUTATTACH_PKG_ARCH                = $(TOOLCHAIN)
-INPUTATTACH_PKG_DISTRO_NAME         = kxLab
-INPUTATTACH_PKG_DISTRO_VERSION      = 1.0
+INPUTATTACH_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+INPUTATTACH_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 INPUTATTACH_PKG_GROUP               = $(PKG_GROUP)
 ###                                  |---handy-ruler-------------------------------|
 INPUTATTACH_PKG_SHORT_DESCRIPTION   = inputattach $(version)

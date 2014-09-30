@@ -47,8 +47,8 @@ PKG_GROUP = app
 GAWK_PKG_NAME                = gawk
 GAWK_PKG_VERSION             = 4.1.1
 GAWK_PKG_ARCH                = $(TOOLCHAIN)
-GAWK_PKG_DISTRO_NAME         = kxLab
-GAWK_PKG_DISTRO_VERSION      = 1.0
+GAWK_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+GAWK_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GAWK_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
 GAWK_PKG_SHORT_DESCRIPTION   = gawk $(version)

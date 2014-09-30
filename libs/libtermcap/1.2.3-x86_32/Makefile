@@ -37,8 +37,8 @@ PKG_GROUP = libs
 TERMCAP_32_PKG_NAME                = libtermcap-x32
 TERMCAP_32_PKG_VERSION             = 1.2.3
 TERMCAP_32_PKG_ARCH                = $(TOOLCHAIN)
-TERMCAP_32_PKG_DISTRO_NAME         = kxLab
-TERMCAP_32_PKG_DISTRO_VERSION      = 1.0
+TERMCAP_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+TERMCAP_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 TERMCAP_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                 |---handy-ruler-------------------------------|
 TERMCAP_32_PKG_SHORT_DESCRIPTION   = libtermcap-x32 $(version)

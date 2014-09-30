@@ -39,8 +39,8 @@ PKG_GROUP = libs
 LIBOGG_32_PKG_NAME                = libogg-x32
 LIBOGG_32_PKG_VERSION             = 1.3.2
 LIBOGG_32_PKG_ARCH                = $(TOOLCHAIN)
-LIBOGG_32_PKG_DISTRO_NAME         = kxLab
-LIBOGG_32_PKG_DISTRO_VERSION      = 1.0
+LIBOGG_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+LIBOGG_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBOGG_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
 LIBOGG_32_PKG_SHORT_DESCRIPTION   = libogg-x32 $(version)

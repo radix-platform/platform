@@ -45,8 +45,8 @@ PKG_GROUP = dev
 MAKE_PKG_NAME                = make
 MAKE_PKG_VERSION             = 3.82
 MAKE_PKG_ARCH                = $(TOOLCHAIN)
-MAKE_PKG_DISTRO_NAME         = kxLab
-MAKE_PKG_DISTRO_VERSION      = 1.0
+MAKE_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+MAKE_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 MAKE_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
 MAKE_PKG_SHORT_DESCRIPTION   = make $(version)

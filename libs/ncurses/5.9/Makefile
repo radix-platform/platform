@@ -55,8 +55,8 @@ PKG_GROUP = libs
 NCURSES_PKG_NAME                = ncurses
 NCURSES_PKG_VERSION             = 5.9
 NCURSES_PKG_ARCH                = $(TOOLCHAIN)
-NCURSES_PKG_DISTRO_NAME         = kxLab
-NCURSES_PKG_DISTRO_VERSION      = 1.0
+NCURSES_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+NCURSES_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 NCURSES_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
 NCURSES_PKG_SHORT_DESCRIPTION   = ncurses $(version)

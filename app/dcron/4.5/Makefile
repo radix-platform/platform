@@ -48,8 +48,8 @@ PKG_GROUP = app
 DCRON_PKG_NAME                = dcron
 DCRON_PKG_VERSION             = 4.5
 DCRON_PKG_ARCH                = $(TOOLCHAIN)
-DCRON_PKG_DISTRO_NAME         = kxLab
-DCRON_PKG_DISTRO_VERSION      = 1.0
+DCRON_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+DCRON_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 DCRON_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
 DCRON_PKG_SHORT_DESCRIPTION   = dcron $(version)

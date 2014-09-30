@@ -47,8 +47,8 @@ PKG_GROUP = net
 P11KIT_PKG_NAME                = p11-kit
 P11KIT_PKG_VERSION             = 0.20.2
 P11KIT_PKG_ARCH                = $(TOOLCHAIN)
-P11KIT_PKG_DISTRO_NAME         = kxLab
-P11KIT_PKG_DISTRO_VERSION      = 1.0
+P11KIT_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+P11KIT_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 P11KIT_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 P11KIT_PKG_SHORT_DESCRIPTION   = p11-kit $(version)

@@ -39,8 +39,8 @@ PKG_GROUP = dev
 LUA_32_PKG_NAME                = lua-x32
 LUA_32_PKG_VERSION             = 5.2.3
 LUA_32_PKG_ARCH                = $(TOOLCHAIN)
-LUA_32_PKG_DISTRO_NAME         = kxLab
-LUA_32_PKG_DISTRO_VERSION      = 1.0
+LUA_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+LUA_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LUA_32_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 LUA_32_PKG_SHORT_DESCRIPTION   = lua-x32 $(version)

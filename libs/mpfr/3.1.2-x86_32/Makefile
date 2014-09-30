@@ -39,8 +39,8 @@ PKG_GROUP = libs
 MPFR32_PKG_NAME                = mpfr-x32
 MPFR32_PKG_VERSION             = 3.1.2
 MPFR32_PKG_ARCH                = $(TOOLCHAIN)
-MPFR32_PKG_DISTRO_NAME         = kxLab
-MPFR32_PKG_DISTRO_VERSION      = 1.0
+MPFR32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+MPFR32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 MPFR32_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 MPFR32_PKG_SHORT_DESCRIPTION   = mpfr-x32 $(version)

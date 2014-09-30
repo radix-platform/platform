@@ -45,8 +45,8 @@ PKG_GROUP = dev
 KH_DEV_PKG_NAME                = kernel-headers
 KH_DEV_PKG_VERSION             = 3.0.52
 KH_DEV_PKG_ARCH                = $(TOOLCHAIN)
-KH_DEV_PKG_DISTRO_NAME         = kxLab
-KH_DEV_PKG_DISTRO_VERSION      = 1.0
+KH_DEV_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+KH_DEV_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 KH_DEV_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 KH_DEV_PKG_SHORT_DESCRIPTION   = Linux $(version) header files

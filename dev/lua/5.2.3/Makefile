@@ -47,8 +47,8 @@ PKG_GROUP = dev
 LUA_PKG_NAME                = lua
 LUA_PKG_VERSION             = 5.2.3
 LUA_PKG_ARCH                = $(TOOLCHAIN)
-LUA_PKG_DISTRO_NAME         = kxLab
-LUA_PKG_DISTRO_VERSION      = 1.0
+LUA_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+LUA_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LUA_PKG_GROUP               = $(PKG_GROUP)
 ###                          |---handy-ruler-------------------------------|
 LUA_PKG_SHORT_DESCRIPTION   = lua $(version)

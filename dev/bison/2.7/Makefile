@@ -45,8 +45,8 @@ PKG_GROUP = dev
 BISON_PKG_NAME                = bison
 BISON_PKG_VERSION             = 2.7
 BISON_PKG_ARCH                = $(TOOLCHAIN)
-BISON_PKG_DISTRO_NAME         = kxLab
-BISON_PKG_DISTRO_VERSION      = 1.0
+BISON_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+BISON_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 BISON_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
 BISON_PKG_SHORT_DESCRIPTION   = bison $(version)

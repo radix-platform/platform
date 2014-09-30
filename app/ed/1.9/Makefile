@@ -45,8 +45,8 @@ PKG_GROUP = app
 ED_PKG_NAME                = ed
 ED_PKG_VERSION             = 1.9
 ED_PKG_ARCH                = $(TOOLCHAIN)
-ED_PKG_DISTRO_NAME         = kxLab
-ED_PKG_DISTRO_VERSION      = 1.0
+ED_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+ED_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 ED_PKG_GROUP               = $(PKG_GROUP)
 ###                         |---handy-ruler-------------------------------|
 ED_PKG_SHORT_DESCRIPTION   = ed $(version)

@@ -399,6 +399,18 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += net/libgcrypt/1.6.1-x86_32
 endif
 REQUIRES += net/ca-certificates/32.0
+REQUIRES += net/cyrus-sasl/2.1.26
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/cyrus-sasl/2.1.26-x86_32
+endif
+REQUIRES += net/openldap-client/2.4.39
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/openldap-client/2.4.39-x86_32
+endif
+REQUIRES += net/curl/7.38.0
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/curl/7.38.0-x86_32
+endif
 
 
 REQUIRES += app/vim/7.4-373

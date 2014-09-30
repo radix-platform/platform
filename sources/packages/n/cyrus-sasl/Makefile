@@ -5,20 +5,22 @@ COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 include ../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/packages/n/curl
+url         = $(DOWNLOAD_SERVER)/sources/packages/n/cyrus-sasl
 
-cacert_url  = http://curl.haxx.se/ca
-
-versions    = 7.38.0
-pkgname     = curl
-suffix      = tar.bz2
-cacert      = cacert.pem.bz2
+versions    = 2.1.23 2.1.26
+pkgname     = cyrus-sasl
+suffix      = tar.gz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
+patches     = $(CURDIR)/patches/cyrus-sasl-2.1.23.patch
+patches    += $(CURDIR)/patches/cyrus-sasl-2.1.26.patch
 
-BUILD_TARGETS = $(tarballs) $(sha1s) $(cacert)
+.NOTPARALLEL: $(patches)
+
+
+BUILD_TARGETS = $(tarballs) $(sha1s) $(patches)
 
 
 include ../../../../build-system/core.mk
@@ -46,11 +48,11 @@ $(sha1s): $(tarballs)
 	   fi ; \
 	 done
 
-$(cacert):
-	@echo -e "\n======= Downloading $(cacert) tarball =======\n" ; \
-	 echo "$(cacert_url)/cacert.pem" | xargs -n 1 -P 100 wget $(WGET_OPTIONS) -i & wait %1 ; \
-	 bzip2 -9 cacert.pem ; \
-	 rm -f cacert.pem
+$(patches): $(sha1s)
+	@echo -e "\n======= Create Patches =======\n" ; \
+	 ( cd create-2.1.23-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2.1.26-patch ; ./create.patch.sh ) ; \
+	 echo -e "\n"
 
 download_clean:
-	@rm -f $(tarballs) $(sha1s) $(cacert)
+	@rm -f $(tarballs) $(sha1s) $(patches)

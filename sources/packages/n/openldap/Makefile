@@ -5,20 +5,17 @@ COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 include ../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/packages/n/curl
+url         = $(DOWNLOAD_SERVER)/sources/packages/n/openldap
 
-cacert_url  = http://curl.haxx.se/ca
-
-versions    = 7.38.0
-pkgname     = curl
-suffix      = tar.bz2
-cacert      = cacert.pem.bz2
+versions    = 2.4.39
+pkgname     = openldap
+suffix      = tgz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 
-BUILD_TARGETS = $(tarballs) $(sha1s) $(cacert)
+BUILD_TARGETS = $(tarballs) $(sha1s)
 
 
 include ../../../../build-system/core.mk
@@ -46,11 +43,5 @@ $(sha1s): $(tarballs)
 	   fi ; \
 	 done
 
-$(cacert):
-	@echo -e "\n======= Downloading $(cacert) tarball =======\n" ; \
-	 echo "$(cacert_url)/cacert.pem" | xargs -n 1 -P 100 wget $(WGET_OPTIONS) -i & wait %1 ; \
-	 bzip2 -9 cacert.pem ; \
-	 rm -f cacert.pem
-
 download_clean:
-	@rm -f $(tarballs) $(sha1s) $(cacert)
+	@rm -f $(tarballs) $(sha1s)

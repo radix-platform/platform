@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+                          |-----handy-ruler------------------------------------------------------|
+libnetfilter_conntrack-x32: libnetfilter_conntrack-x32 @VERSION@ (x86_32 netfilter conntrack lib)
+libnetfilter_conntrack-x32:
+libnetfilter_conntrack-x32: libnetfilter_conntrack is a userspace library providing
+libnetfilter_conntrack-x32: a programming interface (API) to the in-kernel connection tracking
+libnetfilter_conntrack-x32: state table. This library is currently used by conntrack-tools and
+libnetfilter_conntrack-x32: many other applications.
+libnetfilter_conntrack-x32:
+libnetfilter_conntrack-x32:
+libnetfilter_conntrack-x32:
+libnetfilter_conntrack-x32:
+libnetfilter_conntrack-x32:

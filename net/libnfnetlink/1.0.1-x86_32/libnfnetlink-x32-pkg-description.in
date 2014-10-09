@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+                |-----handy-ruler------------------------------------------------------|
+libnfnetlink-x32: libnfnetlink-x32 @VERSION@ (x86_32 library for netfilter)
+libnfnetlink-x32:
+libnfnetlink-x32: libnfnetlink is the low-level library for netfilter related
+libnfnetlink-x32: kernel/userspace communication. It provides a generic messaging
+libnfnetlink-x32: infrastructure for in-kernel netfilter subsystems (such as
+libnfnetlink-x32: nfnetlink_log, nfnetlink_queue, nfnetlink_conntrack) and their
+libnfnetlink-x32: respective users and/or management tools in userspace.
+libnfnetlink-x32:
+libnfnetlink-x32:
+libnfnetlink-x32:
+libnfnetlink-x32:

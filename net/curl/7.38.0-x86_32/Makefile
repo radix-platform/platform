@@ -55,7 +55,7 @@ CURL_32_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
 CURL_32_PKG_SHORT_DESCRIPTION   = curl-x32 $(version)
 CURL_32_PKG_URL                 = $(BUG_URL)
-CURL_32_PKG_LICENSE             = GPLv2
+CURL_32_PKG_LICENSE             = custom
 CURL_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(CURL_32_PKG_NAME)-pkg-description
 CURL_32_PKG_DESCRIPTION_FILE_IN = $(CURL_32_PKG_NAME)-pkg-description.in
 CURL_32_PKG_INSTALL_SCRIPT      = $(CURL_32_PKG_NAME)-pkg-install.sh

@@ -251,6 +251,10 @@ REQUIRES += app/acl/2.2.52
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += app/acl/2.2.52-x86_32
 endif
+REQUIRES += secure/libcap/2.24
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += secure/libcap/2.24-x86_32
+endif
 
 #######
 ####### File Systems support:
@@ -428,6 +432,78 @@ REQUIRES += net/curl/7.38.0
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += net/curl/7.38.0-x86_32
 endif
+REQUIRES += net/libnl/1.1.4
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/libnl/1.1.4-x86_32
+endif
+REQUIRES += net/libnl3/3.2.25
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/libnl3/3.2.25-x86_32
+endif
+REQUIRES += net/libpcap/1.6.2
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/libpcap/1.6.2-x86_32
+endif
+REQUIRES += net/tcpdump/4.6.2
+REQUIRES += net/libnfnetlink/1.0.1
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/libnfnetlink/1.0.1-x86_32
+endif
+REQUIRES += net/libmnl/1.0.3
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/libmnl/1.0.3-x86_32
+endif
+REQUIRES += net/libnetfilter_conntrack/1.0.4
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/libnetfilter_conntrack/1.0.4-x86_32
+endif
+REQUIRES += net/libnetfilter_acct/1.0.2
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/libnetfilter_acct/1.0.2-x86_32
+endif
+REQUIRES += net/libnetfilter_cthelper/1.0.0
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/libnetfilter_cthelper/1.0.0-x86_32
+endif
+REQUIRES += net/libnetfilter_cttimeout/1.0.0
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/libnetfilter_cttimeout/1.0.0-x86_32
+endif
+REQUIRES += net/libnetfilter_log/1.0.1
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/libnetfilter_log/1.0.1-x86_32
+endif
+REQUIRES += net/libnetfilter_queue/1.0.2
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/libnetfilter_queue/1.0.2-x86_32
+endif
+REQUIRES += net/nfacct/1.0.1
+REQUIRES += net/iptables/1.4.21
+REQUIRES += net/iproute2/3.16.0
+REQUIRES += net/dhcp/4.3.1
+
+
+REQUIRES += libs/libxml2/2.9.1
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libxml2/2.9.1-x86_32
+endif
+REQUIRES += libs/libarchive/3.1.2
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libarchive/3.1.2-x86_32
+endif
+REQUIRES += libs/json-c/0.12
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/json-c/0.12-x86_32
+endif
+REQUIRES += net/idnkit/1.0
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/idnkit/1.0-x86_32
+endif
+
+REQUIRES += net/bind/9.10.1
+
+REQUIRES += libs/shared-mime-info/1.3
+REQUIRES += dev/cmake/2.8.12.2
 
 
 REQUIRES += app/vim/7.4-373

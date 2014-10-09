@@ -27,7 +27,7 @@ src_done         = $(TARGET_BUILD_DIR)/.source_done
 build_kh_pkg = $(TARGET_BUILD_DIR)/.kernel_headers_pkg_done
 
 
-PATCHES =
+PATCHES = PATCHES
 
 ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_BCM74X_EGLIBC)),)
 ARCH = mips

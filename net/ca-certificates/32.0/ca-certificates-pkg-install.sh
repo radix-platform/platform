@@ -25,7 +25,7 @@ post_install() {
 
   # Notice we use an absolute path below, rather than usr/sbin/update-ca-certificates.
   # This is because we're testing to see if we are on the bootdisk, which will not have
-  # /usr/bin/update-ca-certificates.
+  # /usr/sbin/update-ca-certificates.
   # Also we have to check that we are not in the installer mode on the target system
   # ("/etc/system-installer"), and we have to be sure that we are on the working system
   # on the target hardware ("proc/sys/kernel/osrelease" - relative path).

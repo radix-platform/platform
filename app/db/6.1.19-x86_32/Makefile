@@ -17,6 +17,9 @@ REQUIRES          += libs/eglibc/2.19.1-x86_32
 
 
 version            = 6.1.19
+major_version      = $(shell echo $(version) | cut -f 1 -d '.' )
+short_version      = $(shell echo $(version) | cut -f 1,2 -d '.' )
+pack_version       = $(shell echo $(version) | cut -f 1,2 -d '.' | sed -e 's/\.//' )
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/a/db/db-$(version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/db-$(version)
@@ -104,6 +107,33 @@ $(install_target): $(build_target)
 	@mkdir -p $(DB_32_PKG)/usr/bin/32
 	@( cd $(DB_32_PKG)/usr/bin ; \
 	   find . -type f | xargs mv -t 32 ; \
+	 )
+	@mkdir -p $(DB_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)
+	@( cd $(DB_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	   mv libdb-$(short_version).so     ../../lib$(MULTILIB_X86_32_SUFFIX)       ; \
+	   mv libdb_cxx-$(short_version).so ../../lib$(MULTILIB_X86_32_SUFFIX)       ; \
+	   ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/libdb-$(short_version).so     . ; \
+	   ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/libdb_cxx-$(short_version).so . ; \
+	   rm -f libdb.a                                                             ; \
+	   ln -sf libdb-$(short_version).a libdb-$(major_version).a                  ; \
+	   ln -sf libdb-$(short_version).a libdb$(major_version).a                   ; \
+	   ln -sf libdb-$(short_version).a libdb.a                                   ; \
+	   rm -f libdb_cxx.a                                                         ; \
+	   ln -sf libdb_cxx-$(short_version).a libdb_cxx-$(major_version).a          ; \
+	   ln -sf libdb_cxx-$(short_version).a libdb_cxx$(major_version).a           ; \
+	   ln -sf libdb_cxx-$(short_version).a libdb_cxx.a                           ; \
+	   ln -sf libdb-$(short_version).so libdb-$(major_version).so                ; \
+	   ln -sf libdb-$(short_version).so libdb$(major_version).so                 ; \
+	   ln -sf libdb-$(short_version).so libdb.so                                 ; \
+	   ln -sf libdb_cxx-$(short_version).so libdb_cxx-$(major_version).so        ; \
+	   ln -sf libdb_cxx-$(short_version).so libdb_cxx$(major_version).so         ; \
+	   ln -sf libdb_cxx-$(short_version).so libdb_cxx.so                         ; \
+	 )
+	@( cd $(DB_32_PKG)/usr/bin/32 ; \
+	   for file in db_* ; do \
+	     mv $$file `echo $$file | sed -e 's/_/$(pack_version)_/'` ; \
+	     ln -sf `echo $$file | sed -e 's/_/$(pack_version)_/'` $$file ; \
+	   done ; \
 	 )
 	# ======= remove target path from target libtool *.la files =======
 	@( cd $(DB_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \

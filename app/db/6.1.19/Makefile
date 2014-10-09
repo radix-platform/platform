@@ -23,6 +23,9 @@ REQUIRES          += dev/gcc/4.9.1
 
 
 version            = 6.1.19
+major_version      = $(shell echo $(version) | cut -f 1 -d '.' )
+short_version      = $(shell echo $(version) | cut -f 1,2 -d '.' )
+pack_version       = $(shell echo $(version) | cut -f 1,2 -d '.' | sed -e 's/\.//' )
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/a/db/db-$(version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/db-$(version)
@@ -108,6 +111,42 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(DB_PKG)
 	@cd $(SRC_DIR)/build_unix && $(BUILD_ENVIRONMENT) $(MAKE) $(env_sysroot) install
+	@( cd $(DB_PKG)/usr/include ; \
+	   mkdir -p db$(pack_version) ; \
+	   mv *.h db$(pack_version)   ; \
+	   for hf in db$(pack_version)/* ; do \
+	     ln -sf $$hf . ; \
+	   done ; \
+	   ln -sf db$(pack_version) db$(major_version) ; \
+	 )
+	@mkdir -p $(DB_PKG)/lib$(LIBSUFFIX)
+	@( cd $(DB_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   mv libdb-$(short_version).so     ../../lib$(LIBSUFFIX)             ; \
+	   mv libdb_cxx-$(short_version).so ../../lib$(LIBSUFFIX)             ; \
+	   ln -sf ../../lib$(LIBSUFFIX)/libdb-$(short_version).so     .       ; \
+	   ln -sf ../../lib$(LIBSUFFIX)/libdb_cxx-$(short_version).so .       ; \
+	   rm -f libdb.a                                                      ; \
+	   ln -sf libdb-$(short_version).a libdb-$(major_version).a           ; \
+	   ln -sf libdb-$(short_version).a libdb$(major_version).a            ; \
+	   ln -sf libdb-$(short_version).a libdb.a                            ; \
+	   rm -f libdb_cxx.a                                                  ; \
+	   ln -sf libdb_cxx-$(short_version).a libdb_cxx-$(major_version).a   ; \
+	   ln -sf libdb_cxx-$(short_version).a libdb_cxx$(major_version).a    ; \
+	   ln -sf libdb_cxx-$(short_version).a libdb_cxx.a                    ; \
+	   ln -sf libdb-$(short_version).so libdb-$(major_version).so         ; \
+	   ln -sf libdb-$(short_version).so libdb$(major_version).so          ; \
+	   ln -sf libdb-$(short_version).so libdb.so                          ; \
+	   ln -sf libdb_cxx-$(short_version).so libdb_cxx-$(major_version).so ; \
+	   ln -sf libdb_cxx-$(short_version).so libdb_cxx$(major_version).so  ; \
+	   ln -sf libdb_cxx-$(short_version).so libdb_cxx.so                  ; \
+	 )
+	@( cd $(DB_PKG)/usr/bin ; \
+	   for file in db_* ; do \
+	     mv $$file `echo $$file | sed -e 's/_/$(pack_version)_/'` ; \
+	     ln -sf `echo $$file | sed -e 's/_/$(pack_version)_/'` $$file ; \
+	   done ; \
+	 )
+	# ====== Install Documentation =======
 	@mkdir -p $(DB_PKG)/usr/doc/$(src_dir_name)
 	@cp -a $(SRC_DIR)/LICENSE \
 	       $(DB_PKG)/usr/doc/$(src_dir_name)

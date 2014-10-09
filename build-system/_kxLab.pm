@@ -22,6 +22,8 @@ sub distro_name
       $name = $2;
     }
   }
+  close( FILE );
+
   return $name;
 }
 

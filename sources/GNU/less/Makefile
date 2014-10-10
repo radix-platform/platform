@@ -16,7 +16,6 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/less-451-sysconfdir.patch
 
-
 .NOTPARALLEL: $(patches)
 
 

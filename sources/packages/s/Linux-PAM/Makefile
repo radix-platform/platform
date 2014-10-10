@@ -19,6 +19,7 @@ patches     = $(CURDIR)/patches/Linux-PAM-1.1.8.patch
 
 .NOTPARALLEL: $(patches)
 
+
 BUILD_TARGETS = $(tarballs) $(docs) $(sha1s) $(patches)
 
 

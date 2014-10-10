@@ -16,6 +16,9 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/ed-1.9.patch
 
+.NOTPARALLEL: $(patches)
+
+
 BUILD_TARGETS = $(tarballs) $(sha1s) $(patches)
 
 

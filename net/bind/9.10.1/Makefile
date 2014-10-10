@@ -94,12 +94,12 @@ extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var
 extra_configure_switches += --with-libtool
-extra_configure_switches += --with-idn=/usr
-extra_configure_switches += --with-libxml2=/usr
-extra_configure_switches += --with-openssl=/usr
+extra_configure_switches += --with-idn=$(TARGET_DEST_DIR)/usr
+extra_configure_switches += --with-libxml2=$(TARGET_DEST_DIR)/usr
+extra_configure_switches += --with-openssl=$(TARGET_DEST_DIR)/usr
 extra_configure_switches += --with-ecdsa=yes
 extra_configure_switches += --with-gost=yes
-extra_configure_switches += --with-libjson=/usr
+extra_configure_switches += --with-libjson=$(TARGET_DEST_DIR)/usr
 extra_configure_switches += --enable-threads
 extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --enable-static=yes

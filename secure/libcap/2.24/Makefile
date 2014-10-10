@@ -19,6 +19,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/libcap
 
 REQUIRES           = app/attr/2.4.47
+REQUIRES          += secure/pam/1.1.8
 
 
 version            = 2.24

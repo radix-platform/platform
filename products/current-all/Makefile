@@ -279,6 +279,10 @@ REQUIRES += libs/libusb/1.0.9
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/libusb/1.0.9-x86_32
 endif
+REQUIRES += libs/libusb-compat/0.1.5
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libusb-compat/0.1.5-x86_32
+endif
 REQUIRES += app/usbutils/007
 REQUIRES += app/pciutils/3.2.1
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
@@ -436,6 +440,10 @@ REQUIRES += net/libmnl/1.0.3
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += net/libmnl/1.0.3-x86_32
 endif
+REQUIRES += net/ipset/6.21
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/ipset/6.21-x86_32
+endif
 REQUIRES += net/libnetfilter_conntrack/1.0.4
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += net/libnetfilter_conntrack/1.0.4-x86_32
@@ -460,6 +468,7 @@ REQUIRES += net/libnetfilter_queue/1.0.2
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += net/libnetfilter_queue/1.0.2-x86_32
 endif
+REQUIRES += net/conntrack-tools/1.4.2
 REQUIRES += net/nfacct/1.0.1
 REQUIRES += net/iptables/1.4.21
 REQUIRES += net/iproute2/3.16.0

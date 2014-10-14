@@ -5,10 +5,10 @@ COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 include ../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/packages/l/libusb
+url         = $(DOWNLOAD_SERVER)/sources/packages/n/conntrack-tools
 
-versions    = 1.0.9 1.0.19
-pkgname     = libusb
+versions    = 1.4.2
+pkgname     = conntrack-tools
 suffix      = tar.bz2
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))

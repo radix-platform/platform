@@ -5,10 +5,10 @@ COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 include ../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/packages/l/libusb
+url         = $(DOWNLOAD_SERVER)/sources/packages/n/ipset
 
-versions    = 1.0.9 1.0.19
-pkgname     = libusb
+versions    = 6.21
+pkgname     = ipset
 suffix      = tar.bz2
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))

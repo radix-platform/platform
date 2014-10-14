@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+         |-----handy-ruler------------------------------------------------------|
+ipset-x32: ipset-x32 @VERSION@ (x86_32 administration tool for kernel IP sets)
+ipset-x32:
+ipset-x32: IP sets are a Linux kernel framework administered by the ipset
+ipset-x32: utility.  Depending on the type, currently an IP set may store
+ipset-x32: IP addresses, (TCP/UDP) port numbers, or IP addresses with MAC
+ipset-x32: addresses in a way which ensures lightning speed when matching
+ipset-x32: an entry against a set.
+ipset-x32:
+ipset-x32: Homepage: http://ipset.netfilter.org/
+ipset-x32:
+ipset-x32:

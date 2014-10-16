@@ -22,7 +22,6 @@ REQUIRES           = app/kmod/16
 REQUIRES          += libs/pcre/8.34
 REQUIRES          += app/util-linux/2.24.1
 REQUIRES          += libs/glib2/2.40.0
-REQUIRES          += app/usbutils/007
 REQUIRES          += app/pciutils/3.2.1
 
 

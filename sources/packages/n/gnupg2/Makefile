@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/gnupg2
 
-versions    = 2.0.22
+versions    = 2.0.26
 pkgname     = gnupg
 suffix      = tar.bz2
 

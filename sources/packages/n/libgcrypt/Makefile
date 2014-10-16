@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/libgcrypt
 
-versions    = 1.5.3 1.6.1
+versions    = 1.6.1 1.6.2
 pkgname     = libgcrypt
 suffix      = tar.bz2
 

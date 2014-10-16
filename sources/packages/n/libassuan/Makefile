@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/libassuan
 
-versions    = 2.1.0 2.1.1
+versions    = 2.1.1 2.1.2
 pkgname     = libassuan
 suffix      = tar.bz2
 

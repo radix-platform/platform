@@ -113,7 +113,7 @@ $(install_target): $(build_target)
 	       $(LIBUSB_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(LIBUSB_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a AUTHORS COPYING INSTALL NEWS PORTING README THANKS TODO \
+	   cp -a AUTHORS COPYING INSTALL NEWS PORTING README TODO \
 	         $(LIBUSB_PKG)/usr/share/doc/$(src_dir_name) \
 	 )
 	@( cd $(SRC_DIR) ; \

@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+      |-----handy-ruler------------------------------------------------------|
+gnupg2: GnuPG2 @VERSION@ (The GNU Privacy Guard version 2.x)
+gnupg2:
+gnupg2: GnuPG is GNU's tool for secure communication and data storage.
+gnupg2: It can be used to encrypt data and to create digital signatures.
+gnupg2: It includes an advanced key management facility and is compliant
+gnupg2: with the proposed OpenPGP Internet standard as described in RFC2440
+gnupg2: and the S/MIME standard as described by several RFCs.
+gnupg2:
+gnupg2: GnuPG 2.0 integrating support for OpenPGP and S/MIME  does not
+gnupg2: conflict with an installed 1.4.x OpenPGP-only version.
+gnupg2:

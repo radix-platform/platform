@@ -275,9 +275,9 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/glib2/2.40.0-x86_32
 endif
 REQUIRES += app/gamin/0.1.10
-REQUIRES += libs/libusb/1.0.9
+REQUIRES += libs/libusb/1.0.19
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/libusb/1.0.9-x86_32
+REQUIRES += libs/libusb/1.0.19-x86_32
 endif
 REQUIRES += libs/libusb-compat/0.1.5
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
@@ -386,25 +386,25 @@ REQUIRES += net/ethtool/3.12
 REQUIRES += net/inetd/1.79
 REQUIRES += net/openssh/6.6p1
 
-REQUIRES += net/libgpg-error/1.12
+REQUIRES += net/libgpg-error/1.16
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += net/libgpg-error/1.12-x86_32
+REQUIRES += net/libgpg-error/1.16-x86_32
 endif
-REQUIRES += net/libassuan/2.1.1
+REQUIRES += net/libassuan/2.1.2
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += net/libassuan/2.1.1-x86_32
+REQUIRES += net/libassuan/2.1.2-x86_32
 endif
-REQUIRES += net/libksba/1.3.0
+REQUIRES += net/libksba/1.3.1
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += net/libksba/1.3.0-x86_32
+REQUIRES += net/libksba/1.3.1-x86_32
 endif
 REQUIRES += libs/pth/2.0.7
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/pth/2.0.7-x86_32
 endif
-REQUIRES += net/libgcrypt/1.6.1
+REQUIRES += net/libgcrypt/1.6.2
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += net/libgcrypt/1.6.1-x86_32
+REQUIRES += net/libgcrypt/1.6.2-x86_32
 endif
 REQUIRES += net/ca-certificates/32.0
 REQUIRES += net/cyrus-sasl/2.1.26
@@ -473,6 +473,12 @@ REQUIRES += net/nfacct/1.0.1
 REQUIRES += net/iptables/1.4.21
 REQUIRES += net/iproute2/3.16.0
 REQUIRES += net/dhcp/4.3.1
+REQUIRES += net/dirmngr/1.1.1
+REQUIRES += net/pinentry/0.8.4
+
+REQUIRES += net/gnupg/1.4.18
+REQUIRES += net/gnupg2/2.0.26
+REQUIRES += net/gpgme/1.5.1
 
 
 REQUIRES += libs/libxml2/2.9.1

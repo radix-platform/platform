@@ -18,7 +18,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES     = sources/packages/a/usbutils
 
-REQUIRES            = libs/libusb/1.0.9
+REQUIRES            = libs/libusb/1.0.19
 
 
 version             = 007

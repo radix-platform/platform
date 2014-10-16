@@ -18,7 +18,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/n/libksba
 
-REQUIRES           = net/libgpg-error/1.12
+REQUIRES           = net/libgpg-error/1.16
 
 
 version            = 1.3.0

@@ -20,7 +20,7 @@ include ../../build-system/constants.mk
 #######
 
 ifeq ($(HARDWARE),$(HARDWARE_OMAP5UEVM))
-REQUIRES  = hal/3pp/omap/wl18xx_fw
+REQUIRES  = hal/3pp/omap/wl18xx_fw/8.8.10
 REQUIRES += boot/u-boot/omap543x/2013.04-20140216
 endif
 

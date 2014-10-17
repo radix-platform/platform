@@ -6,7 +6,7 @@ NEED_ABS_PATH     = true
 COMPONENT_IS_3PP  = true
 
 
-include ../../../../build-system/constants.mk
+include ../../../../../build-system/constants.mk
 
 
 SOURCE_REQUIRES   = sources/hal/omap/sgx-ddk
@@ -85,7 +85,7 @@ PRODUCT_TARGETS  = $(products)
 ROOTFS_TARGETS   = $(pkg_archive)
 
 
-include ../../../../build-system/core.mk
+include ../../../../../build-system/core.mk
 
 
 ####### Dependencies

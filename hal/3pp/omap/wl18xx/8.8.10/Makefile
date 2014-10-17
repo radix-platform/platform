@@ -6,14 +6,14 @@ NEED_ABS_PATH     = true
 COMPONENT_IS_3PP  = true
 
 
-include ../../../../build-system/constants.mk
+include ../../../../../build-system/constants.mk
 
 
 SOURCE_REQUIRES   = sources/hal/omap/wl18xx/wl18xx
 SOURCE_REQUIRES  += sources/hal/omap/wl18xx/compat-wireless
 SOURCE_REQUIRES  += sources/hal/omap/wl18xx/compat
 
-REQUIRES          = hal/3pp/omap/sgx-ddk
+REQUIRES          = hal/3pp/omap/sgx-ddk/1.9.0.11
 
 
 version           = ol_r8.a8.10
@@ -69,7 +69,7 @@ PKG_GROUP = boot
 
 
 WL18XX_BIN_PKG_NAME                = wl18xx
-WL18XX_BIN_PKG_VERSION             = ol_r8.a8.10
+WL18XX_BIN_PKG_VERSION             = 8.8.10
 WL18XX_BIN_PKG_ARCH                = $(TOOLCHAIN)
 WL18XX_BIN_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 WL18XX_BIN_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -100,7 +100,7 @@ PRODUCT_TARGETS  = $(products)
 ROOTFS_TARGETS   = $(pkg_archive)
 
 
-include ../../../../build-system/core.mk
+include ../../../../../build-system/core.mk
 
 
 ####### Dependencies

@@ -61,6 +61,87 @@ tarball_requires() {
 
 
 #
+# Compare two VERSION present in X.X.X.X format, where X - is a number
+# ====================================================================
+#
+# RETURNS: 0 if '='; 1 if '>'; 2 if '<';
+#
+# Trailing symbols are compared (lexicographically) if versions are equal.
+#
+vcmp() {
+  local v1=`echo $1 | sed 's/\([0-9.]*\)\([-a-zA-Z].*\)/\1/'`
+  local t1=`echo $1 | sed 's/\([0-9.]*\)\([-a-zA-Z].*\)/\2/'`
+  local v2=`echo $2 | sed 's/\([0-9.]*\)\([-a-zA-Z].*\)/\1/'`
+  local t2=`echo $2 | sed 's/\([0-9.]*\)\([-a-zA-Z].*\)/\2/'`
+  if [[ $v1 == $v2 ]] ; then
+    if [ "$t1" = "$t2" ] ; then
+      echo "="
+      return 0
+    fi
+    if [ "$t1" \< "$t2" ] ; then
+      echo "<"
+      return 2
+    fi
+    if [ "$t1" \> "$t2" ] ; then
+      echo ">"
+      return 1
+    fi
+  fi
+  local IFS=.
+  local i ver1=($v1) ver2=($v2)
+  # fill empty fields in ver1 with zeros
+  for ((i=${#ver1[@]}; i<${#ver2[@]}; i++)) ; do
+    ver1[i]=0
+  done
+  for ((i=0; i<${#ver1[@]}; i++)) ; do
+    if [[ -z ${ver2[i]} ]]
+    then
+      # fill empty fields in ver2 with zeros
+      ver2[i]=0
+    fi
+    if ((10#${ver1[i]} > 10#${ver2[i]}))
+    then
+      echo ">"
+      return 1
+    fi
+    if ((10#${ver1[i]} < 10#${ver2[i]}))
+    then
+      echo "<"
+      return 2
+    fi
+  done
+  echo "="
+  return 0
+}
+
+
+print_candidates() {
+  local path=$1
+  local pkgname=$2
+
+  local maxver=0
+
+  local list=
+  local li=`find $path -type f -name "$pkgname-[0-9]*" | sed "s/$pkgname-\([0-9.]*\)[-a-zA-Z].*/\1/"`
+  for l in $li ; do
+    list="$list `basename $l`"
+  done
+  for ver in $list ; do
+    if [ "`vcmp $maxver $ver`" = "<" ] ; then
+      maxver=$ver
+    fi
+  done
+
+  local rlist=
+  for f in `find $path -type f -name "$pkgname-$maxver*" | sort -r` ; do
+    rlist="$rlist $f"
+  done
+
+  echo "$rlist"
+}
+
+
+#
 # Parse options:
 #
 while [ 0 ]; do
@@ -164,11 +245,11 @@ while [ "$LINENUM_REQ" -le "$LINENUMS" ]; do
   reqname=`echo "$LINE" | cut -f 1 -d '='`
   reqver=`echo "$LINE" | cut -f 2 -d '='`
   if [ ! -z "$reqname" ]; then
-    if [ "`find $PKG_DB_PATH -type f -name "$reqname-*"`" = "" ]; then
+    if [ "`find $PKG_DB_PATH -type f -name "$reqname-[0-9.]*"`" = "" ]; then
       echo "$reqname:$reqver:NOTINSTALLED" >&2
       echo "Package '$reqname' version: $reqver: Is not installed."
     fi
-    for reqfile in `find $PKG_DB_PATH -type f -name "$reqname-*" | sort -r` ; do
+    for reqfile in `print_candidates $PKG_DB_PATH $reqname` ; do
       pkginfo --dest $TMP pkginfo $reqfile
       if [ -f "$TMP/.PKGINFO" ]; then
         unset pkgname
@@ -176,10 +257,10 @@ while [ "$LINENUM_REQ" -le "$LINENUMS" ]; do
 
         . $TMP/.PKGINFO
 
-        if [ "$pkgver" == "$reqver" -o "$pkgver" \> "$reqver" ]; then
+        if [ "`vcmp $pkgver $reqver`" = "=" -o "`vcmp $pkgver $reqver`" = ">" ]; then
           rm -f $TMP/.PKGINFO
           break
-        elif [ "$pkgver" \< "$reqver" ]; then
+        elif [ "`vcmp $pkgver $reqver`" = "<" ]; then
           echo "$pkgname:$reqver:OLD" >&2
           echo "Package '$pkgname' version: $reqver: Too old."
         fi

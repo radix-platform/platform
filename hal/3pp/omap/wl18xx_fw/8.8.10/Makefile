@@ -6,12 +6,12 @@ NEED_ABS_PATH     = true
 COMPONENT_IS_3PP  = true
 
 
-include ../../../../build-system/constants.mk
+include ../../../../../build-system/constants.mk
 
 
 SOURCE_REQUIRES   = sources/hal/omap/wl18xx_fw
 
-REQUIRES          = hal/3pp/omap/wl18xx
+REQUIRES          = hal/3pp/omap/wl18xx/8.8.10
 
 version           = ol_r8.a8.10
 tar_bz2_archive   = $(SRC_PACKAGE_PATH)/hal/omap/wl18xx_fw/wl18xx_fw-$(version).tar.bz2
@@ -29,7 +29,7 @@ PKG_GROUP = boot
 
 
 WL18FW_BIN_PKG_NAME                = wl18fw
-WL18FW_BIN_PKG_VERSION             = ol_r8.a8.10
+WL18FW_BIN_PKG_VERSION             = 8.8.10
 WL18FW_BIN_PKG_ARCH                = $(TOOLCHAIN)
 WL18FW_BIN_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 WL18FW_BIN_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -60,7 +60,7 @@ PRODUCT_TARGETS  = $(products)
 ROOTFS_TARGETS   = $(pkg_archive)
 
 
-include ../../../../build-system/core.mk
+include ../../../../../build-system/core.mk
 
 
 ####### Dependencies

@@ -518,6 +518,8 @@ help:
 	@shtool echo -e "   current directory.  Otherwise this goal will be performed for all required"
 	@shtool echo -e "   directories which defined by %BREQUIRES%b variable."
 	@echo ""
+	@shtool echo -e "   %Brequires_tree%b      - create %BHTML%b file to show the requires tree for current"
+	@shtool echo -e "                        directory. Note that this goal depends on goal %Ball%b;"
 	@shtool echo -e "   %Bglobal_clean%b       - clean up %Bwhole%b sourses tree excluding downloaded"
 	@shtool echo -e "                        source tarballs;"
 	@shtool echo -e "   %Bdownloads_clean%b    - remove %Ball%b sourse tarball from '%Bsourses%b' directory;"
@@ -757,6 +759,9 @@ local_dist_clean: $(__targets)
 
 local_rootfs_clean: GOAL = local_rootfs_clean
 local_rootfs_clean: $(__targets)
+
+requires_tree: GOAL = requires_tree
+requires_tree: $(__targets)
 
 
 .target_%: TOOLCHAIN = $(shell echo $(word 2, $(subst _, , $@)) | sed -e 's/x86-64/x86_64/g')
@@ -1093,6 +1098,51 @@ endif
 ################################################################
 
 
+################################################################
+#######
+####### Build REQUIRES tree:
+#######
+
+#
+# Requires Tree perform only if goal 'all' is done and all packages installed
+# into root filesystem or into products directory.
+#
+# NOTE:
+#   The requires tree creation takes a time.
+#
+requires_tree: .requires_tree
+ifneq ($(shell pwd),$(BUILDSYSTEM))
+ifeq ($(shell pwd | grep $(TOP_BUILD_DIR_ABS)/$(SRC_PACKAGE_DIR)),)
+ifeq ($(wildcard .$(HARDWARE)_requires),)
+	@shtool echo -e "   %B(nothing to be done).%b"
+else
+	@$(BUILDSYSTEM)/build_requires_json_tree $(TOP_BUILD_DIR_ABS) $(TOOLCHAIN) $(HARDWARE)
+	@shtool echo -e "%B#######%b"
+	@shtool echo -e "%B#######%b %BEnd of building Requires Tree in '%b`basename $(CURDIR)`%B' directory.%b"
+	@shtool echo -e "%B#######%b"
+	@shtool echo -e "%B################################################################%b"
+endif
+endif
+endif
+
+.requires_tree:
+ifeq ($(shell pwd),$(BUILDSYSTEM))
+	@shtool echo -e "%B#######%b %BRequires Tree creation in '%b`basename $(CURDIR)`%B' directory is not supported.%b"
+else
+ifneq ($(shell pwd | grep $(TOP_BUILD_DIR_ABS)/$(SRC_PACKAGE_DIR)),)
+	@shtool echo -e "%B#######%b %BRequires Tree creation in '%b`basename $(CURDIR)`%B' directory is not supported.%b"
+else
+	@shtool echo -e "%B################################################################%b"
+	@shtool echo -e "%B#######%b"
+	@shtool echo -e "%B#######%b %BStart of building Requires Tree in '%b`basename $(CURDIR)`%B' directory...%b"
+	@shtool echo -e "%B#######%b"
+endif
+endif
+
+#######
+####### End of Build REQUIRES tree.
+#######
+################################################################
 
 
 #######

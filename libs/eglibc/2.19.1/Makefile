@@ -71,7 +71,7 @@ EGLIBC_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 EGLIBC_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 EGLIBC_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-EGLIBC_PKG_SHORT_DESCRIPTION   = eglibc $(version) header files
+EGLIBC_PKG_SHORT_DESCRIPTION   = eglibc $(version)
 EGLIBC_PKG_URL                 = $(BUG_URL)
 EGLIBC_PKG_LICENSE             = GPLv2
 EGLIBC_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(EGLIBC_PKG_NAME)-pkg-description

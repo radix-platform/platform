@@ -1,0 +1,596 @@
+#!/usr/bin/perl
+
+use FindBin;
+use lib $FindBin::Bin;
+
+use strict;
+use warnings FATAL => 'all';
+
+use IO::Handle;
+use File::Basename;
+use File::Temp;
+use Getopt::Long;
+
+use _kxLab;
+
+#
+# Generate .$(HARDWARE)_requires_json file for current directory
+#
+# usage:
+#   $0 topdir toolchain hardware
+#
+# where:
+#      'topdir' - is a absolute path to the top directory of checked out branch
+#   'toolchain' - is a TOOLCHAIN name
+#    'hardware' - is a HARDWARE variant
+#
+
+# global variables
+my ($topdir, $toolchain, $hardware, $build_system, $max_depth, $requires_file, $js_tree_file);
+my ( $distro_name, $distro_version, $url );
+my $tarball_suffix = "tgz";
+my $real_depth = 2;
+my %leaves;
+
+sub usage
+{
+  print <<EOF;
+
+Usage: $0 topdir toolchain hardware
+Options:
+   --max-depth=i - where 'i' is a maximal directory depth for finding requires;
+          topdir - is a absolute path to the top of checked out branch;
+       toolchain - is a TOOLCHAIN name;
+        hardware - is a HARDWARE variant.
+
+EOF
+  exit;
+}
+
+
+sub distro_name
+{
+  my $build_system = shift;
+  my $name;
+
+  open( FILE, "< $build_system/constants.mk" );
+
+  while( <FILE> )
+  {
+    if( /^DISTRO_NAME(.+= +)(.+)/ )
+    {
+      $name = $2;
+    }
+  }
+  close( FILE );
+
+  return $name;
+}
+
+sub distro_version
+{
+  my $build_system = shift;
+  my $name;
+
+  open( FILE, "< $build_system/constants.mk" );
+
+  while( <FILE> )
+  {
+    if( /^DISTRO_VERSION(.+= +)(.+)/ )
+    {
+      $name = $2;
+    }
+  }
+  close( FILE );
+
+  return $name;
+}
+
+sub bug_url
+{
+  my $build_system = shift;
+  my $url;
+
+  open( FILE, "< $build_system/constants.mk" );
+
+  while( <FILE> )
+  {
+    if( /^BUG_URL(.+= +)(.+)/ )
+    {
+      $url = $2;
+    }
+  }
+  close( FILE );
+
+  return $url;
+}
+
+
+sub pkg_group
+{
+  my $makefile = shift;
+  my $group;
+
+  open( FILE, "< $makefile" );
+
+  while( <FILE> )
+  {
+    if( /^PKG_GROUP(.+= +)(.+)/ )
+    {
+      $group = $2;
+    }
+  }
+  close( FILE );
+
+  return $group;
+}
+
+sub pkg_name
+{
+  my $makefile = shift;
+  my $name = "";
+
+  open( FILE, "< $makefile" );
+
+  while( <FILE> )
+  {
+    if( /^[A-Z_0-9]*_PKG_NAME(.+= +)(.+)/ )
+    {
+      $name = $2;
+    }
+  }
+  close( FILE );
+
+  return $name;
+}
+
+sub pkg_version
+{
+  my $makefile = shift;
+  my $version;
+
+  open( FILE, "< $makefile" );
+
+  while( <FILE> )
+  {
+    if( /^[A-Z_0-9]*_PKG_VERSION(.+= +)(.+)/ )
+    {
+      $version = $2;
+    }
+  }
+  close( FILE );
+
+  return $version;
+}
+
+sub get_pkg_info
+{
+  my $infofile   = shift;
+  my $data_field = shift;
+  my $data       = "";
+
+  open( FILE, "< $infofile" );
+
+  while( <FILE> )
+  {
+    if( /^$data_field=(.+)/ )
+    {
+      $data = $1;
+    }
+  }
+  close( FILE );
+
+  return $data;
+}
+
+sub get_pkg_description
+{
+  my $infofile   = shift;
+  my $data       = "";
+  my @fields;
+
+  open( FILE, "< $infofile" );
+
+  # Read the first line only
+  @fields = split( ':', <FILE> );
+  $data = $fields[1];
+  $data =~ s/^\s+|\s+$//;
+  chomp $data;
+
+  close( FILE );
+
+  return $data;
+}
+
+
+#
+# PACKAGE HASH:
+# ============
+#
+#   name              => $(PKG_NAME)       from Makefile
+#   version           => $(PKG_VERSION)    from Makefile
+#   group             => $PKG_GROUP)       from Makefile {app,base,dev,libs,net,...}
+#
+#   arch              => $toolchain        from comandline args
+#   hardware          => $hardware         from comandline args
+#   tarball           => "$name-$version-$arch-$distro_name-$distro_version.$tarball_suffix"
+#
+#   distro_name       => $(DISTRO_NAME)    from build-system/constants.mk
+#   distro_version    => $(DISTRO_VERSION) from build-system/constants.mk
+#   url               => $(BUG_URL)        from build-system/constants.mk
+#   license           =>                   from .PKGINFO
+#   short_description =>                   from .PKGINFO
+#   description       =>    first line     from .DESCRIPTION
+#   uncompressed_size =>                   from .PKGINFO
+#   total_files       =>                   from .PKGINFO
+#
+sub fill_package_info
+{
+  my $makefile = shift;
+  my ( $product_path, $tarball_file );
+  my %pkg;
+
+  $pkg{'name'} = pkg_name( $makefile );
+  if( $pkg{'name'} eq "" )
+  {
+    # There is no package for this Makefile
+    return %pkg;
+  }
+
+  $pkg{'version'}        = pkg_version( $makefile );
+  $pkg{'arch'}           = $toolchain;
+  $pkg{'hardware'}       = $hardware;
+  $pkg{'group'}          = pkg_group( $makefile );
+  $pkg{'distro_name'}    = $distro_name;
+  $pkg{'distro_version'} = $distro_version;
+  $pkg{'url'}            = $url;
+
+  $pkg{'tarball'} = $pkg{'name'}    . "-" . 
+                    $pkg{'version'} . "-" . 
+                    $pkg{'arch'}    . "-" . 
+                    $distro_name    . "-" . 
+                    $distro_version . "." . 
+                    $tarball_suffix;
+
+  $pkg{'license'}           = '';
+  $pkg{'short_description'} = '';
+  $pkg{'description'}       = '';
+  $pkg{'uncompressed_size'} = '';
+  $pkg{'total_files'}       = '';
+
+  $product_path = $topdir . "/dist/products/" . $toolchain . "/" . $hardware;
+  $tarball_file = $product_path . "/" . $pkg{'group'} . "/" . $pkg{'tarball'};
+
+  if( -e $tarball_file )
+  {
+    my $cleanup = 1;
+    my $fname   = ".$hardware.pkginfo.XXXXXXXX";
+    my $tempname;
+
+    (undef, $tempname) = File::Temp::tempfile( $fname, OPEN => 0, UNLINK => $cleanup );
+
+    _kxLab::system( "zcat $tarball_file | tar -xvf - \".PKGINFO\" -O  1> $tempname  2> /dev/null" );
+
+    $pkg{'license'}           = get_pkg_info( $tempname, "license" );
+    $pkg{'short_description'} = get_pkg_info( $tempname, "short_description" );
+    $pkg{'short_description'} =~ s/^"(.*)"$/$1/;
+    $pkg{'uncompressed_size'} = get_pkg_info( $tempname, "uncompressed_size" );
+    $pkg{'total_files'}       = get_pkg_info( $tempname, "total_files" );
+
+    unlink $tempname;
+
+    (undef, $tempname) = File::Temp::tempfile( $fname, OPEN => 0, UNLINK => $cleanup );
+
+    _kxLab::system( "zcat $tarball_file | tar -xvf - \".DESCRIPTION\" -O  1> $tempname  2> /dev/null" );
+    $pkg{ 'description' } = get_pkg_description( $tempname );
+
+    unlink $tempname;
+  }
+
+  ###############################################################
+  # Add name count suffix if node is already found:
+  # ==============================================
+  #
+  # this needed for tree nodes which not have children because
+  # 3d.js cannot display trees with cycles
+  #
+  if( exists $leaves{$pkg{'name'}} ) { $leaves{$pkg{'name'}} += 1; }
+  else                               { $leaves{$pkg{'name'}} += 0; }
+
+  if( $leaves{$pkg{'name'}} )
+  {
+    $pkg{'name'} = $pkg{'name'} . ":" . $leaves{$pkg{'name'}};
+  }
+  #
+  ###############################################################
+
+  return %pkg;
+}
+
+sub start_package_info
+{
+  my ( $level, $dir, %pkg )  = @_;
+  my $indent = "";
+
+  $level *= 2;
+  while( $level )
+  {
+    $indent .= " ";
+    $level--;
+  }
+  print JS_TREE_FILE $indent . "{\n";
+
+  if( $pkg{'name'} eq "" )
+  {
+    $pkg{'name'} = $dir;
+    print JS_TREE_FILE $indent . " \"name\": \"" . $pkg{'name'} . "\"";
+  }
+  else
+  {
+    print JS_TREE_FILE $indent . " \"name\":              \"" . $pkg{'name'}              . "\",\n";
+    print JS_TREE_FILE $indent . " \"version\":           \"" . $pkg{'version'}           . "\",\n";
+    print JS_TREE_FILE $indent . " \"group\":             \"" . $pkg{'group'}             . "\",\n";
+    print JS_TREE_FILE $indent . " \"arch\":              \"" . $pkg{'arch'}              . "\",\n";
+    print JS_TREE_FILE $indent . " \"hardware\":          \"" . $pkg{'hardware'}          . "\",\n";
+    print JS_TREE_FILE $indent . " \"distro_name\":       \"" . $pkg{'distro_name'}       . "\",\n";
+    print JS_TREE_FILE $indent . " \"distro_version\":    \"" . $pkg{'distro_version'}    . "\",\n";
+    print JS_TREE_FILE $indent . " \"url\":               \"" . $pkg{'url'}               . "\",\n";
+    print JS_TREE_FILE $indent . " \"license\":           \"" . $pkg{'license'}           . "\",\n";
+    print JS_TREE_FILE $indent . " \"short_description\": \"" . $pkg{'short_description'} . "\",\n";
+    print JS_TREE_FILE $indent . " \"description\":       \"" . $pkg{'description'}       . "\",\n";
+    print JS_TREE_FILE $indent . " \"tarball\":           \"" . $pkg{'tarball'}           . "\",\n";
+    print JS_TREE_FILE $indent . " \"uncompressed_size\": \"" . $pkg{'uncompressed_size'} . "\",\n";
+    print JS_TREE_FILE $indent . " \"total_files\":       \"" . $pkg{'total_files'}       . "\"";
+  }
+}
+
+sub start_package_children
+{
+  my $level = shift;
+  my $indent = "";
+
+  $level *= 2;
+  while( $level )
+  {
+    $indent .= " ";
+    $level--;
+  }
+  print JS_TREE_FILE $indent . " \"children\": [\n";
+}
+
+sub finish_package_children
+{
+  my $level  = shift;
+  my $indent = "";
+
+  $level *= 2;
+  while( $level ) { $indent .= " "; $level--; }
+  print JS_TREE_FILE $indent . " ]\n";
+}
+
+sub finish_package_info
+{
+  my $level  = shift;
+  my $indent = "";
+
+  $level *= 2;
+  while( $level ) { $indent .= " "; $level--; }
+  print JS_TREE_FILE $indent . "}";
+}
+
+sub print_comma
+{
+  my $comma = shift;
+
+  if( $comma > 0 ) { print JS_TREE_FILE ",\n"; }
+  else             { print JS_TREE_FILE  "\n"; }
+}
+
+
+sub get_children_list
+{
+  my $parent = shift;
+  my @list;
+
+  $parent =~ s/\//\\\//g;
+  $parent =~ s/\-/\\\-/g;
+  $parent =~ s/\./\\\./g;
+
+  seek( REQUIRES_FILE, 0, SEEK_SET );
+
+  while( <REQUIRES_FILE> )
+  {
+    if( /^$parent(: +)(.+)/ )
+    {
+      @list = split( ' ', $2 );
+    }
+  }
+  return @list;
+}
+
+sub get_treedirs
+{
+  my @list;
+
+  seek( REQUIRES_FILE, 0, SEEK_SET );
+
+  while( <REQUIRES_FILE> )
+  {
+    if( /^TREEDIRS(.+= +)(.+)/ )
+    {
+      @list = split( ' ', $2 );
+    }
+  }
+
+  return $#list;
+}
+
+sub get_root
+{
+  my $root;
+
+  seek( REQUIRES_FILE, 0, SEEK_SET );
+
+  while( <REQUIRES_FILE> )
+  {
+    if( /^# ROOT(=)(.+)/ )
+    {
+      $root = $2;
+    }
+  }
+
+  return $root;
+}
+
+sub write_child
+{
+  my $level = shift;
+  my $last  = shift;
+  my $dir   = shift;
+  my %package;
+
+  if( $real_depth < $level ) { $real_depth = $level; }
+
+  %package = fill_package_info( $topdir . "/" . $dir . "/Makefile" );
+
+  start_package_info( $level, $dir, %package );
+
+  ###############################################################
+  # limit the maximum depth:
+  # -----------------------
+  #
+  if(  $max_depth == 0 || ( $max_depth != 0 && $max_depth > $level + 1 ) )
+  {
+    my @child_dirs = get_children_list( $dir );
+
+    if( @child_dirs )
+    {
+      print_comma( 1 );
+      start_package_children( $level );
+
+      my $n = $#child_dirs;
+
+      foreach ( @child_dirs )
+      {
+        write_child( $level + 1, $n--, $_ );
+      }
+
+      finish_package_children( $level );
+    }
+    else
+    {
+      print_comma( 0 );
+    }
+  }
+  else
+  {
+    print_comma( 0 );
+  }
+
+  finish_package_info( $level );
+  print_comma( $last );
+}
+
+
+
+#
+# Parse the command line options
+#
+$max_depth = 0;
+GetOptions( "max-depth=i" => \$max_depth );
+
+# minimal depth is 2
+if( $max_depth > 0 && $max_depth < 2 ) { $max_depth = 2; }
+
+# Get the rest of the command line
+$topdir    = shift;
+$toolchain = shift;
+$hardware  = shift;
+
+my $makefile = "Makefile";
+
+if( ! defined $topdir    or $topdir eq "" )    { usage; }
+if( ! defined $toolchain or $toolchain eq "" ) { usage; }
+if( ! defined $hardware  or $hardware eq "" )  { usage; }
+
+_kxLab::error( "$0: $topdir is not a directory" ) if( ! -d $topdir );
+_kxLab::error( "build_requires: Makefile missing: $makefile" ) if ( ! -f $makefile );
+
+$build_system = $topdir . "/build-system";
+
+$distro_name    = distro_name( $build_system );
+$distro_version = distro_version( $build_system );
+$url            = bug_url( $build_system );
+
+$requires_file = "." . $hardware . "_requires";
+$js_tree_file  = "." . $hardware . "_requires.json";
+
+# open the intput file
+open(REQUIRES_FILE, "< $requires_file") or
+  _kxLab::error( "$0: Could not open $requires_file file: $!" );
+# open the output file
+open(JS_TREE_FILE, "> $js_tree_file") or
+  _kxLab::error( "$0: Could not open $js_tree_file file: $!" );
+
+my $level = 0;
+my %package;
+
+my $root = get_root();
+
+%package = fill_package_info( $makefile );
+
+print JS_TREE_FILE "\n";
+
+start_package_info( $level, $root, %package );
+
+my @child_dirs = get_children_list( "all" );
+
+if( @child_dirs )
+{
+  print_comma( 1 );
+  start_package_children( $level );
+
+  my $n = $#child_dirs;
+
+  foreach ( @child_dirs )
+  {
+    write_child( $level + 1, $n--, $_ );
+  }
+  finish_package_children( $level );
+}
+else
+{
+  print_comma( 0 );
+}
+
+finish_package_info( $level );
+print_comma( 0 );
+
+#################################################################
+# Calculate SVG size and make HTML from template:
+#
+my $html_template = $build_system . "/html/requires_tree_html.template";
+my $w = $real_depth;
+my $h = get_treedirs();
+my ($width, $height);
+
+$width  = ($w + 2) * 160;
+$height = ($h + 4) * 24;
+
+$root =~ s/\//\\\//g;
+$root =~ s/\-/\\\-/g;
+$root =~ s/\./\\\./g;
+
+my $call_string = sprintf( "cat %s | "               .
+                           "sed 's/\@ROOT\@/%s/g' | "           .
+                           "sed 's/\@SVG_WIDTH\@/%d/g' | "      .
+                           "sed 's/\@SVG_HEIGHT\@/%d/g' | "     .
+                           "sed 's/\@JSON_DATA_FILE\@/%s/g' > " .
+                           ".%s_requires.html", $html_template, $root, $width, $height, $js_tree_file, $hardware );
+_kxLab::system( $call_string );
+
+
+# close input files
+close REQUIRES_FILE;
+# close output files
+close JS_TREE_FILE;

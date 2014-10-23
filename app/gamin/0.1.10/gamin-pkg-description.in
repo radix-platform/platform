@@ -5,15 +5,15 @@
 # make exactly 11 lines for the formatting to be correct.  It's also
 # customary to leave one space after the ':'.
 
-        |-----handy-ruler------------------------------------------------------|
-libgamin: libgamin @VERSION@ (fam/gamin libraries for Gamin)
-libgamin:
-libgamin: Gamin is a file and directory monitoring system defined to be a
-libgamin: subset of the FAM (File Alteration Monitor) system.
-libgamin:
-libgamin: The homepage for Gamin is:  http://www.gnome.org/~veillard/gamin/
-libgamin:
-libgamin:
-libgamin:
-libgamin:
-libgamin:
+     |-----handy-ruler------------------------------------------------------|
+gamin: gamin @VERSION@ (fam/gamin server)
+gamin:
+gamin: Gamin is a file and directory monitoring system defined to be a
+gamin: subset of the FAM (File Alteration Monitor) system.
+gamin:
+gamin: The homepage for Gamin is:  http://www.gnome.org/~veillard/gamin/
+gamin:
+gamin:
+gamin:
+gamin:
+gamin:

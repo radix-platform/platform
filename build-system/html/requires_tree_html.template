@@ -222,7 +222,7 @@ div.tooltip {
     <div id="footer">
 
       <div id="footer_top">
-        <a id="copyright" href="http://radix.pro"
+        <a id="copyright" target="_blank" href="@BUG_URL@"
           onmouseover="show_link( 'copyright' );"
           onmouseout="hide_link( 'copyright' );">Copyright</a>
       </div>

@@ -202,6 +202,20 @@ sub get_pkg_description
   return $data;
 }
 
+my $nodes_done    = 1; # the ROOT node also counted
+my $packages_done = 0;
+
+sub print_progress
+{
+  my $out_string = sprintf( "####### Requires Tree building (required packages: %6.d; tree nodes: %6.d)", $packages_done, ++$nodes_done );
+  my $len        = length( $out_string );
+
+  print $out_string;
+  for( my $i = 0; $i < $len; ++$i )
+  {
+    print "\b";
+  }
+}
 
 #
 # PACKAGE HASH:
@@ -301,8 +315,14 @@ sub fill_package_info
   {
     $pkg{'name'} = $pkg{'name'} . ":" . $leaves{$pkg{'name'}};
   }
+  else
+  {
+    ++$packages_done;
+  }
   #
   ###############################################################
+
+  print_progress();
 
   return %pkg;
 }
@@ -537,6 +557,10 @@ my %package;
 
 my $root = get_root();
 
+#################################################################
+# Start progress:
+print "#######\n";
+
 %package = fill_package_info( $makefile );
 
 print JS_TREE_FILE "\n";
@@ -566,9 +590,15 @@ else
 finish_package_info( $level );
 print_comma( 0 );
 
+print "\n#######\n";
+# End progress.
+#################################################################
+
+
 #################################################################
 # Calculate SVG size and make HTML from template:
 #
+my $copyright_url = $url;
 my $html_template = $build_system . "/html/requires_tree_html.template";
 my $w = $real_depth;
 my $h = get_treedirs();
@@ -581,12 +611,17 @@ $root =~ s/\//\\\//g;
 $root =~ s/\-/\\\-/g;
 $root =~ s/\./\\\./g;
 
+$copyright_url =~ s/\//\\\//g;
+$copyright_url =~ s/\-/\\\-/g;
+$copyright_url =~ s/\./\\\./g;
+
 my $call_string = sprintf( "cat %s | "               .
                            "sed 's/\@ROOT\@/%s/g' | "           .
+                           "sed 's/\@BUG_URL\@/%s/g' | "        .
                            "sed 's/\@SVG_WIDTH\@/%d/g' | "      .
                            "sed 's/\@SVG_HEIGHT\@/%d/g' | "     .
                            "sed 's/\@JSON_DATA_FILE\@/%s/g' > " .
-                           ".%s_requires.html", $html_template, $root, $width, $height, $js_tree_file, $hardware );
+                           ".%s_requires.html", $html_template, $root, $copyright_url, $width, $height, $js_tree_file, $hardware );
 _kxLab::system( $call_string );
 
 

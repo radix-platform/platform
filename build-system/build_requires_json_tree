@@ -223,7 +223,7 @@ sub print_progress
 #
 #   name              => $(PKG_NAME)       from Makefile
 #   version           => $(PKG_VERSION)    from Makefile
-#   group             => $PKG_GROUP)       from Makefile {app,base,dev,libs,net,...}
+#   group             => $(PKG_GROUP)      from Makefile {app,base,dev,libs,net,...}
 #
 #   arch              => $toolchain        from comandline args
 #   hardware          => $hardware         from comandline args

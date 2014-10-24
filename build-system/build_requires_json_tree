@@ -202,6 +202,7 @@ sub get_pkg_description
   return $data;
 }
 
+my $root_node     = 1;
 my $nodes_done    = 1; # the ROOT node also counted
 my $packages_done = 0;
 
@@ -343,22 +344,33 @@ sub start_package_info
   if( $pkg{'name'} eq "" )
   {
     $pkg{'name'} = $dir;
-    print JS_TREE_FILE $indent . " \"name\": \"" . $pkg{'name'} . "\"";
+    if( $root_node == 1 )
+    {
+      print JS_TREE_FILE $indent . " \"distro\": [\n";
+      print JS_TREE_FILE $indent . "  \"" . $distro_name . "\",\n";
+      print JS_TREE_FILE $indent . "  \"" . $distro_version . "\",\n";
+      print JS_TREE_FILE $indent . "  \"" . $url . "\"\n";
+      print JS_TREE_FILE $indent . " ],\n";
+    }
+    print JS_TREE_FILE $indent . " \"name\":     \"" . $pkg{'name'} . "\"";
   }
   else
   {
+    if( $root_node == 1 )
+    {
+      print JS_TREE_FILE $indent . " \"distro\": [\n";
+      print JS_TREE_FILE $indent . "  \"" . $distro_name . "\",\n";
+      print JS_TREE_FILE $indent . "  \"" . $distro_version . "\",\n";
+      print JS_TREE_FILE $indent . "  \"" . $url . "\"\n";
+      print JS_TREE_FILE $indent . " ],\n";
+    }
     print JS_TREE_FILE $indent . " \"name\":              \"" . $pkg{'name'}              . "\",\n";
     print JS_TREE_FILE $indent . " \"version\":           \"" . $pkg{'version'}           . "\",\n";
     print JS_TREE_FILE $indent . " \"group\":             \"" . $pkg{'group'}             . "\",\n";
     print JS_TREE_FILE $indent . " \"arch\":              \"" . $pkg{'arch'}              . "\",\n";
     print JS_TREE_FILE $indent . " \"hardware\":          \"" . $pkg{'hardware'}          . "\",\n";
-    print JS_TREE_FILE $indent . " \"distro_name\":       \"" . $pkg{'distro_name'}       . "\",\n";
-    print JS_TREE_FILE $indent . " \"distro_version\":    \"" . $pkg{'distro_version'}    . "\",\n";
-    print JS_TREE_FILE $indent . " \"url\":               \"" . $pkg{'url'}               . "\",\n";
     print JS_TREE_FILE $indent . " \"license\":           \"" . $pkg{'license'}           . "\",\n";
-    print JS_TREE_FILE $indent . " \"short_description\": \"" . $pkg{'short_description'} . "\",\n";
     print JS_TREE_FILE $indent . " \"description\":       \"" . $pkg{'description'}       . "\",\n";
-    print JS_TREE_FILE $indent . " \"tarball\":           \"" . $pkg{'tarball'}           . "\",\n";
     print JS_TREE_FILE $indent . " \"uncompressed_size\": \"" . $pkg{'uncompressed_size'} . "\",\n";
     print JS_TREE_FILE $indent . " \"total_files\":       \"" . $pkg{'total_files'}       . "\"";
   }
@@ -566,6 +578,7 @@ print "#######\n";
 print JS_TREE_FILE "\n";
 
 start_package_info( $level, $root, %package );
+$root_node = 0;
 
 my @child_dirs = get_children_list( "all" );
 
@@ -604,7 +617,7 @@ my $w = $real_depth;
 my $h = get_treedirs();
 my ($width, $height);
 
-$width  = ($w + 2) * 160;
+$width  = ($w + 4) * 160;
 $height = ($h + 4) * 24;
 
 $root =~ s/\//\\\//g;
@@ -615,13 +628,14 @@ $copyright_url =~ s/\//\\\//g;
 $copyright_url =~ s/\-/\\\-/g;
 $copyright_url =~ s/\./\\\./g;
 
-my $call_string = sprintf( "cat %s | "               .
+my $call_string = sprintf( "cat %s | "                          .
                            "sed 's/\@ROOT\@/%s/g' | "           .
+                           "sed 's/\@TARBALL_SUFFIX\@/%s/g' | " .
                            "sed 's/\@BUG_URL\@/%s/g' | "        .
                            "sed 's/\@SVG_WIDTH\@/%d/g' | "      .
                            "sed 's/\@SVG_HEIGHT\@/%d/g' | "     .
                            "sed 's/\@JSON_DATA_FILE\@/%s/g' > " .
-                           ".%s_requires.html", $html_template, $root, $copyright_url, $width, $height, $js_tree_file, $hardware );
+                           ".%s_requires.html", $html_template, $root, $tarball_suffix, $copyright_url, $width, $height, $js_tree_file, $hardware );
 _kxLab::system( $call_string );
 
 

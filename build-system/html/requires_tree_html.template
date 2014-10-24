@@ -133,7 +133,7 @@ div#footer_bottom {
   overflow-x: hidden;
   margin: 0 auto;
   min-height: 256px;
-  width: 2018px;
+  width: @SVG_WIDTH@px;
   border: 0px solid #e7e7e7;
 }
 </style>
@@ -257,8 +257,8 @@ div.tooltip {
       .attr("class", "tooltip")
       .style("opacity", 0);
 
-  d3.json("./@JSON_DATA_FILE@", function(error, flare) {
-    root = flare;
+  d3.json("./@JSON_DATA_FILE@", function(error, requires) {
+    root = requires;
     root.x0 = height / 2;
     root.y0 = 0;
 
@@ -295,23 +295,24 @@ div.tooltip {
         .on("mouseover", function(d) {
             div.transition()
                 .duration(200)
-                .style("opacity", .8);
+                .style("opacity", .92);
             if (d.group == undefined) {
-              div.html("not packaged collection" + "<br/>")
+              div.html('<div style="text-align: left; padding-left: 0.5em; padding-right: 0.5em; font: 11px sans-serif; font-weight: bold; color: DarkRed;">' + "not packaged collection" + "</div>")
                   .style("left", (d3.event.pageX + document.getElementById( 'front_wrapper' ).scrollLeft + 12) + "px")
                   .style("top", (d3.event.pageY + document.getElementById( 'front_wrapper' ).scrollTop + 12) + "px");
             }else {
-              div.html('<div style="text-align: left; font: 11px sans-serif; font-weight: bold;  color: DarkRed;">' +
+              div.html('<div style="text-align: left; font: 11px sans-serif; font-weight: bold; color: DarkRed;">' +
                        d.name.split(':')[0] + "</div><br/>" +
-                       '<div style="text-align: left; padding-left: 1.5em; font: 11px sans-serif; font-style: italic; color: DarkBlue;">' +
+                       '<div style="text-align: left; padding-left: 1.5em; font: 12px sans-serif; font-weight: bold; font-style: italic; color: DarkBlue;">' +
                        d.description + "</div><br/>" +
                        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;group: " + d.group + "<br/>" +
                        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;architecture: " + d.arch + "<br/>" +
                        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hardware: " + d.hardware + "<br/>" +
-                       "&nbsp;&nbsp;&nbsp;distribution name: " + d.distro_name + "<br/>" +
-                       "distribution version: " + d.distro_version + "<br/>" +
-                       "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bug report url: " + d.url + "<br/>" +
-                       "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;package tarball: " + d.tarball + "<br/>" +
+                       "&nbsp;&nbsp;&nbsp;distribution name: " + root.distro[0] + "<br/>" +
+                       "distribution version: " + root.distro[1] + "<br/>" +
+                       "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bug report url: " + root.distro[2] + "<br/>" +
+                       "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;package tarball: " + d.name.split(':')[0] + "-" +
+                          d.version + "-" + d.arch + "-" + root.distro[0] + "-" + root.distro[1] + "."+ "@TARBALL_SUFFIX@" + "<br/>" +
                        "&nbsp;&nbsp;&nbsp;uncompressed size: " + d.uncompressed_size + "<br/>" +
                        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;number of files: " + d.total_files + "<br/>" +
                        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;license: " + d.license)
@@ -327,7 +328,7 @@ div.tooltip {
 
     nodeEnter.append("circle")
         .attr("r", 1e-6)
-        .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+        .style("fill", function(d) { return d._children ? "DodgerBlue" : "#fff"; });
 
     nodeEnter.append("text")
         .attr("x", function(d) { return d.children || d._children ? -10 : 10; })
@@ -343,7 +344,23 @@ div.tooltip {
 
     nodeUpdate.select("circle")
         .attr("r", 4.5)
-        .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+        .style("fill", function(d) {
+          if( d._children )
+          {
+            return "DodgerBlue";
+          }
+          else
+          {
+            if( d.children == undefined )
+            {
+              return "#fff";
+            }
+            else
+            {
+              return "lightblue";
+            }
+          }
+        });
 
     nodeUpdate.select("text")
         .style("fill-opacity", 1);

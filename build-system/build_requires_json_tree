@@ -426,6 +426,7 @@ sub get_children_list
 
   $parent =~ s/\//\\\//g;
   $parent =~ s/\-/\\\-/g;
+  $parent =~ s/\+/\\\+/g;
   $parent =~ s/\./\\\./g;
 
   seek( REQUIRES_FILE, 0, SEEK_SET );
@@ -622,10 +623,12 @@ $height = ($h + 4) * 24;
 
 $root =~ s/\//\\\//g;
 $root =~ s/\-/\\\-/g;
+$root =~ s/\+/\\\+/g;
 $root =~ s/\./\\\./g;
 
 $copyright_url =~ s/\//\\\//g;
 $copyright_url =~ s/\-/\\\-/g;
+$copyright_url =~ s/\+/\\\+/g;
 $copyright_url =~ s/\./\\\./g;
 
 my $call_string = sprintf( "cat %s | "                          .

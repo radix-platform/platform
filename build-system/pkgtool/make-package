@@ -145,10 +145,15 @@ EOF
 
 remove_size_info() {
   infile="./.PKGINFO"
-  tmpfile=`mktemp ./info.XXXXXX`
+  tmpfile=`mktemp $TMP/info.XXXXXX`
   cat "$infile" | sed "/uncompressed_size/d" > $tmpfile && mv $tmpfile $infile
   cat "$infile" | sed "/total_files/d" > $tmpfile && mv $tmpfile $infile
   rm -f $tmpfile
+}
+
+remove_backslash_info() {
+  infile="./.PKGINFO"
+  sed '/^short_description=/ s/[\]\(.\)/\1/g' -i $infile
 }
 
 
@@ -178,6 +183,8 @@ if [ -r "./.PKGINFO" ]; then
   # if .PKGINFO contains size variables then remove its.
   # create_file_list() will add them later.
   remove_size_info
+  # if .PKGINFO short_description contains backslashes then remove its.
+  remove_backslash_info
   . ./.PKGINFO
 else
   usage

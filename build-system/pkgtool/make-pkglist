@@ -176,7 +176,18 @@ for pkgtarball in `ls *.tgz` ; do
     short_description="There is no description"
   fi
 
-  echo "$pkgname:$pkgver:$short_description:$pkgtarball:$PRIORITY" >> $PKGLIST
+  #
+  # In Makefiles we have to mask characters '\', '&', '*', '(', ')' inside
+  # the new value in the assignment operator with backslash. So, for axample,
+  # the value "name & \ * ( ) end" we have to assign as follow
+  #
+  # ..._SHORT_DESCRIPTION = name \& \\ \* \( \) end
+  #
+  # Here we have to remove backslashes and fill escaped symbols as is:
+  #
+  echo -n  "$pkgname:$pkgver:"                         >> $PKGLIST
+  echo -n   $short_description | sed "s,[\]\(.\),\1,g" >> $PKGLIST
+  echo    ":$pkgtarball:$PRIORITY"                     >> $PKGLIST
 
 done
 #
@@ -184,4 +195,3 @@ done
 ################################################################
 
 exit $EXITSTATUS
-

@@ -46,7 +46,7 @@ GPM32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 GPM32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GPM32_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
-GPM32_PKG_SHORT_DESCRIPTION   = gpm-x32 $(version) library
+GPM32_PKG_SHORT_DESCRIPTION   = general purpose mouse server x86_32 library
 GPM32_PKG_URL                 = $(BUG_URL)
 GPM32_PKG_LICENSE             = GPLv2
 GPM32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GPM32_PKG_NAME)-pkg-description

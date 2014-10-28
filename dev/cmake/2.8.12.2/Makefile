@@ -57,7 +57,7 @@ CMAKE_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 CMAKE_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 CMAKE_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
-CMAKE_PKG_SHORT_DESCRIPTION   = cmake $(version)
+CMAKE_PKG_SHORT_DESCRIPTION   = open-source make system
 CMAKE_PKG_URL                 = $(BUG_URL)
 CMAKE_PKG_LICENSE             = custom
 CMAKE_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(CMAKE_PKG_NAME)-pkg-description

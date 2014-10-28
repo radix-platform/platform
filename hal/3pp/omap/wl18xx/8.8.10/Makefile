@@ -75,7 +75,7 @@ WL18XX_BIN_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 WL18XX_BIN_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 WL18XX_BIN_PKG_GROUP               = $(PKG_GROUP)
 ###                                 |---handy-ruler-------------------------------|
-WL18XX_BIN_PKG_SHORT_DESCRIPTION   = wl18xx $(version) for Linux kernel
+WL18XX_BIN_PKG_SHORT_DESCRIPTION   = wl18xx wireless support for Linux kernel
 WL18XX_BIN_PKG_URL                 = $(BUG_URL)
 WL18XX_BIN_PKG_LICENSE             = GPLv2
 WL18XX_BIN_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(WL18XX_BIN_PKG_NAME)-pkg-description

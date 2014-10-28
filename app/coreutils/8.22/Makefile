@@ -56,7 +56,7 @@ COREUTILS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 COREUTILS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 COREUTILS_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
-COREUTILS_PKG_SHORT_DESCRIPTION   = coreutils $(version)
+COREUTILS_PKG_SHORT_DESCRIPTION   = core GNU utilities
 COREUTILS_PKG_URL                 = $(BUG_URL)
 COREUTILS_PKG_LICENSE             = GPLv2
 COREUTILS_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(COREUTILS_PKG_NAME)-pkg-description

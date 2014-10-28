@@ -51,7 +51,7 @@ LIBGSM_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBGSM_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBGSM_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-LIBGSM_PKG_SHORT_DESCRIPTION   = gsm $(version)
+LIBGSM_PKG_SHORT_DESCRIPTION   = GSM 06.10 lossy speech compression
 LIBGSM_PKG_URL                 = $(BUG_URL)
 LIBGSM_PKG_LICENSE             = BSD-style
 LIBGSM_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBGSM_PKG_NAME)-pkg-description

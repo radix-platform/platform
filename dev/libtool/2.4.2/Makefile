@@ -50,7 +50,7 @@ LIBTOOL_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBTOOL_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBTOOL_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
-LIBTOOL_PKG_SHORT_DESCRIPTION   = libtool $(version)
+LIBTOOL_PKG_SHORT_DESCRIPTION   = generic library support script
 LIBTOOL_PKG_URL                 = $(BUG_URL)
 LIBTOOL_PKG_LICENSE             = GPLv2
 LIBTOOL_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBTOOL_PKG_NAME)-pkg-description

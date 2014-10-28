@@ -52,7 +52,7 @@ LOGROTATE_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LOGROTATE_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LOGROTATE_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
-LOGROTATE_PKG_SHORT_DESCRIPTION   = logrotate $(version)
+LOGROTATE_PKG_SHORT_DESCRIPTION   = system log rotation tool
 LOGROTATE_PKG_URL                 = $(BUG_URL)
 LOGROTATE_PKG_LICENSE             = GPLv2
 LOGROTATE_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LOGROTATE_PKG_NAME)-pkg-description

@@ -49,7 +49,7 @@ LIBNFNETLINK_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBNFNETLINK_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBNFNETLINK_PKG_GROUP               = $(PKG_GROUP)
 ###                                   |---handy-ruler-------------------------------|
-LIBNFNETLINK_PKG_SHORT_DESCRIPTION   = libnfnetlink $(version)
+LIBNFNETLINK_PKG_SHORT_DESCRIPTION   = library for netfilter
 LIBNFNETLINK_PKG_URL                 = $(BUG_URL)
 LIBNFNETLINK_PKG_LICENSE             = GPLv2
 LIBNFNETLINK_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBNFNETLINK_PKG_NAME)-pkg-description

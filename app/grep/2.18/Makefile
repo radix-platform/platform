@@ -49,7 +49,7 @@ GREP_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 GREP_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GREP_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
-GREP_PKG_SHORT_DESCRIPTION   = grep $(version)
+GREP_PKG_SHORT_DESCRIPTION   = print lines matching a pattern
 GREP_PKG_URL                 = $(BUG_URL)
 GREP_PKG_LICENSE             = GPLv2
 GREP_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GREP_PKG_NAME)-pkg-description

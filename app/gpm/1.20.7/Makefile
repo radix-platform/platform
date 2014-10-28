@@ -51,7 +51,7 @@ GPM_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 GPM_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GPM_PKG_GROUP               = $(PKG_GROUP)
 ###                          |---handy-ruler-------------------------------|
-GPM_PKG_SHORT_DESCRIPTION   = gpm $(version)
+GPM_PKG_SHORT_DESCRIPTION   = general purpose mouse server
 GPM_PKG_URL                 = $(BUG_URL)
 GPM_PKG_LICENSE             = GPLv2
 GPM_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GPM_PKG_NAME)-pkg-description

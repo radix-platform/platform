@@ -52,7 +52,7 @@ TAR_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 TAR_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 TAR_PKG_GROUP               = $(PKG_GROUP)
 ###                          |---handy-ruler-------------------------------|
-TAR_PKG_SHORT_DESCRIPTION   = tar $(version)
+TAR_PKG_SHORT_DESCRIPTION   = archiving utility
 TAR_PKG_URL                 = $(BUG_URL)
 TAR_PKG_LICENSE             = GPLv2
 TAR_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(TAR_PKG_NAME)-pkg-description

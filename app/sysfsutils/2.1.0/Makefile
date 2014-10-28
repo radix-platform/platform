@@ -48,7 +48,7 @@ SYSFSUTILS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 SYSFSUTILS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 SYSFSUTILS_PKG_GROUP               = $(PKG_GROUP)
 ###                                 |---handy-ruler-------------------------------|
-SYSFSUTILS_PKG_SHORT_DESCRIPTION   = sysfsutils $(version)
+SYSFSUTILS_PKG_SHORT_DESCRIPTION   = utilities for the sysfs filesystem
 SYSFSUTILS_PKG_URL                 = $(BUG_URL)
 SYSFSUTILS_PKG_LICENSE             = GPLv2
 SYSFSUTILS_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(SYSFSUTILS_PKG_NAME)-pkg-description

@@ -58,7 +58,7 @@ LIBXML2_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBXML2_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBXML2_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
-LIBXML2_PKG_SHORT_DESCRIPTION   = libxml2 $(version)
+LIBXML2_PKG_SHORT_DESCRIPTION   = XML parser library
 LIBXML2_PKG_URL                 = $(BUG_URL)
 LIBXML2_PKG_LICENSE             = custom
 LIBXML2_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBXML2_PKG_NAME)-pkg-description

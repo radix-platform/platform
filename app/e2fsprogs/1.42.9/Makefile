@@ -49,7 +49,7 @@ E2FSPROGS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 E2FSPROGS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 E2FSPROGS_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
-E2FSPROGS_PKG_SHORT_DESCRIPTION   = e2fsprogs $(version)
+E2FSPROGS_PKG_SHORT_DESCRIPTION   = ext2 and ext3 filesystems utilities
 E2FSPROGS_PKG_URL                 = $(BUG_URL)
 E2FSPROGS_PKG_LICENSE             = GPLv2
 E2FSPROGS_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(E2FSPROGS_PKG_NAME)-pkg-description

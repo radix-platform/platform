@@ -64,7 +64,7 @@ MC_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 MC_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 MC_PKG_GROUP               = $(PKG_GROUP)
 ###                         |---handy-ruler-------------------------------|
-MC_PKG_SHORT_DESCRIPTION   = mc $(version)
+MC_PKG_SHORT_DESCRIPTION   = Midnight Commander file manager
 MC_PKG_URL                 = $(BUG_URL)
 MC_PKG_LICENSE             = GPLv3
 MC_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(MC_PKG_NAME)-pkg-description

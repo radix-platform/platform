@@ -45,7 +45,7 @@ ACPID_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 ACPID_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 ACPID_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
-ACPID_PKG_SHORT_DESCRIPTION   = acpid $(version)
+ACPID_PKG_SHORT_DESCRIPTION   = ACPI daemon
 ACPID_PKG_URL                 = $(BUG_URL)
 ACPID_PKG_LICENSE             = GPLv2
 ACPID_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(ACPID_PKG_NAME)-pkg-description

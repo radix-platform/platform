@@ -50,7 +50,7 @@ GMP_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 GMP_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GMP_PKG_GROUP               = $(PKG_GROUP)
 ###                          |---handy-ruler-------------------------------|
-GMP_PKG_SHORT_DESCRIPTION   = gmp $(version)
+GMP_PKG_SHORT_DESCRIPTION   = GNU multiple precision arithmetic library
 GMP_PKG_URL                 = $(BUG_URL)
 GMP_PKG_LICENSE             = GPLv2
 GMP_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GMP_PKG_NAME)-pkg-description

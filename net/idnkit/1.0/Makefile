@@ -50,7 +50,7 @@ IDNKIT_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 IDNKIT_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 IDNKIT_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-IDNKIT_PKG_SHORT_DESCRIPTION   = idnkit $(version)
+IDNKIT_PKG_SHORT_DESCRIPTION   = Internationalized domain names toolkit
 IDNKIT_PKG_URL                 = $(BUG_URL)
 IDNKIT_PKG_LICENSE             = custom
 IDNKIT_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(IDNKIT_PKG_NAME)-pkg-description

@@ -49,7 +49,7 @@ RSH_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 RSH_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 RSH_PKG_GROUP               = $(PKG_GROUP)
 ###                          |---handy-ruler-------------------------------|
-RSH_PKG_SHORT_DESCRIPTION   = netkit-rsh $(version)
+RSH_PKG_SHORT_DESCRIPTION   = the BSD rsh/rcp/rlogin clients and daemon
 RSH_PKG_URL                 = $(BUG_URL)
 RSH_PKG_LICENSE             = BSD
 RSH_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(RSH_PKG_NAME)-pkg-description

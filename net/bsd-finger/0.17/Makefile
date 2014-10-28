@@ -49,7 +49,7 @@ FINGER_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 FINGER_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 FINGER_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-FINGER_PKG_SHORT_DESCRIPTION   = bsd-finger $(version)
+FINGER_PKG_SHORT_DESCRIPTION   = user information lookup program
 FINGER_PKG_URL                 = $(BUG_URL)
 FINGER_PKG_LICENSE             = BSD
 FINGER_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(FINGER_PKG_NAME)-pkg-description

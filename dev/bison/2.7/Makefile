@@ -48,15 +48,15 @@ BISON_PKG_ARCH                = $(TOOLCHAIN)
 BISON_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 BISON_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 BISON_PKG_GROUP               = $(PKG_GROUP)
-###                           |---handy-ruler-------------------------------|
-BISON_PKG_SHORT_DESCRIPTION   = bison $(version)
+###                            |---handy-ruler-------------------------------|
+BISON_PKG_SHORT_DESCRIPTION   = parser generator similar to yacc
 BISON_PKG_URL                 = $(BUG_URL)
 BISON_PKG_LICENSE             = BSD
 BISON_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(BISON_PKG_NAME)-pkg-description
 BISON_PKG_DESCRIPTION_FILE_IN = $(BISON_PKG_NAME)-pkg-description.in
 BISON_PKG_INSTALL_SCRIPT      = $(BISON_PKG_NAME)-pkg-install.sh
 
-BISON_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(BISON_PKG_NAME)-package
+BISON_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(BISON_PKG_NAME)-package
 
 pkg_basename     = $(BISON_PKG_NAME)-$(BISON_PKG_VERSION)-$(BISON_PKG_ARCH)-$(BISON_PKG_DISTRO_NAME)-$(BISON_PKG_DISTRO_VERSION)
 

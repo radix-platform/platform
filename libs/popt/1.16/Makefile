@@ -49,7 +49,7 @@ POPT_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 POPT_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 POPT_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
-POPT_PKG_SHORT_DESCRIPTION   = popt $(version)
+POPT_PKG_SHORT_DESCRIPTION   = command line parsing library
 POPT_PKG_URL                 = $(BUG_URL)
 POPT_PKG_LICENSE             = GPLv2
 POPT_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(POPT_PKG_NAME)-pkg-description

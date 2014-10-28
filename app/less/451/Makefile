@@ -51,7 +51,7 @@ LESS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LESS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LESS_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
-LESS_PKG_SHORT_DESCRIPTION   = less $(version)
+LESS_PKG_SHORT_DESCRIPTION   = file pager
 LESS_PKG_URL                 = $(BUG_URL)
 LESS_PKG_LICENSE             = GPLv2
 LESS_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LESS_PKG_NAME)-pkg-description

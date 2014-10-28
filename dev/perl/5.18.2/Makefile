@@ -56,7 +56,7 @@ PERL_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 PERL_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 PERL_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
-PERL_PKG_SHORT_DESCRIPTION   = perl $(version)
+PERL_PKG_SHORT_DESCRIPTION   = Practical Extraction and Report Language
 PERL_PKG_URL                 = $(BUG_URL)
 PERL_PKG_LICENSE             = GPLv1
 PERL_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(PERL_PKG_NAME)-pkg-description

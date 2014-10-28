@@ -51,7 +51,7 @@ DHCP_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 DHCP_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 DHCP_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
-DHCP_PKG_SHORT_DESCRIPTION   = dhcp $(version)
+DHCP_PKG_SHORT_DESCRIPTION   = DHCP server and client utilities
 DHCP_PKG_URL                 = $(BUG_URL)
 DHCP_PKG_LICENSE             = custom
 DHCP_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(DHCP_PKG_NAME)-pkg-description

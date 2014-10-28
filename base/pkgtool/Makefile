@@ -31,7 +31,7 @@ BIN_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 BIN_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 BIN_PKG_GROUP               = $(PKG_GROUP)
 ###                          |---handy-ruler-------------------------------|
-BIN_PKG_SHORT_DESCRIPTION   = $(DISTRO_NAME) - Package Database Tools
+BIN_PKG_SHORT_DESCRIPTION   = Package Tools
 BIN_PKG_URL                 = $(BUG_URL)
 BIN_PKG_LICENSE             = Proprietary
 BIN_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/pkg-description

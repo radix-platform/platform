@@ -51,7 +51,7 @@ SYSVFUNC_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 SYSVFUNC_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 SYSVFUNC_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-SYSVFUNC_PKG_SHORT_DESCRIPTION   = sysvinit-functions $(version)
+SYSVFUNC_PKG_SHORT_DESCRIPTION   = system V init functions
 SYSVFUNC_PKG_URL                 = $(BUG_URL)
 SYSVFUNC_PKG_LICENSE             = GPLv2
 SYSVFUNC_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(SYSVFUNC_PKG_NAME)-pkg-description

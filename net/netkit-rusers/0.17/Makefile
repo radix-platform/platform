@@ -49,7 +49,7 @@ RUSERS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 RUSERS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 RUSERS_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-RUSERS_PKG_SHORT_DESCRIPTION   = netkit-rusers $(version)
+RUSERS_PKG_SHORT_DESCRIPTION   = show users logged in to machines on local net
 RUSERS_PKG_URL                 = $(BUG_URL)
 RUSERS_PKG_LICENSE             = BSD
 RUSERS_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(RUSERS_PKG_NAME)-pkg-description

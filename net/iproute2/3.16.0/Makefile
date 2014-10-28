@@ -50,7 +50,7 @@ IPROUTE2_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 IPROUTE2_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 IPROUTE2_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-IPROUTE2_PKG_SHORT_DESCRIPTION   = iproute2 $(version)
+IPROUTE2_PKG_SHORT_DESCRIPTION   = IP routing utilities
 IPROUTE2_PKG_URL                 = $(BUG_URL)
 IPROUTE2_PKG_LICENSE             = GPLv2
 IPROUTE2_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(IPROUTE2_PKG_NAME)-pkg-description

@@ -49,7 +49,7 @@ WHICH_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 WHICH_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 WHICH_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
-WHICH_PKG_SHORT_DESCRIPTION   = which $(version)
+WHICH_PKG_SHORT_DESCRIPTION   = shows the full path to shell commands
 WHICH_PKG_URL                 = $(BUG_URL)
 WHICH_PKG_LICENSE             = GPLv3
 WHICH_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(WHICH_PKG_NAME)-pkg-description

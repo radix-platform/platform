@@ -44,7 +44,7 @@ SASL_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 SASL_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 SASL_32_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
-SASL_32_PKG_SHORT_DESCRIPTION   = cyrus-sasl-x32 $(version)
+SASL_32_PKG_SHORT_DESCRIPTION   = Simple Authentication and Security Layer
 SASL_32_PKG_URL                 = $(BUG_URL)
 SASL_32_PKG_LICENSE             = custom
 SASL_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(SASL_32_PKG_NAME)-pkg-description

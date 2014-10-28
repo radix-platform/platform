@@ -47,7 +47,7 @@ UDEV32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 UDEV32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 UDEV32_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-UDEV32_PKG_SHORT_DESCRIPTION   = libudev-x32 $(version)
+UDEV32_PKG_SHORT_DESCRIPTION   = libraries for udev
 UDEV32_PKG_URL                 = $(BUG_URL)
 UDEV32_PKG_LICENSE             = GPLv2
 UDEV32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(UDEV32_PKG_NAME)-pkg-description

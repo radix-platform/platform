@@ -51,7 +51,7 @@ GETTY_PS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 GETTY_PS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GETTY_PS_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-GETTY_PS_PKG_SHORT_DESCRIPTION   = getty-ps $(version)
+GETTY_PS_PKG_SHORT_DESCRIPTION   = console or terminal login
 GETTY_PS_PKG_URL                 = $(BUG_URL)
 GETTY_PS_PKG_LICENSE             = GPLv2
 GETTY_PS_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GETTY_PS_PKG_NAME)-pkg-description

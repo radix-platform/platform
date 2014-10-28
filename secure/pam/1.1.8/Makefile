@@ -53,7 +53,7 @@ PAM_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 PAM_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 PAM_PKG_GROUP               = $(PKG_GROUP)
 ###                          |---handy-ruler-------------------------------|
-PAM_PKG_SHORT_DESCRIPTION   = pam $(version)
+PAM_PKG_SHORT_DESCRIPTION   = Pluggable Authentication Modules for Linux
 PAM_PKG_URL                 = $(BUG_URL)
 PAM_PKG_LICENSE             = BSD
 PAM_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(PAM_PKG_NAME)-pkg-description

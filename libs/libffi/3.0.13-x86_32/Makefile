@@ -43,7 +43,7 @@ LIBFFI32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBFFI32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBFFI32_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-LIBFFI32_PKG_SHORT_DESCRIPTION   = libffi-x32 $(version)
+LIBFFI32_PKG_SHORT_DESCRIPTION   = Portable Foreign Function Interface Library
 LIBFFI32_PKG_URL                 = $(BUG_URL)
 LIBFFI32_PKG_LICENSE             = GPLv2
 LIBFFI32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBFFI32_PKG_NAME)-pkg-description

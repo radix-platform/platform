@@ -47,7 +47,7 @@ NCOMPRESS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 NCOMPRESS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 NCOMPRESS_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
-NCOMPRESS_PKG_SHORT_DESCRIPTION   = ncompress $(version)
+NCOMPRESS_PKG_SHORT_DESCRIPTION   = the classic \*nix compression utility
 NCOMPRESS_PKG_URL                 = $(BUG_URL)
 NCOMPRESS_PKG_LICENSE             = GPLv2
 NCOMPRESS_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(NCOMPRESS_PKG_NAME)-pkg-description

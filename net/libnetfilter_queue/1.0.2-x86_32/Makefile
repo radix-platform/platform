@@ -44,7 +44,7 @@ LIBNF_QUEUE_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBNF_QUEUE_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBNF_QUEUE_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                     |---handy-ruler-------------------------------|
-LIBNF_QUEUE_32_PKG_SHORT_DESCRIPTION   = libnetfilter_queue-x32 $(version)
+LIBNF_QUEUE_32_PKG_SHORT_DESCRIPTION   = packet queueing library
 LIBNF_QUEUE_32_PKG_URL                 = $(BUG_URL)
 LIBNF_QUEUE_32_PKG_LICENSE             = GPLv2
 LIBNF_QUEUE_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBNF_QUEUE_32_PKG_NAME)-pkg-description

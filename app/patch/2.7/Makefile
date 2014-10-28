@@ -49,7 +49,7 @@ PATCH_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 PATCH_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 PATCH_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
-PATCH_PKG_SHORT_DESCRIPTION   = patch $(version)
+PATCH_PKG_SHORT_DESCRIPTION   = apply diffs or patches to files
 PATCH_PKG_URL                 = $(BUG_URL)
 PATCH_PKG_LICENSE             = GPLv3
 PATCH_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(PATCH_PKG_NAME)-pkg-description

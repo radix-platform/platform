@@ -51,7 +51,7 @@ NETDATE_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 NETDATE_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 NETDATE_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
-NETDATE_PKG_SHORT_DESCRIPTION   = netdate $(version)th Berkeley Distribution
+NETDATE_PKG_SHORT_DESCRIPTION   = simple network time utility
 NETDATE_PKG_URL                 = $(BUG_URL)
 NETDATE_PKG_LICENSE             = BSD
 NETDATE_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(NETDATE_PKG_NAME)-pkg-description

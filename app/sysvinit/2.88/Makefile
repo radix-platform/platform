@@ -47,7 +47,7 @@ SYSVINIT_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 SYSVINIT_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 SYSVINIT_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-SYSVINIT_PKG_SHORT_DESCRIPTION   = sysvinit $(version)
+SYSVINIT_PKG_SHORT_DESCRIPTION   = init is the parent of all processes
 SYSVINIT_PKG_URL                 = $(BUG_URL)
 SYSVINIT_PKG_LICENSE             = GPLv2
 SYSVINIT_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(SYSVINIT_PKG_NAME)-pkg-description

@@ -51,7 +51,7 @@ IPTABLES_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 IPTABLES_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 IPTABLES_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-IPTABLES_PKG_SHORT_DESCRIPTION   = iptables $(version)
+IPTABLES_PKG_SHORT_DESCRIPTION   = IP packet filter administration tool
 IPTABLES_PKG_URL                 = $(BUG_URL)
 IPTABLES_PKG_LICENSE             = GPLv2
 IPTABLES_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(IPTABLES_PKG_NAME)-pkg-description

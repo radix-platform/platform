@@ -51,7 +51,7 @@ GAWK_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 GAWK_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GAWK_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
-GAWK_PKG_SHORT_DESCRIPTION   = gawk $(version)
+GAWK_PKG_SHORT_DESCRIPTION   = pattern scanning and processing language
 GAWK_PKG_URL                 = $(BUG_URL)
 GAWK_PKG_LICENSE             = GPLv2
 GAWK_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GAWK_PKG_NAME)-pkg-description

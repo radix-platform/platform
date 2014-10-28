@@ -48,7 +48,7 @@ EUDEV_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 EUDEV_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 EUDEV_32_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-EUDEV_32_PKG_SHORT_DESCRIPTION   = libeudev-x32 $(version)
+EUDEV_32_PKG_SHORT_DESCRIPTION   = libraries for eudev
 EUDEV_32_PKG_URL                 = $(BUG_URL)
 EUDEV_32_PKG_LICENSE             = GPLv2
 EUDEV_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(EUDEV_32_PKG_NAME)-pkg-description

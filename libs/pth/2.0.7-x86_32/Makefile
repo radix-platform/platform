@@ -43,7 +43,7 @@ PTH32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 PTH32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 PTH32_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
-PTH32_PKG_SHORT_DESCRIPTION   = pth-x32 $(version)
+PTH32_PKG_SHORT_DESCRIPTION   = GNU Portable Threads
 PTH32_PKG_URL                 = $(BUG_URL)
 PTH32_PKG_LICENSE             = GPLv2
 PTH32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(PTH32_PKG_NAME)-pkg-description

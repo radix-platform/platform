@@ -49,7 +49,7 @@ RWHO_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 RWHO_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 RWHO_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
-RWHO_PKG_SHORT_DESCRIPTION   = netkit-rwho $(version)
+RWHO_PKG_SHORT_DESCRIPTION   = who is logged in on local machines
 RWHO_PKG_URL                 = $(BUG_URL)
 RWHO_PKG_LICENSE             = BSD
 RWHO_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(RWHO_PKG_NAME)-pkg-description

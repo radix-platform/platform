@@ -46,7 +46,7 @@ LIBSAMPLERATE_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBSAMPLERATE_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBSAMPLERATE_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                       |---handy-ruler-------------------------------|
-LIBSAMPLERATE_32_PKG_SHORT_DESCRIPTION   = libsamplerate-x32 $(version)
+LIBSAMPLERATE_32_PKG_SHORT_DESCRIPTION   = Sample Rate Converter for audio
 LIBSAMPLERATE_32_PKG_URL                 = $(BUG_URL)
 LIBSAMPLERATE_32_PKG_LICENSE             = GPLv2
 LIBSAMPLERATE_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBSAMPLERATE_32_PKG_NAME)-pkg-description

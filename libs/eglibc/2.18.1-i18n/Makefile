@@ -62,7 +62,7 @@ EGLIBC_I18N_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 EGLIBC_I18N_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 EGLIBC_I18N_PKG_GROUP               = $(PKG_GROUP)
 ###                                  |---handy-ruler-------------------------------|
-EGLIBC_I18N_PKG_SHORT_DESCRIPTION   = eglibc-i18n $(version) locales
+EGLIBC_I18N_PKG_SHORT_DESCRIPTION   = locale files
 EGLIBC_I18N_PKG_URL                 = $(BUG_URL)
 EGLIBC_I18N_PKG_LICENSE             = GPLv2
 EGLIBC_I18N_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(EGLIBC_I18N_PKG_NAME)-pkg-description

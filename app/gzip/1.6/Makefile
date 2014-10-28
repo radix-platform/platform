@@ -49,7 +49,7 @@ GZIP_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 GZIP_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GZIP_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
-GZIP_PKG_SHORT_DESCRIPTION   = gzip $(version)
+GZIP_PKG_SHORT_DESCRIPTION   = file compression utility
 GZIP_PKG_URL                 = $(BUG_URL)
 GZIP_PKG_LICENSE             = GPLv2
 GZIP_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GZIP_PKG_NAME)-pkg-description

@@ -48,7 +48,7 @@ LIBNL_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBNL_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBNL_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
-LIBNL_PKG_SHORT_DESCRIPTION   = libnl $(version)
+LIBNL_PKG_SHORT_DESCRIPTION   = netlink socket library
 LIBNL_PKG_URL                 = $(BUG_URL)
 LIBNL_PKG_LICENSE             = LGPLv2.1
 LIBNL_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBNL_PKG_NAME)-pkg-description

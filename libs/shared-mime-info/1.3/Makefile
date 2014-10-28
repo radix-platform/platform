@@ -53,7 +53,7 @@ MIME_INFO_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 MIME_INFO_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 MIME_INFO_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
-MIME_INFO_PKG_SHORT_DESCRIPTION   = shared-mime-info $(version)
+MIME_INFO_PKG_SHORT_DESCRIPTION   = MIME database
 MIME_INFO_PKG_URL                 = $(BUG_URL)
 MIME_INFO_PKG_LICENSE             = GPLv2
 MIME_INFO_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(MIME_INFO_PKG_NAME)-pkg-description

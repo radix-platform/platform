@@ -41,7 +41,7 @@ UTEMPTER_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 UTEMPTER_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 UTEMPTER_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                  |---handy-ruler-------------------------------|
-UTEMPTER_32_PKG_SHORT_DESCRIPTION   = utempter-x32 $(version)
+UTEMPTER_32_PKG_SHORT_DESCRIPTION   = utmp updating x86_32 library
 UTEMPTER_32_PKG_URL                 = $(BUG_URL)
 UTEMPTER_32_PKG_LICENSE             = LGPLv2.1
 UTEMPTER_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(UTEMPTER_32_PKG_NAME)-pkg-description

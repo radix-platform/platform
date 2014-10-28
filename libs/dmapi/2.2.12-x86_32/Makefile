@@ -41,7 +41,7 @@ DMAPI_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 DMAPI_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 DMAPI_32_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-DMAPI_32_PKG_SHORT_DESCRIPTION   = dmapi-x32 $(version)
+DMAPI_32_PKG_SHORT_DESCRIPTION   = Data Management API library
 DMAPI_32_PKG_URL                 = $(BUG_URL)
 DMAPI_32_PKG_LICENSE             = GPLv2
 DMAPI_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(DMAPI_32_PKG_NAME)-pkg-description

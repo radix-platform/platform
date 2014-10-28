@@ -43,7 +43,7 @@ CTAGS_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 CTAGS_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 CTAGS_32_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-CTAGS_32_PKG_SHORT_DESCRIPTION   = ctags-x32 $(version)
+CTAGS_32_PKG_SHORT_DESCRIPTION   = Exuberant Ctags
 CTAGS_32_PKG_URL                 = $(BUG_URL)
 CTAGS_32_PKG_LICENSE             = GPLv2
 CTAGS_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(CTAGS_32_PKG_NAME)-pkg-description

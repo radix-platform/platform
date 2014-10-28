@@ -52,7 +52,7 @@ AUTOMAKE_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 AUTOMAKE_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 AUTOMAKE_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-AUTOMAKE_PKG_SHORT_DESCRIPTION   = automake $(version)
+AUTOMAKE_PKG_SHORT_DESCRIPTION   = Makefile generator
 AUTOMAKE_PKG_URL                 = $(BUG_URL)
 AUTOMAKE_PKG_LICENSE             = GPLv2
 AUTOMAKE_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(AUTOMAKE_PKG_NAME)-pkg-description

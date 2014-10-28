@@ -43,7 +43,7 @@ LIBNF_CTTIMEOUT_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBNF_CTTIMEOUT_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBNF_CTTIMEOUT_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                         |---handy-ruler-------------------------------|
-LIBNF_CTTIMEOUT_32_PKG_SHORT_DESCRIPTION   = libnetfilter_cttimeout-x32 $(version)
+LIBNF_CTTIMEOUT_32_PKG_SHORT_DESCRIPTION   = timeout library
 LIBNF_CTTIMEOUT_32_PKG_URL                 = $(BUG_URL)
 LIBNF_CTTIMEOUT_32_PKG_LICENSE             = GPLv2
 LIBNF_CTTIMEOUT_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBNF_CTTIMEOUT_32_PKG_NAME)-pkg-description

@@ -49,7 +49,7 @@ RWALL_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 RWALL_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 RWALL_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
-RWALL_PKG_SHORT_DESCRIPTION   = netkit-rwall $(version)
+RWALL_PKG_SHORT_DESCRIPTION   = send a message to all users
 RWALL_PKG_URL                 = $(BUG_URL)
 RWALL_PKG_LICENSE             = BSD
 RWALL_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(RWALL_PKG_NAME)-pkg-description

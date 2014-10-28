@@ -56,7 +56,7 @@ EGLIBC_TZ_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 EGLIBC_TZ_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 EGLIBC_TZ_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
-EGLIBC_TZ_PKG_SHORT_DESCRIPTION   = eglibc-zoneinfo $(version) timezone db
+EGLIBC_TZ_PKG_SHORT_DESCRIPTION   = timezone database
 EGLIBC_TZ_PKG_URL                 = $(BUG_URL)
 EGLIBC_TZ_PKG_LICENSE             = GPLv2
 EGLIBC_TZ_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(EGLIBC_TZ_PKG_NAME)-pkg-description

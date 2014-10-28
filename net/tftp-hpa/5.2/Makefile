@@ -51,7 +51,7 @@ TFTP_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 TFTP_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 TFTP_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
-TFTP_PKG_SHORT_DESCRIPTION   = tftp-hpa $(version)
+TFTP_PKG_SHORT_DESCRIPTION   = Trivial File Transfer Protocol
 TFTP_PKG_URL                 = $(BUG_URL)
 TFTP_PKG_LICENSE             = BSD
 TFTP_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(TFTP_PKG_NAME)-pkg-description

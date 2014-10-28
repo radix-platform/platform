@@ -43,7 +43,7 @@ LIBNL3_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBNL3_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBNL3_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
-LIBNL3_32_PKG_SHORT_DESCRIPTION   = libnl3-x32 $(version)
+LIBNL3_32_PKG_SHORT_DESCRIPTION   = Netlink Protocol Library Suite version 3
 LIBNL3_32_PKG_URL                 = $(BUG_URL)
 LIBNL3_32_PKG_LICENSE             = LGPLv2.1
 LIBNL3_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBNL3_32_PKG_NAME)-pkg-description

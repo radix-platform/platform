@@ -50,7 +50,7 @@ NFACCT_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 NFACCT_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 NFACCT_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-NFACCT_PKG_SHORT_DESCRIPTION   = nfacct $(version)
+NFACCT_PKG_SHORT_DESCRIPTION   = accounting objects tool
 NFACCT_PKG_URL                 = $(BUG_URL)
 NFACCT_PKG_LICENSE             = GPLv2
 NFACCT_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(NFACCT_PKG_NAME)-pkg-description

@@ -44,7 +44,7 @@ OPENSSL32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 OPENSSL32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 OPENSSL32_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
-OPENSSL32_PKG_SHORT_DESCRIPTION   = openssl-x32 $(version)
+OPENSSL32_PKG_SHORT_DESCRIPTION   = Secure Sockets Layer toolkit
 OPENSSL32_PKG_URL                 = $(BUG_URL)
 OPENSSL32_PKG_LICENSE             = GPLv2
 OPENSSL32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(OPENSSL32_PKG_NAME)-pkg-description

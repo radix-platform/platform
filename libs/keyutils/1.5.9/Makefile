@@ -48,7 +48,7 @@ KEYUTILS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 KEYUTILS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 KEYUTILS_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-KEYUTILS_PKG_SHORT_DESCRIPTION   = keyutils $(version)
+KEYUTILS_PKG_SHORT_DESCRIPTION   = Kernel key management utilities
 KEYUTILS_PKG_URL                 = $(BUG_URL)
 KEYUTILS_PKG_LICENSE             = LGPLv2
 KEYUTILS_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(KEYUTILS_PKG_NAME)-pkg-description

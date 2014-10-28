@@ -49,7 +49,7 @@ LIBUSB_COMPAT_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBUSB_COMPAT_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBUSB_COMPAT_PKG_GROUP               = $(PKG_GROUP)
 ###                                    |---handy-ruler-------------------------------|
-LIBUSB_COMPAT_PKG_SHORT_DESCRIPTION   = libusb-compat $(version)
+LIBUSB_COMPAT_PKG_SHORT_DESCRIPTION   = Compatibility for libusb-0.1 apps
 LIBUSB_COMPAT_PKG_URL                 = $(BUG_URL)
 LIBUSB_COMPAT_PKG_LICENSE             = LGPLv2.1
 LIBUSB_COMPAT_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBUSB_COMPAT_PKG_NAME)-pkg-description

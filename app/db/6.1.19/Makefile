@@ -52,7 +52,7 @@ DB_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 DB_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 DB_PKG_GROUP               = $(PKG_GROUP)
 ###                         |---handy-ruler-------------------------------|
-DB_PKG_SHORT_DESCRIPTION   = db $(version)
+DB_PKG_SHORT_DESCRIPTION   = Berkeley DB
 DB_PKG_URL                 = $(BUG_URL)
 DB_PKG_LICENSE             = AGPLv3
 DB_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(DB_PKG_NAME)-pkg-description

@@ -48,8 +48,8 @@ FTP_PKG_ARCH                = $(TOOLCHAIN)
 FTP_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 FTP_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 FTP_PKG_GROUP               = $(PKG_GROUP)
-###                                 |---handy-ruler-------------------------------|
-FTP_PKG_SHORT_DESCRIPTION   = netkit-ftp $(version)
+###                          |---handy-ruler-------------------------------|
+FTP_PKG_SHORT_DESCRIPTION   = the old BSD FTP client
 FTP_PKG_URL                 = $(BUG_URL)
 FTP_PKG_LICENSE             = BSD
 FTP_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(FTP_PKG_NAME)-pkg-description

@@ -46,7 +46,7 @@ DIALOG_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 DIALOG_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 DIALOG_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
-DIALOG_32_PKG_SHORT_DESCRIPTION   = dialog-x32 $(version)
+DIALOG_32_PKG_SHORT_DESCRIPTION   = dialog boxes for shell scripts
 DIALOG_32_PKG_URL                 = $(BUG_URL)
 DIALOG_32_PKG_LICENSE             = LGPLv2
 DIALOG_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(DIALOG_32_PKG_NAME)-pkg-description

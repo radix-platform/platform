@@ -49,7 +49,7 @@ LIBUSB_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBUSB_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBUSB_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-LIBUSB_PKG_SHORT_DESCRIPTION   = libusb $(version)
+LIBUSB_PKG_SHORT_DESCRIPTION   = USB library
 LIBUSB_PKG_URL                 = $(BUG_URL)
 LIBUSB_PKG_LICENSE             = GPLv2
 LIBUSB_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBUSB_PKG_NAME)-pkg-description

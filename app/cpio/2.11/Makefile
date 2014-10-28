@@ -50,7 +50,7 @@ CPIO_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 CPIO_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 CPIO_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
-CPIO_PKG_SHORT_DESCRIPTION   = cpio $(version)
+CPIO_PKG_SHORT_DESCRIPTION   = backup and archiving utility
 CPIO_PKG_URL                 = $(BUG_URL)
 CPIO_PKG_LICENSE             = GPLv2
 CPIO_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(CPIO_PKG_NAME)-pkg-description

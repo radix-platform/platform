@@ -49,7 +49,7 @@ LIBELF_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBELF_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBELF_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-LIBELF_PKG_SHORT_DESCRIPTION   = libelf $(version)
+LIBELF_PKG_SHORT_DESCRIPTION   = ELF object file access library
 LIBELF_PKG_URL                 = $(BUG_URL)
 LIBELF_PKG_LICENSE             = GPLv2
 LIBELF_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBELF_PKG_NAME)-pkg-description

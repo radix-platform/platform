@@ -42,15 +42,15 @@ BISON_32_PKG_ARCH                = $(TOOLCHAIN)
 BISON_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 BISON_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 BISON_32_PKG_GROUP               = $(PKG_GROUP)
-###                              |---handy-ruler-------------------------------|
-BISON_32_PKG_SHORT_DESCRIPTION   = bison-x32 $(version)
+###                               |---handy-ruler-------------------------------|
+BISON_32_PKG_SHORT_DESCRIPTION   = parser generator similar to yacc
 BISON_32_PKG_URL                 = $(BUG_URL)
 BISON_32_PKG_LICENSE             = GPLv2
 BISON_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(BISON_32_PKG_NAME)-pkg-description
 BISON_32_PKG_DESCRIPTION_FILE_IN = $(BISON_32_PKG_NAME)-pkg-description.in
 BISON_32_PKG_INSTALL_SCRIPT      = $(BISON_32_PKG_NAME)-pkg-install.sh
 
-BISON_32_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(BISON_32_PKG_NAME)-package
+BISON_32_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(BISON_32_PKG_NAME)-package
 
 pkg_basename     = $(BISON_32_PKG_NAME)-$(BISON_32_PKG_VERSION)-$(BISON_32_PKG_ARCH)-$(BISON_32_PKG_DISTRO_NAME)-$(BISON_32_PKG_DISTRO_VERSION)
 

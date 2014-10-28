@@ -51,7 +51,7 @@ LIBMAD_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBMAD_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBMAD_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-LIBMAD_PKG_SHORT_DESCRIPTION   = libmad $(version)
+LIBMAD_PKG_SHORT_DESCRIPTION   = high-quality MPEG audio library
 LIBMAD_PKG_URL                 = $(BUG_URL)
 LIBMAD_PKG_LICENSE             = GPLv2
 LIBMAD_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBMAD_PKG_NAME)-pkg-description

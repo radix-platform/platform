@@ -65,7 +65,7 @@ CACERTS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 CACERTS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 CACERTS_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
-CACERTS_PKG_SHORT_DESCRIPTION   = ca-certificates $(version)
+CACERTS_PKG_SHORT_DESCRIPTION   = PEM Files of CA Certificates
 CACERTS_PKG_URL                 = $(BUG_URL)
 CACERTS_PKG_LICENSE             = GPLv2
 CACERTS_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(CACERTS_PKG_NAME)-pkg-description

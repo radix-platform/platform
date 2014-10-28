@@ -49,7 +49,7 @@ CHECK_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 CHECK_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 CHECK_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
-CHECK_PKG_SHORT_DESCRIPTION   = check $(version)
+CHECK_PKG_SHORT_DESCRIPTION   = The unit testing framework for C
 CHECK_PKG_URL                 = $(BUG_URL)
 CHECK_PKG_LICENSE             = LGPLv2
 CHECK_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(CHECK_PKG_NAME)-pkg-description

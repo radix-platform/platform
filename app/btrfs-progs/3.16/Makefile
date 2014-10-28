@@ -51,7 +51,7 @@ BTRFS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 BTRFS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 BTRFS_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
-BTRFS_PKG_SHORT_DESCRIPTION   = btrfs-progs $(version)
+BTRFS_PKG_SHORT_DESCRIPTION   = Btrfs filesystem utilities
 BTRFS_PKG_URL                 = $(BUG_URL)
 BTRFS_PKG_LICENSE             = GPLv2
 BTRFS_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(BTRFS_PKG_NAME)-pkg-description

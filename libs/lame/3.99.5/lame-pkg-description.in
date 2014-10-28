@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
     |-----handy-ruler------------------------------------------------------|
-lame: lame @VERSION@ (MPEG Audio Layer III (MP3) encoder)
+lame: lame @VERSION@ (MPEG Audio Layer III encoder)
 lame:
 lame: Originally developed by Mike Cheng (www.uq.net.au/~zzmcheng) and
 lame: was latter developed by Mark Taylor (www.mp3dev.org). Currently

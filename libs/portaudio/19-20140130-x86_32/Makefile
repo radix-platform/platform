@@ -44,7 +44,7 @@ PORTAUDIO_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 PORTAUDIO_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 PORTAUDIO_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                   |---handy-ruler-------------------------------|
-PORTAUDIO_32_PKG_SHORT_DESCRIPTION   = portaudio-x32 $(version)
+PORTAUDIO_32_PKG_SHORT_DESCRIPTION   = portable cross-platform audio API
 PORTAUDIO_32_PKG_URL                 = $(BUG_URL)
 PORTAUDIO_32_PKG_LICENSE             = BSD-style
 PORTAUDIO_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(PORTAUDIO_32_PKG_NAME)-pkg-description

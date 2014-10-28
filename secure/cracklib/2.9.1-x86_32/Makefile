@@ -44,15 +44,15 @@ CRACKLIB_32_PKG_ARCH                = $(TOOLCHAIN)
 CRACKLIB_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 CRACKLIB_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 CRACKLIB_32_PKG_GROUP               = $(PKG_GROUP)
-###                              |---handy-ruler-------------------------------|
-CRACKLIB_32_PKG_SHORT_DESCRIPTION   = cracklib-x32 $(version)
+###                                  |---handy-ruler-------------------------------|
+CRACKLIB_32_PKG_SHORT_DESCRIPTION   = password-quality library
 CRACKLIB_32_PKG_URL                 = $(BUG_URL)
 CRACKLIB_32_PKG_LICENSE             = GPLv2
 CRACKLIB_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(CRACKLIB_32_PKG_NAME)-pkg-description
 CRACKLIB_32_PKG_DESCRIPTION_FILE_IN = $(CRACKLIB_32_PKG_NAME)-pkg-description.in
 CRACKLIB_32_PKG_INSTALL_SCRIPT      = $(CRACKLIB_32_PKG_NAME)-pkg-install.sh
 
-CRACKLIB_32_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(CRACKLIB_32_PKG_NAME)-package
+CRACKLIB_32_PKG  = $(CURDIR)/$(TARGET_BUILD_DIR)/$(CRACKLIB_32_PKG_NAME)-package
 
 pkg_basename     = $(CRACKLIB_32_PKG_NAME)-$(CRACKLIB_32_PKG_VERSION)-$(CRACKLIB_32_PKG_ARCH)-$(CRACKLIB_32_PKG_DISTRO_NAME)-$(CRACKLIB_32_PKG_DISTRO_VERSION)
 

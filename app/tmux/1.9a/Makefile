@@ -51,7 +51,7 @@ TMUX_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 TMUX_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 TMUX_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
-TMUX_PKG_SHORT_DESCRIPTION   = tmux $(version)
+TMUX_PKG_SHORT_DESCRIPTION   = Terminal Multiplexer
 TMUX_PKG_URL                 = $(BUG_URL)
 TMUX_PKG_LICENSE             = BSD
 TMUX_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(TMUX_PKG_NAME)-pkg-description

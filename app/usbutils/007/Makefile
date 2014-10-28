@@ -49,7 +49,7 @@ USBUTILS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 USBUTILS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 USBUTILS_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-USBUTILS_PKG_SHORT_DESCRIPTION   = usbutils $(version)
+USBUTILS_PKG_SHORT_DESCRIPTION   = USB utilities
 USBUTILS_PKG_URL                 = $(BUG_URL)
 USBUTILS_PKG_LICENSE             = GPLv2
 USBUTILS_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(USBUTILS_PKG_NAME)-pkg-description

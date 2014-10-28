@@ -43,7 +43,7 @@ LIBMNL_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBMNL_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBMNL_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
-LIBMNL_32_PKG_SHORT_DESCRIPTION   = libmnl-x32 $(version)
+LIBMNL_32_PKG_SHORT_DESCRIPTION   = Netlink developers user-space library
 LIBMNL_32_PKG_URL                 = $(BUG_URL)
 LIBMNL_32_PKG_LICENSE             = LGPLv2.1
 LIBMNL_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBMNL_32_PKG_NAME)-pkg-description

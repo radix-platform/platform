@@ -50,7 +50,7 @@ PINENTRY_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 PINENTRY_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 PINENTRY_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-PINENTRY_PKG_SHORT_DESCRIPTION   = pinentry $(version)
+PINENTRY_PKG_SHORT_DESCRIPTION   = PIN Entry dialogs
 PINENTRY_PKG_URL                 = $(BUG_URL)
 PINENTRY_PKG_LICENSE             = GPLv2
 PINENTRY_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(PINENTRY_PKG_NAME)-pkg-description

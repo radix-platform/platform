@@ -55,7 +55,7 @@ TEXINFO_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 TEXINFO_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 TEXINFO_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
-TEXINFO_PKG_SHORT_DESCRIPTION   = texinfo $(version)
+TEXINFO_PKG_SHORT_DESCRIPTION   = software documentation system
 TEXINFO_PKG_URL                 = $(BUG_URL)
 TEXINFO_PKG_LICENSE             = GPLv3
 TEXINFO_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(TEXINFO_PKG_NAME)-pkg-description

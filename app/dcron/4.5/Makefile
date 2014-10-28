@@ -52,7 +52,7 @@ DCRON_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 DCRON_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 DCRON_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
-DCRON_PKG_SHORT_DESCRIPTION   = dcron $(version)
+DCRON_PKG_SHORT_DESCRIPTION   = Lightweight Cron daemon
 DCRON_PKG_URL                 = $(BUG_URL)
 DCRON_PKG_LICENSE             = GPLv2
 DCRON_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(DCRON_PKG_NAME)-pkg-description

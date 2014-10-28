@@ -44,7 +44,7 @@ DB_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 DB_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 DB_32_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
-DB_32_PKG_SHORT_DESCRIPTION   = db-x32 $(version)
+DB_32_PKG_SHORT_DESCRIPTION   = Berkeley DB
 DB_32_PKG_URL                 = $(BUG_URL)
 DB_32_PKG_LICENSE             = AGPLv3
 DB_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(DB_32_PKG_NAME)-pkg-description

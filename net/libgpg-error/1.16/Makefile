@@ -49,7 +49,7 @@ GPGERROR_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 GPGERROR_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GPGERROR_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-GPGERROR_PKG_SHORT_DESCRIPTION   = libgpg-error $(version)
+GPGERROR_PKG_SHORT_DESCRIPTION   = GnuPG Error Definitions Library
 GPGERROR_PKG_URL                 = $(BUG_URL)
 GPGERROR_PKG_LICENSE             = GPLv2
 GPGERROR_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GPGERROR_PKG_NAME)-pkg-description

@@ -49,7 +49,7 @@ SDPARM_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 SDPARM_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 SDPARM_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-SDPARM_PKG_SHORT_DESCRIPTION   = sdparm $(version)
+SDPARM_PKG_SHORT_DESCRIPTION   = fetch and change SCSI attributes
 SDPARM_PKG_URL                 = $(BUG_URL)
 SDPARM_PKG_LICENSE             = BSD
 SDPARM_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(SDPARM_PKG_NAME)-pkg-description

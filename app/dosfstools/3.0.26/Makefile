@@ -48,7 +48,7 @@ DOSFS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 DOSFS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 DOSFS_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
-DOSFS_PKG_SHORT_DESCRIPTION   = dosfstools $(version)
+DOSFS_PKG_SHORT_DESCRIPTION   = FAT filesystems utilities
 DOSFS_PKG_URL                 = $(BUG_URL)
 DOSFS_PKG_LICENSE             = GPLv2
 DOSFS_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(DOSFS_PKG_NAME)-pkg-description

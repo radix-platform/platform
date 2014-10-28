@@ -49,7 +49,7 @@ TASN_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 TASN_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 TASN_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
-TASN_PKG_SHORT_DESCRIPTION   = libtasn1 $(version)
+TASN_PKG_SHORT_DESCRIPTION   = ASN.1 library
 TASN_PKG_URL                 = $(BUG_URL)
 TASN_PKG_LICENSE             = GPLv2
 TASN_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(TASN_PKG_NAME)-pkg-description

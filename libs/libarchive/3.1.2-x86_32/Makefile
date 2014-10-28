@@ -53,7 +53,7 @@ LIBARCHIVE_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBARCHIVE_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBARCHIVE_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                    |---handy-ruler-------------------------------|
-LIBARCHIVE_32_PKG_SHORT_DESCRIPTION   = libarchive-x32 $(version)
+LIBARCHIVE_32_PKG_SHORT_DESCRIPTION   = archive reading library
 LIBARCHIVE_32_PKG_URL                 = $(BUG_URL)
 LIBARCHIVE_32_PKG_LICENSE             = custom
 LIBARCHIVE_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBARCHIVE_32_PKG_NAME)-pkg-description

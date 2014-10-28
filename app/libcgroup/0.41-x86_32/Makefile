@@ -43,7 +43,7 @@ CGROUP_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 CGROUP_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 CGROUP_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
-CGROUP_32_PKG_SHORT_DESCRIPTION   = libcgroup-x32 $(version)
+CGROUP_32_PKG_SHORT_DESCRIPTION   = kernel control groups library and utilities
 CGROUP_32_PKG_URL                 = $(BUG_URL)
 CGROUP_32_PKG_LICENSE             = LGPLv2
 CGROUP_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(CGROUP_32_PKG_NAME)-pkg-description

@@ -50,7 +50,7 @@ GNUTLS32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 GNUTLS32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GNUTLS32_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-GNUTLS32_PKG_SHORT_DESCRIPTION   = gnutls-x32 $(version)
+GNUTLS32_PKG_SHORT_DESCRIPTION   = GNU TLS library
 GNUTLS32_PKG_URL                 = $(BUG_URL)
 GNUTLS32_PKG_LICENSE             = GPLv2
 GNUTLS32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GNUTLS32_PKG_NAME)-pkg-description

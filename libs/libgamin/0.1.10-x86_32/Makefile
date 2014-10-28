@@ -46,7 +46,7 @@ GAMIN32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 GAMIN32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GAMIN32_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
-GAMIN32_PKG_SHORT_DESCRIPTION   = libgamin-x32 $(version)
+GAMIN32_PKG_SHORT_DESCRIPTION   = fam/gamin x86_32 libraries for Gamin
 GAMIN32_PKG_URL                 = $(BUG_URL)
 GAMIN32_PKG_LICENSE             = GPLv2
 GAMIN32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GAMIN32_PKG_NAME)-pkg-description

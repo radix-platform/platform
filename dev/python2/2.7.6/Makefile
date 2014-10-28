@@ -59,7 +59,7 @@ PYTHON_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 PYTHON_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 PYTHON_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-PYTHON_PKG_SHORT_DESCRIPTION   = python2 $(version)
+PYTHON_PKG_SHORT_DESCRIPTION   = interpreted programming language
 PYTHON_PKG_URL                 = $(BUG_URL)
 PYTHON_PKG_LICENSE             = GPLv2
 PYTHON_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(PYTHON_PKG_NAME)-pkg-description

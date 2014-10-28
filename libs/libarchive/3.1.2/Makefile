@@ -59,7 +59,7 @@ LIBARCHIVE_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBARCHIVE_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBARCHIVE_PKG_GROUP               = $(PKG_GROUP)
 ###                                 |---handy-ruler-------------------------------|
-LIBARCHIVE_PKG_SHORT_DESCRIPTION   = libarchive $(version)
+LIBARCHIVE_PKG_SHORT_DESCRIPTION   = archive reading library
 LIBARCHIVE_PKG_URL                 = $(BUG_URL)
 LIBARCHIVE_PKG_LICENSE             = custom
 LIBARCHIVE_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBARCHIVE_PKG_NAME)-pkg-description

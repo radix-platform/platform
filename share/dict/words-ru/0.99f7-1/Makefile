@@ -48,7 +48,7 @@ WORDS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 WORDS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 WORDS_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
-WORDS_PKG_SHORT_DESCRIPTION   = words-ru $(version)
+WORDS_PKG_SHORT_DESCRIPTION   = Russian wordlist
 WORDS_PKG_URL                 = $(BUG_URL)
 WORDS_PKG_LICENSE             = public
 WORDS_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(WORDS_PKG_NAME)-pkg-description

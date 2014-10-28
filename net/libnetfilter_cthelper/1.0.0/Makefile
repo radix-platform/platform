@@ -49,7 +49,7 @@ LIBNF_CTHELPER_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBNF_CTHELPER_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBNF_CTHELPER_PKG_GROUP               = $(PKG_GROUP)
 ###                                     |---handy-ruler-------------------------------|
-LIBNF_CTHELPER_PKG_SHORT_DESCRIPTION   = libnetfilter_cthelper $(version)
+LIBNF_CTHELPER_PKG_SHORT_DESCRIPTION   = library for conntrack helpers
 LIBNF_CTHELPER_PKG_URL                 = $(BUG_URL)
 LIBNF_CTHELPER_PKG_LICENSE             = GPLv2
 LIBNF_CTHELPER_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBNF_CTHELPER_PKG_NAME)-pkg-description

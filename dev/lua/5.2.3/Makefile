@@ -51,7 +51,7 @@ LUA_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LUA_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LUA_PKG_GROUP               = $(PKG_GROUP)
 ###                          |---handy-ruler-------------------------------|
-LUA_PKG_SHORT_DESCRIPTION   = lua $(version)
+LUA_PKG_SHORT_DESCRIPTION   = embeddable scripting language
 LUA_PKG_URL                 = $(BUG_URL)
 LUA_PKG_LICENSE             = MIT
 LUA_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LUA_PKG_NAME)-pkg-description

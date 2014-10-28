@@ -44,7 +44,7 @@ PAM_U2_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 PAM_U2_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 PAM_U2_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
-PAM_U2_32_PKG_SHORT_DESCRIPTION   = pam_unix2-x32 $(version)
+PAM_U2_32_PKG_SHORT_DESCRIPTION   = Standard PAM password authentication module
 PAM_U2_32_PKG_URL                 = $(BUG_URL)
 PAM_U2_32_PKG_LICENSE             = GPLv2
 PAM_U2_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(PAM_U2_32_PKG_NAME)-pkg-description

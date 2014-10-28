@@ -49,7 +49,7 @@ REISERFS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 REISERFS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 REISERFS_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-REISERFS_PKG_SHORT_DESCRIPTION   = reiserfsprogs $(version)
+REISERFS_PKG_SHORT_DESCRIPTION   = Reiserfs filesystem utilities
 REISERFS_PKG_URL                 = $(BUG_URL)
 REISERFS_PKG_LICENSE             = GPLv2
 REISERFS_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(REISERFS_PKG_NAME)-pkg-description

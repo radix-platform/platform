@@ -56,7 +56,7 @@ ALSA_UTILS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 ALSA_UTILS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 ALSA_UTILS_PKG_GROUP               = $(PKG_GROUP)
 ###                                 |---handy-ruler-------------------------------|
-ALSA_UTILS_PKG_SHORT_DESCRIPTION   = alsa-utils $(version)
+ALSA_UTILS_PKG_SHORT_DESCRIPTION   = Advanced Linux Sound Architecture utilities
 ALSA_UTILS_PKG_URL                 = $(BUG_URL)
 ALSA_UTILS_PKG_LICENSE             = GPLv2
 ALSA_UTILS_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(ALSA_UTILS_PKG_NAME)-pkg-description

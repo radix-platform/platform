@@ -44,7 +44,7 @@ ASPELL_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 ASPELL_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 ASPELL_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
-ASPELL_32_PKG_SHORT_DESCRIPTION   = aspell-x32 $(version)
+ASPELL_32_PKG_SHORT_DESCRIPTION   = spell checker
 ASPELL_32_PKG_URL                 = $(BUG_URL)
 ASPELL_32_PKG_LICENSE             = LGPLv2
 ASPELL_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(ASPELL_32_PKG_NAME)-pkg-description

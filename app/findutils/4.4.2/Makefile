@@ -49,7 +49,7 @@ FINDUTILS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 FINDUTILS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 FINDUTILS_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
-FINDUTILS_PKG_SHORT_DESCRIPTION   = findutils $(version)
+FINDUTILS_PKG_SHORT_DESCRIPTION   = utilities to locate files
 FINDUTILS_PKG_URL                 = $(BUG_URL)
 FINDUTILS_PKG_LICENSE             = GPLv2
 FINDUTILS_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(FINDUTILS_PKG_NAME)-pkg-description

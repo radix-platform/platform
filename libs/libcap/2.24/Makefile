@@ -48,7 +48,7 @@ LIBCAP_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBCAP_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBCAP_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-LIBCAP_PKG_SHORT_DESCRIPTION   = libcap $(version)
+LIBCAP_PKG_SHORT_DESCRIPTION   = get/set POSIX capabilities
 LIBCAP_PKG_URL                 = $(BUG_URL)
 LIBCAP_PKG_LICENSE             = GPLv2
 LIBCAP_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBCAP_PKG_NAME)-pkg-description

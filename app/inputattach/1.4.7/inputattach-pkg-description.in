@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
            |-----handy-ruler------------------------------------------------------|
-inputattach: inputattach @VERSION@
+inputattach: inputattach @VERSION@ (connecting legacy serial devices utility)
 inputattach:
 inputattach: inputattach is a utility for connecting legacy serial devices to the
 inputattach: input layer. This utility is a part of linuxconsole tools project

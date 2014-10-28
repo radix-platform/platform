@@ -41,7 +41,7 @@ BZIP2_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 BZIP2_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 BZIP2_32_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-BZIP2_32_PKG_SHORT_DESCRIPTION   = bzip2-x32 $(version)
+BZIP2_32_PKG_SHORT_DESCRIPTION   = block-sorting file compressor
 BZIP2_32_PKG_URL                 = $(BUG_URL)
 BZIP2_32_PKG_LICENSE             = GPLv2
 BZIP2_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(BZIP2_32_PKG_NAME)-pkg-description

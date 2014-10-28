@@ -49,7 +49,7 @@ OPENCORE_AMR_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 OPENCORE_AMR_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 OPENCORE_AMR_PKG_GROUP               = $(PKG_GROUP)
 ###                                   |---handy-ruler-------------------------------|
-OPENCORE_AMR_PKG_SHORT_DESCRIPTION   = opencore-amr $(version)
+OPENCORE_AMR_PKG_SHORT_DESCRIPTION   = Adaptive Multi Rate speech codec
 OPENCORE_AMR_PKG_URL                 = $(BUG_URL)
 OPENCORE_AMR_PKG_LICENSE             = Apache-v2.0
 OPENCORE_AMR_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(OPENCORE_AMR_PKG_NAME)-pkg-description

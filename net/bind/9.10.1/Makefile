@@ -57,7 +57,7 @@ BIND_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 BIND_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 BIND_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
-BIND_PKG_SHORT_DESCRIPTION   = bind $(version)
+BIND_PKG_SHORT_DESCRIPTION   = DNS server and utilities
 BIND_PKG_URL                 = $(BUG_URL)
 BIND_PKG_LICENSE             = custom
 BIND_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(BIND_PKG_NAME)-pkg-description

@@ -6,9 +6,7 @@
 # customary to leave one space after the ':'.
 
         |-----handy-ruler------------------------------------------------------|
-binutils: GNU Binutils @VERSION@
-binutils:
-binutils: GNU binary development tools.
+binutils: GNU Binutils @VERSION@ (GNU binary development tools)
 binutils:
 binutils: Binutils is a collection of binary utilities.  It includes "as" (the
 binutils: portable GNU assembler), "ld" (the GNU linker), and other utilities
@@ -16,4 +14,6 @@ binutils: for creating and working with binary programs.
 binutils:
 binutils: These utilities are REQUIRED to compile C, C++, Objective-C,
 binutils: Fortran, and most other programming languages.
+binutils:
+binutils:
 binutils:

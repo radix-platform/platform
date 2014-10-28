@@ -45,7 +45,7 @@ KMOD32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 KMOD32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 KMOD32_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-KMOD32_PKG_SHORT_DESCRIPTION   = kmod-x32 $(version)
+KMOD32_PKG_SHORT_DESCRIPTION   = kernel module x86_32 library
 KMOD32_PKG_URL                 = $(BUG_URL)
 KMOD32_PKG_LICENSE             = GPLv2
 KMOD32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(KMOD32_PKG_NAME)-pkg-description

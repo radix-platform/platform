@@ -51,7 +51,7 @@ LIBPCAP_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBPCAP_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBPCAP_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
-LIBPCAP_PKG_SHORT_DESCRIPTION   = libpcap $(version)
+LIBPCAP_PKG_SHORT_DESCRIPTION   = packet capture library
 LIBPCAP_PKG_URL                 = $(BUG_URL)
 LIBPCAP_PKG_LICENSE             = BSD
 LIBPCAP_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBPCAP_PKG_NAME)-pkg-description

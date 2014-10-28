@@ -49,7 +49,7 @@ NETWRITE_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 NETWRITE_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 NETWRITE_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-NETWRITE_PKG_SHORT_DESCRIPTION   = netwrite $(version)
+NETWRITE_PKG_SHORT_DESCRIPTION   = in.writed daemon for accepting network write
 NETWRITE_PKG_URL                 = $(BUG_URL)
 NETWRITE_PKG_LICENSE             = BSD
 NETWRITE_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(NETWRITE_PKG_NAME)-pkg-description

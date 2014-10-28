@@ -53,7 +53,7 @@ TELNET_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 TELNET_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 TELNET_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-TELNET_PKG_SHORT_DESCRIPTION   = netkit-telnet $(version)
+TELNET_PKG_SHORT_DESCRIPTION   = the telnet client and daemon
 TELNET_PKG_URL                 = $(BUG_URL)
 TELNET_PKG_LICENSE             = BSD
 TELNET_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(TELNET_PKG_NAME)-pkg-description

@@ -47,7 +47,7 @@ INPUTATTACH_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 INPUTATTACH_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 INPUTATTACH_PKG_GROUP               = $(PKG_GROUP)
 ###                                  |---handy-ruler-------------------------------|
-INPUTATTACH_PKG_SHORT_DESCRIPTION   = inputattach $(version)
+INPUTATTACH_PKG_SHORT_DESCRIPTION   = utility for legacy serial devices
 INPUTATTACH_PKG_URL                 = $(BUG_URL)
 INPUTATTACH_PKG_LICENSE             = GPLv2
 INPUTATTACH_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(INPUTATTACH_PKG_NAME)-pkg-description

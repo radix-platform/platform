@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
         |-----handy-ruler------------------------------------------------------|
-netwrite: netwrite @VERSION@ (in.writed daemon for accepting network "write")
+netwrite: netwrite @VERSION@ (in.writed daemon for accepting network 'write')
 netwrite:
 netwrite: Writed implements a very simple protocol that allows a write(1)
 netwrite: program on one host to connect up to one on another host, allowing

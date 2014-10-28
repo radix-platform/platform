@@ -49,7 +49,7 @@ TIMED_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 TIMED_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 TIMED_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
-TIMED_PKG_SHORT_DESCRIPTION   = netkit-timed $(version)
+TIMED_PKG_SHORT_DESCRIPTION   = time server daemon
 TIMED_PKG_URL                 = $(BUG_URL)
 TIMED_PKG_LICENSE             = BSD
 TIMED_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(TIMED_PKG_NAME)-pkg-description

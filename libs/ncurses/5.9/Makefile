@@ -59,7 +59,7 @@ NCURSES_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 NCURSES_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 NCURSES_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
-NCURSES_PKG_SHORT_DESCRIPTION   = ncurses $(version)
+NCURSES_PKG_SHORT_DESCRIPTION   = CRT screen handling and optimization package
 NCURSES_PKG_URL                 = $(BUG_URL)
 NCURSES_PKG_LICENSE             = GPLv2
 NCURSES_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(NCURSES_PKG_NAME)-pkg-description

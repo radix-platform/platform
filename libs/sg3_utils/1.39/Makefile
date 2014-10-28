@@ -48,7 +48,7 @@ SG3_UTILS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 SG3_UTILS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 SG3_UTILS_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
-SG3_UTILS_PKG_SHORT_DESCRIPTION   = sg3_utils $(version)
+SG3_UTILS_PKG_SHORT_DESCRIPTION   = utilities for the linux sg driver
 SG3_UTILS_PKG_URL                 = $(BUG_URL)
 SG3_UTILS_PKG_LICENSE             = GPLv2
 SG3_UTILS_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(SG3_UTILS_PKG_NAME)-pkg-description

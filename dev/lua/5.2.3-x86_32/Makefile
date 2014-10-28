@@ -43,7 +43,7 @@ LUA_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LUA_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LUA_32_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-LUA_32_PKG_SHORT_DESCRIPTION   = lua-x32 $(version)
+LUA_32_PKG_SHORT_DESCRIPTION   = embeddable scripting language
 LUA_32_PKG_URL                 = $(BUG_URL)
 LUA_32_PKG_LICENSE             = MIT
 LUA_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LUA_32_PKG_NAME)-pkg-description

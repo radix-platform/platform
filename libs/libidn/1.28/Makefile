@@ -49,7 +49,7 @@ LIBIDN_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBIDN_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBIDN_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-LIBIDN_PKG_SHORT_DESCRIPTION   = libidn $(version)
+LIBIDN_PKG_SHORT_DESCRIPTION   = GNU Internationalized Domain Name library
 LIBIDN_PKG_URL                 = $(BUG_URL)
 LIBIDN_PKG_LICENSE             = GPLv2
 LIBIDN_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBIDN_PKG_NAME)-pkg-description

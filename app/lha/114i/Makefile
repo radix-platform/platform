@@ -48,7 +48,7 @@ LHA_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LHA_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LHA_PKG_GROUP               = $(PKG_GROUP)
 ###                          |---handy-ruler-------------------------------|
-LHA_PKG_SHORT_DESCRIPTION   = lha $(version)
+LHA_PKG_SHORT_DESCRIPTION   = LHa archive utility
 LHA_PKG_URL                 = $(BUG_URL)
 LHA_PKG_LICENSE             = GPLv2
 LHA_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LHA_PKG_NAME)-pkg-description

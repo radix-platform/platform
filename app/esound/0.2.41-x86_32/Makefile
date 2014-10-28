@@ -45,7 +45,7 @@ ESOUND_32_PKG_DISTRO_NAME           = $(DISTRO_NAME)
 ESOUND_32_PKG_DISTRO_VERSION        = $(DISTRO_VERSION)
 ESOUND_32_PKG_GROUP                 = $(PKG_GROUP)
 ###                                  |---handy-ruler-------------------------------|
-ESOUND_32_PKG_SHORT_DESCRIPTION     = esound-x32 $(version)
+ESOUND_32_PKG_SHORT_DESCRIPTION     = Enlightened Sound Daemon
 ESOUND_32_PKG_URL                   = $(BUG_URL)
 ESOUND_32_PKG_LICENSE               = LibGPLv2
 ESOUND_32_PKG_DESCRIPTION_FILE      = $(TARGET_BUILD_DIR)/$(ESOUND_32_PKG_NAME)-pkg-description

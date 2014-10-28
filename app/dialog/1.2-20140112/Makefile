@@ -54,7 +54,7 @@ DIALOG_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 DIALOG_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 DIALOG_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-DIALOG_PKG_SHORT_DESCRIPTION   = dialog $(version)
+DIALOG_PKG_SHORT_DESCRIPTION   = dialog boxes for shell scripts
 DIALOG_PKG_URL                 = $(BUG_URL)
 DIALOG_PKG_LICENSE             = LGPLv2
 DIALOG_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(DIALOG_PKG_NAME)-pkg-description

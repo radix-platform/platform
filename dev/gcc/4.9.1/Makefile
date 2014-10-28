@@ -76,7 +76,7 @@ GCC_DEV_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 GCC_DEV_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GCC_DEV_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
-GCC_DEV_PKG_SHORT_DESCRIPTION   = GNU GCC $(version)
+GCC_DEV_PKG_SHORT_DESCRIPTION   = GNU Compiler Collection
 GCC_DEV_PKG_URL                 = $(BUG_URL)
 GCC_DEV_PKG_LICENSE             = GPLv2
 GCC_DEV_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GCC_DEV_PKG_NAME)-pkg-description

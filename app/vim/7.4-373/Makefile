@@ -61,7 +61,7 @@ VIM_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 VIM_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 VIM_PKG_GROUP               = $(PKG_GROUP)
 ###                          |---handy-ruler-------------------------------|
-VIM_PKG_SHORT_DESCRIPTION   = vim $(version)
+VIM_PKG_SHORT_DESCRIPTION   = Vi IMproved
 VIM_PKG_URL                 = $(BUG_URL)
 VIM_PKG_LICENSE             = vim
 VIM_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(VIM_PKG_NAME)-pkg-description

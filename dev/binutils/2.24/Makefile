@@ -58,7 +58,7 @@ BINUTILS_DEV_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 BINUTILS_DEV_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 BINUTILS_DEV_PKG_GROUP               = $(PKG_GROUP)
 ###                                   |---handy-ruler-------------------------------|
-BINUTILS_DEV_PKG_SHORT_DESCRIPTION   = GNU Binutils $(version)
+BINUTILS_DEV_PKG_SHORT_DESCRIPTION   = GNU binary development tools
 BINUTILS_DEV_PKG_URL                 = $(BUG_URL)
 BINUTILS_DEV_PKG_LICENSE             = GPLv2
 BINUTILS_DEV_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(BINUTILS_DEV_PKG_NAME)-pkg-description

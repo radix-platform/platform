@@ -43,7 +43,7 @@ LIBOGG_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBOGG_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBOGG_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
-LIBOGG_32_PKG_SHORT_DESCRIPTION   = libogg-x32 $(version)
+LIBOGG_32_PKG_SHORT_DESCRIPTION   = Ogg Bitstream library
 LIBOGG_32_PKG_URL                 = $(BUG_URL)
 LIBOGG_32_PKG_LICENSE             = Xiph.org
 LIBOGG_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBOGG_32_PKG_NAME)-pkg-description

@@ -51,7 +51,7 @@ ASPELL6_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 ASPELL6_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 ASPELL6_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
-ASPELL6_PKG_SHORT_DESCRIPTION   = aspell6-es $(version)
+ASPELL6_PKG_SHORT_DESCRIPTION   = Spanish dictionary
 ASPELL6_PKG_URL                 = $(BUG_URL)
 ASPELL6_PKG_LICENSE             = GPLv2
 ASPELL6_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(ASPELL6_PKG_NAME)-pkg-description

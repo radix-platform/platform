@@ -43,7 +43,7 @@ LZO_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LZO_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LZO_32_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-LZO_32_PKG_SHORT_DESCRIPTION   = lzo-x32 $(version)
+LZO_32_PKG_SHORT_DESCRIPTION   = LZO Compression Library
 LZO_32_PKG_URL                 = $(BUG_URL)
 LZO_32_PKG_LICENSE             = GPLv2
 LZO_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LZO_32_PKG_NAME)-pkg-description

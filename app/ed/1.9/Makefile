@@ -49,7 +49,7 @@ ED_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 ED_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 ED_PKG_GROUP               = $(PKG_GROUP)
 ###                         |---handy-ruler-------------------------------|
-ED_PKG_SHORT_DESCRIPTION   = ed $(version)
+ED_PKG_SHORT_DESCRIPTION   = text editor
 ED_PKG_URL                 = $(BUG_URL)
 ED_PKG_LICENSE             = GPLv2
 ED_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(ED_PKG_NAME)-pkg-description

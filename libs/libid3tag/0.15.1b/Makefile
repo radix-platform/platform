@@ -52,7 +52,7 @@ LIBID3TAG_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBID3TAG_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBID3TAG_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
-LIBID3TAG_PKG_SHORT_DESCRIPTION   = libid3tag $(version)
+LIBID3TAG_PKG_SHORT_DESCRIPTION   = ID3 tag manipulation library
 LIBID3TAG_PKG_URL                 = $(BUG_URL)
 LIBID3TAG_PKG_LICENSE             = GPLv2
 LIBID3TAG_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBID3TAG_PKG_NAME)-pkg-description

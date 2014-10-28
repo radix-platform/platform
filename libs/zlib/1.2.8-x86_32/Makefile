@@ -41,7 +41,7 @@ ZLIB32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 ZLIB32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 ZLIB32_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-ZLIB32_PKG_SHORT_DESCRIPTION   = zlib-x32 $(version)
+ZLIB32_PKG_SHORT_DESCRIPTION   = compression library
 ZLIB32_PKG_URL                 = $(BUG_URL)
 ZLIB32_PKG_LICENSE             = GPLv2
 ZLIB32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(ZLIB32_PKG_NAME)-pkg-description

@@ -51,7 +51,7 @@ GC_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 GC_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GC_PKG_GROUP               = $(PKG_GROUP)
 ###                         |---handy-ruler-------------------------------|
-GC_PKG_SHORT_DESCRIPTION   = gc $(version)$(version_suffix)
+GC_PKG_SHORT_DESCRIPTION   = garbage collector library
 GC_PKG_URL                 = $(BUG_URL)
 GC_PKG_LICENSE             = GPLv2
 GC_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GC_PKG_NAME)-pkg-description

@@ -49,7 +49,7 @@ FLEX_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 FLEX_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 FLEX_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
-FLEX_PKG_SHORT_DESCRIPTION   = flex $(version)
+FLEX_PKG_SHORT_DESCRIPTION   = fast lexical analyzer generator
 FLEX_PKG_URL                 = $(BUG_URL)
 FLEX_PKG_LICENSE             = BSD
 FLEX_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(FLEX_PKG_NAME)-pkg-description

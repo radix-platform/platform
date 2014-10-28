@@ -49,7 +49,7 @@ TCP_WRAP_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 TCP_WRAP_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 TCP_WRAP_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-TCP_WRAP_PKG_SHORT_DESCRIPTION   = tcp_wrappers $(version)
+TCP_WRAP_PKG_SHORT_DESCRIPTION   = TCP/IP daemon wrapper library and utilities
 TCP_WRAP_PKG_URL                 = $(BUG_URL)
 TCP_WRAP_PKG_LICENSE             = GPLv2
 TCP_WRAP_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(TCP_WRAP_PKG_NAME)-pkg-description

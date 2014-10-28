@@ -48,7 +48,7 @@ SCOWL_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 SCOWL_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 SCOWL_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
-SCOWL_PKG_SHORT_DESCRIPTION   = scowl $(version)
+SCOWL_PKG_SHORT_DESCRIPTION   = Spell Checker Oriented Word Lists
 SCOWL_PKG_URL                 = $(BUG_URL)
 SCOWL_PKG_LICENSE             = public
 SCOWL_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(SCOWL_PKG_NAME)-pkg-description

@@ -43,7 +43,7 @@ CHECK_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 CHECK_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 CHECK_32_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-CHECK_32_PKG_SHORT_DESCRIPTION   = check-x32 $(version)
+CHECK_32_PKG_SHORT_DESCRIPTION   = The unit testing framework for C
 CHECK_32_PKG_URL                 = $(BUG_URL)
 CHECK_32_PKG_LICENSE             = LGPLv2
 CHECK_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(CHECK_32_PKG_NAME)-pkg-description

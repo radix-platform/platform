@@ -49,7 +49,7 @@ JSONC_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 JSONC_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 JSONC_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
-JSONC_PKG_SHORT_DESCRIPTION   = json-c $(version)
+JSONC_PKG_SHORT_DESCRIPTION   = javascript object notation library for C
 JSONC_PKG_URL                 = $(BUG_URL)
 JSONC_PKG_LICENSE             = custom
 JSONC_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(JSONC_PKG_NAME)-pkg-description

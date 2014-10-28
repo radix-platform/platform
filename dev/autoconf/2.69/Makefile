@@ -53,7 +53,7 @@ AUTOCONF_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 AUTOCONF_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 AUTOCONF_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-AUTOCONF_PKG_SHORT_DESCRIPTION   = autoconf $(version)
+AUTOCONF_PKG_SHORT_DESCRIPTION   = generate configuration scripts
 AUTOCONF_PKG_URL                 = $(BUG_URL)
 AUTOCONF_PKG_LICENSE             = GPLv3
 AUTOCONF_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(AUTOCONF_PKG_NAME)-pkg-description

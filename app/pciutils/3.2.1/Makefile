@@ -50,7 +50,7 @@ PCIUTILS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 PCIUTILS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 PCIUTILS_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-PCIUTILS_PKG_SHORT_DESCRIPTION   = pciutils $(version)
+PCIUTILS_PKG_SHORT_DESCRIPTION   = PCI utilities
 PCIUTILS_PKG_URL                 = $(BUG_URL)
 PCIUTILS_PKG_LICENSE             = GPLv2
 PCIUTILS_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(PCIUTILS_PKG_NAME)-pkg-description

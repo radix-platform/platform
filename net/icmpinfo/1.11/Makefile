@@ -49,7 +49,7 @@ ICMPINFO_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 ICMPINFO_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 ICMPINFO_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-ICMPINFO_PKG_SHORT_DESCRIPTION   = icmpinfo $(version)
+ICMPINFO_PKG_SHORT_DESCRIPTION   = ICMP monitoring utility
 ICMPINFO_PKG_URL                 = $(BUG_URL)
 ICMPINFO_PKG_LICENSE             = GPLv2
 ICMPINFO_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(ICMPINFO_PKG_NAME)-pkg-description

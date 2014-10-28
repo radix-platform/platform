@@ -50,7 +50,7 @@ LIBCGROUP_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBCGROUP_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBCGROUP_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
-LIBCGROUP_PKG_SHORT_DESCRIPTION   = libcgroup $(version)
+LIBCGROUP_PKG_SHORT_DESCRIPTION   = kernel control groups library and utilities
 LIBCGROUP_PKG_URL                 = $(BUG_URL)
 LIBCGROUP_PKG_LICENSE             = LGPLv2
 LIBCGROUP_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBCGROUP_PKG_NAME)-pkg-description

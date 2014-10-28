@@ -50,7 +50,7 @@ NTALK_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 NTALK_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 NTALK_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
-NTALK_PKG_SHORT_DESCRIPTION   = netkit-ntalk $(version)
+NTALK_PKG_SHORT_DESCRIPTION   = talk client and talkd daemon
 NTALK_PKG_URL                 = $(BUG_URL)
 NTALK_PKG_LICENSE             = BSD
 NTALK_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(NTALK_PKG_NAME)-pkg-description

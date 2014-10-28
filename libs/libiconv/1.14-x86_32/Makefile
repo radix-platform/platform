@@ -43,7 +43,7 @@ ICONV32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 ICONV32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 ICONV32_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
-ICONV32_PKG_SHORT_DESCRIPTION   = libiconv-x32 $(version)
+ICONV32_PKG_SHORT_DESCRIPTION   = character set conversion library
 ICONV32_PKG_URL                 = $(BUG_URL)
 ICONV32_PKG_LICENSE             = GPLv2
 ICONV32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(ICONV32_PKG_NAME)-pkg-description

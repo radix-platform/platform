@@ -49,7 +49,7 @@ COMSAT_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 COMSAT_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 COMSAT_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-COMSAT_PKG_SHORT_DESCRIPTION   = biff+comsat $(version)
+COMSAT_PKG_SHORT_DESCRIPTION   = mail arrival notification daemon
 COMSAT_PKG_URL                 = $(BUG_URL)
 COMSAT_PKG_LICENSE             = BSD
 COMSAT_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(COMSAT_PKG_NAME)-pkg-description

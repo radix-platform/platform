@@ -49,7 +49,7 @@ MPFR_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 MPFR_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 MPFR_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
-MPFR_PKG_SHORT_DESCRIPTION   = mpfr $(version)
+MPFR_PKG_SHORT_DESCRIPTION   = Floating-Point Reliable Library
 MPFR_PKG_URL                 = $(BUG_URL)
 MPFR_PKG_LICENSE             = GPLv2
 MPFR_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(MPFR_PKG_NAME)-pkg-description

@@ -49,7 +49,7 @@ LIBUNISTR_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBUNISTR_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBUNISTR_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
-LIBUNISTR_PKG_SHORT_DESCRIPTION   = libunistring $(version)
+LIBUNISTR_PKG_SHORT_DESCRIPTION   = GNU Unicode string library
 LIBUNISTR_PKG_URL                 = $(BUG_URL)
 LIBUNISTR_PKG_LICENSE             = GPLv2
 LIBUNISTR_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBUNISTR_PKG_NAME)-pkg-description

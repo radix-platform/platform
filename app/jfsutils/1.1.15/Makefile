@@ -49,7 +49,7 @@ JFSUTILS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 JFSUTILS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 JFSUTILS_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-JFSUTILS_PKG_SHORT_DESCRIPTION   = jfsutils $(version)
+JFSUTILS_PKG_SHORT_DESCRIPTION   = IBM JFS utilities
 JFSUTILS_PKG_URL                 = $(BUG_URL)
 JFSUTILS_PKG_LICENSE             = GPLv2
 JFSUTILS_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(JFSUTILS_PKG_NAME)-pkg-description

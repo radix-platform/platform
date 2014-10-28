@@ -44,7 +44,7 @@ MPC32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 MPC32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 MPC32_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
-MPC32_PKG_SHORT_DESCRIPTION   = mpc-x32 $(version)
+MPC32_PKG_SHORT_DESCRIPTION   = complex floating-point library
 MPC32_PKG_URL                 = $(BUG_URL)
 MPC32_PKG_LICENSE             = GPLv2
 MPC32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(MPC32_PKG_NAME)-pkg-description

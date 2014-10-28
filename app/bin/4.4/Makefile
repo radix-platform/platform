@@ -74,7 +74,7 @@ CMDUTILS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 CMDUTILS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 CMDUTILS_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-CMDUTILS_PKG_SHORT_DESCRIPTION   = bin $(version)
+CMDUTILS_PKG_SHORT_DESCRIPTION   = some command-line utilities
 CMDUTILS_PKG_URL                 = $(BUG_URL)
 CMDUTILS_PKG_LICENSE             = GPLv2
 CMDUTILS_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(CMDUTILS_PKG_NAME)-pkg-description

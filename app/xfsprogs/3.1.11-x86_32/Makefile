@@ -42,7 +42,7 @@ XFSPROGS_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 XFSPROGS_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 XFSPROGS_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                  |---handy-ruler-------------------------------|
-XFSPROGS_32_PKG_SHORT_DESCRIPTION   = xfsprogs-x32 $(version)
+XFSPROGS_32_PKG_SHORT_DESCRIPTION   = XFS filesystem x86_32 libraries
 XFSPROGS_32_PKG_URL                 = $(BUG_URL)
 XFSPROGS_32_PKG_LICENSE             = GPLv2
 XFSPROGS_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(XFSPROGS_32_PKG_NAME)-pkg-description

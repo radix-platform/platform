@@ -52,7 +52,7 @@ BASH_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 BASH_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 BASH_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
-BASH_PKG_SHORT_DESCRIPTION   = bash $(version)
+BASH_PKG_SHORT_DESCRIPTION   = Bourne-Again SHell
 BASH_PKG_URL                 = $(BUG_URL)
 BASH_PKG_LICENSE             = GPLv2
 BASH_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(BASH_PKG_NAME)-pkg-description

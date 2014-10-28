@@ -60,7 +60,7 @@ GNUPG_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 GNUPG_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GNUPG_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
-GNUPG_PKG_SHORT_DESCRIPTION   = gnupg $(version)
+GNUPG_PKG_SHORT_DESCRIPTION   = The GNU Privacy Guard
 GNUPG_PKG_URL                 = $(BUG_URL)
 GNUPG_PKG_LICENSE             = GPLv3
 GNUPG_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GNUPG_PKG_NAME)-pkg-description

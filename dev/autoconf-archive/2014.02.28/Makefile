@@ -51,7 +51,7 @@ AC_ARCHIVE_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 AC_ARCHIVE_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 AC_ARCHIVE_PKG_GROUP               = $(PKG_GROUP)
 ###                                 |---handy-ruler-------------------------------|
-AC_ARCHIVE_PKG_SHORT_DESCRIPTION   = autoconf-archive $(version)
+AC_ARCHIVE_PKG_SHORT_DESCRIPTION   = macros for GNU Autoconf
 AC_ARCHIVE_PKG_URL                 = $(BUG_URL)
 AC_ARCHIVE_PKG_LICENSE             = GPLv3
 AC_ARCHIVE_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(AC_ARCHIVE_PKG_NAME)-pkg-description

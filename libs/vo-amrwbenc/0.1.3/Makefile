@@ -49,7 +49,7 @@ VO_AMRWBENC_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 VO_AMRWBENC_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 VO_AMRWBENC_PKG_GROUP               = $(PKG_GROUP)
 ###                                  |---handy-ruler-------------------------------|
-VO_AMRWBENC_PKG_SHORT_DESCRIPTION   = vo-amrwbenc $(version)
+VO_AMRWBENC_PKG_SHORT_DESCRIPTION   = VisualOn AMR-WB encoder library
 VO_AMRWBENC_PKG_URL                 = $(BUG_URL)
 VO_AMRWBENC_PKG_LICENSE             = Apache-v2.0
 VO_AMRWBENC_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(VO_AMRWBENC_PKG_NAME)-pkg-description

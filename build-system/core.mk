@@ -1115,8 +1115,17 @@ ifneq ($(shell pwd),$(BUILDSYSTEM))
 ifeq ($(shell pwd | grep $(TOP_BUILD_DIR_ABS)/$(SRC_PACKAGE_DIR)),)
 ifeq ($(wildcard .$(HARDWARE)_requires),)
 	@shtool echo -e "   %B(nothing to be done).%b"
+ifeq ($(shell pwd),$(TOP_BUILD_DIR_ABS))
+	@shtool echo -e "%B#######%b"
+	@shtool echo -e "%B#######%b %BRequires Tree creation in the top of '%b`basename $(CURDIR)`%B' directory is not supported.%b"
+	@shtool echo -e "%B#######%b"
 else
-	@$(BUILDSYSTEM)/build_requires_json_tree $(TOP_BUILD_DIR_ABS) $(TOOLCHAIN) $(HARDWARE)
+	@shtool echo -e "%B#######%b"
+	@shtool echo -e "%B#######%b %BBefore creating a dependency tree all goals have to be made.%b"
+	@shtool echo -e "%B#######%b"
+endif
+else
+	@$(BUILDSYSTEM)/build_requires_tree $(TOP_BUILD_DIR_ABS) $(TOOLCHAIN) $(HARDWARE)
 	@shtool echo -e "%B#######%b"
 	@shtool echo -e "%B#######%b %BEnd of building Requires Tree in '%b`basename $(CURDIR)`%B' directory.%b"
 	@shtool echo -e "%B#######%b"

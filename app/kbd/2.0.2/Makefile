@@ -53,7 +53,7 @@ KBD_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 KBD_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 KBD_PKG_GROUP               = $(PKG_GROUP)
 ###                          |---handy-ruler-------------------------------|
-KBD_PKG_SHORT_DESCRIPTION   = kbd $(version)
+KBD_PKG_SHORT_DESCRIPTION   = keyboard maps and console fonts
 KBD_PKG_URL                 = $(BUG_URL)
 KBD_PKG_LICENSE             = GPLv2
 KBD_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(KBD_PKG_NAME)-pkg-description

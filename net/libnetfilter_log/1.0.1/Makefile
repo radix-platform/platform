@@ -49,7 +49,7 @@ LIBNF_LOG_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBNF_LOG_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBNF_LOG_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
-LIBNF_LOG_PKG_SHORT_DESCRIPTION   = libnetfilter_log $(version)
+LIBNF_LOG_PKG_SHORT_DESCRIPTION   = packet logging library
 LIBNF_LOG_PKG_URL                 = $(BUG_URL)
 LIBNF_LOG_PKG_LICENSE             = GPLv2
 LIBNF_LOG_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBNF_LOG_PKG_NAME)-pkg-description

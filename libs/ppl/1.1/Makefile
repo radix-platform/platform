@@ -50,7 +50,7 @@ PPL_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 PPL_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 PPL_PKG_GROUP               = $(PKG_GROUP)
 ###                          |---handy-ruler-------------------------------|
-PPL_PKG_SHORT_DESCRIPTION   = ppl $(version)
+PPL_PKG_SHORT_DESCRIPTION   = The Parma Polyhedra Library
 PPL_PKG_URL                 = $(BUG_URL)
 PPL_PKG_LICENSE             = GPLv2
 PPL_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(PPL_PKG_NAME)-pkg-description

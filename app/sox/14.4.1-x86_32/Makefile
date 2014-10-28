@@ -59,7 +59,7 @@ SOX_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 SOX_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 SOX_32_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-SOX_32_PKG_SHORT_DESCRIPTION   = sox-x32 $(version)
+SOX_32_PKG_SHORT_DESCRIPTION   = universal sound sample translator
 SOX_32_PKG_URL                 = $(BUG_URL)
 SOX_32_PKG_LICENSE             = GPLv2
 SOX_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(SOX_32_PKG_NAME)-pkg-description

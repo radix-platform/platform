@@ -50,7 +50,7 @@ ALSA_LIB_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 ALSA_LIB_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 ALSA_LIB_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-ALSA_LIB_PKG_SHORT_DESCRIPTION   = alsa-lib $(version)
+ALSA_LIB_PKG_SHORT_DESCRIPTION   = Advanced Linux Sound Architecture library
 ALSA_LIB_PKG_URL                 = $(BUG_URL)
 ALSA_LIB_PKG_LICENSE             = LGPLv2.1
 ALSA_LIB_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(ALSA_LIB_PKG_NAME)-pkg-description

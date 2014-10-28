@@ -49,7 +49,7 @@ MAKE_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 MAKE_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 MAKE_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
-MAKE_PKG_SHORT_DESCRIPTION   = make $(version)
+MAKE_PKG_SHORT_DESCRIPTION   = GNU make utility
 MAKE_PKG_URL                 = $(BUG_URL)
 MAKE_PKG_LICENSE             = GPLv3
 MAKE_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(MAKE_PKG_NAME)-pkg-description

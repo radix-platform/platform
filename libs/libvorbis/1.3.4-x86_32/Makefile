@@ -43,7 +43,7 @@ LIBVORBIS_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBVORBIS_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBVORBIS_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                   |---handy-ruler-------------------------------|
-LIBVORBIS_32_PKG_SHORT_DESCRIPTION   = libvorbis-x32 $(version)
+LIBVORBIS_32_PKG_SHORT_DESCRIPTION   = Ogg Vorbis library
 LIBVORBIS_32_PKG_URL                 = $(BUG_URL)
 LIBVORBIS_32_PKG_LICENSE             = Xiph.org
 LIBVORBIS_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBVORBIS_32_PKG_NAME)-pkg-description

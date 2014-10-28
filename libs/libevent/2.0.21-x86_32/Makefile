@@ -45,7 +45,7 @@ LIBEVENT_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBEVENT_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBEVENT_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                  |---handy-ruler-------------------------------|
-LIBEVENT_32_PKG_SHORT_DESCRIPTION   = libevent-x32 $(version)
+LIBEVENT_32_PKG_SHORT_DESCRIPTION   = event loop library
 LIBEVENT_32_PKG_URL                 = $(BUG_URL)
 LIBEVENT_32_PKG_LICENSE             = BSD
 LIBEVENT_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBEVENT_32_PKG_NAME)-pkg-description

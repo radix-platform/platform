@@ -43,7 +43,7 @@ OPUS_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 OPUS_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 OPUS_32_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
-OPUS_32_PKG_SHORT_DESCRIPTION   = opus-x32 $(version)
+OPUS_32_PKG_SHORT_DESCRIPTION   = Interactive Audio Codec
 OPUS_32_PKG_URL                 = $(BUG_URL)
 OPUS_32_PKG_LICENSE             = Xiph.org
 OPUS_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(OPUS_32_PKG_NAME)-pkg-description

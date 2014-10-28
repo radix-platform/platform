@@ -49,7 +49,7 @@ EXPAT_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 EXPAT_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 EXPAT_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
-EXPAT_PKG_SHORT_DESCRIPTION   = expat $(version)
+EXPAT_PKG_SHORT_DESCRIPTION   = C library for parsing XML
 EXPAT_PKG_URL                 = $(BUG_URL)
 EXPAT_PKG_LICENSE             = GPLv2
 EXPAT_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(EXPAT_PKG_NAME)-pkg-description

@@ -49,7 +49,7 @@ M4_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 M4_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 M4_PKG_GROUP               = $(PKG_GROUP)
 ###                         |---handy-ruler-------------------------------|
-M4_PKG_SHORT_DESCRIPTION   = m4 $(version)
+M4_PKG_SHORT_DESCRIPTION   = UNIX macro processor
 M4_PKG_URL                 = $(BUG_URL)
 M4_PKG_LICENSE             = GPLv3
 M4_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(M4_PKG_NAME)-pkg-description

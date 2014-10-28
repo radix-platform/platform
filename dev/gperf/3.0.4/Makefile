@@ -50,7 +50,7 @@ GPERF_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 GPERF_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GPERF_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
-GPERF_PKG_SHORT_DESCRIPTION   = gperf $(version)
+GPERF_PKG_SHORT_DESCRIPTION   = perfect hash function generator
 GPERF_PKG_URL                 = $(BUG_URL)
 GPERF_PKG_LICENSE             = GPLv3
 GPERF_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GPERF_PKG_NAME)-pkg-description

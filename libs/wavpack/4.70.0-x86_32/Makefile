@@ -43,7 +43,7 @@ WAVPACK_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 WAVPACK_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 WAVPACK_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                 |---handy-ruler-------------------------------|
-WAVPACK_32_PKG_SHORT_DESCRIPTION   = wavpack-x32 $(version)
+WAVPACK_32_PKG_SHORT_DESCRIPTION   = A lossless WAV file compressor
 WAVPACK_32_PKG_URL                 = $(BUG_URL)
 WAVPACK_32_PKG_LICENSE             = BSD
 WAVPACK_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(WAVPACK_32_PKG_NAME)-pkg-description

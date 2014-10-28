@@ -49,7 +49,7 @@ PERL_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 PERL_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 PERL_32_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
-PERL_32_PKG_SHORT_DESCRIPTION   = perl-x32 $(version)
+PERL_32_PKG_SHORT_DESCRIPTION   = Practical Extraction and Report Language
 PERL_32_PKG_URL                 = $(BUG_URL)
 PERL_32_PKG_LICENSE             = GPLv1
 PERL_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(PERL_32_PKG_NAME)-pkg-description

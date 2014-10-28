@@ -51,7 +51,7 @@ TCPDUMP_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 TCPDUMP_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 TCPDUMP_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
-TCPDUMP_PKG_SHORT_DESCRIPTION   = tcpdump $(version)
+TCPDUMP_PKG_SHORT_DESCRIPTION   = network monitoring tool
 TCPDUMP_PKG_URL                 = $(BUG_URL)
 TCPDUMP_PKG_LICENSE             = BSD
 TCPDUMP_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(TCPDUMP_PKG_NAME)-pkg-description

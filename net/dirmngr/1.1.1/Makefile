@@ -54,7 +54,7 @@ DIRMNGR_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 DIRMNGR_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 DIRMNGR_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
-DIRMNGR_PKG_SHORT_DESCRIPTION   = dirmngr $(version)
+DIRMNGR_PKG_SHORT_DESCRIPTION   = Certificate Revocation Lists Manager
 DIRMNGR_PKG_URL                 = $(BUG_URL)
 DIRMNGR_PKG_LICENSE             = GPLv3
 DIRMNGR_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(DIRMNGR_PKG_NAME)-pkg-description

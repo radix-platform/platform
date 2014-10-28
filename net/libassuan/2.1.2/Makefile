@@ -49,7 +49,7 @@ ASSUAN_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 ASSUAN_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 ASSUAN_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-ASSUAN_PKG_SHORT_DESCRIPTION   = libassuan $(version)
+ASSUAN_PKG_SHORT_DESCRIPTION   = Interprocess Communication Library for GPG
 ASSUAN_PKG_URL                 = $(BUG_URL)
 ASSUAN_PKG_LICENSE             = GPLv2
 ASSUAN_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(ASSUAN_PKG_NAME)-pkg-description

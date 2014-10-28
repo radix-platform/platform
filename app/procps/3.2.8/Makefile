@@ -68,7 +68,7 @@ PROCPS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 PROCPS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 PROCPS_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-PROCPS_PKG_SHORT_DESCRIPTION   = procps $(version)
+PROCPS_PKG_SHORT_DESCRIPTION   = process information utilities
 PROCPS_PKG_URL                 = $(BUG_URL)
 PROCPS_PKG_LICENSE             = GPLv2
 PROCPS_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(PROCPS_PKG_NAME)-pkg-description

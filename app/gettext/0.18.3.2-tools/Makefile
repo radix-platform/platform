@@ -62,7 +62,7 @@ GETTEXT_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 GETTEXT_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GETTEXT_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
-GETTEXT_PKG_SHORT_DESCRIPTION   = GNU gettext tools $(version)
+GETTEXT_PKG_SHORT_DESCRIPTION   = internationalization framework tools
 GETTEXT_PKG_URL                 = $(BUG_URL)
 GETTEXT_PKG_LICENSE             = GPLv2
 GETTEXT_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GETTEXT_PKG_NAME)-pkg-description

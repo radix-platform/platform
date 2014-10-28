@@ -52,7 +52,7 @@ XFSDUMP_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 XFSDUMP_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 XFSDUMP_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
-XFSDUMP_PKG_SHORT_DESCRIPTION   = xfsdump $(version)
+XFSDUMP_PKG_SHORT_DESCRIPTION   = backup tools for the XFS filesystem
 XFSDUMP_PKG_URL                 = $(BUG_URL)
 XFSDUMP_PKG_LICENSE             = GPLv2
 XFSDUMP_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(XFSDUMP_PKG_NAME)-pkg-description

@@ -42,8 +42,8 @@ VO_AMRWBENC_32_PKG_ARCH                = $(TOOLCHAIN)
 VO_AMRWBENC_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 VO_AMRWBENC_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 VO_AMRWBENC_32_PKG_GROUP               = $(PKG_GROUP)
-###                                      |---handy-ruler-------------------------------|
-VO_AMRWBENC_32_PKG_SHORT_DESCRIPTION   = vo-amrwbenc-x32 $(version)
+###                                     |---handy-ruler-------------------------------|
+VO_AMRWBENC_32_PKG_SHORT_DESCRIPTION   = VisualOn AMR-WB encoder library
 VO_AMRWBENC_32_PKG_URL                 = $(BUG_URL)
 VO_AMRWBENC_32_PKG_LICENSE             = Apache-v2.0
 VO_AMRWBENC_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(VO_AMRWBENC_32_PKG_NAME)-pkg-description

@@ -44,7 +44,7 @@ IDNKIT_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 IDNKIT_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 IDNKIT_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
-IDNKIT_32_PKG_SHORT_DESCRIPTION   = idnkit-x32 $(version)
+IDNKIT_32_PKG_SHORT_DESCRIPTION   = Internationalized domain names toolkit
 IDNKIT_32_PKG_URL                 = $(BUG_URL)
 IDNKIT_32_PKG_LICENSE             = custom
 IDNKIT_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(IDNKIT_32_PKG_NAME)-pkg-description

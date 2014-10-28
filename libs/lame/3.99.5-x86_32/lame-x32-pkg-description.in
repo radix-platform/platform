@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
         |-----handy-ruler------------------------------------------------------|
-lame-x32: lame-x32 @VERSION@ (MPEG Audio Layer III (MP3) encoder)
+lame-x32: lame-x32 @VERSION@ (MPEG Audio Layer III encoder)
 lame-x32:
 lame-x32: Originally developed by Mike Cheng (www.uq.net.au/~zzmcheng) and
 lame-x32: was latter developed by Mark Taylor (www.mp3dev.org). Currently

@@ -60,7 +60,7 @@ SGXDDK_BIN_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 SGXDDK_BIN_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 SGXDDK_BIN_PKG_GROUP               = $(PKG_GROUP)
 ###                                 |---handy-ruler-------------------------------|
-SGXDDK_BIN_PKG_SHORT_DESCRIPTION   = SGX DDK $(version) for Linux kernel
+SGXDDK_BIN_PKG_SHORT_DESCRIPTION   = SGX DDK for Linux kernel
 SGXDDK_BIN_PKG_URL                 = $(BUG_URL)
 SGXDDK_BIN_PKG_LICENSE             = GPLv2
 SGXDDK_BIN_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(SGXDDK_BIN_PKG_NAME)-pkg-description

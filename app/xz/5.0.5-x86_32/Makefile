@@ -43,7 +43,7 @@ XZ32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 XZ32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 XZ32_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
-XZ32_PKG_SHORT_DESCRIPTION   = xz-x32 $(version)
+XZ32_PKG_SHORT_DESCRIPTION   = LZMA compression utility
 XZ32_PKG_URL                 = $(BUG_URL)
 XZ32_PKG_LICENSE             = GPLv2
 XZ32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(XZ32_PKG_NAME)-pkg-description

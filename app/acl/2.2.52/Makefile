@@ -47,7 +47,7 @@ ACL_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 ACL_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 ACL_PKG_GROUP               = $(PKG_GROUP)
 ###                          |---handy-ruler-------------------------------|
-ACL_PKG_SHORT_DESCRIPTION   = acl $(version)
+ACL_PKG_SHORT_DESCRIPTION   = POSIX Access Control Lists tool
 ACL_PKG_URL                 = $(BUG_URL)
 ACL_PKG_LICENSE             = GPLv2
 ACL_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(ACL_PKG_NAME)-pkg-description

@@ -49,7 +49,7 @@ ROUTED_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 ROUTED_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 ROUTED_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-ROUTED_PKG_SHORT_DESCRIPTION   = netkit-routed $(version)
+ROUTED_PKG_SHORT_DESCRIPTION   = dynamic network routing daemon
 ROUTED_PKG_URL                 = $(BUG_URL)
 ROUTED_PKG_LICENSE             = BSD
 ROUTED_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(ROUTED_PKG_NAME)-pkg-description

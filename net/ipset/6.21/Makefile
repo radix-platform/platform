@@ -49,7 +49,7 @@ IPSET_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 IPSET_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 IPSET_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
-IPSET_PKG_SHORT_DESCRIPTION   = ipset $(version)
+IPSET_PKG_SHORT_DESCRIPTION   = administration tool for kernel IP sets
 IPSET_PKG_URL                 = $(BUG_URL)
 IPSET_PKG_LICENSE             = GPLv2
 IPSET_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(IPSET_PKG_NAME)-pkg-description

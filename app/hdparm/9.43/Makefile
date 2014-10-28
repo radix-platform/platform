@@ -48,7 +48,7 @@ HDPARM_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 HDPARM_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 HDPARM_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-HDPARM_PKG_SHORT_DESCRIPTION   = hdparm $(version)
+HDPARM_PKG_SHORT_DESCRIPTION   = read/set hard drive parameters
 HDPARM_PKG_URL                 = $(BUG_URL)
 HDPARM_PKG_LICENSE             = GPLv2
 HDPARM_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(HDPARM_PKG_NAME)-pkg-description

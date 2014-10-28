@@ -50,7 +50,7 @@ KMOD_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 KMOD_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 KMOD_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
-KMOD_PKG_SHORT_DESCRIPTION   = kmod $(version)
+KMOD_PKG_SHORT_DESCRIPTION   = kernel module tools and library
 KMOD_PKG_URL                 = $(BUG_URL)
 KMOD_PKG_LICENSE             = GPLv2
 KMOD_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(KMOD_PKG_NAME)-pkg-description

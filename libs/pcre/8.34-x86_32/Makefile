@@ -46,7 +46,7 @@ PCRE32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 PCRE32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 PCRE32_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-PCRE32_PKG_SHORT_DESCRIPTION   = pcre-x32 $(version)
+PCRE32_PKG_SHORT_DESCRIPTION   = Perl-compatible regular expression library
 PCRE32_PKG_URL                 = $(BUG_URL)
 PCRE32_PKG_LICENSE             = GPLv2
 PCRE32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(PCRE32_PKG_NAME)-pkg-description

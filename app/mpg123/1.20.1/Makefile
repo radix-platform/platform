@@ -55,7 +55,7 @@ MPG123_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 MPG123_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 MPG123_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-MPG123_PKG_SHORT_DESCRIPTION   = mpg123 $(version)
+MPG123_PKG_SHORT_DESCRIPTION   = MPEG 1.0/2.0/2.5 audio player
 MPG123_PKG_URL                 = $(BUG_URL)
 MPG123_PKG_LICENSE             = LGPLv2.1
 MPG123_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(MPG123_PKG_NAME)-pkg-description

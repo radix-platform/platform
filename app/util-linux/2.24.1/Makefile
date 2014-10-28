@@ -81,7 +81,7 @@ UTILLINUX_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 UTILLINUX_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 UTILLINUX_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
-UTILLINUX_PKG_SHORT_DESCRIPTION   = util-linux $(version)
+UTILLINUX_PKG_SHORT_DESCRIPTION   = huge collection of essential utilities
 UTILLINUX_PKG_URL                 = $(BUG_URL)
 UTILLINUX_PKG_LICENSE             = GPLv2
 UTILLINUX_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(UTILLINUX_PKG_NAME)-pkg-description

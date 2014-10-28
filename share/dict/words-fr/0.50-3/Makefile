@@ -48,7 +48,7 @@ WORDS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 WORDS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 WORDS_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
-WORDS_PKG_SHORT_DESCRIPTION   = words-fr $(version)
+WORDS_PKG_SHORT_DESCRIPTION   = French wordlist
 WORDS_PKG_URL                 = $(BUG_URL)
 WORDS_PKG_LICENSE             = GPLv2
 WORDS_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(WORDS_PKG_NAME)-pkg-description

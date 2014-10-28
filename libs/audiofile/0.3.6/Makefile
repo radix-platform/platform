@@ -52,7 +52,7 @@ AUDIOFILE_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 AUDIOFILE_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 AUDIOFILE_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
-AUDIOFILE_PKG_SHORT_DESCRIPTION   = audiofile $(version)
+AUDIOFILE_PKG_SHORT_DESCRIPTION   = audio support library
 AUDIOFILE_PKG_URL                 = $(BUG_URL)
 AUDIOFILE_PKG_LICENSE             = LGPLv2.1
 AUDIOFILE_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(AUDIOFILE_PKG_NAME)-pkg-description

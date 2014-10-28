@@ -50,7 +50,7 @@ SYSKLOGD_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 SYSKLOGD_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 SYSKLOGD_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-SYSKLOGD_PKG_SHORT_DESCRIPTION   = sysklogd $(version)
+SYSKLOGD_PKG_SHORT_DESCRIPTION   = Linux system logging utilities
 SYSKLOGD_PKG_URL                 = $(BUG_URL)
 SYSKLOGD_PKG_LICENSE             = GPLv2
 SYSKLOGD_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(SYSKLOGD_PKG_NAME)-pkg-description

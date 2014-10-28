@@ -43,7 +43,7 @@ TASN32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 TASN32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 TASN32_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-TASN32_PKG_SHORT_DESCRIPTION   = libtasn1-x32 $(version)
+TASN32_PKG_SHORT_DESCRIPTION   = ASN.1 library
 TASN32_PKG_URL                 = $(BUG_URL)
 TASN32_PKG_LICENSE             = GPLv2
 TASN32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(TASN32_PKG_NAME)-pkg-description

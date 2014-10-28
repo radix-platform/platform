@@ -43,7 +43,7 @@ FLAC_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 FLAC_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 FLAC_32_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
-FLAC_32_PKG_SHORT_DESCRIPTION   = flac-x32 $(version)
+FLAC_32_PKG_SHORT_DESCRIPTION   = Free Lossless Audio Codec
 FLAC_32_PKG_URL                 = $(BUG_URL)
 FLAC_32_PKG_LICENSE             = Xiph
 FLAC_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(FLAC_32_PKG_NAME)-pkg-description

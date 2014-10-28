@@ -50,15 +50,15 @@ LIBEVENT_PKG_ARCH                = $(TOOLCHAIN)
 LIBEVENT_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBEVENT_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBEVENT_PKG_GROUP               = $(PKG_GROUP)
-###                             |---handy-ruler-------------------------------|
-LIBEVENT_PKG_SHORT_DESCRIPTION   = libevent $(version)
+###                               |---handy-ruler-------------------------------|
+LIBEVENT_PKG_SHORT_DESCRIPTION   = event loop library
 LIBEVENT_PKG_URL                 = $(BUG_URL)
 LIBEVENT_PKG_LICENSE             = BSD
 LIBEVENT_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBEVENT_PKG_NAME)-pkg-description
 LIBEVENT_PKG_DESCRIPTION_FILE_IN = $(LIBEVENT_PKG_NAME)-pkg-description.in
 LIBEVENT_PKG_INSTALL_SCRIPT      = $(LIBEVENT_PKG_NAME)-pkg-install.sh
 
-LIBEVENT_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBEVENT_PKG_NAME)-package
+LIBEVENT_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBEVENT_PKG_NAME)-package
 
 pkg_basename     = $(LIBEVENT_PKG_NAME)-$(LIBEVENT_PKG_VERSION)-$(LIBEVENT_PKG_ARCH)-$(LIBEVENT_PKG_DISTRO_NAME)-$(LIBEVENT_PKG_DISTRO_VERSION)
 

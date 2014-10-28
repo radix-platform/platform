@@ -51,7 +51,7 @@ SLANG_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 SLANG_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 SLANG_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
-SLANG_PKG_SHORT_DESCRIPTION   = slang $(version)
+SLANG_PKG_SHORT_DESCRIPTION   = S-Lang interpreter version 2
 SLANG_PKG_URL                 = $(BUG_URL)
 SLANG_PKG_LICENSE             = GPLv2
 SLANG_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(SLANG_PKG_NAME)-pkg-description

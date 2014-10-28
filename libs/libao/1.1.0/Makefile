@@ -55,7 +55,7 @@ LIBAO_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBAO_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBAO_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
-LIBAO_PKG_SHORT_DESCRIPTION   = libao $(version)
+LIBAO_PKG_SHORT_DESCRIPTION   = Audio Output library
 LIBAO_PKG_URL                 = $(BUG_URL)
 LIBAO_PKG_LICENSE             = GPLv2
 LIBAO_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBAO_PKG_NAME)-pkg-description

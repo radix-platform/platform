@@ -50,7 +50,7 @@ LIBNF_CONNTRACK_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBNF_CONNTRACK_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBNF_CONNTRACK_PKG_GROUP               = $(PKG_GROUP)
 ###                                      |---handy-ruler-------------------------------|
-LIBNF_CONNTRACK_PKG_SHORT_DESCRIPTION   = libnetfilter_conntrack $(version)
+LIBNF_CONNTRACK_PKG_SHORT_DESCRIPTION   = netfilter conntrack library
 LIBNF_CONNTRACK_PKG_URL                 = $(BUG_URL)
 LIBNF_CONNTRACK_PKG_LICENSE             = GPLv2
 LIBNF_CONNTRACK_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBNF_CONNTRACK_PKG_NAME)-pkg-description

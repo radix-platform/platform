@@ -50,7 +50,7 @@ READLINE_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 READLINE_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 READLINE_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-READLINE_PKG_SHORT_DESCRIPTION   = readline $(version)
+READLINE_PKG_SHORT_DESCRIPTION   = line input library with editing features
 READLINE_PKG_URL                 = $(BUG_URL)
 READLINE_PKG_LICENSE             = GPLv2
 READLINE_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(READLINE_PKG_NAME)-pkg-description

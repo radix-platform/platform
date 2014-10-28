@@ -53,7 +53,7 @@ CURL_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 CURL_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 CURL_32_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
-CURL_32_PKG_SHORT_DESCRIPTION   = curl-x32 $(version)
+CURL_32_PKG_SHORT_DESCRIPTION   = command line URL data transfer tool
 CURL_32_PKG_URL                 = $(BUG_URL)
 CURL_32_PKG_LICENSE             = custom
 CURL_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(CURL_32_PKG_NAME)-pkg-description

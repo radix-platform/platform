@@ -49,7 +49,7 @@ NETTOOLS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 NETTOOLS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 NETTOOLS_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-NETTOOLS_PKG_SHORT_DESCRIPTION   = net-tools $(version)
+NETTOOLS_PKG_SHORT_DESCRIPTION   = base Linux networking utilities
 NETTOOLS_PKG_URL                 = $(BUG_URL)
 NETTOOLS_PKG_LICENSE             = GPLv2
 NETTOOLS_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(NETTOOLS_PKG_NAME)-pkg-description

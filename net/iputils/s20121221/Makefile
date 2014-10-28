@@ -52,7 +52,7 @@ IPUTILS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 IPUTILS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 IPUTILS_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
-IPUTILS_PKG_SHORT_DESCRIPTION   = iputils $(version)
+IPUTILS_PKG_SHORT_DESCRIPTION   = a collection of common network tools
 IPUTILS_PKG_URL                 = $(BUG_URL)
 IPUTILS_PKG_LICENSE             = BSD
 IPUTILS_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(IPUTILS_PKG_NAME)-pkg-description

@@ -51,7 +51,7 @@ OPENLDAP_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 OPENLDAP_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 OPENLDAP_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-OPENLDAP_PKG_SHORT_DESCRIPTION   = openldap-client $(version)
+OPENLDAP_PKG_SHORT_DESCRIPTION   = OpenLDAP client programs
 OPENLDAP_PKG_URL                 = $(BUG_URL)
 OPENLDAP_PKG_LICENSE             = custom
 OPENLDAP_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(OPENLDAP_PKG_NAME)-pkg-description

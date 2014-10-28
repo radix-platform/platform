@@ -49,7 +49,7 @@ KSBA_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 KSBA_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 KSBA_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
-KSBA_PKG_SHORT_DESCRIPTION   = libksba $(version)
+KSBA_PKG_SHORT_DESCRIPTION   = X.509 \& CMS library for S/MIME and TLS
 KSBA_PKG_URL                 = $(BUG_URL)
 KSBA_PKG_LICENSE             = GPLv2
 KSBA_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(KSBA_PKG_NAME)-pkg-description

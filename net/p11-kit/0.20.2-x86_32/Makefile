@@ -45,7 +45,7 @@ P11KIT32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 P11KIT32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 P11KIT32_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-P11KIT32_PKG_SHORT_DESCRIPTION   = p11-kit-x32 $(version)
+P11KIT32_PKG_SHORT_DESCRIPTION   = PKCS 11 toolkit
 P11KIT32_PKG_URL                 = $(BUG_URL)
 P11KIT32_PKG_LICENSE             = GPLv2
 P11KIT32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(P11KIT32_PKG_NAME)-pkg-description

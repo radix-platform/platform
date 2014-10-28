@@ -52,7 +52,7 @@ GCRYPT_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 GCRYPT_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GCRYPT_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-GCRYPT_PKG_SHORT_DESCRIPTION   = libgcrypt $(version)
+GCRYPT_PKG_SHORT_DESCRIPTION   = General purpose crypto library
 GCRYPT_PKG_URL                 = $(BUG_URL)
 GCRYPT_PKG_LICENSE             = GPLv2
 GCRYPT_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GCRYPT_PKG_NAME)-pkg-description

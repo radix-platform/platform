@@ -49,7 +49,7 @@ DIFFUTILS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 DIFFUTILS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 DIFFUTILS_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
-DIFFUTILS_PKG_SHORT_DESCRIPTION   = diffutils $(version)
+DIFFUTILS_PKG_SHORT_DESCRIPTION   = finding differences between files utils
 DIFFUTILS_PKG_URL                 = $(BUG_URL)
 DIFFUTILS_PKG_LICENSE             = GPLv2
 DIFFUTILS_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(DIFFUTILS_PKG_NAME)-pkg-description

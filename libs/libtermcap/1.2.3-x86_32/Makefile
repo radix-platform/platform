@@ -41,7 +41,7 @@ TERMCAP_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 TERMCAP_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 TERMCAP_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                 |---handy-ruler-------------------------------|
-TERMCAP_32_PKG_SHORT_DESCRIPTION   = libtermcap-x32 $(version)
+TERMCAP_32_PKG_SHORT_DESCRIPTION   = GNU termcap library
 TERMCAP_32_PKG_URL                 = $(BUG_URL)
 TERMCAP_32_PKG_LICENSE             = GPLv2
 TERMCAP_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(TERMCAP_32_PKG_NAME)-pkg-description

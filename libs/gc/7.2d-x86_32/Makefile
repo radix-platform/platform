@@ -44,7 +44,7 @@ GC32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 GC32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GC32_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
-GC32_PKG_SHORT_DESCRIPTION   = gc-x32 $(version)$(version_suffix)
+GC32_PKG_SHORT_DESCRIPTION   = garbage collector library
 GC32_PKG_URL                 = $(BUG_URL)
 GC32_PKG_LICENSE             = GPLv2
 GC32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GC32_PKG_NAME)-pkg-description

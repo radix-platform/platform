@@ -56,7 +56,7 @@ CRACKLIB_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 CRACKLIB_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 CRACKLIB_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-CRACKLIB_PKG_SHORT_DESCRIPTION   = cracklib $(version)
+CRACKLIB_PKG_SHORT_DESCRIPTION   = password-quality library
 CRACKLIB_PKG_URL                 = $(BUG_URL)
 CRACKLIB_PKG_LICENSE             = LGPLv2
 CRACKLIB_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(CRACKLIB_PKG_NAME)-pkg-description

@@ -49,7 +49,7 @@ NETTLE_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 NETTLE_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 NETTLE_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-NETTLE_PKG_SHORT_DESCRIPTION   = nettle $(version)
+NETTLE_PKG_SHORT_DESCRIPTION   = small cryptographic library
 NETTLE_PKG_URL                 = $(BUG_URL)
 NETTLE_PKG_LICENSE             = GPLv2
 NETTLE_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(NETTLE_PKG_NAME)-pkg-description

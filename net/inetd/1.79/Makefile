@@ -54,7 +54,7 @@ INETD_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 INETD_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 INETD_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
-INETD_PKG_SHORT_DESCRIPTION   = inetd $(version)
+INETD_PKG_SHORT_DESCRIPTION   = Internet super-server
 INETD_PKG_URL                 = $(BUG_URL)
 INETD_PKG_LICENSE             = BSD
 INETD_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(INETD_PKG_NAME)-pkg-description

@@ -48,7 +48,7 @@ XFSPROGS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 XFSPROGS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 XFSPROGS_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-XFSPROGS_PKG_SHORT_DESCRIPTION   = xfsprogs $(version)
+XFSPROGS_PKG_SHORT_DESCRIPTION   = XFS filesystem tools
 XFSPROGS_PKG_URL                 = $(BUG_URL)
 XFSPROGS_PKG_LICENSE             = GPLv2
 XFSPROGS_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(XFSPROGS_PKG_NAME)-pkg-description

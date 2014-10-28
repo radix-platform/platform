@@ -50,7 +50,7 @@ LIBPNG_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBPNG_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBPNG_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-LIBPNG_PKG_SHORT_DESCRIPTION   = libpng14 $(version)
+LIBPNG_PKG_SHORT_DESCRIPTION   = Portable Network Graphics library
 LIBPNG_PKG_URL                 = $(BUG_URL)
 LIBPNG_PKG_LICENSE             = custom:libpng
 LIBPNG_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBPNG_PKG_NAME)-pkg-description

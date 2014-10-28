@@ -28,7 +28,7 @@ KS_DEV_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 KS_DEV_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 KS_DEV_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-KS_DEV_PKG_SHORT_DESCRIPTION   = Linux $(version) sources
+KS_DEV_PKG_SHORT_DESCRIPTION   = OMAP543X Linux kernel configured sources
 KS_DEV_PKG_URL                 = $(BUG_URL)
 KS_DEV_PKG_LICENSE             = GPLv2
 KS_DEV_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(KS_DEV_PKG_NAME)-pkg-description

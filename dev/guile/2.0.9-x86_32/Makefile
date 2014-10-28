@@ -50,7 +50,7 @@ GUILE32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 GUILE32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GUILE32_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
-GUILE32_PKG_SHORT_DESCRIPTION   = guile-x32 $(version)
+GUILE32_PKG_SHORT_DESCRIPTION   = GNU extension language library
 GUILE32_PKG_URL                 = $(BUG_URL)
 GUILE32_PKG_LICENSE             = GPLv2
 GUILE32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GUILE32_PKG_NAME)-pkg-description

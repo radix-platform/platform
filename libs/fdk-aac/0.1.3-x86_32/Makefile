@@ -43,7 +43,7 @@ FDK_AAC_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 FDK_AAC_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 FDK_AAC_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                 |---handy-ruler-------------------------------|
-FDK_AAC_32_PKG_SHORT_DESCRIPTION   = fdk-aac-x32 $(version)
+FDK_AAC_32_PKG_SHORT_DESCRIPTION   = The Fraunhofer FDK AAC Codec Library
 FDK_AAC_32_PKG_URL                 = $(BUG_URL)
 FDK_AAC_32_PKG_LICENSE             = Fraunhofer
 FDK_AAC_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(FDK_AAC_32_PKG_NAME)-pkg-description

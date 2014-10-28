@@ -43,7 +43,7 @@ LIBTOOL32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBTOOL32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBTOOL32_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
-LIBTOOL32_PKG_SHORT_DESCRIPTION   = libtool-x32 $(version)
+LIBTOOL32_PKG_SHORT_DESCRIPTION   = generic library support script
 LIBTOOL32_PKG_URL                 = $(BUG_URL)
 LIBTOOL32_PKG_LICENSE             = GPLv2
 LIBTOOL32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBTOOL32_PKG_NAME)-pkg-description

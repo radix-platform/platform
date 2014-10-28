@@ -51,7 +51,7 @@ SHADOW_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 SHADOW_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 SHADOW_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-SHADOW_PKG_SHORT_DESCRIPTION   = shadow $(version)
+SHADOW_PKG_SHORT_DESCRIPTION   = shadow password suite
 SHADOW_PKG_URL                 = $(BUG_URL)
 SHADOW_PKG_LICENSE             = BSD
 SHADOW_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(SHADOW_PKG_NAME)-pkg-description

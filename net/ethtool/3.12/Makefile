@@ -49,7 +49,7 @@ ETHTOOL_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 ETHTOOL_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 ETHTOOL_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
-ETHTOOL_PKG_SHORT_DESCRIPTION   = ethtool $(version)
+ETHTOOL_PKG_SHORT_DESCRIPTION   = examining and tuning a network interface tool
 ETHTOOL_PKG_URL                 = $(BUG_URL)
 ETHTOOL_PKG_LICENSE             = GPLv2
 ETHTOOL_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(ETHTOOL_PKG_NAME)-pkg-description

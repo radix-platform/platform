@@ -43,7 +43,7 @@ LIBNF_ACCT_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBNF_ACCT_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBNF_ACCT_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                    |---handy-ruler-------------------------------|
-LIBNF_ACCT_32_PKG_SHORT_DESCRIPTION   = libnetfilter_acct-x32 $(version)
+LIBNF_ACCT_32_PKG_SHORT_DESCRIPTION   = library for netfilter accounting
 LIBNF_ACCT_32_PKG_URL                 = $(BUG_URL)
 LIBNF_ACCT_32_PKG_LICENSE             = LGPLv2.1
 LIBNF_ACCT_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBNF_ACCT_32_PKG_NAME)-pkg-description

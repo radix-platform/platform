@@ -46,7 +46,7 @@ KBD_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 KBD_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 KBD_32_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-KBD_32_PKG_SHORT_DESCRIPTION   = kbd-x32 $(version)
+KBD_32_PKG_SHORT_DESCRIPTION   = keyboard maps x86_32 library
 KBD_32_PKG_URL                 = $(BUG_URL)
 KBD_32_PKG_LICENSE             = LGPLv2
 KBD_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(KBD_32_PKG_NAME)-pkg-description

@@ -52,7 +52,7 @@ LIBSNDFILE_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBSNDFILE_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBSNDFILE_PKG_GROUP               = $(PKG_GROUP)
 ###                                 |---handy-ruler-------------------------------|
-LIBSNDFILE_PKG_SHORT_DESCRIPTION   = libsndfile $(version)
+LIBSNDFILE_PKG_SHORT_DESCRIPTION   = C library for reading and writing wav files
 LIBSNDFILE_PKG_URL                 = $(BUG_URL)
 LIBSNDFILE_PKG_LICENSE             = LGPLv2.1
 LIBSNDFILE_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBSNDFILE_PKG_NAME)-pkg-description

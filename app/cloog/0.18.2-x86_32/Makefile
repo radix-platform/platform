@@ -43,7 +43,7 @@ CLOOG32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 CLOOG32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 CLOOG32_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
-CLOOG32_PKG_SHORT_DESCRIPTION   = cloog-x32 $(version)
+CLOOG32_PKG_SHORT_DESCRIPTION   = The Chunky Loop Generator
 CLOOG32_PKG_URL                 = $(BUG_URL)
 CLOOG32_PKG_LICENSE             = GPLv2
 CLOOG32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(CLOOG32_PKG_NAME)-pkg-description

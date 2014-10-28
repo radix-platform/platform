@@ -52,7 +52,7 @@ CONNTRACK_TOOLS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 CONNTRACK_TOOLS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 CONNTRACK_TOOLS_PKG_GROUP               = $(PKG_GROUP)
 ###                                      |---handy-ruler-------------------------------|
-CONNTRACK_TOOLS_PKG_SHORT_DESCRIPTION   = conntrack-tools $(version)
+CONNTRACK_TOOLS_PKG_SHORT_DESCRIPTION   = userspace tools for conntrack
 CONNTRACK_TOOLS_PKG_URL                 = $(BUG_URL)
 CONNTRACK_TOOLS_PKG_LICENSE             = GPLv2
 CONNTRACK_TOOLS_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(CONNTRACK_TOOLS_PKG_NAME)-pkg-description

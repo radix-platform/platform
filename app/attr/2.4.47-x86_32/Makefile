@@ -41,7 +41,7 @@ ATTR_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 ATTR_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 ATTR_32_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
-ATTR_32_PKG_SHORT_DESCRIPTION   = attr-x32 $(version)
+ATTR_32_PKG_SHORT_DESCRIPTION   = filesystems extended attributes tools
 ATTR_32_PKG_URL                 = $(BUG_URL)
 ATTR_32_PKG_LICENSE             = GPLv2
 ATTR_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(ATTR_32_PKG_NAME)-pkg-description

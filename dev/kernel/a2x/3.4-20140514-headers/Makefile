@@ -49,7 +49,7 @@ KH_DEV_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 KH_DEV_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 KH_DEV_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-KH_DEV_PKG_SHORT_DESCRIPTION   = Linux $(version) header files
+KH_DEV_PKG_SHORT_DESCRIPTION   = A20 Linux kernel header files
 KH_DEV_PKG_URL                 = $(BUG_URL)
 KH_DEV_PKG_LICENSE             = GPLv2
 KH_DEV_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(KH_DEV_PKG_NAME)-pkg-description

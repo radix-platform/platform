@@ -49,7 +49,7 @@ BOOTPARAMD_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 BOOTPARAMD_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 BOOTPARAMD_PKG_GROUP               = $(PKG_GROUP)
 ###                                 |---handy-ruler-------------------------------|
-BOOTPARAMD_PKG_SHORT_DESCRIPTION   = netkit-bootparamd $(version)
+BOOTPARAMD_PKG_SHORT_DESCRIPTION   = boot parameter server
 BOOTPARAMD_PKG_URL                 = $(BUG_URL)
 BOOTPARAMD_PKG_LICENSE             = BSD
 BOOTPARAMD_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(BOOTPARAMD_PKG_NAME)-pkg-description

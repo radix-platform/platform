@@ -50,7 +50,7 @@ LAME_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LAME_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LAME_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
-LAME_PKG_SHORT_DESCRIPTION   = lame $(version)
+LAME_PKG_SHORT_DESCRIPTION   = MPEG Audio Layer III encoder
 LAME_PKG_URL                 = $(BUG_URL)
 LAME_PKG_LICENSE             = LGPLv2
 LAME_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LAME_PKG_NAME)-pkg-description

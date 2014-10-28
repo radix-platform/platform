@@ -53,7 +53,7 @@ OPENSSH_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 OPENSSH_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 OPENSSH_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
-OPENSSH_PKG_SHORT_DESCRIPTION   = openssh $(version)
+OPENSSH_PKG_SHORT_DESCRIPTION   = Secure Shell daemon and clients
 OPENSSH_PKG_URL                 = $(BUG_URL)
 OPENSSH_PKG_LICENSE             = GPLv2
 OPENSSH_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(OPENSSH_PKG_NAME)-pkg-description

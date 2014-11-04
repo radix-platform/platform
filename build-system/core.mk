@@ -381,7 +381,7 @@ endif
 
 .build_system: .src_requires
 ifneq ($(shell pwd),$(TOP_BUILD_DIR_ABS))
-ifeq ($(shell pwd | grep $(TOP_BUILD_DIR_ABS)/$(SRC_PACKAGE_DIR)),)
+ifeq ($(shell pwd | grep $(TOP_BUILD_DIR_ABS)/$(SRC_PACKAGE_DIR))$(shell pwd | grep $(BUILDSYSTEM)/3pp/sources),)
 ifeq ($(shell pwd | grep $(BUILDSYSTEM)),)
 	@shtool echo -e "%B################################################################%b"
 	@shtool echo -e "%B#######%b"
@@ -410,7 +410,7 @@ endif
 ifneq ($(shell pwd),$(TOP_BUILD_DIR_ABS))
 ifneq ($(if $(MAKECMDGOALS),$(filter-out $(__quick_targets),$(MAKECMDGOALS)),true),)
 	@touch $@
-ifeq ($(shell pwd | grep $(TOP_BUILD_DIR_ABS)/$(SRC_PACKAGE_DIR)),)
+ifeq ($(shell pwd | grep $(TOP_BUILD_DIR_ABS)/$(SRC_PACKAGE_DIR))$(shell pwd | grep $(BUILDSYSTEM)/3pp/sources),)
 	@echo ""
 	@shtool echo -e "%B#######%b"
 	@shtool echo -e "%B#######%b %BNew makefile (%b$(<F)%B), clean up & rebuild source requires!%b"
@@ -451,7 +451,10 @@ downloads_clean: .downloads_clean
 	@shtool echo -e "%B#######%b"
 	@shtool echo -e "%B#######%b %BCleaning Up all downloaded sources...%b"
 	@shtool echo -e "%B#######%b"
-	@$(BUILDSYSTEM)/downloads_clean $(addprefix ., $(TOOLCHAIN_NOARCH)) $(TOP_BUILD_DIR_ABS)/sources
+	@$(BUILDSYSTEM)/downloads_clean $(addprefix ., $(TOOLCHAIN_NOARCH)) $(BUILDSYSTEM)/3pp/sources
+ifneq ($(wildcard $(TOP_BUILD_DIR_ABS)/$(SRC_PACKAGE_DIR)),)
+	@$(BUILDSYSTEM)/downloads_clean $(addprefix ., $(TOOLCHAIN_NOARCH)) $(TOP_BUILD_DIR_ABS)/$(SRC_PACKAGE_DIR)
+endif
 
 
 #######
@@ -793,7 +796,7 @@ TARGET_BUILD_DIR = $(targetflavour)
 
 ifeq ($(filter %_clean,$(MAKECMDGOALS)),)
 ifneq ($(shell pwd),$(TOP_BUILD_DIR_ABS))
-ifeq ($(shell pwd | grep $(TOP_BUILD_DIR_ABS)/$(SRC_PACKAGE_DIR)),)
+ifeq ($(shell pwd | grep $(TOP_BUILD_DIR_ABS)/$(SRC_PACKAGE_DIR))$(shell pwd | grep $(BUILDSYSTEM)/3pp/sources),)
 $(shell mkdir -p .$(TOOLCHAIN)/$(HARDWARE)$(if $(FLAVOUR),/$(FLAVOUR)))
 endif
 endif
@@ -863,7 +866,7 @@ ifndef FLAVOUR
 
 .tree_all: .$(HARDWARE)_requires
 ifneq ($(shell pwd),$(TOP_BUILD_DIR_ABS))
-ifeq ($(shell pwd | grep $(TOP_BUILD_DIR_ABS)/sources),)
+ifeq ($(shell pwd | grep $(TOP_BUILD_DIR_ABS)/$(SRC_PACKAGE_DIR))$(shell pwd | grep $(BUILDSYSTEM)/3pp/sources),)
 ifeq ($(shell pwd),$(BUILDSYSTEM))
 	@TREE_RULE=local_all FLAVOUR= $(MAKE) TOOLCHAIN=$(TOOLCHAIN_BUILD_MACHINE) HARDWARE=$(HARDWARE_BUILD) -f .$(HARDWARE_BUILD)_requires
 else
@@ -887,7 +890,7 @@ endif
 ifeq ($(BUILD_TREE),true)
 ifeq ($(filter %_clean,$(MAKECMDGOALS)),)
 ifneq ($(shell pwd),$(TOP_BUILD_DIR_ABS))
-ifeq ($(shell pwd | grep $(TOP_BUILD_DIR_ABS)/sources),)
+ifeq ($(shell pwd | grep $(TOP_BUILD_DIR_ABS)/$(SRC_PACKAGE_DIR))$(shell pwd | grep $(BUILDSYSTEM)/3pp/sources),)
 	@shtool echo -e "%B################################################################%b"
 	@shtool echo -e "%B#######%b"
 	@shtool echo -e "%B#######%b %BStart of building requires for%b `pwd`%B:%b"
@@ -929,7 +932,7 @@ ifndef FLAVOUR
 
 .tree_clean: .$(HARDWARE)_requires
 ifneq ($(shell pwd),$(TOP_BUILD_DIR_ABS))
-ifeq ($(shell pwd | grep $(TOP_BUILD_DIR_ABS)/$(SRC_PACKAGE_DIR)),)
+ifeq ($(shell pwd | grep $(TOP_BUILD_DIR_ABS)/$(SRC_PACKAGE_DIR))$(shell pwd | grep $(BUILDSYSTEM)/3pp/sources),)
 ifneq ($(wildcard .$(HARDWARE)_requires),)
 	@TREE_RULE=local_clean FLAVOUR= $(MAKE) TOOLCHAIN=$(TOOLCHAIN) HARDWARE=$(HARDWARE) -f .$(HARDWARE)_requires
 endif
@@ -947,7 +950,7 @@ ifndef FLAVOUR
 
 .tree_dist_clean: .$(HARDWARE)_requires
 ifneq ($(shell pwd),$(TOP_BUILD_DIR_ABS))
-ifeq ($(shell pwd | grep $(TOP_BUILD_DIR_ABS)/$(SRC_PACKAGE_DIR)),)
+ifeq ($(shell pwd | grep $(TOP_BUILD_DIR_ABS)/$(SRC_PACKAGE_DIR))$(shell pwd | grep $(BUILDSYSTEM)/3pp/sources),)
 ifneq ($(shell pwd),$(BUILDSYSTEM))
 	@TREE_RULE=local_dist_clean FLAVOUR= $(MAKE) TOOLCHAIN=$(TOOLCHAIN) HARDWARE=$(HARDWARE) -f .$(HARDWARE)_requires
 endif
@@ -965,7 +968,7 @@ ifndef FLAVOUR
 
 .tree_rootfs_clean: .$(HARDWARE)_requires
 ifneq ($(shell pwd),$(TOP_BUILD_DIR_ABS))
-ifeq ($(shell pwd | grep $(TOP_BUILD_DIR_ABS)/$(SRC_PACKAGE_DIR)),)
+ifeq ($(shell pwd | grep $(TOP_BUILD_DIR_ABS)/$(SRC_PACKAGE_DIR))$(shell pwd | grep $(BUILDSYSTEM)/3pp/sources),)
 ifneq ($(shell pwd),$(BUILDSYSTEM))
 	@TREE_RULE=local_rootfs_clean FLAVOUR= $(MAKE) TOOLCHAIN=$(TOOLCHAIN) HARDWARE=$(HARDWARE) -f .$(HARDWARE)_requires
 endif
@@ -992,14 +995,14 @@ endif
 #######
 
 local_clean: .local_clean
-ifeq ($(shell pwd | grep $(TOP_BUILD_DIR_ABS)/$(SRC_PACKAGE_DIR)),)
+ifeq ($(shell pwd | grep $(TOP_BUILD_DIR_ABS)/$(SRC_PACKAGE_DIR))$(shell pwd | grep $(BUILDSYSTEM)/3pp/sources),)
 ifneq ($(wildcard .$(TOOLCHAIN)),)
 	@rm -rf $(CLEANUP_FILES)
 endif
 endif
 
 .local_clean:
-ifneq ($(shell pwd | grep $(TOP_BUILD_DIR_ABS)/$(SRC_PACKAGE_DIR)),)
+ifneq ($(shell pwd | grep $(TOP_BUILD_DIR_ABS)/$(SRC_PACKAGE_DIR))$(shell pwd | grep $(BUILDSYSTEM)/3pp/sources),)
 	@shtool echo -e "%B#######%b %BCleaning in '%b`basename $(CURDIR)`%B' directory is not supported.%b"
 else
 	@shtool echo -e "%B#######%b %BLocal Cleaning in '%b`basename $(CURDIR)`%B' directory...%b"
@@ -1032,7 +1035,7 @@ endif
 
 local_dist_clean: .local_dist_clean
 ifneq ($(shell pwd),$(BUILDSYSTEM))
-ifeq ($(shell pwd | grep $(TOP_BUILD_DIR_ABS)/$(SRC_PACKAGE_DIR)),)
+ifeq ($(shell pwd | grep $(TOP_BUILD_DIR_ABS)/$(SRC_PACKAGE_DIR))$(shell pwd | grep $(BUILDSYSTEM)/3pp/sources),)
 ifeq ($(wildcard .$(HARDWARE).dist),)
 	@shtool echo -e "   %B(nothing to be done).%b"
 else
@@ -1050,7 +1053,7 @@ endif
 ifeq ($(shell pwd),$(BUILDSYSTEM))
 	@shtool echo -e "%B#######%b %BDestination cleaning in '%b`basename $(CURDIR)`%B' directory is not supported.%b"
 else
-ifneq ($(shell pwd | grep $(TOP_BUILD_DIR_ABS)/$(SRC_PACKAGE_DIR)),)
+ifneq ($(shell pwd | grep $(TOP_BUILD_DIR_ABS)/$(SRC_PACKAGE_DIR))$(shell pwd | grep $(BUILDSYSTEM)/3pp/sources),)
 	@shtool echo -e "%B#######%b %BDestination cleaning in '%b`basename $(CURDIR)`%B' directory is not supported.%b"
 else
 	@shtool echo -n -e "%B#######%b %BDestination cleaning in '%b`basename $(CURDIR)`%B' directory...%b"
@@ -1064,7 +1067,7 @@ endif
 
 local_rootfs_clean: .local_rootfs_clean
 ifneq ($(shell pwd),$(BUILDSYSTEM))
-ifeq ($(shell pwd | grep $(TOP_BUILD_DIR_ABS)/$(SRC_PACKAGE_DIR)),)
+ifeq ($(shell pwd | grep $(TOP_BUILD_DIR_ABS)/$(SRC_PACKAGE_DIR))$(shell pwd | grep $(BUILDSYSTEM)/3pp/sources),)
 ifeq ($(wildcard .$(HARDWARE).rootfs),)
 	@shtool echo -e "%B#######%b %BRoot File System cleaning...   (nothing to be done).%b"
 else
@@ -1082,7 +1085,7 @@ endif
 ifeq ($(shell pwd),$(BUILDSYSTEM))
 	@shtool echo -e "%B#######%b %BRoot file system cleaning in '%b`basename $(CURDIR)`%B' directory is not supported.%b"
 else
-ifneq ($(shell pwd | grep $(TOP_BUILD_DIR_ABS)/$(SRC_PACKAGE_DIR)),)
+ifneq ($(shell pwd | grep $(TOP_BUILD_DIR_ABS)/$(SRC_PACKAGE_DIR))$(shell pwd | grep $(BUILDSYSTEM)/3pp/sources),)
 	@shtool echo -e "%B#######%b %BRoot file system cleaning in '%b`basename $(CURDIR)`%B' directory is not supported.%b"
 else
 	@shtool echo -e "%B#######%b"
@@ -1112,7 +1115,7 @@ endif
 #
 requires_tree: .requires_tree
 ifneq ($(shell pwd),$(BUILDSYSTEM))
-ifeq ($(shell pwd | grep $(TOP_BUILD_DIR_ABS)/$(SRC_PACKAGE_DIR)),)
+ifeq ($(shell pwd | grep $(TOP_BUILD_DIR_ABS)/$(SRC_PACKAGE_DIR))$(shell pwd | grep $(BUILDSYSTEM)/3pp/sources),)
 ifeq ($(wildcard .$(HARDWARE)_requires),)
 	@shtool echo -e "   %B(nothing to be done).%b"
 ifeq ($(shell pwd),$(TOP_BUILD_DIR_ABS))
@@ -1138,7 +1141,7 @@ endif
 ifeq ($(shell pwd),$(BUILDSYSTEM))
 	@shtool echo -e "%B#######%b %BRequires Tree creation in '%b`basename $(CURDIR)`%B' directory is not supported.%b"
 else
-ifneq ($(shell pwd | grep $(TOP_BUILD_DIR_ABS)/$(SRC_PACKAGE_DIR)),)
+ifneq ($(shell pwd | grep $(TOP_BUILD_DIR_ABS)/$(SRC_PACKAGE_DIR))$(shell pwd | grep $(BUILDSYSTEM)/3pp/sources),)
 	@shtool echo -e "%B#######%b %BRequires Tree creation in '%b`basename $(CURDIR)`%B' directory is not supported.%b"
 else
 	@shtool echo -e "%B################################################################%b"

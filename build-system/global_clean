@@ -65,6 +65,7 @@ sub process_clean
   return if( $File::Find::dir =~ m/$top_dir\/doc/ );
   return if( $File::Find::dir =~ m/$top_dir\/dist/ );
   return if( $File::Find::dir =~ m/$top_dir\/sources/ );
+  return if( $File::Find::dir =~ m/$top_dir\/build\-system\/3pp\/sources/ );
 
   # add directories which contains '.makefile' too.
   if( $_ eq ".makefile" ) { do_clean_list( $File::Find::dir ); }

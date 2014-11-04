@@ -3,9 +3,9 @@ COMPONENT_TARGETS = $(HARDWARE_BUILD)
 
 include ../../../constants.mk
 
-SOURCE_REQUIRES = sources/packages/a/fakeroot-ng
+SOURCE_REQUIRES = build-system/3pp/sources/packages/fakeroot-ng
 
-tar_bz2_archive = $(SRC_PACKAGE_PATH)/packages/a/fakeroot-ng/fakeroot-ng-0.18.tar.bz2
+tar_bz2_archive = $(BUILDSYSTEM)/3pp/sources/packages/fakeroot-ng/fakeroot-ng-0.18.tar.bz2
 src_dir         = fakeroot-ng-0.18
 build_dir       = $(TARGET_BUILD_DIR)/built
 

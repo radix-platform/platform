@@ -11,6 +11,11 @@
 
 <!-- styles .css -->
 <style>
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,700italic,700,500italic,500,400italic&subset=cyrillic-ext,latin);
+@import url(http://fonts.googleapis.com/css?family=Cousine:400,400italic,700,700italic&subset=cyrillic-ext,latin);
+</style>
+
+<style>
 body, html {
   margin: 0 0 0 0;
 }
@@ -122,10 +127,10 @@ div#footer_bottom {
 #copyright {
   color: #ffffff;
   text-decoration: none;
-  font-family: 'FLSansMedium',helvetica,arial,sans-serif;
+  font-family: 'Roboto', helvetica, arial, sans-serif;
   font-weight: normal;
   font-style: normal;
-  font-size: 10px;
+  font-size: 11px;
 }
 
 #tree_view {
@@ -143,25 +148,35 @@ div#footer_bottom {
 .node {
   cursor: pointer;
 }
-.node circle {
-  fill: #fff;
-  stroke: steelblue;
-  stroke-width: 1.5px;
-}
 .node text {
-  font: 11px sans-serif;
-  font-weight: bold;
+  font: 14px 'Cousine', monospace;
+}
+/* Requires Tree Styling Examples *
+ **********************************
+.node {
+  cursor: pointer;
+}
+.node circle {
+  fill: #ffffff;
+  stroke: SteelBlue;
+  stroke-width: 1.5px;
 }
 .link {
   fill: none;
-  stroke: #ccc;
+  stroke: #cccccc;
   stroke-width: 1.5px;
 }
+.node text {
+  font: 12px sans-serif;
+  font-weight: bold;
+}
+ **********************************/
+
 div.tooltip {
   position: absolute;
   text-align: left;
-  padding: 8px;
-  font: 11px monospace;
+  padding: 10px;
+  font: 11px Cousine,monospace;
   background: lightsteelblue;
   border: 1px solid #0000e7;
   border-radius: 8px;
@@ -202,8 +217,8 @@ div.tooltip {
     <div id="logo">
     </div> <!-- "logo" -->
     <div id="navigator">
-      <div style="height: 42px;"></div>
-      <div style="height: 36px; padding-left: 16px; font: 22px sans-serif; font-weight: bold; color: White">
+      <div style="height: 36px;"></div>
+      <div style="height: 42px; padding-left: 16px; font: 28px 'Roboto', sans-serif; font-weight: bold; color: White;">
       <span style="color: Lavender;">@ROOT@</span> - Requires Tree
       </div>
     </div> <!-- "navigator" -->
@@ -232,7 +247,7 @@ div.tooltip {
   </div> <!-- "footer_wrapper" -->
 </div> <!-- "front_wrapper" -->
 
-<script>
+<script type="text/javascript">
   var margin = {top: 20, right: 120, bottom: 20, left: 160},
       width = @SVG_WIDTH@ - margin.right - margin.left,
       height = @SVG_HEIGHT@ - margin.top - margin.bottom;
@@ -276,18 +291,18 @@ div.tooltip {
 
   function update(source) {
 
-    // Compute the new tree layout.
+    /* Compute the new tree layout. */
     var nodes = tree.nodes(root).reverse(),
         links = tree.links(nodes);
 
-    // Normalize for fixed-depth.
+    /* Normalize for fixed-depth. */
     nodes.forEach(function(d) { d.y = d.depth * 160; });
 
-    // Update the nodes…
+    /* Update the nodes . . . */
     var node = svg.selectAll("g.node")
         .data(nodes, function(d) { return d.id || (d.id = ++i); });
 
-    // Enter any new nodes at the parent's previous position.
+    /* Enter any new nodes at the parent's previous position. */
     var nodeEnter = node.enter().append("g")
         .attr("class", "node")
         .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
@@ -298,22 +313,22 @@ div.tooltip {
                 .style("opacity", .92);
             if (d.group == undefined) {
               if (d.name == "void") {
-                div.html('<div style="text-align: left; padding-left: 0.5em; padding-right: 0.5em; font: 11px sans-serif; font-weight: bold; color: DarkRed;">' + "void" + "</div>")
+                div.html('<div style="text-align: left; padding-left: 0.5em; padding-right: 0.5em; font: 11px Cousine,monospace; font-weight: bold; color: DarkRed;">' + "void" + "</div>")
                     .style("left", (d3.event.pageX + document.getElementById( 'front_wrapper' ).scrollLeft + 12) + "px")
                     .style("top", (d3.event.pageY + document.getElementById( 'front_wrapper' ).scrollTop + 12) + "px");
               }
               else
               {
-                div.html('<div style="text-align: left; padding-left: 0.5em; padding-right: 0.5em; font: 11px sans-serif; font-weight: bold; color: DarkRed;">' + "not packaged collection" + "</div>")
+                div.html('<div style="text-align: left; padding-left: 0.5em; padding-right: 0.5em; font: 11px Cousine,monospace; font-weight: bold; color: DarkRed;">' + "not packaged collection" + "</div>")
                     .style("left", (d3.event.pageX + document.getElementById( 'front_wrapper' ).scrollLeft + 12) + "px")
                     .style("top", (d3.event.pageY + document.getElementById( 'front_wrapper' ).scrollTop + 12) + "px");
               }
             }
             else
             {
-              div.html('<div style="text-align: left; font: 11px sans-serif; font-weight: bold; color: DarkRed;">' +
-                       d.name + "</div><br/>" +
-                       '<div style="text-align: left; padding-left: 1.5em; font: 12px sans-serif; font-weight: bold; font-style: italic; color: DarkBlue;">' +
+              div.html('<div style="text-align: left; font: 14px Roboto,sans-serif; font-weight: bold; color: DarkRed;">' +
+                       d.name + "</div>" +
+                       '<div style="text-align: left; padding-left: 1.5em; padding-top: .5em; font: 14px Roboto,sans-serif; font-weight: bold; font-style: italic; color: DarkBlue;">' +
                        d.description + "</div><br/>" +
                        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;group: " + d.group + "<br/>" +
                        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;architecture: " + d.arch + "<br/>" +
@@ -337,6 +352,10 @@ div.tooltip {
         });
 
     nodeEnter.append("circle")
+    /* Additional attributes (see the 'style' section) */
+        .attr("stroke", "DarkBlue")
+        .attr("stroke-width", "1.0")
+    /* End of additional attributes */
         .attr("r", 1e-6)
         .style("fill", function(d) { return d._children ? "DodgerBlue" : "#fff"; });
 
@@ -347,7 +366,7 @@ div.tooltip {
         .text(function(d) { return d.version ? d.name + "-" + d.version : d.name; })
         .style("fill-opacity", 1e-6);
 
-    // Transition nodes to their new position.
+    /* Transition nodes to their new position. */
     var nodeUpdate = node.transition()
         .duration(duration)
         .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
@@ -382,7 +401,7 @@ div.tooltip {
     nodeUpdate.select("text")
         .style("fill-opacity", 1);
 
-    // Transition exiting nodes to the parent's new position.
+    /* Transition exiting nodes to the parent's new position. */
     var nodeExit = node.exit().transition()
         .duration(duration)
         .attr("transform", function(d) { return "translate(" + source.y + "," + source.x + ")"; })
@@ -394,11 +413,11 @@ div.tooltip {
     nodeExit.select("text")
         .style("fill-opacity", 1e-6);
 
-    // Update the links...
+    /* Update the links . . . */
     var link = svg.selectAll("path.link")
         .data(links, function(d) { return d.target.id; });
 
-    // Enter any new links at the parent's previous position.
+    /* Enter any new links at the parent's previous position. */
     link.enter().insert("path", "g")
         .attr("class", "link")
         .attr("d", function(d) {
@@ -406,12 +425,17 @@ div.tooltip {
           return diagonal({source: o, target: o});
         });
 
-    // Transition links to their new position.
+    /* Transition links to their new position. */
     link.transition()
         .duration(duration)
+    /* Additional attributes (see the 'style' section) */
+        .style("fill", "none")
+        .attr("stroke", "DarkGray")
+        .attr("stroke-width", "1.5")
+    /* End of additional attributes */
         .attr("d", diagonal);
 
-    // Transition exiting nodes to the parent's new position.
+    /* Transition exiting nodes to the parent's new position. */
     link.exit().transition()
         .duration(duration)
         .attr("d", function(d) {
@@ -420,14 +444,14 @@ div.tooltip {
         })
         .remove();
 
-    // Stash the old positions for transition.
+    /* Stash the old positions for transition. */
     nodes.forEach(function(d) {
       d.x0 = d.x;
       d.y0 = d.y;
     });
   }
 
-  // Toggle children on click.
+  /* Toggle children on click. */
   function click(d) {
     if (d.children) {
       d._children = d.children;

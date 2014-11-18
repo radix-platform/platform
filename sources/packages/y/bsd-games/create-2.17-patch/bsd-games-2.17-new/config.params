@@ -1,0 +1,44 @@
+# Don't run configure interactively.
+bsd_games_cfg_non_interactive=y
+
+# Install into here for building the package.
+bsd_games_cfg_install_prefix=@BSD_GAMES_PKG@
+
+# Compiler and build environment
+bsd_games_cfg_cc=@CC@
+bsd_games_cfg_cxx=@CXX@
+bsd_games_cfg_optimize_flags=@OPTIMIZE_FLAGS@
+bsd_games_cfg_ncurses_lib=@NCURSES_LIB@
+bsd_games_cfg_openssl_lib=@OPENSSL_LIB@
+bsd_games_cfg_other_cflags=@CFLAGS@
+bsd_games_cfg_other_ldflags=@LDFLAGS@
+
+# Do not build or install these games:
+bsd_games_cfg_no_build_dirs="boggle dm"
+
+# Keep huntd in /usr/sbin as it was in the past. I may 
+# change this later.
+bsd_games_cfg_sbindir=/usr/sbin
+
+# Use /usr/man still. Slackware doesn't use this part of FHS yet.
+bsd_games_cfg_man8dir=/usr/share/man/man8
+bsd_games_cfg_man6dir=/usr/share/man/man6
+bsd_games_cfg_man5dir=/usr/share/man/man5
+
+# We don't like cluttering up the /usr/games/ dir too much,
+# use a subdir. /var too.
+bsd_games_cfg_usrlibdir=/usr/share/games
+bsd_games_cfg_sharedir=/usr/share/games
+bsd_games_cfg_varlibdir=/var/lib/bsdgames
+
+# Do not do chown now:
+bsd_games_cfg_do_chown=n
+
+# Use compressed .so links for manpages:
+bsd_games_cfg_use_dot_so=.so
+
+# Compress the manpages:
+bsd_games_cfg_gzip_manpages=y
+
+# Use /usr/bin/less by default.
+bsd_games_cfg_pager=/usr/bin/less

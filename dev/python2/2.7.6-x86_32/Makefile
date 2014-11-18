@@ -94,7 +94,10 @@ extra_configure_switches += --enable-shared
 
 extra_configure_switches += --cache-file=$(hw_cache)
 
-python_environment = RFS=$(TARGET_DEST_DIR) HOSTARCH=$(TARGET32) BUILDARCH=$(BUILD) PYTHONHOME=$(TARGET_DEST_DIR)/usr/lib32/python2.7
+python_environment  = RFS=$(TARGET_DEST_DIR)
+python_environment += HOSTARCH=$(TARGET32)
+python_environment += BUILDARCH=$(BUILD)
+python_environment += PYTHONHOME=$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/python2.7
 
 
 ####### Dependencies

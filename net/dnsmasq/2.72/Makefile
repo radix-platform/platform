@@ -1,0 +1,181 @@
+
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
+
+
+NEED_ABS_PATH      = true
+COMPONENT_IS_3PP   = true
+
+
+include ../../../build-system/constants.mk
+
+
+SOURCE_REQUIRES    = sources/packages/n/dnsmasq
+
+REQUIRES           = app/dbus/1.8.10
+REQUIRES          += libs/gmp/5.1.3
+REQUIRES          += libs/libidn/1.28
+REQUIRES          += net/libmnl/1.0.3
+REQUIRES          += net/libnetfilter_conntrack/1.0.4
+REQUIRES          += net/libnfnetlink/1.0.1
+REQUIRES          += net/nettle/2.7.1
+
+
+version            = 2.72
+tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/n/dnsmasq/dnsmasq-$(version).tar.gz
+SRC_ARCHIVE        = $(tar_gz_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/dnsmasq-$(version)
+src_dir_name       = dnsmasq-$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source_done
+
+rc_dnsmasq         = $(CURDIR)/etc/rc.d/rc.dnsmasq
+
+PATCHES = PATCHES
+
+build_target       = $(TARGET_BUILD_DIR)/.build_done
+install_target     = $(TARGET_BUILD_DIR)/.install_done
+
+
+####### Targets
+
+PKG_GROUP = net
+
+#
+# *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
+#
+DNSMASQ_PKG_NAME                = dnsmasq
+DNSMASQ_PKG_VERSION             = 2.72
+DNSMASQ_PKG_ARCH                = $(TOOLCHAIN)
+DNSMASQ_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+DNSMASQ_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
+DNSMASQ_PKG_GROUP               = $(PKG_GROUP)
+###                              |---handy-ruler-------------------------------|
+DNSMASQ_PKG_SHORT_DESCRIPTION   = small DNS and DHCP server
+DNSMASQ_PKG_URL                 = $(BUG_URL)
+DNSMASQ_PKG_LICENSE             = GPLv3
+DNSMASQ_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(DNSMASQ_PKG_NAME)-pkg-description
+DNSMASQ_PKG_DESCRIPTION_FILE_IN = $(DNSMASQ_PKG_NAME)-pkg-description.in
+DNSMASQ_PKG_INSTALL_SCRIPT      = $(DNSMASQ_PKG_NAME)-pkg-install.sh
+
+DNSMASQ_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(DNSMASQ_PKG_NAME)-package
+
+pkg_basename     = $(DNSMASQ_PKG_NAME)-$(DNSMASQ_PKG_VERSION)-$(DNSMASQ_PKG_ARCH)-$(DNSMASQ_PKG_DISTRO_NAME)-$(DNSMASQ_PKG_DISTRO_VERSION)
+
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
+
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
+
+PRODUCT_TARGETS  = $(products)
+
+ROOTFS_TARGETS   = $(pkg_archive)
+
+
+include ../../../build-system/core.mk
+
+
+env_sysroot  = DESTDIR=$(DNSMASQ_PKG)
+
+configure_switches  = PREFIX=/usr
+configure_switches += BINDIR=/usr/sbin
+configure_switches += MANDIR=/usr/share/man
+configure_switches += CFLAGS="-Wall -W $(CFLAGS)"
+configure_switches += COPTS="-DHAVE_DNSSEC -DHAVE_DBUS -DHAVE_CONNTRACK -DHAVE_IDN"
+
+
+####### Dependencies
+
+$(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
+	$(UNPACK_SRC_ARCHIVE)
+	$(APPLY_PATCHES)
+	@touch $@
+
+$(build_target): $(src_done)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) all-i18n $(configure_switches)
+	@touch $@
+
+$(install_target): $(build_target)
+	@mkdir -p $(DNSMASQ_PKG)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install-i18n $(configure_switches) $(env_sysroot)
+	@mkdir -p $(DNSMASQ_PKG)/etc/dnsmasq.d
+	@mkdir -p $(DNSMASQ_PKG)/etc/dbus-1/system.d
+	@cat $(SRC_DIR)/dbus/dnsmasq.conf > $(DNSMASQ_PKG)/etc/dbus-1/system.d/dnsmasq.conf
+	@chmod 0644 $(DNSMASQ_PKG)/etc/dbus-1/system.d/dnsmasq.conf
+	@mkdir -p $(DNSMASQ_PKG)/usr/share/dnsmasq
+	@cat $(SRC_DIR)/trust-anchors.conf > $(DNSMASQ_PKG)/usr/share/dnsmasq/trust-anchors.conf
+	@chmod 0644 $(DNSMASQ_PKG)/usr/share/dnsmasq/trust-anchors.conf
+	@mkdir -p $(DNSMASQ_PKG)/var/state/dnsmasq
+	@cat $(SRC_DIR)/dnsmasq.conf.example > $(DNSMASQ_PKG)/etc/dnsmasq.conf.new
+	@chmod 0644 $(DNSMASQ_PKG)/etc/dnsmasq.conf.new
+	@sed -i 's,%%PREFIX%%,/usr,' $(DNSMASQ_PKG)/etc/dnsmasq.conf.new
+	# ======= add newline at end-of-file 'dnsmasq.conf' =======
+	@echo "" >> $(DNSMASQ_PKG)/etc/dnsmasq.conf.new
+	@mkdir -p $(DNSMASQ_PKG)/etc/rc.d
+	@cat $(rc_dnsmasq) > $(DNSMASQ_PKG)/etc/rc.d/rc.dnsmasq.new
+	# ======= Install Documentation =======
+	@if [ -d $(DNSMASQ_PKG)/usr/share/man ]; then \
+	  ( cd $(DNSMASQ_PKG)/usr/share/man ; \
+	    for manpagedir in `find . -type d -name "man*"` ; do \
+	      ( cd $$manpagedir ; \
+	        for eachpage in `find . -type l -maxdepth 1` ; do \
+	          ln -s `readlink $$eachpage`.gz $$eachpage.gz ; \
+	          rm $$eachpage ; \
+	        done ; \
+	        gzip -9 *.? ; \
+	      ) \
+	    done \
+	  ) \
+	 fi
+	@mkdir -p $(DNSMASQ_PKG)/usr/doc/$(src_dir_name)
+	@cp -a $(SRC_DIR)/COPYING* \
+	       $(DNSMASQ_PKG)/usr/doc/$(src_dir_name)
+	@mkdir -p $(DNSMASQ_PKG)/usr/share/doc/$(src_dir_name)
+	@( cd $(SRC_DIR) ; \
+	   cp -a COPYING* FAQ doc.html setup.html dbus/DBus-interface \
+	         $(DNSMASQ_PKG)/usr/share/doc/$(src_dir_name) ; \
+	 )
+	@( cd $(SRC_DIR) ; \
+	   if [ -r CHANGELOG ]; then \
+	     DOCSDIR=`echo $(DNSMASQ_PKG)/usr/share/doc/$(src_dir_name)` ; \
+	     cat CHANGELOG | head -n 1000 > $$DOCSDIR/CHANGELOG ; \
+	     touch -r CHANGELOG $$DOCSDIR/CHANGELOG ; \
+	   fi \
+	 )
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
+	@mkdir -p $(TARGET_DEST_DIR)
+	@cd $(DNSMASQ_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	# ======= Strip binaries =======
+	@( cd $(DNSMASQ_PKG) ; \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	 )
+	@touch $@
+
+$(DNSMASQ_PKG_DESCRIPTION_FILE): $(DNSMASQ_PKG_DESCRIPTION_FILE_IN)
+	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
+
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(DNSMASQ_PKG_DESCRIPTION_FILE) $(DNSMASQ_PKG_INSTALL_SCRIPT)
+	@cp $(DNSMASQ_PKG_DESCRIPTION_FILE) $(DNSMASQ_PKG)/.DESCRIPTION
+	@cp $(DNSMASQ_PKG_INSTALL_SCRIPT) $(DNSMASQ_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(DNSMASQ_PKG)/.REQUIRES
+	@echo "pkgname=$(DNSMASQ_PKG_NAME)"                            >  $(DNSMASQ_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(DNSMASQ_PKG_VERSION)"                          >> $(DNSMASQ_PKG)/.PKGINFO ; \
+	 echo "arch=$(DNSMASQ_PKG_ARCH)"                               >> $(DNSMASQ_PKG)/.PKGINFO ; \
+	 echo "distroname=$(DNSMASQ_PKG_DISTRO_NAME)"                  >> $(DNSMASQ_PKG)/.PKGINFO ; \
+	 echo "distrover=$(DNSMASQ_PKG_DISTRO_VERSION)"                >> $(DNSMASQ_PKG)/.PKGINFO ; \
+	 echo "group=$(DNSMASQ_PKG_GROUP)"                             >> $(DNSMASQ_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(DNSMASQ_PKG_SHORT_DESCRIPTION)\"" >> $(DNSMASQ_PKG)/.PKGINFO ; \
+	 echo "url=$(DNSMASQ_PKG_URL)"                                 >> $(DNSMASQ_PKG)/.PKGINFO ; \
+	 echo "license=$(DNSMASQ_PKG_LICENSE)"                         >> $(DNSMASQ_PKG)/.PKGINFO
+	@$(FAKEROOT) sh -c "cd $(DNSMASQ_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

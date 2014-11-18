@@ -1,0 +1,4 @@
+linux-sunxi-3.4-20141014/drivers/net/ethernet/allwinner/gmac/gmac_desc.c
+linux-sunxi-3.4-20141014/drivers/net/wireless/Kconfig
+linux-sunxi-3.4-20141014/drivers/net/wireless/Makefile
+linux-sunxi-3.4-20141014/firmware/Makefile

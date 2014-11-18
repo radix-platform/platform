@@ -11,7 +11,7 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES   = sources/U-Boot/sunxi
 
-REQUIRES          = boot/kernel/A20/3.4-20140514
+REQUIRES          = boot/kernel/A20/3.4-20141014
 
 
 DEFAULT_NFS_ROOT_IP_ADDR = 172.16.0.3

@@ -7,7 +7,7 @@ include ../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/Linux/sunxi/sunxi-3.4
 
-versions    = 3.4-20140514
+versions    = 3.4-20140514 3.4-20141014
 
 description = linux-sunxi.txt
 tarballs    = $(addsuffix .tar.bz2, $(addprefix linux-sunxi-, $(versions)))
@@ -16,6 +16,8 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/linux-sunxi-3.4-20140514-a1x-vfp.patch
 patches    += $(CURDIR)/patches/linux-sunxi-3.4-20140514-snd.patch
+patches    += $(CURDIR)/patches/linux-sunxi-3.4-20141014-ap6210.patch
+patches    += $(CURDIR)/patches/linux-sunxi-3.4-20141014-snd.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -62,6 +64,8 @@ $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-3.4-20140514-a1x-vfp-patch ; ./create.patch.sh ) ; \
 	 ( cd create-3.4-20140514-snd-patch     ; ./create.patch.sh ) ; \
+	 ( cd create-3.4-20141014-ap6210-patch  ; ./create.patch.sh ) ; \
+	 ( cd create-3.4-20141014-snd-patch     ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

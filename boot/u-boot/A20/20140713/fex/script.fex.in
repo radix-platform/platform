@@ -276,8 +276,14 @@ tkey_twi_addr = 0x62
 tkey_int = port:PI13<6><default><default><default>
 
 [motor_para]
-motor_used = 0
+motor_used  = 0
 motor_shake = port:PB03<1><default><default><1>
+
+[gpio_para]
+gpio_used   = 1
+gpio_num    = 2
+gpio_pin_1  = port:PH20<1><default><default><1>
+gpio_pin_2  = port:PH10<0><default><default><0>
 
 [leds_para]
 leds_used = 1
@@ -810,7 +816,7 @@ wifi_usbc_type = 1
 wifi_mod_sel = 7
 wifi_power = ""
 ap6xxx_wl_regon = port:PH09<1><default><default><0>
-ap6xxx_wl_host_wake = port:PH10<0><default><default><0>
+; ap6xxx_wl_host_wake  = port:PH10<0><default><default><0>
 ap6xxx_bt_regon = port:PH18<1><default><default><0>
 ap6xxx_bt_wake = port:PH24<1><default><default><0>
 ap6xxx_bt_host_wake = port:PH25<0><default><default><0>

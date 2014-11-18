@@ -151,11 +151,13 @@ REQUIRES += dev/perl/5.18.2
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += dev/perl/5.18.2-x86_32
 endif
+
+REQUIRES += app/bsd-games/2.17
+
 REQUIRES += libs/aspell/0.60.6.1
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/aspell/0.60.6.1-x86_32
 endif
-
 REQUIRES += libs/dict/aspell6-ca/2.1.5-1
 REQUIRES += libs/dict/aspell6-de/2.1
 REQUIRES += libs/dict/aspell6-en/7.1-0
@@ -457,6 +459,14 @@ REQUIRES += net/libmnl/1.0.3
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += net/libmnl/1.0.3-x86_32
 endif
+REQUIRES += net/libmbim/1.10.0
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/libmbim/1.10.0-x86_32
+endif
+REQUIRES += net/libqmi/1.10.4
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/libqmi/1.10.4-x86_32
+endif
 REQUIRES += net/ipset/6.21
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += net/ipset/6.21-x86_32
@@ -516,6 +526,30 @@ REQUIRES += net/idnkit/1.0-x86_32
 endif
 
 REQUIRES += net/bind/9.10.1
+REQUIRES += net/wget/1.16
+REQUIRES += net/whois/5.2.1
+REQUIRES += net/rfkill/0.5
+REQUIRES += net/bridge-utils/0.5
+REQUIRES += net/iw/3.17
+REQUIRES += net/crda/3.13
+REQUIRES += net/wireless-tools/29
+
+REQUIRES += app/dbus/1.8.10
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/dbus/1.8.10-x86_32
+endif
+REQUIRES += libs/dbus-glib/0.102
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/dbus-glib/0.102-x86_32
+endif
+REQUIRES += libs/dbus-python/1.2.0
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/dbus-python/1.2.0-x86_32
+endif
+
+REQUIRES += net/wpa_supplicant/2.3
+REQUIRES += net/dnsmasq/2.72
+
 
 REQUIRES += libs/shared-mime-info/1.3
 REQUIRES += dev/cmake/2.8.12.2
@@ -635,6 +669,8 @@ REQUIRES += libs/portaudio/19-20140130
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/portaudio/19-20140130-x86_32
 endif
+
+REQUIRES += app/vorbis-tools/1.4.0
 
 REQUIRES += app/sox/14.4.1
 ifeq ($(HARDWARE),$(HARDWARE_PC64))

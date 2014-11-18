@@ -498,7 +498,7 @@ EOF
     fi
   )
   # unpack archive excluding service files:
-  zcat $pkgtarball | $TAR -C $DEST --exclude-from=$TMP/pkg.service.files$$ -xf -  > /dev/null 2>&1
+  zcat $pkgtarball | $TAR -C $DEST --exclude-from=$TMP/pkg.service.files$$ -xpf -  > /dev/null 2>&1
   if [ ! "$?" = "0" ]; then
     echo "ERROR: $TAR has returned error code."
     echo "ERROR: $TAR has returned error code." >> $LOG_FILE

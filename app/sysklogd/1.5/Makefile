@@ -117,7 +117,7 @@ $(install_target): $(build_target)
 	   touch $(SYSKLOGD_PKG)/var/log/$$i.new ; \
 	   chmod 640 $(SYSKLOGD_PKG)/var/log/$$i.new ; \
 	 done
-	# ======= documentation =======
+	# ======= Install Documentation =======
 	@mkdir -p $(SYSKLOGD_PKG)/usr/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
 	   cp -a COPYING \
@@ -131,8 +131,9 @@ $(install_target): $(build_target)
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(SYSKLOGD_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	@(cd $(SYSKLOGD_PKG); \
-	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null \
+	# ======= Strip binaries =======
+	@( cd $(SYSKLOGD_PKG); \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null \
 	 )
 	@touch $@
 

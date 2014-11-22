@@ -121,6 +121,7 @@ $(install_target): $(build_target)
 	   cd $(TAR_PKG)/sbin          ; \
 	   ln -sf ../usr/libexec/rmt . ; \
 	 )
+	# ======= Install Documentation =======
 	@mkdir -p $(TAR_PKG)/usr/share/man/man{1,8}
 	@cat $(man_pages_dir)/tar.1 > $(TAR_PKG)/usr/share/man/man1/tar.1
 	@cat $(man_pages_dir)/rmt.8 > $(TAR_PKG)/usr/share/man/man8/rmt.8
@@ -154,11 +155,12 @@ $(install_target): $(build_target)
 	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \
 	 )
-	# Install the same to $(TARGET_DEST_DIR)
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(TAR_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	@(cd $(TAR_PKG); \
-	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null \
+	# ======= Strip binaries =======
+	@( cd $(TAR_PKG); \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null \
 	 )
 	@touch $@
 

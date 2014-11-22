@@ -159,7 +159,7 @@ $(install_target): $(build_target)
 	   cp -a COPYING INSTALL README* \
 	         $(LIBCGROUP_PKG)/usr/share/doc/$(src_dir_name) ; \
 	 )
-	# remove toolchain path from target libtool *.la files
+	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(LIBCGROUP_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libcgroup.la  \
 	 )
@@ -175,6 +175,7 @@ $(install_target): $(build_target)
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libcgroup.pc \
 	 )
+	# ======= Strip binaries =======
 	@( cd $(LIBCGROUP_PKG); \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \

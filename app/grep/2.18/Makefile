@@ -148,6 +148,7 @@ $(install_target): $(build_target)
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(GREP_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	# ======= Strip binaries =======
 	@( cd $(GREP_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )

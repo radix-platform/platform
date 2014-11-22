@@ -1,0 +1,19 @@
+
+/* begin *
+
+   netpbm-10.68.01-security-code.patch    - security patch for code;
+   netpbm-10.68.01-security-scripts.patch - security patch for scripts;
+
+   netpbm-10.68.01-CAN-2005-2471.patch    - have to be applayed afrer security patches;
+
+   netpbm-10.68.01-common.patch           - this patch inclused all patches,
+                                            can be applayed instead of three previous;
+
+   netpbm-10.68.01-CVE-2005-2471.patch    - separated patch, have to be applayed on clean code from tarball,
+                                            see: http://cve.mitre.org/cgi-bin/cvename.cgi?name=CAN-2005-2471 ;
+
+   netpbm-10.68.01-make.patch             - fix for LD_FOR_BUILD usage;
+
+   netpbm-10.68.01-no-x11.patch           - do not build pamx which requires libX11 .
+
+ * end */

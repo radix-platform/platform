@@ -90,6 +90,7 @@ $(install_target): $(build_target)
 	@mkdir -p $(INPUTATTACH_PKG)/usr/bin
 	@cd $(SRC_DIR)/utils && cp -a inputattach $(INPUTATTACH_PKG)/usr/bin
 	@chmod 755 $(INPUTATTACH_PKG)/usr/bin/*
+	# ======= Install Documentation =======
 	@mkdir -p $(INPUTATTACH_PKG)/usr/share/man/man1
 	@cd $(SRC_DIR)/docs && cp -a inputattach.1 $(INPUTATTACH_PKG)/usr/share/man/man1
 	@chmod 644 $(INPUTATTACH_PKG)/usr/share/man/man1/inputattach.1
@@ -116,11 +117,12 @@ $(install_target): $(build_target)
 	   cp -a NEWS README utils/serio-ids.h \
 	         $(INPUTATTACH_PKG)/usr/share/doc/inputattach-$(version) \
 	 )
-	# Install the same to $(TARGET_DEST_DIR)
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(INPUTATTACH_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	@(cd $(INPUTATTACH_PKG); \
-	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null \
+	# ======= Strip binaries =======
+	@( cd $(INPUTATTACH_PKG); \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null \
 	 )
 	@touch $@
 

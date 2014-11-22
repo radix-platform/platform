@@ -131,6 +131,7 @@ $(install_target): $(build_target)
 	@mkdir -p $(BZIP2_PKG)/usr/include
 	@cd $(SRC_DIR) && cp -a bzlib.h $(BZIP2_PKG)/usr/include/bzlib.h
 	@chmod 644 $(BZIP2_PKG)/usr/include/bzlib.h
+	# ======= Install Documentation =======
 	@mkdir -p $(BZIP2_PKG)/usr/share/man/man1
 	@( cd $(SRC_DIR) ; \
 	   for file in bzdiff.1 bzgrep.1 bzip2.1 bzmore.1 ; do \
@@ -147,13 +148,14 @@ $(install_target): $(build_target)
 	   cp -a CHANGES LICENSE README* bzip.css bzip2.txt entities.xml manual.* \
 	         $(BZIP2_PKG)/usr/share/doc/bzip2-$(version) \
 	 )
-	# Install the same to $(TARGET_DEST_DIR)
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(BZIP2_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	@(cd $(BZIP2_PKG); \
-	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
+	# ======= Strip binaries =======
+	@( cd $(BZIP2_PKG); \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
 	@touch $@
 

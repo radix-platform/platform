@@ -92,6 +92,7 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(DOSFS_PKG)
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	# ======= Install Documentation =======
 	@if [ -d $(DOSFS_PKG)/usr/share/man ]; then \
 	  ( cd $(DOSFS_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \
@@ -124,8 +125,9 @@ $(install_target): $(build_target)
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(DOSFS_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	@(cd $(DOSFS_PKG); \
-	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	# ======= Strip binaries =======
+	@( cd $(DOSFS_PKG); \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )
 	@touch $@
 

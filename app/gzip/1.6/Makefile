@@ -109,7 +109,7 @@ $(install_target): $(build_target)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) $(env_sysroot) install
 	@rm -f $(GZIP_PKG)/usr/share/info/dir
 	@gzip -9 $(GZIP_PKG)/usr/share/info/*
-	# Uncomment next line if you will use 'uncompress' from ncommpress package
+	# ======= Uncomment next line if you will use 'uncompress' from ncommpress package =======
 	@rm -f $(GZIP_PKG)/bin/uncompress
 	@mkdir -p $(GZIP_PKG)/usr/bin
 	@( cd $(GZIP_PKG)/bin ; \
@@ -153,9 +153,10 @@ $(install_target): $(build_target)
 	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \
 	 )
-	# Install the same to $(TARGET_DEST_DIR)
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(GZIP_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	# ======= Strip binaries =======
 	@( cd $(GZIP_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )

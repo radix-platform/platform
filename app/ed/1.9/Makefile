@@ -112,6 +112,7 @@ $(install_target): $(build_target)
 	@mv $(ED_PKG)/usr/bin/ed $(ED_PKG)/bin
 	@( cd $(ED_PKG)/bin ; ln -sf ed red )
 	@( cd $(ED_PKG)/usr/bin ; ln -sf ../../bin/ed . ; ln -sf ed red )
+	# ======= Install Documentation =======
 	@rm -f $(ED_PKG)/usr/share/info/dir
 	@gzip -9 $(ED_PKG)/usr/share/info/*
 	@if [ -d $(ED_PKG)/usr/share/man ]; then \
@@ -142,11 +143,12 @@ $(install_target): $(build_target)
 	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \
 	 )
-	# Install the same to $(TARGET_DEST_DIR)
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(ED_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	@(cd $(ED_PKG); \
-	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null \
+	# ======= Strip binaries =======
+	@( cd $(ED_PKG); \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null \
 	 )
 	@touch $@
 

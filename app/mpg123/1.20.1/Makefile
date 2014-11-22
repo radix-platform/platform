@@ -149,6 +149,7 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(MPG123_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	# ======= Install Documentation =======
 	@if [ -d $(MPG123_PKG)/usr/share/man ]; then \
 	  ( cd $(MPG123_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \

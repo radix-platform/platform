@@ -200,6 +200,7 @@ endif
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" udev.pc ; \
 	   sed -i "s,/lib,$(TARGET_DEST_DIR)/lib,g" udev.pc ; \
 	 )
+	# ======= Strip binaries =======
 	@( cd $(EUDEV_PKG); \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )

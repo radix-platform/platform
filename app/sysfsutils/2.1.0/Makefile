@@ -108,6 +108,7 @@ $(install_target): $(build_target)
 	   mv libsysfs.so.?.?.? ../../lib$(LIBSUFFIX) ; \
 	   ln -sf ../../lib$(LIBSUFFIX)/libsysfs.so.?.?.? . \
 	 )
+	# ======= Install Documentation =======
 	@if [ -d $(SYSFSUTILS_PKG)/usr/share/man ]; then \
 	  ( cd $(SYSFSUTILS_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \
@@ -136,22 +137,23 @@ $(install_target): $(build_target)
 	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \
 	 )
-	# remove target path from target libtool *.la files
+	# ======= remove target path from target libtool *.la files =======
 	@( cd $(SYSFSUTILS_PKG)/usr/lib$(LIBSUFFIX) ; \
-	  sed -i "s,$(TARGET_DEST_DIR),,g" libsysfs.la ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libsysfs.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(SYSFSUTILS_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	# tune libtool *.la search path to the target destination for development
+	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libsysfs.la ; \
-	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libsysfs.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libsysfs.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libsysfs.la \
 	 )
-	@(cd $(SYSFSUTILS_PKG); \
-	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
+	# ======= Strip binaries =======
+	@( cd $(SYSFSUTILS_PKG); \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
 	@touch $@
 

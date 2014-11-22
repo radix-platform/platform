@@ -34,8 +34,8 @@ script_fex_in   = $(CURDIR)/fex/script.fex.in
 script_fex      = $(TARGET_BUILD_DIR)/script.fex
 script_bin      = $(TARGET_BUILD_DIR)/script.bin
 
-boot_script_sd  = $(TARGET_BUILD_DIR)/boor.script.sd
-boot_scr_sd     = $(TARGET_BUILD_DIR)/boor.scr.sd
+boot_script_sd  = $(TARGET_BUILD_DIR)/boot.script.sd
+boot_scr_sd     = $(TARGET_BUILD_DIR)/boot.scr.sd
 
 
 PATCHES = PATCHES

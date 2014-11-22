@@ -30,14 +30,14 @@ u_boot            = $(build_dir)/.u_boot_done
 
 u_boot_config     = omap5_uevm_config
 
-boot_script_nfs   = $(TARGET_BUILD_DIR)/boor.script.nfs
-boot_scr_nfs      = $(TARGET_BUILD_DIR)/boor.scr.nfs
+boot_script_nfs   = $(TARGET_BUILD_DIR)/boot.script.nfs
+boot_scr_nfs      = $(TARGET_BUILD_DIR)/boot.scr.nfs
 
-boot_script_sd   = $(TARGET_BUILD_DIR)/boor.script.sd
-boot_scr_sd      = $(TARGET_BUILD_DIR)/boor.scr.sd
+boot_script_sd   = $(TARGET_BUILD_DIR)/boot.script.sd
+boot_scr_sd      = $(TARGET_BUILD_DIR)/boot.scr.sd
 
-boot_script_emmc = $(TARGET_BUILD_DIR)/boor.script.emmc
-boot_scr_emmc    = $(TARGET_BUILD_DIR)/boor.scr.emmc
+boot_script_emmc = $(TARGET_BUILD_DIR)/boot.script.emmc
+boot_scr_emmc    = $(TARGET_BUILD_DIR)/boot.scr.emmc
 
 
 PATCHES = PATCHES

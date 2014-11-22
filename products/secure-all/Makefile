@@ -549,6 +549,9 @@ endif
 
 REQUIRES += net/wpa_supplicant/2.3
 REQUIRES += net/dnsmasq/2.72
+REQUIRES += net/ebtables/2.0.10-4
+REQUIRES += net/iftop/1.0pre4
+REQUIRES += net/iptraf-ng/1.1.4
 
 
 REQUIRES += libs/shared-mime-info/1.3
@@ -560,6 +563,30 @@ REQUIRES += app/vim/7.4-373
 REQUIRES += libs/libpng/libpng14/1.4.13
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/libpng/libpng14/1.4.13-x86_32
+endif
+REQUIRES += libs/libjpeg-turbo/1.3.1
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libjpeg-turbo/1.3.1-x86_32
+endif
+REQUIRES += libs/libtiff/4.0.3
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libtiff/4.0.3-x86_32
+endif
+REQUIRES += libs/freetype/2.5.3
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/freetype/2.5.3-x86_32
+endif
+REQUIRES += app/jbigkit/2.1
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/jbigkit/2.1-x86_32
+endif
+REQUIRES += libs/netpbm/10.68.01
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/netpbm/10.68.01-x86_32
+endif
+REQUIRES += libs/libpipeline/1.4.0
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libpipeline/1.4.0-x86_32
 endif
 
 REQUIRES += libs/slang/2.2.4

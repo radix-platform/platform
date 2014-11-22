@@ -124,6 +124,7 @@ $(install_target): $(build_target)
 	@( cd $(XZ_PKG)/usr/bin ; \
 	  ln -sf ../../bin/xz . ; \
 	 )
+	# ======= Install Documentation =======
 	@if [ -d $(XZ_PKG)/usr/share/man ]; then \
 	  ( cd $(XZ_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \
@@ -149,26 +150,27 @@ $(install_target): $(build_target)
 	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \
 	 )
-	# remove toolchain path from target libtool *.la files and
+	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(XZ_PKG)/usr/lib$(LIBSUFFIX) ; \
-	  sed -i "s,$(TARGET_DEST_DIR),,g" liblzma.la  \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" liblzma.la  \
 	 )
-	# Install the same to $(TARGET_DEST_DIR)
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(XZ_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	# tune libtool *.la search path to the target destination for development
+	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" liblzma.la ; \
-	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" liblzma.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" liblzma.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" liblzma.la \
 	 )
-	# tune pkg-config *.pc search path to the target destination for development
+	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" liblzma.pc \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" liblzma.pc \
 	 )
-	@(cd $(XZ_PKG); \
-	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
+	# ======= Strip Binaries =======
+	@( cd $(XZ_PKG); \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
 	@touch $@
 

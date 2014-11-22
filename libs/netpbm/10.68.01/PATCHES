@@ -1,0 +1,6 @@
+
+../../../sources/packages/l/netpbm/patches/netpbm-10.68.01-security-code.patch    -p0
+../../../sources/packages/l/netpbm/patches/netpbm-10.68.01-security-scripts.patch -p0
+../../../sources/packages/l/netpbm/patches/netpbm-10.68.01-CAN-2005-2471.patch    -p0
+../../../sources/packages/l/netpbm/patches/netpbm-10.68.01-make.patch             -p0
+../../../sources/packages/l/netpbm/patches/netpbm-10.68.01-no-x11.patch           -p0

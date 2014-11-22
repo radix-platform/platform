@@ -113,6 +113,7 @@ $(install_target): $(build_target)
 	@mkdir -p $(ESOUND_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
 	@mv $(ESOUND_PKG)/etc/esd.conf $(ESOUND_PKG)/etc/esd.conf.new
+	# ======= Install Documentation =======
 	@if [ -d $(ESOUND_PKG)/usr/share/man ]; then \
 	  ( cd $(ESOUND_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \

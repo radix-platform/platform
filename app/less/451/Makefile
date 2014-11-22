@@ -108,6 +108,7 @@ $(install_target): $(build_target)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) install $(env_sysroot)
 	@cp -a $(lesspipe) $(LESS_PKG)/usr/bin/lesspipe.sh
 	@chmod 755 $(LESS_PKG)/usr/bin/lesspipe.sh
+	# ======= Install Documentation =======
 	@if [ -d $(LESS_PKG)/usr/share/man ]; then \
 	  ( cd $(LESS_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \
@@ -131,11 +132,12 @@ $(install_target): $(build_target)
 	         $(LESS_PKG)/usr/share/doc/$(src_dir_name) \
 	 )
 	@chmod a-x $(LESS_PKG)/usr/share/doc/$(src_dir_name)/*
-	# Install the same to $(TARGET_DEST_DIR)
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(LESS_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	@(cd $(LESS_PKG); \
-	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null \
+	# ======= Strip binaries =======
+	@( cd $(LESS_PKG); \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null \
 	 )
 	@touch $@
 

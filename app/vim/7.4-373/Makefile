@@ -149,6 +149,7 @@ $(install_target): $(build_target)
 	   sed -i "/^endif \" has(\"autocmd\")/ r $(crontab_cmd_text)" vimrc.new ; \
 	   cat vimrc.new > $(VIM_PKG)/usr/share/vim/vimrc.new ; \
 	 )
+	# ======= Install Documentation =======
 	@if [ -d $(VIM_PKG)/usr/share/man ]; then \
 	  ( cd $(VIM_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \
@@ -179,8 +180,8 @@ $(install_target): $(build_target)
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(VIM_PKG) && cp -rf * $(TARGET_DEST_DIR)
 	# ======= Strip binaries =======
-	@(cd $(VIM_PKG); \
-	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null \
+	@( cd $(VIM_PKG); \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null \
 	 )
 	@touch $@
 

@@ -107,6 +107,7 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(LIBUSB_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	# ======= Install Documentation =======
 	@mkdir -p $(LIBUSB_PKG)/usr/doc/$(src_dir_name)
 	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/COPYING \
 	       $(LIBUSB_PKG)/usr/doc/$(src_dir_name)
@@ -122,26 +123,27 @@ $(install_target): $(build_target)
 	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \
 	 )
-	# remove toolchain path from target libtool *.la files and
+	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(LIBUSB_PKG)/usr/lib$(LIBSUFFIX) ; \
-	  sed -i "s,$(TARGET_DEST_DIR),,g" libusb-?.?.la  \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libusb-?.?.la  \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(LIBUSB_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	# tune libtool *.la search path to the target destination for development
+	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libusb-?.?.la ; \
-	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libusb-?.?.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libusb-?.?.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libusb-?.?.la \
 	 )
-	# tune pkg-config *.pc search path to the target destination for development
+	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libusb-?.?.pc \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libusb-?.?.pc \
 	 )
-	@(cd $(LIBUSB_PKG); \
-	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
+	# ======= Strip binaries =======
+	@( cd $(LIBUSB_PKG); \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
 	@touch $@
 

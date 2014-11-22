@@ -113,8 +113,9 @@ $(install_target): $(build_target)
 	@mkdir -p $(WHICH_PKG)/bin
 	@mv $(WHICH_PKG)/usr/bin/which $(WHICH_PKG)/bin
 	@( cd $(WHICH_PKG)/usr/bin ; \
-	  ln -sf ../../bin/which . ; \
+	   ln -sf ../../bin/which . ; \
 	 )
+	# ======= Install Documentation =======
 	@rm -f $(WHICH_PKG)/usr/share/info/dir
 	@gzip -9 $(WHICH_PKG)/usr/share/info/*
 	@if [ -d $(WHICH_PKG)/usr/share/man ]; then \

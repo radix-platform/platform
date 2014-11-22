@@ -104,6 +104,7 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(JFSUTILS_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	# ======= Install Documentation =======
 	@( cd $(JFSUTILS_PKG)/sbin  ; \
 	   rm -f fsck.jfs mkfs.jfs  ; \
 	   ln -sf jfs_fsck fsck.jfs ; \
@@ -145,8 +146,9 @@ $(install_target): $(build_target)
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(JFSUTILS_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	@(cd $(JFSUTILS_PKG); \
-	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	# ======= Strip binaries =======
+	@( cd $(JFSUTILS_PKG); \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )
 	@touch $@
 

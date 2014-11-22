@@ -106,6 +106,7 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(REISERFS_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	# ======= Install Documentation =======
 	@( cd $(REISERFS_PKG)/usr/share/man/man8 ; \
 	   ln -sf resize_reiserfs.8 resizefs.reiserfs.8 \
 	 )
@@ -140,8 +141,9 @@ $(install_target): $(build_target)
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(REISERFS_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	@(cd $(REISERFS_PKG); \
-	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	# ======= Strip binaries =======
+	@( cd $(REISERFS_PKG); \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )
 	@touch $@
 

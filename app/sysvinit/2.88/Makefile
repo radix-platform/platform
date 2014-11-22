@@ -124,9 +124,10 @@ $(install_target): $(build_target)
 	@( cd $(SYSVINIT_PKG)/usr/bin ; ln -sf last lastb )
 	@mv $(SYSVINIT_PKG)/sbin/init $(SYSVINIT_PKG)/sbin/init.new
 	@chmod 755 $(SYSVINIT_PKG)/sbin/init.new
-	# The version of 'powerd' is old. Now we have to use genpower.
+	# ======= The version of 'powerd' is old. Now we have to use genpower =======
 	@( cd $(SRC_DIR)/src ; cp initscript.sample $(SYSVINIT_PKG)/sbin/initscript.sample )
 	@mkdir -p $(SYSVINIT_PKG)/usr/doc/sysvinit-$(version)
+	# ======= Install Documentation =======
 	@( cd $(SRC_DIR) ; \
 	   cp -a COPYING* COPYRIGHT \
 	         $(SYSVINIT_PKG)/usr/doc/sysvinit-$(version) \
@@ -154,8 +155,9 @@ $(install_target): $(build_target)
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(SYSVINIT_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	@(cd $(SYSVINIT_PKG); \
-	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null \
+	# ======= Strip binaries =======
+	@( cd $(SYSVINIT_PKG); \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null \
 	 )
 	@touch $@
 

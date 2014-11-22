@@ -111,6 +111,7 @@ $(install_target): $(build_target)
 	@mkdir -p $(SED_PKG)/bin
 	@mv $(SED_PKG)/usr/bin/sed $(SED_PKG)/bin
 	@( cd $(SED_PKG)/usr/bin ; ln -sf ../../bin/sed . )
+	# ======= Install Documentation =======
 	@if [ -d $(SED_PKG)/usr/share/man ]; then \
 	  ( cd $(SED_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \
@@ -144,6 +145,7 @@ $(install_target): $(build_target)
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(SED_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	# ======= Strip binaries =======
 	@( cd $(SED_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )

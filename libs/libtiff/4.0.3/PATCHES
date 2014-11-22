@@ -1,0 +1,3 @@
+
+../../../sources/packages/l/libtiff/patches/libtiff-4.0.3.patch            -p0
+../../../sources/packages/l/libtiff/patches/libtiff-4.0.3-jpeg-turbo.patch -p0

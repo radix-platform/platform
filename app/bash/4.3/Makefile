@@ -123,6 +123,7 @@ $(install_target): $(build_target)
 	@mv $(BASH_PKG)/usr/bin/bash $(BASH_PKG)/bin/bash4.new
 	@rm -rf $(BASH_PKG)/usr/bin $(BASH_PKG)/usr/share/man/man1/bashbug.1
 	@mkdir -p $(BASH_PKG)/usr/bin
+	# ======= Install Documentation =======
 	@cp -a $(SRC_DIR)/doc/builtins.1 $(BASH_PKG)/usr/share/man/man1
 	@cp -a $(SRC_DIR)/doc/rbash.1 $(BASH_PKG)/usr/share/man/man1
 	@rm -f $(BASH_PKG)/usr/share/info/dir
@@ -156,15 +157,16 @@ $(install_target): $(build_target)
 	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \
 	 )
-	# Install the same to $(TARGET_DEST_DIR)
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(BASH_PKG) && cp -rf * $(TARGET_DEST_DIR)
 	@( cd $(TARGET_DEST_DIR) ; \
 	   mv bin/bash4.new bin/bash ; \
 	   ( cd usr/bin ; ln -sf ../../bin/bash bash ) \
 	 )
-	@(cd $(BASH_PKG); \
-	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null \
+	# ======= Strip binaries =======
+	@( cd $(BASH_PKG); \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null \
 	 )
 	@touch $@
 

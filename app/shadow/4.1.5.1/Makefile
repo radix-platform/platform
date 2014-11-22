@@ -109,7 +109,7 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(SHADOW_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
-	# /bin/groups is provided by coreutils
+	# ======= /bin/groups is provided by coreutils =======
 	@rm -f $(SHADOW_PKG)/bin/groups
 	@find $(SHADOW_PKG) -name groups.1 -exec rm {} \;
 	@mv $(SHADOW_PKG)/etc/login.access $(SHADOW_PKG)/etc/login.access.new
@@ -127,8 +127,9 @@ $(install_target): $(build_target)
 	   ln -s ../sbin/faillog ; \
 	   ln -s ../sbin/lastlog ; \
 	 )
-	# Use 4711 rather than 4755 permissions where setuid root is required:
+	# ======= Use 4711 rather than 4755 permissions where setuid root is required: =======
 	@find $(SHADOW_PKG) -type f -perm 4755 -exec chmod 4711 "{}" \;
+	# ======= Install Documentation =======
 	@if [ -d $(SHADOW_PKG)/usr/share/man ]; then \
 	  ( cd $(SHADOW_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \
@@ -160,8 +161,9 @@ $(install_target): $(build_target)
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(SHADOW_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	@(cd $(SHADOW_PKG); \
-	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null \
+	# ======= Strip binaries =======
+	@( cd $(SHADOW_PKG); \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null \
 	 )
 	@touch $@
 

@@ -113,13 +113,14 @@ $(install_target): $(build_target)
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(PCIUTILS32_PKG) && cp -arf * $(TARGET_DEST_DIR)
-	# tune pkg-config *.pc search path to the target destination of libpci and PCI device database
+	# ======= tune pkg-config *.pc search path to the target destination of libpci and PCI device database =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libpci.pc \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libpci.pc \
 	 )
-	@(cd $(PCIUTILS32_PKG); \
-	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	# ======= Strip binaries =======
+	@( cd $(PCIUTILS32_PKG); \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )
 	@touch $@
 

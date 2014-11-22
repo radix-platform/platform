@@ -150,6 +150,7 @@ endif
 	  rm -f $(COREUTILS_PKG)/bin/$$dupe $(COREUTILS_PKG)/usr/bin/$$dupe \
 	        $(COREUTILS_PKG)/usr/sbin/$$dupe $(COREUTILS_PKG)/usr/share/man/man?/$$dupe.* ; \
 	 done
+	# ======= Install Documentation =======
 	@rm -f $(COREUTILS_PKG)/usr/share/info/dir
 	@gzip -9 $(COREUTILS_PKG)/usr/share/info/*
 	@if [ -d $(COREUTILS_PKG)/usr/share/man ]; then \
@@ -183,9 +184,10 @@ endif
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(COREUTILS_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	@(cd $(COREUTILS_PKG); \
-	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	# ======= Strip binaries =======
+	@( cd $(COREUTILS_PKG); \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )
 	@touch $@
 

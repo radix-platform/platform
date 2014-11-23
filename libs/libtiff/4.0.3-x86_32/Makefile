@@ -15,6 +15,7 @@ SOURCE_REQUIRES    = sources/packages/l/libtiff
 REQUIRES           = libs/libtiff/4.0.3
 REQUIRES          += app/xz/5.0.5-x86_32
 REQUIRES          += libs/zlib/1.2.8-x86_32
+REQUIRES          += app/jbigkit/2.1-x86_32
 REQUIRES          += libs/libjpeg-turbo/1.3.1-x86_32
 
 

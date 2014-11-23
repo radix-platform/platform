@@ -69,7 +69,7 @@ ROOTFS_TARGETS   = $(pkg_archive)
 include ../../../build-system/core.mk
 
 
-CFLAGS += -W -Wall -Wno-unused-result -I../libjbig
+CFLAGS += -fPIC -W -Wall -Wno-unused-result -I../libjbig
 
 
 ####### Dependencies

@@ -21,6 +21,7 @@ SOURCE_REQUIRES    = sources/packages/l/libtiff
 REQUIRES           = dev/gcc/4.9.1
 REQUIRES          += app/xz/5.0.5
 REQUIRES          += libs/zlib/1.2.8
+REQUIRES          += app/jbigkit/2.1
 REQUIRES          += libs/libjpeg-turbo/1.3.1
 
 
@@ -143,6 +144,7 @@ $(install_target): $(build_target)
 	@( cd $(LIBTIFF_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libtiff.la libtiffxx.la ; \
 	 )
+	exit 1
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(LIBTIFF_PKG) && cp -rf * $(TARGET_DEST_DIR)

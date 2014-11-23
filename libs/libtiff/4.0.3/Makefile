@@ -144,7 +144,6 @@ $(install_target): $(build_target)
 	@( cd $(LIBTIFF_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libtiff.la libtiffxx.la ; \
 	 )
-	exit 1
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(LIBTIFF_PKG) && cp -rf * $(TARGET_DEST_DIR)

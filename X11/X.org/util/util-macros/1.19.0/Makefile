@@ -18,7 +18,7 @@ include ../../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/X.org/util/util-macros
 
-REQUIRES           = base/pkgtool
+REQUIRES           = libs/eglibc/2.19.1
 
 
 version            = 1.19.0

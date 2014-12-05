@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+                   |-----handy-ruler------------------------------------------------------|
+xcb-util-renderutil: xcb-util-renderutil @VERSION@ (XCB renderutil library)
+xcb-util-renderutil:
+xcb-util-renderutil: xcb-util-renderutil is part of X11.
+xcb-util-renderutil:
+xcb-util-renderutil: For more information about the X.Org Foundation (the providers
+xcb-util-renderutil: of the X.Org implementation of the X Window System).
+xcb-util-renderutil:
+xcb-util-renderutil: See: http://www.x.org
+xcb-util-renderutil:
+xcb-util-renderutil:
+xcb-util-renderutil:

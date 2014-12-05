@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+            |-----handy-ruler------------------------------------------------------|
+xbitmaps-x32: xbitmaps-x32 @VERSION@ (x86_32 miscellaneous X bitmap files)
+xbitmaps-x32:
+xbitmaps-x32: xbitmaps is part of X11.
+xbitmaps-x32:
+xbitmaps-x32: For more information about the X.Org Foundation (the providers
+xbitmaps-x32: of the X.Org implementation of the X Window System).
+xbitmaps-x32:
+xbitmaps-x32: See: http://www.x.org
+xbitmaps-x32:
+xbitmaps-x32:
+xbitmaps-x32:

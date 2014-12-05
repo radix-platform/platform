@@ -20,7 +20,7 @@ include ../../build-system/constants.mk
 #######
 
 ifeq ($(HARDWARE),$(HARDWARE_OMAP5UEVM))
-REQUIRES  = hal/3pp/omap/wl18xx_fw/8.8.10
+REQUIRES  = hal/drivers/omap543x/wl18xx_fw/8.8.10
 REQUIRES += boot/u-boot/omap543x/2013.04-20140216
 endif
 
@@ -512,6 +512,10 @@ REQUIRES += libs/libxml2/2.9.1
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/libxml2/2.9.1-x86_32
 endif
+REQUIRES += libs/libxslt/1.1.28
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libxslt/1.1.28-x86_32
+endif
 REQUIRES += libs/libarchive/3.1.2
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/libarchive/3.1.2-x86_32
@@ -572,6 +576,11 @@ REQUIRES += libs/libtiff/4.0.3
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/libtiff/4.0.3-x86_32
 endif
+REQUIRES += libs/icu4c/54.1
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/icu4c/54.1-x86_32
+endif
+
 REQUIRES += libs/freetype/2.5.3
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/freetype/2.5.3-x86_32
@@ -720,6 +729,16 @@ REQUIRES += app/bin/4.4
 # It would be better to build 'btrfs' after gd, png, jpeg, freetype (when its will be ready)
 #
 REQUIRES += app/btrfs-progs/3.16
+
+
+#######
+####### DocBook & Linux DOC packages:
+#######
+# REQUIRES += share/sgml-common/0.6.3
+# REQUIRES += share/docbook-xml/4.5
+# REQUIRES += share/docbook-xsl/1.78.1
+REQUIRES += app/xmlto/0.0.26
+
 
 
 #######

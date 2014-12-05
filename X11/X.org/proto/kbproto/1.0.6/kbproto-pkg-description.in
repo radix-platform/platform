@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+       |-----handy-ruler------------------------------------------------------|
+kbproto: kbproto @VERSION@ (X11 Keyboard PROTO)
+kbproto:
+kbproto: kbproto is part of X11.
+kbproto:
+kbproto: For more information about the X.Org Foundation (the providers
+kbproto: of the X.Org implementation of the X Window System).
+kbproto:
+kbproto: See: http://www.x.org
+kbproto:
+kbproto:
+kbproto:

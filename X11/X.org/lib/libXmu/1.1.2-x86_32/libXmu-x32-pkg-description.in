@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+          |-----handy-ruler------------------------------------------------------|
+libXmu-x32: libXmu-x32 @VERSION@ (x86_32 X miscellaneous utility library)
+libXmu-x32:
+libXmu-x32: libXmu is part of X11.
+libXmu-x32:
+libXmu-x32: For more information about the X.Org Foundation (the providers
+libXmu-x32: of the X.Org implementation of the X Window System).
+libXmu-x32:
+libXmu-x32: See: http://www.x.org
+libXmu-x32:
+libXmu-x32:
+libXmu-x32:

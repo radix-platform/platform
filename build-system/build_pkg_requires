@@ -50,18 +50,18 @@ sub read_requires
     {
       my @p;
 
-      $requires{"$1"} = \@p;
+      $requires{"$d"} = \@p;
 
       @n = split / +/, $3;
-      push( @{ $requires{"$1"} }, @n );
+      push( @{ $requires{"$d"} }, @n );
     }
     $makefile = `cat $file_name`;
     while( $makefile =~ m/^ *([_A-Za-z]*[_A-Za-z0-9]*)$version(.+= +)(.+)/gm )
     {
       @v = split / +/, $3;
-      if( $requires{"$1"} )
+      if( $requires{"$d"} )
       {
-         push( @{ $requires{"$1"} }, @v );
+         push( @{ $requires{"$d"} }, @v );
       }
     }
   }

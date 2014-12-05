@@ -21,6 +21,7 @@ SOURCE_REQUIRES    = sources/packages/l/freetype
 REQUIRES           = app/bzip2/1.0.6
 REQUIRES          += libs/zlib/1.2.8
 REQUIRES          += libs/libpng/libpng14/1.4.13
+REQUIRES          += libs/harfbuzz/0.9.36
 
 
 version            = 2.5.3
@@ -35,6 +36,9 @@ PATCHES = PATCHES
 build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
+
+
+SKIP_PACKAGE_REQUIRES = yes
 
 
 ####### Targets
@@ -85,7 +89,7 @@ extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
-extra_configure_switches += --without-harfbuzz
+extra_configure_switches += --with-harfbuzz=yes
 extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --enable-static=yes
 

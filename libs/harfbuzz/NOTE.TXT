@@ -1,0 +1,7 @@
+
+The 'harfbuzz' package in this directory  has been created to resolve ring in the
+requires tree. The 'freetype' requires 'harfbuzz' and here we create 'harfbuzz'
+package which configured to be enought for 'freetype' functionality reqired by
+'Xft', 'Xfont'. When we create 'ghostscript', 'librsvg', 'gtk2+',  ...  we will
+build the final 'X11/libs/cairo' and then 'X11/libs/harfbuzz' for installation
+to the root file system.

@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+         |-----handy-ruler------------------------------------------------------|
+cairo-x32: cairo-x32 @VERSION@ (x86_32 graphics library used by GTK+)
+cairo-x32:
+cairo-x32: Cairo is a vector graphics library designed to provide high-quality
+cairo-x32: display and print output. Cairo is designed to produce identical
+cairo-x32: output on all output media while taking advantage of display
+cairo-x32: hardware acceleration when available (eg. through the X Render
+cairo-x32: Extension or OpenGL).
+cairo-x32:
+cairo-x32:
+cairo-x32:
+cairo-x32:

@@ -347,7 +347,7 @@ BUILD_ENVIRONMENT += LDFLAGS="$(LDFLAGS)"
 #
 #  PKG_CONFIG_PATH - directories to add to pkg-config's search path
 #
-PKG_CONFIG_PATH    = $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig
+PKG_CONFIG_PATH    = $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig:$(TARGET_DEST_DIR)/usr/share/pkgconfig
 
 BUILD_ENVIRONMENT += PKG_CONFIG_PATH="$(PKG_CONFIG_PATH)"
 
@@ -385,7 +385,7 @@ LDFLAGS          = -L$(TARGET_DEST_DIR)/lib$(MULTILIB_X86_32_SUFFIX)
 LDFLAGS         += -L$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)
 endif
 
-PKG_CONFIG_PATH  = $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig
+PKG_CONFIG_PATH  = $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig:$(TARGET_DEST_DIR)/usr/share/pkgconfig
 
 ARCH_FLAGS       = -m32 -march=i486 -mtune=i686
 
@@ -393,8 +393,6 @@ TARGET32         = $(shell echo $(TARGET) | sed 's/x86_64/i486/')
 
 endif
 endif
-
-
 
 
 

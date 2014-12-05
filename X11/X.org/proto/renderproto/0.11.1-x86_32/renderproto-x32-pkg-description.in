@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+               |-----handy-ruler------------------------------------------------------|
+renderproto-x32: renderproto-x32 @VERSION@ (x86_32 X11 Rendering PROTO)
+renderproto-x32:
+renderproto-x32: renderproto is part of X11.
+renderproto-x32:
+renderproto-x32: For more information about the X.Org Foundation (the providers
+renderproto-x32: of the X.Org implementation of the X Window System).
+renderproto-x32:
+renderproto-x32: See: http://www.x.org
+renderproto-x32:
+renderproto-x32:
+renderproto-x32:

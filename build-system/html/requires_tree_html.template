@@ -248,7 +248,7 @@ div.tooltip {
 </div> <!-- "front_wrapper" -->
 
 <script type="text/javascript">
-  var margin = {top: 20, right: 120, bottom: 20, left: 160},
+  var margin = {top: 20, right: 120, bottom: 20, left: 220},
       width = @SVG_WIDTH@ - margin.right - margin.left,
       height = @SVG_HEIGHT@ - margin.top - margin.bottom;
 
@@ -296,7 +296,7 @@ div.tooltip {
         links = tree.links(nodes);
 
     /* Normalize for fixed-depth. */
-    nodes.forEach(function(d) { d.y = d.depth * 160; });
+    nodes.forEach(function(d) { d.y = d.depth * 180; });
 
     /* Update the nodes . . . */
     var node = svg.selectAll("g.node")

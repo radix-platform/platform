@@ -12,7 +12,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/libcap
 
-REQUIRES           = libs/libcap/2.24
+REQUIRES           = secure/libcap/2.24
 REQUIRES          += app/attr/2.4.47-x86_32
 REQUIRES          += secure/pam/1.1.8-x86_32
 

@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+                  |-----handy-ruler------------------------------------------------------|
+xorg-sgml-doctools: xorg-sgml-doctools @VERSION@ (X.org documentation tools)
+xorg-sgml-doctools:
+xorg-sgml-doctools: This package provides a common set of SGML entities and XML/CSS
+xorg-sgml-doctools: style sheets used in building/formatting the documentation provided
+xorg-sgml-doctools: in other X.Org packages. It's typically only needed by people
+xorg-sgml-doctools: building from source who want to produce formatted documentation
+xorg-sgml-doctools: from their builds, or those who have installed the HTML version
+xorg-sgml-doctools: of the documentation, which refers to the included common xorg.css
+xorg-sgml-doctools: stylesheet.
+xorg-sgml-doctools:
+xorg-sgml-doctools:

@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+                 |-----handy-ruler------------------------------------------------------|
+libomxil-bellagio: libomxil-bellagio @VERSION@ (Khronos OpenMAX IL API)
+libomxil-bellagio:
+libomxil-bellagio: Bellagio is an opensource implementation of the Khronos OpenMAX
+libomxil-bellagio: Integration Layer API to access multimedia components.
+libomxil-bellagio:
+libomxil-bellagio: Homepage: http://omxil.sourceforge.net
+libomxil-bellagio:
+libomxil-bellagio:
+libomxil-bellagio:
+libomxil-bellagio:
+libomxil-bellagio:

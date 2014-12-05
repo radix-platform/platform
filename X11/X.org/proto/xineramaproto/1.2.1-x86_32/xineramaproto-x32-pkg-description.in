@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+                 |-----handy-ruler------------------------------------------------------|
+xineramaproto-x32: xineramaproto-x32 @VERSION@ (x86_32 X11 Xinerama PROTO)
+xineramaproto-x32:
+xineramaproto-x32: xineramaproto is part of X11.
+xineramaproto-x32:
+xineramaproto-x32: For more information about the X.Org Foundation (the providers
+xineramaproto-x32: of the X.Org implementation of the X Window System).
+xineramaproto-x32:
+xineramaproto-x32: See: http://www.x.org
+xineramaproto-x32:
+xineramaproto-x32:
+xineramaproto-x32:

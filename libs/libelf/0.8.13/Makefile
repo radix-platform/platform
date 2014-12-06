@@ -117,7 +117,7 @@ $(install_target): $(build_target)
 	@( cd $(SRC_DIR) ; \
 	   cp -a COPYING* INSTALL \
 	         MANIFEST README VERSION \
-	         $(LIBELF_PKG)/usr/share/doc/$(src_dir_name)
+	         $(LIBELF_PKG)/usr/share/doc/$(src_dir_name) \
 	 )
 	@( cd $(SRC_DIR) ; \
 	   if [ -r ChangeLog ]; then \

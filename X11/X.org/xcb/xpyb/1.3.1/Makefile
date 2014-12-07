@@ -19,6 +19,7 @@ include ../../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/X.org/xcb/xpyb
 
 REQUIRES           = X11/X.org/xcb/libxcb/1.11
+REQUIRES          += dev/python2/2.7.6
 
 
 version            = 1.3.1

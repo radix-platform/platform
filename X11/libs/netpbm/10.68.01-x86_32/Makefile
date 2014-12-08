@@ -13,7 +13,7 @@ include ../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/netpbm
 SOURCE_REQUIRES   += sources/packages/l/netpbm-doc
 
-REQUIRES           = libs/netpbm/10.68.01
+REQUIRES           = X11/libs/netpbm/10.68.01
 REQUIRES          += libs/zlib/1.2.8-x86_32
 REQUIRES          += app/xz/5.0.5-x86_32
 REQUIRES          += libs/libxml2/2.9.1-x86_32

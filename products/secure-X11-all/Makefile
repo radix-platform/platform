@@ -1009,6 +1009,21 @@ REQUIRES += X11/libs/netpbm/10.68.01
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += X11/libs/netpbm/10.68.01-x86_32
 endif
+REQUIRES += X11/app/dbus-x11-launch/1.8.10
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += X11/app/dbus-x11-launch/1.8.10-x86_32
+endif
+
+
+REQUIRES += X11/X.org/lib/libXft/2.3.2
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += X11/X.org/lib/libXft/2.3.2-x86_32
+endif
+
+REQUIRES += X11/X.org/lib/libXfont/1.5.0
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += X11/X.org/lib/libXfont/1.5.0-x86_32
+endif
 
 
 

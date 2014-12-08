@@ -141,9 +141,7 @@ extra_configure_switches += --enable-osmesa
 extra_configure_switches += --with-clang-libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
 
 
-# see TODO below:
-#environment  = LLVM_CONFIG=$(TARGET_DEST_DIR)/usr/bin/32/llvm-config-host
-environment  = LLVM_CONFIG=$(TARGET_DEST_DIR)/usr/bin/llvm-config-host
+environment  = LLVM_CONFIG=$(TARGET_DEST_DIR)/usr/bin/32/llvm-config-host
 environment += WAYLAND_SCANNER=$(TARGET_DEST_DIR)/usr/bin/$(TARGET)-wayland-scanner
 
 
@@ -165,20 +163,6 @@ $(build_target): $(src_done)
 	  --build=$(BUILD)            \
 	  --host=$(TARGET32)          \
 	  $(extra_configure_switches)
-	# ======= Fix LLVM libdir =======
-	#
-	# TODO:
-	# ====
-	#   Fix LLVM x86_32: llvm-config-host has prefix=/usr/bin instead of /usr
-	#                    and llvm-config-host --ldflags -> /usr/bin/lib32 !!!
-	#
-	#
-	@( cd $(build_dir) ; \
-	   for file in `find . -type f -name "Makefile"` ; do \
-	     sed -i "s,^\(LLVM_LDFLAGS =\).*,\1 -L$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)," $$file ; \
-	     sed -i "s,^\(LLVM_LIBDIR =\).*,\1 $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX),"    $$file ; \
-	   done ; \
-	 )
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
 	@touch $@
 

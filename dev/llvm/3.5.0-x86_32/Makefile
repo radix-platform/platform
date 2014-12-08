@@ -142,6 +142,10 @@ $(build_target): $(src_done)
 	     tools/clang/lib/Frontend/CompilerInvocation.cpp ; \
 	   sed -i "s|\"lib\"|\"lib$(MULTILIB_X86_32_SUFFIX)\"|" \
 	     tools/clang/lib/Driver/Tools.cpp ; \
+	   sed -i "s|ActivePrefix = CurrentExecPrefix|ActivePrefix = sys::path::parent_path\(CurrentExecPrefix\).str\(\)|g" \
+	     tools/llvm-config/llvm-config.cpp ; \
+	   sed -i "s|ActiveBinDir = ActivePrefix + \"/bin\"|ActiveBinDir = ActivePrefix + \"/bin/32\"|g" \
+	     tools/llvm-config/llvm-config.cpp ; \
 	   sed -i "s|ActiveLibDir = ActivePrefix + \"/lib\"|ActiveLibDir = ActivePrefix + \"/lib$(MULTILIB_X86_32_SUFFIX)\"|g" \
 	     tools/llvm-config/llvm-config.cpp ; \
 	 )
@@ -203,6 +207,8 @@ $(install_target): $(build_target)
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(LLVM_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	# ======= Remove llvm-config-host from target package =======
+	@rm -f $(LLVM_32_PKG)/usr/bin/32/llvm-config-host
 	# ======= Strip Binaries =======
 	@( cd $(LLVM_32_PKG); \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \

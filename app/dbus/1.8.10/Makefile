@@ -136,6 +136,11 @@ $(install_target): $(build_target)
 	@rm -f $(DBUS_PKG)/etc/rc.d/*
 	@cat $(rc_messagebus) > $(DBUS_PKG)/etc/rc.d/rc.messagebus.new
 	@chmod 0755 $(DBUS_PKG)/etc/rc.d/rc.messagebus.new
+	# ======= Rename dbus-launch =======
+	@( cd $(DBUS_PKG)/usr/bin ; \
+	   mv dbus-launch dbus-no-x-launch ; \
+	   ln -sf dbus-no-x-launch dbus-launch ; \
+	 )
 	# ======= Install Documentation =======
 	@if [ -d $(DBUS_PKG)/usr/share/man ]; then \
 	  ( cd $(DBUS_PKG)/usr/share/man ; \

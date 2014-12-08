@@ -131,6 +131,11 @@ $(install_target): $(build_target)
 	@( cd $(DBUS_32_PKG)/usr/bin ; \
 	   find . -type f | xargs mv -t 32 ; \
 	 )
+	# ======= Rename dbus-launch =======
+	@( cd $(DBUS_32_PKG)/usr/bin/32 ; \
+	   mv dbus-launch dbus-no-x-launch ; \
+	   ln -sf dbus-no-x-launch dbus-launch ; \
+	 )
 	@rm -rf $(DBUS_32_PKG)/etc
 	@rm -rf $(DBUS_32_PKG)/usr/include
 	@rm -rf $(DBUS_32_PKG)/usr/libexec

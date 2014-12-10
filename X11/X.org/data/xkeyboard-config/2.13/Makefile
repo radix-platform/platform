@@ -112,6 +112,10 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(XORG_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@mkdir $(XORG_PKG)/usr/share/X11
+	@( cd $(XORG_PKG)/usr/share/X11  ; \
+	   ln -sf ../../../etc/X11/xkb . ; \
+	 )
 	# ======= Install Documentation =======
 	@if [ -d $(XORG_PKG)/usr/share/man ]; then \
 	  ( cd $(XORG_PKG)/usr/share/man ; \

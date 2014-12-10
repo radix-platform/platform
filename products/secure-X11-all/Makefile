@@ -745,9 +745,19 @@ endif
 REQUIRES += app/xmlto/0.0.26
 
 
+
+
 #######
 ####### X11 X.org packages:
 #######
+
+
+#######
+####### X.org doc (first):
+#######
+REQUIRES += X11/X.org/doc/xorg-sgml-doctools/1.11
+
+
 REQUIRES += X11/X.org/proto-headers
 REQUIRES += X11/X.org/util/makedepend/1.0.5
 REQUIRES += X11/X.org/util/gccmakedep/1.0.3
@@ -1026,13 +1036,17 @@ REQUIRES += X11/X.org/lib/libXfont/1.5.0-x86_32
 endif
 
 
+#######
+####### X.org applications:
+#######
+REQUIRES += X11/X.org/app-collection
 
 
 
 #######
-####### X.org doc:
+####### X.org doc (last):
 #######
-REQUIRES += X11/X.org/doc/xorg-sgml-doctools/1.11
+#REQUIRES += X11/X.org/doc/xorg-docs/1.7
 
 
 

@@ -1041,6 +1041,8 @@ endif
 #######
 REQUIRES += X11/X.org/app-collection
 
+REQUIRES += X11/X.org/app/xdm/1.1.11
+
 
 
 #######

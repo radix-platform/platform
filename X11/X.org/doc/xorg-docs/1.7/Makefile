@@ -18,7 +18,8 @@ include ../../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/X.org/doc/xorg-docs
 
-REQUIRES          += X11/X.org/doc/xorg-sgml-doctools/1.11
+REQUIRES           = X11/X.org/doc/xorg-sgml-doctools/1.11
+REQUIRES          += X11/X.org/xserver/xorg-server/1.16.2
 
 
 version            = 1.7

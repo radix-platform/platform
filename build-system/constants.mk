@@ -13,6 +13,9 @@ SYSTEM_VERSION       = 0.0.1
 DISTRO_NAME          = radix
 #DISTRO_NAME          = luxoft
 
+DISTRO_CAPTION       = Radix
+#DISTRO_CAPTION       = Luxoft
+
 DISTRO_VERSION       = 1.0
 
 BUG_URL              = http://www.radix.pro

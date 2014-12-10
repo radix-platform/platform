@@ -1053,9 +1053,20 @@ REQUIRES += X11/X.org/font/font-util/1.3.0
 
 
 #######
+####### X.org server:
+#######
+REQUIRES += X11/X.org/xserver/xorg-server/1.16.2
+
+
+#######
+####### X.org drivers:
+#######
+
+
+#######
 ####### X.org doc (last):
 #######
-#REQUIRES += X11/X.org/doc/xorg-docs/1.7
+REQUIRES += X11/X.org/doc/xorg-docs/1.7
 
 
 

@@ -18,7 +18,7 @@ include ../../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/X.org/app/xwininfo
 
-REQUIRES           = X11/X.org/xcb/libxcb/1.11
+REQUIRES           = X11/X.org/lib/libX11/1.6.2
 
 
 version            = 1.1.3

@@ -53,7 +53,7 @@ LIBDRM_PKG_ARCH                = $(TOOLCHAIN)
 LIBDRM_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBDRM_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 LIBDRM_PKG_GROUP               = $(PKG_GROUP)
-###                              |---handy-ruler-------------------------------|
+###                             |---handy-ruler-------------------------------|
 LIBDRM_PKG_SHORT_DESCRIPTION   = Direct Rendering library
 LIBDRM_PKG_URL                 = $(BUG_URL)
 LIBDRM_PKG_LICENSE             = custom
@@ -61,7 +61,7 @@ LIBDRM_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBDRM_PKG_NAME)-pkg-desc
 LIBDRM_PKG_DESCRIPTION_FILE_IN = $(LIBDRM_PKG_NAME)-pkg-description.in
 LIBDRM_PKG_INSTALL_SCRIPT      = $(LIBDRM_PKG_NAME)-pkg-install.sh
 
-LIBDRM_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBDRM_PKG_NAME)-package
+LIBDRM_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBDRM_PKG_NAME)-package
 
 pkg_basename     = $(LIBDRM_PKG_NAME)-$(LIBDRM_PKG_VERSION)-$(LIBDRM_PKG_ARCH)-$(LIBDRM_PKG_DISTRO_NAME)-$(LIBDRM_PKG_DISTRO_VERSION)
 

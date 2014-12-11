@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+         |-----handy-ruler------------------------------------------------------|
+mtdev-x32: mtdev-x32 @VERSION@ (x86_32 Multitouch Protocol Translation Library)
+mtdev-x32:
+mtdev-x32: The mtdev is a stand-alone library which transforms all variants of
+mtdev-x32: kernel MT events to the slotted type B protocol. The events put into
+mtdev-x32: mtdev may be from any MT device, specifically type A without contact
+mtdev-x32: tracking, type A with contact tracking, or type B with contact
+mtdev-x32: tracking. See the kernel documentation for further details.
+mtdev-x32:
+mtdev-x32:
+mtdev-x32:
+mtdev-x32:

@@ -1053,14 +1053,43 @@ REQUIRES += X11/X.org/font/font-util/1.3.0
 
 
 #######
+####### Xwayland support:
+#######
+REQUIRES += X11/libs/libepoxy/1.2
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += X11/libs/libepoxy/1.2-x86_32
+endif
+
+#######
+####### weston support:
+#######
+REQUIRES += X11/libs/libinput/0.7.0
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += X11/libs/libinput/0.7.0-x86_32
+endif
+
+
+#######
 ####### X.org server:
 #######
 REQUIRES += X11/X.org/xserver/xorg-server/1.16.2
 
 
+REQUIRES += X11/libs/libevdev/1.3.2
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += X11/libs/libevdev/1.3.2-x86_32
+endif
+REQUIRES += X11/libs/mtdev/1.1.5
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += X11/libs/mtdev/1.1.5-x86_32
+endif
+
+
 #######
 ####### X.org drivers:
 #######
+REQUIRES += X11/X.org/driver-input
+
 
 
 #######

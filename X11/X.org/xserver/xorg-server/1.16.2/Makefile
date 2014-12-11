@@ -54,6 +54,8 @@ REQUIRES          += X11/X.org/xcb/xcb-util-wm/0.4.1
 
 REQUIRES          += X11/libs/libdrm/2.4.58
 REQUIRES          += X11/libs/mesa/10.3.4
+REQUIRES          += X11/libs/libepoxy/1.2
+REQUIRES          += Wayland/wayland/1.6.0
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64) $(HARDWARE_PC32)),)
 REQUIRES          += X11/X.org/lib/libpciaccess/0.13.2
@@ -126,6 +128,7 @@ BUILD_SERVERS  = --enable-xorg
 BUILD_SERVERS += --enable-dmx
 BUILD_SERVERS += --enable-xvfb
 BUILD_SERVERS += --enable-xnest
+BUILD_SERVERS += --enable-xwayland
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64) $(HARDWARE_PC32)),)
 BUILD_SERVERS += --enable-kdrive
 BUILD_SERVERS += --enable-xephyr

@@ -16,16 +16,19 @@ COMPONENT_IS_3PP   = true
 include ../../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/X.org/app/xkbcomp
+SOURCE_REQUIRES    = sources/X.org/driver/xf86-input-evdev
 
-REQUIRES           = X11/X.org/lib/libxkbfile/1.0.8
+REQUIRES           = X11/X.org/xserver/xorg-server/1.16.2
+REQUIRES          += libs/eudev/1.9
+REQUIRES          += X11/libs/libevdev/1.3.2
+REQUIRES          += X11/libs/mtdev/1.1.5
 
 
-version            = 1.3.0
-tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/xkbcomp/xkbcomp-$(version).tar.bz2
+version            = 2.9.0
+tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/driver/xf86-input-evdev/xf86-input-evdev-$(version).tar.bz2
 SRC_ARCHIVE        = $(tar_bz2_archive)
-SRC_DIR            = $(TARGET_BUILD_DIR)/xkbcomp-$(version)
-src_dir_name       = xkbcomp-$(version)
+SRC_DIR            = $(TARGET_BUILD_DIR)/xf86-input-evdev-$(version)
+src_dir_name       = xf86-input-evdev-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
@@ -42,14 +45,14 @@ PKG_GROUP = xorg
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-XORG_PKG_NAME                = xkbcomp
-XORG_PKG_VERSION             = 1.3.0
+XORG_PKG_NAME                = xf86-input-evdev
+XORG_PKG_VERSION             = 2.9.0
 XORG_PKG_ARCH                = $(TOOLCHAIN)
 XORG_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 XORG_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 XORG_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
-XORG_PKG_SHORT_DESCRIPTION   = X keymap compiler
+XORG_PKG_SHORT_DESCRIPTION   = Generic Linux input driver
 XORG_PKG_URL                 = $(BUG_URL)
 XORG_PKG_LICENSE             = custom
 XORG_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(XORG_PKG_NAME)-pkg-description
@@ -86,7 +89,10 @@ extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var
 
-extra_configure_switches += --with-xkb-config-root=/etc/X11/xkb
+extra_configure_switches += --with-sdkdir=/usr/include/xorg
+
+extra_configure_switches += --enable-shared=yes
+extra_configure_switches += --enable-static=no
 
 
 ####### Dependencies
@@ -142,16 +148,26 @@ $(install_target): $(build_target)
 	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \
 	 )
+	# ======= remove toolchain path from target libtool *.la files =======
+	@( cd $(XORG_PKG)/usr/lib$(LIBSUFFIX)/xorg/modules/input ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" evdev_drv.la \
+	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(XORG_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	# ======= tune libtool *.la search path to the target destination for development =======
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/xorg/modules/input ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" evdev_drv.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" evdev_drv.la \
+	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" xkbcomp.pc \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" xorg-evdev.pc; \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(XORG_PKG); \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )
 	@touch $@
 

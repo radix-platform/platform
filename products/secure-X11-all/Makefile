@@ -1099,6 +1099,16 @@ REQUIRES += X11/X.org/driver-video
 REQUIRES += X11/X.org/doc/xorg-docs/1.7
 
 
+#######
+####### X applications:
+#######
+REQUIRES += X11/app/xterm/313
+
+#######
+####### X fonts:
+#######
+REQUIRES += X11/font/dejavu-fonts-ttf/2.34
+
 
 #######
 ####### Additional DEV packages:

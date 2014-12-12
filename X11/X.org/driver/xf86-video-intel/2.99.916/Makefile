@@ -1,12 +1,6 @@
 
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
-COMPONENT_TARGETS += $(HARDWARE_CB1X)
-COMPONENT_TARGETS += $(HARDWARE_CB2X)
-COMPONENT_TARGETS += $(HARDWARE_VIP1830)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
-COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
 
 
 NEED_ABS_PATH      = true
@@ -16,20 +10,20 @@ COMPONENT_IS_3PP   = true
 include ../../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/X.org/driver/xf86-input-synaptics
+SOURCE_REQUIRES    = sources/X.org/driver/xf86-video-intel
 
 REQUIRES           = X11/X.org/xserver/xorg-server/1.16.2
-REQUIRES          += X11/libs/libevdev/1.3.2
+REQUIRES          += X11/X.org/lib/libXinerama/1.1.3
+REQUIRES          += X11/X.org/lib/libXtst/1.2.2
+REQUIRES          += X11/X.org/lib/libXvMC/1.0.8
 
 
-version            = 1.8.1
-tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/driver/xf86-input-synaptics/xf86-input-synaptics-$(version).tar.bz2
+version            = 2.99.916
+tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/driver/xf86-video-intel/xf86-video-intel-$(version).tar.bz2
 SRC_ARCHIVE        = $(tar_bz2_archive)
-SRC_DIR            = $(TARGET_BUILD_DIR)/xf86-input-synaptics-$(version)
-src_dir_name       = xf86-input-synaptics-$(version)
+SRC_DIR            = $(TARGET_BUILD_DIR)/xf86-video-intel-$(version)
+src_dir_name       = xf86-video-intel-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
-
-conf_d_file        = $(CURDIR)/conf/50-synaptics.conf
 
 PATCHES = PATCHES
 
@@ -45,14 +39,14 @@ PKG_GROUP = xorg
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-XORG_PKG_NAME                = xf86-input-synaptics
-XORG_PKG_VERSION             = 1.8.1
+XORG_PKG_NAME                = xf86-video-intel
+XORG_PKG_VERSION             = 2.99.916
 XORG_PKG_ARCH                = $(TOOLCHAIN)
 XORG_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 XORG_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 XORG_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
-XORG_PKG_SHORT_DESCRIPTION   = Synaptics touchpad driver
+XORG_PKG_SHORT_DESCRIPTION   = Intel graphics video driver
 XORG_PKG_URL                 = $(BUG_URL)
 XORG_PKG_LICENSE             = custom
 XORG_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(XORG_PKG_NAME)-pkg-description
@@ -88,10 +82,6 @@ extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var
-
-extra_configure_switches += --with-sdkdir=/usr/include/xorg
-extra_configure_switches += --with-xorg-conf-dir=/usr/share/X11/xorg.conf.d
-
 extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --enable-static=no
 
@@ -117,7 +107,6 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(XORG_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
-	@cp -a $(conf_d_file) $(XORG_PKG)/usr/share/X11/xorg.conf.d/50-synaptics.conf
 	# ======= Install Documentation =======
 	@if [ -d $(XORG_PKG)/usr/share/man ]; then \
 	  ( cd $(XORG_PKG)/usr/share/man ; \
@@ -133,14 +122,12 @@ $(install_target): $(build_target)
 	  ) \
 	 fi
 	@mkdir -p $(XORG_PKG)/usr/doc/$(src_dir_name)
-	@cp -a $(SRC_DIR)/COPYING \
+	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/COPYING \
 	       $(XORG_PKG)/usr/doc/$(src_dir_name)
-	@mkdir -p $(XORG_PKG)/usr/share/doc/$(src_dir_name)/conf
+	@mkdir -p $(XORG_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a COPYING INSTALL README \
-	         $(XORG_PKG)/usr/share/doc/$(src_dir_name) ; \
-	   cp -a conf/*.{conf,fdi} \
-	         $(XORG_PKG)/usr/share/doc/$(src_dir_name)/conf ; \
+	   cp -a AUTHORS COPYING INSTALL NEWS README \
+	         $(XORG_PKG)/usr/share/doc/$(src_dir_name) \
 	 )
 	@( cd $(XORG_PKG)/usr/share/doc ; \
 	   ln -sf $(src_dir_name) $(XORG_PKG_NAME) ; \
@@ -153,20 +140,23 @@ $(install_target): $(build_target)
 	   fi \
 	 )
 	# ======= remove toolchain path from target libtool *.la files =======
-	@( cd $(XORG_PKG)/usr/lib$(LIBSUFFIX)/xorg/modules/input ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" synaptics_drv.la \
+	@( cd $(XORG_PKG)/usr/lib$(LIBSUFFIX)/xorg/modules/drivers ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" intel_drv.la \
+	 )
+	@( cd $(XORG_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libI810XvMC.la libIntelXvMC.la \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(XORG_PKG) && cp -rf * $(TARGET_DEST_DIR)
 	# ======= tune libtool *.la search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/xorg/modules/input ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" synaptics_drv.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" synaptics_drv.la \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/xorg/modules/drivers ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" intel_drv.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" intel_drv.la \
 	 )
-	# ======= tune pkg-config *.pc search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" xorg-synaptics.pc; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libI810XvMC.la libIntelXvMC.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libI810XvMC.la libIntelXvMC.la \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(XORG_PKG); \

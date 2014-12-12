@@ -1089,6 +1089,7 @@ endif
 ####### X.org drivers:
 #######
 REQUIRES += X11/X.org/driver-input
+REQUIRES += X11/X.org/driver-video
 
 
 

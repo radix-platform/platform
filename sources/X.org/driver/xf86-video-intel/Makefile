@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/driver/xf86-video-intel
 
-versions    = 2.21.15
+versions    = 2.99.911 2.99.916
 pkgname     = xf86-video-intel
 suffix      = tar.bz2
 

@@ -1109,6 +1109,12 @@ REQUIRES += X11/app/xterm/313
 #######
 REQUIRES += X11/font/dejavu-fonts-ttf/2.34
 
+#######
+####### X applications:
+#######
+REQUIRES += X11/app/WindowMaker/0.95.6
+
+
 
 #######
 ####### Additional DEV packages:

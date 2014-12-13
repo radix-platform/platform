@@ -121,36 +121,43 @@ $(install_target): $(build_target)
 	 )
 	@rm -rf $(GLIB2_32_PKG)/usr/include
 	@rm -rf $(GLIB2_32_PKG)/usr/share
-	# remove target destination path from target libtool *.la files and pkgconfig *.pc files
+	# ======= remove target destination path from target libtool *.la files and pkgconfig *.pc files =======
 	@( cd $(GLIB2_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	  sed -i "s,$(TARGET_DEST_DIR),,g" *.la ; \
-	  sed -i "s,-L/usr/lib ,,g" *.la ; \
-	  sed -i "s,-L/lib ,,g" *.la ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" *.la ; \
+	   sed -i "s,-L/usr/lib ,,g" *.la ; \
+	   sed -i "s,-L/lib ,,g" *.la ; \
+	 )
+	@( cd $(GLIB2_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/gio/modules ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" *.la ; \
 	 )
 	@( cd $(GLIB2_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
-	  sed -i "s,$(TARGET_DEST_DIR),,g" *.pc ; \
-	  sed -i "s,-L/usr/lib ,-L/usr/lib32 ,g" *.pc ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" *.pc ; \
+	   sed -i "s,-L/usr/lib ,-L/usr/lib32 ,g" *.pc ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(GLIB2_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	# tune libtool *.la search path to the target destination for development
+	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgio-2.0.la libglib-2.0.la libgmodule-2.0.la \
-	                                           libgobject-2.0.la libgthread-2.0.la ; \
-	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libgio-2.0.la libglib-2.0.la libgmodule-2.0.la \
-	                                             libgobject-2.0.la libgthread-2.0.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgio-2.0.la libglib-2.0.la libgmodule-2.0.la \
+	                                            libgobject-2.0.la libgthread-2.0.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libgio-2.0.la libglib-2.0.la libgmodule-2.0.la \
+	                                              libgobject-2.0.la libgthread-2.0.la \
 	 )
-	# tune pkg-config *.pc search path to the target destination for development
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/gio/modules ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgiofam.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libgiofam.la \
+	 )
+	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" gio-2.0.pc gio-unix-2.0.pc glib-2.0.pc gmodule-2.0.pc \
-	                                           gmodule-export-2.0.pc gmodule-no-export-2.0.pc gobject-2.0.pc \
-	                                           gthread-2.0.pc \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" gio-2.0.pc gio-unix-2.0.pc glib-2.0.pc gmodule-2.0.pc \
+	                                            gmodule-export-2.0.pc gmodule-no-export-2.0.pc gobject-2.0.pc \
+	                                            gthread-2.0.pc \
 	 )
-	@(cd $(GLIB2_32_PKG); \
-	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
+	@( cd $(GLIB2_32_PKG); \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
 	@touch $@
 

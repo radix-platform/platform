@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+           |-----handy-ruler------------------------------------------------------|
+WindowMaker: WindowMaker @VERSION@ (an X11 window manager)
+WindowMaker:
+WindowMaker: Window Maker is an X11 window manager originally designed to provide
+WindowMaker: integration support for the GNUstep Desktop Environment. In every
+WindowMaker: way possible, it reproduces the elegant look and feel of the
+WindowMaker: NEXTSTEP user interface. It is fast, feature rich, easy to configure,
+WindowMaker: and easy to use. It is also free software, with contributions being
+WindowMaker: made by programmers from around the world.
+WindowMaker:
+WindowMaker:
+WindowMaker:

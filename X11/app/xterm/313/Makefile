@@ -85,10 +85,10 @@ ROOTFS_TARGETS   = $(pkg_archive)
 include ../../../../build-system/core.mk
 
 
-env_sysroot = DESTDIR=$(XTERM_PKG) INSTALL="install -p"
+env_sysroot = DESTDIR=$(XTERM_PKG)
 
 
-extra_configure_switches  = --libdir=/lib$(LIBSUFFIX)
+extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --sysconfdir=/etc

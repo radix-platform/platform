@@ -168,6 +168,8 @@ extra_configure_switches += --with-os-name="$(DISTRO_CAPTION) $(DISTRO_VERSION)"
 extra_configure_switches += --with-os-vendor="$(DISTRO_CAPTION) Linux Project"
 extra_configure_switches += --with-vendor-web="$(BUG_URL)"
 
+extra_configure_switches += --enable-systemd-logind=no
+
 
 ####### Dependencies
 
@@ -198,6 +200,7 @@ $(install_target): $(build_target)
 	 )
 	@mkdir -p $(XORG_PKG)/etc/X11/xorg.conf.d $(XORG_PKG)/usr/share/X11/xorg.conf.d
 	@cp -a $(kbd_layout) $(XORG_PKG)/usr/share/X11/xorg.conf.d
+	@chmod u+s $(XORG_PKG)/usr/bin/Xorg
 	# ======= Install Documentation =======
 	@( cd $(XORG_PKG)/usr/share/man/man5 ; \
 	   for file in *.5 ; do                                \

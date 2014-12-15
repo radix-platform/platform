@@ -1112,6 +1112,10 @@ REQUIRES += X11/font/dejavu-fonts-ttf/2.34
 #######
 ####### X applications:
 #######
+REQUIRES += libs/giflib/5.1.0
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/giflib/5.1.0-x86_32
+endif
 REQUIRES += X11/app/WindowMaker/0.95.6
 
 

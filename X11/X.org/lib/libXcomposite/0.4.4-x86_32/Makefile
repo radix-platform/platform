@@ -13,7 +13,7 @@ include ../../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/X.org/lib/libXcomposite
 
 REQUIRES           = X11/X.org/lib/libXcomposite/0.4.4
-REQUIRES          += X11/X.org/lib/libXfixes/5.0.1
+REQUIRES          += X11/X.org/lib/libXfixes/5.0.1-x86_32
 
 
 version            = 0.4.4

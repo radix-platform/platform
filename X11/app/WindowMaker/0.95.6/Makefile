@@ -28,6 +28,7 @@ REQUIRES          += X11/X.org/lib/libXrandr/1.4.2
 REQUIRES          += X11/X.org/lib/libxshmfence/1.1
 REQUIRES          += libs/libjpeg-turbo/1.3.1
 REQUIRES          += libs/libtiff/4.0.3
+REQUIRES          += libs/giflib/5.1.0
 
 
 version            = 0.95.6
@@ -101,7 +102,6 @@ extra_configure_switches += --enable-modelock
 extra_configure_switches += --enable-usermenu
 extra_configure_switches += --enable-xinerama
 
-extra_configure_switches += --disable-gif
 extra_configure_switches += --disable-webp
 extra_configure_switches += --disable-magick
 

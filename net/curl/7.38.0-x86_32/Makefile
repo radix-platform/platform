@@ -123,8 +123,17 @@ $(install_target): $(build_target)
 	@( cd $(CURL_32_PKG)/usr/bin ; \
 	   find . -type f | xargs mv -t 32 ; \
 	 )
+	# ======= Save curlbuild.h =======
+	@for header in curlbuild ; do \
+	  cp -a $(CURL_32_PKG)/usr/include/curl/$$header.h $(TARGET_BUILD_DIR) ; \
+	 done
 	@rm -rf $(CURL_32_PKG)/usr/include
 	@rm -rf $(CURL_32_PKG)/usr/share
+	# ======= Restore curlbuild-32.h =======
+	@mkdir -p $(CURL_32_PKG)/usr/include/curl
+	@for header in curlbuild ; do \
+	  cp -a $(TARGET_BUILD_DIR)/$$header.h $(CURL_32_PKG)/usr/include/curl/$$header-32.h ; \
+	 done
 	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(CURL_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libcurl.la ; \

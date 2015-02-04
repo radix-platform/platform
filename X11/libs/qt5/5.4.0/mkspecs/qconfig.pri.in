@@ -1,0 +1,23 @@
+#configuration
+CONFIG += shared qpa no_mocdepend release qt_no_framework
+QT_ARCH = @ARCH@
+QMAKE_DEFAULT_LIBDIRS = /lib@LIBDIRSUFFIX@ /usr/lib@LIBDIRSUFFIX@
+QMAKE_DEFAULT_INCDIRS = /usr/lib@LIBDIRSUFFIX@/qt5/include /usr/include
+QT_CONFIG += minimal-config small-config medium-config large-config full-config fontconfig libudev evdev xlib xrender xcb-plugin xcb-render xcb-glx xcb-xlib xcb-sm xkbcommon-qt accessibility-atspi-bridge linuxfb kms c++11 accessibility egl egl_x11 eglfs opengl shared qpa reduce_exports reduce_relocations clock-gettime clock-monotonic posix_fallocate mremap getaddrinfo ipv6ifname getifaddrs inotify eventfd system-jpeg system-png png system-freetype system-harfbuzz system-zlib mtdev nis cups iconv glib dbus openssl xcb xinput2 alsa icu concurrent audio-backend release
+
+#versioning
+QT_VERSION = 5.4.0
+QT_MAJOR_VERSION = 5
+QT_MINOR_VERSION = 4
+QT_PATCH_VERSION = 0
+
+#namespaces
+QT_LIBINFIX =
+QT_NAMESPACE =
+
+# pkgconfig
+PKG_CONFIG_LIBDIR = /usr/lib@LIBDIRSUFFIX@/pkgconfig:/usr/share/pkgconfig
+
+QT_GCC_MAJOR_VERSION = 4
+QT_GCC_MINOR_VERSION = 9
+QT_GCC_PATCH_VERSION = 1

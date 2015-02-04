@@ -37,6 +37,7 @@ src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 cacert_archive     = $(SRC_PACKAGE_PATH)/packages/n/curl/cacert.pem.bz2
 
+config_dir         = $(CURDIR)/config
 curl_config_in     = $(CURDIR)/config-script/curl-config.in
 
 
@@ -127,6 +128,12 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(CURL_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
+	@for header in curlbuild ; do \
+	   mv $(CURL_PKG)/usr/include/curl/$$header{,-64}.h ; \
+	   cp -a $(config_dir)/$$header.h $(CURL_PKG)/usr/include/curl/$$header.h ; \
+	 done
+endif
 	@mkdir -p $(CURL_PKG)/usr/share/curl
 	@bzcat $(cacert_archive) > $(CURL_PKG)/usr/share/curl/cacert.pem
 	@( cd $(CURL_PKG)/usr/share/curl ; \

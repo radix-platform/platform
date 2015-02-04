@@ -132,10 +132,10 @@ $(install_target): $(build_target)
 	         $(JSONC_PKG)/usr/share/doc/$(src_dir_name) \
 	 )
 	@( cd $(SRC_DIR) ; \
-	   if [ -r ChangeLod ]; then \
+	   if [ -r ChangeLog ]; then \
 	     DOCSDIR=`echo $(JSONC_PKG)/usr/share/doc/$(src_dir_name)` ; \
-	     cat ChangeLod | head -n 1000 > $$DOCSDIR/ChangeLod ; \
-	     touch -r ChangeLod $$DOCSDIR/ChangeLod ; \
+	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
+	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \
 	 )
 	# ======= remove toolchain path from target libtool *.la files =======

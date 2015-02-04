@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+             |-----handy-ruler------------------------------------------------------|
+libvisual-x32: libvisual-x32 @VERSION@ (x86_32 audio visualization library)
+libvisual-x32:
+libvisual-x32: Libvisual is an audio visualization library that acts as a middle
+libvisual-x32: layer between audio visualization plugins and applications. Any
+libvisual-x32: application written with libvisual support included will be able
+libvisual-x32: to make use of all the plugins that are written for libvisual.
+libvisual-x32: Libvisual also contains a whole set of facilities to ease the
+libvisual-x32: development of plugins.
+libvisual-x32:
+libvisual-x32: Libvisual was written by Dennis Smit.
+libvisual-x32:

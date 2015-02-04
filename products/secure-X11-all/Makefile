@@ -1108,6 +1108,7 @@ REQUIRES += X11/app/xterm/313
 ####### X fonts:
 #######
 REQUIRES += X11/font/dejavu-fonts-ttf/2.34
+REQUIRES += X11/font/thaixfonts/1.2.6
 
 #######
 ####### X applications:
@@ -1117,6 +1118,148 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/giflib/5.1.0-x86_32
 endif
 REQUIRES += X11/app/WindowMaker/0.95.6
+
+
+
+#######
+####### GTK+ libs & Desktop environment:
+#######
+REQUIRES += libs/atk/2.15.1
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/atk/2.15.1-x86_32
+endif
+REQUIRES += libs/libthai/0.1.20
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libthai/0.1.20-x86_32
+endif
+REQUIRES += libs/pango/1.36.8
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/pango/1.36.8-x86_32
+endif
+REQUIRES += app/cups/2.0.1
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/cups/2.0.1-x86_32
+endif
+REQUIRES += libs/lcms2/2.6
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/lcms2/2.6-x86_32
+endif
+REQUIRES += app/ghostscript/9.15
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/ghostscript/9.15-x86_32
+endif
+REQUIRES += app/qpdf/5.1.2
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/qpdf/5.1.2-x86_32
+endif
+REQUIRES += X11/libs/gdk-pixbuf2/2.31.1
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += X11/libs/gdk-pixbuf2/2.31.1-x86_32
+endif
+REQUIRES += libs/libcroco/0.6.8
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libcroco/0.6.8-x86_32
+endif
+REQUIRES += dev/vala/0.26.1
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += dev/vala/0.26.1-x86_32
+endif
+REQUIRES += X11/libs/librsvg/2.40.5
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += X11/libs/librsvg/2.40.5-x86_32
+endif
+REQUIRES += X11/libs/cairo/1.14.0
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += X11/libs/cairo/1.14.0-x86_32
+endif
+REQUIRES += X11/libs/harfbuzz/0.9.36
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += X11/libs/harfbuzz/0.9.36-x86_32
+endif
+
+REQUIRES += app/sqlite/3.8.7.1
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/sqlite/3.8.7.1-x86_32
+endif
+REQUIRES += libs/gstreamer0/0.10.36
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/gstreamer0/0.10.36-x86_32
+endif
+REQUIRES += libs/libmng/2.0.2
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libmng/2.0.2-x86_32
+endif
+
+REQUIRES += X11/app/desktop-file-utils/0.22
+REQUIRES += X11/libs/hicolor-icon-theme/0.14
+REQUIRES += X11/app/xdg-utils/1.1.0
+
+REQUIRES += libs/libtheora/1.1.1
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libtheora/1.1.1-x86_32
+endif
+REQUIRES += app/cdparanoia/10.2
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/cdparanoia/10.2-x86_32
+endif
+REQUIRES += libs/libvisual/0.4.0
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libvisual/0.4.0-x86_32
+endif
+
+REQUIRES += libs/gst-plugins-base0/0.10.36
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/gst-plugins-base0/0.10.36-x86_32
+endif
+
+REQUIRES += libs/gstreamer/1.4.5
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/gstreamer/1.4.5-x86_32
+endif
+REQUIRES += libs/gst-plugins-base/1.4.5
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/gst-plugins-base/1.4.5-x86_32
+endif
+
+REQUIRES += libs/boost/1.57.0
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/boost/1.57.0-x86_32
+endif
+
+#REQUIRES += libs/libaio/0.3.110
+#ifeq ($(HARDWARE),$(HARDWARE_PC64))
+#REQUIRES += libs/libaio/0.3.110-x86_32
+#endif
+REQUIRES += app/mariadb/5.5.41
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/mariadb/5.5.41-x86_32
+endif
+
+REQUIRES += libs/libiodbc/3.52.9
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libiodbc/3.52.9-x86_32
+endif
+
+
+REQUIRES += X11/libs/qt4/4.8.6
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += X11/libs/qt4/4.8.6-x86_32
+endif
+REQUIRES += X11/libs/qt5/5.4.0
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += X11/libs/qt5/5.4.0-x86_32
+endif
+
+REQUIRES += libs/poppler/0.29.0
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/poppler/0.29.0-x86_32
+endif
+
+REQUIRES += X11/libs/gtk+2/2.24.25
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += X11/libs/gtk+2/2.24.25-x86_32
+endif
+
 
 
 

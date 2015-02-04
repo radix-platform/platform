@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+        |-----handy-ruler------------------------------------------------------|
+cups-x32: CUPS-x32 @VERSION@ (x86_32 Common UNIX Printing System)
+cups-x32:
+cups-x32: The Common UNIX Printing System provides a portable printing layer
+cups-x32: for UNIX(R)-like operating systems. It has been developed by Easy
+cups-x32: Software Products to promote a standard printing solution for all
+cups-x32: UNIX vendors and users. CUPS uses the Internet Printing Protocol
+cups-x32: ("IPP") as the basis for managing print jobs and queues. The CUPS
+cups-x32: package includes System V and Berkeley command-line interfaces, a
+cups-x32: PostScript RIP package for supporting non-PostScript printers, and
+cups-x32: tools for creating additional printer drivers and CUPS services.
+cups-x32:

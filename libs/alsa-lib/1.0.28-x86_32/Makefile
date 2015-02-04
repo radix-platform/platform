@@ -119,8 +119,8 @@ $(install_target): $(build_target)
 	@cd $(ALSA_LIB_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libffi.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libffi.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libasound.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libasound.la \
 	 )
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/alsa-lib/smixer ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" smixer-ac97.la     \

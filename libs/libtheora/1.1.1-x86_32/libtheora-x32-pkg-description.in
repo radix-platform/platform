@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+             |-----handy-ruler------------------------------------------------------|
+libtheora-x32: libtheora-x32 @VERSION@ (x86_32 Theora video codec library)
+libtheora-x32:
+libtheora-x32: Theora is Xiph.Org's first publicly released video codec, intended
+libtheora-x32: for use within the Foundation's Ogg multimedia streaming system.
+libtheora-x32: The Theora bitstream format was frozen after the alpha3 release.
+libtheora-x32: This means that files produced by the alpha3 encoder will always be
+libtheora-x32: playable according to the Theora I specification. Traditionally
+libtheora-x32: alpha means a proof of concept, not a production-ready release.
+libtheora-x32: However the code is very robust, ready for and indeed in general
+libtheora-x32: use.
+libtheora-x32:

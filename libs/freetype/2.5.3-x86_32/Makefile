@@ -33,9 +33,6 @@ build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
 
 
-SKIP_PACKAGE_REQUIRES = yes
-
-
 ####### Targets
 
 PKG_GROUP = libs

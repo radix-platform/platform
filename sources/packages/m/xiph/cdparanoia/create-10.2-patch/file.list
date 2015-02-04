@@ -1,0 +1,6 @@
+cdparanoia-III-10.2/interface/cdda_interface.h
+cdparanoia-III-10.2/interface/cooked_interface.c
+cdparanoia-III-10.2/interface/interface.c
+cdparanoia-III-10.2/interface/scan_devices.c
+cdparanoia-III-10.2/interface/scsi_interface.c
+cdparanoia-III-10.2/interface/test_interface.c

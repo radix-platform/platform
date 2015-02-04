@@ -1,0 +1,14 @@
+gstreamer-0.10.36/gst/gstbuffer.c
+gstreamer-0.10.36/gst/gstevent.c
+gstreamer-0.10.36/gst/gstevent.h
+gstreamer-0.10.36/gst/gstinfo.c
+gstreamer-0.10.36/gst/gstinfo.h
+gstreamer-0.10.36/gst/gstquark.c
+gstreamer-0.10.36/gst/gstquark.h
+gstreamer-0.10.36/gst/gstquery.c
+gstreamer-0.10.36/gst/gstquery.h
+gstreamer-0.10.36/gst/gstregistry.c
+gstreamer-0.10.36/gst/gstutils.h
+gstreamer-0.10.36/libs/gst/base/gstbaseparse.c
+gstreamer-0.10.36/libs/gst/base/gstbasetransform.c
+gstreamer-0.10.36/tools/gst-launch.c

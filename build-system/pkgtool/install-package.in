@@ -334,9 +334,9 @@ for pkgtarball in $* ; do
   if [ "$MODE" = "console" ]; then
     echo ""
     if [ "$PMSG" = "" ]; then
-      echo "Installing package $pkgname... "
+      echo " Installing package $pkgname... "
     else
-      echo "Installing package $pkgname $PMSG... "
+      echo " Installing package $pkgname $PMSG... "
     fi
     ####  |---handy-ruler--------------------------------------------------------|
     echo "|======================================================================|"

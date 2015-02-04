@@ -1181,6 +1181,10 @@ ifdef ROOTFS_TARGETS
 _install_pkgs := .install_pkgs
 endif
 
+ifdef ROOTFS_UPGRADE_TARGETS
+_upgrade_pkgs := .upgrade_pkgs
+endif
+
 
 ################################################################
 #######
@@ -1195,8 +1199,9 @@ $(BUILD_TARGETS): | $(_tree)
 ################################################################
 
 
-$(PRODUCT_TARGETS): | $(BUILD_TARGETS)
-$(ROOTFS_TARGETS) : | $(BUILD_TARGETS)
+$(PRODUCT_TARGETS)        : | $(BUILD_TARGETS)
+$(ROOTFS_TARGETS)         : | $(BUILD_TARGETS)
+$(ROOTFS_UPGRADE_TARGETS) : | $(BUILD_TARGETS)
 
 
 
@@ -1214,6 +1219,7 @@ _install: .install
 .install: $(_install_builds)
 .install: $(_install_products)
 .install: $(_install_pkgs)
+.install: $(_upgrade_pkgs)
 
 
 # create files which contains the list of installed files
@@ -1288,6 +1294,22 @@ else
 endif
 endif
 
+
+$(_upgrade_pkgs): $(ROOTFS_UPGRADE_TARGETS)
+ifdef ROOTFS_UPGRADE_TARGETS
+	@shtool echo -e "%B#######%b"
+	@shtool echo -e "%B#######%b %BUpgrade packages into%b 'dist/rootfs/$(TOOLCHAIN)/$(HARDWARE)/...' %Bfile system...%b"
+	@shtool echo -e "%B#######%b"
+ifeq ($(wildcard .$(HARDWARE).rootfs),)
+	@CWD=$(CURDIR) UPGRADE_PACKAGE="$(UPGRADE_PACKAGE)" $(BUILDSYSTEM)/upgrade_pkgs $^ $(ROOTFS_DEST_DIR) $(HARDWARE)
+else
+	@echo ""
+	@for pkg in $(ROOTFS_UPGRADE_TARGETS) ; do \
+	   shtool echo -e "%B#######%b %B ... package `basename $$pkg` is already installed.%b" ; \
+	 done
+	@echo ""
+endif
+endif
 
 
 
@@ -1410,7 +1432,8 @@ endif
 .PHONY: all _install        clean        dist_clean        rootfs_clean
 .PHONY:    local_all  local_clean  local_dist_clean  local_rootfs_clean
 .PHONY:              .local_clean .local_dist_clean .local_rootfs_clean
-.PHONY: .install $(_install_scripts) $(_install_builds) $(_install_bins) $(_install_products) $(_install_pkgs)
+.PHONY: .install $(_install_scripts) $(_install_builds) $(_install_bins) $(_install_products)
+.PHONY:          $(_install_pkgs) $(_upgrade_pkgs)
 
 # HW independed targets:
 .PHONY: help

@@ -1,0 +1,7 @@
+gtk+-2.24.25/docs/faq/Makefile.am
+gtk+-2.24.25/docs/faq/Makefile.in
+gtk+-2.24.25/docs/tutorial/Makefile.am
+gtk+-2.24.25/docs/tutorial/Makefile.in
+gtk+-2.24.25/gdk/x11/gdkxid.c
+gtk+-2.24.25/gtk/Makefile.am
+gtk+-2.24.25/gtk/Makefile.in

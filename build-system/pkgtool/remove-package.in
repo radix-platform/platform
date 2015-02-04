@@ -78,7 +78,9 @@ strip_description() {
   echo " " > $outfile
   LINENUMS="`cat $infile | grep -n -e "$pkgname" | cut -f 1 -d ':'`"
   if [ "$LINENUMS" = "" ]; then
-    echo "WARNING: Description is empty or corrupted."
+    if [ "$VERBOSE" == "yes" ] ; then
+      echo "WARNING: Description is empty or corrupted."
+    fi
     return
   fi
   for LINENUM in $LINENUMS ; do
@@ -100,6 +102,12 @@ while [ 0 ]; do
   if [ "$1" = "-h" -o "$1" = "--help" ]; then
     usage
     exit 0
+  elif [ "$1" = "--verbose" ]; then
+    VERBOSE="yes"
+    shift 1
+  elif [ "$1" = "--dark" ]; then
+    DARKMODE="yes"
+    shift 1
   elif [ "$1" = "--skip-refs" ]; then
     SKIPREFERENCES="yes"
     shift 1
@@ -173,16 +181,22 @@ delete_files() {
       if [ -r "${TARGET_ROOT_PATH}$FILE" ]; then
         # "-nt" is "newer than"; "-ot" is "older than":
         if [ "${TARGET_ROOT_PATH}$FILE" -nt "$logfile" ]; then
-          echo "WARNING: ${TARGET_ROOT_PATH}$FILE changed after package installation."
+          if [ "$VERBOSE" == "yes" ] ; then
+            echo "WARNING: ${TARGET_ROOT_PATH}$FILE changed after package installation."
+          fi
         fi
-        echo " ===> Deleting ${TARGET_ROOT_PATH}$FILE"
+        if [ "$VERBOSE" == "yes" ] ; then
+          echo " ===> Deleting ${TARGET_ROOT_PATH}$FILE"
+        fi
         rm -f "${TARGET_ROOT_PATH}$FILE"
         echo "`dirname $FILE`" >> $TMP/not_sorted_dirs$$
       else
         echo " ===> ${TARGET_ROOT_PATH}$FILE no longer exists. Skipping."
       fi
     else
-      echo " ===> ${TARGET_ROOT_PATH}$FILE is a directory. Skipping."
+      if [ "$VERBOSE" == "yes" ] ; then
+        echo " ===> ${TARGET_ROOT_PATH}$FILE is a directory. Skipping."
+      fi
       echo "$FILE" >> $TMP/not_sorted_dirs$$
     fi
   done
@@ -191,11 +205,15 @@ delete_files() {
 delete_links() {
   while read LINK ; do
     if [ -L "${TARGET_ROOT_PATH}$LINK" ]; then
-      echo " ===> Deleting symlink ${TARGET_ROOT_PATH}$LINK"
+      if [ "$VERBOSE" == "yes" ] ; then
+        echo " ===> Deleting symlink ${TARGET_ROOT_PATH}$LINK"
+      fi
       rm -f ${TARGET_ROOT_PATH}$LINK
       echo "`dirname $LINK`" >> $TMP/not_sorted_dirs$$
     else
-      echo " ===> ${TARGET_ROOT_PATH}$LINK (symlink) no longer exists. Skipping."
+      if [ "$VERBOSE" == "yes" ] ; then
+        echo " ===> ${TARGET_ROOT_PATH}$LINK (symlink) no longer exists. Skipping."
+      fi
     fi
   done
 }
@@ -204,10 +222,14 @@ delete_dirs() {
   while read DIR ; do
     if [ -d "${TARGET_ROOT_PATH}$DIR" ]; then
       if [ `ls -a "${TARGET_ROOT_PATH}$DIR" | wc -l` -eq 2 ]; then
-        echo " ===> Deleting empty directory ${TARGET_ROOT_PATH}$DIR"
+        if [ "$VERBOSE" == "yes" ] ; then
+          echo " ===> Deleting empty directory ${TARGET_ROOT_PATH}$DIR"
+        fi
         rmdir "${TARGET_ROOT_PATH}$DIR"
       else
-        echo " ===> Preserving non empty directory ${TARGET_ROOT_PATH}$DIR"
+        if [ "$VERBOSE" == "yes" ] ; then
+          echo " ===> Preserving non empty directory ${TARGET_ROOT_PATH}$DIR"
+        fi
       fi
     fi
   done
@@ -335,25 +357,25 @@ for PKGFILE in $* ; do
   echo " Uncompressed Size: $uncompressed_size" >> $TMP/msg$$
   echo "       Total Files: $total_files"       >> $TMP/msg$$
 
-  echo ""
-  echo "Removing package $pkgname... "
-  ####  |---handy-ruler--------------------------------------------------------|
-  echo "|======================================================================|"
-  echo "`cat $TMP/msg$$`"
-  echo "|======================================================================|"
-  echo ""
+  if [ "$DARKMODE" != "yes" ] ; then
+    echo ""
+    echo "Removing package $pkgname... "
+    ####  |---handy-ruler--------------------------------------------------------|
+    echo "|======================================================================|"
+    echo "`cat $TMP/msg$$`"
+    echo "|======================================================================|"
+    echo ""
+  fi
   rm -f $TMP/msg$$
 
   rm -f $TMP/not_sorted_dirs$$
   if [ -f $TMP/links$$ -a -s $TMP/links$$ ]; then
     delete_links < $TMP/links$$
-    echo ""
   fi
   rm -f $TMP/links$$
 
   if [ -f $TMP/files$$ -a -s $TMP/files$$ ]; then
     delete_files < $TMP/files$$
-    echo ""
   fi
   rm -f $TMP/files$$
 
@@ -362,7 +384,6 @@ for PKGFILE in $* ; do
     rm -f $TMP/not_sorted_dirs$$
     delete_dirs < $TMP/dirs$$
     rm -f $TMP/dirs$$
-    echo ""
   fi
   rm -f $TMP/not_sorted_dirs$$
 

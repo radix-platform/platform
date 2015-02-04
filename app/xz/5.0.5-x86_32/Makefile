@@ -108,7 +108,7 @@ $(install_target): $(build_target)
 	@mv $(XZ32_PKG)/usr/bin/{l,u,x}* $(XZ32_PKG)/usr/bin/32
 	@rm -rf $(XZ32_PKG)/usr/include
 	@rm -rf $(XZ32_PKG)/usr/share
-	# remove toolchain path from target libtool *.la files and
+	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(XZ32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" liblzma.la  \
 	 )

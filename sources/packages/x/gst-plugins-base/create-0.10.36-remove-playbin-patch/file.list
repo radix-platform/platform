@@ -1,0 +1,4 @@
+gst-plugins-base-0.10.36/gst/playback/Makefile.am
+gst-plugins-base-0.10.36/gst/playback/Makefile.in
+gst-plugins-base-0.10.36/gst/playback/gstplayback.c
+gst-plugins-base-0.10.36/gst/playback/gstplayback.h

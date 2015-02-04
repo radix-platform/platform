@@ -80,7 +80,7 @@ set_ref_counter() {
   refs=$2
   LINENUM_REF="`cat $logfile | grep -n -e "REFERENCE COUNTER:" | cut -f 1 -d ':'`"
   if [ "$LINENUM_REF" = "" ]; then
-    echo "$program: WARNING: reference counter is not present in $logfile ."
+#    echo "$program: WARNING: reference counter is not present in $logfile ."
     return
   fi
   LINE="`sed -n "$LINENUM_REF p" $logfile`"
@@ -97,7 +97,7 @@ inc_ref_counter() {
   LINENUM_RFS="`cat $logfile | grep -n -e "REFERENCE COUNTER:" | cut -f 1 -d ':'`"
   LINENUM_RQS="`cat $logfile | grep -n -e "REQUIRES:" | cut -f 1 -d ':'`"
   if [ "$LINENUM_RFS" = "" ]; then
-    echo "$program: WARNING: reference counter is not present in $logfile ."
+#    echo "$program: WARNING: reference counter is not present in $logfile ."
     return
   fi
   LINE="`sed -n "$LINENUM_RFS p" $logfile`"
@@ -107,7 +107,7 @@ inc_ref_counter() {
     LINENUM_FOUND=`cat $logfile | grep -n -e "^$pkgn=$pkgv" | cut -f 1 -d ':'`
     for LINENUM_TODEL in $LINENUM_FOUND ; do
       if [ $LINENUM_TODEL -gt $LINENUM_RFS -a $LINENUM_TODEL -lt $LINENUM_RQS ]; then
-        echo "$program: WARNING: reference is already counted in $logfile ."
+#        echo "$program: WARNING: reference is already counted in $logfile ."
         return
       fi
     done
@@ -129,7 +129,7 @@ dec_ref_counter() {
   LINENUM_RFS="`cat $logfile | grep -n -e "REFERENCE COUNTER:" | cut -f 1 -d ':'`"
   LINENUM_RQS="`cat $logfile | grep -n -e "REQUIRES:" | cut -f 1 -d ':'`"
   if [ "$LINENUM_RFS" = "" ]; then
-    echo "$program: WARNING: reference counter is not present in $logfile ."
+#    echo "$program: WARNING: reference counter is not present in $logfile ."
     return
   fi
   LINE="`sed -n "$LINENUM_RFS p" $logfile`"

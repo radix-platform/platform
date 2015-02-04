@@ -1,0 +1,6 @@
+gst-plugins-base-ti-0.10.36/ext/ogg/gstoggstream.c
+gst-plugins-base-ti-0.10.36/gst/videoscale/gstvideoscale.c
+gst-plugins-base-ti-0.10.36/gst/videoscale/vs_image.h
+gst-plugins-base-ti-0.10.36/gst/videoscale/vs_lanczos.c
+gst-plugins-base-ti-0.10.36/gst-libs/gst/interfaces/colorbalance.h
+gst-plugins-base-ti-0.10.36/win32/common/libgstaudio.def

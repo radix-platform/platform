@@ -1,0 +1,5 @@
+qt-everywhere-opensource-src-4.8.6/src/3rdparty/webkit/Source/WebKit.pri
+qt-everywhere-opensource-src-4.8.6/src/gui/dialogs/qprintdialog_unix.cpp
+qt-everywhere-opensource-src-4.8.6/src/gui/painting/qprinter.cpp
+qt-everywhere-opensource-src-4.8.6/src/sql/drivers/mysql/qsql_mysql.h
+qt-everywhere-opensource-src-4.8.6/src/tools/moc/main.cpp

@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+         |-----handy-ruler------------------------------------------------------|
+hwloc-x32: hwloc-x32 @VERSION@ (x86_32 Portable Hardware Locality)
+hwloc-x32:
+hwloc-x32: The Portable Hardware Locality (hwloc) software package provides a
+hwloc-x32: portable abstraction (across OS, versions, architectures, ...) of
+hwloc-x32: the hierarchical topology of modern architectures, including NUMA
+hwloc-x32: memory nodes, sockets, shared caches, cores and simultaneous
+hwloc-x32: multithreading. It also gathers various system attributes such as
+hwloc-x32: cache and memory information as well as the locality of I/O devices
+hwloc-x32: such as network interfaces, InfiniBand HCAs or GPUs.
+hwloc-x32:
+hwloc-x32:

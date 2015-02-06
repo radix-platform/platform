@@ -106,6 +106,7 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(DFUTILS_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) install $(env_sysroot)
+	@mkdir -p $(DFUTILS_PKG)/usr/share/applications
 	# ======= Install Documentation =======
 	@if [ -d $(DFUTILS_PKG)/usr/share/man ]; then \
 	  ( cd $(DFUTILS_PKG)/usr/share/man ; \

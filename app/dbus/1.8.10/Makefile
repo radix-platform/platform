@@ -132,9 +132,6 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(DBUS_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
-	# ======= Install dbus-arch-deps.h =======
-	@mkdir -p $(DBUS_PKG)/usr/include/dbus-1.0/dbus
-	@cp -a $(build_dir)/dbus/dbus-arch-deps.h $(DBUS_PKG)/usr/include/dbus-1.0/dbus
 	# ========================================
 	@mkdir -p $(DBUS_PKG)/usr/share/dbus-1/interfaces
 	@rm -f $(DBUS_PKG)/etc/rc.d/*

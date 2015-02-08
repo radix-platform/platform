@@ -19,6 +19,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/libspectre
 
 REQUIRES           = app/ghostscript/9.15
+REQUIRES          += libs/cairo/1.14.0
 
 
 version            = 0.2.7

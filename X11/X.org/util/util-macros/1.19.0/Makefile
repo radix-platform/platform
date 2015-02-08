@@ -19,6 +19,9 @@ include ../../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/X.org/util/util-macros
 
 REQUIRES           = libs/eglibc/2.19.1
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES          += libs/eglibc/2.19.1-x86_32
+endif
 
 
 version            = 1.19.0

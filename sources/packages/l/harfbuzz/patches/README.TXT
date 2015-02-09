@@ -6,4 +6,4 @@ harfbuzz-0.9.36-no-eps.patch - used for building harfbuzz without cairo SVG, PDF
                                doesn't have SVG, PDF, PS support. In this case we have to apply
                                this patch to be able build x86_32 libs/harfbuzz.
 
-                               This patch is not required for X11/libs/harfbuzz!
+                               This patch is not required for X11/libs/harfbuzz !

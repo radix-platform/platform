@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/pango-1.36.8.patch
+patches    += $(CURDIR)/patches/pango-1.36.8-no-eps.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -49,7 +50,8 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-1.36.8-patch ; ./create.patch.sh ) ; \
+	 ( cd create-1.36.8-patch        ; ./create.patch.sh ) ; \
+	 ( cd create-1.36.8-no-eps-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

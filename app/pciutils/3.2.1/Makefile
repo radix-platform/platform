@@ -17,6 +17,7 @@ include ../../../build-system/constants.mk
 
 
 SOURCE_REQUIRES     = sources/packages/a/pciutils
+SOURCE_REQUIRES    += sources/packages/l/pciids
 
 REQUIRES            = libs/zlib/1.2.8
 REQUIRES           += app/kmod/16
@@ -28,6 +29,10 @@ SRC_ARCHIVE         = $(tar_xz_archive)
 SRC_DIR             = $(TARGET_BUILD_DIR)/pciutils-$(version)
 src_dir_name        = pciutils-$(version)
 src_done            = $(TARGET_BUILD_DIR)/.source_done
+
+pci_ids_version     = 20150210
+pci_ids_archive     = $(SRC_PACKAGE_PATH)/packages/l/pciids/pciids-$(pci_ids_version).tar.xz
+
 
 PATCHES = PATCHES
 
@@ -98,13 +103,11 @@ extra_configure_switches += OPT="-isystem $(TARGET_DEST_DIR)/usr/include $(ARCH_
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
+	# ======= Expanding $(pci_ids_archive) =======
+	@tar xJf $(pci_ids_archive) -C $(SRC_DIR)
 	@touch $@
 
 $(build_target): $(src_done)
-	@( cd $(SRC_DIR) ; \
-	   rm -f pci.ids ; \
-	   ./update-pciids.sh ; \
-	 )
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) $(extra_configure_switches)
 	@touch $@
 

@@ -17,6 +17,7 @@ include ../../../build-system/constants.mk
 
 
 SOURCE_REQUIRES     = sources/packages/a/usbutils
+SOURCE_REQUIRES    += sources/packages/l/usbids
 
 REQUIRES            = libs/libusb/1.0.19
 
@@ -27,6 +28,10 @@ SRC_ARCHIVE         = $(tar_xz_archive)
 SRC_DIR             = $(TARGET_BUILD_DIR)/usbutils-$(version)
 src_dir_name        = usbutils-$(version)
 src_done            = $(TARGET_BUILD_DIR)/.source_done
+
+usb_ids_version     = 20150210
+usb_ids_archive     = $(SRC_PACKAGE_PATH)/packages/l/usbids/usbids-$(usb_ids_version).tar.xz
+
 
 PATCHES = PATCHES
 
@@ -91,13 +96,11 @@ extra_configure_switches += --datadir=/usr/share/hwdata
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
+	# ======= Expanding $(usb_ids_archive) =======
+	@tar xJf $(usb_ids_archive) -C $(SRC_DIR)
 	@touch $@
 
 $(build_target): $(src_done)
-	@( cd $(SRC_DIR) ; \
-	   rm -f usb.ids* ; \
-	   wget `grep 'SRC=' update-usbids.sh.in | cut -d= -f2- | tr -d \"` ; \
-	 )
 	@mkdir -p $(build_dir)
 	@cd $(build_dir) && \
 	  $(BUILD_ENVIRONMENT) $(environment) ../$(src_dir_name)/configure \

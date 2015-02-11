@@ -1,2 +1,3 @@
 
-../../../../sources/packages/x/qt5/patches/qt5-5.4.0-mips-dsp.patch -p0
+../../../../sources/packages/x/qt5/patches/qt5-5.4.0-configure.patch -p0
+../../../../sources/packages/x/qt5/patches/qt5-5.4.0-mips-dsp.patch  -p0

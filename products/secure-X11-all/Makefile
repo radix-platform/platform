@@ -1261,6 +1261,21 @@ REQUIRES += X11/libs/gtk+2/2.24.25-x86_32
 endif
 
 
+REQUIRES += libs/taglib/1.9.1
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/taglib/1.9.1-x86_32
+endif
+REQUIRES += libs/log4cplus/1.2.0
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/log4cplus/1.2.0-x86_32
+endif
+
+REQUIRES += libs/zeromq/4.0.5
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/zeromq/4.0.5-x86_32
+endif
+
+
 
 
 #######

@@ -1193,6 +1193,7 @@ endif
 REQUIRES += X11/app/desktop-file-utils/0.22
 REQUIRES += X11/libs/hicolor-icon-theme/0.14
 REQUIRES += X11/app/xdg-utils/1.1.0
+REQUIRES += X11/app/xdg-user-dirs/0.15
 
 REQUIRES += libs/libtheora/1.1.1
 ifeq ($(HARDWARE),$(HARDWARE_PC64))

@@ -1276,6 +1276,16 @@ REQUIRES += libs/zeromq/4.0.5-x86_32
 endif
 
 
+REQUIRES += X11/libs/glew/1.12.0
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += X11/libs/glew/1.12.0-x86_32
+endif
+REQUIRES += X11/libs/freeglut/2.8.1
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += X11/libs/freeglut/2.8.1-x86_32
+endif
+
+
 
 
 #######

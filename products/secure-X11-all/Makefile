@@ -1290,6 +1290,13 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += X11/libs/startup-notification/0.12-x86_32
 endif
 
+#######
+####### Video streaming packages:
+#######
+REQUIRES += libs/aalib/1.4.0
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/aalib/1.4.0-x86_32
+endif
 
 
 

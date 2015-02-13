@@ -1284,6 +1284,10 @@ REQUIRES += X11/libs/freeglut/2.8.1
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += X11/libs/freeglut/2.8.1-x86_32
 endif
+REQUIRES += X11/libs/startup-notification/0.12
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += X11/libs/startup-notification/0.12-x86_32
+endif
 
 
 

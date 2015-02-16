@@ -22,7 +22,7 @@ REQUIRES           = libs/libtiff/4.0.3
 REQUIRES          += libs/giflib/5.1.0
 REQUIRES          += libs/libjpeg-turbo/1.3.1
 REQUIRES          += libs/libid3tag/0.15.1b
-REQUIRES          += libs/freetype/2.5.3
+REQUIRES          += X11/libs/harfbuzz/0.9.36
 REQUIRES          += X11/X.org/lib/libXt/1.1.4
 REQUIRES          += X11/X.org/lib/libXext/1.3.3
 

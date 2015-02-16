@@ -16,7 +16,7 @@ COMPONENT_IS_3PP   = true
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/GNOME/core/glib
+SOURCE_REQUIRES    = sources/GNOME/core/glib2
 
 REQUIRES           = libs/zlib/1.2.8
 REQUIRES          += libs/libffi/3.0.13
@@ -27,7 +27,7 @@ REQUIRES          += libs/libgamin/0.1.10
 
 
 version            = 2.40.0
-tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNOME/core/glib/glib-$(version).tar.xz
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNOME/core/glib2/glib-$(version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/glib-$(version)
 src_dir_name       = glib-$(version)

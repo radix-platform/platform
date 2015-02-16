@@ -1,0 +1,4 @@
+imlib-1.9.15/Imlib/load.c
+imlib-1.9.15/Imlib/save.c
+imlib-1.9.15/Imlib/utils.c
+imlib-1.9.15/gdk_imlib/io-png.c

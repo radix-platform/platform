@@ -10,7 +10,7 @@ CREATE_X86_32_PACKAGE = true
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/GNOME/core/glib
+SOURCE_REQUIRES    = sources/GNOME/core/glib2
 
 REQUIRES           = libs/glib2/2.39.4
 REQUIRES          += libs/zlib/1.2.8-x86_32
@@ -22,7 +22,7 @@ REQUIRES          += libs/libgamin/0.1.10-x86_32
 
 
 version            = 2.39.4
-tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNOME/core/glib/glib-$(version).tar.xz
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNOME/core/glib2/glib-$(version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/glib-$(version)
 src_dir_name       = glib-$(version)

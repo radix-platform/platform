@@ -1311,6 +1311,15 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/libavc1394/0.5.4-x86_32
 endif
 
+REQUIRES += libs/imlib/1.9.15
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/imlib/1.9.15-x86_32
+endif
+REQUIRES += libs/imlib2/1.4.6
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/imlib2/1.4.6-x86_32
+endif
+
 
 
 #######

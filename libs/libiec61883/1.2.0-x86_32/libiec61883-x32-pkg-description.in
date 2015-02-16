@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+               |-----handy-ruler------------------------------------------------------|
+libiec61883-x32: libiec61883-x32 @VERSION@ (x86_32 IEC 61883 implementation)
+libiec61883-x32:
+libiec61883-x32: This library is an implementation of IEC 61883, part 1 (CIP, plug
+libiec61883-x32: registers, and CMP), part 2 (DV-SD), part 4 (MPEG2-TS), and part 6
+libiec61883-x32: (AMDTP). Outside of IIDC, nearly all FireWire multimedia devices
+libiec61883-x32: use IEC 61883 protocols.
+libiec61883-x32:
+libiec61883-x32: Sources: ftp://ftp.kernel.org/pub/linux/libs/ieee1394
+libiec61883-x32:
+libiec61883-x32:
+libiec61883-x32:

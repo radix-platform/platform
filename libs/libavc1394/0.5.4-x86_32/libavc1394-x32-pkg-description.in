@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+              |-----handy-ruler------------------------------------------------------|
+libavc1394-x32: libavc1394-x32 @VERSION@ (x86_32 AV/C spec programming interface)
+libavc1394-x32:
+libavc1394-x32: libavc1394 is a programming interface to the AV/C specification
+libavc1394-x32: from the 1394 Trade Assocation. AV/C stands for Audio/Video Control.
+libavc1394-x32: Currently, applications use the library to control the tape
+libavc1394-x32: transport mechansim on DV camcorders. However, there are many
+libavc1394-x32: devices and functions of devices that can be controlled via AV/C.
+libavc1394-x32: Eventually, the library will be expanded to implement more of the
+libavc1394-x32: specification and to provide high level interfaces to various
+libavc1394-x32: devices.
+libavc1394-x32:

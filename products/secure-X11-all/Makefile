@@ -1298,6 +1298,19 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/aalib/1.4.0-x86_32
 endif
 
+#REQUIRES += libs/libraw1394/2.1.0
+#ifeq ($(HARDWARE),$(HARDWARE_PC64))
+#REQUIRES += libs/libraw1394/2.1.0-x86_32
+#endif
+REQUIRES += libs/libiec61883/1.2.0
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libiec61883/1.2.0-x86_32
+endif
+REQUIRES += libs/libavc1394/0.5.4
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libavc1394/0.5.4-x86_32
+endif
+
 
 
 #######

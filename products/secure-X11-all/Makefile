@@ -1319,6 +1319,10 @@ REQUIRES += libs/imlib2/1.4.6
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/imlib2/1.4.6-x86_32
 endif
+REQUIRES += libs/libcaca/0.99.19
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libcaca/0.99.19-x86_32
+endif
 
 
 

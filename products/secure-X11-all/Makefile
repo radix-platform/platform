@@ -1334,6 +1334,11 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/libshout/2.3.1-x86_32
 endif
 
+REQUIRES += libs/libvpx/1.3.0
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libvpx/1.3.0-x86_32
+endif
+
 
 
 

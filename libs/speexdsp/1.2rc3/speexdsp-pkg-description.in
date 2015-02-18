@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+        |-----handy-ruler------------------------------------------------------|
+speexdsp: speexdsp @VERSION@ (A patent-free speech codec)
+speexdsp:
+speexdsp: Speex is a patent-free audio codec designed especially for voice
+speexdsp: (unlike Vorbis which targets general audio) signals and providing
+speexdsp: good narrowband and wideband quality. This project aims to be
+speexdsp: complementary to the Vorbis codec.
+speexdsp:
+speexdsp:
+speexdsp:
+speexdsp:
+speexdsp:

@@ -1324,6 +1324,17 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/libcaca/0.99.19-x86_32
 endif
 
+REQUIRES += libs/speex/1.2rc2
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/speex/1.2rc2-x86_32
+endif
+REQUIRES += app/icecast/2.4.1
+REQUIRES += libs/libshout/2.3.1
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libshout/2.3.1-x86_32
+endif
+
+
 
 
 #######

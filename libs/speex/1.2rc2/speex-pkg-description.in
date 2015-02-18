@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+     |-----handy-ruler------------------------------------------------------|
+speex: speex @VERSION@ (opensource speech codec)
+speex:
+speex: speex is an Open Source/Free Software patent-free audio compression
+speex: format designed for speech. Speex is part of the GNU Project and
+speex: is available under the revised BSD license.
+speex:
+speex:
+speex:
+speex:
+speex:
+speex:

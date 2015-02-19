@@ -144,7 +144,6 @@ TARGET_SPEC_DIR = linux-$(ARCH)-$(ABI)-g++
 
 configure_switches  = -confirm-license
 configure_switches += -opensource
-configure_switches += -prefix /usr/lib$(LIBSUFFIX)/qt4
 configure_switches += -arch $(ARCH)
 configure_switches += -platform linux-g++
 configure_switches += -xplatform $(TARGET_SPEC_DIR)
@@ -152,8 +151,22 @@ configure_switches += -release
 configure_switches += -shared
 configure_switches += -force-pkg-config
 configure_switches += -no-gtkstyle
-configure_switches += -sysconfdir /etc/xdg
-configure_switches += -graphicssystem opengl
+
+configure_switches += -sysconfdir     /etc/xdg
+configure_switches += -prefix         /usr/lib$(LIBSUFFIX)/qt4
+configure_switches += -bindir         /usr/lib$(LIBSUFFIX)/qt4/bin
+configure_switches += -libdir         /usr/lib$(LIBSUFFIX)/qt4/lib
+configure_switches += -docdir         /usr/lib$(LIBSUFFIX)/qt4/doc
+configure_switches += -headerdir      /usr/lib$(LIBSUFFIX)/qt4/include
+configure_switches += -plugindir      /usr/lib$(LIBSUFFIX)/qt4/plugins
+configure_switches += -importdir      /usr/lib$(LIBSUFFIX)/qt4/imports
+configure_switches += -datadir        /usr/lib$(LIBSUFFIX)/qt4
+configure_switches += -translationdir /usr/lib$(LIBSUFFIX)/qt4/translations
+configure_switches += -examplesdir    /usr/lib$(LIBSUFFIX)/qt4/examples
+configure_switches += -demosdir       /usr/lib$(LIBSUFFIX)/qt4/demos
+
+configure_switches += -graphicssystem raster
+
 configure_switches += -opengl es2
 configure_switches += -system-libpng
 configure_switches += -system-libmng
@@ -175,8 +188,8 @@ configure_switches += -webkit
 configure_switches += -no-qt3support
 configure_switches += -make libs
 configure_switches += -make tools
-configure_switches += -nomake examples
-configure_switches += -nomake demos
+configure_switches += -make examples
+configure_switches += -make demos
 configure_switches += -nomake docs
 configure_switches += -no-separate-debug-info
 configure_switches += -no-pch

@@ -123,7 +123,22 @@ configure_switches += -device-option CROSS_COMPILE=$(CROSS_PREFIX)
 
 configure_switches += -sysroot $(TARGET_DEST_DIR)
 configure_switches += -extprefix /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5
-configure_switches += -sysconfdir /etc/xdg
+
+configure_switches += -sysconfdir     /etc/xdg
+configure_switches += -bindir         /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/bin
+configure_switches += -headerdir      /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/include
+configure_switches += -libdir         /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/lib
+configure_switches += -archdatadir    /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5
+configure_switches += -plugindir      /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/plugins
+configure_switches += -libexecdir     /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/libexec
+configure_switches += -importdir      /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/imports
+configure_switches += -qmldir         /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/qml
+configure_switches += -datadir        /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5
+configure_switches += -docdir         /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/doc
+configure_switches += -translationdir /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/translations
+configure_switches += -examplesdir    /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/examples
+configure_switches += -testsdir       /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/tests
+
 configure_switches += -release
 configure_switches += -shared
 configure_switches += -force-pkg-config
@@ -160,9 +175,14 @@ configure_switches += -evdev
 configure_switches += -icu
 configure_switches += -dbus
 configure_switches += -no-use-gold-linker
+
 configure_switches += -xcb
 configure_switches += -eglfs
 configure_switches += -no-directfb
+configure_switches += -linuxfb
+configure_switches += -kms
+configure_switches += -qpa xcb
+
 configure_switches += -qreal double
 configure_switches += -no-warnings-are-errors
 configure_switches += -make libs

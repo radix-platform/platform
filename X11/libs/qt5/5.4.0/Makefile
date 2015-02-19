@@ -162,7 +162,22 @@ endif
 
 configure_switches += -sysroot $(TARGET_DEST_DIR)
 configure_switches += -extprefix /usr/lib$(LIBSUFFIX)/qt5
-configure_switches += -sysconfdir /etc/xdg
+
+configure_switches += -sysconfdir     /etc/xdg
+configure_switches += -bindir         /usr/lib$(LIBSUFFIX)/qt5/bin
+configure_switches += -headerdir      /usr/lib$(LIBSUFFIX)/qt5/include
+configure_switches += -libdir         /usr/lib$(LIBSUFFIX)/qt5/lib
+configure_switches += -archdatadir    /usr/lib$(LIBSUFFIX)/qt5
+configure_switches += -plugindir      /usr/lib$(LIBSUFFIX)/qt5/plugins
+configure_switches += -libexecdir     /usr/lib$(LIBSUFFIX)/qt5/libexec
+configure_switches += -importdir      /usr/lib$(LIBSUFFIX)/qt5/imports
+configure_switches += -qmldir         /usr/lib$(LIBSUFFIX)/qt5/qml
+configure_switches += -datadir        /usr/lib$(LIBSUFFIX)/qt5
+configure_switches += -docdir         /usr/lib$(LIBSUFFIX)/qt5/doc
+configure_switches += -translationdir /usr/lib$(LIBSUFFIX)/qt5/translations
+configure_switches += -examplesdir    /usr/lib$(LIBSUFFIX)/qt5/examples
+configure_switches += -testsdir       /usr/lib$(LIBSUFFIX)/qt5/tests
+
 configure_switches += -release
 configure_switches += -shared
 configure_switches += -force-pkg-config
@@ -203,15 +218,20 @@ configure_switches += -evdev
 configure_switches += -icu
 configure_switches += -dbus
 configure_switches += -no-use-gold-linker
+
 configure_switches += -xcb
 configure_switches += -eglfs
 configure_switches += -no-directfb
+configure_switches += -linuxfb
+configure_switches += -kms
+configure_switches += -qpa xcb
+
 configure_switches += -qreal double
 configure_switches += -no-warnings-are-errors
 configure_switches += -make libs
 configure_switches += -make tools
-configure_switches += -nomake examples
-configure_switches += -nomake tests
+configure_switches += -make examples
+configure_switches += -make tests
 configure_switches += -no-strip
 configure_switches += -no-pch
 configure_switches += -no-rpath

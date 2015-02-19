@@ -111,7 +111,6 @@ TARGET_SPEC_DIR = linux-$(ARCH)-$(ABI)-g++
 
 configure_switches  = -confirm-license
 configure_switches += -opensource
-configure_switches += -prefix /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4
 configure_switches += -arch $(ARCH)
 configure_switches += -platform linux-g++
 configure_switches += -xplatform $(TARGET_SPEC_DIR)
@@ -119,8 +118,22 @@ configure_switches += -release
 configure_switches += -shared
 configure_switches += -force-pkg-config
 configure_switches += -no-gtkstyle
-configure_switches += -sysconfdir /etc/xdg
-configure_switches += -graphicssystem opengl
+
+configure_switches += -sysconfdir     /etc/xdg
+configure_switches += -prefix         /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4
+configure_switches += -bindir         /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/bin
+configure_switches += -libdir         /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/lib
+configure_switches += -docdir         /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/doc
+configure_switches += -headerdir      /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/include
+configure_switches += -plugindir      /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/plugins
+configure_switches += -importdir      /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/imports
+configure_switches += -datadir        /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4
+configure_switches += -translationdir /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/translations
+configure_switches += -examplesdir    /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/examples
+configure_switches += -demosdir       /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/demos
+
+configure_switches += -graphicssystem raster
+
 configure_switches += -opengl es2
 configure_switches += -system-libpng
 configure_switches += -system-libmng

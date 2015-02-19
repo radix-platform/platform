@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+    |-----handy-ruler------------------------------------------------------|
+ices: ices @VERSION@ (Client for broadcasting to an Icecast 2 server)
+ices:
+ices: IceS is a source client for a streaming server. The purpose of this
+ices: client is to provide an audio stream to a streaming server such that
+ices: one or more listeners can access the stream. With this layout, this
+ices: source client can be situated remotely from the icecast server.
+ices:
+ices: Homepage: http://icecast.org
+ices:
+ices:
+ices:

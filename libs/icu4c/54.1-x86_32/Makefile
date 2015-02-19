@@ -91,6 +91,9 @@ extra_configure_switches += --with-cross-build=$(CURDIR)/$(build_host_dir)
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
+	@( cd $(SRC_DIR)/source/config ; \
+	   sed -i "s,^LDFLAGSICUDT,#LDFLAGSICUDT," mh-linux ; \
+	 )
 	@touch $@
 
 $(build_target): $(src_done)

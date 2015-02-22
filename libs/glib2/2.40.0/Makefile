@@ -39,7 +39,25 @@ build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
 
+
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB2X)),)
+hw_cache_in        = $(CURDIR)/cross/hw.cache.arm
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_VIP1830)),)
+hw_cache_in        = $(CURDIR)/cross/hw.cache.arm
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_BEAGLE)),)
+hw_cache_in        = $(CURDIR)/cross/hw.cache.arm
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
+hw_cache_in        = $(CURDIR)/cross/hw.cache.arm
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_B74)),)
+hw_cache_in        = $(CURDIR)/cross/hw.cache.mips
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32) $(HARDWARE_PC64)),)
 hw_cache_in        = $(CURDIR)/cross/hw.cache
+endif
 hw_cache           = $(CURDIR)/$(build_dir)/hw.cache
 
 

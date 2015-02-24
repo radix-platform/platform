@@ -134,8 +134,7 @@ $(build_target): $(src_done)
 	  --prefix=/usr               \
 	  --target=$(target_platform) \
 	  $(extra_configure_switches)
-	# ======= forcibly prevent overwriting TOOLCHAIN variable from Google =======
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) TOOLCHAIN=$(target_platform)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
 	@touch $@
 
 $(install_target): $(build_target)

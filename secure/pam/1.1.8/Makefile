@@ -106,10 +106,11 @@ extra_configure_switches += --disable-audit
 extra_configure_switches += --disable-db
 extra_configure_switches += --enable-isadir=../../lib$(LIBSUFFIX)/security
 extra_configure_switches += --without-libiconv-prefix
-extra_configure_switches += --disable-rpath
 extra_configure_switches += --enable-static=yes
 extra_configure_switches += --enable-shared=yes
 
+
+TARGET_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)
 
 
 ####### Dependencies
@@ -187,6 +188,23 @@ $(install_target): $(build_target)
 	   mv time.conf      time.conf.new      ; \
 	 )
 	# ======= archive man pages =======
+	@( cd $(PAM_PKG)/usr/share/man/man5 ; \
+	   rm -f pam.d.5 ; ln -sf pam.conf.5 pam.d.5 ; \
+	 )
+	@( cd $(PAM_PKG)/usr/share/man/man8 ; \
+	   rm -f pam.8 ; ln -sf PAM.8 pam.8 ; \
+	 )
+	@( cd $(PAM_PKG)/usr/share/man/man3 ; \
+	   for file in *.3 ; do                                \
+	     ln=`head -n 1 $$file` ;                           \
+	     if [ "`echo $$ln | grep '^\.so '`" != "" ] ; then \
+	       origin=`echo $$ln | cut -f 2 -d ' '` ;          \
+	       origin=`basename $$origin` ;                    \
+	       rm -f $$file ;                                  \
+	       ln -sf $$origin $$file ;                        \
+	     fi ;                                              \
+	   done ;                                              \
+	 )
 	@if [ -d $(PAM_PKG)/usr/share/man ]; then \
 	  ( cd $(PAM_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \
@@ -252,18 +270,28 @@ $(install_target): $(build_target)
 	@cd $(PAM_PKG) && cp -rf * $(TARGET_DEST_DIR)
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libpam.la libpam_misc.la libpamc.la ; \
-	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libpam.la libpam_misc.la libpamc.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libpam.la libpam_misc.la libpamc.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libpam.la libpam_misc.la libpamc.la \
 	 )
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/security ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" pam_*.la ; \
-	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" pam_*.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" pam_*.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" pam_*.la \
 	 )
-	@(cd $(PAM_PKG); \
-	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
+	# ======= Strip binaries =======
+	@( cd $(PAM_PKG); \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifneq ($(CHRPATH),)
+	# ======= Set RPATH/RUNPATH for target shared objects =======
+	@( cd $(PAM_PKG)/usr/lib$(LIBSUFFIX)/security ; \
+	   rpath=`$(CHRPATH) -l pam_cracklib.so 2> /dev/null | grep "R*PATH"` ; \
+	   if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
+	     $(CHRPATH) -r $(TARGET_RPATH) pam_cracklib.so 1> /dev/null 2> /dev/null ; \
+	   fi ; \
+	 )
+endif
 	@touch $@
 
 $(PAM_PKG_DESCRIPTION_FILE): $(PAM_PKG_DESCRIPTION_FILE_IN)

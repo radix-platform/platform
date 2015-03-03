@@ -40,23 +40,23 @@ PKG_GROUP = libs
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-UDEV32_PKG_NAME                = libudev-x32
-UDEV32_PKG_VERSION             = 182
-UDEV32_PKG_ARCH                = $(TOOLCHAIN)
-UDEV32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
-UDEV32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
-UDEV32_PKG_GROUP               = $(PKG_GROUP)
-###                             |---handy-ruler-------------------------------|
-UDEV32_PKG_SHORT_DESCRIPTION   = libraries for udev
-UDEV32_PKG_URL                 = $(BUG_URL)
-UDEV32_PKG_LICENSE             = GPLv2
-UDEV32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(UDEV32_PKG_NAME)-pkg-description
-UDEV32_PKG_DESCRIPTION_FILE_IN = $(UDEV32_PKG_NAME)-pkg-description.in
-UDEV32_PKG_INSTALL_SCRIPT      = $(UDEV32_PKG_NAME)-pkg-install.sh
+UDEV_32_PKG_NAME                = libudev-x32
+UDEV_32_PKG_VERSION             = 182
+UDEV_32_PKG_ARCH                = $(TOOLCHAIN)
+UDEV_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+UDEV_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
+UDEV_32_PKG_GROUP               = $(PKG_GROUP)
+###                              |---handy-ruler-------------------------------|
+UDEV_32_PKG_SHORT_DESCRIPTION   = libraries for udev
+UDEV_32_PKG_URL                 = $(BUG_URL)
+UDEV_32_PKG_LICENSE             = GPLv2
+UDEV_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(UDEV_32_PKG_NAME)-pkg-description
+UDEV_32_PKG_DESCRIPTION_FILE_IN = $(UDEV_32_PKG_NAME)-pkg-description.in
+UDEV_32_PKG_INSTALL_SCRIPT      = $(UDEV_32_PKG_NAME)-pkg-install.sh
 
-UDEV32_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(UDEV32_PKG_NAME)-package
+UDEV_32_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(UDEV_32_PKG_NAME)-package
 
-pkg_basename     = $(UDEV32_PKG_NAME)-$(UDEV32_PKG_VERSION)-$(UDEV32_PKG_ARCH)-$(UDEV32_PKG_DISTRO_NAME)-$(UDEV32_PKG_DISTRO_VERSION)
+pkg_basename     = $(UDEV_32_PKG_NAME)-$(UDEV_32_PKG_VERSION)-$(UDEV_32_PKG_ARCH)-$(UDEV_32_PKG_DISTRO_NAME)-$(UDEV_32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
 pkg_signature    = $(call sign-name,$(pkg_archive))
@@ -74,7 +74,7 @@ ROOTFS_TARGETS   = $(pkg_archive)
 include ../../../build-system/core.mk
 
 
-env_sysroot      = DESTDIR=$(UDEV32_PKG)
+env_sysroot      = DESTDIR=$(UDEV_32_PKG)
 
 CFLAGS          += -isystem $(TARGET_DEST_DIR)/usr/include -D__linux__
 
@@ -99,6 +99,9 @@ extra_configure_switches += --enable-rule_generator
 extra_configure_switches += --with-systemdsystemunitdir=no
 
 
+TARGET_LIB_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX):/usr/lib/../lib$(MULTILIB_X86_32_SUFFIX)
+
+
 ####### Dependencies
 
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
@@ -117,55 +120,67 @@ $(build_target): $(src_done)
 	@touch $@
 
 $(install_target): $(build_target)
-	@mkdir -p $(UDEV32_PKG)
+	@mkdir -p $(UDEV_32_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
-	@rm -rf $(UDEV32_PKG)/etc
-	@rm -rf $(UDEV32_PKG)/sbin
-	@rm -rf $(UDEV32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)/udev
-	@rm -rf $(UDEV32_PKG)/usr/include
-	@rm -rf $(UDEV32_PKG)/usr/share
-	# remove target destination path from target libtool *.la files and pkgconfig *.pc files
-	@( cd $(UDEV32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@rm -rf $(UDEV_32_PKG)/etc
+	@rm -rf $(UDEV_32_PKG)/sbin
+	@rm -rf $(UDEV_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)/udev
+	@rm -rf $(UDEV_32_PKG)/usr/include
+	@rm -rf $(UDEV_32_PKG)/usr/share
+	# ======= remove target destination path from target libtool *.la files =======
+	@( cd $(UDEV_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	  sed -i "s,$(TARGET_DEST_DIR),,g" libgudev-?.?.la libudev.la ; \
 	  sed -i "s,-L/usr/lib ,,g" libgudev-?.?.la ; \
 	  sed -i "s,-L/lib ,,g" libgudev-?.?.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(UDEV32_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	# tune libtool *.la search path to the target destination for development
+	@cd $(UDEV_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgudev-?.?.la libudev.la ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libgudev-?.?.la libudev.la \
 	 )
-	# tune pkg-config *.pc search path to the target destination for development
+	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" gudev-?.?.pc libudev.pc \
 	 )
-	@( cd $(UDEV32_PKG); \
+	# ======= Strip binaries =======
+	@( cd $(UDEV_32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifneq ($(CHRPATH),)
+	# ======= Set RPATH/RUNPATH for target shared objects =======
+	@( cd $(UDEV_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
+	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
+	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
+	       $(CHRPATH) -r $(TARGET_LIB_RPATH) $$file 1> /dev/null 2> /dev/null ; \
+	     fi ; \
+	   done ; \
+	 )
+endif
 	@touch $@
 
-$(UDEV32_PKG_DESCRIPTION_FILE): $(UDEV32_PKG_DESCRIPTION_FILE_IN)
+$(UDEV_32_PKG_DESCRIPTION_FILE): $(UDEV_32_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
 $(pkg_signature)   : $(pkg_archive) ;
 $(pkg_description) : $(pkg_archive) ;
 
-$(pkg_archive): $(install_target) $(UDEV32_PKG_DESCRIPTION_FILE) $(UDEV32_PKG_INSTALL_SCRIPT)
-	@cp $(UDEV32_PKG_DESCRIPTION_FILE) $(UDEV32_PKG)/.DESCRIPTION
-	@cp $(UDEV32_PKG_INSTALL_SCRIPT) $(UDEV32_PKG)/.INSTALL
-	@$(BUILD_PKG_REQUIRES) $(UDEV32_PKG)/.REQUIRES
-	@echo "pkgname=$(UDEV32_PKG_NAME)"                            >  $(UDEV32_PKG)/.PKGINFO ; \
-	 echo "pkgver=$(UDEV32_PKG_VERSION)"                          >> $(UDEV32_PKG)/.PKGINFO ; \
-	 echo "arch=$(UDEV32_PKG_ARCH)"                               >> $(UDEV32_PKG)/.PKGINFO ; \
-	 echo "distroname=$(UDEV32_PKG_DISTRO_NAME)"                  >> $(UDEV32_PKG)/.PKGINFO ; \
-	 echo "distrover=$(UDEV32_PKG_DISTRO_VERSION)"                >> $(UDEV32_PKG)/.PKGINFO ; \
-	 echo "group=$(UDEV32_PKG_GROUP)"                             >> $(UDEV32_PKG)/.PKGINFO ; \
-	 echo "short_description=\"$(UDEV32_PKG_SHORT_DESCRIPTION)\"" >> $(UDEV32_PKG)/.PKGINFO ; \
-	 echo "url=$(UDEV32_PKG_URL)"                                 >> $(UDEV32_PKG)/.PKGINFO ; \
-	 echo "license=$(UDEV32_PKG_LICENSE)"                         >> $(UDEV32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(UDEV32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+$(pkg_archive): $(install_target) $(UDEV_32_PKG_DESCRIPTION_FILE) $(UDEV_32_PKG_INSTALL_SCRIPT)
+	@cp $(UDEV_32_PKG_DESCRIPTION_FILE) $(UDEV_32_PKG)/.DESCRIPTION
+	@cp $(UDEV_32_PKG_INSTALL_SCRIPT) $(UDEV_32_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(UDEV_32_PKG)/.REQUIRES
+	@echo "pkgname=$(UDEV_32_PKG_NAME)"                            >  $(UDEV_32_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(UDEV_32_PKG_VERSION)"                          >> $(UDEV_32_PKG)/.PKGINFO ; \
+	 echo "arch=$(UDEV_32_PKG_ARCH)"                               >> $(UDEV_32_PKG)/.PKGINFO ; \
+	 echo "distroname=$(UDEV_32_PKG_DISTRO_NAME)"                  >> $(UDEV_32_PKG)/.PKGINFO ; \
+	 echo "distrover=$(UDEV_32_PKG_DISTRO_VERSION)"                >> $(UDEV_32_PKG)/.PKGINFO ; \
+	 echo "group=$(UDEV_32_PKG_GROUP)"                             >> $(UDEV_32_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(UDEV_32_PKG_SHORT_DESCRIPTION)\"" >> $(UDEV_32_PKG)/.PKGINFO ; \
+	 echo "url=$(UDEV_32_PKG_URL)"                                 >> $(UDEV_32_PKG)/.PKGINFO ; \
+	 echo "license=$(UDEV_32_PKG_LICENSE)"                         >> $(UDEV_32_PKG)/.PKGINFO
+	@$(FAKEROOT) sh -c "cd $(UDEV_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

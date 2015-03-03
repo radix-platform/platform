@@ -19,7 +19,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/n/pinentry
 
 REQUIRES           = libs/ncurses/5.9
-REQUIRES          += libs/libcap/2.24
+REQUIRES          += secure/libcap/2.24
 
 
 version            = 0.8.4

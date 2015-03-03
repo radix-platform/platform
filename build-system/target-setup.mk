@@ -90,6 +90,29 @@ toolchain-sysroot = $($(strip                                          \
 ################################################################
 
 
+################################################################
+# Is there 'chrpath' utility in the toolchain.
+#
+has-chrpath = $($(strip                                          \
+                  $(foreach v, $(filter TOOLCHAIN_%,             \
+                                 $(filter-out TOOLCHAIN_ALL      \
+                                              TOOLCHAIN_NAMES    \
+                                              TOOLCHAIN_DIR      \
+                                              TOOLCHAIN_PATH     \
+                                              TOOLCHAIN_VERSION  \
+                                              TOOLCHAIN_INCPATH, \
+                                              $(.VARIABLES))),   \
+                    $(if $(filter $1, $($(v))),                  \
+                      $(addsuffix _HAS_CHRPATH,$(subst TOOLCHAIN_,,$(v))), \
+                     ))))
+
+# usage:
+#   enable_chrpath = $(call has-chrpath,$(TOOLCHAIN))
+#
+# Is there 'chrpath' utility in the toolchain.
+################################################################
+
+
 #######
 ####### Setup ccache:
 #######
@@ -162,6 +185,10 @@ OBJCOPY            = $(TOOLCHAIN_PATH)/bin/$(TARGET)-objcopy
 OBJDUMP            = $(TOOLCHAIN_PATH)/bin/$(TARGET)-objdump
 NM                 = $(TOOLCHAIN_PATH)/bin/$(TARGET)-nm
 CROSS_PREFIX       = $(TOOLCHAIN_PATH)/bin/$(TARGET)-
+CHRPATH            = $(strip                                                \
+                       $(if $(filter yes,$(call has-chrpath,$(TOOLCHAIN))), \
+                         $(TOOLCHAIN_PATH)/bin/$(TARGET)-chrpath,           \
+                        ))
 else
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_BUILD_MACHINE))
 CC                 = $(TOOLCHAIN_PATH)/bin/gcc
@@ -175,6 +202,10 @@ STRIP              = $(TOOLCHAIN_PATH)/bin/strip
 OBJCOPY            = $(TOOLCHAIN_PATH)/bin/objcopy
 OBJDUMP            = $(TOOLCHAIN_PATH)/bin/objdump
 NM                 = $(TOOLCHAIN_PATH)/bin/nm
+CHRPATH            = $(strip                                                \
+                       $(if $(filter yes,$(call has-chrpath,$(TOOLCHAIN))), \
+                         $(TOOLCHAIN_PATH)/bin/chrpath,                     \
+                        ))
 else
 # TOOLCHAIN_NOARCH doesn't need these variables but:
 CC                 = gcc

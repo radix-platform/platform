@@ -326,6 +326,39 @@ $(install_target): $(build_target)
 	   ln -s hwclock.8 clock.8 ; \
 	 )
 	# ======= Install Documentation =======
+	@( cd $(UTILLINUX_PKG)/usr/share/man/man1 ; \
+	   for file in *.1 ; do                                \
+	     ln=`head -n 1 $$file` ;                           \
+	     if [ "`echo $$ln | grep '^\.so '`" != "" ] ; then \
+	       origin=`echo $$ln | cut -f 2 -d ' '` ;          \
+	       origin=`basename $$origin` ;                    \
+	       rm -f $$file ;                                  \
+	       ln -sf $$origin $$file ;                        \
+	     fi ;                                              \
+	   done ;                                              \
+	 )
+	@( cd $(UTILLINUX_PKG)/usr/share/man/man3 ; \
+	   for file in *.3 ; do                                \
+	     ln=`head -n 1 $$file` ;                           \
+	     if [ "`echo $$ln | grep '^\.so '`" != "" ] ; then \
+	       origin=`echo $$ln | cut -f 2 -d ' '` ;          \
+	       origin=`basename $$origin` ;                    \
+	       rm -f $$file ;                                  \
+	       ln -sf $$origin $$file ;                        \
+	     fi ;                                              \
+	   done ;                                              \
+	 )
+	@( cd $(UTILLINUX_PKG)/usr/share/man/man8 ; \
+	   for file in *.8 ; do                                \
+	     ln=`head -n 1 $$file` ;                           \
+	     if [ "`echo $$ln | grep '^\.so '`" != "" ] ; then \
+	       origin=`echo $$ln | cut -f 2 -d ' '` ;          \
+	       origin=`basename $$origin` ;                    \
+	       rm -f $$file ;                                  \
+	       ln -sf $$origin $$file ;                        \
+	     fi ;                                              \
+	   done ;                                              \
+	 )
 	@if [ -d $(UTILLINUX_PKG)/usr/share/man ]; then \
 	  ( cd $(UTILLINUX_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \

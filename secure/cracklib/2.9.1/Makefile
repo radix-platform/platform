@@ -91,7 +91,6 @@ extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --datadir=/var/cache
 extra_configure_switches += --with-default-dict=/var/cache/cracklib/pq_dict
-extra_configure_switches += --disable-rpath
 extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --enable-static=yes
 

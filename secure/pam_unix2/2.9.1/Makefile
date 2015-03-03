@@ -89,7 +89,6 @@ extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var/lib
 extra_configure_switches += --without-libiconv-prefix
 extra_configure_switches += --disable-selinux
-extra_configure_switches += --disable-rpath
 extra_configure_switches += --enable-static=yes
 extra_configure_switches += --enable-shared=yes
 
@@ -152,8 +151,8 @@ $(install_target): $(build_target)
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(PAM_U2_PKG) && cp -rf * $(TARGET_DEST_DIR)
 	# ======= Strip binaries =======
-	@(cd $(PAM_U2_PKG); \
-	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	@( cd $(PAM_U2_PKG); \
+	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )
 	@touch $@
 

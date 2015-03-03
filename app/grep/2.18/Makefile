@@ -107,14 +107,20 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(GREP_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
-	@rm -f $(GREP_PKG)/usr/share/info/dir
-	@gzip -9 $(GREP_PKG)/usr/share/info/*
 	@mkdir -p $(GREP_PKG)/usr/bin
 	@( cd $(GREP_PKG)/usr/bin ; \
 	   ln -sf ../../bin/grep . ; \
 	   ln -sf ../../bin/egrep . ; \
 	   ln -sf ../../bin/fgrep . \
 	 )
+	# ======= Install Documentation =======
+	@( cd $(GREP_PKG)/usr/share/man/man1 ; \
+	   rm -f egrep.1 fgrep.1 ; \
+	   ln -sf grep.1 egrep.1 ; \
+	   ln -sf grep.1 fgrep.1 ; \
+	 )
+	@rm -f $(GREP_PKG)/usr/share/info/dir
+	@gzip -9 $(GREP_PKG)/usr/share/info/*
 	@if [ -d $(GREP_PKG)/usr/share/man ]; then \
 	  ( cd $(GREP_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \

@@ -37,23 +37,23 @@ PKG_GROUP = libs
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-MPC32_PKG_NAME                = mpc-x32
-MPC32_PKG_VERSION             = 1.0.2
-MPC32_PKG_ARCH                = $(TOOLCHAIN)
-MPC32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
-MPC32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
-MPC32_PKG_GROUP               = $(PKG_GROUP)
-###                            |---handy-ruler-------------------------------|
-MPC32_PKG_SHORT_DESCRIPTION   = complex floating-point library
-MPC32_PKG_URL                 = $(BUG_URL)
-MPC32_PKG_LICENSE             = GPLv2
-MPC32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(MPC32_PKG_NAME)-pkg-description
-MPC32_PKG_DESCRIPTION_FILE_IN = $(MPC32_PKG_NAME)-pkg-description.in
-MPC32_PKG_INSTALL_SCRIPT      = $(MPC32_PKG_NAME)-pkg-install.sh
+MPC_32_PKG_NAME                = mpc-x32
+MPC_32_PKG_VERSION             = 1.0.2
+MPC_32_PKG_ARCH                = $(TOOLCHAIN)
+MPC_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+MPC_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
+MPC_32_PKG_GROUP               = $(PKG_GROUP)
+###                             |---handy-ruler-------------------------------|
+MPC_32_PKG_SHORT_DESCRIPTION   = complex floating-point library
+MPC_32_PKG_URL                 = $(BUG_URL)
+MPC_32_PKG_LICENSE             = GPLv2
+MPC_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(MPC_32_PKG_NAME)-pkg-description
+MPC_32_PKG_DESCRIPTION_FILE_IN = $(MPC_32_PKG_NAME)-pkg-description.in
+MPC_32_PKG_INSTALL_SCRIPT      = $(MPC_32_PKG_NAME)-pkg-install.sh
 
-MPC32_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(MPC32_PKG_NAME)-package
+MPC_32_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(MPC_32_PKG_NAME)-package
 
-pkg_basename     = $(MPC32_PKG_NAME)-$(MPC32_PKG_VERSION)-$(MPC32_PKG_ARCH)-$(MPC32_PKG_DISTRO_NAME)-$(MPC32_PKG_DISTRO_VERSION)
+pkg_basename     = $(MPC_32_PKG_NAME)-$(MPC_32_PKG_VERSION)-$(MPC_32_PKG_ARCH)-$(MPC_32_PKG_DISTRO_NAME)-$(MPC_32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
 pkg_signature    = $(call sign-name,$(pkg_archive))
@@ -71,7 +71,7 @@ ROOTFS_TARGETS   = $(pkg_archive)
 include ../../../build-system/core.mk
 
 
-env_sysroot = DESTDIR=$(MPC32_PKG)
+env_sysroot = DESTDIR=$(MPC_32_PKG)
 
 
 extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
@@ -81,6 +81,8 @@ extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --enable-static=yes
 extra_configure_switches += --enable-shared=yes
 
+
+TARGET_LIB_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX):/usr/lib/../lib$(MULTILIB_X86_32_SUFFIX)
 
 
 ####### Dependencies
@@ -101,46 +103,58 @@ $(build_target): $(src_done)
 	@touch $@
 
 $(install_target): $(build_target)
-	@mkdir -p $(MPC32_PKG)
+	@mkdir -p $(MPC_32_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
-	@rm -rf $(MPC32_PKG)/usr/include
-	@rm -rf $(MPC32_PKG)/usr/share
-	# remove toolchain path from target libtool *.la files and
-	@( cd $(MPC32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	  sed -i "s,$(TARGET_DEST_DIR),,g" libmpc.la  \
+	@rm -rf $(MPC_32_PKG)/usr/include
+	@rm -rf $(MPC_32_PKG)/usr/share
+	# ======= remove toolchain path from target libtool *.la files =======
+	@( cd $(MPC_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libmpc.la  \
 	 )
-	# Install the same to $(TARGET_DEST_DIR)
+	# ======= Install the same to $(TARGET_DEST_DIR)
 	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(MPC32_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	# tune libtool *.la search path to the target destination for development
+	@cd $(MPC_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libmpc.la ; \
-	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libmpc.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libmpc.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libmpc.la \
 	 )
-	@(cd $(MPC32_PKG); \
-	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
+	# ======= Strip binaries =======
+	@( cd $(MPC_32_PKG) ; \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifneq ($(CHRPATH),)
+	# ======= Set RPATH/RUNPATH for target shared objects =======
+	@( cd $(MPC_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
+	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
+	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
+	       $(CHRPATH) -r $(TARGET_LIB_RPATH) $$file 1> /dev/null 2> /dev/null ; \
+	     fi ; \
+	   done ; \
+	 )
+endif
 	@touch $@
 
-$(MPC32_PKG_DESCRIPTION_FILE): $(MPC32_PKG_DESCRIPTION_FILE_IN)
+$(MPC_32_PKG_DESCRIPTION_FILE): $(MPC_32_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
 $(pkg_signature)   : $(pkg_archive) ;
 $(pkg_description) : $(pkg_archive) ;
 
-$(pkg_archive): $(install_target) $(MPC32_PKG_DESCRIPTION_FILE) $(MPC32_PKG_INSTALL_SCRIPT)
-	@cp $(MPC32_PKG_DESCRIPTION_FILE) $(MPC32_PKG)/.DESCRIPTION
-	@cp $(MPC32_PKG_INSTALL_SCRIPT) $(MPC32_PKG)/.INSTALL
-	@$(BUILD_PKG_REQUIRES) $(MPC32_PKG)/.REQUIRES
-	@echo "pkgname=$(MPC32_PKG_NAME)"                            >  $(MPC32_PKG)/.PKGINFO ; \
-	 echo "pkgver=$(MPC32_PKG_VERSION)"                          >> $(MPC32_PKG)/.PKGINFO ; \
-	 echo "arch=$(MPC32_PKG_ARCH)"                               >> $(MPC32_PKG)/.PKGINFO ; \
-	 echo "distroname=$(MPC32_PKG_DISTRO_NAME)"                  >> $(MPC32_PKG)/.PKGINFO ; \
-	 echo "distrover=$(MPC32_PKG_DISTRO_VERSION)"                >> $(MPC32_PKG)/.PKGINFO ; \
-	 echo "group=$(MPC32_PKG_GROUP)"                             >> $(MPC32_PKG)/.PKGINFO ; \
-	 echo "short_description=\"$(MPC32_PKG_SHORT_DESCRIPTION)\"" >> $(MPC32_PKG)/.PKGINFO ; \
-	 echo "url=$(MPC32_PKG_URL)"                                 >> $(MPC32_PKG)/.PKGINFO ; \
-	 echo "license=$(MPC32_PKG_LICENSE)"                         >> $(MPC32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(MPC32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+$(pkg_archive): $(install_target) $(MPC_32_PKG_DESCRIPTION_FILE) $(MPC_32_PKG_INSTALL_SCRIPT)
+	@cp $(MPC_32_PKG_DESCRIPTION_FILE) $(MPC_32_PKG)/.DESCRIPTION
+	@cp $(MPC_32_PKG_INSTALL_SCRIPT) $(MPC_32_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(MPC_32_PKG)/.REQUIRES
+	@echo "pkgname=$(MPC_32_PKG_NAME)"                            >  $(MPC_32_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(MPC_32_PKG_VERSION)"                          >> $(MPC_32_PKG)/.PKGINFO ; \
+	 echo "arch=$(MPC_32_PKG_ARCH)"                               >> $(MPC_32_PKG)/.PKGINFO ; \
+	 echo "distroname=$(MPC_32_PKG_DISTRO_NAME)"                  >> $(MPC_32_PKG)/.PKGINFO ; \
+	 echo "distrover=$(MPC_32_PKG_DISTRO_VERSION)"                >> $(MPC_32_PKG)/.PKGINFO ; \
+	 echo "group=$(MPC_32_PKG_GROUP)"                             >> $(MPC_32_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(MPC_32_PKG_SHORT_DESCRIPTION)\"" >> $(MPC_32_PKG)/.PKGINFO ; \
+	 echo "url=$(MPC_32_PKG_URL)"                                 >> $(MPC_32_PKG)/.PKGINFO ; \
+	 echo "license=$(MPC_32_PKG_LICENSE)"                         >> $(MPC_32_PKG)/.PKGINFO
+	@$(FAKEROOT) sh -c "cd $(MPC_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

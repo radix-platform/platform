@@ -111,6 +111,18 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(XORG_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	# ======= Install Documentation ========
+	@( cd $(XORG_PKG)/usr/share/man/man3 ; \
+	   for file in *.3 ; do                                \
+	     ln=`head -n 1 $$file` ;                           \
+	     if [ "`echo $$ln | grep '^\.so '`" != "" ] ; then \
+	       origin=`echo $$ln | cut -f 2 -d ' '` ;          \
+	       origin=`basename $$origin` ;                    \
+	       rm -f $$file ;                                  \
+	       ln -sf $$origin $$file ;                        \
+	     fi ;                                              \
+	   done ;                                              \
+	 )
 	@if [ -d $(XORG_PKG)/usr/share/man ]; then \
 	  ( cd $(XORG_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \

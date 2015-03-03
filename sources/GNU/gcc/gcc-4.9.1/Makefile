@@ -19,6 +19,7 @@ patches    += $(CURDIR)/patches/gcc-4.9.1-fixinc-gmp-inside.patch
 patches    += $(CURDIR)/patches/gcc-4.9.1-fixinc-gmp-outside.patch
 patches    += $(CURDIR)/patches/gcc-4.9.1-x86_64-multilib.patch
 patches    += $(CURDIR)/patches/gcc-4.9.1-backtrace.patch
+patches    += $(CURDIR)/patches/gcc-4.9.1-doc.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -55,6 +56,7 @@ $(patches): $(sha1s)
 	 ( cd create-4.9.1-fixinc-gmp-outside-patch ; ./create.patch.sh ) ; \
 	 ( cd create-4.9.1-x86_64-multilib-patch ;    ./create.patch.sh ) ; \
 	 ( cd create-4.9.1-backtrace-patch ;          ./create.patch.sh ) ; \
+	 ( cd create-4.9.1-doc-patch ;                ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

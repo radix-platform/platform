@@ -36,23 +36,23 @@ PKG_GROUP = net
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-ASSUAN32_PKG_NAME                = libassuan-x32
-ASSUAN32_PKG_VERSION             = 2.1.1
-ASSUAN32_PKG_ARCH                = $(TOOLCHAIN)
-ASSUAN32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
-ASSUAN32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
-ASSUAN32_PKG_GROUP               = $(PKG_GROUP)
-###                               |---handy-ruler-------------------------------|
-ASSUAN32_PKG_SHORT_DESCRIPTION   = Interprocess Communication Library for GPG
-ASSUAN32_PKG_URL                 = $(BUG_URL)
-ASSUAN32_PKG_LICENSE             = GPLv2
-ASSUAN32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(ASSUAN32_PKG_NAME)-pkg-description
-ASSUAN32_PKG_DESCRIPTION_FILE_IN = $(ASSUAN32_PKG_NAME)-pkg-description.in
-ASSUAN32_PKG_INSTALL_SCRIPT      = $(ASSUAN32_PKG_NAME)-pkg-install.sh
+ASSUAN_32_PKG_NAME                = libassuan-x32
+ASSUAN_32_PKG_VERSION             = 2.1.1
+ASSUAN_32_PKG_ARCH                = $(TOOLCHAIN)
+ASSUAN_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+ASSUAN_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
+ASSUAN_32_PKG_GROUP               = $(PKG_GROUP)
+###                                |---handy-ruler-------------------------------|
+ASSUAN_32_PKG_SHORT_DESCRIPTION   = Interprocess Communication Library for GPG
+ASSUAN_32_PKG_URL                 = $(BUG_URL)
+ASSUAN_32_PKG_LICENSE             = GPLv2
+ASSUAN_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(ASSUAN_32_PKG_NAME)-pkg-description
+ASSUAN_32_PKG_DESCRIPTION_FILE_IN = $(ASSUAN_32_PKG_NAME)-pkg-description.in
+ASSUAN_32_PKG_INSTALL_SCRIPT      = $(ASSUAN_32_PKG_NAME)-pkg-install.sh
 
-ASSUAN32_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(ASSUAN32_PKG_NAME)-package
+ASSUAN_32_PKG    = $(CURDIR)/$(TARGET_BUILD_DIR)/$(ASSUAN_32_PKG_NAME)-package
 
-pkg_basename     = $(ASSUAN32_PKG_NAME)-$(ASSUAN32_PKG_VERSION)-$(ASSUAN32_PKG_ARCH)-$(ASSUAN32_PKG_DISTRO_NAME)-$(ASSUAN32_PKG_DISTRO_VERSION)
+pkg_basename     = $(ASSUAN_32_PKG_NAME)-$(ASSUAN_32_PKG_VERSION)-$(ASSUAN_32_PKG_ARCH)-$(ASSUAN_32_PKG_DISTRO_NAME)-$(ASSUAN_32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
 pkg_signature    = $(call sign-name,$(pkg_archive))
@@ -70,7 +70,7 @@ ROOTFS_TARGETS   = $(pkg_archive)
 include ../../../build-system/core.mk
 
 
-env_sysroot  = DESTDIR=$(ASSUAN32_PKG)
+env_sysroot  = DESTDIR=$(ASSUAN_32_PKG)
 
 
 extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
@@ -80,6 +80,9 @@ extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --enable-static=yes
 
 gpg_error_config = GPG_ERROR_CONFIG=$(TARGET_DEST_DIR)/usr/bin/32/gpg-error-config
+
+
+TARGET_LIB_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX):/usr/lib/../lib$(MULTILIB_X86_32_SUFFIX)
 
 
 ####### Dependencies
@@ -100,66 +103,78 @@ $(build_target): $(src_done)
 	@touch $@
 
 $(install_target): $(build_target)
-	@mkdir -p $(ASSUAN32_PKG)
+	@mkdir -p $(ASSUAN_32_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
-	@mkdir -p $(ASSUAN32_PKG)/usr/bin/32
-	@( cd $(ASSUAN32_PKG)/usr/bin ; \
+	@mkdir -p $(ASSUAN_32_PKG)/usr/bin/32
+	@( cd $(ASSUAN_32_PKG)/usr/bin ; \
 	   find . -type f | xargs mv -t 32 ; \
 	 )
-	@mkdir -p $(ASSUAN32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)
-	@( cd $(ASSUAN32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@mkdir -p $(ASSUAN_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)
+	@( cd $(ASSUAN_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   chmod +w lib*.so.?.*.? ; \
 	   mv lib*.so.?.*.? ../../lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/lib*.so.?.*.? . ; \
 	   cp -a lib*.so.? ../../lib$(MULTILIB_X86_32_SUFFIX) ; \
 	 )
-	@rm -rf $(ASSUAN32_PKG)/usr/include
-	@rm -rf $(ASSUAN32_PKG)/usr/share
-	# remove toolchain path from target libtool *.la files
-	@( cd $(ASSUAN32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@rm -rf $(ASSUAN_32_PKG)/usr/include
+	@rm -rf $(ASSUAN_32_PKG)/usr/share
+	# ======= remove toolchain path from target libtool *.la files =======
+	@( cd $(ASSUAN_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libassuan.la ; \
 	 )
-	@( cd $(ASSUAN32_PKG)/usr/bin/32 ; \
+	@( cd $(ASSUAN_32_PKG)/usr/bin/32 ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libassuan-config ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(ASSUAN32_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	# tune libtool *.la search path to the target destination for development
+	@cd $(ASSUAN_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libassuan.la  ; \
-	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libassuan.la  \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libassuan.la  ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libassuan.la  \
 	 )
-	# tune pkg-config *.pc search path to the target destination for development
+	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/bin/32 ; \
-	  sed -i "s,prefix=/usr,prefix=$(TARGET_DEST_DIR)/usr,g" libassuan-config ; \
-	  sed -i "s,-L/usr,-L$(TARGET_DEST_DIR)/usr,g" libassuan-config ; \
-	  sed -i "s,-I/usr,-I$(TARGET_DEST_DIR)/usr,g" libassuan-config ; \
+	   sed -i "s,prefix=/usr,prefix=$(TARGET_DEST_DIR)/usr,g" libassuan-config ; \
+	   sed -i "s,-L/usr,-L$(TARGET_DEST_DIR)/usr,g" libassuan-config ; \
+	   sed -i "s,-I/usr,-I$(TARGET_DEST_DIR)/usr,g" libassuan-config ; \
 	 )
-	@( cd $(ASSUAN32_PKG) ; \
+	# ======= Strip binaries =======
+	@( cd $(ASSUAN_32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifneq ($(CHRPATH),)
+	# ======= Set RPATH/RUNPATH for target shared objects =======
+	@( cd $(ASSUAN_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
+	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
+	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
+	       $(CHRPATH) -r $(TARGET_LIB_RPATH) $$file 1> /dev/null 2> /dev/null ; \
+	     fi ; \
+	   done ; \
+	 )
+endif
 	@touch $@
 
-$(ASSUAN32_PKG_DESCRIPTION_FILE): $(ASSUAN32_PKG_DESCRIPTION_FILE_IN)
+$(ASSUAN_32_PKG_DESCRIPTION_FILE): $(ASSUAN_32_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
 $(pkg_signature)   : $(pkg_archive) ;
 $(pkg_description) : $(pkg_archive) ;
 
-$(pkg_archive): $(install_target) $(ASSUAN32_PKG_DESCRIPTION_FILE) $(ASSUAN32_PKG_INSTALL_SCRIPT)
-	@cp $(ASSUAN32_PKG_DESCRIPTION_FILE) $(ASSUAN32_PKG)/.DESCRIPTION
-	@cp $(ASSUAN32_PKG_INSTALL_SCRIPT) $(ASSUAN32_PKG)/.INSTALL
-	@$(BUILD_PKG_REQUIRES) $(ASSUAN32_PKG)/.REQUIRES
-	@echo "pkgname=$(ASSUAN32_PKG_NAME)"                            >  $(ASSUAN32_PKG)/.PKGINFO ; \
-	 echo "pkgver=$(ASSUAN32_PKG_VERSION)"                          >> $(ASSUAN32_PKG)/.PKGINFO ; \
-	 echo "arch=$(ASSUAN32_PKG_ARCH)"                               >> $(ASSUAN32_PKG)/.PKGINFO ; \
-	 echo "distroname=$(ASSUAN32_PKG_DISTRO_NAME)"                  >> $(ASSUAN32_PKG)/.PKGINFO ; \
-	 echo "distrover=$(ASSUAN32_PKG_DISTRO_VERSION)"                >> $(ASSUAN32_PKG)/.PKGINFO ; \
-	 echo "group=$(ASSUAN32_PKG_GROUP)"                             >> $(ASSUAN32_PKG)/.PKGINFO ; \
-	 echo "short_description=\"$(ASSUAN32_PKG_SHORT_DESCRIPTION)\"" >> $(ASSUAN32_PKG)/.PKGINFO ; \
-	 echo "url=$(ASSUAN32_PKG_URL)"                                 >> $(ASSUAN32_PKG)/.PKGINFO ; \
-	 echo "license=$(ASSUAN32_PKG_LICENSE)"                         >> $(ASSUAN32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(ASSUAN32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+$(pkg_archive): $(install_target) $(ASSUAN_32_PKG_DESCRIPTION_FILE) $(ASSUAN_32_PKG_INSTALL_SCRIPT)
+	@cp $(ASSUAN_32_PKG_DESCRIPTION_FILE) $(ASSUAN_32_PKG)/.DESCRIPTION
+	@cp $(ASSUAN_32_PKG_INSTALL_SCRIPT) $(ASSUAN_32_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(ASSUAN_32_PKG)/.REQUIRES
+	@echo "pkgname=$(ASSUAN_32_PKG_NAME)"                            >  $(ASSUAN_32_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(ASSUAN_32_PKG_VERSION)"                          >> $(ASSUAN_32_PKG)/.PKGINFO ; \
+	 echo "arch=$(ASSUAN_32_PKG_ARCH)"                               >> $(ASSUAN_32_PKG)/.PKGINFO ; \
+	 echo "distroname=$(ASSUAN_32_PKG_DISTRO_NAME)"                  >> $(ASSUAN_32_PKG)/.PKGINFO ; \
+	 echo "distrover=$(ASSUAN_32_PKG_DISTRO_VERSION)"                >> $(ASSUAN_32_PKG)/.PKGINFO ; \
+	 echo "group=$(ASSUAN_32_PKG_GROUP)"                             >> $(ASSUAN_32_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(ASSUAN_32_PKG_SHORT_DESCRIPTION)\"" >> $(ASSUAN_32_PKG)/.PKGINFO ; \
+	 echo "url=$(ASSUAN_32_PKG_URL)"                                 >> $(ASSUAN_32_PKG)/.PKGINFO ; \
+	 echo "license=$(ASSUAN_32_PKG_LICENSE)"                         >> $(ASSUAN_32_PKG)/.PKGINFO
+	@$(FAKEROOT) sh -c "cd $(ASSUAN_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

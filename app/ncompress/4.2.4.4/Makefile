@@ -96,7 +96,7 @@ $(install_target): $(build_target)
 	@( cd $(NCOMPRESS_PKG)/bin ; ln -sf compress uncompress )
 	@mkdir -p $(NCOMPRESS_PKG)/usr/share/man/man1
 	@cd $(SRC_DIR) && cat compress.1 | gzip -9c > $(NCOMPRESS_PKG)/usr/share/man/man1/compress.1.gz
-	@echo '.so man1/compress.1' | gzip -9c > $(NCOMPRESS_PKG)/usr/share/man/man1/uncompress.1.gz
+	@( cd $(NCOMPRESS_PKG)/usr/share/man/man1 ; ln -sf compress.1.gz uncompress.1.gz )
 	@mkdir -p $(NCOMPRESS_PKG)/usr/doc/ncompress-$(version)
 	@( cd $(SRC_DIR) ; \
 	   cp -a Acknowleds \

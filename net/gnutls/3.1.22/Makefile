@@ -108,6 +108,10 @@ guile_snarf       = $(TARGET_DEST_DIR)/usr/bin/guile-snarf
 guile_environment = guile_snarf=$(guile_snarf)
 
 
+TARGET_BIN_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)
+TARGET_LIB_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUFFIX)
+
+
 ####### Dependencies
 
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
@@ -128,6 +132,7 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(GNUTLS_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	# ======= Install Documentation =======
 	@rm -f $(GNUTLS_PKG)/usr/share/info/dir
 	@gzip -9 $(GNUTLS_PKG)/usr/share/info/*.info*
 	@if [ -d $(GNUTLS_PKG)/usr/share/man ]; then \
@@ -159,7 +164,7 @@ $(install_target): $(build_target)
 	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \
 	 )
-	# remove toolchain path from target libtool *.la files
+	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(GNUTLS_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libgnutls-openssl.la libgnutls-xssl.la libgnutls.la libgnutlsxx.la ; \
 	   sed -i "s,-L/usr/lib ,,g" libgnutls-openssl.la libgnutls-xssl.la libgnutls.la libgnutlsxx.la ; \
@@ -174,24 +179,45 @@ $(install_target): $(build_target)
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(GNUTLS_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	# tune libtool *.la search path to the target destination for development
+	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgnutls-openssl.la libgnutls-xssl.la libgnutls.la libgnutlsxx.la ; \
-	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libgnutls-openssl.la libgnutls-xssl.la libgnutls.la libgnutlsxx.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgnutls-openssl.la libgnutls-xssl.la libgnutls.la libgnutlsxx.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libgnutls-openssl.la libgnutls-xssl.la libgnutls.la libgnutlsxx.la \
 	 )
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/guile/2.0 ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" guile-gnutls-v-?.la ; \
-	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" guile-gnutls-v-?.la  \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" guile-gnutls-v-?.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" guile-gnutls-v-?.la  \
 	 )
-	# tune pkg-config *.pc search path to the target destination for development
+	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" gnutls.pc \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" gnutls.pc \
 	 )
+	# ======= Strip binaries =======
 	@( cd $(GNUTLS_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifneq ($(CHRPATH),)
+	# ======= Set RPATH/RUNPATH for target binaries =======
+	@( cd $(GNUTLS_PKG)/usr/bin ; \
+	   for file in `find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
+	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
+	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
+	       $(CHRPATH) -r $(TARGET_BIN_RPATH) $$file 1> /dev/null 2> /dev/null ; \
+	     fi ; \
+	   done ; \
+	 )
+	# ======= Set RPATH/RUNPATH for target shared objects =======
+	@( cd $(GNUTLS_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
+	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
+	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
+	       $(CHRPATH) -r $(TARGET_LIB_RPATH) $$file 1> /dev/null 2> /dev/null ; \
+	     fi ; \
+	   done ; \
+	 )
+endif
 	@touch $@
 
 $(GNUTLS_PKG_DESCRIPTION_FILE): $(GNUTLS_PKG_DESCRIPTION_FILE_IN)

@@ -91,7 +91,6 @@ extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --with-threads
-extra_configure_switches += --disable-rpath
 extra_configure_switches += --disable-error-on-warning
 extra_configure_switches += --enable-static=yes
 extra_configure_switches += --enable-shared=yes
@@ -104,6 +103,10 @@ extra_configure_switches += --without-libreadline-prefix
 
 GUILE_LOAD_PATH   = ../../$(src_dir_name)/module
 guile_environment = GUILE_LOAD_PATH=$(GUILE_LOAD_PATH)
+
+
+TARGET_BIN_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)
+TARGET_LIB_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUFFIX)
 
 
 ####### Dependencies
@@ -127,6 +130,7 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(GUILE_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	# ======= Install Documentation =======
 	@rm -f $(GUILE_PKG)/usr/share/info/dir
 	@gzip -9 $(GUILE_PKG)/usr/share/info/*
 	@if [ -d $(GUILE_PKG)/usr/share/man ]; then \
@@ -158,35 +162,56 @@ $(install_target): $(build_target)
 	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \
 	 )
-	# remove toolchain path from target libtool *.la files
+	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(GUILE_PKG)/usr/lib$(LIBSUFFIX) ; \
-	  sed -i "s,$(TARGET_DEST_DIR),,g" libguile-?.?.la libguilereadline-v-??.la \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libguile-?.?.la libguilereadline-v-??.la \
 	 )
 	@( cd $(GUILE_PKG)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	  sed -i "s,$(TARGET_DEST_DIR),,g" guile-?.?.pc \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" guile-?.?.pc \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(GUILE_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	# tune libtool *.la search path to the target destination for development
+	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libguile-?.?.la libguilereadline-v-??.la ; \
-	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libguile-?.?.la libguilereadline-v-??.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libguile-?.?.la libguilereadline-v-??.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libguile-?.?.la libguilereadline-v-??.la \
 	 )
-	# tune pkg-config *.pc search path to the target destination for development
+	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" guile-?.?.pc ; \
-	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" guile-?.?.pc \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" guile-?.?.pc ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" guile-?.?.pc \
 	 )
-	# tune guile-snarf for target system
+	# ======= tune guile-snarf for target system =======
 	@( cd $(GUILE_PKG)/usr/bin ; \
-	  sed -i "s,\"/opt/toolchain/.*\",\"gcc -m32 -E\",g" guile-snarf ; \
+	   sed -i "s,\"/opt/toolchain/.*\",\"gcc -m32 -E\",g" guile-snarf ; \
 	 )
-	@( cd $(GUILE_PKG); \
+	# ======= Strip binaries =======
+	@( cd $(GUILE_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifneq ($(CHRPATH),)
+	# ======= Set RPATH/RUNPATH for target binaries =======
+	@( cd $(GUILE_PKG)/usr/bin ; \
+	   for file in `find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
+	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
+	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
+	       $(CHRPATH) -r $(TARGET_BIN_RPATH) $$file 1> /dev/null 2> /dev/null ; \
+	     fi ; \
+	   done ; \
+	 )
+	# ======= Set RPATH/RUNPATH for target shared objects =======
+	@( cd $(GUILE_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
+	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
+	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
+	       $(CHRPATH) -r $(TARGET_LIB_RPATH) $$file 1> /dev/null 2> /dev/null ; \
+	     fi ; \
+	   done ; \
+	 )
+endif
 	@touch $@
 
 $(GUILE_PKG_DESCRIPTION_FILE): $(GUILE_PKG_DESCRIPTION_FILE_IN)

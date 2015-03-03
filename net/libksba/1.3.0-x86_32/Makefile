@@ -36,23 +36,23 @@ PKG_GROUP = net
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-KSBA32_PKG_NAME                = libksba-x32
-KSBA32_PKG_VERSION             = 1.3.0
-KSBA32_PKG_ARCH                = $(TOOLCHAIN)
-KSBA32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
-KSBA32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
-KSBA32_PKG_GROUP               = $(PKG_GROUP)
-###                             |---handy-ruler-------------------------------|
-KSBA32_PKG_SHORT_DESCRIPTION   = X.509 \& CMS library for S/MIME and TLS
-KSBA32_PKG_URL                 = $(BUG_URL)
-KSBA32_PKG_LICENSE             = GPLv2
-KSBA32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(KSBA32_PKG_NAME)-pkg-description
-KSBA32_PKG_DESCRIPTION_FILE_IN = $(KSBA32_PKG_NAME)-pkg-description.in
-KSBA32_PKG_INSTALL_SCRIPT      = $(KSBA32_PKG_NAME)-pkg-install.sh
+KSBA_32_PKG_NAME                = libksba-x32
+KSBA_32_PKG_VERSION             = 1.3.0
+KSBA_32_PKG_ARCH                = $(TOOLCHAIN)
+KSBA_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+KSBA_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
+KSBA_32_PKG_GROUP               = $(PKG_GROUP)
+###                              |---handy-ruler-------------------------------|
+KSBA_32_PKG_SHORT_DESCRIPTION   = X.509 \& CMS library for S/MIME and TLS
+KSBA_32_PKG_URL                 = $(BUG_URL)
+KSBA_32_PKG_LICENSE             = GPLv2
+KSBA_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(KSBA_32_PKG_NAME)-pkg-description
+KSBA_32_PKG_DESCRIPTION_FILE_IN = $(KSBA_32_PKG_NAME)-pkg-description.in
+KSBA_32_PKG_INSTALL_SCRIPT      = $(KSBA_32_PKG_NAME)-pkg-install.sh
 
-KSBA32_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(KSBA32_PKG_NAME)-package
+KSBA_32_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(KSBA_32_PKG_NAME)-package
 
-pkg_basename     = $(KSBA32_PKG_NAME)-$(KSBA32_PKG_VERSION)-$(KSBA32_PKG_ARCH)-$(KSBA32_PKG_DISTRO_NAME)-$(KSBA32_PKG_DISTRO_VERSION)
+pkg_basename     = $(KSBA_32_PKG_NAME)-$(KSBA_32_PKG_VERSION)-$(KSBA_32_PKG_ARCH)-$(KSBA_32_PKG_DISTRO_NAME)-$(KSBA_32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
 pkg_signature    = $(call sign-name,$(pkg_archive))
@@ -70,7 +70,7 @@ PRODUCT_TARGETS  = $(products)
 include ../../../build-system/core.mk
 
 
-env_sysroot  = DESTDIR=$(KSBA32_PKG)
+env_sysroot  = DESTDIR=$(KSBA_32_PKG)
 
 
 extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
@@ -82,6 +82,9 @@ extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --enable-static=yes
 
 gpg_error_config = GPG_ERROR_CONFIG=$(TARGET_DEST_DIR)/usr/bin/32/gpg-error-config
+
+
+TARGET_LIB_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX):/usr/lib/../lib$(MULTILIB_X86_32_SUFFIX)
 
 
 ####### Dependencies
@@ -102,66 +105,78 @@ $(build_target): $(src_done)
 	@touch $@
 
 $(install_target): $(build_target)
-	@mkdir -p $(KSBA32_PKG)
+	@mkdir -p $(KSBA_32_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
-	@mkdir -p $(KSBA32_PKG)/usr/bin/32
-	@( cd $(KSBA32_PKG)/usr/bin ; \
+	@mkdir -p $(KSBA_32_PKG)/usr/bin/32
+	@( cd $(KSBA_32_PKG)/usr/bin ; \
 	   find . -type f | xargs mv -t 32 ; \
 	 )
-	@mkdir -p $(KSBA32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)
-	@( cd $(KSBA32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@mkdir -p $(KSBA_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)
+	@( cd $(KSBA_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   chmod +w lib*.so.?.*.? ; \
 	   mv lib*.so.?.*.? ../../lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/lib*.so.?.*.? . ; \
 	   cp -a lib*.so.? ../../lib$(MULTILIB_X86_32_SUFFIX) ; \
 	 )
-	@rm -rf $(KSBA32_PKG)/usr/include
-	@rm -rf $(KSBA32_PKG)/usr/share
-	# remove toolchain path from target libtool *.la files
-	@( cd $(KSBA32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@rm -rf $(KSBA_32_PKG)/usr/include
+	@rm -rf $(KSBA_32_PKG)/usr/share
+	# ======= remove toolchain path from target libtool *.la files =======
+	@( cd $(KSBA_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libksba.la ; \
 	 )
-	@( cd $(KSBA32_PKG)/usr/bin/32 ; \
+	@( cd $(KSBA_32_PKG)/usr/bin/32 ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" ksba-config ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(KSBA32_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	# tune libtool *.la search path to the target destination for development
+	@cd $(KSBA_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libksba.la  ; \
-	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libksba.la  \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libksba.la  ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libksba.la  \
 	 )
-	# tune pkg-config *.pc search path to the target destination for development
+	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/bin/32 ; \
-	  sed -i "s,prefix=/usr,prefix=$(TARGET_DEST_DIR)/usr,g" ksba-config ; \
-	  sed -i "s,-L/usr,-L$(TARGET_DEST_DIR)/usr,g" ksba-config ; \
-	  sed -i "s,-I/usr,-I$(TARGET_DEST_DIR)/usr,g" ksba-config ; \
+	   sed -i "s,prefix=/usr,prefix=$(TARGET_DEST_DIR)/usr,g" ksba-config ; \
+	   sed -i "s,-L/usr,-L$(TARGET_DEST_DIR)/usr,g" ksba-config ; \
+	   sed -i "s,-I/usr,-I$(TARGET_DEST_DIR)/usr,g" ksba-config ; \
 	 )
-	@( cd $(KSBA32_PKG) ; \
+	# ======= Strip binaries =======
+	@( cd $(KSBA_32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifneq ($(CHRPATH),)
+	# ======= Set RPATH/RUNPATH for target shared objects =======
+	@( cd $(KSBA_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
+	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
+	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
+	       $(CHRPATH) -r $(TARGET_LIB_RPATH) $$file 1> /dev/null 2> /dev/null ; \
+	     fi ; \
+	   done ; \
+	 )
+endif
 	@touch $@
 
-$(KSBA32_PKG_DESCRIPTION_FILE): $(KSBA32_PKG_DESCRIPTION_FILE_IN)
+$(KSBA_32_PKG_DESCRIPTION_FILE): $(KSBA_32_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
 $(pkg_signature)   : $(pkg_archive) ;
 $(pkg_description) : $(pkg_archive) ;
 
-$(pkg_archive): $(install_target) $(KSBA32_PKG_DESCRIPTION_FILE) $(KSBA32_PKG_INSTALL_SCRIPT)
-	@cp $(KSBA32_PKG_DESCRIPTION_FILE) $(KSBA32_PKG)/.DESCRIPTION
-	@cp $(KSBA32_PKG_INSTALL_SCRIPT) $(KSBA32_PKG)/.INSTALL
-	@$(BUILD_PKG_REQUIRES) $(KSBA32_PKG)/.REQUIRES
-	@echo "pkgname=$(KSBA32_PKG_NAME)"                            >  $(KSBA32_PKG)/.PKGINFO ; \
-	 echo "pkgver=$(KSBA32_PKG_VERSION)"                          >> $(KSBA32_PKG)/.PKGINFO ; \
-	 echo "arch=$(KSBA32_PKG_ARCH)"                               >> $(KSBA32_PKG)/.PKGINFO ; \
-	 echo "distroname=$(KSBA32_PKG_DISTRO_NAME)"                  >> $(KSBA32_PKG)/.PKGINFO ; \
-	 echo "distrover=$(KSBA32_PKG_DISTRO_VERSION)"                >> $(KSBA32_PKG)/.PKGINFO ; \
-	 echo "group=$(KSBA32_PKG_GROUP)"                             >> $(KSBA32_PKG)/.PKGINFO ; \
-	 echo "short_description=\"$(KSBA32_PKG_SHORT_DESCRIPTION)\"" >> $(KSBA32_PKG)/.PKGINFO ; \
-	 echo "url=$(KSBA32_PKG_URL)"                                 >> $(KSBA32_PKG)/.PKGINFO ; \
-	 echo "license=$(KSBA32_PKG_LICENSE)"                         >> $(KSBA32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(KSBA32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+$(pkg_archive): $(install_target) $(KSBA_32_PKG_DESCRIPTION_FILE) $(KSBA_32_PKG_INSTALL_SCRIPT)
+	@cp $(KSBA_32_PKG_DESCRIPTION_FILE) $(KSBA_32_PKG)/.DESCRIPTION
+	@cp $(KSBA_32_PKG_INSTALL_SCRIPT) $(KSBA_32_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(KSBA_32_PKG)/.REQUIRES
+	@echo "pkgname=$(KSBA_32_PKG_NAME)"                            >  $(KSBA_32_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(KSBA_32_PKG_VERSION)"                          >> $(KSBA_32_PKG)/.PKGINFO ; \
+	 echo "arch=$(KSBA_32_PKG_ARCH)"                               >> $(KSBA_32_PKG)/.PKGINFO ; \
+	 echo "distroname=$(KSBA_32_PKG_DISTRO_NAME)"                  >> $(KSBA_32_PKG)/.PKGINFO ; \
+	 echo "distrover=$(KSBA_32_PKG_DISTRO_VERSION)"                >> $(KSBA_32_PKG)/.PKGINFO ; \
+	 echo "group=$(KSBA_32_PKG_GROUP)"                             >> $(KSBA_32_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(KSBA_32_PKG_SHORT_DESCRIPTION)\"" >> $(KSBA_32_PKG)/.PKGINFO ; \
+	 echo "url=$(KSBA_32_PKG_URL)"                                 >> $(KSBA_32_PKG)/.PKGINFO ; \
+	 echo "license=$(KSBA_32_PKG_LICENSE)"                         >> $(KSBA_32_PKG)/.PKGINFO
+	@$(FAKEROOT) sh -c "cd $(KSBA_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

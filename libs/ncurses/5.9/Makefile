@@ -113,6 +113,9 @@ extra_configure_switches += --with-mmask-t=long
 endif
 
 
+TARGET_BIN_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)
+
+
 ####### Dependencies
 
 $(src_done): $(SRC_ARCHIVE) $(patch_gz_archive) $(PATCHES_DEP)
@@ -188,6 +191,7 @@ $(install_widec_target): $(build_widec_target)
 	   fi ; \
 	   unset TERMINFO \
 	 )
+	# ======= Install Documentation =======
 	@mkdir -p $(NCURSES_PKG)/usr/doc/$(src_dir_name)
 	@cp -a $(SRC_DIR)/ANNOUNCE $(SRC_DIR)/AUTHORS $(SRC_DIR)/README \
 	       $(NCURSES_PKG)/usr/doc/$(src_dir_name)
@@ -215,20 +219,32 @@ $(install_widec_target): $(build_widec_target)
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(NCURSES_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	# remove TARGET_DEST_DIR from ncurses-config scripts
+	# ======= remove TARGET_DEST_DIR from ncurses-config scripts =======
 	@( cd $(NCURSES_PKG)/usr/bin ; \
-	  sed -i "s,$(TARGET_DEST_DIR),,g" ncurses5-config ncursesw5-config \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" ncurses5-config ncursesw5-config \
 	 )
-	# tune pkg-config *.pc search path to the target destination for development
+	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" form.pc formw.pc menu.pc menuw.pc ncurses++.pc \
-                                                    ncurses++w.pc ncurses.pc ncursesw.pc panel.pc panelw.pc \
+	                                            ncurses++w.pc ncurses.pc ncursesw.pc panel.pc panelw.pc \
 	 )
-	@(cd $(NCURSES_PKG); \
-	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
+	# ======= Strip binaries =======
+	@( cd $(NCURSES_PKG) ; \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifneq ($(CHRPATH),)
+	# ======= Set RPATH/RUNPATH for target binaries =======
+	@( cd $(NCURSES_PKG)/usr/bin ; \
+	   for file in `find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
+	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
+	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
+	       $(CHRPATH) -r $(TARGET_BIN_RPATH) $$file 1> /dev/null 2> /dev/null ; \
+	     fi ; \
+	   done ; \
+	 )
+endif
 	@touch $@
 
 $(NCURSES_PKG_DESCRIPTION_FILE): $(NCURSES_PKG_DESCRIPTION_FILE_IN)

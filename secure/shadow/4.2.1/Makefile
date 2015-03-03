@@ -101,7 +101,9 @@ extra_configure_switches += --with-group-name-max-length=32
 extra_configure_switches += --enable-subordinate-ids=no
 extra_configure_switches += --without-selinux
 extra_configure_switches += --without-audit
-extra_configure_switches += --disable-rpath
+
+
+TARGET_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)
 
 
 ####### Dependencies
@@ -157,6 +159,24 @@ $(install_target): $(build_target)
 	 )
 	# ======= Use 4711 rather than 4755 permissions where setuid root is required =======
 	@find $(SHADOW_PKG) -type f -perm 4755 -exec chmod 4711 "{}" \;
+	@( cd $(SHADOW_PKG)/usr/share/man ; \
+	   for page in `find . -type f -exec echo {} \;` ; do        \
+	     if [ -n "`cat $$page | grep '^\.so '`" ] ; then         \
+	       dir=`dirname $$page | sed 's,^\./,,'` ;               \
+	       ( cd $$dir ;                                          \
+	         for file in * ; do                                  \
+	           ln=`head -n 1 $$file` ;                           \
+	           if [ "`echo $$ln | grep '^\.so '`" != "" ] ; then \
+	             origin=`echo $$ln | cut -f 2 -d ' '` ;          \
+	             origin=`basename $$origin` ;                    \
+	             rm -f $$file ;                                  \
+	             ln -sf $$origin $$file ;                        \
+	           fi ;                                              \
+	         done ;                                              \
+	       ) ;                                                   \
+	     fi ;                                                    \
+	   done ;                                                    \
+	 )
 	@if [ -d $(SHADOW_PKG)/usr/share/man ]; then \
 	  ( cd $(SHADOW_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \
@@ -195,6 +215,17 @@ $(install_target): $(build_target)
 	@( cd $(SHADOW_PKG); \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null \
 	 )
+ifneq ($(CHRPATH),)
+	# ======= Set RPATH/RUNPATH for target binaries =======
+	@( cd $(SHADOW_PKG) ; \
+	   for file in `find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
+	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
+	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
+	       $(CHRPATH) -r $(TARGET_RPATH) $$file 1> /dev/null 2> /dev/null ; \
+	     fi ; \
+	   done ; \
+	 )
+endif
 	@touch $@
 
 $(SHADOW_PKG_DESCRIPTION_FILE): $(SHADOW_PKG_DESCRIPTION_FILE_IN)

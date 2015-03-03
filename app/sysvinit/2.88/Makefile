@@ -146,12 +146,17 @@ $(install_target): $(build_target)
 	   for page in inittab.5 initscript.5 ; do \
 	     cat $$page | gzip -9c > $(SYSVINIT_PKG)/usr/share/man/man5/$$page.gz ; \
 	   done ; \
-	   for page in halt.8 init.8 killall5.8 pidof.8 poweroff.8 \
-	               reboot.8 runlevel.8 shutdown.8 telinit.8 bootlogd.8 ; do \
+	   for page in halt.8 init.8 killall5.8 pidof.8 \
+	               runlevel.8 shutdown.8 bootlogd.8 ; do \
 	     cat $$page | gzip -9c > $(SYSVINIT_PKG)/usr/share/man/man8/$$page.gz ; \
 	   done \
 	 )
 	@( cd $(SYSVINIT_PKG)/usr/share/man/man1 ; ln -sf last.1.gz lastb.1.gz )
+	@( cd $(SYSVINIT_PKG)/usr/share/man/man8 ; \
+	   ln -sf halt.8.gz poweroff.8.gz ; \
+	   ln -sf halt.8.gz reboot.8.gz   ; \
+	   ln -sf init.8.gz telinit.8.gz  ; \
+	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(SYSVINIT_PKG) && cp -rf * $(TARGET_DEST_DIR)

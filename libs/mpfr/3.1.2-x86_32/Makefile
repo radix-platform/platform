@@ -36,23 +36,23 @@ PKG_GROUP = libs
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-MPFR32_PKG_NAME                = mpfr-x32
-MPFR32_PKG_VERSION             = 3.1.2
-MPFR32_PKG_ARCH                = $(TOOLCHAIN)
-MPFR32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
-MPFR32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
-MPFR32_PKG_GROUP               = $(PKG_GROUP)
-###                             |---handy-ruler-------------------------------|
-MPFR32_PKG_SHORT_DESCRIPTION   = Floating-Point Reliable Library
-MPFR32_PKG_URL                 = $(BUG_URL)
-MPFR32_PKG_LICENSE             = GPLv2
-MPFR32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(MPFR32_PKG_NAME)-pkg-description
-MPFR32_PKG_DESCRIPTION_FILE_IN = $(MPFR32_PKG_NAME)-pkg-description.in
-MPFR32_PKG_INSTALL_SCRIPT      = $(MPFR32_PKG_NAME)-pkg-install.sh
+MPFR_32_PKG_NAME                = mpfr-x32
+MPFR_32_PKG_VERSION             = 3.1.2
+MPFR_32_PKG_ARCH                = $(TOOLCHAIN)
+MPFR_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+MPFR_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
+MPFR_32_PKG_GROUP               = $(PKG_GROUP)
+###                              |---handy-ruler-------------------------------|
+MPFR_32_PKG_SHORT_DESCRIPTION   = Floating-Point Reliable Library
+MPFR_32_PKG_URL                 = $(BUG_URL)
+MPFR_32_PKG_LICENSE             = GPLv2
+MPFR_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(MPFR_32_PKG_NAME)-pkg-description
+MPFR_32_PKG_DESCRIPTION_FILE_IN = $(MPFR_32_PKG_NAME)-pkg-description.in
+MPFR_32_PKG_INSTALL_SCRIPT      = $(MPFR_32_PKG_NAME)-pkg-install.sh
 
-MPFR32_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(MPFR32_PKG_NAME)-package
+MPFR_32_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(MPFR_32_PKG_NAME)-package
 
-pkg_basename     = $(MPFR32_PKG_NAME)-$(MPFR32_PKG_VERSION)-$(MPFR32_PKG_ARCH)-$(MPFR32_PKG_DISTRO_NAME)-$(MPFR32_PKG_DISTRO_VERSION)
+pkg_basename     = $(MPFR_32_PKG_NAME)-$(MPFR_32_PKG_VERSION)-$(MPFR_32_PKG_ARCH)-$(MPFR_32_PKG_DISTRO_NAME)-$(MPFR_32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
 pkg_signature    = $(call sign-name,$(pkg_archive))
@@ -70,7 +70,7 @@ ROOTFS_TARGETS   = $(pkg_archive)
 include ../../../build-system/core.mk
 
 
-env_sysroot = DESTDIR=$(MPFR32_PKG)
+env_sysroot = DESTDIR=$(MPFR_32_PKG)
 
 
 extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
@@ -80,6 +80,8 @@ extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --enable-static=yes
 extra_configure_switches += --enable-shared=yes
 
+
+TARGET_LIB_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX):/usr/lib/../lib$(MULTILIB_X86_32_SUFFIX)
 
 
 ####### Dependencies
@@ -100,46 +102,58 @@ $(build_target): $(src_done)
 	@touch $@
 
 $(install_target): $(build_target)
-	@mkdir -p $(MPFR32_PKG)
+	@mkdir -p $(MPFR_32_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
-	@rm -rf $(MPFR32_PKG)/usr/include
-	@rm -rf $(MPFR32_PKG)/usr/share
-	# remove toolchain path from target libtool *.la files and
-	@( cd $(MPFR32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	  sed -i "s,$(TARGET_DEST_DIR),,g" libmpfr.la  \
+	@rm -rf $(MPFR_32_PKG)/usr/include
+	@rm -rf $(MPFR_32_PKG)/usr/share
+	# ======= remove toolchain path from target libtool *.la files =======
+	@( cd $(MPFR_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libmpfr.la  \
 	 )
-	# Install the same to $(TARGET_DEST_DIR)
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(MPFR32_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	# tune libtool *.la search path to the target destination for development
+	@cd $(MPFR_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libmpfr.la ; \
-	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libmpfr.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libmpfr.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libmpfr.la \
 	 )
-	@(cd $(MPFR32_PKG); \
-	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
+	# ======= Strip binaries =======
+	@( cd $(MPFR_32_PKG) ; \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifneq ($(CHRPATH),)
+	# ======= Set RPATH/RUNPATH for target shared objects =======
+	@( cd $(MPFR_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
+	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
+	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
+	       $(CHRPATH) -r $(TARGET_LIB_RPATH) $$file 1> /dev/null 2> /dev/null ; \
+	     fi ; \
+	   done ; \
+	 )
+endif
 	@touch $@
 
-$(MPFR32_PKG_DESCRIPTION_FILE): $(MPFR32_PKG_DESCRIPTION_FILE_IN)
+$(MPFR_32_PKG_DESCRIPTION_FILE): $(MPFR_32_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
 $(pkg_signature)   : $(pkg_archive) ;
 $(pkg_description) : $(pkg_archive) ;
 
-$(pkg_archive): $(install_target) $(MPFR32_PKG_DESCRIPTION_FILE) $(MPFR32_PKG_INSTALL_SCRIPT)
-	@cp $(MPFR32_PKG_DESCRIPTION_FILE) $(MPFR32_PKG)/.DESCRIPTION
-	@cp $(MPFR32_PKG_INSTALL_SCRIPT) $(MPFR32_PKG)/.INSTALL
-	@$(BUILD_PKG_REQUIRES) $(MPFR32_PKG)/.REQUIRES
-	@echo "pkgname=$(MPFR32_PKG_NAME)"                            >  $(MPFR32_PKG)/.PKGINFO ; \
-	 echo "pkgver=$(MPFR32_PKG_VERSION)"                          >> $(MPFR32_PKG)/.PKGINFO ; \
-	 echo "arch=$(MPFR32_PKG_ARCH)"                               >> $(MPFR32_PKG)/.PKGINFO ; \
-	 echo "distroname=$(MPFR32_PKG_DISTRO_NAME)"                  >> $(MPFR32_PKG)/.PKGINFO ; \
-	 echo "distrover=$(MPFR32_PKG_DISTRO_VERSION)"                >> $(MPFR32_PKG)/.PKGINFO ; \
-	 echo "group=$(MPFR32_PKG_GROUP)"                             >> $(MPFR32_PKG)/.PKGINFO ; \
-	 echo "short_description=\"$(MPFR32_PKG_SHORT_DESCRIPTION)\"" >> $(MPFR32_PKG)/.PKGINFO ; \
-	 echo "url=$(MPFR32_PKG_URL)"                                 >> $(MPFR32_PKG)/.PKGINFO ; \
-	 echo "license=$(MPFR32_PKG_LICENSE)"                         >> $(MPFR32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(MPFR32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+$(pkg_archive): $(install_target) $(MPFR_32_PKG_DESCRIPTION_FILE) $(MPFR_32_PKG_INSTALL_SCRIPT)
+	@cp $(MPFR_32_PKG_DESCRIPTION_FILE) $(MPFR_32_PKG)/.DESCRIPTION
+	@cp $(MPFR_32_PKG_INSTALL_SCRIPT) $(MPFR_32_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(MPFR_32_PKG)/.REQUIRES
+	@echo "pkgname=$(MPFR_32_PKG_NAME)"                            >  $(MPFR_32_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(MPFR_32_PKG_VERSION)"                          >> $(MPFR_32_PKG)/.PKGINFO ; \
+	 echo "arch=$(MPFR_32_PKG_ARCH)"                               >> $(MPFR_32_PKG)/.PKGINFO ; \
+	 echo "distroname=$(MPFR_32_PKG_DISTRO_NAME)"                  >> $(MPFR_32_PKG)/.PKGINFO ; \
+	 echo "distrover=$(MPFR_32_PKG_DISTRO_VERSION)"                >> $(MPFR_32_PKG)/.PKGINFO ; \
+	 echo "group=$(MPFR_32_PKG_GROUP)"                             >> $(MPFR_32_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(MPFR_32_PKG_SHORT_DESCRIPTION)\"" >> $(MPFR_32_PKG)/.PKGINFO ; \
+	 echo "url=$(MPFR_32_PKG_URL)"                                 >> $(MPFR_32_PKG)/.PKGINFO ; \
+	 echo "license=$(MPFR_32_PKG_LICENSE)"                         >> $(MPFR_32_PKG)/.PKGINFO
+	@$(FAKEROOT) sh -c "cd $(MPFR_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

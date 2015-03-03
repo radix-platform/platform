@@ -98,9 +98,11 @@ extra_configure_switches += --disable-audit
 extra_configure_switches += --disable-db
 extra_configure_switches += --enable-isadir=../../lib$(MULTILIB_X86_32_SUFFIX)/security
 extra_configure_switches += --without-libiconv-prefix
-extra_configure_switches += --disable-rpath
 extra_configure_switches += --enable-static=yes
 extra_configure_switches += --enable-shared=yes
+
+
+TARGET_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX)
 
 
 ####### Dependencies
@@ -158,18 +160,28 @@ $(install_target): $(build_target)
 	@cd $(PAM_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libpam.la libpam_misc.la libpamc.la ; \
-	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libpam.la libpam_misc.la libpamc.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libpam.la libpam_misc.la libpamc.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libpam.la libpam_misc.la libpamc.la \
 	 )
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/security ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" pam_*.la ; \
-	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" pam_*.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" pam_*.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" pam_*.la \
 	 )
-	@(cd $(PAM_32_PKG); \
-	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
+	# ======= Strip binaries =======
+	@( cd $(PAM_32_PKG); \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifneq ($(CHRPATH),)
+	# ======= Set RPATH/RUNPATH for target shared objects =======
+	@( cd $(PAM_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/security ; \
+	   rpath=`$(CHRPATH) -l pam_cracklib.so 2> /dev/null | grep "R*PATH"` ; \
+	   if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
+	     $(CHRPATH) -r $(TARGET_RPATH) pam_cracklib.so 1> /dev/null 2> /dev/null ; \
+	   fi ; \
+	 )
+endif
 	@touch $@
 
 $(PAM_32_PKG_DESCRIPTION_FILE): $(PAM_32_PKG_DESCRIPTION_FILE_IN)

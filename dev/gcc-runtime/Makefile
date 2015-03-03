@@ -175,6 +175,7 @@ ifneq ($(CHRPATH),)
 	     fi ; \
 	   done ; \
 	 )
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC))
 	# ======= Set RPATH/RUNPATH for target shared objects =======
 	@( cd $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   target_rpath="/lib/../lib$(MULTILIB_X86_32_SUFFIX):/usr/lib/../lib$(MULTILIB_X86_32_SUFFIX)" ; \
@@ -185,6 +186,7 @@ ifneq ($(CHRPATH),)
 	     fi ; \
 	   done ; \
 	 )
+endif
 endif
 	@touch $@
 

@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/X.org/proto/damageproto
 
 REQUIRES           = X11/X.org/doc/xorg-sgml-doctools/1.11
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.2.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/proto/damageproto/damageproto-$(version).tar.bz2

@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/X.org/font/font-bitstream-type1
 REQUIRES           = X11/libs/fontconfig/2.11.1
 REQUIRES          += X11/X.org/app/mkfontdir/1.0.7
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.3
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/font/font-bitstream-type1/font-bitstream-type1-$(version).tar.bz2

@@ -23,6 +23,8 @@ REQUIRES          += libs/alsa-lib/1.0.28
 REQUIRES          += libs/libogg/1.3.2
 REQUIRES          += app/flac/1.3.0
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.3.6
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/m/audiofile/audiofile-$(version).tar.gz

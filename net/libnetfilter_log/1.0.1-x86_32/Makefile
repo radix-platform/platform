@@ -15,6 +15,8 @@ SOURCE_REQUIRES      = sources/packages/n/libnetfilter_log
 REQUIRES             = net/libnetfilter_log/1.0.1
 REQUIRES            += net/libnfnetlink/1.0.1-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version              = 1.0.1
 tar_bz2_archive      = $(SRC_PACKAGE_PATH)/packages/n/libnetfilter_log/libnetfilter_log-$(version).tar.bz2

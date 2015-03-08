@@ -16,6 +16,8 @@ REQUIRES           = X11/X.org/xcb/xpyb/1.3.1
 REQUIRES          += X11/X.org/xcb/libxcb/1.11-x86_32
 REQUIRES          += dev/python2/2.7.6-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.3.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/xcb/xpyb/xpyb-$(version).tar.bz2

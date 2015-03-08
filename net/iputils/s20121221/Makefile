@@ -23,6 +23,8 @@ REQUIRES           += libs/readline/6.3
 REQUIRES           += net/gnutls/3.1.22
 REQUIRES           += net/openssl/1.0.1g
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version             = s20121221
 tar_bz2_archive     = $(SRC_PACKAGE_PATH)/packages/n/iputils/iputils-$(version).tar.bz2

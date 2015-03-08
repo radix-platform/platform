@@ -13,6 +13,8 @@ SOURCE_REQUIRES    = sources/Linux/sunxi-3.4
 
 REQUIRES           = base/pkgtool
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 3.4-20141014
 subversion         =

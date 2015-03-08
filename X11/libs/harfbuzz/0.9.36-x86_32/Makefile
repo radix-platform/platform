@@ -23,6 +23,7 @@ REQUIRES          += app/bzip2/1.0.6-x86_32
 # NOTE: We should not require final freetipe to avoid a cycle in the dependency tree:
 REQUIRES          += env/freetype/2.5.3-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
 
 
 version            = 0.9.36

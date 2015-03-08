@@ -33,6 +33,7 @@ REQUIRES += X11/X.org/driver/xf86-input-vmmouse/13.0.0
 endif
 
 
+# ======= __END_OF_REQUIRES__ =======
 
 
 install_target     = $(TARGET_BUILD_DIR)/.install_done

@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/X.org/proto/xproto
 
 REQUIRES           = X11/X.org/doc/xorg-sgml-doctools/1.11
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 7.0.26
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/proto/xproto/xproto-$(version).tar.bz2

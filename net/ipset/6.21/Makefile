@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/n/ipset
 
 REQUIRES           = net/libmnl/1.0.3
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 6.21
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/ipset/ipset-$(version).tar.bz2

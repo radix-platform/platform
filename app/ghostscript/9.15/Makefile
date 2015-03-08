@@ -24,6 +24,8 @@ REQUIRES          += X11/libs/fontconfig/2.11.1
 REQUIRES          += X11/X.org/lib/libXext/1.3.3
 REQUIRES          += X11/X.org/lib/libXt/1.1.4
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 9.15
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/a/ghostscript/ghostscript-$(version).tar.gz

@@ -20,6 +20,8 @@ SOURCE_REQUIRES     = sources/GNU/findutils
 
 REQUIRES            = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version             = 4.4.2
 tar_gz_archive      = $(SRC_PACKAGE_PATH)/GNU/findutils/findutils-$(version).tar.gz

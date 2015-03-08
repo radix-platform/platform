@@ -30,6 +30,8 @@ REQUIRES          += app/xz/5.0.5
 REQUIRES          += libs/zlib/1.2.8
 REQUIRES          += libs/libxml2/2.9.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 3.1.2
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/libarchive/libarchive-$(version).tar.gz

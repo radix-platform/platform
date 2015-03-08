@@ -20,6 +20,8 @@ SOURCE_REQUIRES     = sources/packages/a/sysvinit-functions
 
 REQUIRES            = libs/popt/1.16
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version             = 8.54
 tar_bz2_archive     = $(SRC_PACKAGE_PATH)/packages/a/sysvinit-functions/function-src-$(version).tar.bz2

@@ -23,6 +23,8 @@ SOURCE_REQUIRES  += sources/packages/a/psmisc
 REQUIRES          = libs/ncurses/5.9
 REQUIRES         += libs/libtermcap/1.2.3
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version           = 3.2.8
 tar_gz_archive    = $(SRC_PACKAGE_PATH)/packages/a/procps/procps-$(version).tar.gz

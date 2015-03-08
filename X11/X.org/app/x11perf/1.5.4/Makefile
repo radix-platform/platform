@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/X.org/app/x11perf
 REQUIRES           = X11/X.org/lib/libXmu/1.1.2
 REQUIRES          += X11/X.org/lib/libXft/2.3.2
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.5.4
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/x11perf/x11perf-$(version).tar.bz2

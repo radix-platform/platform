@@ -20,6 +20,8 @@ SOURCE_REQUIRES     = sources/packages/a/sysvinit
 
 REQUIRES            = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version             = 2.88dsf
 tar_bz2_archive     = $(SRC_PACKAGE_PATH)/packages/a/sysvinit/sysvinit-$(version).tar.bz2

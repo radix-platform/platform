@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/GNU/libidn
 REQUIRES           = libs/libidn/1.28
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.28
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/GNU/libidn/libidn-$(version).tar.gz

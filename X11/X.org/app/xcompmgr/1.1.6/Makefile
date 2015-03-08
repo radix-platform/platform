@@ -23,6 +23,8 @@ REQUIRES          += X11/X.org/lib/libXcomposite/0.4.4
 REQUIRES          += X11/X.org/lib/libXdamage/1.1.4
 REQUIRES          += X11/X.org/lib/libXrender/0.9.8
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.1.6
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/xcompmgr/xcompmgr-$(version).tar.bz2

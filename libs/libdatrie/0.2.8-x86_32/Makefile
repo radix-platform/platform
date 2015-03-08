@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/packages/l/libdatrie
 REQUIRES           = libs/libdatrie/0.2.8
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.2.8
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/l/libdatrie/libdatrie-$(version).tar.xz

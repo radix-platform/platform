@@ -22,6 +22,8 @@ REQUIRES           = X11/X.org/lib/libXmu/1.1.2
 REQUIRES          += X11/X.org/lib/libXfixes/5.0.1
 REQUIRES          += X11/X.org/lib/libXcm/0.5.3
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.5.3
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/xcm/xcm-$(version).tar.bz2

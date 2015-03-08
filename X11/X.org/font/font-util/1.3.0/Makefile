@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/X.org/font/font-util
 REQUIRES           = libs/eglibc/2.19.1
 REQUIRES          += X11/X.org/app/mkfontdir/1.0.7
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.3.0
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/font/font-util/font-util-$(version).tar.bz2

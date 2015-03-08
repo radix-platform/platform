@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/X.org/lib/libXcursor
 REQUIRES           = X11/X.org/lib/libXfixes/5.0.1
 REQUIRES          += X11/X.org/lib/libXrender/0.9.8
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.1.14
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libXcursor/libXcursor-$(version).tar.bz2

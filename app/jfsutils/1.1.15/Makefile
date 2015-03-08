@@ -20,6 +20,8 @@ SOURCE_REQUIRES     = sources/packages/a/jfsutils
 
 REQUIRES            = app/util-linux/2.24.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version             = 1.1.15
 tar_gz_archive      = $(SRC_PACKAGE_PATH)/packages/a/jfsutils/jfsutils-$(version).tar.gz

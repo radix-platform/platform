@@ -20,6 +20,8 @@ SOURCE_REQUIRES      = sources/GNU/ncurses/5.9
 
 REQUIRES             = app/gpm/1.20.7
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version              = 5.9
 tar_gz_archive       = $(SRC_PACKAGE_PATH)/GNU/ncurses/$(version)/ncurses-$(version).tar.gz

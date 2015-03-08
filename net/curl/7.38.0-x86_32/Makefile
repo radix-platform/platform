@@ -22,6 +22,8 @@ REQUIRES            += net/ca-certificates/32.0
 REQUIRES            += net/cyrus-sasl/2.1.26-x86_32
 REQUIRES            += net/openldap-client/2.4.39-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version              = 7.38.0
 tar_bz2_archive      = $(SRC_PACKAGE_PATH)/packages/n/curl/curl-$(version).tar.bz2

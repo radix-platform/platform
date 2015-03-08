@@ -24,6 +24,8 @@ REQUIRES          += app/attr/2.4.47
 REQUIRES          += app/xfsprogs/3.1.11
 REQUIRES          += libs/dmapi/2.2.12
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 3.1.3
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/a/xfsdump/xfsdump-$(version).tar.gz

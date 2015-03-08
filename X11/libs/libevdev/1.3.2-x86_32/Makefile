@@ -16,6 +16,8 @@ REQUIRES           = X11/libs/libevdev/1.3.2
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 REQUIRES          += dev/check/0.9.13-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.3.2
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/x/libevdev/libevdev-$(version).tar.xz

@@ -18,6 +18,8 @@ REQUIRES          += libs/libffi/3.0.13-x86_32
 REQUIRES          += libs/libxml2/2.9.1-x86_32
 REQUIRES          += libs/ncurses/5.9-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 3.5.0
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/d/LLVM/llvm/llvm-$(version).src.tar.xz

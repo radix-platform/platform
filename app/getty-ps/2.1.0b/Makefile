@@ -21,6 +21,8 @@ SOURCE_REQUIRES     = sources/packages/a/getty-ps
 REQUIRES            = libs/eglibc/2.19.1
 REQUIRES           += libs/libtermcap/1.2.3
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version             = 2.1.0b
 tar_gz_archive      = $(SRC_PACKAGE_PATH)/packages/a/getty-ps/getty_ps-$(version).tar.gz

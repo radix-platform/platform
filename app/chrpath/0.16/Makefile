@@ -20,6 +20,8 @@ SOURCE_REQUIRES     = sources/packages/a/chrpath
 
 REQUIRES            = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version             = 0.16
 tar_gz_archive      = $(SRC_PACKAGE_PATH)/packages/a/chrpath/chrpath-$(version).tar.gz

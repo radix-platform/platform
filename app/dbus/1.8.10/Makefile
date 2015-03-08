@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/a/dbus
 
 REQUIRES           = libs/expat/2.1.0
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.8.10
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/a/dbus/dbus-$(version).tar.gz

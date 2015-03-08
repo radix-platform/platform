@@ -23,6 +23,8 @@ REQUIRES          += libs/libffi/3.0.13
 REQUIRES          += libs/pcre/8.34
 REQUIRES          += libs/glib2/2.40.0
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.10.4
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/n/libqmi/libqmi-$(version).tar.xz

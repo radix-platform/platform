@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/packages/m/gsm
 REQUIRES           = libs/gsm/1.0.13
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.13
 arch_version       = 1.0-pl13

@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/X.org/driver/xf86-input-joystick
 
 REQUIRES           = X11/X.org/xserver/xorg-server/1.16.2
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.6.2
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/driver/xf86-input-joystick/xf86-input-joystick-$(version).tar.bz2

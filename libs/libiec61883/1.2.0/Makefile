@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/l/ieee1394/libiec61883
 
 REQUIRES           = libs/libraw1394/2.1.0
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.2.0
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/l/ieee1394/libiec61883/libiec61883-$(version).tar.xz

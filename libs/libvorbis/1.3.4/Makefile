@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/m/xiph/libvorbis
 
 REQUIRES           = libs/libogg/1.3.2
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.3.4
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/m/xiph/libvorbis/libvorbis-$(version).tar.xz

@@ -23,6 +23,8 @@ REQUIRES          += libs/zlib/1.2.8
 REQUIRES          += libs/libpng/libpng14/1.4.13
 REQUIRES          += libs/harfbuzz/0.9.36
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.5.3
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/l/freetype/freetype-$(version).tar.bz2

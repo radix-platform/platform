@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/GNU/make
 
 REQUIRES           = app/bash/4.3
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 3.82
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/GNU/make/make-$(version).tar.bz2

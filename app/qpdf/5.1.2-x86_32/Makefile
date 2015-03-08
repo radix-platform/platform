@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/packages/a/qpdf
 REQUIRES           = app/qpdf/5.1.2
 REQUIRES          += libs/pcre/8.34-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 5.1.2
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/a/qpdf/qpdf-$(version).tar.gz

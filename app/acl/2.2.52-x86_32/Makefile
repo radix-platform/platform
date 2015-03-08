@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/packages/a/acl
 REQUIRES           = app/acl/2.2.52
 REQUIRES          += app/attr/2.4.47-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.2.52
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/a/acl/acl-$(version).src.tar.gz

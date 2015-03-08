@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/a/linuxconsole
 
 REQUIRES           = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.4.7
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/a/linuxconsole/linuxconsoletools-$(version).tar.bz2

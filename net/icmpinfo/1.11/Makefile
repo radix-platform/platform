@@ -20,6 +20,8 @@ SOURCE_REQUIRES     = sources/packages/n/icmpinfo
 
 REQUIRES            = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version             = 1.11
 tar_gz_archive      = $(SRC_PACKAGE_PATH)/packages/n/icmpinfo/icmpinfo-$(version).tar.gz

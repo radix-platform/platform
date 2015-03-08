@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/n/libmnl
 
 REQUIRES           = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.3
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/libmnl/libmnl-$(version).tar.bz2

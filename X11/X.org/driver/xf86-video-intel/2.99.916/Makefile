@@ -17,6 +17,8 @@ REQUIRES          += X11/X.org/lib/libXinerama/1.1.3
 REQUIRES          += X11/X.org/lib/libXtst/1.2.2
 REQUIRES          += X11/X.org/lib/libXvMC/1.0.8
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.99.916
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/driver/xf86-video-intel/xf86-video-intel-$(version).tar.bz2

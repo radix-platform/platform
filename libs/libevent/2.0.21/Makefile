@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/packages/l/libevent
 REQUIRES           = libs/eglibc/2.19.1
 REQUIRES          += net/openssl/1.0.1g
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.0.21
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/libevent/libevent-$(version)-stable.tar.gz

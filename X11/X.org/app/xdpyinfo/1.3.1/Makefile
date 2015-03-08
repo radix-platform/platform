@@ -27,6 +27,8 @@ REQUIRES          += X11/X.org/lib/libXcomposite/0.4.4
 REQUIRES          += X11/X.org/lib/libXrender/0.9.8
 REQUIRES          += X11/X.org/lib/libXtst/1.2.2
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.3.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/xdpyinfo/xdpyinfo-$(version).tar.bz2

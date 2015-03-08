@@ -24,6 +24,8 @@ REQUIRES          += secure/pam/1.1.8
 REQUIRES          += secure/pam_unix2/2.9.1
 REQUIRES          += app/acl/2.2.52
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 4.2.1
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/s/shadow/shadow-$(version).tar.xz

@@ -28,6 +28,8 @@ REQUIRES          += libs/readline/6.3
 REQUIRES          += libs/expat/2.1.0
 REQUIRES          += net/openssl/1.0.1g
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.7.6
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/d/python2/Python-$(version).tar.xz

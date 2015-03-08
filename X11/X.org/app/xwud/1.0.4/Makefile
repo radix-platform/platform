@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/X.org/app/xwud
 
 REQUIRES           = X11/X.org/lib/libX11/1.6.2
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.4
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/xwud/xwud-$(version).tar.bz2

@@ -23,6 +23,8 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 endif
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.19.0
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/util/util-macros/util-macros-$(version).tar.bz2

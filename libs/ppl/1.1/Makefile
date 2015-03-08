@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/packages/l/ppl
 REQUIRES           = dev/gcc/4.9.1
 REQUIRES          += libs/gmp/5.1.3
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/l/ppl/ppl-$(version).tar.bz2

@@ -22,6 +22,8 @@ REQUIRES           = libs/zlib/1.2.8
 REQUIRES          += net/tcp_wrappers/7.6
 REQUIRES          += net/openssl/1.0.1g
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 6.6p1
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/n/openssh/openssh-$(version).tar.gz

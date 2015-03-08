@@ -22,6 +22,8 @@ REQUIRES           = X11/X.org/proto/xproto/7.0.26
 REQUIRES          += X11/X.org/lib/libXmu/1.1.2
 REQUIRES          += X11/X.org/lib/libXpm/3.5.11
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.12
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libXaw/libXaw-$(version).tar.bz2

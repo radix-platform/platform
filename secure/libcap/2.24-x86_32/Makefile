@@ -16,6 +16,8 @@ REQUIRES           = secure/libcap/2.24
 REQUIRES          += app/attr/2.4.47-x86_32
 REQUIRES          += secure/pam/1.1.8-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.24
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/l/libcap/libcap-$(version).tar.xz

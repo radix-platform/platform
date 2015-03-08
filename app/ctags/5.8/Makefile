@@ -20,6 +20,8 @@ SOURCE_REQUIRES     = sources/packages/a/ctags
 
 REQUIRES            = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version             = 5.8
 tar_gz_archive      = $(SRC_PACKAGE_PATH)/packages/a/ctags/ctags-$(version).tar.gz

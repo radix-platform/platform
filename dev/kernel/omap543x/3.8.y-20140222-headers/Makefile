@@ -9,13 +9,14 @@ COMPONENT_IS_3PP  = true
 include ../../../../build-system/constants.mk
 
 
-version          = 3.8.y-20140222
-
 SOURCE_REQUIRES  = sources/Linux/omap5-glsdk
 
 REQUIRES         = base/pkgtool
 
+# ======= __END_OF_REQUIRES__ =======
 
+
+version          = 3.8.y-20140222
 modules_version  = 3.8.13
 full_version     = $(version)
 tar_bz2_archive  = $(SRC_PACKAGE_PATH)/Linux/omap5-glsdk/linux-glsdk-$(version).tar.bz2

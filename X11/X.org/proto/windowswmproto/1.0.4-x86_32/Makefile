@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/X.org/proto/windowswmproto
 REQUIRES           = X11/X.org/proto/windowswmproto/1.0.4
 REQUIRES          += X11/X.org/doc/xorg-sgml-doctools/1.11
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.4
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/proto/windowswmproto/windowswmproto-$(version).tar.bz2

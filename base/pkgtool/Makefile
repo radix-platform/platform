@@ -22,6 +22,9 @@ NEED_ABS_PATH = true
 include ../../build-system/constants.mk
 
 
+# ======= __END_OF_REQUIRES__ =======
+
+
 PKG_GROUP = base
 
 BIN_PKG_NAME                = pkgtool

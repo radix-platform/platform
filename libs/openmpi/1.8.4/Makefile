@@ -22,6 +22,8 @@ REQUIRES           = dev/gcc/4.9.1
 REQUIRES          += libs/hwloc/1.10.0
 REQUIRES          += dev/libtool/2.4.2
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.8.4
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/l/openmpi/openmpi-$(version).tar.bz2

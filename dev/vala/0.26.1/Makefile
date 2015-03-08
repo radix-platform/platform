@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/GNOME/core/vala
 REQUIRES           = libs/glib2/2.40.0
 REQUIRES          += libs/libxslt/1.1.28
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.26.1
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNOME/core/vala/vala-$(version).tar.xz

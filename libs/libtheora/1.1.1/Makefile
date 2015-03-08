@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/packages/m/xiph/libtheora
 REQUIRES           = libs/libogg/1.3.2
 REQUIRES          += libs/libvorbis/1.3.4
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.1.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/m/xiph/libtheora/libtheora-$(version).tar.bz2

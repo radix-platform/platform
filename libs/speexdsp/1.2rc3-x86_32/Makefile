@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/packages/m/xiph/speexdsp
 REQUIRES           = libs/speexdsp/1.2rc3
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.2rc3
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/m/xiph/speexdsp/speexdsp-$(version).tar.gz

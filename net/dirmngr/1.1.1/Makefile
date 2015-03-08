@@ -25,6 +25,8 @@ REQUIRES          += net/libgcrypt/1.6.2
 REQUIRES          += net/openldap-client/2.4.39
 REQUIRES          += libs/pth/2.0.7
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.1.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/dirmngr/dirmngr-$(version).tar.bz2

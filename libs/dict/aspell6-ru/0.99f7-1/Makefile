@@ -20,6 +20,8 @@ SOURCE_REQUIRES     = sources/dict/aspell/ru
 
 REQUIRES            = libs/aspell/0.60.6.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 language            = Russian
 aspell_base_version = 0.60

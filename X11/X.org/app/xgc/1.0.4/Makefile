@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/X.org/app/xgc
 
 REQUIRES           = X11/X.org/lib/libXaw/1.0.12
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.4
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/xgc/xgc-$(version).tar.bz2

@@ -25,6 +25,8 @@ REQUIRES           += app/procps/3.2.8
 REQUIRES           += libs/ncurses/5.9
 REQUIRES           += app/dialog/1.2-20140112
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version             = 1.0.28
 tar_bz2_archive     = $(SRC_PACKAGE_PATH)/packages/m/alsa/utils/alsa-utils-$(version).tar.bz2

@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/X.org/proto/printproto
 REQUIRES           = X11/X.org/proto/printproto/1.0.5
 REQUIRES          += X11/X.org/doc/xorg-sgml-doctools/1.11
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.5
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/proto/printproto/printproto-$(version).tar.bz2

@@ -20,6 +20,9 @@ SOURCE_REQUIRES    = sources/packages/a/utempter
 
 REQUIRES           = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
+
 version            = 1.1.6
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/a/utempter/libutempter-$(version).tar.bz2
 SRC_ARCHIVE        = $(tar_bz2_archive)

@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/a/CLooG
 
 REQUIRES           = libs/gmp/5.1.3
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.18.2
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/a/CLooG/cloog-$(version).tar.gz

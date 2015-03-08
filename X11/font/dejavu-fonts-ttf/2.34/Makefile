@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/packages/x/dejavu-fonts-ttf
 REQUIRES           = X11/libs/fontconfig/2.11.1
 REQUIRES          += X11/X.org/app/mkfontdir/1.0.7
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.34
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/x/dejavu-fonts-ttf/dejavu-fonts-ttf-$(version).tar.bz2

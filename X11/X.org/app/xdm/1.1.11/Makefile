@@ -23,6 +23,8 @@ REQUIRES          += X11/X.org/lib/libXft/2.3.2
 REQUIRES          += X11/X.org/lib/libXinerama/1.1.3
 REQUIRES          += secure/pam_unix2/2.9.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.1.11
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/xdm/xdm-$(version).tar.bz2

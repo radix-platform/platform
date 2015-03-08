@@ -16,6 +16,8 @@ REQUIRES           = X11/libs/mtdev/1.1.5
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 REQUIRES          += dev/check/0.9.13-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.1.5
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/x/mtdev/mtdev-$(version).tar.bz2

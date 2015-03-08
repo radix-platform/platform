@@ -27,6 +27,8 @@ REQUIRES          += X11/X.org/lib/libxkbfile/1.0.8
 REQUIRES          += X11/X.org/data/xbitmaps/1.1.1
 REQUIRES          += X11/X.org/app/luit/1.1.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 313
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/x/xterm/xterm-$(version).tgz

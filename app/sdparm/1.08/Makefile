@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/a/sdparm
 
 REQUIRES           = libs/sg3_utils/1.39
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.08
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/a/sdparm/sdparm-$(version).tar.xz

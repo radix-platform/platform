@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/a/xz
 
 REQUIRES           = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 5.0.5
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/a/xz/xz-$(version).tar.bz2

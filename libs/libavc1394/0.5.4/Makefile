@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/l/ieee1394/libavc1394
 
 REQUIRES           = libs/libraw1394/2.1.0
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.5.4
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/ieee1394/libavc1394/libavc1394-$(version).tar.gz

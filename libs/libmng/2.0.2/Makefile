@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/l/libmng
 
 REQUIRES           = libs/lcms2/2.6
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.0.2
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/l/libmng/libmng-$(version).tar.xz

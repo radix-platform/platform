@@ -16,6 +16,8 @@ REQUIRES           = X11/X.org/data/xbitmaps/1.1.1
 REQUIRES          += X11/X.org/util/util-macros/1.19.0
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.1.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/data/xbitmaps/xbitmaps-$(version).tar.bz2

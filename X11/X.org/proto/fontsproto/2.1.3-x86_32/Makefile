@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/X.org/proto/fontsproto
 REQUIRES           = X11/X.org/proto/fontsproto/2.1.3
 REQUIRES          += X11/X.org/doc/xorg-sgml-doctools/1.11
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.1.3
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/proto/fontsproto/fontsproto-$(version).tar.bz2

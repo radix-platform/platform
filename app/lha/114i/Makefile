@@ -20,6 +20,8 @@ SOURCE_REQUIRES     = sources/packages/a/lha
 
 REQUIRES            = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version             = 114i
 tar_gz_archive      = $(SRC_PACKAGE_PATH)/packages/a/lha/lha-$(version).tar.gz

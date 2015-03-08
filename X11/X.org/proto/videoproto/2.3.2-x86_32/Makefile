@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/X.org/proto/videoproto
 REQUIRES           = X11/X.org/proto/videoproto/2.3.2
 REQUIRES          += X11/X.org/doc/xorg-sgml-doctools/1.11
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.3.2
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/proto/videoproto/videoproto-$(version).tar.bz2

@@ -23,6 +23,8 @@ REQUIRES          += app/gpm/1.20.7
 REQUIRES          += libs/slang/2.2.4
 REQUIRES          += libs/glib2/2.40.0
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 4.8.12
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/a/mc/mc-$(version).tar.xz

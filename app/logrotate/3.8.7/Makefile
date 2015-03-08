@@ -21,6 +21,8 @@ SOURCE_REQUIRES     = sources/packages/a/logrotate
 REQUIRES            = libs/popt/1.16
 REQUIRES           += app/dcron/4.5
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version             = 3.8.7
 tar_gz_archive      = $(SRC_PACKAGE_PATH)/packages/a/logrotate/logrotate-$(version).tar.gz

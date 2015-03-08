@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/m/mad/libmad
 
 REQUIRES           = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.15.1b
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/m/mad/libmad/libmad-$(version).tar.gz

@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/packages/m/taglib
 REQUIRES           = dev/gcc/4.9.1
 REQUIRES          += libs/zlib/1.2.8
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.9.1
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/m/taglib/taglib-$(version).tar.gz

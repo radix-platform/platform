@@ -23,6 +23,8 @@ REQUIRES          += libs/pango/1.36.8-x86_32
 REQUIRES          += X11/X.org/lib/libXv/1.0.10-x86_32
 REQUIRES          += X11/X.org/lib/libSM/1.2.2-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.10.36
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/x/gst-plugins-base/gst-plugins-base-$(version).tar.xz

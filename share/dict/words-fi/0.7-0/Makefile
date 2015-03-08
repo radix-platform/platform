@@ -20,6 +20,8 @@ SOURCE_REQUIRES     = sources/dict/aspell/fi
 
 REQUIRES            = base/pkgtool
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version             = 0.7-0
 tar_bz2_archive     = $(SRC_PACKAGE_PATH)/dict/aspell/fi/aspell6-fi-0.7-0.tar.bz2

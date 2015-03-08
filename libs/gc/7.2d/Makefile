@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/packages/l/gc
 REQUIRES           = libs/eglibc/2.19.1
 REQUIRES          += dev/gcc/4.9.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 7.2
 version_suffix     = d

@@ -17,6 +17,8 @@ REQUIRES          += libs/eglibc/2.19.1-x86_32
 REQUIRES          += libs/zlib/1.2.8-x86_32
 REQUIRES          += X11/X.org/proto/xproto/7.0.26-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.13.2
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libpciaccess/libpciaccess-$(version).tar.bz2

@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/X.org/proto/dmxproto
 
 REQUIRES           = X11/X.org/doc/xorg-sgml-doctools/1.11
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.3.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/proto/dmxproto/dmxproto-$(version).tar.bz2

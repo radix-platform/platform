@@ -18,6 +18,8 @@ REQUIRES          += libs/slang/2.2.4-x86_32
 REQUIRES          += X11/X.org/lib/libX11/1.6.2-x86_32
 REQUIRES          += X11/X.org/lib/libXt/1.1.4-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.4.0
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/aalib/aalib-1.4rc5.tar.gz

@@ -17,6 +17,8 @@ REQUIRES          += libs/eglibc/2.19.1-x86_32
 REQUIRES          += secure/cracklib/2.9.1-x86_32
 REQUIRES          += dev/flex/2.5.39-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.1.8
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/s/Linux-PAM/Linux-PAM-$(version).tar.bz2

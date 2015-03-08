@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/l/libthai
 
 REQUIRES           = libs/libdatrie/0.2.8
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.1.20
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/l/libthai/libthai-$(version).tar.xz

@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/X.org/xcb/libpthread-stubs
 REQUIRES           = X11/X.org/xcb/libpthread-stubs/0.3
 REQUIRES          += X11/X.org/xcb/libxcb/1.11-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.3
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/xcb/libpthread-stubs/libpthread-stubs-$(version).tar.bz2

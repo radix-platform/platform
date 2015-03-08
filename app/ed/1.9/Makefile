@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/GNU/ed
 
 REQUIRES           = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.9
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/GNU/ed/ed-$(version).tar.gz

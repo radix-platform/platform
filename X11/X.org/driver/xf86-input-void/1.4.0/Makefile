@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/X.org/driver/xf86-input-void
 
 REQUIRES           = X11/X.org/xserver/xorg-server/1.16.2
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.4.0
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/driver/xf86-input-void/xf86-input-void-$(version).tar.bz2

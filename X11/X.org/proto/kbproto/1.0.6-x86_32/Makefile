@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/X.org/proto/kbproto
 REQUIRES           = X11/X.org/proto/kbproto/1.0.6
 REQUIRES          += X11/X.org/doc/xorg-sgml-doctools/1.11
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.6
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/proto/kbproto/kbproto-$(version).tar.bz2

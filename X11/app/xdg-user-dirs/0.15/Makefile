@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/x/xdg-user-dirs
 
 REQUIRES           = X11/app/xdg-utils/1.1.0
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.15
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/x/xdg-user-dirs/xdg-user-dirs-$(version).tar.gz

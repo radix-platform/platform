@@ -15,6 +15,8 @@ SOURCE_REQUIRES  += sources/hal/drivers/omap543x/wl18xx/compat
 
 REQUIRES          = hal/drivers/omap543x/sgx-ddk/1.9.0.11
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version           = ol_r8.a8.10
 kernel_version    = 3.8.y-20140222

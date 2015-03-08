@@ -16,6 +16,8 @@ REQUIRES             = net/cyrus-sasl/2.1.26
 REQUIRES            += libs/gdbm/1.11-x86_32
 REQUIRES            += net/openssl/1.0.1g-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version              = 2.1.26
 tar_gz_archive       = $(SRC_PACKAGE_PATH)/packages/n/cyrus-sasl/cyrus-sasl-$(version).tar.gz

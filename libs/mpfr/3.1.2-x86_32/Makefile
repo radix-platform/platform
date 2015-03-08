@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/GNU/mpfr
 REQUIRES           = libs/mpfr/3.1.2
 REQUIRES          += libs/gmp/5.1.3-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 3.1.2
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/GNU/mpfr/mpfr-$(version).tar.bz2

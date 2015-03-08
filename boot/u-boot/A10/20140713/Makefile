@@ -13,6 +13,8 @@ SOURCE_REQUIRES   = sources/U-Boot/sunxi
 
 REQUIRES          = boot/kernel/A10/3.4-20140514
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 DEFAULT_NFS_ROOT_IP_ADDR = 172.16.0.3
 DEFAULT_NFS_ROOT_PATH    = "nfsroot-cb1x"

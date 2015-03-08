@@ -20,6 +20,8 @@ SOURCE_REQUIRES     = sources/dict/aspell/fi
 
 REQUIRES            = libs/aspell/0.60.6.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 language            = Finnish
 aspell_base_version = 0.60

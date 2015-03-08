@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/X.org/lib/libXevie
 REQUIRES           = X11/X.org/proto/evieext/1.1.1
 REQUIRES          += X11/X.org/lib/libXext/1.3.3
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.3
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libXevie/libXevie-$(version).tar.bz2

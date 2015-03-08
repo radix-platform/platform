@@ -23,6 +23,8 @@ REQUIRES          += libs/libvorbis/1.3.4
 REQUIRES          += libs/libogg/1.3.2
 REQUIRES          += app/flac/1.3.0
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.25
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/m/mega-nerd/libsndfile/libsndfile-$(version).tar.gz

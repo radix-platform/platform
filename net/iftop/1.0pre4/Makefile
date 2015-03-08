@@ -23,6 +23,8 @@ REQUIRES          += libs/ncurses/5.9
 REQUIRES          += net/libnl3/3.2.25
 REQUIRES          += net/libpcap/1.6.2
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0pre4
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/n/iftop/iftop-$(version).tar.gz

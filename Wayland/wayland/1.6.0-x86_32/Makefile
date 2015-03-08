@@ -16,6 +16,8 @@ REQUIRES           = Wayland/wayland/1.6.0
 REQUIRES          += libs/expat/2.1.0-x86_32
 REQUIRES          += libs/libffi/3.0.13-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.6.0
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/Wayland/wayland/wayland-$(version).tar.xz

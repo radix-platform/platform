@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/X.org/driver/xf86-input-vmmouse
 REQUIRES           = X11/X.org/xserver/xorg-server/1.16.2
 REQUIRES          += libs/eudev/1.9
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 13.0.0
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/driver/xf86-input-vmmouse/xf86-input-vmmouse-$(version).tar.bz2

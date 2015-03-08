@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/n/nettle
 
 REQUIRES           = libs/gmp/5.1.3
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.7.1
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/n/nettle/nettle-$(version).tar.gz

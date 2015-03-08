@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/n/libassuan
 
 REQUIRES           = net/libgpg-error/1.12
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.1.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/libassuan/libassuan-$(version).tar.bz2

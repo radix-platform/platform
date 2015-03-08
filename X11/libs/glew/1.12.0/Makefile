@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/x/glew
 
 REQUIRES           = X11/libs/glu/9.0.0
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.12.0
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/x/glew/glew-$(version).tgz

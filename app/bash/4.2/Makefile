@@ -23,6 +23,8 @@ REQUIRES          += libs/libtermcap/1.2.3
 REQUIRES          += libs/readline/6.2
 REQUIRES          += app/gettext/0.18.3.2
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 4.2
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/GNU/bash/bash-$(version).tar.gz

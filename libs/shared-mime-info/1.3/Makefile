@@ -24,6 +24,8 @@ REQUIRES          += libs/glib2/2.40.0
 REQUIRES          += app/gettext/0.18.3.2
 REQUIRES          += libs/libxml2/2.9.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.3
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/l/shared-mime-info/shared-mime-info-$(version).tar.xz

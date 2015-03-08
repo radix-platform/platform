@@ -9,13 +9,14 @@ COMPONENT_IS_3PP  = true
 include ../../../../build-system/constants.mk
 
 
-version          = 3.4-20140514
-
 SOURCE_REQUIRES  = sources/Linux/sunxi-3.4
 
 REQUIRES         = base/pkgtool
 
+# ======= __END_OF_REQUIRES__ =======
 
+
+version          = 3.4-20140514
 modules_version  = 3.4.90
 full_version     = $(version)
 tar_bz2_archive  = $(SRC_PACKAGE_PATH)/Linux/sunxi-3.4/linux-sunxi-$(version).tar.bz2

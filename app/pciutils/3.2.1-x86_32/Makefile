@@ -17,6 +17,8 @@ REQUIRES             = app/pciutils/3.2.1
 REQUIRES            += libs/zlib/1.2.8-x86_32
 REQUIRES            += app/kmod/16-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version              = 3.2.1
 tar_xz_archive       = $(SRC_PACKAGE_PATH)/packages/a/pciutils/pciutils-$(version).tar.xz

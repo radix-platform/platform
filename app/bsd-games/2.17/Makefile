@@ -23,6 +23,8 @@ REQUIRES          += libs/libtermcap/1.2.3
 REQUIRES          += net/openssl/1.0.1g
 REQUIRES          += dev/flex/2.5.39
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.17
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/y/bsd-games/bsd-games-$(version).tar.gz

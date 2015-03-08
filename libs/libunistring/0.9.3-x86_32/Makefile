@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/GNU/libunistring
 REQUIRES           = libs/libunistring/0.9.3
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.9.3
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/GNU/libunistring/libunistring-$(version).tar.gz

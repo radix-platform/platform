@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/packages/m/alsa/oss
 REQUIRES           = libs/alsa-oss/1.0.28
 REQUIRES          += libs/alsa-lib/1.0.28-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.28
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/m/alsa/oss/alsa-oss-$(version).tar.bz2

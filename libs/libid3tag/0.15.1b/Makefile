@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/packages/m/mad/libid3tag
 REQUIRES           = libs/eglibc/2.19.1
 REQUIRES          += libs/zlib/1.2.8
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.15.1b
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/m/mad/libid3tag/libid3tag-$(version).tar.gz

@@ -16,6 +16,8 @@ REQUIRES           = libs/alsa-lib/1.0.28
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 REQUIRES          += dev/python2/2.7.6-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.28
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/m/alsa/lib/alsa-lib-$(version).tar.bz2

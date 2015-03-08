@@ -20,6 +20,8 @@ SOURCE_REQUIRES     = sources/packages/a/dcron
 
 REQUIRES            = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version             = 4.5
 tar_gz_archive      = $(SRC_PACKAGE_PATH)/packages/a/dcron/dcron-$(version).tar.gz

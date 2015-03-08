@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/X.org/xcb/xcb-proto
 
 REQUIRES           = X11/X.org/util/util-macros/1.19.0
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.11
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/xcb/xcb-proto/xcb-proto-$(version).tar.bz2

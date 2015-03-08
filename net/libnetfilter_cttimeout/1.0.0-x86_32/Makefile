@@ -15,6 +15,8 @@ SOURCE_REQUIRES      = sources/packages/n/libnetfilter_cttimeout
 REQUIRES             = net/libnetfilter_cttimeout/1.0.0
 REQUIRES            += net/libmnl/1.0.3-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version              = 1.0.0
 tar_bz2_archive      = $(SRC_PACKAGE_PATH)/packages/n/libnetfilter_cttimeout/libnetfilter_cttimeout-$(version).tar.bz2

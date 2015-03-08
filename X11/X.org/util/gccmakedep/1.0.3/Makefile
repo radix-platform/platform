@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/X.org/util/gccmakedep
 
 REQUIRES           = X11/X.org/util/util-macros/1.19.0
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.3
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/util/gccmakedep/gccmakedep-$(version).tar.bz2

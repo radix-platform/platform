@@ -30,6 +30,8 @@ REQUIRES          += libs/libjpeg-turbo/1.3.1
 REQUIRES          += libs/libtiff/4.0.3
 REQUIRES          += libs/giflib/5.1.0
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.95.6
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/x/WindowMaker/WindowMaker-$(version).tar.gz

@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/packages/m/amr/vo-aacenc
 REQUIRES           = libs/vo-aacenc/0.1.3
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.1.3
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/m/amr/vo-aacenc/vo-aacenc-$(version).tar.gz

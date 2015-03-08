@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/X.org/app/xrdb
 
 REQUIRES           = X11/X.org/lib/libXmu/1.1.2
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.1.0
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/xrdb/xrdb-$(version).tar.bz2

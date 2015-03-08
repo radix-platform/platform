@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/X.org/app/xdriinfo
 REQUIRES           = X11/libs/mesa/10.3.4
 REQUIRES          += X11/X.org/lib/libXext/1.3.3
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.4
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/xdriinfo/xdriinfo-$(version).tar.bz2

@@ -18,6 +18,8 @@ REQUIRES          += app/bzip2/1.0.6-x86_32
 REQUIRES          += libs/zlib/1.2.8-x86_32
 REQUIRES          += libs/openmpi/1.8.4-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.57.0
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/l/boost/boost-$(version).tar.bz2

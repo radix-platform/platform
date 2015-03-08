@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/packages/m/amr/fdk-aac
 REQUIRES           = libs/fdk-aac/0.1.3
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.1.3
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/m/amr/fdk-aac/fdk-aac-$(version).tar.gz

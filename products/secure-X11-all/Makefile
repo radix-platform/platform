@@ -1355,6 +1355,10 @@ REQUIRES += app/chrpath/0.16
 # REQUIRES += libs/ppl/1.1
 
 
+
+# ======= __END_OF_REQUIRES__ =======
+
+
 install_target     = $(TARGET_BUILD_DIR)/.install_done
 
 

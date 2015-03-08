@@ -19,6 +19,8 @@ REQUIRES          += app/util-linux/2.24.1-x86_32
 REQUIRES          += libs/glib2/2.40.0-x86_32
 REQUIRES          += app/pciutils/3.2.1-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 182
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/a/udev/udev-$(version).tar.xz

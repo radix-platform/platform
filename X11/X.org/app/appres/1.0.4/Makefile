@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/X.org/app/appres
 
 REQUIRES           = X11/X.org/lib/libXt/1.1.4
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.4
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/appres/appres-$(version).tar.bz2

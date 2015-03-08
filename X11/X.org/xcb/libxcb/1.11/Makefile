@@ -22,6 +22,8 @@ REQUIRES           = X11/X.org/xcb/xcb-proto/1.11
 REQUIRES          += X11/X.org/lib/libXau/1.0.8
 REQUIRES          += X11/X.org/lib/libXdmcp/1.1.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.11
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/xcb/libxcb/libxcb-$(version).tar.bz2

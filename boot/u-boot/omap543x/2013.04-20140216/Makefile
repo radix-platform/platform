@@ -13,6 +13,8 @@ SOURCE_REQUIRES   = sources/U-Boot/omap5-glsdk
 
 REQUIRES          = boot/kernel/omap543x/3.8.y-20140222
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 DEFAULT_NFS_ROOT_IP_ADDR =  172.16.0.3
 DEFAULT_NFS_ROOT_PATH    = "nfsroot-omap5-uevm"

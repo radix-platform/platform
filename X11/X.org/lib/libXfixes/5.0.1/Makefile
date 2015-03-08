@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/X.org/lib/libXfixes
 REQUIRES           = X11/X.org/proto/fixesproto/5.0
 REQUIRES          += X11/X.org/lib/libX11/1.6.2
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 5.0.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libXfixes/libXfixes-$(version).tar.bz2

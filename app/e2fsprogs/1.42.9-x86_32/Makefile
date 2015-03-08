@@ -15,6 +15,8 @@ SOURCE_REQUIRES       = sources/packages/a/e2fsprogs
 REQUIRES              = app/e2fsprogs/1.42.9
 REQUIRES             += app/util-linux/2.24.1-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version               = 1.42.9
 tar_xz_archive        = $(SRC_PACKAGE_PATH)/packages/a/e2fsprogs/e2fsprogs-$(version).tar.xz

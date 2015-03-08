@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/X.org/app/xditview
 
 REQUIRES           = X11/X.org/lib/libXaw/1.0.12
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.3
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/xditview/xditview-$(version).tar.bz2

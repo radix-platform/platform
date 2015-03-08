@@ -23,6 +23,8 @@ REQUIRES          += libs/pcre/8.34
 REQUIRES          += libs/libpng/libpng14/1.4.13
 REQUIRES          += libs/zlib/1.2.8
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.2.4
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/l/slang/slang-$(version).tar.bz2

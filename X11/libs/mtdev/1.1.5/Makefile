@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/x/mtdev
 
 REQUIRES           = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.1.5
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/x/mtdev/mtdev-$(version).tar.bz2

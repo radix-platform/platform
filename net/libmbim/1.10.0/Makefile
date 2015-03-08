@@ -24,6 +24,8 @@ REQUIRES          += libs/pcre/8.34
 REQUIRES          += libs/eudev/1.9
 REQUIRES          += libs/glib2/2.40.0
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.10.0
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/n/libmbim/libmbim-$(version).tar.xz

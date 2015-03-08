@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/X.org/xcb/xcb-util-renderutil
 
 REQUIRES           = X11/X.org/xcb/libxcb/1.11
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.3.9
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/xcb/xcb-util-renderutil/xcb-util-renderutil-$(version).tar.bz2

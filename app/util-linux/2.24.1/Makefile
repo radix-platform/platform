@@ -27,6 +27,8 @@ SOURCE_REQUIRES    += sources/packages/a/ziptool
 REQUIRES            = libs/zlib/1.2.8
 REQUIRES           += libs/libtermcap/1.2.3
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version             = 2.24.1
 tar_gz_archive      = $(SRC_PACKAGE_PATH)/packages/a/util-linux/util-linux-$(version).tar.gz

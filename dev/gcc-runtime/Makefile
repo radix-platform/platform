@@ -27,11 +27,12 @@ include ../../build-system/constants.mk
 
 REQUIRES           = base/pkgtool
 
-
-build_gcc_rt_pkg   = $(TARGET_BUILD_DIR)/.gcc_rt_pkg_done
+# ======= __END_OF_REQUIRES__ =======
 
 
 version            = $(shell $(CC) -dumpversion)
+
+build_gcc_rt_pkg   = $(TARGET_BUILD_DIR)/.gcc_rt_pkg_done
 
 
 ####### Targets

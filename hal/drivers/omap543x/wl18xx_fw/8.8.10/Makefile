@@ -13,6 +13,9 @@ SOURCE_REQUIRES   = sources/hal/drivers/omap543x/wl18xx_fw
 
 REQUIRES          = hal/drivers/omap543x/wl18xx/8.8.10
 
+# ======= __END_OF_REQUIRES__ =======
+
+
 version           = ol_r8.a8.10
 tar_bz2_archive   = $(SRC_PACKAGE_PATH)/hal/drivers/omap543x/wl18xx_fw/wl18xx_fw-$(version).tar.bz2
 SRC_ARCHIVE       = $(tar_bz2_archive)

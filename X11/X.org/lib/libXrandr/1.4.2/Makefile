@@ -22,6 +22,8 @@ REQUIRES           = X11/X.org/proto/randrproto/1.4.0
 REQUIRES          += X11/X.org/lib/libXext/1.3.3
 REQUIRES          += X11/X.org/lib/libXrender/0.9.8
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.4.2
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libXrandr/libXrandr-$(version).tar.bz2

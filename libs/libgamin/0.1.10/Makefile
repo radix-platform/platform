@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/l/gamin
 
 REQUIRES           = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.1.10
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/gamin/gamin-$(version).tar.gz

@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/X.org/app/xeyes
 REQUIRES           = X11/X.org/lib/libXmu/1.1.2
 REQUIRES          += X11/X.org/lib/libXrender/0.9.8
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.1.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/xeyes/xeyes-$(version).tar.bz2

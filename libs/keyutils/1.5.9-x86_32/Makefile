@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/packages/l/keyutils
 REQUIRES           = libs/keyutils/1.5.9
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.5.9
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/l/keyutils/keyutils-$(version).tar.bz2

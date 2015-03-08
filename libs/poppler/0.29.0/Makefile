@@ -25,6 +25,8 @@ REQUIRES          += net/curl/7.38.0
 REQUIRES          += X11/libs/qt4/4.8.6
 REQUIRES          += X11/libs/qt5/5.4.0
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.29.0
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/l/poppler/poppler-$(version).tar.xz

@@ -20,6 +20,8 @@ SOURCE_REQUIRES     = sources/packages/a/hdparm
 
 REQUIRES            = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version             = 9.43
 tar_gz_archive      = $(SRC_PACKAGE_PATH)/packages/a/hdparm/hdparm-$(version).tar.gz

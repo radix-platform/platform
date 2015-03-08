@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/GNU/gmp
 REQUIRES           = libs/gmp/5.1.3
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 5.1.3
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/GNU/gmp/gmp-$(version).tar.bz2

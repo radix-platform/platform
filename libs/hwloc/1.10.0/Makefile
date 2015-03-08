@@ -23,6 +23,8 @@ REQUIRES          += X11/X.org/lib/libpciaccess/0.13.2
 REQUIRES          += libs/libxml2/2.9.1
 REQUIRES          += app/pciutils/3.2.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.10.0
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/l/hwloc/hwloc-$(version).tar.bz2

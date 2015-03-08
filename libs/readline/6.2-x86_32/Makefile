@@ -16,6 +16,8 @@ REQUIRES             = libs/readline/6.2
 REQUIRES            += libs/ncurses/5.9-x86_32
 REQUIRES            += libs/libtermcap/1.2.3-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version              = 6.2
 tar_gz_archive       = $(SRC_PACKAGE_PATH)/GNU/readline/readline-$(version).tar.gz

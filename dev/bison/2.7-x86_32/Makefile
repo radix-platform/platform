@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/GNU/bison
 REQUIRES           = dev/bison/2.7
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.7
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNU/bison/bison-$(version).tar.xz

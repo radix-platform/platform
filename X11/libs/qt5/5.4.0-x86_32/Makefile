@@ -39,6 +39,8 @@ REQUIRES          += app/sqlite/3.8.7.1-x86_32
 REQUIRES          += app/mariadb/5.5.41-x86_32
 REQUIRES          += libs/libiodbc/3.52.9-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 5.4.0
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/x/qt5/qt-everywhere-opensource-src-$(version).tar.xz

@@ -17,6 +17,8 @@ REQUIRES          += X11/X.org/proto/xproto/7.0.26-x86_32
 REQUIRES          += X11/X.org/lib/libXmu/1.1.2-x86_32
 REQUIRES          += X11/X.org/lib/libXpm/3.5.11-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.6.2
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libXaw3d/libXaw3d-$(version).tar.bz2

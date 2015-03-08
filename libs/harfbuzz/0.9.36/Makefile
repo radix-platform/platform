@@ -28,6 +28,8 @@ REQUIRES          += libs/zlib/1.2.8
 REQUIRES          += app/bzip2/1.0.6
 REQUIRES          += env/freetype/2.5.3
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.9.36
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/l/harfbuzz/harfbuzz-$(version).tar.bz2

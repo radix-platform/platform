@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/packages/n/dhcpcd
 REQUIRES           = libs/eglibc/2.19.1
 REQUIRES          += libs/eudev/1.9
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 6.4.2
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/dhcpcd/dhcpcd-$(version).tar.bz2

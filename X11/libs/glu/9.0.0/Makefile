@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/x/glu
 
 REQUIRES           = X11/libs/mesa/10.3.4
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 9.0.0
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/x/glu/glu-$(version).tar.bz2

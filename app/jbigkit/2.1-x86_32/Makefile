@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/packages/a/jbigkit
 REQUIRES           = app/jbigkit/2.1
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.1
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/a/jbigkit/jbigkit-$(version).tar.gz

@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/packages/l/expat
 REQUIRES           = libs/expat/2.1.0
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.1.0
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/expat/expat-$(version).tar.gz

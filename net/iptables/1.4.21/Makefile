@@ -22,6 +22,8 @@ REQUIRES           = net/libpcap/1.6.2
 REQUIRES          += net/libnetfilter_conntrack/1.0.4
 REQUIRES          += net/nfacct/1.0.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.4.21
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/iptables/iptables-$(version).tar.bz2

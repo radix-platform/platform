@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/packages/n/openldap
 REQUIRES           = net/openssl/1.0.1g
 REQUIRES          += net/cyrus-sasl/2.1.26
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.4.39
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/n/openldap/openldap-$(version).tgz

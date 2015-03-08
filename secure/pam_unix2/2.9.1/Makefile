@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/packages/s/pam_unix2
 REQUIRES           = libs/eglibc/2.19.1
 REQUIRES          += secure/pam/1.1.8
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.9.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/s/pam_unix2/pam_unix2-$(version).tar.bz2

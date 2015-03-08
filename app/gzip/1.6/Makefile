@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/GNU/gzip
 
 REQUIRES           = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.6
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNU/gzip/gzip-$(version).tar.xz

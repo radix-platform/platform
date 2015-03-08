@@ -23,6 +23,8 @@ REQUIRES          += net/libnetfilter_cthelper/1.0.0
 REQUIRES          += net/libnetfilter_cttimeout/1.0.0
 REQUIRES          += net/libnetfilter_queue/1.0.2
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.4.2
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/conntrack-tools/conntrack-tools-$(version).tar.bz2

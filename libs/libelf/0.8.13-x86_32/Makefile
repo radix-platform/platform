@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/packages/l/libelf
 REQUIRES           = libs/libelf/0.8.13
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.8.13
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/libelf/libelf-$(version).tar.gz

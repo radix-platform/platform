@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/X.org/proto/xextproto
 
 REQUIRES           = X11/X.org/doc/xorg-sgml-doctools/1.11
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 7.3.0
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/proto/xextproto/xextproto-$(version).tar.bz2

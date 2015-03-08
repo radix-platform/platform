@@ -16,6 +16,8 @@ REQUIRES           = libs/lame/3.99.5
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 REQUIRES          += libs/ncurses/5.9-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 3.99.5
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/m/lame/lame/lame-$(version).tar.gz

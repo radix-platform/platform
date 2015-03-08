@@ -24,6 +24,8 @@ REQUIRES          += libs/libarchive/3.1.2
 REQUIRES          += libs/shared-mime-info/1.3
 REQUIRES          += net/curl/7.38.0
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.8.12.2
 major_version      = $(shell echo $(version) | cut -f1,2 -d '.')

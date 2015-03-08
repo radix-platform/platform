@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/GNU/gperf
 REQUIRES           = dev/gcc/4.9.1
 REQUIRES          += libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 3.0.4
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/GNU/gperf/gperf-$(version).tar.gz

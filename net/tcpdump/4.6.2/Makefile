@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/packages/n/tcpdump
 REQUIRES           = net/libpcap/1.6.2
 REQUIRES          += net/openssl/1.0.1g
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 4.6.2
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/n/tcpdump/tcpdump-$(version).tar.gz

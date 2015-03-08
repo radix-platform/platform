@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/X.org/doc/xorg-sgml-doctools
 
 REQUIRES           = X11/X.org/util/util-macros/1.19.0
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.11
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/doc/xorg-sgml-doctools/xorg-sgml-doctools-$(version).tar.bz2

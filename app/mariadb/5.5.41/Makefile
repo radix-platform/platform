@@ -27,6 +27,8 @@ REQUIRES          += net/openssl/1.0.1g
 REQUIRES          += secure/pam_unix2/2.9.1
 REQUIRES          += libs/boost/1.57.0
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 5.5.41
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/b/mariadb/mariadb-$(version).tar.gz

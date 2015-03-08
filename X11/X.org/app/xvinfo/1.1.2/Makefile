@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/X.org/app/xvinfo
 
 REQUIRES           = X11/X.org/lib/libXv/1.0.10
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.1.2
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/xvinfo/xvinfo-$(version).tar.bz2

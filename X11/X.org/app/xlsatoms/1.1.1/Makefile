@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/X.org/app/xlsatoms
 
 REQUIRES           = X11/X.org/xcb/libxcb/1.11
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.1.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/xlsatoms/xlsatoms-$(version).tar.bz2

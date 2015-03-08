@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/X.org/app/xgamma
 
 REQUIRES           = X11/X.org/lib/libXxf86vm/1.1.3
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.5
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/xgamma/xgamma-$(version).tar.bz2

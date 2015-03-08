@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/X.org/lib/libXxf86dga
 REQUIRES           = X11/X.org/proto/xf86dgaproto/2.1
 REQUIRES          += X11/X.org/lib/libXext/1.3.3
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.1.4
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libXxf86dga/libXxf86dga-$(version).tar.bz2

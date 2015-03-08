@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/packages/l/dmapi
 REQUIRES           = libs/dmapi/2.2.12
 REQUIRES          += app/xfsprogs/3.1.11-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.2.12
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/dmapi/dmapi-$(version).tar.gz

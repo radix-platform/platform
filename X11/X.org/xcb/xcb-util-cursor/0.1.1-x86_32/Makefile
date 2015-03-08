@@ -16,6 +16,8 @@ REQUIRES           = X11/X.org/xcb/xcb-util-cursor/0.1.1
 REQUIRES          += X11/X.org/xcb/xcb-util-image/0.4.0-x86_32
 REQUIRES          += X11/X.org/xcb/xcb-util-renderutil/0.3.9-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.1.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/xcb/xcb-util-cursor/xcb-util-cursor-$(version).tar.bz2

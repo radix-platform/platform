@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/packages/l/giflib
 REQUIRES           = libs/giflib/5.1.0
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 5.1.0
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/l/giflib/giflib-$(version).tar.bz2

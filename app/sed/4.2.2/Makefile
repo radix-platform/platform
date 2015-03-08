@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/GNU/sed
 
 REQUIRES           = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 4.2.2
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/GNU/sed/sed-$(version).tar.bz2

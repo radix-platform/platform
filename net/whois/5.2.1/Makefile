@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/n/whois
 
 REQUIRES           = libs/libidn/1.28
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 5.2.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/whois/whois-$(version).tar.bz2

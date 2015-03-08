@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/packages/l/lcms2
 REQUIRES           = libs/libtiff/4.0.3
 REQUIRES          += libs/libjpeg-turbo/1.3.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.6
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/lcms2/lcms2-$(version).tar.gz

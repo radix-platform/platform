@@ -26,6 +26,8 @@ REQUIRES          += libs/libogg/1.3.2
 REQUIRES          += app/flac/1.3.0
 REQUIRES          += app/esound/0.2.41
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.20.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/m/mpg123/mpg123-$(version).tar.bz2

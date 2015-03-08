@@ -24,6 +24,8 @@ REQUIRES          += libs/ncurses/5.9
 REQUIRES          += X11/libs/mesa/10.3.4
 REQUIRES          += X11/libs/freeglut/2.8.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 PYTHON_VERSION = 2.7
 
 

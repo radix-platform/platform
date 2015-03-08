@@ -23,6 +23,8 @@ REQUIRES          += libs/dbus-glib/0.102
 REQUIRES          += libs/glib2/2.40.0
 REQUIRES          += dev/python2/2.7.6
 
+# ======= __END_OF_REQUIRES__ =======
+
 PYTHON_VERSION = 2.7
 
 

@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/X.org/xcb/xcb-util-cursor
 REQUIRES           = X11/X.org/xcb/xcb-util-image/0.4.0
 REQUIRES          += X11/X.org/xcb/xcb-util-renderutil/0.3.9
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.1.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/xcb/xcb-util-cursor/xcb-util-cursor-$(version).tar.bz2

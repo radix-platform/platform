@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/X.org/app/xfsinfo
 
 REQUIRES           = X11/X.org/lib/libFS/1.0.6
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.4
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/xfsinfo/xfsinfo-$(version).tar.bz2

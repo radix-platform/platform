@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/packages/a/db
 REQUIRES           = libs/eglibc/2.19.1
 REQUIRES          += dev/gcc/4.9.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 6.1.19
 major_version      = $(shell echo $(version) | cut -f 1 -d '.' )

@@ -16,6 +16,8 @@ REQUIRES            = net/openssl/1.0.1g
 REQUIRES           += libs/zlib/1.2.8-x86_32
 REQUIRES           += libs/gmp/5.1.3-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version             = 1.0.1g
 tar_gz_archive      = $(SRC_PACKAGE_PATH)/packages/n/openssl/openssl-$(version).tar.gz

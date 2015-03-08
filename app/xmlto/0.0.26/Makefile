@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/packages/a/linuxdoc-tools/xmlto
 REQUIRES           = libs/libxslt/1.1.28
 REQUIRES          += share/docbook-xsl/1.78.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.0.26
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/a/linuxdoc-tools/xmlto/xmlto-$(version).tar.bz2

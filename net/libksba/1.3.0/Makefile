@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/n/libksba
 
 REQUIRES           = net/libgpg-error/1.16
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.3.0
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/libksba/libksba-$(version).tar.bz2

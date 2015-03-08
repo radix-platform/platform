@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/X.org/proto/xcmiscproto
 
 REQUIRES           = X11/X.org/doc/xorg-sgml-doctools/1.11
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.2.2
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/proto/xcmiscproto/xcmiscproto-$(version).tar.bz2

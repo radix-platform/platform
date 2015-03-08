@@ -20,6 +20,8 @@ SOURCE_REQUIRES     = sources/packages/n/netkit-routed
 
 REQUIRES            = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version             = 0.17
 tar_gz_archive      = $(SRC_PACKAGE_PATH)/packages/n/netkit-routed/netkit-routed-$(version).tar.gz

@@ -16,6 +16,8 @@ REQUIRES             = net/libnetfilter_queue/1.0.2
 REQUIRES            += net/libnfnetlink/1.0.1-x86_32
 REQUIRES            += net/libmnl/1.0.3-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version              = 1.0.2
 tar_bz2_archive      = $(SRC_PACKAGE_PATH)/packages/n/libnetfilter_queue/libnetfilter_queue-$(version).tar.bz2

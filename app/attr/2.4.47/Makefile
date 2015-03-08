@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/a/attr
 
 REQUIRES           = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.4.47
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/a/attr/attr-$(version).src.tar.gz

@@ -16,6 +16,8 @@ REQUIRES           = X11/X.org/lib/libXfontcache/1.0.5
 REQUIRES           = X11/X.org/proto/fontcacheproto/0.1.3-x86_32
 REQUIRES          += X11/X.org/lib/libXext/1.3.3-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.5
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libXfontcache/libXfontcache-$(version).tar.bz2

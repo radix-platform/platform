@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/n/iptraf-ng
 
 REQUIRES           = libs/ncurses/5.9
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.1.4
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/n/iptraf-ng/iptraf-ng-$(version).tar.gz

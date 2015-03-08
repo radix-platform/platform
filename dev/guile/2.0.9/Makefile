@@ -27,6 +27,8 @@ REQUIRES          += dev/libtool/2.4.2
 REQUIRES          += libs/libunistring/0.9.3
 REQUIRES          += libs/gc/7.2d
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.0.9
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNU/guile/guile-$(version).tar.xz

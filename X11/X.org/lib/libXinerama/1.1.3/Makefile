@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/X.org/lib/libXinerama
 REQUIRES           = X11/X.org/proto/xineramaproto/1.2.1
 REQUIRES          += X11/X.org/lib/libXext/1.3.3
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.1.3
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libXinerama/libXinerama-$(version).tar.bz2

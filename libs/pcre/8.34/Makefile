@@ -24,6 +24,8 @@ REQUIRES          += app/bzip2/1.0.6
 REQUIRES          += libs/libtermcap/1.2.3
 REQUIRES          += libs/readline/6.3
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 8.34
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/l/pcre/pcre-$(version).tar.bz2

@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/X.org/lib/libXp
 REQUIRES           = X11/X.org/proto/printproto/1.0.5
 REQUIRES          += X11/X.org/lib/libXext/1.3.3
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.2
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libXp/libXp-$(version).tar.bz2

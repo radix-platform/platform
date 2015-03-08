@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/l/poppler-data
 
 REQUIRES           = base/pkgtool
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.4.7
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/poppler-data/poppler-data-$(version).tar.gz

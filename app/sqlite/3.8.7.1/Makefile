@@ -22,6 +22,8 @@ REQUIRES           = libs/ncurses/5.9
 REQUIRES          += libs/libtermcap/1.2.3
 REQUIRES          += libs/readline/6.3
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 3.8.7.1
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/b/sqlite/sqlite-$(version).tar.gz

@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/X.org/proto/xf86driproto
 
 REQUIRES           = X11/X.org/doc/xorg-sgml-doctools/1.11
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.1.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/proto/xf86driproto/xf86driproto-$(version).tar.bz2

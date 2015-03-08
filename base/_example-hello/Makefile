@@ -21,6 +21,10 @@ COMPONENT_TARGETS += $(HARDWARE_L17UC)
 
 include ../../build-system/constants.mk
 
+
+# ======= __END_OF_REQUIRES__ =======
+
+
 CB1N_FLAVOURS = aaa
 BUILD_FLAVOURS = hello-32compat
 

@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/X.org/app/beforelight
 REQUIRES           = X11/X.org/lib/libXt/1.1.4
 REQUIRES          += X11/X.org/lib/libXScrnSaver/1.2.2
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.5
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/beforelight/beforelight-$(version).tar.bz2

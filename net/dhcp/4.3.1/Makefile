@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/n/dhcp
 
 REQUIRES           = net/iproute2/3.16.0
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 4.3.1
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/n/dhcp/dhcp-$(version).tar.gz

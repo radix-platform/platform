@@ -25,6 +25,8 @@ REQUIRES          += X11/X.org/proto/xextproto/7.3.0
 REQUIRES          += X11/X.org/xcb/libxcb/1.11
 REQUIRES          += X11/X.org/lib/xtrans/1.3.5
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.6.2
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libX11/libX11-$(version).tar.bz2

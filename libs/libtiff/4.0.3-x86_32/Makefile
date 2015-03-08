@@ -18,6 +18,8 @@ REQUIRES          += libs/zlib/1.2.8-x86_32
 REQUIRES          += app/jbigkit/2.1-x86_32
 REQUIRES          += libs/libjpeg-turbo/1.3.1-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 4.0.3
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/libtiff/tiff-$(version).tar.gz

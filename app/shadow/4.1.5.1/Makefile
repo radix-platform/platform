@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/a/shadow
 
 REQUIRES           = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 4.1.5.1
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/a/shadow/shadow_$(version).orig.tar.gz

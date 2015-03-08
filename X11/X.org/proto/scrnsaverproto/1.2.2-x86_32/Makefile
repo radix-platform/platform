@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/X.org/proto/scrnsaverproto
 REQUIRES           = X11/X.org/proto/scrnsaverproto/1.2.2
 REQUIRES          += X11/X.org/doc/xorg-sgml-doctools/1.11
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.2.2
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/proto/scrnsaverproto/scrnsaverproto-$(version).tar.bz2

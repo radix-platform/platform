@@ -8,10 +8,11 @@ COMPONENT_IS_3PP  = true
 
 include ../../../../build-system/constants.mk
 
-
 version          = 3.8.y-20140222
 
 REQUIRES         = boot/kernel/omap543x/$(version)
+
+# ======= __END_OF_REQUIRES__ =======
 
 
 kernel_version   = $(version)

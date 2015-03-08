@@ -22,6 +22,8 @@ REQUIRES           = X11/X.org/lib/libXaw/1.0.12
 REQUIRES          += X11/X.org/lib/libxkbfile/1.0.8
 REQUIRES          += X11/X.org/lib/libXft/2.3.2
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.7
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/xclock/xclock-$(version).tar.bz2

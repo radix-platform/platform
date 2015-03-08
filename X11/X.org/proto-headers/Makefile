@@ -180,6 +180,7 @@ REQUIRES += X11/X.org/proto/xf86miscproto/0.9.3-x86_32
 endif
 
 
+# ======= __END_OF_REQUIRES__ =======
 
 
 install_target     = $(TARGET_BUILD_DIR)/.install_done

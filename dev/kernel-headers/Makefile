@@ -48,6 +48,9 @@ endif
 REQUIRES          += base/pkgtool
 
 
+# ======= __END_OF_REQUIRES__ =======
+
+
 install_target     = $(TARGET_BUILD_DIR)/.install_done
 
 

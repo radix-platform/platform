@@ -27,6 +27,8 @@ REQUIRES          += X11/X.org/lib/libXext/1.3.3
 REQUIRES          += X11/X.org/lib/libXrender/0.9.8
 REQUIRES          += X11/libs/mesa/10.3.4
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.14.0
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/l/cairo/cairo-$(version).tar.xz

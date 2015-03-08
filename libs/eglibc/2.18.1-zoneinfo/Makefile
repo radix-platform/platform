@@ -24,18 +24,18 @@ COMPONENT_IS_3PP   = true
 include ../../../build-system/constants.mk
 
 
-version    = 2.18.1
-tz_version = 2013i
-
 SOURCE_REQUIRES   = sources/iana/tz
-
 
 REQUIRES          = libs/eglibc/2.18.1-i18n
 
+# ======= __END_OF_REQUIRES__ =======
+
+
+version    = 2.18.1
+tz_version = 2013i
 
 tar_gz_code_archive       = $(SRC_PACKAGE_PATH)/iana/tz/tzcode$(tz_version).tar.gz
 tar_gz_data_archive       = $(SRC_PACKAGE_PATH)/iana/tz/tzdata$(tz_version).tar.gz
-
 
 SRC_DIR           = $(TARGET_BUILD_DIR)/timezone
 src_done          = $(TARGET_BUILD_DIR)/.source-done

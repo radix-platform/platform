@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/l/libaio
 
 REQUIRES           = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.3.110
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/l/libaio/libaio-$(version).tar.bz2

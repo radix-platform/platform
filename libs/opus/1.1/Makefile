@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/m/xiph/opus
 
 REQUIRES           = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.1
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/m/xiph/opus/opus-$(version).tar.gz

@@ -13,6 +13,8 @@ SOURCE_REQUIRES  = sources/Linux/v3.x
 
 REQUIRES         = base/pkgtool
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version          = 3.10.17
 modules_version  = 3.10.17

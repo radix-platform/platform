@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/X.org/app/xwd
 
 REQUIRES           = X11/X.org/lib/libxkbfile/1.0.8
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.6
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/xwd/xwd-$(version).tar.bz2

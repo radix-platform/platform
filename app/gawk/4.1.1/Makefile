@@ -22,6 +22,8 @@ REQUIRES           = libs/libtermcap/1.2.3
 REQUIRES          += libs/readline/6.3
 REQUIRES          += libs/mpfr/3.1.2
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 4.1.1
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNU/gawk/gawk-$(version).tar.xz

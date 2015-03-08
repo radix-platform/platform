@@ -25,6 +25,8 @@ REQUIRES          += libs/zlib/1.2.8
 REQUIRES          += net/openssl/1.0.1g
 REQUIRES          += net/ca-certificates/32.0
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.15
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNU/wget/wget-$(version).tar.xz

@@ -22,6 +22,8 @@ REQUIRES           = X11/X.org/lib/libXmu/1.1.2
 REQUIRES          += X11/X.org/lib/libXxf86misc/1.0.3
 REQUIRES          += X11/X.org/lib/libXfontcache/1.0.5
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.2.3
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/xset/xset-$(version).tar.bz2

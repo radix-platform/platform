@@ -16,6 +16,8 @@ REQUIRES           = libs/log4cplus/1.2.0
 REQUIRES          += X11/libs/qt4/4.8.6-x86_32
 REQUIRES          += dev/python2/2.7.6-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 PYTHON_VERSION = 2.7
 
 

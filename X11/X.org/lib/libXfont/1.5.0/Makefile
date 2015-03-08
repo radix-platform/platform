@@ -23,6 +23,8 @@ REQUIRES          += X11/X.org/lib/xtrans/1.3.5
 REQUIRES          += X11/X.org/lib/libfontenc/1.1.2
 REQUIRES          += X11/X.org/proto/fontsproto/2.1.3
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.5.0
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libXfont/libXfont-$(version).tar.bz2

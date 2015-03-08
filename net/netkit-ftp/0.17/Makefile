@@ -20,6 +20,8 @@ SOURCE_REQUIRES     = sources/packages/n/netkit-ftp
 
 REQUIRES            = libs/readline/6.3
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version             = 0.17
 tar_gz_archive      = $(SRC_PACKAGE_PATH)/packages/n/netkit-ftp/netkit-ftp-$(version).tar.gz

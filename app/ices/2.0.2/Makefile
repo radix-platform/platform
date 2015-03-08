@@ -22,6 +22,8 @@ REQUIRES           = libs/libxml2/2.9.1
 REQUIRES          += libs/alsa-lib/1.0.28
 REQUIRES          += libs/libshout/2.3.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.0.2
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/m/xiph/ices/ices-$(version).tar.gz

@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/X.org/app/fslsfonts
 
 REQUIRES           = X11/X.org/lib/libFS/1.0.6
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.4
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/fslsfonts/fslsfonts-$(version).tar.bz2

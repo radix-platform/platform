@@ -25,6 +25,8 @@ REQUIRES          += libs/pcre/8.34
 REQUIRES          += app/attr/2.4.47
 REQUIRES          += libs/libgamin/0.1.10
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.39.4
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNOME/core/glib2/glib-$(version).tar.xz

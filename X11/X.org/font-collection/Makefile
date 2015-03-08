@@ -57,6 +57,7 @@ REQUIRES += X11/X.org/font/font-winitzki-cyrillic/1.0.3
 REQUIRES += X11/X.org/font/font-xfree86-type1/1.0.4
 
 
+# ======= __END_OF_REQUIRES__ =======
 
 
 install_target     = $(TARGET_BUILD_DIR)/.install_done

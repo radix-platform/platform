@@ -24,6 +24,8 @@ REQUIRES          += X11/X.org/proto/damageproto/1.2.1
 REQUIRES          += X11/X.org/proto/scrnsaverproto/1.2.2
 REQUIRES          += X11/X.org/lib/libXext/1.3.3
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.7
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libXres/libXres-$(version).tar.bz2

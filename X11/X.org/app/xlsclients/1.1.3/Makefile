@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/X.org/app/xlsclients
 
 REQUIRES           = X11/X.org/xcb/libxcb/1.11
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.1.3
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/xlsclients/xlsclients-$(version).tar.bz2

@@ -16,6 +16,8 @@ REQUIRES           = dev/lua/5.2.3
 REQUIRES          += libs/readline/6.3-x86_32
 REQUIRES          += libs/libtermcap/1.2.3-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 5.2.3
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/a/lua/lua-$(version).tar.gz

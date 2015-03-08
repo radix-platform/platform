@@ -15,6 +15,8 @@ SOURCE_REQUIRES      = sources/packages/a/xfsprogs
 REQUIRES             = app/xfsprogs/3.1.11
 REQUIRES            += app/util-linux/2.24.1-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version              = 3.1.11
 tar_gz_archive       = $(SRC_PACKAGE_PATH)/packages/a/xfsprogs/xfsprogs-$(version).tar.gz

@@ -19,6 +19,8 @@ REQUIRES          += libs/giflib/5.1.0-x86_32
 REQUIRES          += X11/X.org/lib/libXt/1.1.4-x86_32
 REQUIRES          += X11/X.org/lib/libXext/1.3.3-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.9.15
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/l/imlib/imlib-$(version).tar.bz2

@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/x/libepoxy
 
 REQUIRES           = X11/libs/mesa/10.3.4
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.2
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/x/libepoxy/libepoxy-$(version).tar.bz2

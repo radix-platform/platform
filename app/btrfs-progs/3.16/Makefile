@@ -23,6 +23,8 @@ REQUIRES          += libs/lzo/2.08
 REQUIRES          += app/util-linux/2.24.1
 REQUIRES          += app/e2fsprogs/1.42.9
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 3.16
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/a/btrfs-progs/btrfs-progs-$(version).tar.bz2

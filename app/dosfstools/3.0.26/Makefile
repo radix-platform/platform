@@ -20,6 +20,8 @@ SOURCE_REQUIRES     = sources/packages/a/dosfstools
 
 REQUIRES            = app/util-linux/2.24.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version             = 3.0.26
 tar_xz_archive      = $(SRC_PACKAGE_PATH)/packages/a/dosfstools/dosfstools-$(version).tar.xz

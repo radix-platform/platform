@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/GNOME/core/gtk+2
 REQUIRES           = libs/atk/2.15.1
 REQUIRES          += libs/poppler/0.29.0
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.24.25
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNOME/core/gtk+2/gtk+-$(version).tar.xz

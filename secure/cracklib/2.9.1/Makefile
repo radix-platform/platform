@@ -22,6 +22,8 @@ REQUIRES           = libs/eglibc/2.19.1
 REQUIRES          += libs/zlib/1.2.8
 REQUIRES          += dev/python2/2.7.6
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.9.1
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/cracklib/cracklib-$(version).tar.gz

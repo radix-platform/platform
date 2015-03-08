@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/packages/m/xiph/libogg
 REQUIRES           = libs/libogg/1.3.2
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.3.2
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/m/xiph/libogg/libogg-$(version).tar.xz

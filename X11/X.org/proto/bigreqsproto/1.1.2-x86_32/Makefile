@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/X.org/proto/bigreqsproto
 REQUIRES           = X11/X.org/proto/bigreqsproto/1.1.2
 REQUIRES          += X11/X.org/doc/xorg-sgml-doctools/1.11
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.1.2
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/proto/bigreqsproto/bigreqsproto-$(version).tar.bz2

@@ -26,6 +26,8 @@ REQUIRES          += libs/libjpeg-turbo/1.3.1-x86_32
 #
 REQUIRES          += dev/perl/5.18.2
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 10.68.01
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/l/netpbm/netpbm-$(version).tar.bz2

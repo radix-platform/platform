@@ -23,6 +23,8 @@ REQUIRES          += net/libassuan/2.1.1
 REQUIRES          += net/libksba/1.3.0
 REQUIRES          += libs/pth/2.0.7
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.6.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/libgcrypt/libgcrypt-$(version).tar.bz2

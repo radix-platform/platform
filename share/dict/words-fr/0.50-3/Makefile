@@ -20,6 +20,8 @@ SOURCE_REQUIRES     = sources/dict/aspell/fr
 
 REQUIRES            = base/pkgtool
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version             = 0.50-3
 tar_bz2_archive     = $(SRC_PACKAGE_PATH)/dict/aspell/fr/aspell-fr-0.50-3.tar.bz2

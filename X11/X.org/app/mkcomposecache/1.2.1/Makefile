@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/X.org/app/mkcomposecache
 
 REQUIRES           = X11/X.org/lib/libX11/1.6.2
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.2.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/mkcomposecache/mkcomposecache-$(version).tar.bz2

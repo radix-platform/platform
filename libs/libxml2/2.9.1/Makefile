@@ -27,6 +27,8 @@ REQUIRES          += libs/readline/6.3
 REQUIRES          += net/openssl/1.0.1g
 REQUIRES          += dev/python2/2.7.6
 
+# ======= __END_OF_REQUIRES__ =======
+
 PYTHON_VERSION = 2.7
 
 

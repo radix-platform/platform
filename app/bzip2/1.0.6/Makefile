@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/a/bzip2
 
 REQUIRES           = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.6
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/a/bzip2/bzip2-$(version).tar.gz

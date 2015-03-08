@@ -15,6 +15,8 @@ SOURCE_REQUIRES      = sources/packages/n/libgpg-error
 REQUIRES             = net/libgpg-error/1.16
 REQUIRES            += libs/eglibc/2.19.1-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version              = 1.16
 tar_bz2_archive      = $(SRC_PACKAGE_PATH)/packages/n/libgpg-error/libgpg-error-$(version).tar.bz2

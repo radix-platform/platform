@@ -105,7 +105,7 @@ REQUIRES += X11/X.org/app/xwininfo/1.1.3
 REQUIRES += X11/X.org/app/xwud/1.0.4
 
 
-
+# ======= __END_OF_REQUIRES__ =======
 
 
 install_target     = $(TARGET_BUILD_DIR)/.install_done

@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/X.org/proto/evieext
 REQUIRES           = X11/X.org/proto/evieext/1.1.1
 REQUIRES          += X11/X.org/doc/xorg-sgml-doctools/1.11
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.1.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/proto/evieext/evieext-$(version).tar.bz2

@@ -22,6 +22,8 @@ SOURCE_REQUIRES    += sources/packages/n/telnet-OpenBSD
 
 REQUIRES            = libs/libtermcap/1.2.3
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version             = 0.17
 tar_gz_archive      = $(SRC_PACKAGE_PATH)/packages/n/netkit-telnet/netkit-telnet-$(version).tar.gz

@@ -26,6 +26,8 @@ REQUIRES          += app/gawk/4.1.1
 REQUIRES          += dev/perl/5.18.2
 REQUIRES          += dev/python2/2.7.6
 
+# ======= __END_OF_REQUIRES__ =======
+
 PYTHON_VERSION = 2.7
 
 

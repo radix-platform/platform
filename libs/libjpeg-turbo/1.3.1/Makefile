@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/l/libjpeg-turbo
 
 REQUIRES           = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.3.1
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/libjpeg-turbo/libjpeg-turbo-$(version).tar.gz

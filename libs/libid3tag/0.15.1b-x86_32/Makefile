@@ -16,6 +16,8 @@ REQUIRES           = libs/libid3tag/0.15.1b
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 REQUIRES          += libs/zlib/1.2.8-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.15.1b
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/m/mad/libid3tag/libid3tag-$(version).tar.gz

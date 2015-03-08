@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/X.org/proto/xf86bigfontproto
 
 REQUIRES           = X11/X.org/doc/xorg-sgml-doctools/1.11
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.2.0
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/proto/xf86bigfontproto/xf86bigfontproto-$(version).tar.bz2

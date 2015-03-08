@@ -26,6 +26,8 @@ REQUIRES          += net/libgpg-error/1.16
 REQUIRES          += net/libgcrypt/1.6.2
 REQUIRES          += dev/python2/2.7.6
 
+# ======= __END_OF_REQUIRES__ =======
+
 PYTHON_VERSION = 2.7
 
 

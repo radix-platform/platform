@@ -22,6 +22,8 @@ REQUIRES           = dev/gcc/4.9.1
 REQUIRES          += X11/libs/qt4/4.8.6
 REQUIRES          += dev/python2/2.7.6
 
+# ======= __END_OF_REQUIRES__ =======
+
 PYTHON_VERSION = 2.7
 
 

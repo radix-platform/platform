@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/X.org/app/sessreg
 REQUIRES           = X11/X.org/util/util-macros/1.19.0
 REQUIRES          += X11/X.org/proto/xproto/7.0.26
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.8
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/sessreg/sessreg-$(version).tar.bz2

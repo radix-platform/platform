@@ -16,6 +16,8 @@ REQUIRES           = libs/speex/1.2rc2
 REQUIRES          += libs/speexdsp/1.2rc3-x86_32
 REQUIRES          += libs/libogg/1.3.2-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.2rc2
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/m/xiph/speex/speex-$(version).tar.gz

@@ -16,6 +16,8 @@ REQUIRES           = libs/zeromq/4.0.5
 REQUIRES          += app/util-linux/2.24.1-x86_32
 REQUIRES          += libs/libsodium/1.0.2-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 4.0.5
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/zeromq/zeromq-$(version).tar.gz

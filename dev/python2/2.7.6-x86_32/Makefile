@@ -22,6 +22,8 @@ REQUIRES          += libs/readline/6.3-x86_32
 REQUIRES          += libs/expat/2.1.0-x86_32
 REQUIRES          += net/openssl/1.0.1g-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.7.6
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/d/python2/Python-$(version).tar.xz

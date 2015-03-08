@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/x/hicolor-icon-theme
 
 REQUIRES           = base/pkgtool
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.14
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/x/hicolor-icon-theme/hicolor-icon-theme-$(version).tar.xz

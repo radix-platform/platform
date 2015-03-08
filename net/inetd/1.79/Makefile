@@ -20,6 +20,8 @@ SOURCE_REQUIRES     = sources/packages/n/inetd
 
 REQUIRES            = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version             = 1.79
 tar_gz_archive      = $(SRC_PACKAGE_PATH)/packages/n/inetd/inetd-OpenBSD-$(version).tar.gz

@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/X.org/proto/randrproto
 REQUIRES           = X11/X.org/proto/randrproto/1.4.0
 REQUIRES          += X11/X.org/doc/xorg-sgml-doctools/1.11
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.4.0
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/proto/randrproto/randrproto-$(version).tar.bz2

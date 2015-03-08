@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/l/sg3_utils
 
 REQUIRES           = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.39
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/l/sg3_utils/sg3_utils-$(version).tar.xz

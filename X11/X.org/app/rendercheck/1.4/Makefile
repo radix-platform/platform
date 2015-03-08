@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/X.org/app/rendercheck
 
 REQUIRES           = X11/X.org/lib/libXrender/0.9.8
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.4
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/rendercheck/rendercheck-$(version).tar.bz2

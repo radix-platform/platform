@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/GNU/libiconv
 
 REQUIRES           = app/gettext/0.18.3.2
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.14
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/GNU/libiconv/libiconv-$(version).tar.gz

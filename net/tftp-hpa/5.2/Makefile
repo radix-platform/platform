@@ -22,6 +22,8 @@ SOURCE_REQUIRES     = sources/packages/n/tftp-hpa
 REQUIRES            = libs/libtermcap/1.2.3
 REQUIRES           += libs/readline/6.3
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version             = 5.2
 tar_xz_archive      = $(SRC_PACKAGE_PATH)/packages/n/tftp-hpa/tftp-hpa-$(version).tar.xz

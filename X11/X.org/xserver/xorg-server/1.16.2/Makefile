@@ -61,6 +61,8 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64) $(HARDWARE_PC32)),)
 REQUIRES          += X11/X.org/lib/libpciaccess/0.13.2
 endif
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.16.2
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/xserver/xorg-server/xorg-server-$(version).tar.bz2

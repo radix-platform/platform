@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/X.org/app/iceauth
 
 REQUIRES           = X11/X.org/lib/libICE/1.0.9
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.6
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/iceauth/iceauth-$(version).tar.bz2

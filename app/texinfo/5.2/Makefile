@@ -26,6 +26,8 @@ REQUIRES          += app/bash/4.3
 REQUIRES          += app/sed/4.2.2
 REQUIRES          += dev/perl/5.18.2
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 5.2
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/GNU/texinfo/texinfo-$(version).tar.gz

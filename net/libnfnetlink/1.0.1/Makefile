@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/n/libnfnetlink
 
 REQUIRES           = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/libnfnetlink/libnfnetlink-$(version).tar.bz2

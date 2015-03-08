@@ -24,6 +24,8 @@ REQUIRES          += app/diffutils/3.3
 REQUIRES          += dev/m4/1.4.17
 REQUIRES          += dev/perl/5.18.2
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.69
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNU/autoconf/autoconf-$(version).tar.xz

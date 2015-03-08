@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/l/libusb
 
 REQUIRES           = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.9
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/l/libusb/libusb-$(version).tar.bz2

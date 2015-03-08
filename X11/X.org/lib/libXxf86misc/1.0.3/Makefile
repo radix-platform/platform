@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/X.org/lib/libXxf86misc
 REQUIRES           = X11/X.org/proto/xf86miscproto/0.9.3
 REQUIRES          += X11/X.org/lib/libXext/1.3.3
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.3
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libXxf86misc/libXxf86misc-$(version).tar.bz2

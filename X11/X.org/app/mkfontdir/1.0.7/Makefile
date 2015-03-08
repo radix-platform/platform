@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/X.org/app/mkfontdir
 REQUIRES           = X11/X.org/util/util-macros/1.19.0
 REQUIRES          += X11/X.org/app/mkfontscale/1.1.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.7
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/mkfontdir/mkfontdir-$(version).tar.bz2

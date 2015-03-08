@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/X.org/app/mkfontscale
 REQUIRES           = libs/freetype/2.5.3
 REQUIRES          += X11/X.org/lib/libfontenc/1.1.2
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.1.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/mkfontscale/mkfontscale-$(version).tar.bz2

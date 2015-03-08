@@ -22,6 +22,8 @@ REQUIRES           = libs/ncurses/5.9
 REQUIRES          += libs/libevent/2.0.21
 REQUIRES          += app/util-linux/2.24.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.9a
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/a/tmux/tmux-$(version).tar.gz

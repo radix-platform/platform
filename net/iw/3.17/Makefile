@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/n/iw
 
 REQUIRES           = net/libnl3/3.2.25
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 3.17
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/n/iw/iw-$(version).tar.xz

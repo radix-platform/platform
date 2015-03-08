@@ -23,6 +23,8 @@ REQUIRES          += net/libassuan/2.1.2
 REQUIRES          += net/gnupg/1.4.18
 REQUIRES          += net/gnupg2/2.0.26
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.5.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/gpgme/gpgme-$(version).tar.bz2

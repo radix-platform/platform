@@ -15,6 +15,8 @@ SOURCE_REQUIRES      = sources/packages/n/libnetfilter_acct
 REQUIRES             = net/libnetfilter_acct/1.0.2
 REQUIRES            += net/libmnl/1.0.3-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version              = 1.0.2
 tar_bz2_archive      = $(SRC_PACKAGE_PATH)/packages/n/libnetfilter_acct/libnetfilter_acct-$(version).tar.bz2

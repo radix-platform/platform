@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/X.org/app/setxkbmap
 
 REQUIRES           = X11/X.org/lib/libxkbfile/1.0.8
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.3.0
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/setxkbmap/setxkbmap-$(version).tar.bz2

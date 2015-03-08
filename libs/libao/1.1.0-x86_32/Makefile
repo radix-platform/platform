@@ -20,6 +20,8 @@ REQUIRES          += libs/audiofile/0.3.6-x86_32
 REQUIRES          += app/esound/0.2.41-x86_32
 REQUIRES          += app/flac/1.3.0-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.1.0
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/m/xiph/libao/libao-$(version).tar.gz

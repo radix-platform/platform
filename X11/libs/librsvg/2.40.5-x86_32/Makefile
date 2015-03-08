@@ -17,6 +17,8 @@ REQUIRES          += X11/libs/gdk-pixbuf2/2.31.1-x86_32
 REQUIRES          += libs/libcroco/0.6.8-x86_32
 REQUIRES          += libs/pango/1.36.8-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.40.5
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNOME/core/librsvg/librsvg-$(version).tar.xz

@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/packages/m/xiph/flac
 REQUIRES           = dev/gcc/4.9.1
 REQUIRES          += libs/libogg/1.3.2
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.3.0
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/m/xiph/flac/flac-$(version).tar.xz

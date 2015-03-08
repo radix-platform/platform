@@ -23,6 +23,8 @@ REQUIRES           = libs/libxml2/2.9.1
 REQUIRES          += libs/libxslt/1.1.28
 REQUIRES          += share/docbook-xml/4.5
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.78.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/a/linuxdoc-tools/docbook-xsl/docbook-xsl-$(version).tar.bz2

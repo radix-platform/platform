@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/X.org/app/fonttosfnt
 REQUIRES           = libs/freetype/2.5.3
 REQUIRES          += X11/X.org/lib/libfontenc/1.1.2
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.4
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/fonttosfnt/fonttosfnt-$(version).tar.bz2

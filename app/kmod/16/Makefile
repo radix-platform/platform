@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/packages/a/kmod
 REQUIRES           = libs/zlib/1.2.8
 REQUIRES          += app/xz/5.0.5
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 16
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/a/kmod/kmod-$(version).tar.bz2

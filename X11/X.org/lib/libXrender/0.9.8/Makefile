@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/X.org/lib/libXrender
 REQUIRES           = X11/X.org/lib/libX11/1.6.2
 REQUIRES          += X11/X.org/proto/renderproto/0.11.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.9.8
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libXrender/libXrender-$(version).tar.bz2

@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/packages/l/gc
 REQUIRES           = libs/gc/7.2d
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 7.2
 version_suffix     = d

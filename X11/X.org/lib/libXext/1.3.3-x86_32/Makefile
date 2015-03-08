@@ -16,6 +16,8 @@ REQUIRES           = X11/X.org/lib/libXext/1.3.3
 REQUIRES          += X11/X.org/lib/libX11/1.6.2-x86_32
 REQUIRES          += X11/X.org/proto/xextproto/7.3.0-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.3.3
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libXext/libXext-$(version).tar.bz2

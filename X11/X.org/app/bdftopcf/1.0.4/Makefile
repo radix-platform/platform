@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/X.org/app/bdftopcf
 
 REQUIRES           = X11/X.org/lib/libXfont/1.5.0
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.4
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/bdftopcf/bdftopcf-$(version).tar.bz2

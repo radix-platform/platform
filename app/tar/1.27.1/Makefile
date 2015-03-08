@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/GNU/tar
 REQUIRES           = libs/eglibc/2.19.1
 REQUIRES          += app/acl/2.2.52
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.27.1
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/GNU/tar/tar-$(version).tar.gz

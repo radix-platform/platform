@@ -20,6 +20,8 @@ SOURCE_REQUIRES      = sources/packages/a/sysfsutils
 
 REQUIRES             = app/util-linux/2.24.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version              = 2.1.0
 tar_gz_archive       = $(SRC_PACKAGE_PATH)/packages/a/sysfsutils/sysfsutils-$(version).tar.gz

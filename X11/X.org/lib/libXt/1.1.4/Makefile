@@ -22,6 +22,8 @@ REQUIRES           = X11/X.org/proto/xproto/7.0.26
 REQUIRES          += X11/X.org/lib/libX11/1.6.2
 REQUIRES          += X11/X.org/lib/libSM/1.2.2
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.1.4
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libXt/libXt-$(version).tar.bz2

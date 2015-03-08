@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/m/wavpack
 
 REQUIRES           = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 4.70.0
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/m/wavpack/wavpack-$(version).tar.bz2

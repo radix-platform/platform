@@ -23,6 +23,8 @@ REQUIRES          += libs/eudev/1.9
 REQUIRES          += X11/libs/libevdev/1.3.2
 REQUIRES          += X11/libs/mtdev/1.1.5
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.9.0
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/driver/xf86-input-evdev/xf86-input-evdev-$(version).tar.bz2

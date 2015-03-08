@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/n/rfkill
 
 REQUIRES           = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.5
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/n/rfkill/rfkill-$(version).tar.xz

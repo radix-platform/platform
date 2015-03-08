@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/GNU/cpio
 REQUIRES           = libs/eglibc/2.19.1
 REQUIRES          += app/tar/1.27.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.11
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/GNU/cpio/cpio-$(version).tar.bz2

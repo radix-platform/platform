@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/X.org/lib/libXdamage
 REQUIRES           = X11/X.org/proto/damageproto/1.2.1
 REQUIRES          += X11/X.org/lib/libXfixes/5.0.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.1.4
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libXdamage/libXdamage-$(version).tar.bz2

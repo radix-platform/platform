@@ -22,6 +22,8 @@ REQUIRES           = app/bash/4.3
 REQUIRES          += app/grep/2.18
 REQUIRES          += app/sed/4.2.2
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.6.3
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/a/linuxdoc-tools/sgml-common/sgml-common-$(version).tar.bz2

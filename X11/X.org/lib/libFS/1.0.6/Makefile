@@ -23,6 +23,8 @@ REQUIRES          += X11/X.org/proto/xproto/7.0.26
 REQUIRES          += X11/X.org/proto/fontsproto/2.1.3
 REQUIRES          += X11/X.org/lib/xtrans/1.3.5
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.6
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libFS/libFS-$(version).tar.bz2

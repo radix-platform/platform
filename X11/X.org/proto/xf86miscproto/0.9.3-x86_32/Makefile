@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/X.org/proto/xf86miscproto
 REQUIRES           = X11/X.org/proto/xf86miscproto/0.9.3
 REQUIRES          += X11/X.org/doc/xorg-sgml-doctools/1.11
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.9.3
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/proto/xf86miscproto/xf86miscproto-$(version).tar.bz2

@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/X.org/lib/libXv
 REQUIRES           = X11/X.org/proto/videoproto/2.3.2
 REQUIRES          += X11/X.org/lib/libXext/1.3.3
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.10
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libXv/libXv-$(version).tar.bz2

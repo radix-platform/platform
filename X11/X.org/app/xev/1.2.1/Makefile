@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/X.org/app/xev
 
 REQUIRES           = X11/X.org/lib/libXrandr/1.4.2
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.2.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/xev/xev-$(version).tar.bz2

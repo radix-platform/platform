@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/X.org/app/xkbevd
 
 REQUIRES           = X11/X.org/lib/libxkbfile/1.0.8
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.1.3
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/xkbevd/xkbevd-$(version).tar.bz2

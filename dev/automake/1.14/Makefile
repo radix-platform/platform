@@ -22,6 +22,8 @@ REQUIRES           = app/bash/4.3
 REQUIRES          += dev/perl/5.18.2
 REQUIRES          += dev/autoconf/2.69
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.14
 short_version      = $(shell echo $(version) | cut -f1,2 -d .)

@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/packages/a/db
 REQUIRES           = app/db/6.1.19
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 6.1.19
 major_version      = $(shell echo $(version) | cut -f 1 -d '.' )

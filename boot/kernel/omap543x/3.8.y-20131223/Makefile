@@ -13,6 +13,8 @@ SOURCE_REQUIRES    = sources/Linux/omap5-glsdk
 
 REQUIRES           = base/pkgtool
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 3.8.y-20131223
 subversion         = 

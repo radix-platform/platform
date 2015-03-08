@@ -14,6 +14,8 @@ SOURCE_REQUIRES    = sources/packages/a/acpid
 
 REQUIRES           = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.0.22
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/a/acpid/acpid-$(version).tar.xz

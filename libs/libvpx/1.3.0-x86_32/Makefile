@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/packages/m/libvpx
 REQUIRES           = libs/libvpx/1.3.0
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.3.0
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/m/libvpx/libvpx-$(version).tar.bz2

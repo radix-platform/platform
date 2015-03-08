@@ -20,6 +20,8 @@ SOURCE_REQUIRES     = sources/dict/aspell/en
 
 REQUIRES            = libs/aspell/0.60.6.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 language            = English
 aspell_base_version = 0.60

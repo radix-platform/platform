@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/packages/n/openssl
 REQUIRES           = libs/zlib/1.2.8
 REQUIRES          += libs/gmp/5.1.3
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.1f
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/n/openssl/openssl-$(version).tar.gz

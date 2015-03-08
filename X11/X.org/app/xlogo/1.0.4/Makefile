@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/X.org/app/xlogo
 REQUIRES           = X11/X.org/lib/libXft/2.3.2
 REQUIRES          += X11/X.org/lib/libXaw/1.0.12
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.4
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/xlogo/xlogo-$(version).tar.bz2

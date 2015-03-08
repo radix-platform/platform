@@ -22,6 +22,8 @@ REQUIRES           = libs/freetype/2.5.3
 REQUIRES          += X11/libs/fontconfig/2.11.1
 REQUIRES          += X11/X.org/lib/libXrender/0.9.8
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.3.2
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libXft/libXft-$(version).tar.bz2

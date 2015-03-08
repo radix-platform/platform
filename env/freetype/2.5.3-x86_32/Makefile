@@ -17,6 +17,8 @@ REQUIRES          += app/bzip2/1.0.6-x86_32
 REQUIRES          += libs/zlib/1.2.8-x86_32
 REQUIRES          += libs/libpng/libpng14/1.4.13-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.5.3
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/l/freetype/freetype-$(version).tar.bz2

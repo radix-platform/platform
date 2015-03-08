@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/packages/x/thaixfonts
 REQUIRES           = X11/libs/fontconfig/2.11.1
 REQUIRES          += X11/X.org/app/mkfontdir/1.0.7
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.2.6
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/x/thaixfonts/thaixfonts-$(version).tar.xz

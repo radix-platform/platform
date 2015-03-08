@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/packages/l/lzo
 REQUIRES           = libs/lzo/2.08
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.08
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/lzo/lzo-$(version).tar.gz

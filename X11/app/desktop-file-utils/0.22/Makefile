@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/x/desktop-file-utils
 
 REQUIRES           = libs/glib2/2.40.0
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.22
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/x/desktop-file-utils/desktop-file-utils-$(version).tar.xz

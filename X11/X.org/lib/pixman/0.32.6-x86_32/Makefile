@@ -16,6 +16,8 @@ REQUIRES           = X11/X.org/lib/pixman/0.32.6
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 REQUIRES          += X11/X.org/proto/xproto/7.0.26-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.32.6
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/pixman/pixman-$(version).tar.bz2

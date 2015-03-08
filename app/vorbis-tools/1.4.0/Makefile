@@ -25,6 +25,8 @@ REQUIRES          += libs/libvorbis/1.3.4
 REQUIRES          += libs/libogg/1.3.2
 REQUIRES          += net/curl/7.38.0
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.4.0
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/m/xiph/vorbis-tools/vorbis-tools-$(version).tar.gz

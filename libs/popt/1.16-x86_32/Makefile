@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/packages/l/popt
 REQUIRES           = libs/popt/1.16
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.16
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/popt/popt-$(version).tar.gz

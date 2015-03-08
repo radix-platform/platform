@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/l/icu4c
 
 REQUIRES           = dev/gcc/4.9.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 54.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/l/icu4c/icu4c-$(version).tar.bz2

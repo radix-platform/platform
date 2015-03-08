@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/GNU/tar
 
 REQUIRES           = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.26
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/GNU/tar/tar-$(version).tar.gz

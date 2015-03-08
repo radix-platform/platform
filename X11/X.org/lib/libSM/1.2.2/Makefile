@@ -24,6 +24,8 @@ REQUIRES          += X11/X.org/lib/xtrans/1.3.5
 REQUIRES          += X11/X.org/lib/libICE/1.0.9
 REQUIRES          += app/util-linux/2.24.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.2.2
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libSM/libSM-$(version).tar.bz2

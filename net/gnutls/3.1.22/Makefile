@@ -28,6 +28,8 @@ REQUIRES          += net/p11-kit/0.20.2
 REQUIRES          += net/nettle/2.7.1
 REQUIRES          += dev/guile/2.0.9
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 3.1.22
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/n/gnutls/gnutls-$(version).tar.xz

@@ -17,6 +17,8 @@ REQUIRES          += libs/audiofile/0.3.6-x86_32
 REQUIRES          += libs/libogg/1.3.2-x86_32
 REQUIRES          += app/flac/1.3.0-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.2.41
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/GNOME/core/esound/esound-$(version).tar.bz2

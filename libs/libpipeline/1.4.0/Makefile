@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/l/libpipeline
 
 REQUIRES           = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.4.0
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/libpipeline/libpipeline-$(version).tar.gz

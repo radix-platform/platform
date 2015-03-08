@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/X.org/lib/libXcomposite
 REQUIRES           = X11/X.org/proto/compositeproto/0.4.2
 REQUIRES          += X11/X.org/lib/libXfixes/5.0.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.4.4
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libXcomposite/libXcomposite-$(version).tar.bz2

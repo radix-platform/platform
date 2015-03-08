@@ -29,6 +29,8 @@ SOURCE_REQUIRES    = sources/GNU/binutils
 REQUIRES           = libs/eglibc/2.19.1
 REQUIRES          += libs/zlib/1.2.8
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.24
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/GNU/binutils/binutils-$(version).tar.bz2

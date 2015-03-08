@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/X.org/app/luit
 
 REQUIRES           = X11/X.org/lib/libfontenc/1.1.2
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.1.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/luit/luit-$(version).tar.bz2

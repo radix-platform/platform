@@ -18,6 +18,8 @@ REQUIRES          += libs/harfbuzz/0.9.36-x86_32
 REQUIRES          += libs/libthai/0.1.20-x86_32
 REQUIRES          += X11/X.org/lib/libXft/2.3.2-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.36.8
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNOME/core/pango/pango-$(version).tar.xz

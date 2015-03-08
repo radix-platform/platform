@@ -16,6 +16,8 @@ REQUIRES           = X11/X.org/lib/libXxf86vm/1.1.3
 REQUIRES          += X11/X.org/proto/xf86vidmodeproto/2.3.1-x86_32
 REQUIRES          += X11/X.org/lib/libXext/1.3.3-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.1.3
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libXxf86vm/libXxf86vm-$(version).tar.bz2

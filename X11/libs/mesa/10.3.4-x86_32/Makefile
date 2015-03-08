@@ -29,6 +29,8 @@ REQUIRES          += X11/X.org/lib/libXxf86vm/1.1.3-x86_32
 REQUIRES          += X11/X.org/lib/libXdamage/1.1.4-x86_32
 REQUIRES          += Wayland/wayland/1.6.0-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 10.3.4
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/x/mesa/MesaLib-$(version).tar.bz2

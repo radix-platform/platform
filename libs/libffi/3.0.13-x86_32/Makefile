@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/packages/l/libffi
 REQUIRES           = libs/libffi/3.0.13
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 3.0.13
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/libffi/libffi-$(version).tar.gz

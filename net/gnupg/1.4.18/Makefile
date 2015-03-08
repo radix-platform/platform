@@ -31,6 +31,8 @@ REQUIRES          += libs/readline/6.3
 REQUIRES          += libs/pth/2.0.7
 REQUIRES          += libs/libusb-compat/0.1.5
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.4.18
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/gnupg/gnupg-$(version).tar.bz2

@@ -22,6 +22,8 @@ REQUIRES           = libs/eglibc/2.19.1
 REQUIRES          += dev/gcc/4.9.1
 REQUIRES          += libs/ncurses/5.9
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.60.6.1
 base_version       = $(shell echo $(version) | sed -e 's/\([0-9].[0-9]*\)\([\.].*\)/\1/')

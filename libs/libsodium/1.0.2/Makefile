@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/l/libsodium
 
 REQUIRES           = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.2
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/l/libsodium/libsodium-$(version).tar.bz2

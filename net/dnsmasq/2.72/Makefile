@@ -26,6 +26,8 @@ REQUIRES          += net/libnetfilter_conntrack/1.0.4
 REQUIRES          += net/libnfnetlink/1.0.1
 REQUIRES          += net/nettle/2.7.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.72
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/n/dnsmasq/dnsmasq-$(version).tar.gz

@@ -29,6 +29,8 @@ REQUIRES          += libs/pango/1.36.8
 REQUIRES          += X11/X.org/lib/libXv/1.0.10
 REQUIRES          += X11/X.org/lib/libSM/1.2.2
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.10.36
 ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)

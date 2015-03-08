@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/X.org/driver/xf86-input-synaptics
 REQUIRES           = X11/X.org/xserver/xorg-server/1.16.2
 REQUIRES          += X11/libs/libevdev/1.3.2
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.8.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/driver/xf86-input-synaptics/xf86-input-synaptics-$(version).tar.bz2

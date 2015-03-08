@@ -22,6 +22,8 @@ REQUIRES           = libs/ncurses/5.9
 REQUIRES          += app/ctags/5.8
 REQUIRES          += dev/libtool/2.4.2
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.2-20140112
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/a/dialog/dialog_$(version).orig.tar.gz

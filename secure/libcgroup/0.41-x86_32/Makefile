@@ -16,6 +16,8 @@ REQUIRES           = secure/libcgroup/0.41
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 REQUIRES          += secure/pam/1.1.8-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.41
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/a/libcgroup/libcgroup-$(version).tar.bz2

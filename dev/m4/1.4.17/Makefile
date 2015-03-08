@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/GNU/m4
 
 REQUIRES           = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.4.17
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNU/m4/m4-$(version).tar.xz

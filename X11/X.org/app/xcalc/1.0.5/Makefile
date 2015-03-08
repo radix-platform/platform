@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/X.org/app/xcalc
 
 REQUIRES           = X11/X.org/lib/libXaw/1.0.12
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.5
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/xcalc/xcalc-$(version).tar.bz2

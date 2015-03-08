@@ -32,6 +32,9 @@ REQUIRES           = app/gettext/0.18.3.2
 #   regex - probably
 #
 
+# ======= __END_OF_REQUIRES__ =======
+
+
 version            = 0.18.3.2
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/GNU/gettext/gettext-$(version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)

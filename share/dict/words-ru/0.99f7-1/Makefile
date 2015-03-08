@@ -20,6 +20,8 @@ SOURCE_REQUIRES     = sources/dict/aspell/ru
 
 REQUIRES            = base/pkgtool
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version             = 0.99f7-1
 tar_bz2_archive     = $(SRC_PACKAGE_PATH)/dict/aspell/ru/aspell6-ru-0.99f7-1.tar.bz2

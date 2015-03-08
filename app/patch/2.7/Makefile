@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/GNU/patch
 
 REQUIRES           = app/attr/2.4.47
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.7
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNU/patch/patch-$(version).tar.xz

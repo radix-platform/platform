@@ -22,6 +22,8 @@ REQUIRES           = libs/eudev/1.9
 REQUIRES          += X11/libs/libevdev/1.3.2
 REQUIRES          += X11/libs/mtdev/1.1.5
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.7.0
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/x/libinput/libinput-$(version).tar.xz

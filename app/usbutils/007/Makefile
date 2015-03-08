@@ -21,6 +21,8 @@ SOURCE_REQUIRES    += sources/packages/l/usbids
 
 REQUIRES            = libs/libusb/1.0.19
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version             = 007
 tar_xz_archive      = $(SRC_PACKAGE_PATH)/packages/a/usbutils/usbutils-$(version).tar.xz

@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/packages/l/dbus-glib
 REQUIRES           = app/dbus/1.8.10
 REQUIRES          += libs/glib2/2.40.0
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.102
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/dbus-glib/dbus-glib-$(version).tar.gz

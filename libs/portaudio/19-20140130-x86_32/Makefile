@@ -16,6 +16,8 @@ REQUIRES           = libs/portaudio/19-20140130
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 REQUIRES          += libs/alsa-lib/1.0.28-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 19-20140130
 tarball_version    = v19_20140130

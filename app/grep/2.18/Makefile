@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/GNU/grep
 
 REQUIRES           = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.18
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNU/grep/grep-$(version).tar.xz

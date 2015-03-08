@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/packages/x/fontconfig
 REQUIRES           = libs/expat/2.1.0
 REQUIRES          += env/freetype/2.5.3
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.11.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/x/fontconfig/fontconfig-$(version).tar.bz2

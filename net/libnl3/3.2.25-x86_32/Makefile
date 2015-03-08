@@ -15,6 +15,8 @@ SOURCE_REQUIRES      = sources/packages/n/libnl3
 REQUIRES             = net/libnl3/3.2.25
 REQUIRES            += libs/eglibc/2.19.1-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version              = 3.2.25
 tar_gz_archive       = $(SRC_PACKAGE_PATH)/packages/n/libnl3/libnl-$(version).tar.gz

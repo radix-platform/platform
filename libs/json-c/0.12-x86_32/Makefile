@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/packages/l/json-c
 REQUIRES           = libs/json-c/0.12
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.12
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/json-c/json-c-$(version).tar.gz

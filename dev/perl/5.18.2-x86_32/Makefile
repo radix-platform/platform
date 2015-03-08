@@ -18,6 +18,8 @@ REQUIRES           = dev/perl/5.18.2
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 REQUIRES          += libs/gdbm/1.11-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 5.18.2
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/d/perl/perl-$(version).tar.gz

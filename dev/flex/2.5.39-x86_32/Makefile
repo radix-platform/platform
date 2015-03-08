@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/packages/d/flex
 REQUIRES           = dev/flex/2.5.39
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.5.39
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/d/flex/flex-$(version).tar.xz

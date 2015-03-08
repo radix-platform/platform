@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/X.org/lib/libXvMC
 REQUIRES           = X11/X.org/lib/libXvMC/1.0.8
 REQUIRES          += X11/X.org/lib/libXv/1.0.10-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.8
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libXvMC/libXvMC-$(version).tar.bz2

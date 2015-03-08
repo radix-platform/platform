@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/a/gpm
 
 REQUIRES           = app/inputattach/1.4.7
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.20.7
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/a/gpm/gpm-$(version).tar.bz2

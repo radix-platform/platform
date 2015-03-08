@@ -16,6 +16,8 @@ REQUIRES             = net/openldap-client/2.4.39
 REQUIRES            += net/openssl/1.0.1g-x86_32
 REQUIRES            += net/cyrus-sasl/2.1.26-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version              = 2.4.39
 tar_gz_archive       = $(SRC_PACKAGE_PATH)/packages/n/openldap/openldap-$(version).tgz

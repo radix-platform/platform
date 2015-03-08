@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/GNU/mpc
 REQUIRES           = libs/gmp/5.1.3
 REQUIRES          += libs/mpfr/3.1.2
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.2
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/GNU/mpc/mpc-$(version).tar.gz

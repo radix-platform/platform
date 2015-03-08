@@ -20,6 +20,8 @@ SOURCE_REQUIRES     = sources/dict/scowl
 
 REQUIRES            = base/pkgtool
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version             = 7.1
 tar_gz_archive      = $(SRC_PACKAGE_PATH)/dict/scowl/scowl-$(version).tar.gz

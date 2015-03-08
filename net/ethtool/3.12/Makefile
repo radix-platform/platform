@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/n/ethtool
 
 REQUIRES           = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 3.12
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/n/ethtool/ethtool-$(version).tar.xz

@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/X.org/driver/xf86-video-vmware
 REQUIRES           = X11/X.org/xserver/xorg-server/1.16.2
 REQUIRES          += X11/libs/mesa/10.3.4
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 13.0.2
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/driver/xf86-video-vmware/xf86-video-vmware-$(version).tar.bz2

@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/packages/l/libspectre
 REQUIRES           = app/ghostscript/9.15
 REQUIRES          += libs/cairo/1.14.0
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.2.7
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/libspectre/libspectre-$(version).tar.gz

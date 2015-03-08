@@ -16,6 +16,8 @@ REQUIRES           = X11/X.org/lib/libXfixes/5.0.1
 REQUIRES          += X11/X.org/proto/fixesproto/5.0-x86_32
 REQUIRES          += X11/X.org/lib/libX11/1.6.2-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 5.0.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libXfixes/libXfixes-$(version).tar.bz2

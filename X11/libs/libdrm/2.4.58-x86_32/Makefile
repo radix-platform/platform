@@ -16,6 +16,8 @@ REQUIRES           = X11/libs/libdrm/2.4.58
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 REQUIRES          += X11/X.org/lib/libpciaccess/0.13.2-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.4.58
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/x/libdrm/libdrm-$(version).tar.bz2

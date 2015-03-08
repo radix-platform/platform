@@ -32,6 +32,8 @@ REQUIRES          += X11/X.org/lib/libX11/1.6.2
 #
 REQUIRES          += dev/perl/5.18.2
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 10.68.01
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/l/netpbm/netpbm-$(version).tar.bz2

@@ -32,6 +32,8 @@ SOURCE_REQUIRES   += sources/GNU/mpc
 REQUIRES           = libs/eglibc/2.19.1
 REQUIRES          += dev/binutils/2.24
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version               = 4.8.2
 gmp_version           = 5.1.3

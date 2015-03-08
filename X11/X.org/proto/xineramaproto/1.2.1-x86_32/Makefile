@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/X.org/proto/xineramaproto
 REQUIRES           = X11/X.org/proto/xineramaproto/1.2.1
 REQUIRES          += X11/X.org/doc/xorg-sgml-doctools/1.11
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.2.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/proto/xineramaproto/xineramaproto-$(version).tar.bz2

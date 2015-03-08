@@ -29,6 +29,8 @@ SOURCE_REQUIRES   = sources/GNU/EGLIBC/2.18.1
 
 REQUIRES          = libs/eglibc/2.18.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version                   = 2.18.1
 tar_bz2_archive           = $(SRC_PACKAGE_PATH)/GNU/EGLIBC/$(version)/eglibc-$(version).tar.bz2

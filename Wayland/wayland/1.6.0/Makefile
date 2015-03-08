@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/Wayland/wayland
 REQUIRES           = libs/expat/2.1.0
 REQUIRES          += libs/libffi/3.0.13
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.6.0
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/Wayland/wayland/wayland-$(version).tar.xz

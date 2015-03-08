@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/packages/n/pinentry
 REQUIRES           = libs/ncurses/5.9
 REQUIRES          += secure/libcap/2.24
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.8.4
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/pinentry/pinentry-$(version).tar.bz2

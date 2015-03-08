@@ -20,6 +20,8 @@ SOURCE_REQUIRES     = sources/packages/n/net-tools
 
 REQUIRES            = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version             = 1.60-20140218
 tar_bz2_archive     = $(SRC_PACKAGE_PATH)/packages/n/net-tools/net-tools-$(version).tar.bz2

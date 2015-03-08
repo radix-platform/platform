@@ -13,6 +13,8 @@ SOURCE_REQUIRES   = sources/hal/drivers/omap543x/sgx-ddk
 
 REQUIRES          = boot/kernel/omap543x/3.8.y-20140222
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version           = 1.9.0.11
 kernel_version    = 3.8.y-20140222

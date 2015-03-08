@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/packages/n/ebtables
 REQUIRES           = app/bash/4.3
 REQUIRES          += dev/perl/5.18.2
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.0.10-4
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/n/ebtables/ebtables-$(version).tar.gz

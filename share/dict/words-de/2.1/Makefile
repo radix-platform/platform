@@ -21,6 +21,8 @@ SOURCE_REQUIRES    += sources/dict/aspell/de-alt
 
 REQUIRES            = base/pkgtool
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version             = 2.1
 tar_bz2_archive     = $(SRC_PACKAGE_PATH)/dict/aspell/de/aspell6-de-20030222-1.tar.bz2

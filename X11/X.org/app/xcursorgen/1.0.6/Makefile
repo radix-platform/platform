@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/X.org/app/xcursorgen
 REQUIRES           = X11/X.org/lib/libXcursor/1.1.14
 REQUIRES          += libs/libpng/libpng14/1.4.13
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.6
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/xcursorgen/xcursorgen-$(version).tar.bz2

@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/packages/l/libpng/libpng14
 REQUIRES           = libs/eglibc/2.19.1
 REQUIRES          += libs/zlib/1.2.8
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.4.13
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/libpng/libpng14/libpng-$(version).tar.gz

@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/GNU/less
 
 REQUIRES           = libs/ncurses/5.9
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 451
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/GNU/less/less-$(version).tar.gz

@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/packages/l/libusb
 REQUIRES           = libs/libusb/1.0.19
 REQUIRES          += libs/eudev/1.9-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.19
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/l/libusb/libusb-$(version).tar.bz2

@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/n/libnetfilter_cthelper
 
 REQUIRES           = net/libmnl/1.0.3
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.0
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/libnetfilter_cthelper/libnetfilter_cthelper-$(version).tar.bz2

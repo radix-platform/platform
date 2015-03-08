@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/x/xdg-utils
 
 REQUIRES           = X11/X.org/app/xset/1.2.3
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.1.0
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/x/xdg-utils/xdg-utils-$(version).tar.xz

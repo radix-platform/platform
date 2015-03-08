@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/packages/a/linuxdoc-tools/docbook-xml/4.x
 REQUIRES           = libs/libxml2/2.9.1
 REQUIRES          += share/sgml-common/0.6.3
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 4.5
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/a/linuxdoc-tools/docbook-xml/4.x/docbook-xml-$(version).tar.bz2

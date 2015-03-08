@@ -22,6 +22,8 @@ REQUIRES           = app/bash/4.3
 REQUIRES          += dev/m4/1.4.17
 REQUIRES          += dev/automake/1.14
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2014.02.28
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNU/autoconf-archive/autoconf-archive-$(version).tar.xz

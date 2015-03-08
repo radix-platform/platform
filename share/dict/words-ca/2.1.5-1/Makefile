@@ -20,6 +20,8 @@ SOURCE_REQUIRES     = sources/dict/aspell/ca
 
 REQUIRES            = base/pkgtool
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version             = 2.1.5-1
 tar_bz2_archive     = $(SRC_PACKAGE_PATH)/dict/aspell/ca/aspell6-ca-2.1.5-1.tar.bz2

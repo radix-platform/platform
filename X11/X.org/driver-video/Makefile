@@ -29,6 +29,7 @@ REQUIRES += X11/X.org/driver/xf86-video-vmware/13.0.2
 endif
 
 
+# ======= __END_OF_REQUIRES__ =======
 
 
 install_target     = $(TARGET_BUILD_DIR)/.install_done

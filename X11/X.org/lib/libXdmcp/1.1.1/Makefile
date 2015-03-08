@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/X.org/lib/libXdmcp
 REQUIRES           = libs/eglibc/2.19.1
 REQUIRES          += X11/X.org/proto/xproto/7.0.26
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.1.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libXdmcp/libXdmcp-$(version).tar.bz2

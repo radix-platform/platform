@@ -16,6 +16,8 @@ REQUIRES           = app/file/5.19
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 REQUIRES          += libs/zlib/1.2.8-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 5.19
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/a/file/file-$(version).tar.gz

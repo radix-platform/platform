@@ -16,6 +16,8 @@ REQUIRES             = net/libpcap/1.6.2
 REQUIRES            += libs/libusb/1.0.19-x86_32
 REQUIRES            += net/libnl3/3.2.25-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version              = 1.6.2
 tar_gz_archive       = $(SRC_PACKAGE_PATH)/packages/n/libpcap/libpcap-$(version).tar.gz

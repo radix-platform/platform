@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/packages/x/startup-notification
 REQUIRES           = X11/X.org/lib/libX11/1.6.2
 REQUIRES          += X11/X.org/xcb/xcb-util/0.4.0
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.12
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/x/startup-notification/startup-notification-$(version).tar.gz

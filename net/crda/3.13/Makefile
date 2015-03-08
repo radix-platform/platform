@@ -29,6 +29,8 @@ else
 REQUIRES          += net/libgcrypt/1.6.2
 endif
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 3.13
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/n/crda/crda-$(version).tar.xz

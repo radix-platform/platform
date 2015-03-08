@@ -24,6 +24,8 @@ REQUIRES          += libs/readline/6.3
 REQUIRES          += net/libnl3/3.2.25
 REQUIRES          += net/openssl/1.0.1g
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.3
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/n/wpa_supplicant/wpa_supplicant-$(version).tar.gz

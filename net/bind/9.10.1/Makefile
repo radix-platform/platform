@@ -24,6 +24,8 @@ REQUIRES          += libs/libxml2/2.9.1
 REQUIRES          += net/openssl/1.0.1g
 REQUIRES          += net/idnkit/1.0
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 9.10.1
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/n/bind/bind-$(version).tar.gz

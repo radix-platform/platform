@@ -22,6 +22,8 @@ SOURCE_REQUIRES    += sources/packages/l/pciids
 REQUIRES            = libs/zlib/1.2.8
 REQUIRES           += app/kmod/16
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version             = 3.2.1
 tar_xz_archive      = $(SRC_PACKAGE_PATH)/packages/a/pciutils/pciutils-$(version).tar.xz

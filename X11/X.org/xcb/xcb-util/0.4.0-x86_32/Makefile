@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/X.org/xcb/xcb-util
 REQUIRES           = X11/X.org/xcb/xcb-util/0.4.0
 REQUIRES          += X11/X.org/xcb/libxcb/1.11-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.4.0
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/xcb/xcb-util/xcb-util-$(version).tar.bz2

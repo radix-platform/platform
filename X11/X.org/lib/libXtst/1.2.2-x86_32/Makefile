@@ -16,6 +16,8 @@ REQUIRES           = X11/X.org/lib/libXtst/1.2.2
 REQUIRES          += X11/X.org/proto/recordproto/1.14.2-x86_32
 REQUIRES          += X11/X.org/lib/libXi/1.7.4-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.2.2
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libXtst/libXtst-$(version).tar.bz2

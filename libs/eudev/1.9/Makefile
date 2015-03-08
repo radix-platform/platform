@@ -25,6 +25,8 @@ REQUIRES          += app/util-linux/2.24.1
 REQUIRES          += libs/glib2/2.40.0
 REQUIRES          += app/pciutils/3.2.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.9
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/a/eudev/eudev-$(version).tar.gz

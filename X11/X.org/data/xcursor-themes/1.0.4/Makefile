@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/X.org/data/xcursor-themes
 
 REQUIRES           = X11/X.org/util/util-macros/1.19.0
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.0.4
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/data/xcursor-themes/xcursor-themes-$(version).tar.bz2

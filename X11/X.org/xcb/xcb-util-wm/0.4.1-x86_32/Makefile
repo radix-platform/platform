@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/X.org/xcb/xcb-util-wm
 REQUIRES           = X11/X.org/xcb/xcb-util-wm/0.4.1
 REQUIRES          += X11/X.org/xcb/libxcb/1.11-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.4.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/xcb/xcb-util-wm/xcb-util-wm-$(version).tar.bz2

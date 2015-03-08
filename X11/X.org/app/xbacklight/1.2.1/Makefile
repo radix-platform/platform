@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/X.org/app/xbacklight
 
 REQUIRES          = X11/X.org/xcb/xcb-util/0.4.0
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.2.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/xbacklight/xbacklight-$(version).tar.bz2

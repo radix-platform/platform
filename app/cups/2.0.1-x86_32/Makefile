@@ -23,6 +23,8 @@ REQUIRES          += net/gnutls/3.1.22-x86_32
 REQUIRES          += net/openssl/1.0.1g-x86_32
 REQUIRES          += libs/libusb/1.0.19-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.0.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/a/cups/cups-$(version)-source.tar.bz2

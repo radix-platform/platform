@@ -37,6 +37,8 @@ REQUIRES          += libs/libvorbis/1.3.4
 REQUIRES          += libs/wavpack/4.70.0
 REQUIRES          += libs/zlib/1.2.8
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 14.4.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/m/sox/sox-$(version).tar.bz2

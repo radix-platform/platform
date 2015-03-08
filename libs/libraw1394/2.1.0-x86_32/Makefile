@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/packages/l/ieee1394/libraw1394
 REQUIRES           = libs/libraw1394/2.1.0
 REQUIRES          += libs/eglibc/2.19.1-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.1.0
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/l/ieee1394/libraw1394/libraw1394-$(version).tar.xz

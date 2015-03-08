@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/packages/l/termcap-compat
 REQUIRES           = libs/libtermcap/1.2.3
 REQUIRES          += libs/ncurses/5.9-x86_32
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.2.3
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/termcap-compat/termcap-compat_$(version).tar.gz

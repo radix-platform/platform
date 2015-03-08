@@ -21,6 +21,8 @@ SOURCE_REQUIRES    = sources/X.org/app/xsetroot
 REQUIRES           = X11/X.org/lib/libXmu/1.1.2
 REQUIRES          += X11/X.org/lib/libXcursor/1.1.14
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 1.1.1
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/xsetroot/xsetroot-$(version).tar.bz2

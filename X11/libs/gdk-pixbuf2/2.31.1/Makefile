@@ -24,6 +24,8 @@ REQUIRES          += libs/libjpeg-turbo/1.3.1
 REQUIRES          += libs/libtiff/4.0.3
 REQUIRES          += X11/X.org/lib/libX11/1.6.2
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 2.31.1
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNOME/core/gdk-pixbuf/gdk-pixbuf-$(version).tar.xz

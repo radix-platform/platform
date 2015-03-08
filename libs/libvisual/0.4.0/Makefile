@@ -20,6 +20,8 @@ SOURCE_REQUIRES    = sources/packages/l/libvisual
 
 REQUIRES           = libs/eglibc/2.19.1
 
+# ======= __END_OF_REQUIRES__ =======
+
 
 version            = 0.4.0
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/l/libvisual/libvisual-$(version).tar.bz2

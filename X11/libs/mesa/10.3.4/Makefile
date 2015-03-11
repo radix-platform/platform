@@ -266,8 +266,7 @@ $(install_target): $(build_target)
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" dri.pc          \
-	                                            egl.pc          \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" egl.pc          \
 	                                            gbm.pc          \
 	                                            gl.pc           \
 	                                            glesv1_cm.pc    \
@@ -275,6 +274,11 @@ $(install_target): $(build_target)
 	                                            osmesa.pc       \
 	                                            wayland-egl.pc  \
 	                                            xatracker.pc  ; \
+	 )
+	# ======= do not touch dridriverdir variable in dri.pc file =======
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
+	   sed -i "s,prefix=/usr,prefix=$(TARGET_DEST_DIR)/usr,g" dri.pc ; \
+	   sed -i "s,libdir=/usr,libdir=$(TARGET_DEST_DIR)/usr,g" dri.pc ; \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(MESA_PKG) ; \

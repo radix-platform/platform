@@ -13,7 +13,8 @@ include ../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/x/libepoxy
 
 REQUIRES           = X11/libs/libepoxy/1.2
-REQUIRES          += X11/libs/mesa/10.3.4-x86_32
+
+REQUIRES          += X11/libs/opengl-collection
 
 # ======= __END_OF_REQUIRES__ =======
 

@@ -2,7 +2,7 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
-COMPONENT_TARGETS += $(HARDWARE_CB2X)
+COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
@@ -18,8 +18,10 @@ include ../../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/X.org/app/xdriinfo
 
-REQUIRES           = X11/libs/mesa/10.3.4
-REQUIRES          += X11/X.org/lib/libXext/1.3.3
+
+REQUIRES           = X11/X.org/lib/libXext/1.3.3
+
+REQUIRES          += X11/libs/opengl-collection
 
 # ======= __END_OF_REQUIRES__ =======
 

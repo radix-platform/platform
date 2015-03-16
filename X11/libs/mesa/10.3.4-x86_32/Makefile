@@ -108,10 +108,12 @@ extra_configure_switches += --with-dri-drivers="$(DRI_DRIVERS)"
 #
 extra_configure_switches += --with-gallium-drivers=nouveau,r300,r600,svga,swrast
 
+extra_configure_switches += --enable-egl
+extra_configure_switches += --enable-gles1
+extra_configure_switches += --enable-gles2
 extra_configure_switches += --with-egl-platforms=x11,drm,wayland
 
 extra_configure_switches += --enable-llvm-shared-libs
-extra_configure_switches += --enable-egl
 extra_configure_switches += --disable-gallium-egl
 extra_configure_switches += --disable-gallium-gbm
 extra_configure_switches += --enable-gbm
@@ -123,16 +125,12 @@ extra_configure_switches += --enable-glx
 extra_configure_switches += --enable-glx-tls
 extra_configure_switches += --enable-dri
 extra_configure_switches += --enable-osmesa
-extra_configure_switches += --enable-gles1
-extra_configure_switches += --enable-gles2
 extra_configure_switches += --enable-texture-float
 
 extra_configure_switches += --enable-xa
 # NVIDIA extra_configure_switches += --enable-vdpau
 extra_configure_switches += --enable-omx
 extra_configure_switches += --with-omx-libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
-
-extra_configure_switches += --enable-osmesa
 
 #
 # OpenCL requires libclc (http://libclc.llvm.org)

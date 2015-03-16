@@ -2,7 +2,7 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
-COMPONENT_TARGETS += $(HARDWARE_CB2X)
+COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
@@ -125,31 +125,36 @@ extra_configure_switches += --with-dri-drivers="$(DRI_DRIVERS)"
 #
 extra_configure_switches += --with-gallium-drivers=nouveau,r300,r600,svga,swrast
 
-extra_configure_switches += --with-egl-platforms=x11,drm,wayland
-
-extra_configure_switches += --enable-llvm-shared-libs
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
+extra_configure_switches += --disable-egl
+extra_configure_switches += --disable-gles1
+extra_configure_switches += --disable-gles2
+extra_configure_switches += --disable-gbm
+else
 extra_configure_switches += --enable-egl
+extra_configure_switches += --enable-gles1
+extra_configure_switches += --enable-gles2
+extra_configure_switches += --with-egl-platforms=x11,drm,wayland
+extra_configure_switches += --enable-gbm
+endif
+
 extra_configure_switches += --disable-gallium-egl
 extra_configure_switches += --disable-gallium-gbm
-extra_configure_switches += --enable-gbm
 
 extra_configure_switches += --enable-gallium-llvm
 extra_configure_switches += --enable-shared-glapi
 
+extra_configure_switches += --enable-dri
 extra_configure_switches += --enable-glx
 extra_configure_switches += --enable-glx-tls
-extra_configure_switches += --enable-dri
 extra_configure_switches += --enable-osmesa
-extra_configure_switches += --enable-gles1
-extra_configure_switches += --enable-gles2
 extra_configure_switches += --enable-texture-float
 
+extra_configure_switches += --enable-llvm-shared-libs
 extra_configure_switches += --enable-xa
 # NVIDIA extra_configure_switches += --enable-vdpau
 extra_configure_switches += --enable-omx
 extra_configure_switches += --with-omx-libdir=/usr/lib$(LIBSUFFIX)
-
-extra_configure_switches += --enable-osmesa
 
 #
 # OpenCL requires libclc (http://libclc.llvm.org)
@@ -226,6 +231,15 @@ $(install_target): $(build_target)
 	   fi \
 	 )
 	# ======= remove toolchain path from target libtool *.la files =======
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
+	@( cd $(MESA_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libGL.la           \
+	                                    libOSMesa.la       \
+	                                    libglapi.la        \
+	                                    libomx_mesa.la     \
+	                                    libxatracker.la  ; \
+	 )
+else
 	@( cd $(MESA_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libEGL.la          \
 	                                    libGL.la           \
@@ -238,10 +252,25 @@ $(install_target): $(build_target)
 	                                    libwayland-egl.la  \
 	                                    libxatracker.la  ; \
 	 )
+endif
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(MESA_PKG) && cp -rf * $(TARGET_DEST_DIR)
 	# ======= tune libtool *.la search path to the target destination for development =======
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libGL.la           \
+	                                            libOSMesa.la       \
+	                                            libglapi.la        \
+	                                            libomx_mesa.la     \
+	                                            libxatracker.la  ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libGL.la           \
+	                                              libOSMesa.la       \
+	                                              libglapi.la        \
+	                                              libomx_mesa.la     \
+	                                              libxatracker.la  ; \
+	 )
+else
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libEGL.la          \
 	                                            libGL.la           \
@@ -264,7 +293,15 @@ $(install_target): $(build_target)
 	                                              libwayland-egl.la  \
 	                                              libxatracker.la  ; \
 	 )
+endif
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" gl.pc           \
+	                                            osmesa.pc       \
+	                                            xatracker.pc  ; \
+	 )
+else
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" egl.pc          \
 	                                            gbm.pc          \
@@ -275,6 +312,7 @@ $(install_target): $(build_target)
 	                                            wayland-egl.pc  \
 	                                            xatracker.pc  ; \
 	 )
+endif
 	# ======= do not touch dridriverdir variable in dri.pc file =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
 	   sed -i "s,prefix=/usr,prefix=$(TARGET_DEST_DIR)/usr,g" dri.pc ; \

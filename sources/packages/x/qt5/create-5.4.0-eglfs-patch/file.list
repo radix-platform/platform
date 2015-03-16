@@ -1,0 +1,8 @@
+qt-everywhere-opensource-src-5.4.0/qtbase/src/gui/kernel/qplatformcursor.h
+qt-everywhere-opensource-src-5.4.0/qtbase/src/platformsupport/eglconvenience/qeglpbuffer_p.h
+qt-everywhere-opensource-src-5.4.0/qtbase/src/platformsupport/eglconvenience/qeglplatformcontext.cpp
+qt-everywhere-opensource-src-5.4.0/qtbase/src/platformsupport/eglconvenience/qeglplatformcursor.cpp
+qt-everywhere-opensource-src-5.4.0/qtbase/src/plugins/platforms/eglfs/qeglfscontext.cpp
+qt-everywhere-opensource-src-5.4.0/qtbase/src/plugins/platforms/eglfs/qeglfsintegration.cpp
+qt-everywhere-opensource-src-5.4.0/qtbase/src/plugins/platforms/kms/qkmsintegration.cpp
+qt-everywhere-opensource-src-5.4.0/qtbase/src/platformsupport/input/evdevkeyboard/qevdevkeyboardmanager_p.h

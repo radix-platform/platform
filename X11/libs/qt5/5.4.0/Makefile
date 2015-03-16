@@ -2,7 +2,7 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
-COMPONENT_TARGETS += $(HARDWARE_CB2X)
+COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
@@ -32,7 +32,6 @@ REQUIRES          += libs/icu4c/54.1
 REQUIRES          += app/cups/2.0.1
 
 REQUIRES          += X11/libs/fontconfig/2.11.1
-REQUIRES          += X11/libs/mesa/10.3.4
 
 REQUIRES          += X11/X.org/lib/libXaw/1.0.12
 REQUIRES          += X11/X.org/lib/libXcursor/1.1.14
@@ -48,6 +47,8 @@ REQUIRES          += libs/gst-plugins-base/1.4.5
 REQUIRES          += app/sqlite/3.8.7.1
 REQUIRES          += app/mariadb/5.5.41
 REQUIRES          += libs/libiodbc/3.52.9
+
+REQUIRES          += X11/libs/opengl-collection
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -65,10 +66,14 @@ profile_dir        = $(CURDIR)/profile.d
 applications_dir   = $(CURDIR)/applications
 
 
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X)),)
+PATCHES = PATCHES.cbxx
+else
 ifneq ($(filter $(HARDWARE),$(HARDWARE_B74)),)
 PATCHES = PATCHES.mips
 else
 PATCHES = PATCHES
+endif
 endif
 
 build_target       = $(TARGET_BUILD_DIR)/.build_done
@@ -119,7 +124,7 @@ include ../../../../build-system/core.mk
 env_sysroot = INSTALL_ROOT=$(QT5_PKG)
 
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB2X) $(HARDWARE_BEAGLE) $(HARDWARE_OMAP5UEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X) $(HARDWARE_BEAGLE) $(HARDWARE_OMAP5UEVM)),)
 ARCH   = arm
 ABI    = gnueabihf
 endif
@@ -222,10 +227,17 @@ configure_switches += -dbus
 configure_switches += -no-use-gold-linker
 
 configure_switches += -xcb
-configure_switches += -eglfs
 configure_switches += -no-directfb
 configure_switches += -linuxfb
+
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
+configure_switches += -no-eglfs
+configure_switches += -no-kms
+else
+configure_switches += -eglfs
 configure_switches += -kms
+endif
+
 configure_switches += -qpa xcb
 
 configure_switches += -qreal double
@@ -371,19 +383,19 @@ $(install_target): $(build_target)
 	     sed "s,@PREFIX@,/usr/lib$(LIBSUFFIX)/qt5,g" | \
 	     sed "s,@VERSION@,$(version),g" > $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt5/lib/pkgconfig/Qt5.pc
 	# ======= Remove internal used dependencies of libjscore, libwebcore ======
-	sed -i "s# -Wl,-whole-archive -lWebKit1 -Wl,-no-whole-archive -L$(CURDIR)/$(SRC_DIR)/qtwebkit/Source/WebKit/##g" \
+	@sed -i "s# -Wl,-whole-archive -lWebKit1 -Wl,-no-whole-archive -L$(CURDIR)/$(SRC_DIR)/qtwebkit/Source/WebKit/##g" \
 	       $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt5/lib/pkgconfig/Qt5WebKit.pc
-	sed -i "s# -Wl,-whole-archive -lWebKit2 -Wl,-no-whole-archive -L$(CURDIR)/$(SRC_DIR)/qtwebkit/Source/WebKit2/##g" \
+	@sed -i "s# -Wl,-whole-archive -lWebKit2 -Wl,-no-whole-archive -L$(CURDIR)/$(SRC_DIR)/qtwebkit/Source/WebKit2/##g" \
 	       $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt5/lib/pkgconfig/Qt5WebKit.pc
-	sed -i "s# -Wl,-whole-archive -lWebCore -Wl,-no-whole-archive -L$(CURDIR)/$(SRC_DIR)/qtwebkit/Source/WebCore/##g" \
+	@sed -i "s# -Wl,-whole-archive -lWebCore -Wl,-no-whole-archive -L$(CURDIR)/$(SRC_DIR)/qtwebkit/Source/WebCore/##g" \
 	       $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt5/lib/pkgconfig/Qt5WebKit.pc
-	sed -i "s# -Wl,-whole-archive -lANGLE -Wl,-no-whole-archive -L$(CURDIR)/$(SRC_DIR)/qtwebkit/Source/ThirdParty/ANGLE/##g" \
+	@sed -i "s# -Wl,-whole-archive -lANGLE -Wl,-no-whole-archive -L$(CURDIR)/$(SRC_DIR)/qtwebkit/Source/ThirdParty/ANGLE/##g" \
 	       $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt5/lib/pkgconfig/Qt5WebKit.pc
-	sed -i "s# -Wl,-whole-archive -lleveldb -Wl,-no-whole-archive -L$(CURDIR)/$(SRC_DIR)/qtwebkit/Source/ThirdParty/leveldb/##g" \
+	@sed -i "s# -Wl,-whole-archive -lleveldb -Wl,-no-whole-archive -L$(CURDIR)/$(SRC_DIR)/qtwebkit/Source/ThirdParty/leveldb/##g" \
 	       $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt5/lib/pkgconfig/Qt5WebKit.pc
-	sed -i "s# -Wl,-whole-archive -lJavaScriptCore -Wl,-no-whole-archive -L$(CURDIR)/$(SRC_DIR)/qtwebkit/Source/JavaScriptCore/##g" \
+	@sed -i "s# -Wl,-whole-archive -lJavaScriptCore -Wl,-no-whole-archive -L$(CURDIR)/$(SRC_DIR)/qtwebkit/Source/JavaScriptCore/##g" \
 	       $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt5/lib/pkgconfig/Qt5WebKit.pc
-	sed -i "s# -Wl,-whole-archive -lWTF -Wl,-no-whole-archive -L$(CURDIR)/$(SRC_DIR)/qtwebkit/Source/WTF/##g" \
+	@sed -i "s# -Wl,-whole-archive -lWTF -Wl,-no-whole-archive -L$(CURDIR)/$(SRC_DIR)/qtwebkit/Source/WTF/##g" \
 	       $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt5/lib/pkgconfig/Qt5WebKit.pc
 	# ======= Link shared libraries into /usr/lib$(LIBSUFFIX) =======
 	@( cd $(QT5_PKG)/usr/lib$(LIBSUFFIX) ; \

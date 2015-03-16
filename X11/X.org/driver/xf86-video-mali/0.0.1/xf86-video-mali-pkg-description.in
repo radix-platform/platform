@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+               |-----handy-ruler------------------------------------------------------|
+xf86-video-mali: xf86-video-mali @VERSION@ (Mali X11 video driver)
+xf86-video-mali:
+xf86-video-mali: xf86-video-mali is provided as a basis for creating your own
+xf86-video-mali: X Display Driver. It requires a resent version of the xorg-server,
+xf86-video-mali: as well as a successfull integration of UMP with your display device
+xf86-video-mali: driver.
+xf86-video-mali:
+xf86-video-mali: See: http://malideveloper.arm.com/develop-for-mali/drivers
+xf86-video-mali:
+xf86-video-mali:
+xf86-video-mali:

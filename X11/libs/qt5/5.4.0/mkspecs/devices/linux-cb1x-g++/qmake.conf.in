@@ -23,7 +23,7 @@ QMAKE_INCDIR           += $$[QT_SYSROOT]/usr/lib@LIBDIRSUFFIX@/glib-2.0/include
 QMAKE_LIBDIR            = $$[QT_SYSROOT]/usr/lib@LIBDIRSUFFIX@
 
 QMAKE_LIBS_EGL         += -lEGL
-QMAKE_LIBS_OPENGL_ES2  += -lGLESv2 -lEGL
+QMAKE_LIBS_OPENGL_ES2  += -lGLESv2
 QMAKE_LIBS_OPENVG      += -lOpenVG -lEGL
 
 QMAKE_LFLAGS           += -Wl,-rpath-link,$$[QT_SYSROOT]/usr/lib@LIBDIRSUFFIX@ -Wl,--export-dynamic

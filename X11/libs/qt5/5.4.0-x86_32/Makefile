@@ -22,7 +22,6 @@ REQUIRES          += libs/icu4c/54.1-x86_32
 REQUIRES          += app/cups/2.0.1-x86_32
 
 REQUIRES          += X11/libs/fontconfig/2.11.1-x86_32
-REQUIRES          += X11/libs/mesa/10.3.4-x86_32
 
 REQUIRES          += X11/X.org/lib/libXaw/1.0.12-x86_32
 REQUIRES          += X11/X.org/lib/libXcursor/1.1.14-x86_32
@@ -38,6 +37,8 @@ REQUIRES          += libs/gst-plugins-base/1.4.5-x86_32
 REQUIRES          += app/sqlite/3.8.7.1-x86_32
 REQUIRES          += app/mariadb/5.5.41-x86_32
 REQUIRES          += libs/libiodbc/3.52.9-x86_32
+
+REQUIRES          += X11/libs/opengl-collection
 
 # ======= __END_OF_REQUIRES__ =======
 

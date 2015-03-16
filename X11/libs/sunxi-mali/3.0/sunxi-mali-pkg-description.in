@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+          |-----handy-ruler------------------------------------------------------|
+sunxi-mali: sunxi-mali @VERSION@ (Mali userspace driver for X11)
+sunxi-mali:
+sunxi-mali: sunxi-mali is provided as a complete set of Mali userspace drivers,
+sunxi-mali: including proprietary OpenGLESv2/EGL binaries.
+sunxi-mali:
+sunxi-mali: See: http://linux-sunxi.org/Mali_binary_driver
+sunxi-mali:
+sunxi-mali:
+sunxi-mali:
+sunxi-mali:
+sunxi-mali:

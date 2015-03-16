@@ -2,7 +2,7 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
-COMPONENT_TARGETS += $(HARDWARE_CB2X)
+COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
@@ -25,9 +25,10 @@ REQUIRES          += X11/libs/fontconfig/2.11.1
 REQUIRES          += X11/X.org/lib/pixman/0.32.6
 REQUIRES          += X11/X.org/lib/libXext/1.3.3
 REQUIRES          += X11/X.org/lib/libXrender/0.9.8
-REQUIRES          += X11/libs/mesa/10.3.4
 REQUIRES          += libs/libspectre/0.2.7
 REQUIRES          += X11/libs/librsvg/2.40.5
+
+REQUIRES          += X11/libs/opengl-collection
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -106,6 +107,9 @@ extra_configure_switches += --enable-xlib
 extra_configure_switches += --enable-xcb
 extra_configure_switches += --enable-xcb-shm
 extra_configure_switches += --enable-xlib-xcb
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
+extra_configure_switches += --disable-gl
+endif
 extra_configure_switches += --enable-egl
 extra_configure_switches += --enable-glesv2
 extra_configure_switches += --enable-glx=no

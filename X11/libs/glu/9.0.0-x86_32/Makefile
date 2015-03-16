@@ -13,7 +13,8 @@ include ../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/x/glu
 
 REQUIRES           = X11/libs/glu/9.0.0
-REQUIRES          += X11/libs/mesa/10.3.4-x86_32
+
+REQUIRES          += X11/libs/opengl-collection
 
 # ======= __END_OF_REQUIRES__ =======
 

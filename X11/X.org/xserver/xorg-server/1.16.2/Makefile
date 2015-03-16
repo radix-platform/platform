@@ -2,7 +2,7 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
-COMPONENT_TARGETS += $(HARDWARE_CB2X)
+COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
@@ -53,13 +53,14 @@ REQUIRES          += X11/X.org/xcb/xcb-util-keysyms/0.4.0
 REQUIRES          += X11/X.org/xcb/xcb-util-wm/0.4.1
 
 REQUIRES          += X11/libs/libdrm/2.4.58
-REQUIRES          += X11/libs/mesa/10.3.4
 REQUIRES          += X11/libs/libepoxy/1.2
 REQUIRES          += Wayland/wayland/1.6.0
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64) $(HARDWARE_PC32)),)
 REQUIRES          += X11/X.org/lib/libpciaccess/0.13.2
 endif
+
+REQUIRES          += X11/libs/opengl-collection
 
 # ======= __END_OF_REQUIRES__ =======
 

@@ -308,18 +308,25 @@ nand_ndqs = port:PC24<2><default><default><default>
 [disp_init]
 disp_init_enable = 1
 disp_mode = 0
+
+screen0_out_color_range = 1
+
 screen0_output_type = 3
-screen0_output_mode = 4
-screen1_output_type = 1
-screen1_output_mode = 4
-fb0_framebuffer_num = 2
+screen0_output_mode = 10
+fb0_width  = 1920
+fb0_height = 1080
+fb0_framebuffer_num = 3
 fb0_format = 10
 fb0_pixel_sequence = 0
-fb0_scaler_mode_enable = 0
+fb0_scaler_mode_enable = 1
+
+screen1_output_type = 1
+screen1_output_mode = 4
 fb1_framebuffer_num = 2
 fb1_format = 10
 fb1_pixel_sequence = 0
-fb1_scaler_mode_enable = 0
+fb1_scaler_mode_enable = 1
+
 lcd0_bright = 197
 lcd1_bright = 197
 lcd0_screen_bright = 50

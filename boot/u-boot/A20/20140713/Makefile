@@ -1,5 +1,5 @@
 
-COMPONENT_TARGETS = $(HARDWARE_CB2X)
+COMPONENT_TARGETS = $(HARDWARE_CB3X)
 
 NEED_ABS_PATH     = true
 
@@ -17,7 +17,7 @@ REQUIRES          = boot/kernel/A20/3.4-20141014
 
 
 DEFAULT_NFS_ROOT_IP_ADDR = 172.16.0.3
-DEFAULT_NFS_ROOT_PATH    = "nfsroot-cb2x"
+DEFAULT_NFS_ROOT_PATH    = "nfsroot-cb3x"
 DEFAULT_HW_ADDR          = 2a:ab:c0:ba:36:4e
 
 
@@ -95,7 +95,13 @@ ROOTFS_TARGETS     = $(pkg_archive)
 include ../../../../build-system/core.mk
 
 
-extra = hdmi.audio=EDID:0 disp.screen0_output_mode=EDID:1280x1024p60
+extra  = hdmi.audio=EDID:0
+extra += disp.screen0_output_mode=EDID:1920x1080p60
+extra += disp.screen1_output_mode=EDID:1280x1024p60
+extra += sunxi_fb_mem_reserve=64
+extra += sunxi_g2d_mem_reserve=128
+extra += sunxi_gmac.mac_str=$(DEFAULT_HW_ADDR)
+
 
 ####### Dependencies
 

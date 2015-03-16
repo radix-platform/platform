@@ -74,12 +74,15 @@ jtag_di = port:PB17<3><default><default><default>
 standby_mode = 0
 
 [dram_para]
+;
+; see u-boot/board/sunxi/dram_cubietruck.c: struct dram_para
+;
 dram_baseaddr = 0x40000000
 dram_clk = 432
 dram_type = 3
 dram_rank_num = 1
-dram_chip_density = 8192
-dram_io_width = 16
+dram_chip_density = 4096
+dram_io_width = 8
 dram_bus_width = 32
 dram_cas = 9
 dram_zq = 0x7f
@@ -336,19 +339,28 @@ good_block_ratio = 0
 
 [disp_init]
 disp_init_enable = 1
-disp_mode = 0
+disp_mode = 4
+
+screen0_out_color_range =1
+
 screen0_output_type = 3
-screen0_output_mode = 5
-screen1_output_type = 1
-screen1_output_mode = 4
-fb0_framebuffer_num = 2
+screen0_output_mode = 10
+fb0_width  = 1920
+fb0_height = 1080
+fb0_framebuffer_num = 3
 fb0_format = 10
 fb0_pixel_sequence = 0
 fb0_scaler_mode_enable = 1
-fb1_framebuffer_num = 2
-fb1_format = 10
-fb1_pixel_sequence = 0
-fb1_scaler_mode_enable = 0
+
+screen1_output_type = 4
+screen1_output_mode = 3
+; fb1_width  = 1280
+; fb1_height = 1024
+; fb1_framebuffer_num = 3
+; fb1_format = 10
+; fb1_pixel_sequence = 0
+; fb1_scaler_mode_enable = 1
+
 lcd0_backlight = 197
 lcd1_backlight = 197
 lcd0_bright = 50

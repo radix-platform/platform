@@ -2,7 +2,7 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
-COMPONENT_TARGETS += $(HARDWARE_CB2X)
+COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
@@ -32,7 +32,6 @@ REQUIRES          += libs/icu4c/54.1
 REQUIRES          += app/cups/2.0.1
 
 REQUIRES          += X11/libs/fontconfig/2.11.1
-REQUIRES          += X11/libs/mesa/10.3.4
 
 REQUIRES          += X11/X.org/lib/libXaw/1.0.12
 REQUIRES          += X11/X.org/lib/libXcursor/1.1.14
@@ -48,6 +47,8 @@ REQUIRES          += libs/gst-plugins-base0/0.10.36
 REQUIRES          += app/sqlite/3.8.7.1
 REQUIRES          += app/mariadb/5.5.41
 REQUIRES          += libs/libiodbc/3.52.9
+
+REQUIRES          += X11/libs/opengl-collection
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -119,7 +120,7 @@ include ../../../../build-system/core.mk
 env_sysroot = INSTALL_ROOT=$(QT4_PKG)
 
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB2X) $(HARDWARE_BEAGLE) $(HARDWARE_OMAP5UEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X) $(HARDWARE_BEAGLE) $(HARDWARE_OMAP5UEVM)),)
 ARCH   = arm
 ABI    = gnueabihf
 endif

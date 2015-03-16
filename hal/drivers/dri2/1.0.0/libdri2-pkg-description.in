@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+       |-----handy-ruler------------------------------------------------------|
+libdri2: libdri2 @VERSION@ (library for the X11 DRI2 extension)
+libdri2:
+libdri2: Splited out dri2 client side code from mesa, libva, libvdpau, etc...
+libdri2:
+libdri2: Some distributions have libdri2 compiled into the X11 binary,
+libdri2: instead of having it as a separate library and package. If that
+libdri2: is the case, you need Rob Clark's libdri2.
+libdri2:
+libdri2: Sources: https://github.com/robclark/libdri2
+libdri2:
+libdri2:

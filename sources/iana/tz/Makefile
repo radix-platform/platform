@@ -8,7 +8,7 @@ include ../../../build-system/constants.mk
 url         = $(DOWNLOAD_SERVER)/sources/iana/tz
 
 versions    = 2013i
-versions   += 2013h
+versions   += 2015a
 
 tarballs    = $(sort \
                 $(shell \

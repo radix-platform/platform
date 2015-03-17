@@ -36,7 +36,7 @@ endif
 ####### The System
 #######
 
-REQUIRES += libs/eglibc/2.19.1-zoneinfo
+REQUIRES += libs/eglibc/2.19.1-zoneinfo/2015a
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/eglibc/2.19.1-x86_32
 endif

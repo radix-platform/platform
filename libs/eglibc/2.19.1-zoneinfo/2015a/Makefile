@@ -21,7 +21,7 @@ NEED_ABS_PATH      = true
 COMPONENT_IS_3PP   = true
 
 
-include ../../../build-system/constants.mk
+include ../../../../build-system/constants.mk
 
 
 SOURCE_REQUIRES   = sources/iana/tz
@@ -32,13 +32,14 @@ REQUIRES          = libs/eglibc/2.19.1-i18n
 
 
 version    = 2.19.1
-tz_version = 2013i
+tz_version = 2015a
 
 tar_gz_code_archive       = $(SRC_PACKAGE_PATH)/iana/tz/tzcode$(tz_version).tar.gz
 tar_gz_data_archive       = $(SRC_PACKAGE_PATH)/iana/tz/tzdata$(tz_version).tar.gz
 
 
 SRC_DIR           = $(TARGET_BUILD_DIR)/timezone
+doc_dir_name      = zoneinfo-$(version)
 src_done          = $(TARGET_BUILD_DIR)/.source-done
 install_target    = $(TARGET_BUILD_DIR)/.install_done
 
@@ -59,7 +60,7 @@ EGLIBC_TZ_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
 EGLIBC_TZ_PKG_SHORT_DESCRIPTION   = timezone database
 EGLIBC_TZ_PKG_URL                 = $(BUG_URL)
-EGLIBC_TZ_PKG_LICENSE             = GPLv2
+EGLIBC_TZ_PKG_LICENSE             = public
 EGLIBC_TZ_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(EGLIBC_TZ_PKG_NAME)-pkg-description
 EGLIBC_TZ_PKG_DESCRIPTION_FILE_IN = $(EGLIBC_TZ_PKG_NAME)-pkg-description.in
 EGLIBC_TZ_PKG_INSTALL_SCRIPT      = $(EGLIBC_TZ_PKG_NAME)-pkg-install.sh
@@ -80,7 +81,7 @@ PRODUCT_TARGETS  = $(products)
 ROOTFS_TARGETS   = $(pkg_archive)
 
 
-include ../../../build-system/core.mk
+include ../../../../build-system/core.mk
 
 
 OPTIMIZATION_FLAGS  = -O3
@@ -96,6 +97,7 @@ $(src_done): $(tar_gz_code_archive) $(tar_gz_data_archive)
 	@tar xzf $(tar_gz_data_archive) -C $(SRC_DIR)
 	@cd $(SRC_DIR) && CWD=`pwd` sed -i "s,/usr/local,.,g" Makefile
 	@cd $(SRC_DIR) && sed -i "s,/etc/$(TZDIR_BASENAME),/$(TZDIR_BASENAME),g" Makefile
+	@cd $(SRC_DIR) && chmod a-x leap-seconds.list
 	@touch $@
 
 $(install_target): $(src_done)
@@ -106,8 +108,10 @@ $(install_target): $(src_done)
 	@cp -a $(SRC_DIR)/zoneinfo/* $(EGLIBC_TZ_PKG)/usr/share/zoneinfo
 	@cp -a $(SRC_DIR)/zoneinfo-posix/* $(EGLIBC_TZ_PKG)/usr/share/zoneinfo/posix
 	@cp -a $(SRC_DIR)/zoneinfo-leaps/* $(EGLIBC_TZ_PKG)/usr/share/zoneinfo/right
-	# Remove $PKG/usr/share/zoneinfo/localtime -- the install script will create it as a link to /etc/localtime.
+	# ======= Remove PACKAGE/usr/share/zoneinfo/localtime --                =======
+	# ======= the install script will create it as a link to /etc/localtime =======
 	@rm -f $(EGLIBC_TZ_PKG)/usr/share/zoneinfo/localtime
+	# ======= Install Documentation =======
 	@cp -rf $(SRC_DIR)/man $(EGLIBC_TZ_PKG)/usr/share
 	@( cd $(EGLIBC_TZ_PKG)/usr/share/man/man3 ; \
 	   for file in *.3 ; do \
@@ -121,13 +125,19 @@ $(install_target): $(src_done)
 	   for file in *.8 ; do \
 	     gzip -9 --force $$file; \
 	   done )
+	@mkdir -p $(EGLIBC_TZ_PKG)/usr/share/doc/$(doc_dir_name)
+	@( cd $(SRC_DIR) ; \
+	   cp -a CONTRIBUTING NEWS README Theory \
+	         $(EGLIBC_TZ_PKG)/usr/share/doc/$(doc_dir_name) ; \
+	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(EGLIBC_TZ_PKG) && cp -rf * $(TARGET_DEST_DIR)
 	@touch $@
 
 $(EGLIBC_TZ_PKG_DESCRIPTION_FILE): $(EGLIBC_TZ_PKG_DESCRIPTION_FILE_IN)
-	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
+	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" \
+	        | $(SED) -e "s/@TZVERSION@/$(tz_version)/g" > $@
 
 $(pkg_signature)   : $(pkg_archive) ;
 $(pkg_description) : $(pkg_archive) ;

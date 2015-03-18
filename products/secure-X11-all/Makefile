@@ -716,6 +716,7 @@ REQUIRES += dev/m4/1.4.17
 REQUIRES += dev/autoconf/2.69
 REQUIRES += dev/automake/1.14
 REQUIRES += dev/autoconf-archive/2014.02.28
+REQUIRES += dev/pkg-config/0.28
 REQUIRES += app/which/2.20
 
 REQUIRES += app/bin/4.4

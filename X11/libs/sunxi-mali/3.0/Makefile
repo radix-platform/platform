@@ -1,6 +1,5 @@
 
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
-COMPONENT_TARGETS += $(HARDWARE_CB3X)
 
 
 NEED_ABS_PATH      = true
@@ -10,10 +9,10 @@ COMPONENT_IS_3PP   = true
 include ../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/hal/drivers/Mali/sunxi-mali
+SOURCE_REQUIRES    = sources/hal/Mali/sunxi-mali
 
-REQUIRES           = hal/drivers/dri2/1.0.0
-REQUIRES          += hal/drivers/ump/3.0
+REQUIRES           = hal/dri2/1.0.0
+REQUIRES          += hal/ump/3.0
 REQUIRES          += X11/libs/libdrm/2.4.58
 REQUIRES          += X11/X.org/lib/libXext/1.3.3
 REQUIRES          += X11/X.org/lib/libXfixes/5.0.1
@@ -23,7 +22,7 @@ REQUIRES          += X11/X.org/lib/libXfixes/5.0.1
 
 version            = 3.0
 timestamp          = 20140326
-tar_bz2_archive    = $(SRC_PACKAGE_PATH)/hal/drivers/Mali/sunxi-mali/sunxi-mali-$(timestamp).tar.bz2
+tar_bz2_archive    = $(SRC_PACKAGE_PATH)/hal/Mali/sunxi-mali/sunxi-mali-$(timestamp).tar.bz2
 SRC_ARCHIVE        = $(tar_bz2_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/sunxi-mali-$(timestamp)
 src_dir_name       = sunxi-mali-$(timestamp)

@@ -2,27 +2,23 @@
 COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 
 
-include ../../../../../build-system/constants.mk
+include ../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/hal/drivers/Mali/sunxi-mali
+url         = $(DOWNLOAD_SERVER)/sources/hal/Mali/xf86-video-fbturbo
 
-versions    = 20140326
-pkgname     = sunxi-mali
+versions    = 0.4.0
+pkgname     = xf86-video-fbturbo
 suffix      = tar.bz2
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/sunxi-mali-20140326-no_x11.patch
-
-.NOTPARALLEL: $(patches)
-
 
 BUILD_TARGETS = $(tarballs) $(sha1s) $(patches)
 
 
-include ../../../../../build-system/core.mk
+include ../../../../build-system/core.mk
 
 
 .PHONY: download_clean
@@ -47,10 +43,5 @@ $(sha1s): $(tarballs)
 	   fi ; \
 	 done
 
-$(patches): $(sha1s)
-	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-20140326-no_x11-patch ; ./create.patch.sh ) ; \
-	 echo -e "\n"
-
 download_clean:
-	@rm -f $(tarballs) $(sha1s) $(patches)
+	@rm -f $(tarballs) $(sha1s)

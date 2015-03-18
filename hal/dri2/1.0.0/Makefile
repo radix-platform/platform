@@ -6,10 +6,10 @@ NEED_ABS_PATH      = true
 COMPONENT_IS_3PP   = true
 
 
-include ../../../../build-system/constants.mk
+include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/hal/drivers/dri2
+SOURCE_REQUIRES    = sources/hal/dri2
 
 REQUIRES           = X11/libs/libdrm/2.4.58
 REQUIRES          += X11/X.org/proto/dri2proto/2.8
@@ -20,7 +20,7 @@ REQUIRES          += X11/X.org/lib/libXfixes/5.0.1
 
 
 version            = 1.0.0
-tar_bz2_archive    = $(SRC_PACKAGE_PATH)/hal/drivers/dri2/libdri2-$(version).tar.bz2
+tar_bz2_archive    = $(SRC_PACKAGE_PATH)/hal/dri2/libdri2-$(version).tar.bz2
 SRC_ARCHIVE        = $(tar_bz2_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/libdri2-$(version)
 src_dir_name       = libdri2-$(version)
@@ -71,7 +71,7 @@ PRODUCT_TARGETS  = $(products)
 ROOTFS_TARGETS   = $(pkg_archive)
 
 
-include ../../../../build-system/core.mk
+include ../../../build-system/core.mk
 
 
 env_sysroot = DESTDIR=$(LIBDRI2_PKG)

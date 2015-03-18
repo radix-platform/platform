@@ -9,16 +9,16 @@ COMPONENT_IS_3PP   = true
 include ../../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/hal/drivers/Mali/xf86-video-fbturbo
+SOURCE_REQUIRES    = sources/hal/Mali/xf86-video-fbturbo
 
 REQUIRES           = X11/X.org/xserver/xorg-server/1.16.2
-REQUIRES          += hal/drivers/ump/3.0
+REQUIRES          += hal/ump/3.0
 
 # ======= __END_OF_REQUIRES__ =======
 
 
 version            = 0.4.0
-tar_bz2_archive    = $(SRC_PACKAGE_PATH)/hal/drivers/Mali/xf86-video-fbturbo/xf86-video-fbturbo-$(version).tar.bz2
+tar_bz2_archive    = $(SRC_PACKAGE_PATH)/hal/Mali/xf86-video-fbturbo/xf86-video-fbturbo-$(version).tar.bz2
 SRC_ARCHIVE        = $(tar_bz2_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/xf86-video-fbturbo-$(version)
 src_dir_name       = xf86-video-fbturbo-$(version)

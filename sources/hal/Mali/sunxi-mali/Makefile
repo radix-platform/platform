@@ -2,23 +2,27 @@
 COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 
 
-include ../../../../../build-system/constants.mk
+include ../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/hal/drivers/ump/r3p0-04rel0
+url         = $(DOWNLOAD_SERVER)/sources/hal/Mali/sunxi-mali
 
-versions    = 3.0
-pkgname     = libump
-suffix      = tar.gz
+versions    = 20140326
+pkgname     = sunxi-mali
+suffix      = tar.bz2
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
+
+patches     = $(CURDIR)/patches/sunxi-mali-20140326-no_x11.patch
+
+.NOTPARALLEL: $(patches)
 
 
 BUILD_TARGETS = $(tarballs) $(sha1s) $(patches)
 
 
-include ../../../../../build-system/core.mk
+include ../../../../build-system/core.mk
 
 
 .PHONY: download_clean
@@ -43,5 +47,10 @@ $(sha1s): $(tarballs)
 	   fi ; \
 	 done
 
+$(patches): $(sha1s)
+	@echo -e "\n======= Create Patches =======\n" ; \
+	 ( cd create-20140326-no_x11-patch ; ./create.patch.sh ) ; \
+	 echo -e "\n"
+
 download_clean:
-	@rm -f $(tarballs) $(sha1s)
+	@rm -f $(tarballs) $(sha1s) $(patches)

@@ -9,7 +9,7 @@ COMPONENT_IS_3PP   = true
 include ../../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/hal/drivers/Mali/xf86-video-mali/r3p0-04rel0
+SOURCE_REQUIRES    = sources/hal/Mali/xf86-video-mali/r3p0-04rel0
 
 REQUIRES           = X11/X.org/xserver/xorg-server/1.16.2
 REQUIRES          += X11/X.org/lib/pixman/0.32.6
@@ -19,7 +19,7 @@ REQUIRES          += X11/libs/sunxi-mali/3.0
 
 
 version            = 0.0.1
-tar_gz_archive     = $(SRC_PACKAGE_PATH)/hal/drivers/Mali/xf86-video-mali/r3p0-04rel0/xf86-video-mali-$(version).tar.gz
+tar_gz_archive     = $(SRC_PACKAGE_PATH)/hal/Mali/xf86-video-mali/r3p0-04rel0/xf86-video-mali-$(version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/xf86-video-mali-$(version)
 src_dir_name       = xf86-video-mali-$(version)

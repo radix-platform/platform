@@ -2,14 +2,14 @@
 COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 
 
-include ../../../../../build-system/constants.mk
+include ../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/hal/drivers/Mali/xf86-video-fbturbo
+url         = $(DOWNLOAD_SERVER)/sources/hal/ump/r3p0-04rel0
 
-versions    = 0.4.0
-pkgname     = xf86-video-fbturbo
-suffix      = tar.bz2
+versions    = 3.0
+pkgname     = libump
+suffix      = tar.gz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
@@ -18,7 +18,7 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 BUILD_TARGETS = $(tarballs) $(sha1s) $(patches)
 
 
-include ../../../../../build-system/core.mk
+include ../../../../build-system/core.mk
 
 
 .PHONY: download_clean

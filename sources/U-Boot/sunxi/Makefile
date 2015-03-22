@@ -8,6 +8,7 @@ include ../../../build-system/constants.mk
 url         = $(DOWNLOAD_SERVER)/sources/U-Boot/sunxi/sunxi
 
 versions    = 20140713
+versions   += 20141124
 
 description = u-boot-sunxi.txt
 tarballs    = $(addsuffix .tar.bz2, $(addprefix u-boot-sunxi-, $(versions)))

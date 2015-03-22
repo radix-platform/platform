@@ -111,8 +111,8 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(LIBUMP_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
-	@mkdir -p $(LIBUMP_PKG)/etc/udev/rules.d
-	@cp $(udev_rules) $(LIBUMP_PKG)/etc/udev/rules.d
+	@mkdir -p $(LIBUMP_PKG)/lib/udev/rules.d
+	@cp $(udev_rules) $(LIBUMP_PKG)/lib/udev/rules.d
 	# ======= Install Documentation =======
 	@if [ -d $(LIBUMP_PKG)/usr/share/man ]; then \
 	  ( cd $(LIBUMP_PKG)/usr/share/man ; \

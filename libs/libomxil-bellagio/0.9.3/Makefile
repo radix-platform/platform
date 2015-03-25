@@ -95,7 +95,7 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
 	@( cd $(SRC_DIR) ; \
-	   autoreconf -i ; \
+	   autoreconf -fi ; rm -rf autom4te.cache *~ ; \
 	 )
 	@touch $@
 

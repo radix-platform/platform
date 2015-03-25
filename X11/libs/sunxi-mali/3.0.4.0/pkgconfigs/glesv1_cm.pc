@@ -6,7 +6,7 @@ includedir=${prefix}/include
 Name: glesv1_cm
 Description: Mali OpenGL ES 1.1 CM library
 Requires.private:
-Version: 3.0
+Version: 3.0.4.0
 Libs: -L${libdir} -lGLESv1_CM -lUMP -ldri2
 Libs.private: -lm -lpthread -ldl
 Cflags: -I${includedir}

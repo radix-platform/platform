@@ -96,12 +96,13 @@ include ../../../../build-system/core.mk
 
 
 extra  = hdmi.audio=EDID:0
-extra += disp.screen0_output_mode=EDID:1920x1080p60
-extra += disp.screen1_output_mode=EDID:1280x1024p60
-extra += sunxi_fb_mem_reserve=64
+extra += disp.screen0_output_mode=EDID:1280x720p60
+# extra += sunxi_ve_mem_reserve=80
 extra += sunxi_g2d_mem_reserve=128
-extra += cma=96
+extra += sunxi_fb_mem_reserve=256
+extra += cma=128M
 extra += sunxi_gmac.mac_str=$(DEFAULT_HW_ADDR)
+# extra += initcall_debug
 
 
 ####### Dependencies

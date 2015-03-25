@@ -6,23 +6,26 @@ NEED_ABS_PATH      = true
 COMPONENT_IS_3PP   = true
 
 
-include ../../../../../build-system/constants.mk
+include ../../../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/hal/Mali/xf86-video-fbturbo
+SOURCE_REQUIRES    = sources/hal/Mali/xf86-video-mali/r3p0-04rel0
 
 REQUIRES           = X11/X.org/xserver/xorg-server/1.16.2
-REQUIRES          += hal/ump/3.0
+REQUIRES          += X11/X.org/lib/pixman/0.32.6
+REQUIRES          += X11/libs/sunxi-mali/3.0.4.0
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 0.4.0
-tar_bz2_archive    = $(SRC_PACKAGE_PATH)/hal/Mali/xf86-video-fbturbo/xf86-video-fbturbo-$(version).tar.bz2
-SRC_ARCHIVE        = $(tar_bz2_archive)
-SRC_DIR            = $(TARGET_BUILD_DIR)/xf86-video-fbturbo-$(version)
-src_dir_name       = xf86-video-fbturbo-$(version)
+version            = 0.0.1
+tar_gz_archive     = $(SRC_PACKAGE_PATH)/hal/Mali/xf86-video-mali/r3p0-04rel0/xf86-video-mali-$(version).tar.gz
+SRC_ARCHIVE        = $(tar_gz_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/xf86-video-mali-$(version)
+src_dir_name       = xf86-video-mali-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
+
+license            = $(CURDIR)/license/COPYING
 
 PATCHES = PATCHES
 
@@ -38,14 +41,14 @@ PKG_GROUP = xorg
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-XORG_PKG_NAME                = xf86-video-fbturbo
-XORG_PKG_VERSION             = 0.4.0
+XORG_PKG_NAME                = xf86-video-mali
+XORG_PKG_VERSION             = 0.0.1
 XORG_PKG_ARCH                = $(TOOLCHAIN)
 XORG_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 XORG_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 XORG_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
-XORG_PKG_SHORT_DESCRIPTION   = optimized framebuffer video driver
+XORG_PKG_SHORT_DESCRIPTION   = Mali X11 video driver
 XORG_PKG_URL                 = $(BUG_URL)
 XORG_PKG_LICENSE             = custom
 XORG_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(XORG_PKG_NAME)-pkg-description
@@ -69,7 +72,7 @@ PRODUCT_TARGETS  = $(products)
 ROOTFS_TARGETS   = $(pkg_archive)
 
 
-include ../../../../../build-system/core.mk
+include ../../../../../../build-system/core.mk
 
 
 env_sysroot = DESTDIR=$(XORG_PKG)
@@ -93,6 +96,10 @@ TARGET_LIB_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUF
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
+	@( cd $(SRC_DIR) ; \
+	   sed -i "s,^\(MALI_DDK=\).*,\1 \"$(TARGET_DEST_DIR)/usr\"," src/Makefile.am ; \
+	   automake ; \
+	 )
 	@touch $@
 
 $(build_target): $(src_done)
@@ -124,11 +131,11 @@ $(install_target): $(build_target)
 	  ) \
 	 fi
 	@mkdir -p $(XORG_PKG)/usr/doc/$(src_dir_name)
-	@cp -a $(SRC_DIR)/COPYING \
+	@cp -a $(license) \
 	       $(XORG_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(XORG_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a COPYING INSTALL README xorg.conf \
+	   cp -a $(license) README* xorg.conf \
 	         $(XORG_PKG)/usr/share/doc/$(src_dir_name) \
 	 )
 	@( cd $(XORG_PKG)/usr/share/doc ; \
@@ -143,15 +150,15 @@ $(install_target): $(build_target)
 	 )
 	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(XORG_PKG)/usr/lib$(LIBSUFFIX)/xorg/modules/drivers ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" fbturbo_drv.la \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" mali_drv.la \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(XORG_PKG) && cp -rf * $(TARGET_DEST_DIR)
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/xorg/modules/drivers ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" fbturbo_drv.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" fbturbo_drv.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" mali_drv.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" mali_drv.la \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(XORG_PKG); \

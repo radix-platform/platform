@@ -12,7 +12,7 @@ include ../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/hal/Mali/sunxi-mali
 
 REQUIRES           = hal/dri2/1.0.0
-REQUIRES          += hal/ump/3.0
+REQUIRES          += hal/ump/3.0.4.0
 REQUIRES          += X11/libs/libdrm/2.4.58
 REQUIRES          += X11/X.org/lib/libXext/1.3.3
 REQUIRES          += X11/X.org/lib/libXfixes/5.0.1
@@ -20,7 +20,7 @@ REQUIRES          += X11/X.org/lib/libXfixes/5.0.1
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 3.0
+version            = 3.0.4.0
 timestamp          = 20140326
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/hal/Mali/sunxi-mali/sunxi-mali-$(timestamp).tar.bz2
 SRC_ARCHIVE        = $(tar_bz2_archive)
@@ -31,6 +31,7 @@ src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 license            = $(CURDIR)/license/COPYING
 pkgconfigs_dir     = $(CURDIR)/pkgconfigs
+examples           = $(CURDIR)/examples
 
 PATCHES = PATCHES
 
@@ -46,7 +47,7 @@ PKG_GROUP = xorg
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 XORG_PKG_NAME                = sunxi-mali
-XORG_PKG_VERSION             = 3.0
+XORG_PKG_VERSION             = 3.0.4.0
 XORG_PKG_ARCH                = $(TOOLCHAIN)
 XORG_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 XORG_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -114,7 +115,7 @@ $(install_target): $(build_target)
 	       $(XORG_PKG)/usr/doc/$(doc_dir_name)
 	@mkdir -p $(XORG_PKG)/usr/share/doc/$(doc_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a $(license) README config.mk \
+	   cp -a $(license) $(examples) README config.mk \
 	         $(XORG_PKG)/usr/share/doc/$(doc_dir_name) \
 	 )
 	@( cd $(XORG_PKG)/usr/share/doc ; \

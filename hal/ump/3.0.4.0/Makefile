@@ -16,7 +16,7 @@ REQUIRES           = libs/eglibc/2.19.1
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 3.0
+version            = 3.0.4.0
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/hal/ump/r3p0-04rel0/libump-$(version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/libump-$(version)
@@ -40,7 +40,7 @@ PKG_GROUP = libs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 LIBUMP_PKG_NAME                = libump
-LIBUMP_PKG_VERSION             = 3.0
+LIBUMP_PKG_VERSION             = 3.0.4.0
 LIBUMP_PKG_ARCH                = $(TOOLCHAIN)
 LIBUMP_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBUMP_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)

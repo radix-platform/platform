@@ -103,6 +103,14 @@ typedef Window   EGLNativeWindowType;
 
 #endif /* MESA_EGL_NO_X11_HEADERS */
 
+/*
+  Minimall set of  definitions for building GLESv2
+  examples from mesa-demo package which used eglut.
+ */
+#ifndef EGL_SCREEN_BIT_MESA
+#define EGL_SCREEN_BIT_MESA 0x08
+#endif
+
 #else
 #error "Platform not recognized"
 #endif

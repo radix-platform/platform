@@ -5,9 +5,9 @@ COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 include ../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/hal/ump/r3p0-04rel0
+url         = $(DOWNLOAD_SERVER)/sources/hal/ump/r3p2-01rel2
 
-versions    = 3.0.4.0
+versions    = 3.2.1.2
 pkgname     = libump
 suffix      = tar.gz
 

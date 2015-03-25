@@ -6,7 +6,7 @@ includedir=${prefix}/include
 Name: glesv2
 Description: Mali OpenGL ES 2.0 library
 Requires.private:
-Version: 3.0
+Version: 3.0.4.0
 Libs: -L${libdir} -lGLESv2 -lUMP -ldri2
 Libs.private: -lm -lpthread -ldl
 Cflags: -I${includedir}

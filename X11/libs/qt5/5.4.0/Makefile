@@ -230,7 +230,7 @@ configure_switches += -xcb
 configure_switches += -no-directfb
 configure_switches += -linuxfb
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X)),)
 configure_switches += -no-eglfs
 configure_switches += -no-kms
 else

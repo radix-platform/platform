@@ -125,7 +125,7 @@ extra_configure_switches += --with-dri-drivers="$(DRI_DRIVERS)"
 #
 extra_configure_switches += --with-gallium-drivers=nouveau,r300,r600,svga,swrast
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X)),)
 extra_configure_switches += --disable-egl
 extra_configure_switches += --disable-gles1
 extra_configure_switches += --disable-gles2
@@ -231,7 +231,7 @@ $(install_target): $(build_target)
 	   fi \
 	 )
 	# ======= remove toolchain path from target libtool *.la files =======
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X)),)
 	@( cd $(MESA_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libGL.la           \
 	                                    libOSMesa.la       \
@@ -257,7 +257,7 @@ endif
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(MESA_PKG) && cp -rf * $(TARGET_DEST_DIR)
 	# ======= tune libtool *.la search path to the target destination for development =======
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X)),)
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libGL.la           \
 	                                            libOSMesa.la       \
@@ -295,7 +295,7 @@ else
 	 )
 endif
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X)),)
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" gl.pc           \
 	                                            osmesa.pc       \

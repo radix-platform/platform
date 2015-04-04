@@ -1,0 +1,3 @@
+
+../../../../sources/Linux/sunxi-3.4/patches/linux-sunxi-3.4-20150315-ap6210.patch   -p0
+../../../../sources/Linux/sunxi-3.4/patches/linux-sunxi-3.4-20150315-snd.patch      -p0

@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+      |-----handy-ruler------------------------------------------------------|
+u-boot: Das U-Boot @VERSION@ (the Universal Bootloader)
+u-boot:
+u-boot: Das U-Boot (or just "U-Boot" for short) is Open Source Firmware for
+u-boot: Embedded Power Architecture(R), ARM, MIPS, x86 and other processors.
+u-boot: The U-Boot project is hosted by DENX.
+u-boot:
+u-boot:           Home page: http://www.denx.de/wiki/U-Boot
+u-boot: DENX Git Repository: git://git.denx.de/u-boot.git
+u-boot:
+u-boot:
+u-boot:

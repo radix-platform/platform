@@ -7,7 +7,7 @@ include ../../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/hal/Mali/xf86-video-fbturbo/r3p0-04rel0
 
-versions    = 0.4.0
+versions    = 0.4.0 0.5.1
 pkgname     = xf86-video-fbturbo
 suffix      = tar.bz2
 

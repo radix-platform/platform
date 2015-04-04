@@ -30,6 +30,11 @@ endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
 REQUIRES += X11/X.org/driver/xf86-video-fbturbo/r3p0-04rel0/0.4.0
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB3X)),)
+REQUIRES += X11/X.org/driver/xf86-video-fbturbo/r3p0-04rel0/0.5.1
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X)),)
 REQUIRES += X11/X.org/driver/xf86-video-mali/r3p0-04rel0/0.0.1
 endif
 

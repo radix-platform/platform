@@ -1,0 +1,3 @@
+linux-sunxi-3.4-20150315/drivers/net/wireless/Kconfig
+linux-sunxi-3.4-20150315/drivers/net/wireless/Makefile
+linux-sunxi-3.4-20150315/firmware/Makefile

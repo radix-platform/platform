@@ -34,7 +34,7 @@ REQUIRES += X11/libs/mesa/10.3.4-x86_32
 endif
 
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X)),)
 REQUIRES += X11/libs/sunxi-mali/3.0.4.0
 endif
 

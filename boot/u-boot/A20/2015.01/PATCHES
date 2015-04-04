@@ -1,0 +1,3 @@
+
+../../../../sources/U-Boot/denx/patches/u-boot-2015.01-sun7i-dcdc3.patch -p0
+../../../../sources/U-Boot/denx/patches/u-boot-2015.01-sun7i-logo.patch  -p0

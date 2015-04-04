@@ -29,7 +29,7 @@ REQUIRES += boot/u-boot/A10/20140713
 endif
 
 ifeq ($(HARDWARE),$(HARDWARE_CB3X))
-REQUIRES += boot/u-boot/A20/20141124
+REQUIRES += boot/u-boot/A20/2015.01
 endif
 
 #######

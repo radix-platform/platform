@@ -26,7 +26,7 @@ REQUIRES           = dev/kernel/a1x/3.4-20140514-headers
 endif
 
 ifeq ($(HARDWARE),$(HARDWARE_CB3X))
-REQUIRES           = dev/kernel/a2x/3.4-20141014-headers
+REQUIRES           = dev/kernel/a2x/3.4-20150315-headers
 endif
 
 ifeq ($(HARDWARE),$(HARDWARE_VIP1830))

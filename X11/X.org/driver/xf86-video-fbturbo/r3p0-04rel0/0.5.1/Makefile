@@ -12,7 +12,7 @@ include ../../../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/hal/Mali/xf86-video-fbturbo/r3p0-04rel0
 
 REQUIRES           = X11/X.org/xserver/xorg-server/1.16.2
-REQUIRES          += hal/ump/3.0.4.0
+REQUIRES          += hal/ump/DX/3.0.4.0
 
 # ======= __END_OF_REQUIRES__ =======
 

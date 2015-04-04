@@ -1,6 +1,6 @@
 #!/bin/sh
 
-VERSION=0.0.1
+VERSION=0.4.2
 
 tar --files-from=file.list -xzvf ../xf86-video-mali-$VERSION.tar.gz
 mv xf86-video-mali-$VERSION xf86-video-mali-$VERSION-orig

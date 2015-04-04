@@ -6,10 +6,10 @@ NEED_ABS_PATH      = true
 COMPONENT_IS_3PP   = true
 
 
-include ../../../build-system/constants.mk
+include ../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/hal/ump/r3p2-01rel2
+SOURCE_REQUIRES    = sources/hal/ump/DX/r3p2-01rel2
 
 REQUIRES           = libs/eglibc/2.19.1
 
@@ -17,7 +17,7 @@ REQUIRES           = libs/eglibc/2.19.1
 
 
 version            = 3.2.1.2
-tar_gz_archive     = $(SRC_PACKAGE_PATH)/hal/ump/r3p2-01rel2/libump-$(version).tar.gz
+tar_gz_archive     = $(SRC_PACKAGE_PATH)/hal/ump/DX/r3p2-01rel2/libump-$(version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/libump-$(version)
 src_dir_name       = libump-$(version)
@@ -70,7 +70,7 @@ PRODUCT_TARGETS  = $(products)
 ROOTFS_TARGETS   = $(pkg_archive)
 
 
-include ../../../build-system/core.mk
+include ../../../../build-system/core.mk
 
 
 env_sysroot = DESTDIR=$(LIBUMP_PKG)

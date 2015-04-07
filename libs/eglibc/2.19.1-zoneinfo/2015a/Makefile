@@ -86,7 +86,7 @@ include ../../../../build-system/core.mk
 
 OPTIMIZATION_FLAGS  = -O3
 
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
 OPTIMIZATION_FLAGS += -fPIC
 endif
 

@@ -30,7 +30,7 @@ build_kh_pkg = $(TARGET_BUILD_DIR)/.kernel_headers_pkg_done
 
 PATCHES =
 
-ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_A2X_EGLIBC)),)
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_A2X_GLIBC)),)
 ARCH = arm
 endif
 

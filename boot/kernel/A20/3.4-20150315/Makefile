@@ -42,7 +42,7 @@ boot_fs_dir_done   = $(TARGET_BUILD_DIR)/.bootfs_done
 PATCHES = PATCHES
 
 
-ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_A2X_EGLIBC)),)
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_A2X_GLIBC)),)
 ARCH = arm
 endif
 

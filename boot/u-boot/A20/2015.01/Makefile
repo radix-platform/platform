@@ -44,7 +44,7 @@ boot_scr_sd     = $(TARGET_BUILD_DIR)/boot.scr.sd
 PATCHES = PATCHES
 
 
-ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_A2X_EGLIBC)),)
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_A2X_GLIBC)),)
 ARCH = arm
 endif
 

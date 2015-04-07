@@ -109,7 +109,7 @@ extra_configure_switches += --without-ada
 extra_configure_switches += --program-suffix=""
 extra_configure_switches += --program-prefix=""
 
-ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC)),)
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 extra_configure_switches += --with-chtype=long
 extra_configure_switches += --with-mmask-t=long
 endif

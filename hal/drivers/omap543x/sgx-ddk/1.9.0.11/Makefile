@@ -36,7 +36,7 @@ modules_done      = $(build_dir)/.modules_done
 PATCHES = PATCHES
 
 
-ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_OMAP543X_EGLIBC)),)
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_OMAP543X_GLIBC)),)
 ARCH = arm
 endif
 
@@ -44,7 +44,7 @@ extra_build_environment  = KERNELDIR=$(kernel_sources)
 extra_build_environment += DISCIMAGE=$(TARGET_DEST_DIR)
 extra_build_environment += INSTALL_MOD_PATH=$(TARGET_DEST_DIR)
 
-ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_OMAP543X_EGLIBC)),)
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_OMAP543X_GLIBC)),)
 SGX_KERNEL_MODULE_PATH  = $(CURDIR)/$(SRC_DIR)/eurasia_km/eurasiacon/build/linux2/omap5430_linux
 endif
 

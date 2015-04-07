@@ -86,7 +86,7 @@ extra_configure_switches += --program-suffix=""
 extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --enable-static=yes
 
-ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC) $(TOOLCHAIN_I686_EGLIBC)),)
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC) $(TOOLCHAIN_I686_GLIBC)),)
 extra_configure_switches += --disable-asm
 endif
 

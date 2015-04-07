@@ -89,7 +89,7 @@ extra_configure_switches += --enable-pthread=no
 extra_configure_switches += --enable-static=yes
 extra_configure_switches += --enable-shared=yes
 
-ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC)),)
+ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 # The context switching is done by SUSv2 makecontext(2)
 extra_configure_switches += --with-mctx-mth=mcsc
 endif

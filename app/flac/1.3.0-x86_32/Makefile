@@ -87,7 +87,7 @@ extra_configure_switches += --disable-oggtest
 extra_configure_switches += --with-ogg=$(TARGET_DEST_DIR)/usr
 extra_configure_switches += --disable-rpath
 
-ifneq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC))
+ifneq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
 extra_configure_switches += --disable-asm-optimizations
 endif
 

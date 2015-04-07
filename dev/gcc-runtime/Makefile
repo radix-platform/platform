@@ -79,7 +79,7 @@ include ../../build-system/core.mk
 
 src_dir      = $(TOOLCHAIN_PATH)/$(TARGET)
 
-ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC)),)
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 lib_compat   = yes
 else
 lib_compat   = no
@@ -126,7 +126,7 @@ $(build_gcc_rt_pkg):
 	    if [ -d ldscripts ] ; then cp -rf ldscripts $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi ) ; \
 	 fi
 	@rm -f $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX)/*gdb.py
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
 	@rm -f $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/*gdb.py
 endif
 	@( cd $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; \
@@ -176,7 +176,7 @@ ifneq ($(CHRPATH),)
 	     fi ; \
 	   done ; \
 	 )
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
 	# ======= Set RPATH/RUNPATH for target shared objects =======
 	@( cd $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   target_rpath="/lib/../lib$(MULTILIB_X86_32_SUFFIX):/usr/lib/../lib$(MULTILIB_X86_32_SUFFIX)" ; \

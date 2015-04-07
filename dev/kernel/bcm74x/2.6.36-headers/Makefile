@@ -30,7 +30,7 @@ build_kh_pkg = $(TARGET_BUILD_DIR)/.kernel_headers_pkg_done
 
 PATCHES = PATCHES
 
-ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_BCM74X_EGLIBC)),)
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_BCM74X_GLIBC)),)
 ARCH = mips
 endif
 

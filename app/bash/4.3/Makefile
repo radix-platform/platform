@@ -84,7 +84,7 @@ include ../../../build-system/core.mk
 env_sysroot = DESTDIR=$(BASH_PKG)
 
 
-ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC)),)
+ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 # NOTE: MULTILIB_X86_32_SUFFIX related to bulld machine
 #       (slacware64 - lib; ununtu64 - lib32) see $(BUILDSYSTEM)/targets.mk
 environment  = CPPFLAGS_FOR_BUILD="-I/usr/include"

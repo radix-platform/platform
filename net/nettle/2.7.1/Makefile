@@ -90,7 +90,7 @@ extra_configure_switches += --localstatedir=/var
 extra_configure_switches += --enable-static=yes
 extra_configure_switches += --enable-shared=yes
 
-ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_OMAP35X_EGLIBC)),)
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_OMAP35X_GLIBC)),)
 extra_configure_switches += --enable-arm-neon
 endif
 

@@ -95,14 +95,14 @@ env_sysroot = install_root=$(EGLIBC_I18N_PKG)
 
 
 OPTIMIZATION_FLAGS  = -O3
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
 OPTIMIZATION_FLAGS += -fPIC
 endif
 
 
 INSTALL_NOT_ARCHIVED_LOCALES = no
 
-ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC)),)
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 INSTALL_ALL_LOCALES = yes
 else
 INSTALL_ALL_LOCALES = no
@@ -161,7 +161,7 @@ endif
 	@touch $@
 
 $(install_target): $(build_target)
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
 	# Install the same locales into /usr/lib32 (x86_32 compat) directory
 	@mkdir -p $(EGLIBC_I18N_PKG)/usr/lib32 && cp -rf $(EGLIBC_I18N_PKG)/usr/lib/locale $(EGLIBC_I18N_PKG)/usr/lib32
 endif

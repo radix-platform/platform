@@ -121,7 +121,7 @@ extra_configure_switches  += --with-tls
 extra_configure_switches  += --with-__thread
 
 
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_DM644X_EGLIBC))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_DM644X_GLIBC))
 extra_configure_switches  += --without-fp
 endif
 

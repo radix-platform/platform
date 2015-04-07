@@ -45,7 +45,7 @@ boot_scr_emmc    = $(TARGET_BUILD_DIR)/boot.scr.emmc
 PATCHES = PATCHES
 
 
-ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_OMAP543X_EGLIBC)),)
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_OMAP543X_GLIBC)),)
 ARCH = arm
 endif
 

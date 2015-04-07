@@ -36,7 +36,7 @@ SRC_DIR            = $(TARGET_BUILD_DIR)/eudev-$(version)
 src_dir_name       = eudev-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
-ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_BCM74X_EGLIBC)),)
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_BCM74X_GLIBC)),)
 PATCHES = PATCHES.mips
 else
 PATCHES = PATCHES

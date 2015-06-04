@@ -13,7 +13,6 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/file
 
 REQUIRES           = app/file/5.19
-REQUIRES          += libs/eglibc/2.19.1-x86_32
 REQUIRES          += libs/zlib/1.2.8-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
@@ -138,7 +137,7 @@ $(install_target): $(build_target)
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libmagic.la \
 	 )
 	# ======= Strip binaries =======
-	@( cd $(FILE_32_PKG); \
+	@( cd $(FILE_32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \

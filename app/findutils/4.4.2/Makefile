@@ -1,40 +1,42 @@
 
-COMPONENT_TARGETS   = $(HARDWARE_PC32)
-COMPONENT_TARGETS  += $(HARDWARE_PC64)
-COMPONENT_TARGETS  += $(HARDWARE_CB1X)
-COMPONENT_TARGETS  += $(HARDWARE_CB3X)
-COMPONENT_TARGETS  += $(HARDWARE_VIP1830)
-COMPONENT_TARGETS  += $(HARDWARE_BEAGLE)
-COMPONENT_TARGETS  += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS  += $(HARDWARE_B74)
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
-NEED_ABS_PATH       = true
-COMPONENT_IS_3PP    = true
+NEED_ABS_PATH      = true
+COMPONENT_IS_3PP   = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES     = sources/GNU/findutils
+SOURCE_REQUIRES    = sources/GNU/findutils
 
-REQUIRES            = libs/eglibc/2.19.1
+REQUIRES           = libs/glibc/2.21
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version             = 4.4.2
-tar_gz_archive      = $(SRC_PACKAGE_PATH)/GNU/findutils/findutils-$(version).tar.gz
-SRC_ARCHIVE         = $(tar_gz_archive)
-SRC_DIR             = $(TARGET_BUILD_DIR)/findutils-$(version)
-src_dir_name        = findutils-$(version)
-src_done            = $(TARGET_BUILD_DIR)/.source_done
+version            = 4.4.2
+tar_gz_archive     = $(SRC_PACKAGE_PATH)/GNU/findutils/findutils-$(version).tar.gz
+SRC_ARCHIVE        = $(tar_gz_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/findutils-$(version)
+src_dir_name       = findutils-$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
 
-build_dir           = $(TARGET_BUILD_DIR)/build
-build_target        = $(TARGET_BUILD_DIR)/.build_done
-install_target      = $(TARGET_BUILD_DIR)/.install_done
+build_dir          = $(TARGET_BUILD_DIR)/build
+build_target       = $(TARGET_BUILD_DIR)/.build_done
+install_target     = $(TARGET_BUILD_DIR)/.install_done
 
 
 ####### Targets
@@ -149,7 +151,7 @@ $(install_target): $(build_target)
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(FINDUTILS_PKG) && cp -rf * $(TARGET_DEST_DIR)
 	# ======= Strip binaries =======
-	@( cd $(FINDUTILS_PKG); \
+	@( cd $(FINDUTILS_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )
 	@touch $@

@@ -14,7 +14,6 @@ SOURCE_REQUIRES    = sources/packages/l/libcaca
 
 REQUIRES           = libs/imlib2/1.4.6
 REQUIRES          += libs/slang/2.2.4-x86_32
-REQUIRES          += libs/ncurses/5.9-x86_32
 REQUIRES          += X11/libs/freeglut/2.8.1-x86_32
 
 REQUIRES          += X11/libs/opengl-collection

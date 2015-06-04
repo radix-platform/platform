@@ -13,7 +13,6 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/s/Linux-PAM
 
 REQUIRES           = secure/pam/1.1.8
-REQUIRES          += libs/eglibc/2.19.1-x86_32
 REQUIRES          += secure/cracklib/2.9.1-x86_32
 REQUIRES          += dev/flex/2.5.39-x86_32
 

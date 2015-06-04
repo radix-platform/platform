@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/linuxconsole
 
 REQUIRES           = app/inputattach/1.4.7
-REQUIRES          += libs/eglibc/2.19.1-x86_32
+REQUIRES          += libs/glibc/2.21-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -89,7 +89,7 @@ $(install_target): $(build_target)
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(INPUTATTACH32_PKG) && cp -rf * $(TARGET_DEST_DIR)
 	# ======= Strip binaries =======
-	@( cd $(INPUTATTACH32_PKG); \
+	@( cd $(INPUTATTACH32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null \
 	 )
 	@touch $@

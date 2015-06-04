@@ -13,16 +13,10 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/libarchive
 
 REQUIRES           = libs/libarchive/3.1.2
-REQUIRES          += libs/eglibc/2.19.1-x86_32
 REQUIRES          += app/acl/2.2.52-x86_32
-REQUIRES          += app/attr/2.4.47-x86_32
 REQUIRES          += app/bzip2/1.0.6-x86_32
-REQUIRES          += libs/expat/2.1.0-x86_32
 REQUIRES          += libs/lzo/2.08-x86_32
-REQUIRES          += net/openssl/1.0.1g-x86_32
 REQUIRES          += net/nettle/2.7.1-x86_32
-REQUIRES          += app/xz/5.0.5-x86_32
-REQUIRES          += libs/zlib/1.2.8-x86_32
 REQUIRES          += libs/libxml2/2.9.1-x86_32
 
 # ======= __END_OF_REQUIRES__ =======

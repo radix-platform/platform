@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/m/amr/opencore-amr
 
 REQUIRES           = libs/opencore-amr/0.1.3
-REQUIRES          += libs/eglibc/2.19.1-x86_32
+REQUIRES          += libs/glibc/2.21-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -122,7 +122,7 @@ $(install_target): $(build_target)
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" opencore-amrnb.pc opencore-amrwb.pc \
 	 )
 	# ======= Strip binaries =======
-	@( cd $(OPENCORE_AMR_32_PKG); \
+	@( cd $(OPENCORE_AMR_32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \

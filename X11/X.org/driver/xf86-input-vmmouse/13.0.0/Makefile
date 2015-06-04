@@ -96,6 +96,7 @@ extra_configure_switches += --enable-static=no
 # extra_configure_switches += --with-hal-fdi-dir=$datadir/hal/fdi/policy/20thirdparty
 #
 
+
 ####### Dependencies
 
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)

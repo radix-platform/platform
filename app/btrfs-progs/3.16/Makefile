@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -18,10 +20,13 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/a/btrfs-progs
 
-REQUIRES           = libs/zlib/1.2.8
-REQUIRES          += libs/lzo/2.08
-REQUIRES          += app/util-linux/2.24.1
+ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
+REQUIRES           = libs/lzo/2.08
 REQUIRES          += app/e2fsprogs/1.42.9
+else
+REQUIRES           = libs/lzo/2.08-x86_32
+REQUIRES          += app/e2fsprogs/1.42.9-x86_32
+endif
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -122,11 +127,11 @@ endif
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(BTRFS_PKG) && cp -rf * $(TARGET_DEST_DIR)
 	# ======= Strip binaries =======
-	@( cd $(BTRFS_PKG); \
+	@( cd $(BTRFS_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )
 ifeq ($(SHIP_LIBRARIES),true)
-	@( cd $(BTRFS_PKG); \
+	@( cd $(BTRFS_PKG) ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )

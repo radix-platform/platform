@@ -1,0 +1,7 @@
+
+../../../sources/GNU/gcc/gcc-4.9.2/patches/gcc-4.9.2-backtrace.patch         -p0
+../../../sources/GNU/gcc/gcc-4.9.2/patches/gcc-4.9.2-libgo.patch             -p0
+../../../sources/GNU/gcc/gcc-4.9.2/patches/gcc-4.9.2-doc.patch               -p0
+../../../sources/GNU/gcc/gcc-4.9.2/patches/gcc-4.9.2-fixinc-gmp-inside.patch -p0
+../../../sources/GNU/gcc/gcc-4.9.2/patches/gcc-4.9.2-gmp-inside.patch        -p0
+../../../sources/GNU/gcc/gcc-4.9.2/patches/gcc-4.9.2-ccache-ada.patch        -p0

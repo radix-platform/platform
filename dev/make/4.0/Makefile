@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -20,11 +22,6 @@ SOURCE_REQUIRES    = sources/GNU/make
 
 REQUIRES           = app/bash/4.3
 REQUIRES          += dev/guile/2.0.9
-REQUIRES          += dev/libtool/2.4.2
-REQUIRES          += libs/gc/7.2d
-REQUIRES          += libs/libffi/3.0.13
-REQUIRES          += libs/libunistring/0.9.3
-REQUIRES          += libs/gmp/5.1.3
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -153,7 +150,7 @@ $(install_target): $(build_target)
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(MAKE_PKG) && cp -rf * $(TARGET_DEST_DIR)
 	# ======= Strip binaries =======
-	@( cd $(MAKE_PKG); \
+	@( cd $(MAKE_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null \
 	 )
 	@touch $@

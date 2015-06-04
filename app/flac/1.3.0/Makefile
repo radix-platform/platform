@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -18,7 +20,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/m/xiph/flac
 
-REQUIRES           = dev/gcc/4.9.1
+REQUIRES           = dev/gcc/4.9.2
 REQUIRES          += libs/libogg/1.3.2
 
 # ======= __END_OF_REQUIRES__ =======
@@ -122,6 +124,7 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(FLAC_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	# ======= Install Documentation =======
 	@if [ -d $(FLAC_PKG)/usr/share/man ]; then \
 	  ( cd $(FLAC_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \

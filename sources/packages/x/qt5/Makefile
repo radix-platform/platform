@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/qt5-5.4.0-configure.patch
+patches    += $(CURDIR)/patches/qt5-5.4.0-gcc-4.9.2.patch
 patches    += $(CURDIR)/patches/qt5-5.4.0-mips-dsp.patch
 patches    += $(CURDIR)/patches/qt5-5.4.0-eglfs.patch
 
@@ -52,6 +53,7 @@ $(sha1s): $(tarballs)
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-5.4.0-configure-patch ; ./create.patch.sh ) ; \
+	 ( cd create-5.4.0-gcc-4.9.2-patch ; ./create.patch.sh ) ; \
 	 ( cd create-5.4.0-mips-dsp-patch  ; ./create.patch.sh ) ; \
 	 ( cd create-5.4.0-eglfs-patch     ; ./create.patch.sh ) ; \
 	 echo -e "\n"

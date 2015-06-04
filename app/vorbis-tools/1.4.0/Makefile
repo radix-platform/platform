@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -18,12 +20,13 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/m/xiph/vorbis-tools
 
-REQUIRES           = app/flac/1.3.0
-REQUIRES          += libs/zlib/1.2.8
-REQUIRES          += libs/libao/1.1.0
-REQUIRES          += libs/libvorbis/1.3.4
-REQUIRES          += libs/libogg/1.3.2
+ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
+REQUIRES           = libs/libao/1.1.0
 REQUIRES          += net/curl/7.38.0
+else
+REQUIRES           = libs/libao/1.1.0-x86_32
+REQUIRES          += net/curl/7.38.0-x86_32
+endif
 
 # ======= __END_OF_REQUIRES__ =======
 

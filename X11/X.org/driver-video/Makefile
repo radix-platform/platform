@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -20,6 +22,7 @@ include ../../../build-system/constants.mk
 
 REQUIRES += X11/X.org/driver/xf86-video-dummy/0.3.7
 REQUIRES += X11/X.org/driver/xf86-video-fbdev/0.4.4
+REQUIRES += X11/X.org/driver/xf86-video-modesetting/0.9.0
 REQUIRES += X11/X.org/driver/xf86-video-v4l/0.2.0
 REQUIRES += X11/X.org/driver/xf86-video-vesa/2.3.3
 
@@ -31,10 +34,7 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
 REQUIRES += X11/X.org/driver/xf86-video-fbturbo/r3p0-04rel0/0.4.0
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB3X)),)
-REQUIRES += X11/X.org/driver/xf86-video-fbturbo/r3p0-04rel0/0.5.1
-endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
 REQUIRES += X11/X.org/driver/xf86-video-mali/DX/r3p0-04rel0/0.4.2
 endif
 

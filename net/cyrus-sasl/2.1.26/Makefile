@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -132,12 +134,12 @@ $(build_target): $(src_done)
 	  --build=$(BUILD)            \
 	  --host=$(TARGET)            \
 	  $(extra_configure_switches)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) $(sasl_environment)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 $(sasl_environment)
 	@touch $@
 
 $(install_target): $(build_target)
 	@mkdir -p $(SASL_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) $(sasl_environment) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 $(sasl_environment) install $(env_sysroot)
 	@mkdir -p $(SASL_PKG)/var/state/saslauthd
 	@mkdir -p $(SASL_PKG)/etc/rc.d
 	@cp -a $(rc_saslauthd) $(SASL_PKG)/etc/rc.d/rc.saslauthd.new

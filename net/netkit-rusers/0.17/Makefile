@@ -1,40 +1,42 @@
 
-COMPONENT_TARGETS   = $(HARDWARE_PC32)
-COMPONENT_TARGETS  += $(HARDWARE_PC64)
-COMPONENT_TARGETS  += $(HARDWARE_CB1X)
-COMPONENT_TARGETS  += $(HARDWARE_CB3X)
-COMPONENT_TARGETS  += $(HARDWARE_VIP1830)
-COMPONENT_TARGETS  += $(HARDWARE_BEAGLE)
-COMPONENT_TARGETS  += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS  += $(HARDWARE_B74)
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
-NEED_ABS_PATH       = true
-COMPONENT_IS_3PP    = true
+NEED_ABS_PATH      = true
+COMPONENT_IS_3PP   = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES     = sources/packages/n/netkit-rusers
+SOURCE_REQUIRES    = sources/packages/n/netkit-rusers
 
-REQUIRES            = libs/eglibc/2.19.1
+REQUIRES           = libs/glibc/2.21
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version             = 0.17
-tar_gz_archive      = $(SRC_PACKAGE_PATH)/packages/n/netkit-rusers/netkit-rusers-$(version).tar.gz
-SRC_ARCHIVE         = $(tar_gz_archive)
-SRC_DIR             = $(TARGET_BUILD_DIR)/netkit-rusers-$(version)
-src_dir_name        = netkit-rusers-$(version)
-src_done            = $(TARGET_BUILD_DIR)/.source-done
+version            = 0.17
+tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/n/netkit-rusers/netkit-rusers-$(version).tar.gz
+SRC_ARCHIVE        = $(tar_gz_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/netkit-rusers-$(version)
+src_dir_name       = netkit-rusers-$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source-done
 
 
 PATCHES = PATCHES
 
-build_target        = $(TARGET_BUILD_DIR)/.build_done
-install_target      = $(TARGET_BUILD_DIR)/.install_done
+build_target       = $(TARGET_BUILD_DIR)/.build_done
+install_target     = $(TARGET_BUILD_DIR)/.install_done
 
 
 ####### Targets
@@ -112,6 +114,7 @@ $(install_target): $(build_target)
 	 )
 	@chmod 755 $(RUSERS_PKG)/usr/bin/*
 	@chmod 755 $(RUSERS_PKG)/usr/sbin/*
+	# ======= Install Documentation =======
 	@( cd $(SRC_DIR) ; \
 	   cp -a README \
 	         $(RUSERS_PKG)/usr/share/doc/$(src_dir_name) ; \
@@ -126,8 +129,9 @@ $(install_target): $(build_target)
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(RUSERS_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	@(cd $(RUSERS_PKG); \
-	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	# ======= Strip binaries =======
+	@( cd $(RUSERS_PKG) ; \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )
 	@touch $@
 

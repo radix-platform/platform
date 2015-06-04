@@ -83,6 +83,8 @@ extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --enable-shared=yes
 
+CFLAGS += -D_DEFAULT_SOURCE
+
 
 ####### Dependencies
 

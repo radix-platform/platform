@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -112,6 +114,7 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(LIBUSB_COMPAT_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	# ======= Install Documentation =======
 	@mkdir -p $(LIBUSB_COMPAT_PKG)/usr/doc/$(src_dir_name)
 	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/COPYING \
 	       $(LIBUSB_COMPAT_PKG)/usr/doc/$(src_dir_name)

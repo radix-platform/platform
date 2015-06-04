@@ -13,11 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES      = sources/packages/n/gnutls
 
 REQUIRES             = net/gnutls/3.1.22
-REQUIRES            += libs/zlib/1.2.8-x86_32
-REQUIRES            += libs/libffi/3.0.13-x86_32
 REQUIRES            += libs/libidn/1.28-x86_32
-REQUIRES            += libs/gmp/5.1.3-x86_32
-REQUIRES            += libs/libtasn1/3.4-x86_32
 REQUIRES            += net/p11-kit/0.20.2-x86_32
 REQUIRES            += net/nettle/2.7.1-x86_32
 REQUIRES            += dev/guile/2.0.9-x86_32

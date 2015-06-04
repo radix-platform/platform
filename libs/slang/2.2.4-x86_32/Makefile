@@ -13,10 +13,8 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/slang
 
 REQUIRES           = libs/slang/2.2.4
-REQUIRES          += libs/eglibc/2.19.1-x86_32
 REQUIRES          += libs/pcre/8.34-x86_32
 REQUIRES          += libs/libpng/libpng14/1.4.13-x86_32
-REQUIRES          += libs/zlib/1.2.8-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

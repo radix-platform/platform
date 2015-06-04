@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -18,7 +20,7 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/harfbuzz
 
-REQUIRES           = dev/gcc/4.9.1
+REQUIRES           = dev/gcc/4.9.2
 REQUIRES          += libs/glib2/2.40.0
 REQUIRES          += libs/libpng/libpng14/1.4.13
 REQUIRES          += libs/icu4c/54.1
@@ -26,8 +28,14 @@ REQUIRES          += X11/libs/cairo/1.14.0
 REQUIRES          += libs/libffi/3.0.13
 REQUIRES          += libs/zlib/1.2.8
 REQUIRES          += app/bzip2/1.0.6
-# NOTE: We should not require final freetipe to avoid a cycle in the dependency tree:
-REQUIRES          += env/freetype/2.5.3
+# NOTE (about 'env/freetype/2.5.3'):
+#       We should not require final freetipe to avoid a cycle
+#       in the dependency tree desctibed in package requires,
+#       also we can skip 'env/freetype' dependency because
+#       'freetype' will be installed by 'cairo' request:
+#
+#       REQUIRES          += env/freetype/2.5.3
+#
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -81,7 +89,7 @@ BUILD_TARGETS   += $(install_target)
 
 PRODUCT_TARGETS  = $(products)
 
-ROOTFS_UPGRADE_TARGETS = $(pkg_archive)
+ROOTFS_UPDATE_TARGETS = $(pkg_archive)
 
 
 include ../../../../build-system/core.mk

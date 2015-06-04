@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -18,8 +20,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/y/bsd-games
 
-REQUIRES           = libs/ncurses/5.9
-REQUIRES          += libs/libtermcap/1.2.3
+REQUIRES           = libs/libtermcap/1.2.3
 REQUIRES          += net/openssl/1.0.1g
 REQUIRES          += dev/flex/2.5.39
 
@@ -155,6 +156,7 @@ $(install_target): $(build_target)
 	     $(CURDIR)/$(SRC_DIR)/fortune/strfile/strfile_build -rs $$file $$file.dat ; \
 	   done ; \
 	 )
+	# ======= Install Documentation =======
 	@( cd $(BSD_GAMES_PKG)/usr/share/man/man6 ; \
 	   rm -f cfscores.6.gz    ; ln -sf canfield.6.gz   cfscores.6.gz    ; \
 	   rm -f morse.6.gz       ; ln -sf bcd.6.gz        morse.6.gz       ; \
@@ -190,7 +192,7 @@ $(install_target): $(build_target)
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(BSD_GAMES_PKG) && cp -rf * $(TARGET_DEST_DIR)
 	# ======= Strip binaries =======
-	@( cd $(BSD_GAMES_PKG); \
+	@( cd $(BSD_GAMES_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null \
 	 )
 	@touch $@

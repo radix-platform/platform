@@ -13,7 +13,6 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/GNOME/core/glib2
 
 REQUIRES           = libs/glib2/2.40.0
-REQUIRES          += libs/zlib/1.2.8-x86_32
 REQUIRES          += libs/libffi/3.0.13-x86_32
 REQUIRES          += libs/libelf/0.8.13-x86_32
 REQUIRES          += libs/pcre/8.34-x86_32
@@ -161,7 +160,7 @@ $(install_target): $(build_target)
 	                                            gthread-2.0.pc \
 	 )
 	# ======= Strip binaries =======
-	@( cd $(GLIB2_32_PKG); \
+	@( cd $(GLIB2_32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \

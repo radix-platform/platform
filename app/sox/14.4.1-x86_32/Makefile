@@ -13,23 +13,17 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/m/sox
 
 REQUIRES           = app/sox/14.4.1
-REQUIRES          += libs/eglibc/2.19.1-x86_32
-REQUIRES          += app/file/5.19-x86_32
-REQUIRES          += app/flac/1.3.0-x86_32
 REQUIRES          += dev/libtool/2.4.2-x86_32
-REQUIRES          += libs/alsa-lib/1.0.28-x86_32
-REQUIRES          += libs/lame/3.99.5-x86_32
+REQUIRES          += app/file/5.19-x86_32
+REQUIRES          += libs/libpng/libpng14/1.4.13-x86_32
 REQUIRES          += libs/libao/1.1.0-x86_32
+REQUIRES          += libs/lame/3.99.5-x86_32
 REQUIRES          += libs/libid3tag/0.15.1b-x86_32
 REQUIRES          += libs/libmad/0.15.1b-x86_32
 REQUIRES          += libs/libsndfile/1.0.25-x86_32
 REQUIRES          += libs/opencore-amr/0.1.3-x86_32
-REQUIRES          += libs/libpng/libpng14/1.4.13-x86_32
-REQUIRES          += libs/gsm/1.0.13-x86_32
-REQUIRES          += libs/libogg/1.3.2-x86_32
-REQUIRES          += libs/libvorbis/1.3.4-x86_32
 REQUIRES          += libs/wavpack/4.70.0-x86_32
-REQUIRES          += libs/zlib/1.2.8-x86_32
+REQUIRES          += libs/gsm/1.0.13-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

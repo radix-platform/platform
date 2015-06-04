@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/libffi
 
 REQUIRES           = libs/libffi/3.0.13
-REQUIRES          += libs/eglibc/2.19.1-x86_32
+REQUIRES          += libs/glibc/2.21-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -105,23 +105,24 @@ $(install_target): $(build_target)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
 	@rm -rf $(LIBFFI32_PKG)/usr/include
 	@rm -rf $(LIBFFI32_PKG)/usr/share
-	# remove toolchain path from target libtool *.la files and
+	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(LIBFFI32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libffi.la  \
 	 )
-	# Install the same to $(TARGET_DEST_DIR)
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(LIBFFI32_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	# tune libtool *.la search path to the target destination for development
+	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libffi.la ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libffi.la \
 	 )
-	# tune pkg-config *.pc search path to the target destination for development
+	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libffi.pc \
 	 )
-	@( cd $(LIBFFI32_PKG); \
+	# ======= Strip binaries =======
+	@( cd $(LIBFFI32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \

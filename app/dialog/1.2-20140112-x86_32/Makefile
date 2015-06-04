@@ -14,8 +14,8 @@ SOURCE_REQUIRES    = sources/packages/a/dialog
 
 REQUIRES           = app/dialog/1.2-20140112
 REQUIRES          += libs/ncurses/5.9-x86_32
-REQUIRES          += app/ctags/5.8-x86_32
 REQUIRES          += dev/libtool/2.4.2-x86_32
+REQUIRES          += app/ctags/5.8-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -139,7 +139,7 @@ $(install_target): $(build_target)
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" dialog-config ; \
 	 )
 	# ======= Strip binaries =======
-	@( cd $(DIALOG_32_PKG); \
+	@( cd $(DIALOG_32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \

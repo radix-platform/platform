@@ -136,7 +136,7 @@ $(install_target): $(build_target)
 	   sed -i "s,^prefix=,prefix=$(TARGET_DEST_DIR),g" com_err.pc e2p.pc ext2fs.pc quota.pc ss.pc ; \
 	 )
 	# ======= Strip binaries =======
-	@( cd $(E2FSPROGS_32_PKG); \
+	@( cd $(E2FSPROGS_32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )

@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -18,11 +20,19 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/m/xiph/icecast
 
+ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES           = net/curl/7.38.0
 REQUIRES          += libs/libxslt/1.1.28
 REQUIRES          += libs/libtheora/1.1.1
 REQUIRES          += libs/libvorbis/1.3.4
 REQUIRES          += libs/speex/1.2rc2
+else
+REQUIRES           = net/curl/7.38.0-x86_32
+REQUIRES          += libs/libxslt/1.1.28-x86_32
+REQUIRES          += libs/libtheora/1.1.1-x86_32
+REQUIRES          += libs/libvorbis/1.3.4-x86_32
+REQUIRES          += libs/speex/1.2rc2-x86_32
+endif
 
 # ======= __END_OF_REQUIRES__ =======
 

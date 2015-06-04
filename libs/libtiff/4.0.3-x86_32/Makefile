@@ -14,7 +14,6 @@ SOURCE_REQUIRES    = sources/packages/l/libtiff
 
 REQUIRES           = libs/libtiff/4.0.3
 REQUIRES          += app/xz/5.0.5-x86_32
-REQUIRES          += libs/zlib/1.2.8-x86_32
 REQUIRES          += app/jbigkit/2.1-x86_32
 REQUIRES          += libs/libjpeg-turbo/1.3.1-x86_32
 
@@ -133,7 +132,7 @@ $(install_target): $(build_target)
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libtiff-?.pc \
 	 )
 	# ======= Strip binaries =======
-	@( cd $(LIBTIFF_32_PKG); \
+	@( cd $(LIBTIFF_32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \

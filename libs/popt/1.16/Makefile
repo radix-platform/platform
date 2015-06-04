@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -18,7 +20,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/popt
 
-REQUIRES           = libs/eglibc/2.19.1
+REQUIRES           = libs/glibc/2.21
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -126,6 +128,7 @@ $(install_target): $(build_target)
 	     rm -rf lib ; \
 	   fi \
 	 )
+	# ======= Install Documentation =======
 	@if [ -d $(POPT_PKG)/usr/share/man ]; then \
 	  ( cd $(POPT_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \
@@ -145,25 +148,26 @@ $(install_target): $(build_target)
 	@mkdir -p $(POPT_PKG)/usr/share/doc/$(src_dir_name)
 	@cp -a $(SRC_DIR)/CHANGES $(SRC_DIR)/COPYING $(SRC_DIR)/README \
 	       $(POPT_PKG)/usr/share/doc/$(src_dir_name)
-	# remove toolchain path from target libtool *.la files and
+	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(POPT_PKG)/usr/lib$(LIBSUFFIX) ; \
-	  sed -i "s,$(TARGET_DEST_DIR),,g" libpopt.la  \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libpopt.la  \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(POPT_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	# tune libtool *.la search path to the target destination for development
+	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libpopt.la ; \
-	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libpopt.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libpopt.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libpopt.la \
 	 )
-	# tune pkg-config *.pc search path to the target destination for development
+	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" popt.pc \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" popt.pc \
 	 )
-	@(cd $(POPT_PKG); \
-	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
+	# ======= Strip binaries =======
+	@( cd $(POPT_PKG) ; \
+	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
 	@touch $@
 

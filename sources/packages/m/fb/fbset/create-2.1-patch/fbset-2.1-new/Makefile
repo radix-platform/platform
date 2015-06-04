@@ -19,6 +19,8 @@ lex.yy.o:	lex.yy.c fbset.h modes.tab.h
 lex.yy.c:	modes.l
 		$(FLEX) modes.l
 
+modes.tab.h:	modes.tab.c
+
 modes.tab.c:	modes.y
 		$(BISON) modes.y
 

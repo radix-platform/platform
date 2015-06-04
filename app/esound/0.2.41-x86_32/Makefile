@@ -14,8 +14,6 @@ SOURCE_REQUIRES    = sources/GNOME/core/esound
 
 REQUIRES           = app/esound/0.2.41
 REQUIRES          += libs/audiofile/0.3.6-x86_32
-REQUIRES          += libs/libogg/1.3.2-x86_32
-REQUIRES          += app/flac/1.3.0-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

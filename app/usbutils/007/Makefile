@@ -3,10 +3,12 @@ COMPONENT_TARGETS   = $(HARDWARE_PC32)
 COMPONENT_TARGETS  += $(HARDWARE_PC64)
 COMPONENT_TARGETS  += $(HARDWARE_CB1X)
 COMPONENT_TARGETS  += $(HARDWARE_CB3X)
+COMPONENT_TARGETS  += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS  += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS  += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS  += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS  += $(HARDWARE_B74)
+COMPONENT_TARGETS  += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH       = true
@@ -19,7 +21,11 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES     = sources/packages/a/usbutils
 SOURCE_REQUIRES    += sources/packages/l/usbids
 
-REQUIRES            = libs/libusb/1.0.19
+ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
+REQUIRES            = libs/libusb-compat/0.1.5
+else
+REQUIRES            = libs/libusb-compat/0.1.5-x86_32
+endif
 
 # ======= __END_OF_REQUIRES__ =======
 

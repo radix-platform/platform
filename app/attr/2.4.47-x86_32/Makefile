@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/attr
 
 REQUIRES           = app/attr/2.4.47
-REQUIRES          += libs/eglibc/2.19.1-x86_32
+REQUIRES          += libs/glibc/2.21-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -121,7 +121,7 @@ $(install_target): $(build_target)
 	@rm -rf $(ATTR_32_PKG)/usr/share
 	# ======= remove target path from target libtool *.la files =======
 	@( cd $(ATTR_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	  sed -i "s,$(TARGET_DEST_DIR),,g" libattr.la \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libattr.la \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
@@ -132,7 +132,7 @@ $(install_target): $(build_target)
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libattr.la \
 	 )
 	# ======= Strip binaries =======
-	@( cd $(ATTR_32_PKG); \
+	@( cd $(ATTR_32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \

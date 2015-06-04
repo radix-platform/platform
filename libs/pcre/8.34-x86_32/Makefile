@@ -15,7 +15,6 @@ SOURCE_REQUIRES    = sources/packages/l/pcre
 REQUIRES           = libs/pcre/8.34
 REQUIRES          += libs/zlib/1.2.8-x86_32
 REQUIRES          += app/bzip2/1.0.6-x86_32
-REQUIRES          += libs/libtermcap/1.2.3-x86_32
 REQUIRES          += libs/readline/6.3-x86_32
 
 # ======= __END_OF_REQUIRES__ =======

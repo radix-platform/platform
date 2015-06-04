@@ -13,11 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/m/mpg123
 
 REQUIRES           = app/mpg123/1.20.1
-REQUIRES          += libs/alsa-lib/1.0.28-x86_32
 REQUIRES          += libs/alsa-oss/1.0.28-x86_32
-REQUIRES          += libs/audiofile/0.3.6-x86_32
-REQUIRES          += libs/libogg/1.3.2-x86_32
-REQUIRES          += app/flac/1.3.0-x86_32
 REQUIRES          += app/esound/0.2.41-x86_32
 
 # ======= __END_OF_REQUIRES__ =======

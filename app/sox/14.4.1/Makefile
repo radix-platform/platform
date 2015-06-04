@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -18,24 +20,18 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/m/sox
 
-REQUIRES           = dev/gcc/4.9.1
-REQUIRES          += libs/eglibc/2.19.1
-REQUIRES          += app/file/5.19
-REQUIRES          += app/flac/1.3.0
+REQUIRES           = dev/gcc/4.9.2
 REQUIRES          += dev/libtool/2.4.2
-REQUIRES          += libs/alsa-lib/1.0.28
-REQUIRES          += libs/lame/3.99.5
+REQUIRES          += app/file/5.19
+REQUIRES          += libs/libpng/libpng14/1.4.13
 REQUIRES          += libs/libao/1.1.0
+REQUIRES          += libs/lame/3.99.5
 REQUIRES          += libs/libid3tag/0.15.1b
 REQUIRES          += libs/libmad/0.15.1b
 REQUIRES          += libs/libsndfile/1.0.25
 REQUIRES          += libs/opencore-amr/0.1.3
-REQUIRES          += libs/libpng/libpng14/1.4.13
-REQUIRES          += libs/gsm/1.0.13
-REQUIRES          += libs/libogg/1.3.2
-REQUIRES          += libs/libvorbis/1.3.4
 REQUIRES          += libs/wavpack/4.70.0
-REQUIRES          += libs/zlib/1.2.8
+REQUIRES          += libs/gsm/1.0.13
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -131,6 +127,7 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(SOX_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	# ======= Install Documentation =======
 	@if [ -d $(SOX_PKG)/usr/share/man ]; then \
 	  ( cd $(SOX_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \

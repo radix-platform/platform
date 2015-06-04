@@ -13,7 +13,6 @@ include ../../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/X.org/lib/libSM
 
 REQUIRES           = X11/X.org/lib/libSM/1.2.2
-REQUIRES          += libs/eglibc/2.19.1-x86_32
 REQUIRES          += X11/X.org/proto/xproto/7.0.26-x86_32
 REQUIRES          += X11/X.org/lib/xtrans/1.3.5-x86_32
 REQUIRES          += X11/X.org/lib/libICE/1.0.9-x86_32

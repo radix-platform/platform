@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -18,7 +20,7 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/x/qt4
 
-REQUIRES           = dev/gcc/4.9.1
+REQUIRES           = dev/gcc/4.9.2
 REQUIRES          += net/ca-certificates/32.0
 REQUIRES          += X11/app/desktop-file-utils/0.22
 REQUIRES          += X11/libs/hicolor-icon-theme/0.14
@@ -120,7 +122,7 @@ include ../../../../build-system/core.mk
 env_sysroot = INSTALL_ROOT=$(QT4_PKG)
 
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X) $(HARDWARE_BEAGLE) $(HARDWARE_OMAP5UEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X) $(HARDWARE_FFRK3288) $(HARDWARE_BEAGLE) $(HARDWARE_OMAP5UEVM)),)
 ARCH   = arm
 ABI    = gnueabihf
 endif
@@ -137,7 +139,7 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 ARCH   = x86_64
 ABI    = gnu
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_B74)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_B74) $(HARDWARE_CI20)),)
 ARCH   = mips
 ABI    = gnu
 endif

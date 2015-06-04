@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -18,12 +20,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/n/gnutls
 
-REQUIRES           = dev/gcc/4.9.1
-REQUIRES          += libs/zlib/1.2.8
-REQUIRES          += libs/libffi/3.0.13
+REQUIRES           = dev/gcc/4.9.2
 REQUIRES          += libs/libidn/1.28
-REQUIRES          += libs/gmp/5.1.3
-REQUIRES          += libs/libtasn1/3.4
 REQUIRES          += net/p11-kit/0.20.2
 REQUIRES          += net/nettle/2.7.1
 REQUIRES          += dev/guile/2.0.9

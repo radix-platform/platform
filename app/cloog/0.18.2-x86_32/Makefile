@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/CLooG
 
 REQUIRES           = app/cloog/0.18.2
-REQUIRES          += libs/gmp/5.1.3-x86_32
+REQUIRES          += libs/gmp/6.0.0-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -141,7 +141,7 @@ $(install_target): $(build_target)
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" cloog-isl.pc isl.pc \
 	 )
 	# ======= Strip binaries =======
-	@( cd $(CLOOG32_PKG); \
+	@( cd $(CLOOG32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \

@@ -117,7 +117,7 @@ endif
 	   sed -i "s,/lib,$(TARGET_DEST_DIR)/lib,g" libcap.pc ; \
 	 )
 	# ======= Strip binaries =======
-	@( cd $(LIBCAP_32_PKG); \
+	@( cd $(LIBCAP_32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \

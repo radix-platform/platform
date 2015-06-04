@@ -13,10 +13,6 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES      = sources/packages/n/gpgme
 
 REQUIRES             = net/gpgme/1.5.1
-REQUIRES            += net/libgpg-error/1.16-x86_32
-REQUIRES            += net/libassuan/2.1.2-x86_32
-REQUIRES            += net/gnupg/1.4.18
-REQUIRES            += net/gnupg2/2.0.26
 
 # ======= __END_OF_REQUIRES__ =======
 

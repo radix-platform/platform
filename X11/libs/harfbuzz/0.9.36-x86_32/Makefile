@@ -20,8 +20,14 @@ REQUIRES          += X11/libs/cairo/1.14.0-x86_32
 REQUIRES          += libs/libffi/3.0.13-x86_32
 REQUIRES          += libs/zlib/1.2.8-x86_32
 REQUIRES          += app/bzip2/1.0.6-x86_32
-# NOTE: We should not require final freetipe to avoid a cycle in the dependency tree:
-REQUIRES          += env/freetype/2.5.3-x86_32
+# NOTE (about 'env/freetype/2.5.3-x86_32'):
+#       We should not require final freetipe to avoid a cycle
+#       in the dependency tree desctibed in package requires,
+#       also we can skip 'env/freetype' dependency because
+#       'freetype' will be installed by 'cairo' request:
+#
+#       REQUIRES          += env/freetype/2.5.3-x86_32
+#
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -75,7 +81,7 @@ BUILD_TARGETS   += $(install_target)
 
 PRODUCT_TARGETS  = $(products)
 
-ROOTFS_UPGRADE_TARGETS = $(pkg_archive)
+ROOTFS_UPDATE_TARGETS = $(pkg_archive)
 
 
 include ../../../../build-system/core.mk

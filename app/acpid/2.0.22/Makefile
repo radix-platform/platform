@@ -12,7 +12,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/a/acpid
 
-REQUIRES           = libs/eglibc/2.19.1
+REQUIRES           = libs/glibc/2.21
 
 # ======= __END_OF_REQUIRES__ =======
 

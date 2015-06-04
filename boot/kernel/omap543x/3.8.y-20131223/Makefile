@@ -166,8 +166,11 @@ $(modules_done): $(linux_kernel) $(linux_systemmap) $(linux_config)
 	@rm -rf $(TARGET_BUILD_DIR)/lib
 	$(LMAKE) modules_install DEPMOD=true INSTALL_MOD_PATH=$(modules_dir)
 	@cd $(TARGET_BUILD_DIR) && \
-	  CWD=$(CURDIR) $(BUILDSYSTEM)/install_targets --preserve-source-dir=true \
-	    $$(find * -path 'lib*' -type f -print)   $(TARGET_DEST_DIR)   $(HARDWARE)
+	  CWD=$(CURDIR) $(BUILDSYSTEM)/install_targets \
+	      --preserve-source-dir=true               \
+	      --destination=$(TARGET_DEST_DIR)         \
+	      --toolchain=$(TOOLCHAIN) --hardware=$(HARDWARE) --flavour=$(FLAVOUR) \
+	      $$(find * -path 'lib*' -type f -print)
 	@touch $@
 
 $(device_dtb_done): $(modules_done)

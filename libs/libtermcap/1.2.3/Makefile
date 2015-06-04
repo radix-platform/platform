@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -99,6 +101,7 @@ $(install_target): $(build_target)
 	   install -m644 termcap.h $(TERMCAP_PKG)/usr/include ; \
 	   install -m644 termcap.info* $(TERMCAP_PKG)/usr/share/info \
 	 )
+	# ======= Install Documentation =======
 	@gzip -9 $(TERMCAP_PKG)/usr/share/info/*
 	@( cd $(TERMCAP_PKG)/lib$(LIBSUFFIX) ; \
 	   ln -sf libtermcap.so.?.?.? libtermcap.so.2 \
@@ -117,13 +120,14 @@ $(install_target): $(build_target)
 	   cp -a ChangeLog README \
 	         $(TERMCAP_PKG)/usr/share/doc/libtermcap-$(version) \
 	 )
-	# Install the same to $(TARGET_DEST_DIR)
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(TERMCAP_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	@(cd $(TERMCAP_PKG); \
-	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
+	# ======= Strip binaries =======
+	@( cd $(TERMCAP_PKG) ; \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
 	@touch $@
 

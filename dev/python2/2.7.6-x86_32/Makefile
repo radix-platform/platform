@@ -16,8 +16,6 @@ REQUIRES           = dev/python2/2.7.6
 REQUIRES          += libs/zlib/1.2.8-x86_32
 REQUIRES          += app/xz/5.0.5-x86_32
 REQUIRES          += libs/libffi/3.0.13-x86_32
-REQUIRES          += libs/ncurses/5.9-x86_32
-REQUIRES          += libs/libtermcap/1.2.3-x86_32
 REQUIRES          += libs/readline/6.3-x86_32
 REQUIRES          += libs/expat/2.1.0-x86_32
 REQUIRES          += net/openssl/1.0.1g-x86_32
@@ -156,12 +154,13 @@ $(install_target): $(build_target)
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(PYTHON32_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	# tune pkg-config *.pc search path to the target destination for development
+	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" python-2.7.pc ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" python-2.7.pc ; \
 	 )
 	@chmod +w $(PYTHON32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/libpython*.so.*
-	@( cd $(PYTHON32_PKG); \
+	# ======= Strip binaries =======
+	@( cd $(PYTHON32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )

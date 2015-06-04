@@ -1,56 +1,58 @@
 
-COMPONENT_TARGETS   = $(HARDWARE_PC32)
-COMPONENT_TARGETS  += $(HARDWARE_PC64)
-COMPONENT_TARGETS  += $(HARDWARE_CB1X)
-COMPONENT_TARGETS  += $(HARDWARE_CB3X)
-COMPONENT_TARGETS  += $(HARDWARE_VIP1830)
-COMPONENT_TARGETS  += $(HARDWARE_BEAGLE)
-COMPONENT_TARGETS  += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS  += $(HARDWARE_B74)
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
-NEED_ABS_PATH       = true
-COMPONENT_IS_3PP    = true
+NEED_ABS_PATH      = true
+COMPONENT_IS_3PP   = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES     = sources/packages/n/ca-certificates/cacert.org
-SOURCE_REQUIRES    += sources/packages/n/ca-certificates/mozilla
-SOURCE_REQUIRES    += sources/packages/n/ca-certificates/spi-inc.org
+SOURCE_REQUIRES    = sources/packages/n/ca-certificates/cacert.org
+SOURCE_REQUIRES   += sources/packages/n/ca-certificates/mozilla
+SOURCE_REQUIRES   += sources/packages/n/ca-certificates/spi-inc.org
 
 
-REQUIRES            = net/openssl/1.0.1g
-REQUIRES           += app/dcron/4.5
+REQUIRES           = net/openssl/1.0.1g
+REQUIRES          += app/dcron/4.5
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version             = 32.0
-tar_bz2_archive     = $(SRC_PACKAGE_PATH)/packages/n/ca-certificates/mozilla/mozilla-certs-$(version).tar.bz2
-SRC_ARCHIVE         = $(tar_bz2_archive)
-SRC_DIR             = $(TARGET_BUILD_DIR)/mozilla-certs-$(version)
-src_dir_name        = mozilla-certs-$(version)
-src_done            = $(TARGET_BUILD_DIR)/.source-done
+version            = 32.0
+tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/ca-certificates/mozilla/mozilla-certs-$(version).tar.bz2
+SRC_ARCHIVE        = $(tar_bz2_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/mozilla-certs-$(version)
+src_dir_name       = mozilla-certs-$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source-done
 
-cacert_archive      = $(SRC_PACKAGE_PATH)/packages/n/ca-certificates/cacert.org/cacert.tar.bz2
-CASERT_SRC_DIR      = $(TARGET_BUILD_DIR)/cacert
-cacert_src_done     = $(TARGET_BUILD_DIR)/.cacert-source-done
+cacert_archive     = $(SRC_PACKAGE_PATH)/packages/n/ca-certificates/cacert.org/cacert.tar.bz2
+CASERT_SRC_DIR     = $(TARGET_BUILD_DIR)/cacert
+cacert_src_done    = $(TARGET_BUILD_DIR)/.cacert-source-done
 
-spiinc_archive      = $(SRC_PACKAGE_PATH)/packages/n/ca-certificates/spi-inc.org/spi-inc.tar.bz2
-SPIINC_SRC_DIR      = $(TARGET_BUILD_DIR)/spi-inc
-spiinc_src_done     = $(TARGET_BUILD_DIR)/.spiinc-source-done
+spiinc_archive     = $(SRC_PACKAGE_PATH)/packages/n/ca-certificates/spi-inc.org/spi-inc.tar.bz2
+SPIINC_SRC_DIR     = $(TARGET_BUILD_DIR)/spi-inc
+spiinc_src_done    = $(TARGET_BUILD_DIR)/.spiinc-source-done
 
 
 PATCHES = PATCHES
 
-build_target        = $(TARGET_BUILD_DIR)/.build_done
-install_target      = $(TARGET_BUILD_DIR)/.install_done
+build_target       = $(TARGET_BUILD_DIR)/.build_done
+install_target     = $(TARGET_BUILD_DIR)/.install_done
 
-licenses_dir        = $(CURDIR)/licenses
-sbin_dir            = $(CURDIR)/sbin
-scripts_dir         = $(CURDIR)/scripts
+licenses_dir       = $(CURDIR)/licenses
+sbin_dir           = $(CURDIR)/sbin
+scripts_dir        = $(CURDIR)/scripts
 
 
 ####### Targets

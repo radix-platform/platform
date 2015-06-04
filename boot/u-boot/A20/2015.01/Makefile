@@ -130,7 +130,7 @@ $(script_bin): $(script_fex)
 	# ======= Create script.bin =======
 	@$(FEX2BIN) $< $@
 
-$(boot_script_sd): $(u_boot)
+$(boot_script_sd): $(u_boot) $(script_bin)
 	@( echo "setenv bootm_boot_mode sec"                                                             > $(boot_script_sd) && \
 	   echo "ext4load mmc 0 0x43000000 boot/script.bin"                                             >> $(boot_script_sd) && \
 	   echo "ext4load mmc 0 0x42000000 boot/uImage"                                                 >> $(boot_script_sd) && \
@@ -141,7 +141,7 @@ $(boot_script_sd): $(u_boot)
 $(boot_scr_sd): $(boot_script_sd)
 	$(SRC_DIR)/tools/mkimage -A $(ARCH) -T script -C none -n "Boot Image" -d $< $@
 
-$(build_uboot_pkg): $(u_boot) $(boot_scr_nfs) $(boot_scr_sd) $(boot_scr_emmc)
+$(build_uboot_pkg): $(boot_scr_sd)
 	@mkdir -p $(TARGET_DEST_DIR)/bootfs
 	@mkdir -p $(UBOOT_BIN_PKG)/boot
 	# ======= Copy U-Boot images =======

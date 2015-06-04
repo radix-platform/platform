@@ -15,7 +15,6 @@ SOURCE_REQUIRES    = sources/packages/d/perl
 SOURCE_REQUIRES   += sources/packages/d/perl-cross/0.8.5
 
 REQUIRES           = dev/perl/5.18.2
-REQUIRES          += libs/eglibc/2.19.1-x86_32
 REQUIRES          += libs/gdbm/1.11-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
@@ -168,7 +167,7 @@ $(install_target): $(build_target)
 	   sed -i "s,$(CROSS_PREFIX),,g"               Config.pm       ; \
 	 )
 	# ======= Strip binaries =======
-	@( cd $(PERL_32_PKG); \
+	@( cd $(PERL_32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )
 	@touch $@

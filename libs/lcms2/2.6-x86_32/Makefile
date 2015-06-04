@@ -14,7 +14,6 @@ SOURCE_REQUIRES    = sources/packages/l/lcms2
 
 REQUIRES           = libs/lcms2/2.6
 REQUIRES          += libs/libtiff/4.0.3-x86_32
-REQUIRES          += libs/libjpeg-turbo/1.3.1-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

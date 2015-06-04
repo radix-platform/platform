@@ -1,43 +1,50 @@
 
-COMPONENT_TARGETS   = $(HARDWARE_PC32)
-COMPONENT_TARGETS  += $(HARDWARE_PC64)
-COMPONENT_TARGETS  += $(HARDWARE_CB1X)
-COMPONENT_TARGETS  += $(HARDWARE_CB3X)
-COMPONENT_TARGETS  += $(HARDWARE_VIP1830)
-COMPONENT_TARGETS  += $(HARDWARE_BEAGLE)
-COMPONENT_TARGETS  += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS  += $(HARDWARE_B74)
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
-NEED_ABS_PATH       = true
-COMPONENT_IS_3PP    = true
+NEED_ABS_PATH      = true
+COMPONENT_IS_3PP   = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES     = sources/packages/n/iputils
+SOURCE_REQUIRES    = sources/packages/n/iputils
 
-REQUIRES            = libs/libtermcap/1.2.3
-REQUIRES           += libs/readline/6.3
-REQUIRES           += net/gnutls/3.1.22
-REQUIRES           += net/openssl/1.0.1g
+ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
+REQUIRES           = libs/readline/6.3
+REQUIRES          += net/gnutls/3.1.22
+REQUIRES          += net/openssl/1.0.1g
+else
+REQUIRES           = libs/readline/6.3-x86_32
+REQUIRES          += net/gnutls/3.1.22-x86_32
+REQUIRES          += net/openssl/1.0.1g-x86_32
+endif
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version             = s20121221
-tar_bz2_archive     = $(SRC_PACKAGE_PATH)/packages/n/iputils/iputils-$(version).tar.bz2
-SRC_ARCHIVE         = $(tar_bz2_archive)
-SRC_DIR             = $(TARGET_BUILD_DIR)/iputils-$(version)
-src_dir_name        = iputils-$(version)
-src_done            = $(TARGET_BUILD_DIR)/.source-done
+version            = s20121221
+tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/iputils/iputils-$(version).tar.bz2
+SRC_ARCHIVE        = $(tar_bz2_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/iputils-$(version)
+src_dir_name       = iputils-$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source-done
 
 
 PATCHES = PATCHES
 
-build_target        = $(TARGET_BUILD_DIR)/.build_done
-install_target      = $(TARGET_BUILD_DIR)/.install_done
+build_target       = $(TARGET_BUILD_DIR)/.build_done
+install_target     = $(TARGET_BUILD_DIR)/.install_done
 
 
 ####### Targets
@@ -135,6 +142,7 @@ $(install_target): $(build_target)
 	   chmod  755 $(IPUTILS_PKG)/usr/bin/tracepath*  ; \
 	   chmod 4711 $(IPUTILS_PKG)/usr/bin/traceroute6 ; \
 	 )
+	# ======= Install Documentation =======
 	@( cd $(SRC_DIR)/doc ; \
 	   for page in arping clockdiff ninfod ping rarpd rdisc tracepath traceroute6 ; do \
 	     cat $$page.8 | gzip -9c > $(IPUTILS_PKG)/usr/share/man/man8/$$page.8.gz ; \
@@ -151,6 +159,7 @@ $(install_target): $(build_target)
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(IPUTILS_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	# ======= Strip binaries =======
 	@( cd $(IPUTILS_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )

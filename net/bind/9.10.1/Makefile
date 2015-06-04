@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -18,11 +20,17 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/n/bind
 
+ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES           = secure/libcap/2.24
 REQUIRES          += libs/json-c/0.12
 REQUIRES          += libs/libxml2/2.9.1
-REQUIRES          += net/openssl/1.0.1g
 REQUIRES          += net/idnkit/1.0
+else
+REQUIRES           = secure/libcap/2.24-x86_32
+REQUIRES          += libs/json-c/0.12-x86_32
+REQUIRES          += libs/libxml2/2.9.1-x86_32
+REQUIRES          += net/idnkit/1.0-x86_32
+endif
 
 # ======= __END_OF_REQUIRES__ =======
 

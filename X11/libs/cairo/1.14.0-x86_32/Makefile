@@ -77,7 +77,7 @@ BUILD_TARGETS   += $(install_target)
 
 PRODUCT_TARGETS  = $(products)
 
-ROOTFS_UPGRADE_TARGETS = $(pkg_archive)
+ROOTFS_UPDATE_TARGETS = $(pkg_archive)
 
 
 include ../../../../build-system/core.mk

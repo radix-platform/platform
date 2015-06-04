@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -18,7 +20,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/libffi
 
-REQUIRES           = libs/eglibc/2.19.1
+REQUIRES           = libs/glibc/2.21
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -110,6 +112,7 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(LIBFFI_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	# ======= Install Documentation =======
 	@rm -f $(LIBFFI_PKG)/usr/share/info/dir
 	@gzip -9 $(LIBFFI_PKG)/usr/share/info/*
 	@if [ -d $(LIBFFI_PKG)/usr/share/man ]; then \
@@ -135,23 +138,24 @@ $(install_target): $(build_target)
 	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \
 	 )
-	# remove toolchain path from target libtool *.la files and
+	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(LIBFFI_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libffi.la  \
 	 )
-	# Install the same to $(TARGET_DEST_DIR)
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(LIBFFI_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	# tune libtool *.la search path to the target destination for development
+	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libffi.la ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libffi.la \
 	 )
-	# tune pkg-config *.pc search path to the target destination for development
+	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libffi.pc \
 	 )
-	@( cd $(LIBFFI_PKG); \
+	# ======= Strip binaries =======
+	@( cd $(LIBFFI_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \

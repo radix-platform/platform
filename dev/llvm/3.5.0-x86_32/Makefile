@@ -13,10 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/d/LLVM
 
 REQUIRES           = dev/llvm/3.5.0
-REQUIRES          += libs/zlib/1.2.8-x86_32
-REQUIRES          += libs/libffi/3.0.13-x86_32
 REQUIRES          += libs/libxml2/2.9.1-x86_32
-REQUIRES          += libs/ncurses/5.9-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

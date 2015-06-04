@@ -13,7 +13,6 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/m/mad/libid3tag
 
 REQUIRES           = libs/libid3tag/0.15.1b
-REQUIRES          += libs/eglibc/2.19.1-x86_32
 REQUIRES          += libs/zlib/1.2.8-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
@@ -130,7 +129,7 @@ $(install_target): $(build_target)
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" id3tag.pc \
 	 )
 	# ======= Strip binaries =======
-	@( cd $(LIBID3TAG_32_PKG); \
+	@( cd $(LIBID3TAG_32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \

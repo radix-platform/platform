@@ -13,7 +13,6 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/s/pam_unix2
 
 REQUIRES           = secure/pam_unix2/2.9.1
-REQUIRES          += libs/eglibc/2.19.1-x86_32
 REQUIRES          += secure/pam/1.1.8-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
@@ -115,7 +114,7 @@ $(install_target): $(build_target)
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(PAM_U2_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
 	# ======= Strip binaries =======
-	@( cd $(PAM_U2_32_PKG); \
+	@( cd $(PAM_U2_32_PKG) ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )
 	@touch $@

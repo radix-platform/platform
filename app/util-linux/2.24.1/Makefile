@@ -1,31 +1,33 @@
 
-COMPONENT_TARGETS   = $(HARDWARE_PC32)
-COMPONENT_TARGETS  += $(HARDWARE_PC64)
-COMPONENT_TARGETS  += $(HARDWARE_CB1X)
-COMPONENT_TARGETS  += $(HARDWARE_CB3X)
-COMPONENT_TARGETS  += $(HARDWARE_VIP1830)
-COMPONENT_TARGETS  += $(HARDWARE_BEAGLE)
-COMPONENT_TARGETS  += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS  += $(HARDWARE_B74)
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
-NEED_ABS_PATH       = true
-COMPONENT_IS_3PP    = true
+NEED_ABS_PATH      = true
+COMPONENT_IS_3PP   = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES     = sources/packages/a/util-linux
-SOURCE_REQUIRES    += sources/packages/a/adjtimex
-SOURCE_REQUIRES    += sources/packages/a/bsdstrings
-SOURCE_REQUIRES    += sources/packages/n/net-tools
-SOURCE_REQUIRES    += sources/packages/a/setserial
-SOURCE_REQUIRES    += sources/packages/a/ziptool
+SOURCE_REQUIRES    = sources/packages/a/util-linux
+SOURCE_REQUIRES   += sources/packages/a/adjtimex
+SOURCE_REQUIRES   += sources/packages/a/bsdstrings
+SOURCE_REQUIRES   += sources/packages/n/net-tools
+SOURCE_REQUIRES   += sources/packages/a/setserial
+SOURCE_REQUIRES   += sources/packages/a/ziptool
 
 
-REQUIRES            = libs/zlib/1.2.8
-REQUIRES           += libs/libtermcap/1.2.3
+REQUIRES           = libs/zlib/1.2.8
+REQUIRES          += libs/libtermcap/1.2.3
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -407,7 +409,7 @@ $(install_target): $(build_target)
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" blkid.pc mount.pc uuid.pc \
 	 )
 	# ======= Strip binaries =======
-	@( cd $(UTILLINUX_PKG); \
+	@( cd $(UTILLINUX_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \

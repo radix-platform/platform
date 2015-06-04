@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/libvisual
 
 REQUIRES           = libs/libvisual/0.4.0
-REQUIRES          += libs/eglibc/2.19.1-x86_32
+REQUIRES          += libs/glibc/2.21-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

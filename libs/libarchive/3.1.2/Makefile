@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -18,16 +20,10 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/libarchive
 
-REQUIRES           = libs/eglibc/2.19.1
-REQUIRES          += app/acl/2.2.52
-REQUIRES          += app/attr/2.4.47
+REQUIRES           = app/acl/2.2.52
 REQUIRES          += app/bzip2/1.0.6
-REQUIRES          += libs/expat/2.1.0
 REQUIRES          += libs/lzo/2.08
-REQUIRES          += net/openssl/1.0.1g
 REQUIRES          += net/nettle/2.7.1
-REQUIRES          += app/xz/5.0.5
-REQUIRES          += libs/zlib/1.2.8
 REQUIRES          += libs/libxml2/2.9.1
 
 # ======= __END_OF_REQUIRES__ =======

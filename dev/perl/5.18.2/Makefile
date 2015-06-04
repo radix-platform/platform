@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -21,8 +23,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/d/perl
 SOURCE_REQUIRES   += sources/packages/d/perl-cross/0.8.5
 
-REQUIRES           = libs/eglibc/2.19.1
-REQUIRES          += libs/gdbm/1.11
+REQUIRES           = libs/gdbm/1.11
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -162,7 +163,7 @@ $(install_target): $(build_target)
 	   sed -i "s,$(CROSS_PREFIX),,g"               $$archdir/Config.pm       ; \
 	 )
 	# ======= Strip binaries =======
-	@( cd $(PERL_PKG); \
+	@( cd $(PERL_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )
 	@touch $@

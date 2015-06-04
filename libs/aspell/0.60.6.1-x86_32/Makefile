@@ -13,7 +13,6 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/GNU/aspell
 
 REQUIRES           = libs/aspell/0.60.6.1
-REQUIRES          += libs/eglibc/2.19.1
 REQUIRES          += libs/ncurses/5.9-x86_32
 
 # ======= __END_OF_REQUIRES__ =======

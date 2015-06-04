@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -16,9 +18,13 @@ COMPONENT_IS_3PP   = true
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES     = sources/packages/a/sysvinit-functions
+SOURCE_REQUIRES    = sources/packages/a/sysvinit-functions
 
-REQUIRES            = libs/popt/1.16
+ifneq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES           = libs/popt/1.16
+else
+REQUIRES           = libs/popt/1.16-x86_32
+endif
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -126,7 +132,7 @@ $(install_target): $(build_target) $(FUNCTIONS_DESCRIPTION_FILE)
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(SYSVFUNC_PKG) && cp -rf * $(TARGET_DEST_DIR)
 	# ======= Strip binaries =======
-	@( cd $(SYSVFUNC_PKG); \
+	@( cd $(SYSVFUNC_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null \
 	 )
 	@touch $@

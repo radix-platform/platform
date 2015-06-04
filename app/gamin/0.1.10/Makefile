@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -18,7 +20,11 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/gamin
 
+ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES           = libs/glib2/2.40.0
+else
+REQUIRES           = libs/glib2/2.40.0-x86_32
+endif
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -126,6 +132,7 @@ $(install_target): $(build_target)
 	@cp -a $(gamin_config_file) $(GAMIN_PKG)/etc/gamin/gaminrc.new
 	@chmod 644 $(GAMIN_PKG)/etc/gamin/gaminrc.new
 	@rm -rf $(GAMIN_PKG)/usr/lib$(LIBSUFFIX)
+	# ======= Install Documentation =======
 	@mkdir -p $(GAMIN_PKG)/usr/doc/$(src_dir_name)
 	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/COPYING \
 	       $(GAMIN_PKG)/usr/doc/$(src_dir_name)

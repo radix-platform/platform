@@ -13,9 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/aalib
 
 REQUIRES           = libs/aalib/1.4.0
-REQUIRES          += libs/ncurses/5.9-x86_32
 REQUIRES          += libs/slang/2.2.4-x86_32
-REQUIRES          += X11/X.org/lib/libX11/1.6.2-x86_32
 REQUIRES          += X11/X.org/lib/libXt/1.1.4-x86_32
 
 # ======= __END_OF_REQUIRES__ =======

@@ -1,0 +1,4 @@
+
+../../../sources/GNU/glibc/2.21/patches/glibc-2.21-i18n.patch     -p0
+../../../sources/GNU/glibc/2.21/patches/glibc-2.21-zoneinfo.patch -p0
+../../../sources/iana/tz/patches/glibc-2.21-tzcode-2015c.patch    -p0

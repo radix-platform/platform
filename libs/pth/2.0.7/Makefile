@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -18,7 +20,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/pth
 
-REQUIRES           = libs/eglibc/2.19.1
+REQUIRES           = libs/glibc/2.21
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -116,6 +118,7 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(PTH_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
+	# ======= Install Documentation =======
 	@if [ -d $(PTH_PKG)/usr/share/man ]; then \
 	  ( cd $(PTH_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \
@@ -145,26 +148,27 @@ $(install_target): $(build_target)
 	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \
 	 )
-	# remove toolchain path from target pth-config file
+	# ======= remove toolchain path from target pth-config file =======
 	@( cd $(PTH_PKG)/usr/bin ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" pth-config ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(PTH_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	# tune libtool *.la search path to the target destination for development
+	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libpth.la ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libpth.la ; \
 	 )
-	# tune pkg-config *.pc search path to the target destination for development
+	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/bin ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" pth-config ; \
-	  sed -i "s,-L/lib,-L$(TARGET_DEST_DIR)/lib,g" pth-config ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" pth-config ; \
+	   sed -i "s,-L/lib,-L$(TARGET_DEST_DIR)/lib,g" pth-config ; \
 	 )
-	@(cd $(PTH_PKG); \
-	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
+	# ======= Strip binaries =======
+	@( cd $(PTH_PKG) ; \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
 	@touch $@
 

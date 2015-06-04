@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -18,14 +20,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/libxml2
 
-REQUIRES           = libs/eglibc/2.19.1
-REQUIRES          += app/xz/5.0.5
-REQUIRES          += libs/zlib/1.2.8
-REQUIRES          += libs/ncurses/5.9
-REQUIRES          += libs/libtermcap/1.2.3
-REQUIRES          += libs/readline/6.3
-REQUIRES          += net/openssl/1.0.1g
-REQUIRES          += dev/python2/2.7.6
+REQUIRES           = dev/python2/2.7.6
 
 # ======= __END_OF_REQUIRES__ =======
 

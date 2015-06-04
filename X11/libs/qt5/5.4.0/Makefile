@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -18,7 +20,7 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/x/qt5
 
-REQUIRES           = dev/gcc/4.9.1
+REQUIRES           = dev/gcc/4.9.2
 REQUIRES          += net/ca-certificates/32.0
 REQUIRES          += X11/app/desktop-file-utils/0.22
 REQUIRES          += X11/libs/hicolor-icon-theme/0.14
@@ -66,10 +68,10 @@ profile_dir        = $(CURDIR)/profile.d
 applications_dir   = $(CURDIR)/applications
 
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X)),)
-PATCHES = PATCHES.cbxx
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
+PATCHES = PATCHES.eglfs
 else
-ifneq ($(filter $(HARDWARE),$(HARDWARE_B74)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_B74) $(HARDWARE_CI20)),)
 PATCHES = PATCHES.mips
 else
 PATCHES = PATCHES
@@ -124,7 +126,7 @@ include ../../../../build-system/core.mk
 env_sysroot = INSTALL_ROOT=$(QT5_PKG)
 
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X) $(HARDWARE_BEAGLE) $(HARDWARE_OMAP5UEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X) $(HARDWARE_FFRK3288) $(HARDWARE_BEAGLE) $(HARDWARE_OMAP5UEVM)),)
 ARCH   = arm
 ABI    = gnueabihf
 endif
@@ -141,7 +143,7 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 ARCH   = x86_64
 ABI    = gnu
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_B74)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_B74) $(HARDWARE_CI20)),)
 ARCH   = mips
 ABI    = gnu
 endif
@@ -162,7 +164,7 @@ configure_switches += -device-option CCACHE=$(CCACHE)
 configure_switches += -device-option CROSS_COMPILE=$(CROSS_PREFIX)
 
 # ======= Target compiler doesn't support MIPS DSP/DSPr2 =======
-ifneq ($(filter $(HARDWARE),$(HARDWARE_B74)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_B74) $(HARDWARE_CI20)),)
 configure_switches += -no-mips_dsp
 configure_switches += -no-mips_dspr2
 endif
@@ -230,7 +232,7 @@ configure_switches += -xcb
 configure_switches += -no-directfb
 configure_switches += -linuxfb
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
 configure_switches += -no-eglfs
 configure_switches += -no-kms
 else

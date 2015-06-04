@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -18,7 +20,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/m/gsm
 
-REQUIRES           = libs/eglibc/2.19.1
+REQUIRES           = libs/glibc/2.21
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -116,6 +118,7 @@ $(install_target): $(build_target)
 	@mkdir -p $(LIBGSM_PKG)/usr/lib$(LIBSUFFIX)/pkgconfig
 	@sed -e "s,/lib,/lib$(LIBSUFFIX)," $(gsm_pc_in) \
 	  > $(LIBGSM_PKG)/usr/lib$(LIBSUFFIX)/pkgconfig/gsm.pc
+	# ======= Install Documentation =======
 	@if [ -d $(LIBGSM_PKG)/usr/share/man ]; then \
 	  ( cd $(LIBGSM_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \
@@ -152,7 +155,7 @@ $(install_target): $(build_target)
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" gsm.pc \
 	 )
 	# ======= Strip binaries =======
-	@( cd $(LIBGSM_PKG); \
+	@( cd $(LIBGSM_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \

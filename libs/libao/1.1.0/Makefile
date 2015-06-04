@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -18,13 +20,9 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/m/xiph/libao
 
-REQUIRES           = dev/gcc/4.9.1
-REQUIRES          += libs/alsa-lib/1.0.28
+REQUIRES           = dev/gcc/4.9.2
 REQUIRES          += libs/alsa-oss/1.0.28
-REQUIRES          += libs/libogg/1.3.2
-REQUIRES          += libs/audiofile/0.3.6
 REQUIRES          += app/esound/0.2.41
-REQUIRES          += app/flac/1.3.0
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -124,6 +122,7 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(LIBAO_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	# ======= Install Documentation =======
 	@if [ -d $(LIBAO_PKG)/usr/share/man ]; then \
 	  ( cd $(LIBAO_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \
@@ -179,7 +178,7 @@ $(install_target): $(build_target)
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" ao.pc \
 	 )
 	# ======= Strip binaries =======
-	@( cd $(LIBAO_PKG); \
+	@( cd $(LIBAO_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \

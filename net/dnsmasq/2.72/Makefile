@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -19,11 +21,8 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/n/dnsmasq
 
 REQUIRES           = app/dbus/1.8.10
-REQUIRES          += libs/gmp/5.1.3
 REQUIRES          += libs/libidn/1.28
-REQUIRES          += net/libmnl/1.0.3
 REQUIRES          += net/libnetfilter_conntrack/1.0.4
-REQUIRES          += net/libnfnetlink/1.0.1
 REQUIRES          += net/nettle/2.7.1
 
 # ======= __END_OF_REQUIRES__ =======

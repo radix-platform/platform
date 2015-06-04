@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -18,8 +20,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/gawk
 
-REQUIRES           = libs/libtermcap/1.2.3
-REQUIRES          += libs/readline/6.3
+REQUIRES           = libs/readline/6.3
 REQUIRES          += libs/mpfr/3.1.2
 
 # ======= __END_OF_REQUIRES__ =======
@@ -165,7 +166,7 @@ $(install_target): $(build_target)
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" *.la \
 	 )
 	# ======= Strip binaries =======
-	@( cd $(GAWK_PKG); \
+	@( cd $(GAWK_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )

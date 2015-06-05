@@ -31,6 +31,10 @@ REQUIRES          += X11/X.org/lib/libXrandr/1.4.2-x86_32
 REQUIRES          += X11/X.org/lib/libXv/1.0.10-x86_32
 REQUIRES          += X11/X.org/lib/libxkbfile/1.0.8-x86_32
 
+REQUIRES          += X11/X.org/xcb/xcb-util-cursor/0.1.1-x86_32
+REQUIRES          += X11/X.org/xcb/xcb-util-keysyms/0.4.0-x86_32
+REQUIRES          += X11/X.org/xcb/xcb-util-wm/0.4.1-x86_32
+
 REQUIRES          += libs/gstreamer/1.4.5-x86_32
 REQUIRES          += libs/gst-plugins-base/1.4.5-x86_32
 

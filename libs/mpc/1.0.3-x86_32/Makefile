@@ -113,7 +113,7 @@ $(install_target): $(build_target)
 	@( cd $(MPC_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libmpc.la  \
 	 )
-	# ======= Install the same to $(TARGET_DEST_DIR)
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(MPC_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
 	# ======= tune libtool *.la search path to the target destination for development =======

@@ -53,14 +53,14 @@ post_install() {
 
 # arg 1:  the new package version
 # arg 2:  the old package version
-pre_upgrade() {
+pre_update() {
   remove_catalog etc/sgml/sgml-docbook.cat etc/sgml/sgml-ent.cat
   remove_catalog etc/sgml/sgml-ent.cat usr/share/sgml/sgml-iso-entities-8879.1986/catalog
 }
 
 # arg 1:  the new package version
 # arg 2:  the old package version
-post_upgrade() {
+post_update() {
   post_install
 }
 

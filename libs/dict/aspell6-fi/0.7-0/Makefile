@@ -115,8 +115,7 @@ $(install_target): $(build_target)
 	 )
 	@cp -a $(SRC_DIR)/doc/README $(ASPELL6_PKG)/usr/share/doc/dict/$(doc_dir_name)/README.ispell
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(ASPELL6_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(ASPELL6_PKG))
 	@touch $@
 
 $(ASPELL6_PKG_DESCRIPTION_FILE): $(ASPELL6_PKG_DESCRIPTION_FILE_IN)

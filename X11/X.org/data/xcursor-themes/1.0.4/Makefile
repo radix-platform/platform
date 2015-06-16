@@ -146,8 +146,7 @@ $(install_target): $(build_target)
 	   fi \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(XORG_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(XORG_PKG))
 	@touch $@
 
 $(XORG_PKG_DESCRIPTION_FILE): $(XORG_PKG_DESCRIPTION_FILE_IN)

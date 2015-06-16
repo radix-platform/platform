@@ -178,8 +178,7 @@ $(install_target): $(build_target)
 	   fi \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(DTD_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(DTD_PKG))
 	@touch $@
 
 $(DTD_PKG_DESCRIPTION_FILE): $(DTD_PKG_DESCRIPTION_FILE_IN)

@@ -146,8 +146,7 @@ $(install_target): $(build_target)
 	   fi \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(AUTOCONF_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(AUTOCONF_PKG))
 	@touch $@
 
 $(AUTOCONF_PKG_DESCRIPTION_FILE): $(AUTOCONF_PKG_DESCRIPTION_FILE_IN)

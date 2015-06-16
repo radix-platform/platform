@@ -147,8 +147,7 @@ $(install_target): $(build_target)
 	   fi \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(DIFFUTILS_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(DIFFUTILS_PKG))
 	# ======= Strip binaries =======
 	@( cd $(DIFFUTILS_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \

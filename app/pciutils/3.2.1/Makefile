@@ -150,8 +150,7 @@ $(install_target): $(build_target)
 	   fi \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(PCIUTILS_PKG) && cp -arf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(PCIUTILS_PKG))
 	# ======= tune pkg-config *.pc search path to the target destination of libpci and PCI device database =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libpci.pc \

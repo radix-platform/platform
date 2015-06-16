@@ -101,8 +101,7 @@ $(build_kh_pkg): $(KH_DEV_PKG)/usr/include/linux/autoconf.h
 	     rm -f $$file; \
 	   done )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(KH_DEV_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(KH_DEV_PKG))
 	@touch $@
 
 $(KH_DEV_PKG_DESCRIPTION_FILE): $(KH_DEV_PKG_DESCRIPTION_FILE_IN)

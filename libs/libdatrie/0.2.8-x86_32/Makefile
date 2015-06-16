@@ -115,8 +115,7 @@ $(install_target): $(build_target)
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libdatrie.la  \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(DATRIE_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(DATRIE_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libdatrie.la ; \

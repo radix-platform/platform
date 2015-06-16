@@ -142,8 +142,7 @@ $(install_target): $(build_target)
 	   fi \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(XDGUTILS_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(XDGUTILS_PKG))
 	@touch $@
 
 $(XDGUTILS_PKG_DESCRIPTION_FILE): $(XDGUTILS_PKG_DESCRIPTION_FILE_IN)

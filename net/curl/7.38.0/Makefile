@@ -188,8 +188,7 @@ endif
 	   sed -i "s,L/usr/lib,L$(TARGET_DEST_DIR)/usr/lib,g" curl-config ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(CURL_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(CURL_PKG))
 	# ======= Install target '/usr/bin/curl-congig' sctipt =======
 	@cat $(curl_config_in) | $(SED) -e "s/@LIBSUFFIX@/$(LIBSUFFIX)/g" > $(CURL_PKG)/usr/bin/curl-config
 	@chmod 0755 $(CURL_PKG)/usr/bin/curl-config

@@ -133,8 +133,7 @@ $(install_target): $(src_done)
 	         $(GLIBC_TZ_PKG)/usr/share/doc/$(doc_dir_name) ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(GLIBC_TZ_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(GLIBC_TZ_PKG))
 	@touch $@
 
 $(GLIBC_TZ_PKG_DESCRIPTION_FILE): $(GLIBC_TZ_PKG_DESCRIPTION_FILE_IN)

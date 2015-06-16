@@ -423,8 +423,7 @@ $(install_target): $(build_target)
 	                                    phonon.pc                              ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(QT4_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(QT4_PKG))
 	# ======= Remove build-machine tools from target package =======
 	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/bin ; \
 	   for file in lrelease moc qmake rcc uic ; do \

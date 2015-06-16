@@ -145,8 +145,7 @@ $(install_target): $(build_target)
 	   fi \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(XORG_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(XORG_PKG))
 	# ======= tune CC value for target HOST (change development GCC call to native GCC call) =======
 	@( cd $(XORG_PKG)/usr/bin ; \
 	   sed -i "s,^\(CC=\).*,\1\"gcc -std=gnu99\"," gccmakedep ; \

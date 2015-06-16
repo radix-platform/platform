@@ -128,8 +128,7 @@ $(install_target): $(build_target)
 	   sed -i "s,/bin,/bin/32,g" cloog-isl.pc isl.pc \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(CLOOG32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(CLOOG32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libcloog-isl.la libisl.la ; \

@@ -138,8 +138,7 @@ $(build_glibc32_pkg): $(install_target)
 	   mv $(GLIBC_32_PKG)/usr/stubs-32.h     $(GLIBC_32_PKG)/usr/include/gnu ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(GLIBC_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(GLIBC_32_PKG))
 	# ======= Strip binaries =======
 	@( cd $(GLIBC_32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \

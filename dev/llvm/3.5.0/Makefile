@@ -238,8 +238,7 @@ endif
 	   fi \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(LLVM_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(LLVM_PKG))
 	# ======= Remove llvm-config-host from target package =======
 	@rm -f $(LLVM_PKG)/usr/bin/llvm-config-host
 	# ======= Strip Binaries =======

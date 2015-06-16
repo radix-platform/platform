@@ -129,8 +129,7 @@ $(install_target): $(build_target)
 	         $(KEYUTILS_PKG)/usr/share/doc/$(src_dir_name) ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(KEYUTILS_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(KEYUTILS_PKG))
 	# ======= Strip binaries =======
 	@( cd $(KEYUTILS_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \

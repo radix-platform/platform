@@ -105,8 +105,7 @@ $(install_target): $(build_target)
 	         $(SCOWL_PKG)/usr/share/doc/$(src_dir_name) ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(SCOWL_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(SCOWL_PKG))
 	@touch $@
 
 $(SCOWL_PKG_DESCRIPTION_FILE): $(SCOWL_PKG_DESCRIPTION_FILE_IN)

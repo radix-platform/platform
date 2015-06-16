@@ -221,8 +221,7 @@ $(install_widec_target): $(build_widec_target)
 	   fi \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(NCURSES_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(NCURSES_PKG))
 	# ======= remove TARGET_DEST_DIR from ncurses-config scripts =======
 	@( cd $(NCURSES_PKG)/usr/bin ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" ncurses5-config ncursesw5-config \

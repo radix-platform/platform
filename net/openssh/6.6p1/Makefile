@@ -177,8 +177,7 @@ $(install_target): $(build_target)
 	   fi \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(OPENSSH_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(OPENSSH_PKG))
 	# ======= Strip binaries =======
 	@( cd $(OPENSSH_PKG) ; \
 	   find . | xargs file | grep -e "executable" -e "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \

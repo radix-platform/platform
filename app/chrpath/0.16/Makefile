@@ -129,8 +129,7 @@ $(install_target): $(build_target)
 	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/COPYING \
 	       $(CHRPATH_PKG)/usr/doc/$(src_dir_name)
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(CHRPATH_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(CHRPATH_PKG))
 	# ======= Strip binaries =======
 	@( cd $(CHRPATH_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \

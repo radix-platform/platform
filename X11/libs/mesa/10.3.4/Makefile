@@ -256,8 +256,7 @@ else
 	 )
 endif
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(MESA_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(MESA_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \

@@ -171,8 +171,7 @@ endif
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libdbus-glib-1.la  \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(DBUS_GLIB_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(DBUS_GLIB_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libdbus-glib-1.la ; \

@@ -169,8 +169,7 @@ $(install_target): $(build_target)
 	   sed -i "s,$(TARGET_DEST_DIR),,g" _dbus_bindings.la _dbus_glib_bindings.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(DBUS_PYTHON_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(DBUS_PYTHON_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/python$(PYTHON_VERSION)/site-packages ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" _dbus_bindings.la _dbus_glib_bindings.la ; \

@@ -435,7 +435,6 @@ ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
 	 )
 endif
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
 	@if [ -d $(TARGET_DEST_DIR)/usr/libexec/gcc ] ; then \
 	   rm -rf $(TARGET_DEST_DIR)/usr/libexec/gcc ; \
 	 fi
@@ -456,7 +455,7 @@ ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
 	   rm -rf $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/gcj-$(version)-$(jversion) ; \
 	 fi
 endif
-	@cd $(GCC_DEV_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(GCC_DEV_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/libexec/gcc/$(TARGET)/$(version) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" liblto_plugin.la ; \

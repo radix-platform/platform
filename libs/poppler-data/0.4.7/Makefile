@@ -103,8 +103,7 @@ $(install_target): $(build_target)
 	@cp -a $(SRC_DIR)/COPYING* $(SRC_DIR)/README \
 	       $(PPDATA_PKG)/usr/share/doc/$(src_dir_name)
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(PPDATA_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(PPDATA_PKG))
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/share/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" poppler-data.pc \

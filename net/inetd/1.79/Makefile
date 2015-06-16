@@ -114,8 +114,7 @@ $(install_target): $(build_target)
 	@cp -a $(inetd_config_file) $(INETD_PKG)/etc
 	@cp -a $(inetd_script_file) $(INETD_PKG)/etc/rc.d
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(INETD_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(INETD_PKG))
 	# ======= Strip binaries =======
 	@( cd $(INETD_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \

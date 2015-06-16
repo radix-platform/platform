@@ -191,8 +191,7 @@ $(install_target): $(build_target)
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libXdmGreet.la \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(XORG_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(XORG_PKG))
 	# ======= Strip binaries =======
 	@( cd $(XORG_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \

@@ -178,8 +178,7 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64) $(HARDWARE_PC32)),)
 	 )
 endif
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(LIBDRM_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(LIBDRM_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libdrm.la          \

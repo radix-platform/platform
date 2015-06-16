@@ -183,8 +183,7 @@ $(install_target): $(build_target)
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libip4tc.la libip6tc.la libipq.la libiptc.la libxtables.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(IPTABLES_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(IPTABLES_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libip4tc.la libip6tc.la libipq.la libiptc.la libxtables.la ; \

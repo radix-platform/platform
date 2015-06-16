@@ -152,8 +152,7 @@ $(install_target): $(build_target)
 	         $(BZIP2_PKG)/usr/share/doc/bzip2-$(version) \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(BZIP2_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(BZIP2_PKG))
 	# ======= Strip binaries =======
 	@( cd $(BZIP2_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \

@@ -192,8 +192,7 @@ endif
 	   fi \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(UDEV_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(UDEV_PKG))
 	# ======= tune pkg-config *.pc in /usr/share/pkgconfig/udev.pc file =======
 	@( cd $(TARGET_DEST_DIR)/usr/share/pkgconfig ; \
 	   sed -i "s,/lib,$(TARGET_DEST_DIR)/lib,g" udev.pc ; \

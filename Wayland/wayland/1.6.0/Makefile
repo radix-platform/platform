@@ -168,8 +168,7 @@ $(install_target): $(build_target)
 	                                    libwayland-server.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(WAYLAND_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(WAYLAND_PKG))
 	# ======= Install wayland-scanner into $(TARGET_DEST_DIR) =======
 	@cp -a $(build_dir)/build-wayland-scanner $(TARGET_DEST_DIR)/usr/bin/$(TARGET)-wayland-scanner
 	# ======= tune libtool *.la search path to the target destination for development =======

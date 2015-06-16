@@ -151,8 +151,7 @@ $(install_target): $(build_target)
 	         $(PERL_PKG)/usr/share/doc/$(src_dir_name) \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(PERL_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(PERL_PKG))
 	# ======= Remove cross environment from target package =======
 	@( archname=`cat $(SRC_DIR)/tconfig.sh | grep "^archname=" | sed -e "s,archname=',," | sed -e "s,',,"` ; \
 	   archdir=$(PERL_PKG)/usr/lib$(LIBSUFFIX)/perl5/$(version)/$$archname   ; \

@@ -134,8 +134,7 @@ $(install_target): $(build_target)
 	   fi \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(XSL_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(XSL_PKG))
 	@touch $@
 
 $(XSL_PKG_DESCRIPTION_FILE): $(XSL_PKG_DESCRIPTION_FILE_IN)

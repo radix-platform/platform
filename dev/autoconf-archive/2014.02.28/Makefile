@@ -143,8 +143,7 @@ $(install_target): $(build_target)
 	   fi \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(AC_ARCHIVE_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(AC_ARCHIVE_PKG))
 	@touch $@
 
 $(AC_ARCHIVE_PKG_DESCRIPTION_FILE): $(AC_ARCHIVE_PKG_DESCRIPTION_FILE_IN)

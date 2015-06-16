@@ -300,8 +300,7 @@ $(install_target): $(build_target)
 	                                    libisc.la libisccc.la libisccfg.la liblwres.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(BIND_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(BIND_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libbind9.la libdns.la libirs.la   \

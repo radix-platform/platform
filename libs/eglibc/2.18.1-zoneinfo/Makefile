@@ -121,8 +121,7 @@ $(install_target): $(src_done)
 	     gzip -9 --force $$file; \
 	   done )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(EGLIBC_TZ_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(EGLIBC_TZ_PKG))
 	@touch $@
 
 $(EGLIBC_TZ_PKG_DESCRIPTION_FILE): $(EGLIBC_TZ_PKG_DESCRIPTION_FILE_IN)

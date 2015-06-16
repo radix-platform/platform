@@ -207,8 +207,7 @@ endif
 	   sed -i "s,$(TOOLCHAIN_PATH),$(TARGET_DEST_DIR)/usr,g" *.la \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(GCC_RT_DEV_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(GCC_RT_DEV_PKG))
 	# ======= tune target libtool *.la scripts =======
 	@( cd $(GCC_RT_DEV_PKG)/usr/libexec/gcc/$(TARGET)/$(version) && \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" *.la \

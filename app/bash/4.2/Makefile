@@ -160,8 +160,7 @@ $(install_target): $(build_target)
 	   fi \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(BASH_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(BASH_PKG))
 	@( cd $(TARGET_DEST_DIR) ; \
 	   mv bin/bash4.new bin/bash ; \
 	   ( cd usr/bin ; ln -sf ../../bin/bash bash ) \

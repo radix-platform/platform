@@ -227,8 +227,7 @@ $(install_target): $(build_target)
 	@chmod 0755 $(CMDUTILS_PKG)/usr/bin/diskcopy
 	@chmod 0755 $(CMDUTILS_PKG)/usr/bin/xx
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(CMDUTILS_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(CMDUTILS_PKG))
 	# ======= Strip binaries =======
 	@( cd $(CMDUTILS_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \

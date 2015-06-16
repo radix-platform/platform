@@ -167,8 +167,7 @@ $(install_target): $(build_target)
 	   cp -a README $(CACERTS_PKG)/usr/share/doc/ca-certificates-$(version) ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(CACERTS_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(CACERTS_PKG))
 	@touch $@
 
 $(CACERTS_PKG_DESCRIPTION_FILE): $(CACERTS_PKG_DESCRIPTION_FILE_IN)

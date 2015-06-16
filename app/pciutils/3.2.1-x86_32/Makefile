@@ -115,8 +115,7 @@ $(install_target): $(build_target)
 	@rm -rf $(PCIUTILS32_PKG)/usr/include
 	@rm -rf $(PCIUTILS32_PKG)/usr/share
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(PCIUTILS32_PKG) && cp -arf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(PCIUTILS32_PKG))
 	# ======= tune pkg-config *.pc search path to the target destination of libpci and PCI device database =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libpci.pc \

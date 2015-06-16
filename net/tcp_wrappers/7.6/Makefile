@@ -122,8 +122,7 @@ $(install_target): $(build_target)
 	         $(TCP_WRAP_PKG)/usr/share/doc/$(src_dir_name) \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(TCP_WRAP_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(TCP_WRAP_PKG))
 	# ======= Strip binaries =======
 	@( cd $(TCP_WRAP_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \

@@ -168,8 +168,7 @@ $(install_target): $(build_target)
 	   sed -i "s,$(TARGET_DEST_DIR),,g" ct_helper_ftp.la ct_helper_rpc.la ct_helper_tns.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(CONNTRACK_TOOLS_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(CONNTRACK_TOOLS_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/conntrack-tools ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" ct_helper_ftp.la ct_helper_rpc.la ct_helper_tns.la ; \

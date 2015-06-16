@@ -156,8 +156,7 @@ $(install_target): $(build_target)
 	   fi \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(SGML_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(SGML_PKG))
 	@touch $@
 
 $(SGML_PKG_DESCRIPTION_FILE): $(SGML_PKG_DESCRIPTION_FILE_IN)

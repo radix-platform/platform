@@ -152,8 +152,7 @@ $(install_target): $(build_target)
 	   fi \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(TEXINFO_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(TEXINFO_PKG))
 	# ======= Strip binaries =======
 	@( cd $(TEXINFO_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null \

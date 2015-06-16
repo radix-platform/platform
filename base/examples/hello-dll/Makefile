@@ -123,8 +123,7 @@ $(install_target): $(bin_target)
 	@mkdir -p $(HELLO_PKG)/usr/share/doc/hello-dll-$(version)
 	@cp -a $(CURDIR)/README $(HELLO_PKG)/usr/share/doc/hello-dll-$(version)
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(HELLO_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(HELLO_PKG))
 	# ======= Strip binaries =======
 	@( cd $(HELLO_PKG); \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \

@@ -129,8 +129,7 @@ $(install_target): $(build_target) $(FUNCTIONS_DESCRIPTION_FILE)
 	@cp -a $(FUNCTIONS_DESCRIPTION_FILE) $(SYSVFUNC_PKG)/etc/rc.d/init.d
 	@mkdir -p $(SYSVFUNC_PKG)/etc/rc.d/rc{0,1,2,3,4,5,6}.d
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(SYSVFUNC_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(SYSVFUNC_PKG))
 	# ======= Strip binaries =======
 	@( cd $(SYSVFUNC_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null \

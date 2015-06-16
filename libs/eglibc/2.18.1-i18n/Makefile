@@ -166,8 +166,7 @@ ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
 	@mkdir -p $(EGLIBC_I18N_PKG)/usr/lib32 && cp -rf $(EGLIBC_I18N_PKG)/usr/lib/locale $(EGLIBC_I18N_PKG)/usr/lib32
 endif
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(EGLIBC_I18N_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(EGLIBC_I18N_PKG))
 	@touch $@
 
 $(EGLIBC_I18N_PKG_DESCRIPTION_FILE): $(EGLIBC_I18N_PKG_DESCRIPTION_FILE_IN)

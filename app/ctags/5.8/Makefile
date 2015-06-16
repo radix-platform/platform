@@ -129,8 +129,7 @@ $(install_target): $(build_target)
 	@cp -a $(SRC_DIR)/ctags.html $(CTAGS_PKG)/usr/share/doc/$(src_dir_name)/html
 	@cp -a $(SRC_DIR)/EXTENDING.html $(CTAGS_PKG)/usr/share/doc/$(src_dir_name)/html
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(CTAGS_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(CTAGS_PKG))
 	# ======= Strip binaries =======
 	@( cd $(CTAGS_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \

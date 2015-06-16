@@ -158,8 +158,7 @@ $(install_target): $(build_target)
 	                                    libtheoraenc.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(LIBTHEORA_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(LIBTHEORA_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libtheora.la      \

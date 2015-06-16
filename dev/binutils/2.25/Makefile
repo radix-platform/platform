@@ -399,8 +399,7 @@ ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
 	@ln -sf ../lib$(MULTILIB_X86_32_SUFFIX) $(BINUTILS_DEV_PKG)/usr/$(TARGET)/lib32
 endif
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(BINUTILS_DEV_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(BINUTILS_DEV_PKG))
 	# Libiberty will be installed from GCC by --enable-install-libiberty option
 	# we don't need LIBIBERTY on $(TARGET_DEST_DIR) until GCC will be built
 	# tune libtool *.la search path to the target destination for development

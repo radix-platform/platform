@@ -111,8 +111,7 @@ $(install_target): $(build_target)
 	@rm -rf $(PAM_U2_32_PKG)/etc
 	@rm -rf $(PAM_U2_32_PKG)/usr/share
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(PAM_U2_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(PAM_U2_32_PKG))
 	# ======= Strip binaries =======
 	@( cd $(PAM_U2_32_PKG) ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \

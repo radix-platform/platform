@@ -156,8 +156,7 @@ $(install_target): $(build_target)
 	   ln -sf perl$(version) perl ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(PERL_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(PERL_32_PKG))
 	# ======= Remove cross environment from target package =======
 	@( cd $(PERL_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/perl5/$(version)/$(ARCHNAME) ; \
 	   sed -i "s,$(CROSS_PREFIX),,g"               Config_heavy.pl ; \

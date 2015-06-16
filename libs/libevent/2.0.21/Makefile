@@ -114,7 +114,7 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(LIBEVENT_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
-	# ======= Install Documentation ======
+	# ======= Install Documentation =======
 	@mkdir -p $(LIBEVENT_PKG)/usr/doc/$(doc_dir_name)
 	@cp -a $(SRC_DIR)/LICENSE \
 	       $(LIBEVENT_PKG)/usr/doc/$(doc_dir_name)
@@ -128,7 +128,7 @@ $(install_target): $(build_target)
 	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \
 	 )
-	# ====== remove toolchain path from target libtool *.la files ======
+	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(LIBEVENT_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libevent.la          \
 	                                    libevent_core.la     \
@@ -136,10 +136,10 @@ $(install_target): $(build_target)
 	                                    libevent_openssl.la  \
 	                                    libevent_pthreads.la \
 	 )
-	# ====== Install the same to $(TARGET_DEST_DIR) ======
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	@mkdir -p $(TARGET_DEST_DIR)
 	@cd $(LIBEVENT_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	# ====== tune libtool *.la search path to the target destination for development ======
+	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libevent.la            \
 	                                            libevent_core.la       \
@@ -152,7 +152,7 @@ $(install_target): $(build_target)
 	                                              libevent_openssl.la  \
 	                                              libevent_pthreads.la \
 	 )
-	# ====== tune pkg-config *.pc search path to the target destination for development ======
+	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libevent.pc          \
 	                                            libevent_openssl.pc  \

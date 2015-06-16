@@ -156,7 +156,7 @@ endif
 
 $(install_target): $(build_target)
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
-	# ====== Install the same locales into /usr/lib32 (x86_32 compat) directory ======
+	# ======= Install the same locales into /usr/lib32 (x86_32 compat) directory =======
 	@mkdir -p $(GLIBC_I18N_PKG)/usr/lib32 && cp -rf $(GLIBC_I18N_PKG)/usr/lib/locale $(GLIBC_I18N_PKG)/usr/lib32
 endif
 	# ======= Install the same to $(TARGET_DEST_DIR) =======

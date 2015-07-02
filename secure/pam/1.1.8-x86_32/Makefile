@@ -13,7 +13,6 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/s/Linux-PAM
 
 REQUIRES           = secure/pam/1.1.8
-REQUIRES          += libs/eglibc/2.19.1-x86_32
 REQUIRES          += secure/cracklib/2.9.1-x86_32
 REQUIRES          += dev/flex/2.5.39-x86_32
 
@@ -91,6 +90,7 @@ extra_configure_switches += --includedir=/usr/include/security
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var/lib
 extra_configure_switches += --enable-nis
@@ -158,8 +158,7 @@ $(install_target): $(build_target)
 	   sed -i "s,$(TARGET_DEST_DIR),,g" pam_*.la \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(PAM_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(PAM_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libpam.la libpam_misc.la libpamc.la ; \

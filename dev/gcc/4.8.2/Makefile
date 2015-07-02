@@ -52,7 +52,7 @@ mpfr_src_done         = $(TARGET_BUILD_DIR)/.mpfr-source-done
 mpc_src_done          = $(TARGET_BUILD_DIR)/.mpc-source-done
 
 
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
 PATCHES = PATCHES.x86_64
 else
 PATCHES = PATCHES
@@ -141,7 +141,7 @@ extra_configure_switches += --with-gnu-ld
 extra_configure_switches += --with-gnu-as
 
 
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_A1X_EGLIBC))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_A1X_GLIBC))
 extra_configure_switches += --with-cpu=cortex-a8
 extra_configure_switches += --with-arch=armv7-a
 extra_configure_switches += --with-fpu=neon
@@ -149,7 +149,7 @@ extra_configure_switches += --with-float=hard
 extra_configure_switches += --with-abi=aapcs-linux
 endif
 
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_OMAP35X_EGLIBC))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_OMAP35X_GLIBC))
 extra_configure_switches += --with-cpu=cortex-a8
 extra_configure_switches += --with-arch=armv7-a
 extra_configure_switches += --with-fpu=neon
@@ -157,7 +157,7 @@ extra_configure_switches += --with-float=hard
 extra_configure_switches += --with-abi=aapcs-linux
 endif
 
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_OMAP543X_EGLIBC))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_OMAP543X_GLIBC))
 extra_configure_switches += --with-arch=armv7-a
 extra_configure_switches += --with-tune=cortex-a15
 extra_configure_switches += --with-fpu=neon-vfpv4
@@ -165,27 +165,27 @@ extra_configure_switches += --with-float=hard
 extra_configure_switches += --with-abi=aapcs-linux
 endif
 
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_DM644X_EGLIBC))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_DM644X_GLIBC))
 extra_configure_switches += --with-float=soft
 extra_configure_switches += --with-arch=armv5te
 extra_configure_switches += --with-tune=arm926ej-s
 extra_configure_switches += --with-dwarf2
 endif
 
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_BCM74X_EGLIBC))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_BCM74X_GLIBC))
 extra_configure_switches += --with-arch=mips32
 extra_configure_switches += --with-float=hard
 extra_configure_switches += --enable-target-optspace
 endif
 
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_I686_EGLIBC))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_I686_GLIBC))
 extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
 extra_configure_switches += '--with-bugurl=$(BUG_URL)'
 extra_configure_switches += --with-arch=i486
 extra_configure_switches += --with-tune=i686
 endif
 
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
 extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
 extra_configure_switches += '--with-bugurl=$(BUG_URL)'
 extra_configure_switches += --with-multilib-list=m64,m32
@@ -235,11 +235,11 @@ $(install_target): $(build_target)
 	$(BUILD_ENVIRONMENT) $(MAKE) -C $(build_dir) install $(env_sysroot)
 	$(BUILD_ENVIRONMENT) $(MAKE) -C $(build_dir) install-info $(env_sysroot)
 	@chmod 755 $(GCC_DEV_PKG)/usr/lib$(LIBSUFFIX)/libgcc_s.so.1
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
 	@chmod 755 $(GCC_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/libgcc_s.so.1
 endif
 	@rm -f $(GCC_DEV_PKG)/usr/lib$(LIBSUFFIX)/*gdb.py
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
 	@rm -f $(GCC_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/*gdb.py
 endif
 	@mkdir -p $(GCC_DEV_PKG)/lib
@@ -303,9 +303,9 @@ endif
 	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \
 	 )
-	# remove target destination path from target libtool *.la files
+	# ======= remove target destination path from target libtool *.la files =======
 	@( cd $(GCC_DEV_PKG)/usr/libexec/gcc/$(TARGET)/$(version) ; \
-	  sed -i "s,$(TARGET_DEST_DIR),,g" liblto_plugin.la \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" liblto_plugin.la \
 	 )
 	# remove toolchain path from target libtool *.la files
 	@( cd $(GCC_DEV_PKG)/usr/lib$(LIBSUFFIX) ; \
@@ -316,21 +316,20 @@ endif
 	     sed -i "s,'$(TOOLCHAIN_PATH)/.*la,,g" libtsan.la ; \
 	   fi \
 	 )
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
 	@( cd $(GCC_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	  sed -i "s,'$(TOOLCHAIN_PATH)/.*la,,g" libasan.la \
+	   sed -i "s,'$(TOOLCHAIN_PATH)/.*la,,g" libasan.la \
 	 )
 endif
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
 	@if [ -d $(TARGET_DEST_DIR)/usr/libexec/gcc ] ; then \
 	   rm -rf $(TARGET_DEST_DIR)/usr/libexec/gcc ; \
 	 fi
 	@if [ -d $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/gcc ] ; then \
 	   rm -rf $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/gcc ; \
 	 fi
-	@cd $(GCC_DEV_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	# tune libtool *.la search path to the target destination for development
+	$(call install-into-devenv, $(GCC_DEV_PKG))
+	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
 	   if [ -f libasan.la ] ; then \
 	     sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libasan.la ; \
@@ -348,7 +347,7 @@ endif
 	                                            libmudflap.la libmudflapth.la libssp.la \
 	                                            libssp_nonshared.la libstdc++.la libsupc++.la ; \
 	 )
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libasan.la libatomic.la libgomp.la libitm.la \
 	                                            libmudflap.la libmudflapth.la libquadmath.la libssp.la \
@@ -356,13 +355,14 @@ ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC))
 	 )
 endif
 	@( cd $(TARGET_DEST_DIR)/usr/libexec/gcc/$(TARGET)/$(version) ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" liblto_plugin.la ; \
-	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" liblto_plugin.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" liblto_plugin.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" liblto_plugin.la \
 	 )
-	@(cd $(GCC_DEV_PKG); \
-	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
+	# ======= Strip binaries =======
+	@( cd $(GCC_DEV_PKG) ; \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
 	@touch $@
 

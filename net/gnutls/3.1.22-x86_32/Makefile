@@ -13,11 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES      = sources/packages/n/gnutls
 
 REQUIRES             = net/gnutls/3.1.22
-REQUIRES            += libs/zlib/1.2.8-x86_32
-REQUIRES            += libs/libffi/3.0.13-x86_32
 REQUIRES            += libs/libidn/1.28-x86_32
-REQUIRES            += libs/gmp/5.1.3-x86_32
-REQUIRES            += libs/libtasn1/3.4-x86_32
 REQUIRES            += net/p11-kit/0.20.2-x86_32
 REQUIRES            += net/nettle/2.7.1-x86_32
 REQUIRES            += dev/guile/2.0.9-x86_32
@@ -136,8 +132,7 @@ $(install_target): $(build_target)
 	   sed -i "s,$(TARGET_DEST_DIR),,g" gnutls.pc ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(GNUTLS_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(GNUTLS_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgnutls-openssl.la libgnutls-xssl.la libgnutls.la libgnutlsxx.la ; \

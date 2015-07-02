@@ -13,10 +13,6 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES      = sources/packages/n/gpgme
 
 REQUIRES             = net/gpgme/1.5.1
-REQUIRES            += net/libgpg-error/1.16-x86_32
-REQUIRES            += net/libassuan/2.1.2-x86_32
-REQUIRES            += net/gnupg/1.4.18
-REQUIRES            += net/gnupg2/2.0.26
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -81,6 +77,7 @@ env_sysroot  = DESTDIR=$(GPGME_32_PKG)
 extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --enable-static=yes
 extra_configure_switches += --enable-shared=yes
@@ -139,8 +136,7 @@ $(install_target): $(build_target)
 	   sed -i 's,@GPGSM@,/usr/bin/gpgsm,g' gpgme-config ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(GPGME_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(GPGME_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgpgme-pthread.la libgpgme.la ; \

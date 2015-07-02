@@ -13,7 +13,6 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/GNU/aspell
 
 REQUIRES           = libs/aspell/0.60.6.1
-REQUIRES          += libs/eglibc/2.19.1
 REQUIRES          += libs/ncurses/5.9-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
@@ -124,8 +123,7 @@ $(install_target): $(build_target)
 	                                    tex-filter.la texinfo-filter.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(ASPELL_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(ASPELL_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libaspell.la libpspell.la ; \

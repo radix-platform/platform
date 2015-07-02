@@ -7,7 +7,7 @@ include ../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/GNU/mpc
 
-versions    = 1.0.1 1.0.2
+versions    = 1.0.1 1.0.2 1.0.3
 pkgname     = mpc
 suffix      = tar.gz
 

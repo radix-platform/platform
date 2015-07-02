@@ -13,9 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/aalib
 
 REQUIRES           = libs/aalib/1.4.0
-REQUIRES          += libs/ncurses/5.9-x86_32
 REQUIRES          += libs/slang/2.2.4-x86_32
-REQUIRES          += X11/X.org/lib/libX11/1.6.2-x86_32
 REQUIRES          += X11/X.org/lib/libXt/1.1.4-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
@@ -82,6 +80,7 @@ env_sysroot  = DESTDIR=$(AALIB_32_PKG)
 extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 
 extra_configure_switches += --bindir=/usr/bin/32
 
@@ -142,8 +141,7 @@ $(install_target): $(build_target)
 	   sed -i 's,lib",lib$(MULTILIB_X86_32_SUFFIX)",g'                     aalib-config ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(AALIB_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(AALIB_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libaa.la ; \

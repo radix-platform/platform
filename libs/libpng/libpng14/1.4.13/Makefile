@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -18,8 +20,7 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/libpng/libpng14
 
-REQUIRES           = libs/eglibc/2.19.1
-REQUIRES          += libs/zlib/1.2.8
+REQUIRES           = libs/zlib/1.2.8
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -85,6 +86,7 @@ env_sysroot = DESTDIR=$(LIBPNG_PKG)
 extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 
 
 ####### Dependencies
@@ -108,6 +110,7 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(LIBPNG_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	# ======= Install Documentation =======
 	@if [ -d $(LIBPNG_PKG)/usr/share/man ]; then \
 	  ( cd $(LIBPNG_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \
@@ -137,28 +140,27 @@ $(install_target): $(build_target)
 	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \
 	 )
-	# ====== remove toolchain path from target libtool *.la files ======
+	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(LIBPNG_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libpng14.la  \
 	 )
-	# ====== Install the same to $(TARGET_DEST_DIR) ======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(LIBPNG_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	# ====== tune libtool *.la search path to the target destination for development ======
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
+	$(call install-into-devenv, $(LIBPNG_PKG))
+	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libpng14.la ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libpng14.la \
 	 )
-	# ====== tune pkg-config *.pc search path to the target destination for development ======
+	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libpng14.pc \
 	 )
-	# ====== tune libpng14-config script for development ======
+	# ======= tune libpng14-config script for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/bin ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libpng14-config \
 	 )
-	# ====== Strip binaries ======
-	@( cd $(LIBPNG_PKG); \
+	# ======= Strip binaries =======
+	@( cd $(LIBPNG_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \

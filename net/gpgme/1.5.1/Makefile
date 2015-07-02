@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -18,9 +20,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/n/gpgme
 
-REQUIRES           = net/libgpg-error/1.16
-REQUIRES          += net/libassuan/2.1.2
-REQUIRES          += net/gnupg/1.4.18
+REQUIRES           = net/gnupg/1.4.18
 REQUIRES          += net/gnupg2/2.0.26
 
 # ======= __END_OF_REQUIRES__ =======
@@ -87,6 +87,7 @@ env_sysroot  = DESTDIR=$(GPGME_PKG)
 extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --enable-static=yes
 extra_configure_switches += --enable-shared=yes
@@ -170,8 +171,7 @@ $(install_target): $(build_target)
 	   sed -i 's,@GPGSM@,/usr/bin/gpgsm,g' gpgme-config ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(GPGME_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(GPGME_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgpgme-pthread.la libgpgme.la ; \

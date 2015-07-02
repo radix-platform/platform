@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -148,6 +150,7 @@ $(install_target): $(build_target)
 	   cp -a fsck.ext2 fsck.ext4  ; \
 	   cp -a fsck.ext2 fsck.ext4dev \
 	 )
+	# ======= Install Documentation =======
 	@( cd $(E2FSPROGS_PKG)/usr/share/man/man8 ; \
 	   rm -f fsck.ext2.8 fsck.ext3.8 mkfs.ext2.8 mkfs.ext3.8 mkfs.ext4.8 mkfs.ext4dev.8 ; \
 	   ln -sf e2fsck.8 fsck.ext2.8  ; \
@@ -184,15 +187,14 @@ $(install_target): $(build_target)
 	         $(E2FSPROGS_PKG)/usr/share/doc/$(src_dir_name) \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(E2FSPROGS_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(E2FSPROGS_PKG))
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" com_err.pc e2p.pc ext2fs.pc quota.pc ss.pc ; \
 	   sed -i "s,^prefix=,prefix=$(TARGET_DEST_DIR),g" com_err.pc e2p.pc ext2fs.pc quota.pc ss.pc ; \
 	 )
 	# ======= Strip binaries =======
-	@( cd $(E2FSPROGS_PKG); \
+	@( cd $(E2FSPROGS_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )

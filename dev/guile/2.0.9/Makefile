@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -18,11 +20,9 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/guile
 
-REQUIRES           = libs/eglibc/2.19.1
-REQUIRES          += libs/libffi/3.0.13
-REQUIRES          += libs/gmp/5.1.3
+REQUIRES           = libs/libffi/3.0.13
+REQUIRES          += libs/gmp/6.0.0
 REQUIRES          += libs/readline/6.3
-REQUIRES          += libs/ncurses/5.9
 REQUIRES          += dev/libtool/2.4.2
 REQUIRES          += libs/libunistring/0.9.3
 REQUIRES          += libs/gc/7.2d
@@ -92,6 +92,7 @@ extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --with-threads
 extra_configure_switches += --disable-error-on-warning
 extra_configure_switches += --enable-static=yes
@@ -172,8 +173,7 @@ $(install_target): $(build_target)
 	   sed -i "s,$(TARGET_DEST_DIR),,g" guile-?.?.pc \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(GUILE_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(GUILE_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libguile-?.?.la libguilereadline-v-??.la ; \

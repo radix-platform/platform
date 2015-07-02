@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -18,7 +20,7 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/x/qt5
 
-REQUIRES           = dev/gcc/4.9.1
+REQUIRES           = dev/gcc/4.9.2
 REQUIRES          += net/ca-certificates/32.0
 REQUIRES          += X11/app/desktop-file-utils/0.22
 REQUIRES          += X11/libs/hicolor-icon-theme/0.14
@@ -40,6 +42,10 @@ REQUIRES          += X11/X.org/lib/libXinerama/1.1.3
 REQUIRES          += X11/X.org/lib/libXrandr/1.4.2
 REQUIRES          += X11/X.org/lib/libXv/1.0.10
 REQUIRES          += X11/X.org/lib/libxkbfile/1.0.8
+
+REQUIRES          += X11/X.org/xcb/xcb-util-cursor/0.1.1
+REQUIRES          += X11/X.org/xcb/xcb-util-keysyms/0.4.0
+REQUIRES          += X11/X.org/xcb/xcb-util-wm/0.4.1
 
 REQUIRES          += libs/gstreamer/1.4.5
 REQUIRES          += libs/gst-plugins-base/1.4.5
@@ -66,10 +72,10 @@ profile_dir        = $(CURDIR)/profile.d
 applications_dir   = $(CURDIR)/applications
 
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X)),)
-PATCHES = PATCHES.cbxx
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
+PATCHES = PATCHES.eglfs
 else
-ifneq ($(filter $(HARDWARE),$(HARDWARE_B74)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_B74) $(HARDWARE_CI20)),)
 PATCHES = PATCHES.mips
 else
 PATCHES = PATCHES
@@ -123,8 +129,10 @@ include ../../../../build-system/core.mk
 
 env_sysroot = INSTALL_ROOT=$(QT5_PKG)
 
+QT5_JOBS = -j$(NUMPROCS)
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X) $(HARDWARE_BEAGLE) $(HARDWARE_OMAP5UEVM)),)
+
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X) $(HARDWARE_FFRK3288) $(HARDWARE_BEAGLE) $(HARDWARE_OMAP5UEVM)),)
 ARCH   = arm
 ABI    = gnueabihf
 endif
@@ -141,7 +149,7 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 ARCH   = x86_64
 ABI    = gnu
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_B74)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_B74) $(HARDWARE_CI20)),)
 ARCH   = mips
 ABI    = gnu
 endif
@@ -162,7 +170,7 @@ configure_switches += -device-option CCACHE=$(CCACHE)
 configure_switches += -device-option CROSS_COMPILE=$(CROSS_PREFIX)
 
 # ======= Target compiler doesn't support MIPS DSP/DSPr2 =======
-ifneq ($(filter $(HARDWARE),$(HARDWARE_B74)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_B74) $(HARDWARE_CI20)),)
 configure_switches += -no-mips_dsp
 configure_switches += -no-mips_dspr2
 endif
@@ -230,7 +238,7 @@ configure_switches += -xcb
 configure_switches += -no-directfb
 configure_switches += -linuxfb
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
 configure_switches += -no-eglfs
 configure_switches += -no-kms
 else
@@ -297,12 +305,12 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 	   sed -i "s,^\(#define QT_POINTER_SIZE\).*,\1 8," qtbase/src/corelib/global/qconfig.h ; \
 	 )
 endif
-	@cd $(SRC_DIR) && $(QT_BUILD_ENVIRONMENT) $(MAKE)
+	@cd $(SRC_DIR) && $(QT_BUILD_ENVIRONMENT) $(MAKE) $(QT5_JOBS)
 	@touch $@
 
 $(install_target): $(build_target)
 	@mkdir -p $(QT5_PKG)
-	@cd $(SRC_DIR) && $(QT_BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(SRC_DIR) && $(QT_BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Rename build-machine tools =======
 	@( cd $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt5/bin ; \
 	   for file in lconvert lrelease lupdate moc qdbuscpp2xml qdbusxml2cpp  \
@@ -550,8 +558,7 @@ $(install_target): $(build_target)
 	                                    Qt5XmlPatterns.pc                               ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(QT5_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(QT5_PKG))
 	# ======= Remove build-machine tools from target package =======
 	@( cd $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt5/bin ; \
 	   for file in lconvert lrelease lupdate moc qdbuscpp2xml qdbusxml2cpp  \

@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -19,7 +21,6 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/lua
 
 REQUIRES           = libs/readline/6.3
-REQUIRES          += libs/libtermcap/1.2.3
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -120,6 +121,7 @@ else
 	@cp -a $(SRC_DIR)/src/luaconf.h $(LUA_PKG)/usr/include
 endif
 	@cp -a $(SRC_DIR)/lua.pc $(LUA_PKG)/usr/lib$(LIBSUFFIX)/pkgconfig
+	# ======= Install Documentation =======
 	@( cd $(SRC_DIR)/doc ; \
 	   cp -a *.1 \
 	         $(LUA_PKG)/usr/share/man/man1 ; \
@@ -148,13 +150,13 @@ endif
 	         $(LUA_PKG)/usr/share/doc/$(src_dir_name)/html ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(LUA_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(LUA_PKG))
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" lua.pc ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" lua.pc ; \
 	 )
-	@( cd $(LUA_PKG); \
+	# ======= Strip binaries =======
+	@( cd $(LUA_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \

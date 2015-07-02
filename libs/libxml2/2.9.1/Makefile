@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -18,14 +20,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/libxml2
 
-REQUIRES           = libs/eglibc/2.19.1
-REQUIRES          += app/xz/5.0.5
-REQUIRES          += libs/zlib/1.2.8
-REQUIRES          += libs/ncurses/5.9
-REQUIRES          += libs/libtermcap/1.2.3
-REQUIRES          += libs/readline/6.3
-REQUIRES          += net/openssl/1.0.1g
-REQUIRES          += dev/python2/2.7.6
+REQUIRES           = dev/python2/2.7.6
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -99,6 +94,7 @@ extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --enable-static=yes
 extra_configure_switches += --enable-shared=yes
 
@@ -171,8 +167,7 @@ $(install_target): $(build_target)
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libxml2mod.la \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(LIBXML2_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(LIBXML2_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libxml2.la ; \

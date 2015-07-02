@@ -13,9 +13,6 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/eudev
 
 REQUIRES           = libs/eudev/1.9
-REQUIRES          += app/kmod/16-x86_32
-REQUIRES          += libs/libffi/3.0.13-x86_32
-REQUIRES          += libs/pcre/8.34-x86_32
 REQUIRES          += app/util-linux/2.24.1-x86_32
 REQUIRES          += libs/glib2/2.40.0-x86_32
 REQUIRES          += app/pciutils/3.2.1-x86_32
@@ -86,6 +83,7 @@ extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
 extra_configure_switches += --with-rootlibdir=/lib$(MULTILIB_X86_32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 
 extra_configure_switches += --with-rootprefix=/
 extra_configure_switches += --sysconfdir=/etc
@@ -142,8 +140,7 @@ $(install_target): $(build_target)
 	   sed -i "s,-L/lib ,,g" libgudev-?.?.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(EUDEV_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(EUDEV_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgudev-?.?.la libudev.la ; \
@@ -153,6 +150,7 @@ $(install_target): $(build_target)
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" gudev-?.?.pc libudev.pc \
 	 )
+	# ======= Strip binaries =======
 	@( cd $(EUDEV_32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \

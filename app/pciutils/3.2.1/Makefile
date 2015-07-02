@@ -1,46 +1,47 @@
 
-COMPONENT_TARGETS   = $(HARDWARE_PC32)
-COMPONENT_TARGETS  += $(HARDWARE_PC64)
-COMPONENT_TARGETS  += $(HARDWARE_CB1X)
-COMPONENT_TARGETS  += $(HARDWARE_CB3X)
-COMPONENT_TARGETS  += $(HARDWARE_VIP1830)
-COMPONENT_TARGETS  += $(HARDWARE_BEAGLE)
-COMPONENT_TARGETS  += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS  += $(HARDWARE_B74)
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
-NEED_ABS_PATH       = true
-COMPONENT_IS_3PP    = true
+NEED_ABS_PATH      = true
+COMPONENT_IS_3PP   = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES     = sources/packages/a/pciutils
-SOURCE_REQUIRES    += sources/packages/l/pciids
+SOURCE_REQUIRES    = sources/packages/a/pciutils
+SOURCE_REQUIRES   += sources/packages/l/pciids
 
-REQUIRES            = libs/zlib/1.2.8
-REQUIRES           += app/kmod/16
+REQUIRES           = app/kmod/16
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version             = 3.2.1
-tar_xz_archive      = $(SRC_PACKAGE_PATH)/packages/a/pciutils/pciutils-$(version).tar.xz
-SRC_ARCHIVE         = $(tar_xz_archive)
-SRC_DIR             = $(TARGET_BUILD_DIR)/pciutils-$(version)
-src_dir_name        = pciutils-$(version)
-src_done            = $(TARGET_BUILD_DIR)/.source_done
+version            = 3.2.1
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/a/pciutils/pciutils-$(version).tar.xz
+SRC_ARCHIVE        = $(tar_xz_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/pciutils-$(version)
+src_dir_name       = pciutils-$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source_done
 
-pci_ids_version     = 20150210
-pci_ids_archive     = $(SRC_PACKAGE_PATH)/packages/l/pciids/pciids-$(pci_ids_version).tar.xz
+pci_ids_version    = 20150210
+pci_ids_archive    = $(SRC_PACKAGE_PATH)/packages/l/pciids/pciids-$(pci_ids_version).tar.xz
 
 
 PATCHES = PATCHES
 
-build_dir           = $(TARGET_BUILD_DIR)/build
-build_target        = $(TARGET_BUILD_DIR)/.build_done
-install_target      = $(TARGET_BUILD_DIR)/.install_done
+build_dir          = $(TARGET_BUILD_DIR)/build
+build_target       = $(TARGET_BUILD_DIR)/.build_done
+install_target     = $(TARGET_BUILD_DIR)/.install_done
 
 
 ####### Targets
@@ -149,14 +150,13 @@ $(install_target): $(build_target)
 	   fi \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(PCIUTILS_PKG) && cp -arf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(PCIUTILS_PKG))
 	# ======= tune pkg-config *.pc search path to the target destination of libpci and PCI device database =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libpci.pc \
 	 )
 	# ======= Strip binaries =======
-	@( cd $(PCIUTILS_PKG); \
+	@( cd $(PCIUTILS_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )

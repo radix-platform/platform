@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/jbigkit
 
 REQUIRES           = app/jbigkit/2.1
-REQUIRES          += libs/eglibc/2.19.1-x86_32
+REQUIRES          += libs/glibc/2.21-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -97,10 +97,9 @@ $(install_target): $(build_target)
 	@chmod 0755 $(JBIGKIT_32_PKG)/usr/bin/32/*
 	@chmod 0644 $(JBIGKIT_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/*
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(JBIGKIT_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(JBIGKIT_32_PKG))
 	# ======= Strip binaries =======
-	@( cd $(JBIGKIT_32_PKG); \
+	@( cd $(JBIGKIT_32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \

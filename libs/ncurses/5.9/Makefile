@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -109,7 +111,7 @@ extra_configure_switches += --without-ada
 extra_configure_switches += --program-suffix=""
 extra_configure_switches += --program-prefix=""
 
-ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC)),)
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 extra_configure_switches += --with-chtype=long
 extra_configure_switches += --with-mmask-t=long
 endif
@@ -219,8 +221,7 @@ $(install_widec_target): $(build_widec_target)
 	   fi \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(NCURSES_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(NCURSES_PKG))
 	# ======= remove TARGET_DEST_DIR from ncurses-config scripts =======
 	@( cd $(NCURSES_PKG)/usr/bin ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" ncurses5-config ncursesw5-config \

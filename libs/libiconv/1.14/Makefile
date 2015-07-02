@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -84,6 +86,7 @@ env_sysroot = DESTDIR=$(ICONV_PKG)
 extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --disable-rpath
 extra_configure_switches += --enable-nls
 extra_configure_switches += --enable-shared=yes
@@ -116,6 +119,7 @@ $(install_target): $(build_target)
 	@chmod a+x $(ICONV_PKG)/usr/lib$(LIBSUFFIX)/libiconv.la
 	@chmod a+x $(ICONV_PKG)/usr/lib$(LIBSUFFIX)/libiconv.so.?.?.?
 	@chmod a+x $(ICONV_PKG)/usr/lib$(LIBSUFFIX)/preloadable_libiconv.so
+	# ======= Install Documentation =======
 	@if [ -d $(ICONV_PKG)/usr/share/man ]; then \
 	  ( cd $(ICONV_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \
@@ -144,22 +148,22 @@ $(install_target): $(build_target)
 	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \
 	 )
-	# remove toolchain path from target libtool *.la files and
+	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(ICONV_PKG)/usr/lib$(LIBSUFFIX) ; \
-	  sed -i "s,$(TARGET_DEST_DIR),,g" libcharset.la libiconv.la \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libcharset.la libiconv.la \
 	 )
-	# Install the same to $(TARGET_DEST_DIR)
-#	@mkdir -p $(TARGET_DEST_DIR)
-#	@cd $(ICONV_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	# tune libtool *.la search path to the target destination for development
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
+	$(call install-into-devenv, $(ICONV_PKG))
+	# ======= tune libtool *.la search path to the target destination for development =======
 #	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-#	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libcharset.la libiconv.la ; \
-#	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libcharset.la libiconv.la \
+#	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libcharset.la libiconv.la ; \
+#	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libcharset.la libiconv.la \
 #	 )
-	@(cd $(ICONV_PKG); \
-	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
+	# ======= Strip binaries =======
+	@( cd $(ICONV_PKG) ; \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
 	@touch $@
 	exit 1

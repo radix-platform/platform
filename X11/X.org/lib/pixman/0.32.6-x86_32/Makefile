@@ -13,7 +13,6 @@ include ../../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/X.org/lib/pixman
 
 REQUIRES           = X11/X.org/lib/pixman/0.32.6
-REQUIRES          += libs/eglibc/2.19.1-x86_32
 REQUIRES          += X11/X.org/proto/xproto/7.0.26-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
@@ -82,6 +81,7 @@ extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --sysconfdir=/etc
+extra_configure_switches += --enable-gtk=no
 extra_configure_switches += --localstatedir=/var
 extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --enable-static=yes
@@ -114,8 +114,7 @@ $(install_target): $(build_target)
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libpixman-?.la \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(XORG_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(XORG_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libpixman-?.la ; \

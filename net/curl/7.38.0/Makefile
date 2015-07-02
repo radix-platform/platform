@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -18,13 +20,9 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/n/curl
 
-REQUIRES           = libs/zlib/1.2.8
-REQUIRES          += libs/libidn/1.28
-REQUIRES          += net/openssh/6.6p1
-REQUIRES          += net/openssl/1.0.1g
+REQUIRES           = net/openssh/6.6p1
 REQUIRES          += net/gnutls/3.1.22
 REQUIRES          += net/ca-certificates/32.0
-REQUIRES          += net/cyrus-sasl/2.1.26
 REQUIRES          += net/openldap-client/2.4.39
 
 # ======= __END_OF_REQUIRES__ =======
@@ -190,8 +188,7 @@ endif
 	   sed -i "s,L/usr/lib,L$(TARGET_DEST_DIR)/usr/lib,g" curl-config ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(CURL_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(CURL_PKG))
 	# ======= Install target '/usr/bin/curl-congig' sctipt =======
 	@cat $(curl_config_in) | $(SED) -e "s/@LIBSUFFIX@/$(LIBSUFFIX)/g" > $(CURL_PKG)/usr/bin/curl-config
 	@chmod 0755 $(CURL_PKG)/usr/bin/curl-config

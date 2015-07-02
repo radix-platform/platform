@@ -13,10 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/d/LLVM
 
 REQUIRES           = dev/llvm/3.5.0
-REQUIRES          += libs/zlib/1.2.8-x86_32
-REQUIRES          += libs/libffi/3.0.13-x86_32
 REQUIRES          += libs/libxml2/2.9.1-x86_32
-REQUIRES          += libs/ncurses/5.9-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -207,8 +204,7 @@ $(install_target): $(build_target)
 	  cp -a $(TARGET_BUILD_DIR)/$$header.h $(LLVM_32_PKG)/usr/include/llvm/Config/$$header-32.h ; \
 	 done
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(LLVM_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(LLVM_32_PKG))
 	# ======= Remove llvm-config-host from target package =======
 	@rm -f $(LLVM_32_PKG)/usr/bin/32/llvm-config-host
 	# ======= Strip Binaries =======

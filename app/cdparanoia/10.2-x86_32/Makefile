@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/m/xiph/cdparanoia
 
 REQUIRES           = app/cdparanoia/10.2
-REQUIRES          += libs/eglibc/2.19.1-x86_32
+REQUIRES          += libs/glibc/2.21-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -110,7 +110,7 @@ $(build_target): $(src_done)
 	  --build=$(BUILD)            \
 	  --host=$(TARGET32)          \
 	  $(extra_configure_switches)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) $(environment)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 $(environment)
 	@touch $@
 
 $(install_target): $(build_target)
@@ -128,10 +128,9 @@ $(install_target): $(build_target)
 	         $(PARANOIA_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(PARANOIA_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(PARANOIA_32_PKG))
 	# ======= Strip binaries =======
-	@( cd $(PARANOIA_32_PKG); \
+	@( cd $(PARANOIA_32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \

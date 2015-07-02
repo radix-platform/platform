@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -18,7 +20,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES     = sources/packages/a/ncompress
 
-REQUIRES            = libs/eglibc/2.19.1
+REQUIRES            = libs/glibc/2.21
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -96,6 +98,7 @@ $(install_target): $(build_target)
 	@mkdir -p $(NCOMPRESS_PKG)/bin
 	@( cd $(NCOMPRESS_PKG)/bin ; ln -sf ../usr/bin/compress compress )
 	@( cd $(NCOMPRESS_PKG)/bin ; ln -sf compress uncompress )
+	# ======= Install Documentation =======
 	@mkdir -p $(NCOMPRESS_PKG)/usr/share/man/man1
 	@cd $(SRC_DIR) && cat compress.1 | gzip -9c > $(NCOMPRESS_PKG)/usr/share/man/man1/compress.1.gz
 	@( cd $(NCOMPRESS_PKG)/usr/share/man/man1 ; ln -sf compress.1.gz uncompress.1.gz )
@@ -110,8 +113,7 @@ $(install_target): $(build_target)
 	         $(NCOMPRESS_PKG)/usr/share/doc/ncompress-$(version) \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(NCOMPRESS_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(NCOMPRESS_PKG))
 	# ======= Strip binaries =======
 	@( cd $(NCOMPRESS_PKG); \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null \

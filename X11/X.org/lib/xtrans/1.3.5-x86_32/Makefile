@@ -13,7 +13,6 @@ include ../../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/X.org/lib/xtrans
 
 REQUIRES           = X11/X.org/lib/xtrans/1.3.5
-REQUIRES          += libs/eglibc/2.19.1-x86_32
 REQUIRES          += X11/X.org/proto/xproto/7.0.26-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
@@ -82,6 +81,7 @@ extra_configure_switches += --datarootdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var
 
@@ -110,8 +110,7 @@ $(install_target): $(build_target)
 	@rm -rf $(XORG_32_PKG)/usr/share
 	@rm -rf $(XORG_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/aclocal
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(XORG_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(XORG_32_PKG))
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" xtrans.pc \

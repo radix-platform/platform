@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -18,8 +20,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNOME/core/glib2
 
-REQUIRES           = libs/zlib/1.2.8
-REQUIRES          += libs/libffi/3.0.13
+REQUIRES           = libs/libffi/3.0.13
 REQUIRES          += libs/libelf/0.8.13
 REQUIRES          += libs/pcre/8.34
 REQUIRES          += app/attr/2.4.47
@@ -45,6 +46,9 @@ install_target     = $(TARGET_BUILD_DIR)/.install_done
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X)),)
 hw_cache_in        = $(CURDIR)/cross/hw.cache.arm
 endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_FFRK3288)),)
+hw_cache_in        = $(CURDIR)/cross/hw.cache.arm
+endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_VIP1830)),)
 hw_cache_in        = $(CURDIR)/cross/hw.cache.arm
 endif
@@ -55,6 +59,9 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
 hw_cache_in        = $(CURDIR)/cross/hw.cache.arm
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_B74)),)
+hw_cache_in        = $(CURDIR)/cross/hw.cache.mips
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
 hw_cache_in        = $(CURDIR)/cross/hw.cache.mips
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32) $(HARDWARE_PC64)),)
@@ -113,6 +120,7 @@ ENABLE_GTK_DOCUMENTATION  = yes
 extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --enable-man
 extra_configure_switches += --with-gnu-ld
@@ -154,6 +162,7 @@ $(install_target): $(build_target)
 	@chmod 755 $(GLIB2_PKG)/etc/profile.d/*
 	mv $(GLIB2_PKG)/etc/profile.d/libglib2.csh $(GLIB2_PKG)/etc/profile.d/libglib2.csh.new
 	mv $(GLIB2_PKG)/etc/profile.d/libglib2.sh  $(GLIB2_PKG)/etc/profile.d/libglib2.sh.new
+	# ======= Install Documentation =======
 	@if [ -d $(GLIB2_PKG)/usr/share/man ]; then \
 	  ( cd $(GLIB2_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \
@@ -203,8 +212,7 @@ endif
 	   sed -i "s,$(TARGET_DEST_DIR),,g" *.pc ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(GLIB2_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(GLIB2_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgio-2.0.la libglib-2.0.la libgmodule-2.0.la \
@@ -222,7 +230,7 @@ endif
 	                                            gmodule-export-2.0.pc gmodule-no-export-2.0.pc gobject-2.0.pc \
 	                                            gthread-2.0.pc \
 	 )
-	@( cd $(GLIB2_PKG); \
+	@( cd $(GLIB2_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \

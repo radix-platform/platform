@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -20,11 +22,6 @@ SOURCE_REQUIRES    = sources/GNU/make
 
 REQUIRES           = app/bash/4.3
 REQUIRES          += dev/guile/2.0.9
-REQUIRES          += dev/libtool/2.4.2
-REQUIRES          += libs/gc/7.2d
-REQUIRES          += libs/libffi/3.0.13
-REQUIRES          += libs/libunistring/0.9.3
-REQUIRES          += libs/gmp/5.1.3
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -91,6 +88,7 @@ extra_configure_switches  = --libdir=/lib$(LIBSUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --with-guile=yes
 
 
@@ -150,10 +148,9 @@ $(install_target): $(build_target)
 	   fi \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(MAKE_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(MAKE_PKG))
 	# ======= Strip binaries =======
-	@( cd $(MAKE_PKG); \
+	@( cd $(MAKE_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null \
 	 )
 	@touch $@

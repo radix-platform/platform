@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -116,6 +118,7 @@ $(install_target): $(build_target)
 	   mv libdm.so.?.?.? $(DMAPI_PKG)/lib$(LIBSUFFIX) ; \
 	   ln -sf ../../lib$(LIBSUFFIX)/libdm.so.?.?.? . \
 	 )
+	# ====== Install Documentation ======
 	@mkdir -p $(DMAPI_PKG)/usr/doc/$(src_dir_name)
 	@cp -a $(SRC_DIR)/doc/COPYING* \
 	       $(DMAPI_PKG)/usr/doc/$(src_dir_name)
@@ -124,22 +127,22 @@ $(install_target): $(build_target)
 	   cp -a doc/INSTALL \
 	         $(DMAPI_PKG)/usr/share/doc/$(src_dir_name) \
 	 )
-	# remove target path from target libtool *.la files
+	# ====== remove target path from target libtool *.la files ======
 	@( cd $(DMAPI_PKG)/usr/lib$(LIBSUFFIX) ; \
-	  sed -i "s,$(TARGET_DEST_DIR),,g" libdm.la \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libdm.la \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(DMAPI_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	# tune libtool *.la search path to the target destination for development
+	$(call install-into-devenv, $(DMAPI_PKG))
+	# ====== tune libtool *.la search path to the target destination for development ======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libdm.la ; \
-	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libdm.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libdm.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libdm.la \
 	 )
-	@(cd $(DMAPI_PKG); \
-	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
+	# ====== Strip binaries ======
+	@( cd $(DMAPI_PKG); \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
 	@touch $@
 

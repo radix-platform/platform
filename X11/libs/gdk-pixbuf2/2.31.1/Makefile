@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -20,7 +22,6 @@ SOURCE_REQUIRES    = sources/GNOME/core/gdk-pixbuf
 
 REQUIRES           = libs/glib2/2.40.0
 REQUIRES          += libs/libpng/libpng14/1.4.13
-REQUIRES          += libs/libjpeg-turbo/1.3.1
 REQUIRES          += libs/libtiff/4.0.3
 REQUIRES          += X11/X.org/lib/libX11/1.6.2
 
@@ -91,6 +92,7 @@ env_sysroot = DESTDIR=$(PIXBUF2_PKG)
 extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(doc_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var
@@ -190,8 +192,7 @@ endif
 	                                    libpixbufloader-xbm.la  libpixbufloader-xpm.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(PIXBUF2_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(PIXBUF2_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgdk_pixbuf-?.?.la libgdk_pixbuf_xlib-?.?.la ; \

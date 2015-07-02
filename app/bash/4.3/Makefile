@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -18,9 +20,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/bash
 
-REQUIRES           = libs/ncurses/5.9
-REQUIRES          += libs/libtermcap/1.2.3
-REQUIRES          += libs/readline/6.3
+REQUIRES           = libs/readline/6.3
 REQUIRES          += app/gettext/0.18.3.2
 
 # ======= __END_OF_REQUIRES__ =======
@@ -84,7 +84,7 @@ include ../../../build-system/core.mk
 env_sysroot = DESTDIR=$(BASH_PKG)
 
 
-ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC)),)
+ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 # NOTE: MULTILIB_X86_32_SUFFIX related to bulld machine
 #       (slacware64 - lib; ununtu64 - lib32) see $(BUILDSYSTEM)/targets.mk
 environment  = CPPFLAGS_FOR_BUILD="-I/usr/include"
@@ -160,14 +160,13 @@ $(install_target): $(build_target)
 	   fi \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(BASH_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(BASH_PKG))
 	@( cd $(TARGET_DEST_DIR) ; \
 	   mv bin/bash4.new bin/bash ; \
 	   ( cd usr/bin ; ln -sf ../../bin/bash bash ) \
 	 )
 	# ======= Strip binaries =======
-	@( cd $(BASH_PKG); \
+	@( cd $(BASH_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null \
 	 )
 	@touch $@

@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -18,9 +20,14 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/n/iptables
 
-REQUIRES           = net/libpcap/1.6.2
+REQUIRES           = net/nfacct/1.0.1
+ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
+REQUIRES          += net/libpcap/1.6.2
 REQUIRES          += net/libnetfilter_conntrack/1.0.4
-REQUIRES          += net/nfacct/1.0.1
+else
+REQUIRES          += net/libpcap/1.6.2-x86_32
+REQUIRES          += net/libnetfilter_conntrack/1.0.4-x86_32
+endif
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -87,6 +94,7 @@ extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --enable-ipv4
 extra_configure_switches += --enable-ipv6
 extra_configure_switches += --enable-devel
@@ -176,8 +184,7 @@ $(install_target): $(build_target)
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libip4tc.la libip6tc.la libipq.la libiptc.la libxtables.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(IPTABLES_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(IPTABLES_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libip4tc.la libip6tc.la libipq.la libiptc.la libxtables.la ; \

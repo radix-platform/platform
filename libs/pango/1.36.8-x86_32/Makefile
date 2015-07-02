@@ -13,7 +13,6 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/GNOME/core/pango
 
 REQUIRES           = libs/pango/1.36.8
-REQUIRES          += libs/cairo/1.14.0-x86_32
 REQUIRES          += libs/harfbuzz/0.9.36-x86_32
 REQUIRES          += libs/libthai/0.1.20-x86_32
 REQUIRES          += X11/X.org/lib/libXft/2.3.2-x86_32
@@ -83,6 +82,7 @@ extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 
 #
 # NOTE: bindir=/usr/bun is correct! See installation process below.
@@ -143,8 +143,7 @@ $(install_target): $(build_target)
 	   sed -i "s,$(TARGET_DEST_DIR),,g" pango-arabic-lang.la pango-indic-lang.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(PANGO_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(PANGO_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libpango-?.?.la libpangocairo-?.?.la    \

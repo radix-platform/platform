@@ -13,23 +13,17 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/m/sox
 
 REQUIRES           = app/sox/14.4.1
-REQUIRES          += libs/eglibc/2.19.1-x86_32
-REQUIRES          += app/file/5.19-x86_32
-REQUIRES          += app/flac/1.3.0-x86_32
 REQUIRES          += dev/libtool/2.4.2-x86_32
-REQUIRES          += libs/alsa-lib/1.0.28-x86_32
-REQUIRES          += libs/lame/3.99.5-x86_32
+REQUIRES          += app/file/5.19-x86_32
+REQUIRES          += libs/libpng/libpng14/1.4.13-x86_32
 REQUIRES          += libs/libao/1.1.0-x86_32
+REQUIRES          += libs/lame/3.99.5-x86_32
 REQUIRES          += libs/libid3tag/0.15.1b-x86_32
 REQUIRES          += libs/libmad/0.15.1b-x86_32
 REQUIRES          += libs/libsndfile/1.0.25-x86_32
 REQUIRES          += libs/opencore-amr/0.1.3-x86_32
-REQUIRES          += libs/libpng/libpng14/1.4.13-x86_32
-REQUIRES          += libs/gsm/1.0.13-x86_32
-REQUIRES          += libs/libogg/1.3.2-x86_32
-REQUIRES          += libs/libvorbis/1.3.4-x86_32
 REQUIRES          += libs/wavpack/4.70.0-x86_32
-REQUIRES          += libs/zlib/1.2.8-x86_32
+REQUIRES          += libs/gsm/1.0.13-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -95,6 +89,7 @@ extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --bindir=/usr/bin/32
 extra_configure_switches += --with-distro=Radix
 extra_configure_switches += --enable-shared=yes
@@ -134,8 +129,7 @@ $(install_target): $(build_target)
 	   sed -i "s, -L/lib3232,,g" libsox.la  \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(SOX_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(SOX_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libsox.la ; \

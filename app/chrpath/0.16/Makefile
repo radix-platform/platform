@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -18,7 +20,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES     = sources/packages/a/chrpath
 
-REQUIRES            = libs/eglibc/2.19.1
+REQUIRES            = libs/glibc/2.21
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -83,9 +85,9 @@ env_sysroot = DESTDIR=$(CHRPATH_PKG)
 extra_configure_switches  = --libdir=/lib$(LIBSUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var
-extra_configure_switches += --mandir=/usr/share/man
 
 
 ####### Dependencies
@@ -127,10 +129,9 @@ $(install_target): $(build_target)
 	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/COPYING \
 	       $(CHRPATH_PKG)/usr/doc/$(src_dir_name)
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(CHRPATH_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(CHRPATH_PKG))
 	# ======= Strip binaries =======
-	@( cd $(CHRPATH_PKG); \
+	@( cd $(CHRPATH_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )
 	@touch $@

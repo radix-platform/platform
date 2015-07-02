@@ -79,6 +79,7 @@ extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --enable-static=yes
 
@@ -87,7 +88,7 @@ extra_configure_switches += --disable-oggtest
 extra_configure_switches += --with-ogg=$(TARGET_DEST_DIR)/usr
 extra_configure_switches += --disable-rpath
 
-ifneq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC))
+ifneq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
 extra_configure_switches += --disable-asm-optimizations
 endif
 
@@ -128,8 +129,7 @@ $(install_target): $(build_target)
 	   sed -i "s, -L/usr/lib,,g" libFLAC.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(FLAC_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(FLAC_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libFLAC++.la libFLAC.la ; \

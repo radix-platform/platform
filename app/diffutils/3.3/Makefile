@@ -1,40 +1,42 @@
 
-COMPONENT_TARGETS   = $(HARDWARE_PC32)
-COMPONENT_TARGETS  += $(HARDWARE_PC64)
-COMPONENT_TARGETS  += $(HARDWARE_CB1X)
-COMPONENT_TARGETS  += $(HARDWARE_CB3X)
-COMPONENT_TARGETS  += $(HARDWARE_VIP1830)
-COMPONENT_TARGETS  += $(HARDWARE_BEAGLE)
-COMPONENT_TARGETS  += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS  += $(HARDWARE_B74)
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
-NEED_ABS_PATH       = true
-COMPONENT_IS_3PP    = true
+NEED_ABS_PATH      = true
+COMPONENT_IS_3PP   = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES     = sources/GNU/diffutils
+SOURCE_REQUIRES    = sources/GNU/diffutils
 
-REQUIRES           += libs/eglibc/2.19.1
+REQUIRES          += libs/glibc/2.21
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version             = 3.3
-tar_xz_archive      = $(SRC_PACKAGE_PATH)/GNU/diffutils/diffutils-$(version).tar.xz
-SRC_ARCHIVE         = $(tar_xz_archive)
-SRC_DIR             = $(TARGET_BUILD_DIR)/diffutils-$(version)
-src_dir_name        = diffutils-$(version)
-src_done            = $(TARGET_BUILD_DIR)/.source_done
+version            = 3.3
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNU/diffutils/diffutils-$(version).tar.xz
+SRC_ARCHIVE        = $(tar_xz_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/diffutils-$(version)
+src_dir_name       = diffutils-$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
 
-build_dir           = $(TARGET_BUILD_DIR)/build
-build_target        = $(TARGET_BUILD_DIR)/.build_done
-install_target      = $(TARGET_BUILD_DIR)/.install_done
+build_dir          = $(TARGET_BUILD_DIR)/build
+build_target       = $(TARGET_BUILD_DIR)/.build_done
+install_target     = $(TARGET_BUILD_DIR)/.install_done
 
 
 ####### Targets
@@ -83,8 +85,9 @@ env_sysroot = DESTDIR=$(DIFFUTILS_PKG)
 
 extra_configure_switches  = --libdir=/lib$(LIBSUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
-extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --infodir=/usr/share/info
+extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --disable-rpath
 extra_configure_switches += --program-prefix=""
 extra_configure_switches += --program-suffix=""
@@ -145,10 +148,9 @@ $(install_target): $(build_target)
 	   fi \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(DIFFUTILS_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(DIFFUTILS_PKG))
 	# ======= Strip binaries =======
-	@( cd $(DIFFUTILS_PKG); \
+	@( cd $(DIFFUTILS_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )
 	@touch $@

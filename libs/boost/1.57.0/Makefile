@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -33,7 +35,7 @@ SRC_DIR            = $(TARGET_BUILD_DIR)/boost-$(version)
 src_dir_name       = boost-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_B74)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_B74) $(HARDWARE_CI20)),)
 PATCHES = PATCHES.mips
 else
 PATCHES = PATCHES
@@ -87,7 +89,7 @@ include ../../../build-system/core.mk
 #
 # See: $(SRC_DIR)/libs/context/build/Jamfile.v2
 #
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X) $(HARDWARE_VIP1830) $(HARDWARE_BEAGLE) $(HARDWARE_OMAP5UEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X) $(HARDWARE_FFRK3288) $(HARDWARE_VIP1830) $(HARDWARE_BEAGLE) $(HARDWARE_OMAP5UEVM)),)
 ARCH          = arm
 ABI           = aapcs
 BINARY_FORMAT = elf
@@ -105,7 +107,7 @@ ABI           = sysv
 BINARY_FORMAT = elf
 ADDRESS_MODEL = 64
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_B74)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_B74) $(HARDWARE_CI20)),)
 ARCH          = mips1
 ABI           = o32
 BINARY_FORMAT = elf
@@ -212,8 +214,7 @@ $(install_target): $(build_target)
 	         $(BOOST_PKG)/usr/share/doc/$(src_dir_name) \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(BOOST_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(BOOST_PKG))
 	# ======= Strip binaries =======
 	@( cd $(BOOST_PKG); \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \

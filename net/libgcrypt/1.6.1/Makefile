@@ -92,7 +92,7 @@ extra_configure_switches += --program-suffix=""
 extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --enable-static=yes
 
-ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC) $(TOOLCHAIN_I686_EGLIBC)),)
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC) $(TOOLCHAIN_I686_GLIBC)),)
 extra_configure_switches += --disable-asm
 endif
 
@@ -171,8 +171,7 @@ $(install_target): $(build_target)
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libgcrypt-config ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(GCRYPT_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(GCRYPT_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgcrypt.la  ; \

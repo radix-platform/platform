@@ -91,12 +91,16 @@ env_sysroot = DESTDIR=$(BINUTILS_DEV_PKG)
 
 DEFAULT_LD  = ld.bfd
 
+#
+# Common controls for components:
+#
+extra_configure_switches  = --disable-dependency-tracking
 
 # NOTE:
 #   --enable-threads, --enable-plugins - are GOLD related options
 #   --enable-multilib - default 'yes'
 
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_A1X_EGLIBC))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_A1X_GLIBC))
 # experimental gold linker( DEFAULT_LD=ld.bfd ):
 extra_configure_switches += --enable-gold=yes
 extra_configure_switches += --enable-ld=default
@@ -118,7 +122,7 @@ extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --docdir=/usr/share/doc
 endif
 
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_A2X_EGLIBC))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_A2X_GLIBC))
 # experimental gold linker( DEFAULT_LD=ld.bfd ):
 extra_configure_switches += --enable-gold=yes
 extra_configure_switches += --enable-ld=default
@@ -140,7 +144,7 @@ extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --docdir=/usr/share/doc
 endif
 
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_OMAP35X_EGLIBC))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_OMAP35X_GLIBC))
 # experimental gold linker( DEFAULT_LD=ld.bfd ):
 extra_configure_switches += --enable-gold=yes
 extra_configure_switches += --enable-ld=default
@@ -162,7 +166,7 @@ extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --docdir=/usr/share/doc
 endif
 
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_OMAP543X_EGLIBC))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_OMAP543X_GLIBC))
 # experimental gold linker( DEFAULT_LD=ld.bfd ):
 extra_configure_switches += --enable-gold=yes
 extra_configure_switches += --enable-ld=default
@@ -185,7 +189,7 @@ extra_configure_switches += --docdir=/usr/share/doc
 endif
 
 
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_DM644X_EGLIBC))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_DM644X_GLIBC))
 extra_configure_switches += --enable-werror=no
 extra_configure_switches += --enable-interwork
 extra_configure_switches += --enable-multilib
@@ -201,7 +205,7 @@ extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --docdir=/usr/share/doc
 endif
 
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_BCM74X_EGLIBC))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_BCM74X_GLIBC))
 extra_configure_switches += --enable-multilib
 extra_configure_switches += --with-arch=mips32
 extra_configure_switches += --disable-werror
@@ -213,7 +217,7 @@ extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --docdir=/usr/share/doc
 endif
 
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_I686_EGLIBC))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_I686_GLIBC))
 extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
 extra_configure_switches += '--with-bugurl=$(BUG_URL)'
 # experimental gold linker( DEFAULT_LD=ld.bfd ):
@@ -241,7 +245,7 @@ extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --docdir=/usr/share/doc
 endif
 
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
 extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
 extra_configure_switches += '--with-bugurl=$(BUG_URL)'
 # experimental gold linker( DEFAULT_LD=ld.bfd ):
@@ -351,14 +355,13 @@ $(install_target): $(build_target)
 	     fi ; \
 	   done \
 	 )
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_EGLIBC))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
 	@mkdir -p $(BINUTILS_DEV_PKG)/lib64
 	@ln -sf ../lib$(LIBSUFFIX) $(BINUTILS_DEV_PKG)/usr/$(TARGET)/lib64
 	@ln -sf ../lib$(MULTILIB_X86_32_SUFFIX) $(BINUTILS_DEV_PKG)/usr/$(TARGET)/lib32
 endif
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(BINUTILS_DEV_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(BINUTILS_DEV_PKG))
 	# Libiberty will be installed from GCC by --enable-install-libiberty option
 	# we don't need LIBIBERTY on $(TARGET_DEST_DIR) until GCC will be built
 	# tune libtool *.la search path to the target destination for development

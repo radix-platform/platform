@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -19,7 +21,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/n/openssl
 
 REQUIRES           = libs/zlib/1.2.8
-REQUIRES          += libs/gmp/5.1.3
+REQUIRES          += libs/gmp/6.0.0
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -104,6 +106,9 @@ endif
 ifeq ($(HARDWARE),$(HARDWARE_CB3X))
 arch = arm
 endif
+ifeq ($(HARDWARE),$(HARDWARE_FFRK3288))
+arch = arm
+endif
 ifeq ($(HARDWARE),$(HARDWARE_VIP1830))
 arch = arm
 endif
@@ -114,6 +119,9 @@ ifeq ($(HARDWARE),$(HARDWARE_OMAP5UEVM))
 arch = arm
 endif
 ifeq ($(HARDWARE),$(HARDWARE_B74))
+arch = mips32
+endif
+ifeq ($(HARDWARE),$(HARDWARE_CI20))
 arch = mips32
 endif
 
@@ -154,6 +162,7 @@ $(install_target): $(build_target)
 	   ln -sf libssl.so.?.?.? libssl.so.1 ; \
 	   cp -a lib*.so.? ../../lib$(LIBSUFFIX) ; \
 	 )
+	# ======= Install Documentation =======
 	@( cd $(OPENSSL_PKG)/usr/share/man/man1 ; mv passwd.1 ssl_passwd.1 )
 	@( cd $(OPENSSL_PKG)/usr/share/man/man3 ; mv rand.3 ssl_rand.3 )
 	@( cd $(OPENSSL_PKG)/usr/share/man/man3 ; mv err.3 ssl_err.3 )
@@ -187,12 +196,12 @@ $(install_target): $(build_target)
 	   fi \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(OPENSSL_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	# tune pkg-config *.pc search path to the target destination for development
+	$(call install-into-devenv, $(OPENSSL_PKG))
+	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libcrypto.pc libssl.pc openssl.pc \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libcrypto.pc libssl.pc openssl.pc \
 	 )
+	# ======= Strip binaries =======
 	@( cd $(OPENSSL_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \

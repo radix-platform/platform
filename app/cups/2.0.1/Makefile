@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -23,7 +25,6 @@ REQUIRES          += secure/pam_unix2/2.9.1
 REQUIRES          += app/dbus/1.8.10
 REQUIRES          += libs/libtiff/4.0.3
 REQUIRES          += libs/libpng/libpng14/1.4.13
-REQUIRES          += libs/libjpeg-turbo/1.3.1
 REQUIRES          += net/gnutls/3.1.22
 REQUIRES          += net/openssl/1.0.1g
 REQUIRES          += libs/libusb/1.0.19
@@ -192,8 +193,7 @@ $(install_target): $(build_target)
 	   fi \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(CUPS_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(CUPS_PKG))
 	# ======= Strip Binaries =======
 	@( cd $(CUPS_PKG); \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \

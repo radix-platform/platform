@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -112,6 +114,7 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(AUTOCONF_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	# ======= Install Documentation =======
 	@rm -f $(AUTOCONF_PKG)/usr/share/info/dir
 	@gzip -9 $(AUTOCONF_PKG)/usr/share/info/*
 	@if [ -d $(AUTOCONF_PKG)/usr/share/man ]; then \
@@ -143,8 +146,7 @@ $(install_target): $(build_target)
 	   fi \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(AUTOCONF_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(AUTOCONF_PKG))
 	@touch $@
 
 $(AUTOCONF_PKG_DESCRIPTION_FILE): $(AUTOCONF_PKG_DESCRIPTION_FILE_IN)

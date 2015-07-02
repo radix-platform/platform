@@ -13,13 +13,8 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES      = sources/packages/n/curl
 
 REQUIRES             = net/curl/7.38.0
-REQUIRES            += libs/zlib/1.2.8-x86_32
-REQUIRES            += libs/libidn/1.28-x86_32
 REQUIRES            += net/openssh/6.6p1
-REQUIRES            += net/openssl/1.0.1g-x86_32
 REQUIRES            += net/gnutls/3.1.22-x86_32
-REQUIRES            += net/ca-certificates/32.0
-REQUIRES            += net/cyrus-sasl/2.1.26-x86_32
 REQUIRES            += net/openldap-client/2.4.39-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
@@ -149,15 +144,14 @@ $(install_target): $(build_target)
 	   sed -i "s,L/usr/lib,L$(TARGET_DEST_DIR)/usr/lib,g" curl-config ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(CURL_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(CURL_32_PKG))
 	# ======= Install target '/usr/bin/curl-congig' sctipt =======
 	@cat $(curl_config_in) | $(SED) -e "s/@LIBSUFFIX@/$(MULTILIB_X86_32_SUFFIX)/g" > $(CURL_32_PKG)/usr/bin/32/curl-config
 	@chmod 0755 $(CURL_32_PKG)/usr/bin/32/curl-config
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libcurl.la  ; \
-	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libcurl.la  \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libcurl.la  ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libcurl.la  \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \

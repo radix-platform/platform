@@ -41,13 +41,13 @@ cp \
 ./scripts/driver-select wl18xx
 
 
-export PATH=/opt/toolchain/arm-OMAP543X-linux-eglibc/1.0.6/bin:$PATH
+export PATH=/opt/toolchain/arm-OMAP543X-linux-glibc/1.0.6/bin:$PATH
 export ARCH=arm
 export CROSS_COMPILE=arm-omap543x-linux-gnueabihf-
 
-export KLIB_BUILD=/home/kx/prog/scm/svn/platform/trunk-9/dist/.omap543x-eglibc/omap5uevm/usr/src/linux-glsdk-3.8.y-20130222
-export KLIB=/home/kx/prog/scm/svn/platform/trunk-9/dist/.omap543x-eglibc/omap5uevm
-export INSTALL_MOD_PATH=/home/kx/prog/scm/svn/platform/trunk-9/dist/.omap543x-eglibc/omap5uevm
+export KLIB_BUILD=/home/kx/prog/scm/svn/platform/trunk-9/dist/.omap543x-glibc/omap5uevm/usr/src/linux-glsdk-3.8.y-20130222
+export KLIB=/home/kx/prog/scm/svn/platform/trunk-9/dist/.omap543x-glibc/omap5uevm
+export INSTALL_MOD_PATH=/home/kx/prog/scm/svn/platform/trunk-9/dist/.omap543x-glibc/omap5uevm
 
 make modules
 make install

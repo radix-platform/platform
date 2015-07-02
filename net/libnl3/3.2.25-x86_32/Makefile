@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES      = sources/packages/n/libnl3
 
 REQUIRES             = net/libnl3/3.2.25
-REQUIRES            += libs/eglibc/2.19.1-x86_32
+REQUIRES            += libs/glibc/2.21-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -125,8 +125,7 @@ $(install_target): $(build_target)
 	                                    htb.la ingress.la pfifo.la plug.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(LIBNL3_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(LIBNL3_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libnl-3.la libnl-cli-3.la libnl-genl-3.la \
@@ -150,6 +149,7 @@ $(install_target): $(build_target)
 	                                            libnl-genl-3.0.pc libnl-nf-3.0.pc \
 	                                            libnl-route-3.0.pc ; \
 	 )
+	# ======= Strip binaries =======
 	@( cd $(LIBNL3_32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \

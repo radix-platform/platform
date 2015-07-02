@@ -48,13 +48,13 @@ post_install() {
 
 # arg 1:  the new package version
 # arg 2:  the old package version
-pre_upgrade() {
+pre_update() {
   /bin/true
 }
 
 # arg 1:  the new package version
 # arg 2:  the old package version
-post_upgrade() {
+post_update() {
   post_install
 }
 

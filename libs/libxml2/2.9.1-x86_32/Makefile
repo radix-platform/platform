@@ -13,13 +13,6 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/libxml2
 
 REQUIRES           = libs/libxml2/2.9.1
-REQUIRES          += libs/eglibc/2.19.1-x86_32
-REQUIRES          += app/xz/5.0.5-x86_32
-REQUIRES          += libs/zlib/1.2.8-x86_32
-REQUIRES          += libs/ncurses/5.9-x86_32
-REQUIRES          += libs/libtermcap/1.2.3-x86_32
-REQUIRES          += libs/readline/6.3-x86_32
-REQUIRES          += net/openssl/1.0.1g-x86_32
 REQUIRES          += dev/python2/2.7.6-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
@@ -93,6 +86,7 @@ extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --enable-static=yes
 extra_configure_switches += --enable-shared=yes
 
@@ -141,8 +135,7 @@ $(install_target): $(build_target)
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libxml2mod.la \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(LIBXML2_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(LIBXML2_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libxml2.la ; \

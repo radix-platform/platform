@@ -31,6 +31,10 @@ REQUIRES          += X11/X.org/lib/libXrandr/1.4.2-x86_32
 REQUIRES          += X11/X.org/lib/libXv/1.0.10-x86_32
 REQUIRES          += X11/X.org/lib/libxkbfile/1.0.8-x86_32
 
+REQUIRES          += X11/X.org/xcb/xcb-util-cursor/0.1.1-x86_32
+REQUIRES          += X11/X.org/xcb/xcb-util-keysyms/0.4.0-x86_32
+REQUIRES          += X11/X.org/xcb/xcb-util-wm/0.4.1-x86_32
+
 REQUIRES          += libs/gstreamer/1.4.5-x86_32
 REQUIRES          += libs/gst-plugins-base/1.4.5-x86_32
 
@@ -452,8 +456,7 @@ $(install_target): $(build_target)
 	                                    Qt5XmlPatterns.pc                               ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(QT5_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(QT5_32_PKG))
 	# ======= Remove build-machine tools from target package =======
 	@( cd $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/bin ; \
 	   for file in lconvert lrelease lupdate moc qdbuscpp2xml qdbusxml2cpp  \

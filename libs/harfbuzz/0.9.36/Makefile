@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -18,14 +20,9 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/harfbuzz
 
-REQUIRES           = dev/gcc/4.9.1
-REQUIRES          += libs/glib2/2.40.0
-REQUIRES          += libs/libpng/libpng14/1.4.13
+REQUIRES           = libs/libpng/libpng14/1.4.13
 REQUIRES          += libs/icu4c/54.1
 REQUIRES          += libs/cairo/1.14.0
-REQUIRES          += libs/libffi/3.0.13
-REQUIRES          += libs/zlib/1.2.8
-REQUIRES          += app/bzip2/1.0.6
 REQUIRES          += env/freetype/2.5.3
 
 # ======= __END_OF_REQUIRES__ =======
@@ -92,6 +89,7 @@ env_sysroot = DESTDIR=$(HARFBUZZ_PKG)
 extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var
 extra_configure_switches += --enable-static=yes
@@ -175,8 +173,7 @@ $(install_target): $(build_target)
 	                                    libharfbuzz-icu.la    ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(HARFBUZZ_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(HARFBUZZ_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libharfbuzz.la          \

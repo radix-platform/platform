@@ -13,7 +13,6 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/s/pam_unix2
 
 REQUIRES           = secure/pam_unix2/2.9.1
-REQUIRES          += libs/eglibc/2.19.1-x86_32
 REQUIRES          += secure/pam/1.1.8-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
@@ -81,6 +80,7 @@ extra_configure_switches += --includedir=/usr/include/security
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var/lib
 extra_configure_switches += --without-libiconv-prefix
@@ -112,10 +112,9 @@ $(install_target): $(build_target)
 	@rm -rf $(PAM_U2_32_PKG)/etc
 	@rm -rf $(PAM_U2_32_PKG)/usr/share
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(PAM_U2_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(PAM_U2_32_PKG))
 	# ======= Strip binaries =======
-	@( cd $(PAM_U2_32_PKG); \
+	@( cd $(PAM_U2_32_PKG) ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )
 	@touch $@

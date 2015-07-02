@@ -1,40 +1,42 @@
 
-COMPONENT_TARGETS   = $(HARDWARE_PC32)
-COMPONENT_TARGETS  += $(HARDWARE_PC64)
-COMPONENT_TARGETS  += $(HARDWARE_CB1X)
-COMPONENT_TARGETS  += $(HARDWARE_CB3X)
-COMPONENT_TARGETS  += $(HARDWARE_VIP1830)
-COMPONENT_TARGETS  += $(HARDWARE_BEAGLE)
-COMPONENT_TARGETS  += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS  += $(HARDWARE_B74)
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
-NEED_ABS_PATH       = true
-COMPONENT_IS_3PP    = true
+NEED_ABS_PATH      = true
+COMPONENT_IS_3PP   = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES     = sources/packages/n/net-tools
+SOURCE_REQUIRES    = sources/packages/n/net-tools
 
-REQUIRES            = libs/eglibc/2.19.1
+REQUIRES           = libs/glibc/2.21
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version             = 1.60-20140218
-tar_bz2_archive     = $(SRC_PACKAGE_PATH)/packages/n/net-tools/net-tools-$(version).tar.bz2
-SRC_ARCHIVE         = $(tar_bz2_archive)
-SRC_DIR             = $(TARGET_BUILD_DIR)/net-tools-$(version)
-src_dir_name        = net-tools-$(version)
-src_done            = $(TARGET_BUILD_DIR)/.source-done
+version            = 1.60-20140218
+tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/net-tools/net-tools-$(version).tar.bz2
+SRC_ARCHIVE        = $(tar_bz2_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/net-tools-$(version)
+src_dir_name       = net-tools-$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source-done
 
 
 PATCHES = PATCHES
 
-build_target        = $(TARGET_BUILD_DIR)/.build_done
-install_target      = $(TARGET_BUILD_DIR)/.install_done
+build_target       = $(TARGET_BUILD_DIR)/.build_done
+install_target     = $(TARGET_BUILD_DIR)/.install_done
 
 
 ####### Targets
@@ -90,7 +92,7 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	@touch $@
 
 $(build_target): $(src_done)
-ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_BCM74X_EGLIBC) $(TOOLCHAIN_A1X_EGLIBC) $(TOOLCHAIN_OMAP35X_EGLIBC) $(TOOLCHAIN_DM644X_EGLIBC)),)
+ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_BCM74X_GLIBC) $(TOOLCHAIN_A1X_GLIBC) $(TOOLCHAIN_OMAP35X_GLIBC) $(TOOLCHAIN_DM644X_GLIBC)),)
 	@cd $(SRC_DIR) && sed -i "s,HAVE_HWSTRIP 1,HAVE_HWSTRIP 0,g" config.h
 endif
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(nettools_environment) HAVE_IP_TOOLS=1 HAVE_MII=1 $(MAKE)
@@ -119,6 +121,7 @@ $(install_target): $(build_target)
 	   cat ipmask     > $(NETTOOLS_PKG)/bin/ipmask        ; \
 	   chmod 755 $(NETTOOLS_PKG)/sbin/* $(NETTOOLS_PKG)/bin/* $(NETTOOLS_PKG)/usr/sbin/* ; \
 	 )
+	# ======= Install Documentation =======
 	@( cd $(SRC_DIR)/man/en_US ; \
 	   cat ethers.5 | gzip -9c > $(NETTOOLS_PKG)/usr/share/man/man5/ethers.5.gz ; \
 	   for page in arp.8 ifconfig.8 mii-tool.8 nameif.8 \
@@ -136,10 +139,10 @@ $(install_target): $(build_target)
 	         $(NETTOOLS_PKG)/usr/share/doc/$(src_dir_name) ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(NETTOOLS_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	@(cd $(NETTOOLS_PKG); \
-	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	$(call install-into-devenv, $(NETTOOLS_PKG))
+	# ======= Strip binaries =======
+	@( cd $(NETTOOLS_PKG) ; \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )
 	@touch $@
 

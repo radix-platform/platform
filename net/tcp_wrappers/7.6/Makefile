@@ -1,40 +1,42 @@
 
-COMPONENT_TARGETS   = $(HARDWARE_PC32)
-COMPONENT_TARGETS  += $(HARDWARE_PC64)
-COMPONENT_TARGETS  += $(HARDWARE_CB1X)
-COMPONENT_TARGETS  += $(HARDWARE_CB3X)
-COMPONENT_TARGETS  += $(HARDWARE_VIP1830)
-COMPONENT_TARGETS  += $(HARDWARE_BEAGLE)
-COMPONENT_TARGETS  += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS  += $(HARDWARE_B74)
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
-NEED_ABS_PATH       = true
-COMPONENT_IS_3PP    = true
+NEED_ABS_PATH      = true
+COMPONENT_IS_3PP   = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES     = sources/packages/n/tcp_wrappers
+SOURCE_REQUIRES    = sources/packages/n/tcp_wrappers
 
-REQUIRES            = libs/eglibc/2.19.1
+REQUIRES           = libs/glibc/2.21
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version             = 7.6
-tar_gz_archive      = $(SRC_PACKAGE_PATH)/packages/n/tcp_wrappers/tcp_wrappers_$(version).tar.gz
-SRC_ARCHIVE         = $(tar_gz_archive)
-SRC_DIR             = $(TARGET_BUILD_DIR)/tcp_wrappers_$(version)
-src_dir_name        = tcp_wrappers_$(version)
-src_done            = $(TARGET_BUILD_DIR)/.source-done
+version            = 7.6
+tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/n/tcp_wrappers/tcp_wrappers_$(version).tar.gz
+SRC_ARCHIVE        = $(tar_gz_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/tcp_wrappers_$(version)
+src_dir_name       = tcp_wrappers_$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source-done
 
 
 PATCHES = PATCHES
 
-build_target        = $(TARGET_BUILD_DIR)/.build_done
-install_target      = $(TARGET_BUILD_DIR)/.install_done
+build_target       = $(TARGET_BUILD_DIR)/.build_done
+install_target     = $(TARGET_BUILD_DIR)/.install_done
 
 
 ####### Targets
@@ -97,6 +99,7 @@ $(install_target): $(build_target)
 	@mkdir -p $(TCP_WRAP_PKG)/usr/include
 	@mkdir -p $(TCP_WRAP_PKG)/usr/lib$(LIBSUFFIX)
 	@mkdir -p $(TCP_WRAP_PKG)/usr/sbin
+	# ======= Install Documentation =======
 	@mkdir -p $(TCP_WRAP_PKG)/usr/share/man/man{3,5,8}
 	@mkdir -p $(TCP_WRAP_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
@@ -119,12 +122,12 @@ $(install_target): $(build_target)
 	         $(TCP_WRAP_PKG)/usr/share/doc/$(src_dir_name) \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(TCP_WRAP_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	@(cd $(TCP_WRAP_PKG); \
-	  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	  find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	$(call install-into-devenv, $(TCP_WRAP_PKG))
+	# ======= Strip binaries =======
+	@( cd $(TCP_WRAP_PKG) ; \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
 	 )
 	@touch $@
 

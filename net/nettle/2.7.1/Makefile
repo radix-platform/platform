@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -18,7 +20,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/n/nettle
 
-REQUIRES           = libs/gmp/5.1.3
+REQUIRES           = libs/gmp/6.0.0
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -85,12 +87,13 @@ extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var
 extra_configure_switches += --enable-static=yes
 extra_configure_switches += --enable-shared=yes
 
-ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_OMAP35X_EGLIBC)),)
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_OMAP35X_GLIBC)),)
 extra_configure_switches += --enable-arm-neon
 endif
 
@@ -116,6 +119,7 @@ $(install_target): $(build_target)
 	@mkdir -p $(NETTLE_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
 	@chmod a+x $(NETTLE_PKG)/usr/lib$(LIBSUFFIX)/lib*.so.?.?
+	# ======= Install documentation =======
 	@rm -f $(NETTLE_PKG)/usr/share/info/dir
 	@gzip -9 $(NETTLE_PKG)/usr/share/info/*
 	@mkdir -p $(NETTLE_PKG)/usr/doc/$(src_dir_name)
@@ -134,13 +138,13 @@ $(install_target): $(build_target)
 	   fi \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(NETTLE_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	# tune pkg-config *.pc search path to the target destination for development
+	$(call install-into-devenv, $(NETTLE_PKG))
+	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" hogweed.pc ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" nettle.pc ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" hogweed.pc ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" nettle.pc ; \
 	 )
+	# ======= Strip binaries =======
 	@( cd $(NETTLE_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \

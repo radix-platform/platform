@@ -14,7 +14,7 @@ SOURCE_REQUIRES    = sources/GNU/EGLIBC/2.19.1
 
 REQUIRES           = libs/eglibc/2.19.1
 REQUIRES          += dev/kernel-headers
-REQUIRES          += dev/gcc-runtime
+REQUIRES          += dev/gcc-runtime/4.9.1
 REQUIRES          += base/pkgtool
 
 # ======= __END_OF_REQUIRES__ =======
@@ -141,9 +141,9 @@ $(build_eglibc32_pkg): $(install_target)
 	@( mkdir -p $(EGLIBC32_PKG)/usr/include/gnu ; \
 	   mv $(EGLIBC32_PKG)/usr/stubs-32.h $(EGLIBC32_PKG)/usr/include/gnu )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(EGLIBC32_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	@( cd $(EGLIBC32_PKG); \
+	$(call install-into-devenv, $(EGLIBC32_PKG))
+	# ======= Strip binaries =======
+	@( cd $(EGLIBC32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \

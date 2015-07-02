@@ -14,7 +14,6 @@ SOURCE_REQUIRES    = sources/packages/m/audiofile
 
 REQUIRES           = libs/audiofile/0.3.6
 REQUIRES          += libs/alsa-lib/1.0.28-x86_32
-REQUIRES          += libs/libogg/1.3.2-x86_32
 REQUIRES          += app/flac/1.3.0-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
@@ -80,6 +79,7 @@ env_sysroot  = DESTDIR=$(AUDIOFILE_32_PKG)
 extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --program-prefix=
 extra_configure_switches += --program-suffix=
@@ -122,8 +122,7 @@ $(install_target): $(build_target)
 	   sed -i "s, -L/lib3232,,g" libaudiofile.la  \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(AUDIOFILE_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(AUDIOFILE_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libaudiofile.la ; \
@@ -134,7 +133,7 @@ $(install_target): $(build_target)
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" audiofile.pc \
 	 )
 	# ======= Strip binaries =======
-	@( cd $(AUDIOFILE_32_PKG); \
+	@( cd $(AUDIOFILE_32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \

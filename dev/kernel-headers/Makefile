@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -29,6 +31,10 @@ ifeq ($(HARDWARE),$(HARDWARE_CB3X))
 REQUIRES           = dev/kernel/a2x/3.4-20150315-headers
 endif
 
+ifeq ($(HARDWARE),$(HARDWARE_FFRK3288))
+REQUIRES           = dev/kernel/firefly/3.10-20150417-headers
+endif
+
 ifeq ($(HARDWARE),$(HARDWARE_VIP1830))
 REQUIRES           = dev/kernel/dm644x/2.6.36-headers
 endif
@@ -45,7 +51,9 @@ ifeq ($(HARDWARE),$(HARDWARE_B74))
 REQUIRES           = dev/kernel/bcm74x/2.6.36-headers
 endif
 
-REQUIRES          += base/pkgtool
+ifeq ($(HARDWARE),$(HARDWARE_CI20))
+REQUIRES           = dev/kernel/ci20/3.18-20150313-headers
+endif
 
 
 # ======= __END_OF_REQUIRES__ =======

@@ -13,11 +13,9 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/GNU/guile
 
 REQUIRES           = dev/guile/2.0.9
-REQUIRES          += libs/eglibc/2.19.1-x86_32
 REQUIRES          += libs/libffi/3.0.13-x86_32
-REQUIRES          += libs/gmp/5.1.3-x86_32
+REQUIRES          += libs/gmp/6.0.0-x86_32
 REQUIRES          += libs/readline/6.3-x86_32
-REQUIRES          += libs/ncurses/5.9-x86_32
 REQUIRES          += dev/libtool/2.4.2-x86_32
 REQUIRES          += libs/libunistring/0.9.3-x86_32
 REQUIRES          += libs/gc/7.2d-x86_32
@@ -86,6 +84,7 @@ extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --with-threads
 extra_configure_switches += --disable-error-on-warning
 extra_configure_switches += --enable-static=yes
@@ -139,8 +138,7 @@ $(install_target): $(build_target)
 	   sed -i "s,$(TARGET_DEST_DIR),,g" guile-?.?.pc \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(GUILE_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(GUILE_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libguile-?.?.la libguilereadline-v-??.la ; \

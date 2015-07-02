@@ -29,7 +29,7 @@ SOURCE_REQUIRES  += sources/iana/tz
 
 
 REQUIRES          = dev/kernel-headers
-REQUIRES         += dev/gcc-runtime
+REQUIRES         += dev/gcc-runtime/4.9.1
 REQUIRES         += base/pkgtool
 
 # ======= __END_OF_REQUIRES__ =======
@@ -121,7 +121,7 @@ extra_configure_switches  += --with-tls
 extra_configure_switches  += --with-__thread
 
 
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_DM644X_EGLIBC))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_DM644X_GLIBC))
 extra_configure_switches  += --without-fp
 endif
 
@@ -169,9 +169,9 @@ $(build_eglibc_pkg): $(install_target)
 	@cp -a  $(SRC_DIR)/ports/ChangeLog* $(SRC_DIR)/ports/README \
 	        $(EGLIBC_PKG)/usr/share/doc/eglibc-$(version)/ports
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(EGLIBC_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	@( cd $(EGLIBC_PKG); \
+	$(call install-into-devenv, $(EGLIBC_PKG))
+	# ======= Strip binaries =======
+	@( cd $(EGLIBC_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \

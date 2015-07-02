@@ -114,8 +114,7 @@ $(install_target): $(build_target)
 	@rm -rf $(LIBPCAP_32_PKG)/usr/include
 	@rm -rf $(LIBPCAP_32_PKG)/usr/share
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(LIBPCAP_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(LIBPCAP_32_PKG))
 	# ======= tune pcap-config script =======
 	@( cd $(TARGET_DEST_DIR)/usr/bin/32 ; \
 	   sed -i 's,="/usr,="$(TARGET_DEST_DIR)/usr,g' pcap-config ; \

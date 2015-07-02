@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -22,7 +24,11 @@ REQUIRES           = libs/ncurses/5.9
 REQUIRES          += app/util-linux/2.24.1
 REQUIRES          += app/attr/2.4.47
 REQUIRES          += app/xfsprogs/3.1.11
+ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES          += libs/dmapi/2.2.12
+else
+REQUIRES          += libs/dmapi/2.2.12-x86_32
+endif
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -84,11 +90,11 @@ include ../../../build-system/core.mk
 env_sysroot = DIST_ROOT=$(XFSDUMP_PKG)
 
 
-extra_configure_switches += --sbindir=/usr/sbin
+extra_configure_switches  = --sbindir=/usr/sbin
 extra_configure_switches += --bindir=/usr/sbin
 extra_configure_switches += --datadir=/usr/share
-extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
+extra_configure_switches += --mandir=/usr/share/man
 
 
 TARGET_BIN_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)
@@ -135,8 +141,7 @@ $(install_target): $(build_target)
 	         $(XFSDUMP_PKG)/usr/share/doc/$(src_dir_name)/html ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(XFSDUMP_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(XFSDUMP_PKG))
 	# ======= Strip binaries =======
 	@( cd $(XFSDUMP_PKG); \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \

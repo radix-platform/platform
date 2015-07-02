@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -19,17 +21,15 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/n/gnupg2
 
 REQUIRES           = app/bzip2/1.0.6
-REQUIRES          += net/libassuan/2.1.2
-REQUIRES          += net/libksba/1.3.1
-REQUIRES          += net/libgcrypt/1.6.2
-REQUIRES          += net/curl/7.38.0
-REQUIRES          += net/openldap-client/2.4.39
 REQUIRES          += net/dirmngr/1.1.1
 REQUIRES          += net/pinentry/0.8.4
-REQUIRES          += libs/libtermcap/1.2.3
-REQUIRES          += libs/readline/6.3
-REQUIRES          += libs/pth/2.0.7
+ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
+REQUIRES          += net/curl/7.38.0
 REQUIRES          += libs/libusb-compat/0.1.5
+else
+REQUIRES          += net/curl/7.38.0-x86_32
+REQUIRES          += libs/libusb-compat/0.1.5-x86_32
+endif
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -96,6 +96,7 @@ extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var
 extra_configure_switches += --program-prefix=""
@@ -195,8 +196,7 @@ $(install_target): $(build_target)
 	   fi \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(GNUPG_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(GNUPG_PKG))
 	# ======= Strip binaries =======
 	@( cd $(GNUPG_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \

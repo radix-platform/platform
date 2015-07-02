@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -88,9 +90,9 @@ configure_switches += INITDIR=/etc/rc.d/init.d
 configure_switches += SYSCONFIGDIR=/etc/sysconfig
 
 #
-# Do not use KERNEL_INCLUDES for old kernels which doesn't have IPv6
+# Do not use KERNEL_INCLUDES for kernels which doesn't have IPv6 (linux/netfilter_bridge/ebt_ulog.h)
 #
-ifeq ($(filter $(HARDWARE),$(HARDWARE_VIP1830) $(HARDWARE_BEAGLE) $(HARDWARE_B74)),)
+ifeq ($(filter $(HARDWARE),$(HARDWARE_VIP1830) $(HARDWARE_BEAGLE) $(HARDWARE_B74) $(HARDWARE_CI20)),)
 configure_switches += KERNEL_INCLUDES=$(TARGET_DEST_DIR)/usr/include
 endif
 
@@ -142,8 +144,7 @@ $(install_target): $(build_target)
 	   fi \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(EBTABLES_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(EBTABLES_PKG))
 	# ======= Strip binaries =======
 	@( cd $(EBTABLES_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \

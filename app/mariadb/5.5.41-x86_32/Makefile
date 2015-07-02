@@ -196,8 +196,7 @@ $(install_target): $(build_target)
 	@rm -rf $(MARIADB_32_PKG)/usr/include
 	@rm -rf $(MARIADB_32_PKG)/usr/share
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(MARIADB_32_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(MARIADB_32_PKG))
 	# ======= Strip Binaries =======
 	@( cd $(MARIADB_32_PKG); \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \

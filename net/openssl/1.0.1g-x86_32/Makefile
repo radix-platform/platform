@@ -14,7 +14,7 @@ SOURCE_REQUIRES     = sources/packages/n/openssl
 
 REQUIRES            = net/openssl/1.0.1g
 REQUIRES           += libs/zlib/1.2.8-x86_32
-REQUIRES           += libs/gmp/5.1.3-x86_32
+REQUIRES           += libs/gmp/6.0.0-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -122,12 +122,12 @@ $(install_target): $(build_target)
 	@rm -rf $(OPENSSL32_PKG)/usr/include
 	@rm -rf $(OPENSSL32_PKG)/usr/share
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(OPENSSL32_PKG) && cp -rf * $(TARGET_DEST_DIR)
-	# tune pkg-config *.pc search path to the target destination for development
+	$(call install-into-devenv, $(OPENSSL32_PKG))
+	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libcrypto.pc libssl.pc openssl.pc \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libcrypto.pc libssl.pc openssl.pc \
 	 )
+	# ======= Strip binaries =======
 	@( cd $(OPENSSL32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \

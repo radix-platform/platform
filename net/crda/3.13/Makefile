@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -22,7 +24,6 @@ SOURCE_REQUIRES    = sources/packages/n/crda
 SOURCE_REQUIRES   += sources/packages/n/wireless-regdb
 
 REQUIRES           = net/iw/3.17
-REQUIRES          += net/libnl3/3.2.25
 ifeq ($(ENABLE_DYNAMIC_PUBKEYS),yes)
 REQUIRES          += net/openssl/1.0.1g
 else
@@ -168,8 +169,7 @@ endif
 	   fi \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(CRDA_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(CRDA_PKG))
 	# ======= Strip binaries =======
 	@( cd $(CRDA_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \

@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -18,9 +20,15 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/a/tmux
 
+ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES           = libs/ncurses/5.9
-REQUIRES          += libs/libevent/2.0.21
 REQUIRES          += app/util-linux/2.24.1
+REQUIRES          += libs/libevent/2.0.21
+else
+REQUIRES           = libs/ncurses/5.9-x86_32
+REQUIRES          += app/util-linux/2.24.1-x86_32
+REQUIRES          += libs/libevent/2.0.21-x86_32
+endif
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -143,10 +151,9 @@ $(install_target): $(build_target)
 	   fi \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(TMUX_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(TMUX_PKG))
 	# ======= Strip binaries =======
-	@( cd $(TMUX_PKG); \
+	@( cd $(TMUX_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null \
 	 )
 	@touch $@

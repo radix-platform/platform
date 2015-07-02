@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -18,12 +20,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/m/mpg123
 
-REQUIRES           = dev/gcc/4.9.1
-REQUIRES          += libs/alsa-lib/1.0.28
+REQUIRES           = dev/gcc/4.9.2
 REQUIRES          += libs/alsa-oss/1.0.28
-REQUIRES          += libs/audiofile/0.3.6
-REQUIRES          += libs/libogg/1.3.2
-REQUIRES          += app/flac/1.3.0
 REQUIRES          += app/esound/0.2.41
 
 # ======= __END_OF_REQUIRES__ =======
@@ -90,6 +88,7 @@ env_sysroot = DESTDIR=$(MPG123_PKG)
 extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --program-prefix=
 extra_configure_switches += --program-suffix=
@@ -116,6 +115,9 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X)),)
 extra_configure_switches += --with-cpu=neon
 endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_FFRK3288)),)
+extra_configure_switches += --with-cpu=neon
+endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_VIP1830)),)
 extra_configure_switches += --with-cpu=arm_nofpu
 endif
@@ -126,6 +128,9 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
 extra_configure_switches += --with-cpu=arm_fpu
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_B74)),)
+extra_configure_switches += --with-cpu=generic_fpu
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
 extra_configure_switches += --with-cpu=generic_fpu
 endif
 
@@ -202,8 +207,7 @@ $(install_target): $(build_target)
 	                                    output_oss.la   \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@mkdir -p $(TARGET_DEST_DIR)
-	@cd $(MPG123_PKG) && cp -rf * $(TARGET_DEST_DIR)
+	$(call install-into-devenv, $(MPG123_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libmpg123.la ; \

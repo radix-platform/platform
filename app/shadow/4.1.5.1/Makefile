@@ -87,6 +87,7 @@ env_sysroot = DESTDIR=$(SHADOW_PKG)
 
 extra_configure_switches  = --mandir=/usr/share/man
 extra_configure_switches  = --docdir=/usr/share/doc/$(src_dir_name)
+extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --without-libcrack
 extra_configure_switches += --disable-shared

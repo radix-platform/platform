@@ -88,6 +88,7 @@ extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --with-templatedir=/etc/fonts/conf.avai
@@ -130,6 +131,12 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(FONTCFG_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	# ======= Relinking etc/fonts/conf.d/*.conf =======
+	@( cd $(FONTCFG_PKG)/etc/fonts/conf.d ; \
+	   for file in `find . -type l` ; do \
+	     file=`basename $$file` ; rm -f $$file ; ln -sf ../conf.avai/$$file $$file ; \
+	   done \
+	 )
 	# ======= Install Documentation =======
 	@if [ -d $(FONTCFG_PKG)/usr/share/man ]; then \
 	  ( cd $(FONTCFG_PKG)/usr/share/man ; \

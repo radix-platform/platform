@@ -87,6 +87,7 @@ extra_configure_switches  = --libdir=/lib$(LIBSUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 extra_configure_switches += --disable-iberty

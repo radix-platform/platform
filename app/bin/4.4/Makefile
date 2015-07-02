@@ -110,8 +110,9 @@ env_sysroot = DESTDIR=$(CMDUTILS_PKG)
 
 extra_configure_switches  = --libdir=/lib$(LIBSUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
-extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --infodir=/usr/share/info
+extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
 
 banners_environment = CFLAGS="-isystem $(TARGET_DEST_DIR)/usr/include $(ARCH_FLAGS) $(OPTIMIZATION_FLAGS) -Wall"

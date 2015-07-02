@@ -91,6 +91,10 @@ env_sysroot = DESTDIR=$(BINUTILS_DEV_PKG)
 
 DEFAULT_LD  = ld.bfd
 
+#
+# Common controls for components:
+#
+extra_configure_switches  = --disable-dependency-tracking
 
 # NOTE:
 #   --enable-threads, --enable-plugins - are GOLD related options

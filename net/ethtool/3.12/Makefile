@@ -85,6 +85,7 @@ env_sysroot  = DESTDIR=$(ETHTOOL_PKG)
 
 extra_configure_switches  = --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 
 
 ####### Dependencies

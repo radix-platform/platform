@@ -95,6 +95,10 @@ env_sysroot = DESTDIR=$(BINUTILS_DEV_PKG)
 
 DEFAULT_LD  = ld.bfd
 
+#
+# Common controls for components:
+#
+extra_configure_switches  = --disable-dependency-tracking
 
 # NOTE:
 #   --enable-threads, --enable-plugins - are GOLD related options
@@ -394,7 +398,7 @@ $(install_target): $(build_target)
 	   done \
 	 )
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
-	@mkdir -p $(BINUTILS_DEV_PKG)/lib64
+	@mkdir -p $(BINUTILS_DEV_PKG)/usr/lib{32,64}
 	@ln -sf ../lib$(LIBSUFFIX) $(BINUTILS_DEV_PKG)/usr/$(TARGET)/lib64
 	@ln -sf ../lib$(MULTILIB_X86_32_SUFFIX) $(BINUTILS_DEV_PKG)/usr/$(TARGET)/lib32
 endif

@@ -79,6 +79,7 @@ env_sysroot  = DESTDIR=$(LIBAO_32_PKG)
 extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --enable-alsa
 extra_configure_switches += --enable-alsa-mmap
 extra_configure_switches += --enable-broken-oss

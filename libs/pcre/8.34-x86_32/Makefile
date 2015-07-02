@@ -80,6 +80,7 @@ env_sysroot  = DESTDIR=$(PCRE_32_PKG)
 extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --enable-utf8
 extra_configure_switches += --enable-pcre16
 extra_configure_switches += --enable-pcre32

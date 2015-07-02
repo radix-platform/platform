@@ -89,6 +89,7 @@ env_sysroot = DESTDIR=$(LIBTIFF_PKG)
 
 extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --program-prefix=""
 extra_configure_switches += --program-suffix=""
 extra_configure_switches += --enable-shared=yes

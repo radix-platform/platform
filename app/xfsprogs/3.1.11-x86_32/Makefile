@@ -79,8 +79,8 @@ extra_configure_switches += --sbindir=/sbin
 extra_configure_switches += --bindir=/usr/sbin
 extra_configure_switches += --includedir=/usr/include
 extra_configure_switches += --datadir=/usr/share
-extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
+extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --enable-shared=yes
 
 CFLAGS += -D_DEFAULT_SOURCE

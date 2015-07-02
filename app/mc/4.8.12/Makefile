@@ -106,6 +106,7 @@ env_sysroot = DESTDIR=$(MC_PKG)
 extra_configure_switches  = --libdir=/lib$(LIBSUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var
 extra_configure_switches += --enable-extcharset

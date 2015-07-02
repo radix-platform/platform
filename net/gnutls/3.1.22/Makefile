@@ -126,6 +126,10 @@ $(build_target): $(src_done)
 	  --build=$(BUILD)            \
 	  --host=$(TARGET)            \
 	  $(extra_configure_switches)
+	# ======= Disable parallel buildig the docunentation =======
+	@( cd $(build_dir)/doc ; \
+	   sed -i '/^all: /i.NOTPARALLEL: all\n' Makefile ; \
+	 )
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
 	@touch $@
 

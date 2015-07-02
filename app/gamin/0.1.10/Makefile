@@ -94,6 +94,7 @@ env_sysroot  = DESTDIR=$(GAMIN_PKG)
 
 extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --disable-libgamin
+extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var
 extra_configure_switches += --enable-inotify

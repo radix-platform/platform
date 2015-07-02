@@ -95,8 +95,8 @@ environment += DEFAULT_POSIX2_VERSION=199209
 
 extra_configure_switches  = --libdir=/lib$(LIBSUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
-extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --infodir=/usr/share/info
+extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --disable-rpath
 extra_configure_switches += --bindir=/bin

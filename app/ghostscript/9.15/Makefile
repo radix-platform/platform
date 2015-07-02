@@ -199,7 +199,7 @@ endif
 
 $(install_target): $(build_target)
 	@mkdir -p $(GS_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) $(env_sysroot) install install-so
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 $(env_sysroot) install install-so
 	@( cd $(GS_PKG)/usr/share/ghostscript/$(version)/Resource/Init ; \
 	   if [ -r cidfmap ] ; then \
 	     mv cidfmap cidfmap.default.ghostscript-$(version) ; \

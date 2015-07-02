@@ -60,6 +60,7 @@ scripts += $(BUILDSYSTEM)/pkgtool/make-pkglist
 scripts += $(BUILDSYSTEM)/pkgtool/pkginfo
 scripts += $(BUILDSYSTEM)/pkgtool/pkglog
 scripts += $(BUILDSYSTEM)/pkgtool/remove-package
+scripts += $(BUILDSYSTEM)/pkgtool/update-package
 
 
 build = $(TARGET_BUILD_DIR)/.done

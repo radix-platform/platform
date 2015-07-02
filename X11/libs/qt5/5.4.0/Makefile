@@ -129,6 +129,8 @@ include ../../../../build-system/core.mk
 
 env_sysroot = INSTALL_ROOT=$(QT5_PKG)
 
+QT5_JOBS = -j$(NUMPROCS)
+
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X) $(HARDWARE_FFRK3288) $(HARDWARE_BEAGLE) $(HARDWARE_OMAP5UEVM)),)
 ARCH   = arm
@@ -303,12 +305,12 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 	   sed -i "s,^\(#define QT_POINTER_SIZE\).*,\1 8," qtbase/src/corelib/global/qconfig.h ; \
 	 )
 endif
-	@cd $(SRC_DIR) && $(QT_BUILD_ENVIRONMENT) $(MAKE)
+	@cd $(SRC_DIR) && $(QT_BUILD_ENVIRONMENT) $(MAKE) $(QT5_JOBS)
 	@touch $@
 
 $(install_target): $(build_target)
 	@mkdir -p $(QT5_PKG)
-	@cd $(SRC_DIR) && $(QT_BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(SRC_DIR) && $(QT_BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Rename build-machine tools =======
 	@( cd $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt5/bin ; \
 	   for file in lconvert lrelease lupdate moc qdbuscpp2xml qdbusxml2cpp  \

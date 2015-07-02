@@ -86,6 +86,7 @@ env_sysroot  = DESTDIR=$(ASSUAN_PKG)
 extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
+extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --enable-static=yes
 

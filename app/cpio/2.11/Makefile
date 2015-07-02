@@ -85,10 +85,11 @@ env_sysroot = DESTDIR=$(CPIO_PKG) INSTALL="install -p"
 
 extra_configure_switches  = --bindir=/bin
 extra_configure_switches += --libdir=/lib$(LIBSUFFIX)
-extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
-extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --infodir=/usr/share/info
+extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
+extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --enable-mt
 extra_configure_switches += --with-rmt=/sbin/rmt
 

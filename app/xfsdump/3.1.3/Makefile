@@ -90,11 +90,11 @@ include ../../../build-system/core.mk
 env_sysroot = DIST_ROOT=$(XFSDUMP_PKG)
 
 
-extra_configure_switches += --sbindir=/usr/sbin
+extra_configure_switches  = --sbindir=/usr/sbin
 extra_configure_switches += --bindir=/usr/sbin
 extra_configure_switches += --datadir=/usr/share
-extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
+extra_configure_switches += --mandir=/usr/share/man
 
 
 TARGET_BIN_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)

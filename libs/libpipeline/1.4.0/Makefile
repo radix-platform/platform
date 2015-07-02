@@ -85,6 +85,7 @@ env_sysroot = DESTDIR=$(PIPELINE_PKG)
 
 extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --disable-rpath
 extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --enable-static=yes

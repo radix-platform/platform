@@ -9,7 +9,7 @@ FLAVOURS = de fr
 include ../../../build-system/constants.mk
 
 
-REQUIRES = base/pkgtool
+REQUIRES = libs/glibc/2.21
 
 
 # ======= __END_OF_REQUIRES__ =======

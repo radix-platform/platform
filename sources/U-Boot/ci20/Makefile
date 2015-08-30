@@ -2,24 +2,22 @@
 COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 
 
-include ../../../../build-system/constants.mk
+include ../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/Linux/Ingenic/CI20
+url         = $(DOWNLOAD_SERVER)/sources/U-Boot/Ingenic/CI20
 
-versions    = ci20-3.0.8-20150728
-versions   += ci20-3.18-20150828
+versions    = 2013.10-20150826
 
-description = linux-ci20.txt
-tarballs    = $(addsuffix .tar.bz2, $(addprefix linux-, $(versions)))
-defconfigs  = $(subst .tar.bz2,.defconfig, $(tarballs))
+description = u-boot-ci20.txt
+tarballs    = $(addsuffix .tar.bz2, $(addprefix u-boot-ci20-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 
-BUILD_TARGETS = $(description) $(tarballs) $(defconfigs) $(sha1s)
+BUILD_TARGETS = $(description) $(tarballs) $(sha1s)
 
 
-include ../../../../build-system/core.mk
+include ../../../build-system/core.mk
 
 
 .PHONY: download_clean
@@ -33,12 +31,6 @@ $(tarballs):
 	@echo -e "\n======= Downloading source tarballs =======" ; \
 	 for tarball in $(tarballs) ; do \
 	   echo "$(url)/$$tarball" | xargs -n 1 -P 100 wget $(WGET_OPTIONS) -i & \
-	 done ; wait
-
-$(defconfigs): $(tarballs)
-	@echo -e "\n======= Downloading default config files =======" ; \
-	 for defconfig in $(defconfigs) ; do \
-	  echo "$(url)/$$defconfig" | xargs -n 1 -P 100 wget $(WGET_OPTIONS) -i & \
 	 done ; wait
 
 $(sha1s): $(tarballs)
@@ -55,4 +47,4 @@ $(sha1s): $(tarballs)
 	 done
 
 download_clean:
-	@rm -f $(description) $(tarballs) $(defconfigs) $(sha1s)
+	@rm -f $(description) $(tarballs) $(sha1s)

@@ -34,6 +34,10 @@ ifeq ($(HARDWARE),$(HARDWARE_CB3X))
 REQUIRES += boot/u-boot/A20/2015.01
 endif
 
+ifeq ($(HARDWARE),$(HARDWARE_CI20))
+REQUIRES += boot/u-boot/ci20/2013.10-20150826
+endif
+
 #######
 ####### The System
 #######

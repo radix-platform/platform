@@ -16,8 +16,8 @@ REQUIRES         = base/pkgtool
 # ======= __END_OF_REQUIRES__ =======
 
 
-version          = 3.18-20150313
-modules_version  = 3.4.104
+version          = 3.0.8-20150728
+modules_version  = 3.0.8
 full_version     = $(version)
 tar_bz2_archive  = $(SRC_PACKAGE_PATH)/Linux/Ingenic/CI20/linux-ci20-$(version).tar.bz2
 SRC_ARCHIVE      = $(tar_bz2_archive)
@@ -44,7 +44,7 @@ PKG_GROUP = dev
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 KH_DEV_PKG_NAME                = kernel-headers
-KH_DEV_PKG_VERSION             = 3.18.3
+KH_DEV_PKG_VERSION             = 3.0.8
 KH_DEV_PKG_ARCH                = $(TOOLCHAIN)
 KH_DEV_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 KH_DEV_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -84,13 +84,11 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(APPLY_PATCHES)
 	@touch $@
 
-$(SRC_DIR)/include/generated/uapi/linux/version.h: $(src_done)
+$(SRC_DIR)/include/linux/version.h: $(src_done)
 	@touch $(SRC_DIR)/.config
-	@$(MAKE) -C $(SRC_DIR) \
-	            ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_PREFIX) \
-	            include/generated/uapi/linux/version.h
+	$(MAKE) -C $(SRC_DIR) include/linux/version.h
 
-$(KH_DEV_PKG)/usr/include/linux/autoconf.h: $(SRC_DIR)/include/generated/uapi/linux/version.h
+$(KH_DEV_PKG)/usr/include/linux/autoconf.h: $(SRC_DIR)/include/linux/version.h
 	@mkdir -p $(KH_DEV_PKG)/usr
 	@$(MAKE) -C $(SRC_DIR) headers_install \
 	            ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_PREFIX) \
@@ -107,7 +105,7 @@ $(build_kh_pkg): $(KH_DEV_PKG)/usr/include/linux/autoconf.h
 	@touch $@
 
 $(KH_DEV_PKG_DESCRIPTION_FILE): $(KH_DEV_PKG_DESCRIPTION_FILE_IN)
-	@cat $< | $(SED) -e "s/@KERNEL_VERSION@/$(version)/g" > $@
+	@cat $< | $(SED) -e "s/@KERNEL_VERSION@/$(modules_version)/g" > $@
 
 $(pkg_signature)   : $(pkg_archive) ;
 $(pkg_description) : $(pkg_archive) ;

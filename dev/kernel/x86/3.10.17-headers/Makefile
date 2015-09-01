@@ -19,8 +19,8 @@ REQUIRES         = base/pkgtool
 version          = 3.10.17
 modules_version  = 3.10.17
 full_version     = $(version)
-tar_bz2_archive  = $(SRC_PACKAGE_PATH)/Linux/v3.x/linux-$(version).tar.bz2
-SRC_ARCHIVE      = $(tar_bz2_archive)
+tar_xz_archive   = $(SRC_PACKAGE_PATH)/Linux/v3.x/linux-$(version).tar.xz
+SRC_ARCHIVE      = $(tar_xz_archive)
 SRC_DIR          = $(TARGET_BUILD_DIR)/linux-$(full_version)
 src_done         = $(TARGET_BUILD_DIR)/.source_done
 

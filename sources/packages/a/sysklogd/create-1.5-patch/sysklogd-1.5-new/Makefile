@@ -20,7 +20,7 @@
 #CC= gcc
 #SKFLAGS= -g -DSYSV -Wall
 #LDFLAGS= -g
-SKFLAGS = $(CFLAGS) -O3 -DSYSV -fomit-frame-pointer -Wall -fno-strength-reduce
+SKFLAGS = $(CFLAGS) -O2 -DSYSV -fomit-frame-pointer -Wall -fno-strength-reduce
 # -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
 # -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE
 # $(shell getconf LFS_SKFLAGS)

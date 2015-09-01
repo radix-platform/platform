@@ -105,7 +105,11 @@ include ../../../build-system/core.mk
 env_sysroot = install_root=$(GLIBC_PKG)
 
 
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_JZ47XX_GLIBC))
+OPTIMIZATION_FLAGS  = -O2
+else
 OPTIMIZATION_FLAGS  = -O3
+endif
 
 
 extra_configure_switches  += --libdir=/usr/lib$(LIBSUFFIX)

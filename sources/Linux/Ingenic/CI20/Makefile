@@ -15,8 +15,12 @@ tarballs    = $(addsuffix .tar.bz2, $(addprefix linux-, $(versions)))
 defconfigs  = $(subst .tar.bz2,.defconfig, $(tarballs))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
+patches     = $(CURDIR)/patches/linux-ci20-3.0.8-20150728-ppp.patch
 
-BUILD_TARGETS = $(description) $(tarballs) $(defconfigs) $(sha1s)
+.NOTPARALLEL: $(patches)
+
+
+BUILD_TARGETS = $(description) $(tarballs) $(defconfigs) $(sha1s) $(patches)
 
 
 include ../../../../build-system/core.mk
@@ -54,5 +58,10 @@ $(sha1s): $(tarballs)
 	   fi ; \
 	 done
 
+$(patches): $(sha1s)
+	@echo -e "\n======= Create Patches =======\n" ; \
+	 ( cd create-3.0.8-20150728-ppp-patch ; ./create.patch.sh ) ; \
+	 echo -e "\n"
+
 download_clean:
-	@rm -f $(description) $(tarballs) $(defconfigs) $(sha1s)
+	@rm -f $(description) $(tarballs) $(defconfigs) $(sha1s) $(patches)

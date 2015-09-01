@@ -14,7 +14,7 @@ SHELL=	/bin/sh
 
 #CFLAGS=	-g -fpcc-struct-return ${FSSTND}
 #LFLAGS=	-g
-CFLAGS+=	-O3 -fomit-frame-pointer -fpcc-struct-return ${FSSTND}
+CFLAGS+=	-O2 -fomit-frame-pointer -fpcc-struct-return ${FSSTND}
 LFLAGS+=	-s
 
 LIBS=	-ltermcap

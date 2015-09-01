@@ -18,7 +18,7 @@ SYSCONFIGDIR:=/etc/sysconfig
 DESTDIR:=
 
 CFLAGS        += -Wall -Wunused -Werror
-CFLAGS_SH_LIB ?= -fPIC -O3
+CFLAGS_SH_LIB ?= -fPIC -O2
 CC            ?= gcc
 
 ifeq ($(shell uname -m),sparc64)

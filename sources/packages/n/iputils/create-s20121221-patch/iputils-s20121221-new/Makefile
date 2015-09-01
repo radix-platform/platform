@@ -50,7 +50,7 @@ ENABLE_RDISC_SERVER=no
 # What a pity, all new gccs are buggy and -Werror does not work. Sigh.
 # CCOPT=-fno-strict-aliasing -Wstrict-prototypes -Wall -Werror -g
 CCOPT=-fno-strict-aliasing -Wstrict-prototypes -Wall -g
-CCOPTOPT=-O3
+CCOPTOPT=-O2
 GLIBCFIX=-D_GNU_SOURCE
 DEFINES=
 LDLIB=

@@ -86,7 +86,11 @@ ROOTFS_TARGETS   = $(pkg_archive)
 include ../../../../build-system/core.mk
 
 
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_JZ47XX_GLIBC))
+OPTIMIZATION_FLAGS  = -O2
+else
 OPTIMIZATION_FLAGS  = -O3
+endif
 
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
 OPTIMIZATION_FLAGS += -fPIC

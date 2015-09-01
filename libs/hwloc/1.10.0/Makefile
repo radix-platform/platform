@@ -95,10 +95,12 @@ extra_configure_switches += --enable-static=yes
 extra_configure_switches += --enable-shared=yes
 
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32) $(HARDWARE_CI20)),)
 #
 # Fix cpuid-x86 build error with gcc -O3 on x86-32.
 # Thanks to Thomas Van Doren for reporting the issue.
+#
+# Also jz47xx requires -O2 instead -O3
 #
 OPTIMIZATION_FLAGS = -O2
 endif

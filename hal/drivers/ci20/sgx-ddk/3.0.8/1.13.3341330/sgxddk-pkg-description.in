@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+      |-----handy-ruler------------------------------------------------------|
+sgxddk: SGX Embedded Systems DDK @VERSION@ for Linux kernel
+sgxddk:
+sgxddk: This is the Imagination Technologies SGX DDK for the Linux
+sgxddk: kernel 3.0.8 for Linux MIPS Creator CI20.
+sgxddk:
+sgxddk: Check http://elinux.org/MIPS_Creator_CI20 for details.
+sgxddk:
+sgxddk: Source Git Repository:
+sgxddk:    $ git clone https://github.com/MIPS/CI20_collateral.git
+sgxddk:
+sgxddk:

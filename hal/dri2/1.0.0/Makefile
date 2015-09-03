@@ -12,7 +12,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/hal/dri2
 
-REQUIRES           = X11/libs/libdrm/2.4.58
+REQUIRES           = X11/libs/libdrm/2.4.64
 REQUIRES          += X11/X.org/proto/dri2proto/2.8
 REQUIRES          += X11/X.org/lib/libXext/1.3.3
 REQUIRES          += X11/X.org/lib/libXfixes/5.0.1

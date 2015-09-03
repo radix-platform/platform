@@ -837,9 +837,9 @@ endif
 
 # order: X11/libs/libdrm, Wayland/wayland
 
-#REQUIRES += X11/libs/libdrm/2.4.58
+#REQUIRES += X11/libs/libdrm/2.4.64
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
-#REQUIRES += X11/libs/libdrm/2.4.58-x86_32
+#REQUIRES += X11/libs/libdrm/2.4.64-x86_32
 #endif
 
 #REQUIRES += Wayland/wayland/1.6.0

@@ -12,7 +12,7 @@ include ../../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/X.org/driver/xf86-video-intel
 
-REQUIRES           = X11/X.org/xserver/xorg-server/1.16.2
+REQUIRES           = X11/X.org/xserver/xorg-server/1.16.4
 REQUIRES          += X11/X.org/lib/libXinerama/1.1.3
 REQUIRES          += X11/X.org/lib/libXtst/1.2.2
 REQUIRES          += X11/X.org/lib/libXvMC/1.0.8

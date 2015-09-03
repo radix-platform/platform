@@ -11,7 +11,7 @@ include ../../../../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/hal/Mali/xf86-video-mali/DX/r3p0-04rel0
 
-REQUIRES           = X11/X.org/xserver/xorg-server/1.16.2
+REQUIRES           = X11/X.org/xserver/xorg-server/1.16.4
 REQUIRES          += X11/X.org/lib/pixman/0.32.6
 REQUIRES          += X11/libs/sunxi-mali/3.0.4.0
 

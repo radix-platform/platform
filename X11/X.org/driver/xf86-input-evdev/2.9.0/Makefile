@@ -20,7 +20,7 @@ include ../../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/X.org/driver/xf86-input-evdev
 
-REQUIRES           = X11/X.org/xserver/xorg-server/1.16.2
+REQUIRES           = X11/X.org/xserver/xorg-server/1.16.4
 REQUIRES          += libs/eudev/1.9
 REQUIRES          += X11/libs/libevdev/1.3.2
 REQUIRES          += X11/libs/mtdev/1.1.5

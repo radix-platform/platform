@@ -113,13 +113,11 @@ $(build_sgxddk_pkg): $(modules_done)
 	@cd $(TARGET_DEST_DIR)/lib/modules/$(modules_version) && \
 	  cp -rf extra $(SGXDDK_BIN_PKG)/lib/modules/$(modules_version) && \
 	  cp -a modules.builtin modules.order $(SGXDDK_BIN_PKG)/lib/modules/$(modules_version)
+	# ======= Install Documentation =======
 	@mkdir -p $(SGXDDK_BIN_PKG)/usr/doc/sgxddk-$(version)
 	@cp -a $(SRC_DIR)/eurasia_km/*-COPYING \
 	       $(SRC_DIR)/eurasia_km/INSTALL $(SRC_DIR)/eurasia_km/README \
 	       $(SGXDDK_BIN_PKG)/usr/doc/sgxddk-$(version)
-	@cd $(TARGET_DEST_DIR)/lib/modules/$(modules_version) && \
-	  cp -a modules.builtin modules.builtin.back          && \
-	  cp -a modules.order   modules.order.back
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(SGXDDK_BIN_PKG))
 	# ======= Move to .new files in target package =======

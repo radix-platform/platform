@@ -36,6 +36,7 @@ endif
 
 ifeq ($(HARDWARE),$(HARDWARE_CI20))
 REQUIRES  = hal/drivers/ci20/sgx-ddk/3.0.8/1.13.3341330
+REQUIRES += hal/firmware/ci20/brcm4330/0.0.0
 REQUIRES += boot/u-boot/ci20/2013.10-20150826
 endif
 

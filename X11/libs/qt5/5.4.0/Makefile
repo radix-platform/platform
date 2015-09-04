@@ -243,7 +243,11 @@ configure_switches += -no-eglfs
 configure_switches += -no-kms
 else
 configure_switches += -eglfs
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
+configure_switches += -no-kms
+else
 configure_switches += -kms
+endif
 endif
 
 configure_switches += -qpa xcb

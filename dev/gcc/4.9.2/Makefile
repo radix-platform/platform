@@ -222,7 +222,6 @@ extra_configure_switches += '--with-bugurl=$(BUG_URL)'
 extra_configure_switches += --with-arch-32=mips32r2
 extra_configure_switches += --with-arch-64=mips64r2
 extra_configure_switches += --with-float=hard
-extra_configure_switches += --with-mips=plt
 extra_configure_switches += --enable-target-optspace
 endif
 

@@ -109,6 +109,10 @@ extra_configure_switches += --enable-shared=yes
 
 environment  = CUPS_CONFIG=$(TARGET_DEST_DIR)/usr/bin/cups-config
 
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
+LDFLAGS += -lEGL -lGLESv2
+endif
+
 
 TARGET_BIN_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)
 TARGET_LIB_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUFFIX)

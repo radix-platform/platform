@@ -138,6 +138,20 @@ $(build_target): $(src_done)
 	  --build=$(BUILD)            \
 	  --host=$(TARGET)            \
 	  $(extra_configure_switches)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
+	@( cd $(build_dir)/qt4/tests ; \
+	   sed -i "s,^\(LIBS =.*\),\1 -lEGL -lGLESv2," Makefile ; \
+	 )
+	@( cd $(build_dir)/qt4/demos ; \
+	   sed -i "s,^\(LIBS =.*\),\1 -lEGL -lGLESv2," Makefile ; \
+	 )
+	@( cd $(build_dir)/qt5/tests ; \
+	   sed -i "s,^\(LIBS =.*\),\1 -lEGL -lGLESv2," Makefile ; \
+	 )
+	@( cd $(build_dir)/qt5/demos ; \
+	   sed -i "s,^\(LIBS =.*\),\1 -lEGL -lGLESv2," Makefile ; \
+	 )
+endif
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
 	@touch $@
 

@@ -20,7 +20,11 @@ include ../../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/X.org/driver/xf86-input-synaptics
 
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X)),)
+REQUIRES           = X11/X.org/xserver/xorg-server/1.16.2
+else
 REQUIRES           = X11/X.org/xserver/xorg-server/1.16.4
+endif
 REQUIRES          += X11/libs/libevdev/1.3.2
 
 # ======= __END_OF_REQUIRES__ =======

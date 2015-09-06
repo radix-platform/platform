@@ -95,6 +95,10 @@ extra_configure_switches += --localstatedir=/var
 extra_configure_switches += --enable-static=yes
 extra_configure_switches += --enable-shared=yes
 
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
+extra_environment = CAIRO_LIBS="-lcairo -lpng14 -lEGL"
+endif
+
 
 ####### Dependencies
 
@@ -106,7 +110,7 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 $(build_target): $(src_done)
 	@mkdir -p $(build_dir)
 	@cd $(build_dir) && \
-	  $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
+	  $(BUILD_ENVIRONMENT) $(extra_environment) ../$(src_dir_name)/configure \
 	  --prefix=/usr               \
 	  --build=$(BUILD)            \
 	  --host=$(TARGET)            \

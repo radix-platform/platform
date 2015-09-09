@@ -77,7 +77,7 @@ typedef HDC     EGLNativeDisplayType;
 typedef HBITMAP EGLNativePixmapType;
 typedef HWND    EGLNativeWindowType;
 
-#elif defined(SUPPORT_X11)
+#elif defined(__unix__)
 
 #ifdef MESA_EGL_NO_X11_HEADERS
 

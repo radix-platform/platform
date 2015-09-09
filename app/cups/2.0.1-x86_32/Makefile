@@ -19,7 +19,7 @@ REQUIRES          += app/dbus/1.8.10-x86_32
 REQUIRES          += libs/libtiff/4.0.3-x86_32
 REQUIRES          += libs/libpng/libpng14/1.4.13-x86_32
 REQUIRES          += net/gnutls/3.1.22-x86_32
-REQUIRES          += net/openssl/1.0.1g-x86_32
+REQUIRES          += net/openssl/1.0.2d-x86_32
 REQUIRES          += libs/libusb/1.0.19-x86_32
 
 # ======= __END_OF_REQUIRES__ =======

@@ -25,7 +25,7 @@ REQUIRES           = dev/gcc/4.9.2
 REQUIRES          += libs/pcre/8.34
 REQUIRES          += libs/libxml2/2.9.1
 REQUIRES          += libs/libaio/0.3.110
-REQUIRES          += net/openssl/1.0.1g
+REQUIRES          += net/openssl/1.0.2d
 REQUIRES          += secure/pam_unix2/2.9.1
 REQUIRES          += libs/boost/1.57.0
 

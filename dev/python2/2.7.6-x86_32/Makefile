@@ -18,7 +18,7 @@ REQUIRES          += app/xz/5.0.5-x86_32
 REQUIRES          += libs/libffi/3.0.13-x86_32
 REQUIRES          += libs/readline/6.3-x86_32
 REQUIRES          += libs/expat/2.1.0-x86_32
-REQUIRES          += net/openssl/1.0.1g-x86_32
+REQUIRES          += net/openssl/1.0.2d-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

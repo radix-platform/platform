@@ -217,8 +217,8 @@ endif
 #             │       ├───────────────────────────────────── libs/zlib/1.2.8
 #             │       │                                      └── libs/zlib/1.2.8-x86_32
 #             │       │
-#             │       ├── net/openssl/1.0.1g
-#             │       │   ├── net/openssl/1.0.1g-x86_32
+#             │       ├── net/openssl/1.0.2d
+#             │       │   ├── net/openssl/1.0.2d-x86_32
 #             │       │   │
 #             │       │   ├── libs/libevent/2.0.21 ■
 #             │       │   │   └── libs/libevent/2.0.21-x86_32
@@ -241,7 +241,7 @@ endif
 #             │       ├── dev/python2/2.7.6               ├── libs/libffi/3.0.13
 #             │       │   └── dev/python2/2.7.6-x86_32    ├── libs/readline/6.3
 #             │      ...                                  ├── libs/expat/2.1.0
-#             │                                           └── net/openssl/1.0.1g
+#             │                                           └── net/openssl/1.0.2d
 #             │      ...
 #             │       ├────────────────────────────────────── libs/gdbm/1.11
 #             │       ├── dev/perl/5.18.2
@@ -251,7 +251,7 @@ endif
 #             │      ...
 #             │       ├───────────────────────────────────┬── libs/libtermcap/1.2.3
 #             │       │                                   ├── dev/flex/2.5.39
-#             │       ├── app/bsd-games/2.17 ■            └── net/openssl/1.0.1g
+#             │       ├── app/bsd-games/2.17 ■            └── net/openssl/1.0.2d
 #             │       │
 #             │      ...
 #             │

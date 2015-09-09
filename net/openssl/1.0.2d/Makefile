@@ -26,7 +26,7 @@ REQUIRES          += libs/gmp/6.0.0
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 1.0.1g
+version            = 1.0.2d
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/n/openssl/openssl-$(version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/openssl-$(version)
@@ -53,7 +53,7 @@ PKG_GROUP = net
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 OPENSSL_PKG_NAME                = openssl
-OPENSSL_PKG_VERSION             = 1.0.1g
+OPENSSL_PKG_VERSION             = 1.0.2d
 OPENSSL_PKG_ARCH                = $(TOOLCHAIN)
 OPENSSL_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 OPENSSL_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)

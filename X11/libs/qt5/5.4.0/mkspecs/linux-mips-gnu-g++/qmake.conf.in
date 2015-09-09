@@ -26,6 +26,8 @@ QMAKE_STRIP              = @CROSS_COMPILE@strip
 QMAKE_INCDIR             = @SYSROOT@/usr/include
 QMAKE_LIBDIR             = @SYSROOT@/usr/lib@LIBDIRSUFFIX@
 
+QMAKE_CFLAGS_OPTIMIZE_FULL = -O2
+
 QMAKE_LIBS_EGL          += -lEGL
 QMAKE_LIBS_OPENGL_ES2   += -lGLESv2
 QMAKE_LIBS_OPENVG       += -lOpenVG

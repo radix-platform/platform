@@ -569,12 +569,40 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/zeromq/4.0.5-x86_32
 endif
 
+#            ...     ...
+#             │       │
+#             │       ├── net/nspr/4.10.8
+#             │       │   ├── net/nspr/4.10.8-x86_32
+#             │       │   │
+#             │       │   ├── net/nss/3.19.2 ■  ────────────────────── app/sqlite/3.8.7.1
+#             │       │   │   └── net/nss/3.19.2-x86_32  ──────────────┴── app/sqlite/3.8.7.1-x86_32
+#             │       │  ...
+#            ...     ...
+
+REQUIRES += net/nss/3.19.2
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/nss/3.19.2-x86_32
+endif
+
+REQUIRES += net/net-snmp/5.7.3
+
+#
+# order: libs/libdaemon, app/dbus, libs/glib2, libs/dbus-glib, libs/dbus-python, secure/libcap,
+#        libs/gdbm
+#
+REQUIRES += net/avahi-daemon/0.6.31
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/avahi-daemon/0.6.31-x86_32
+endif
+
 REQUIRES += app/mc/4.8.12
 REQUIRES += app/tmux/1.9a
 REQUIRES += app/chrpath/0.16
 REQUIRES += app/patch/2.7
 REQUIRES += app/which/2.20
 REQUIRES += app/bin/4.4
+
+REQUIRES += app/enscript/1.6.6
 
 
 #######

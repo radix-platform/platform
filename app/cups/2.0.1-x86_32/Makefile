@@ -21,6 +21,7 @@ REQUIRES          += libs/libpng/libpng14/1.4.13-x86_32
 REQUIRES          += net/gnutls/3.1.22-x86_32
 REQUIRES          += net/openssl/1.0.2d-x86_32
 REQUIRES          += libs/libusb/1.0.19-x86_32
+REQUIRES          += net/avahi-daemon/0.6.31-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -101,8 +102,8 @@ extra_configure_switches += --enable-raw-printing
 extra_configure_switches += --enable-dbus
 extra_configure_switches += --with-dbusdir=/etc/dbus-1
 
-extra_configure_switches += --disable-avahi
-extra_configure_switches += --disable-dnssd
+extra_configure_switches += --enable-avahi
+extra_configure_switches += --enable-dnssd
 extra_configure_switches += --disable-libpaper
 extra_configure_switches += --disable-systemd
 
@@ -125,6 +126,18 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	@touch $@
 
 $(build_target): $(src_done)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
+	@( cd $(SRC_DIR) ; \
+	   PKG_CONFIG_PATH=/usr/lib$(BUILD_MULTILIB_SUFFIX)/pkgconfig \
+	   ./configure --prefix=/usr ; \
+	   make ; \
+	   cp -a man/mantohtml man/mantohtml-build ; \
+	   cp -a ppdc/genstrings ppdc/genstrings-build ; \
+	   make distclean ; \
+	   sed -i.orig "s,\./mantohtml,\./mantohtml-build,g"   man/Makefile  ; \
+	   sed -i.orig "s,\./genstrings,\./genstrings-build,g" ppdc/Makefile ; \
+	 )
+endif
 	@cd $(SRC_DIR) && \
 	  $(BUILD_ENVIRONMENT) ./configure \
 	  --prefix=/usr               \

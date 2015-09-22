@@ -39,7 +39,7 @@ install_target     = $(TARGET_BUILD_DIR)/.install_done
 
 ####### Targets
 
-PKG_GROUP = xorg
+PKG_GROUP = xlibs
 
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.

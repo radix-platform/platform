@@ -569,12 +569,40 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/zeromq/4.0.5-x86_32
 endif
 
+#            ...     ...
+#             │       │
+#             │       ├── net/nspr/4.10.8
+#             │       │   ├── net/nspr/4.10.8-x86_32
+#             │       │   │
+#             │       │   ├── net/nss/3.19.2 ■  ────────────────────── app/sqlite/3.8.7.1
+#             │       │   │   └── net/nss/3.19.2-x86_32  ──────────────┴── app/sqlite/3.8.7.1-x86_32
+#             │       │  ...
+#            ...     ...
+
+REQUIRES += net/nss/3.19.2
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/nss/3.19.2-x86_32
+endif
+
+REQUIRES += net/net-snmp/5.7.3
+
+#
+# order: libs/libdaemon, app/dbus, libs/glib2, libs/dbus-glib, libs/dbus-python, secure/libcap,
+#        libs/gdbm
+#
+REQUIRES += net/avahi-daemon/0.6.31
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/avahi-daemon/0.6.31-x86_32
+endif
+
 REQUIRES += app/mc/4.8.12
 REQUIRES += app/tmux/1.9a
 REQUIRES += app/chrpath/0.16
 REQUIRES += app/patch/2.7
 REQUIRES += app/which/2.20
 REQUIRES += app/bin/4.4
+
+REQUIRES += app/enscript/1.6.6
 
 
 #######
@@ -993,10 +1021,9 @@ REQUIRES += X11/app/WindowMaker/0.95.6
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
 #REQUIRES += libs/pango/1.36.8-x86_32
 #endif
-REQUIRES += app/ghostscript/9.15
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += app/ghostscript/9.15-x86_32
-endif
+
+REQUIRES += app/ghostscript-fonts-std/8.11
+
 REQUIRES += app/qpdf/5.1.2
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += app/qpdf/5.1.2-x86_32
@@ -1130,6 +1157,24 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += X11/libs/gtk+2/2.24.25-x86_32
 endif
 
+REQUIRES += X11/app/glade2/2.12.2
+REQUIRES += X11/libs/gtk-engines/2.20.2
+REQUIRES += X11/app/lxappearance/0.6.1
+
+#
+# order: net/avahi-daemon, X11/libs/libglade, libs/pygobject, libs/pycairo, libs/pygtk
+#
+REQUIRES += X11/app/avahi-ui/0.6.31
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += X11/app/avahi-ui/0.6.31-x86_32
+endif
+
+#
+# order: app/cups-filters/1.0.76, app/foomatic-db/20150904
+#
+REQUIRES += app/foomatic-db-engine/20150616
+
+
 REQUIRES += libs/log4cplus/1.2.0
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/log4cplus/1.2.0-x86_32
@@ -1189,7 +1234,6 @@ REQUIRES += libs/libcaca/0.99.19
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/libcaca/0.99.19-x86_32
 endif
-
 
 
 # ======= __END_OF_REQUIRES__ =======

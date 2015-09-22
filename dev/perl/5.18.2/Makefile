@@ -86,14 +86,69 @@ ROOTFS_TARGETS   = $(pkg_archive)
 include ../../../build-system/core.mk
 
 
+ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32)),)
+ARCH = x86_32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
+ARCH = x86_64
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X)),)
+ARCH = arm
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_FFRK3288)),)
+ARCH = arm
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_VIP1830)),)
+ARCH = arm
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_BEAGLE)),)
+ARCH = arm
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
+ARCH = arm
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_B74)),)
+ARCH = mipsel
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
+ARCH = mips32r2
+endif
+
+
 env_sysroot = DESTDIR=$(PERL_PKG)
 
+ARCHNAME    = $(ARCH)-linux
 
 extra_configure_switches  = --mode=cross
 extra_configure_switches += --target=$(TARGET)
 extra_configure_switches += --target-tools-prefix=$(CROSS_PREFIX)
 extra_configure_switches += --sysroot=$(TARGET_DEST_DIR)
 extra_configure_switches += -A lddlflags=--sysroot=$(TARGET_DEST_DIR) -A lddlflags=-shared
+
+extra_configure_switches += --set archname='$(ARCHNAME)'
+extra_configure_switches += --set libpth='/usr/lib$(LIBSUFFIX) /lib$(LIBSUFFIX)'
+
+extra_configure_switches += --set bin='/usr/bin'
+extra_configure_switches += --set scriptdir='/usr/bin'
+extra_configure_switches += --set libsdirs=' /lib$(LIBSUFFIX) /usr/lib$(LIBSUFFIX)'
+
+extra_configure_switches += --set privlib='/usr/lib$(LIBSUFFIX)/perl5'
+extra_configure_switches += --set archlib='/usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)'
+
+extra_configure_switches += --set siteprefix='/usr'
+extra_configure_switches += --set sitebin='/usr/bin/site_perl'
+extra_configure_switches += --set sitescript='/usr/bin/site_perl'
+extra_configure_switches += --set sitelib='/usr/lib$(LIBSUFFIX)/perl5/site_perl'
+extra_configure_switches += --set sitearch='/usr/lib$(LIBSUFFIX)/perl5/site_perl/$(ARCHNAME)'
+
+extra_configure_switches += --set vendorprefix='/usr'
+extra_configure_switches += --set vendorbin='/usr/bin/vendor_perl'
+extra_configure_switches += --set vendorscript='/usr/bin/vendor_perl'
+extra_configure_switches += --set vendorlib='/usr/lib$(LIBSUFFIX)/perl5/vendor_perl'
+extra_configure_switches += --set vendorarch='/usr/lib$(LIBSUFFIX)/perl5/vendor_perl/$(ARCHNAME)'
+
+extra_configure_switches += --set cccdlflags='-fPIC'
+extra_configure_switches += --set pager='/usr/bin/less -isr'
 
 extra_configure_switches += --html1dir=/usr/share/doc/perl-$(version)/html
 extra_configure_switches += --html3dir=/usr/share/doc/perl-$(version)/html
@@ -153,8 +208,7 @@ $(install_target): $(build_target)
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(PERL_PKG))
 	# ======= Remove cross environment from target package =======
-	@( archname=`cat $(SRC_DIR)/tconfig.sh | grep "^archname=" | sed -e "s,archname=',," | sed -e "s,',,"` ; \
-	   archdir=$(PERL_PKG)/usr/lib$(LIBSUFFIX)/perl5/$(version)/$$archname   ; \
+	@( archdir=$(PERL_PKG)/usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME) ; \
 	   sed -i "s,$(CROSS_PREFIX),,g"               $$archdir/Config_heavy.pl ; \
 	   sed -i "s,--sysroot=$(TARGET_DEST_DIR),,g"  $$archdir/Config_heavy.pl ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g"            $$archdir/Config_heavy.pl ; \

@@ -28,6 +28,7 @@ REQUIRES          += libs/libpng/libpng14/1.4.13
 REQUIRES          += net/gnutls/3.1.22
 REQUIRES          += net/openssl/1.0.2d
 REQUIRES          += libs/libusb/1.0.19
+REQUIRES          += net/avahi-daemon/0.6.31
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -106,14 +107,16 @@ extra_configure_switches += --enable-libusb
 extra_configure_switches += --enable-acl
 
 extra_configure_switches += --enable-ssl
+
 extra_configure_switches += --without-php
+
 extra_configure_switches += --enable-pam=yes
 extra_configure_switches += --enable-raw-printing
 extra_configure_switches += --enable-dbus
 extra_configure_switches += --with-dbusdir=/etc/dbus-1
 
-extra_configure_switches += --disable-avahi
-extra_configure_switches += --disable-dnssd
+extra_configure_switches += --enable-avahi
+extra_configure_switches += --enable-dnssd
 extra_configure_switches += --disable-libpaper
 extra_configure_switches += --disable-systemd
 
@@ -132,7 +135,7 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	@touch $@
 
 $(build_target): $(src_done)
-ifeq ($(filter $(HARDWARE),$(HARDWARE_PC32) $(HARDWARE_PC64)),)
+ifeq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 	@( cd $(SRC_DIR) ; \
 	   PKG_CONFIG_PATH=/usr/lib$(BUILD_MULTILIB_SUFFIX)/pkgconfig \
 	   ./configure --prefix=/usr ; \
@@ -177,6 +180,17 @@ $(install_target): $(build_target)
 	@mkdir -p $(CUPS_PKG)/etc/logrotate.d
 	@cp -a $(cups_logrotate) $(CUPS_PKG)/etc/logrotate.d/cups
 	@chmod 0644 $(CUPS_PKG)/etc/logrotate.d/cups
+	# ======= Rename Banners & Data files which will come with cups-filters package =======
+	@( cd $(CUPS_PKG)/usr/share/cups/banners ; \
+	   for file in classified confidential secret standard topsecret unclassified ; do \
+	     mv $$file $$file.cups ; \
+	   done ; \
+	 )
+	@( cd $(CUPS_PKG)/usr/share/cups/data ; \
+	   for file in testprint ; do \
+	     mv $$file $$file.cups ; \
+	   done ; \
+	 )
 	# ======= Install Documentation =======
 	@mkdir -p $(CUPS_PKG)/usr/doc/$(src_dir_name)
 	@cp -a $(SRC_DIR)/CREDITS.txt $(SRC_DIR)/LICENSE.txt \

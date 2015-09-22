@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+           |-----handy-ruler------------------------------------------------------|
+gtk-engines: gtk-engines @VERSION@ (commonly used GTK+ engines)
+gtk-engines:
+gtk-engines: gtk-engines provides a central location for commonly used GTK+
+gtk-engines: engines. It currently supplies several engines and default themes
+gtk-engines: for those which have one: Clearlooks, Crux, Glide, HC, Industrial,
+gtk-engines: LUA, Mist, Redmond, Thinice.
+gtk-engines:
+gtk-engines:
+gtk-engines:
+gtk-engines:
+gtk-engines:

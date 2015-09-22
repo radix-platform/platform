@@ -1,0 +1,64 @@
+#!/bin/sh
+
+# arg 1:  the new package version
+pre_install() {
+  /bin/true
+}
+
+# arg 1:  the new package version
+post_install() {
+  if ! grep "XML::SAX|" @PERL_LOCAL_POD@ 1> /dev/null 2> /dev/null ; then
+  cat << EOF >> @PERL_LOCAL_POD@
+=head2 Mon Sep 21 16:43:31 2015: C<Module> L<XML::SAX|XML::SAX>
+
+=over 4
+
+=item *
+
+C<installed into: /usr/lib/perl5/vendor_perl>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.99>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+EOF
+  fi
+}
+
+# arg 1:  the new package version
+# arg 2:  the old package version
+pre_update() {
+  /bin/true
+}
+
+# arg 1:  the new package version
+# arg 2:  the old package version
+post_update() {
+  post_install
+}
+
+# arg 1:  the old package version
+pre_remove() {
+  /bin/true
+}
+
+# arg 1:  the old package version
+post_remove() {
+  /bin/true
+}
+
+
+operation=$1
+shift
+
+$operation $*

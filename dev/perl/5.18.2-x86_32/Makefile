@@ -102,33 +102,42 @@ extra_configure_switches += --set installstyle='lib$(MULTILIB_X86_32_SUFFIX)/per
 extra_configure_switches += -A hostccflags=-m32 -A hostldflags=-m32
 extra_configure_switches += -A ccflags=-m32 -A ldflags=-m32
 
-extra_configure_switches += --set libpth='/usr/lib$(MULTILIB_X86_32_SUFFIX) /lib$(MULTILIB_X86_32_SUFFIX)'
 extra_configure_switches += --set archname='$(ARCHNAME)'
+extra_configure_switches += --set libpth='/usr/lib$(MULTILIB_X86_32_SUFFIX) /lib$(MULTILIB_X86_32_SUFFIX)'
+
 extra_configure_switches += --set bin='/usr/bin/$(MULTILIB_X86_32_SUFFIX)'
 extra_configure_switches += --set scriptdir='/usr/bin/$(MULTILIB_X86_32_SUFFIX)'
 extra_configure_switches += --set libsdirs=' /lib$(MULTILIB_X86_32_SUFFIX) /usr/lib$(MULTILIB_X86_32_SUFFIX)'
-extra_configure_switches += --set privlib='/usr/lib$(MULTILIB_X86_32_SUFFIX)/perl5/$(version)'
-extra_configure_switches += --set archlib='/usr/lib$(MULTILIB_X86_32_SUFFIX)/perl5/$(version)/$(ARCHNAME)'
+
+extra_configure_switches += --set privlib='/usr/lib$(MULTILIB_X86_32_SUFFIX)/perl5/'
+extra_configure_switches += --set archlib='/usr/lib$(MULTILIB_X86_32_SUFFIX)/perl5//$(ARCHNAME)'
 extra_configure_switches += --set perlpath='/usr/bin/$(MULTILIB_X86_32_SUFFIX)/perl'
 
-
-extra_configure_switches += --set sitebin='/usr/bin/$(MULTILIB_X86_32_SUFFIX)'
-extra_configure_switches += --set sitelib_stem='/usr/lib$(MULTILIB_X86_32_SUFFIX)/perl5/site_perl'
-extra_configure_switches += --set sitelib='/usr/lib$(MULTILIB_X86_32_SUFFIX)/perl5/site_perl/$(version)'
 extra_configure_switches += --set siteprefix='/usr'
-extra_configure_switches += --set sitescript='/usr/bin/$(MULTILIB_X86_32_SUFFIX)'
-extra_configure_switches += --set sitearch='/usr/lib$(MULTILIB_X86_32_SUFFIX)/perl5/site_perl/$(version)/$(ARCHNAME)'
-extra_configure_switches += --set sitearchexp='/usr/lib$(MULTILIB_X86_32_SUFFIX)/perl5/site_perl/$(version)/$(ARCHNAME)'
+extra_configure_switches += --set sitebin='/usr/bin/$(MULTILIB_X86_32_SUFFIX)/site_perl'
+extra_configure_switches += --set sitescript='/usr/bin/$(MULTILIB_X86_32_SUFFIX)/site_perl'
+extra_configure_switches += --set sitelib_stem='/usr/lib$(MULTILIB_X86_32_SUFFIX)/perl5/site_perl'
+extra_configure_switches += --set sitelib='/usr/lib$(MULTILIB_X86_32_SUFFIX)/perl5/site_perl'
+extra_configure_switches += --set sitearch='/usr/lib$(MULTILIB_X86_32_SUFFIX)/perl5/site_perl/$(ARCHNAME)'
+extra_configure_switches += --set sitearchexp='/usr/lib$(MULTILIB_X86_32_SUFFIX)/perl5/site_perl/$(ARCHNAME)'
 extra_configure_switches += --set sitebinexp='/usr/bin/$(MULTILIB_X86_32_SUFFIX)'
-extra_configure_switches += --set sitelibexp='/usr/lib$(MULTILIB_X86_32_SUFFIX)/perl5/site_perl/$(version)'
+extra_configure_switches += --set sitelibexp='/usr/lib$(MULTILIB_X86_32_SUFFIX)/perl5/site_perl'
 extra_configure_switches += --set siteprefixexp='/usr'
 extra_configure_switches += --set sitescriptexp='/usr/bin/$(MULTILIB_X86_32_SUFFIX)'
 
-extra_configure_switches += --set installsitearch='/usr/lib$(MULTILIB_X86_32_SUFFIX)/perl5/site_perl/$(version)/$(ARCHNAME)'
 extra_configure_switches += --set installsitebin='/usr/bin/$(MULTILIB_X86_32_SUFFIX)'
-extra_configure_switches += --set installsitelib='/usr/lib$(MULTILIB_X86_32_SUFFIX)/perl5/site_perl/$(version)'
 extra_configure_switches += --set installsitescript='/usr/bin/$(MULTILIB_X86_32_SUFFIX)'
+extra_configure_switches += --set installsitelib='/usr/lib$(MULTILIB_X86_32_SUFFIX)/perl5/site_perl'
+extra_configure_switches += --set installsitearch='/usr/lib$(MULTILIB_X86_32_SUFFIX)/perl5/site_perl/$(ARCHNAME)'
 
+extra_configure_switches += --set vendorprefix='/usr'
+extra_configure_switches += --set vendorbin='/usr/bin/$(MULTILIB_X86_32_SUFFIX)/vendor_perl'
+extra_configure_switches += --set vendorscript='/usr/bin/$(MULTILIB_X86_32_SUFFIX)/vendor_perl'
+extra_configure_switches += --set vendorlib='/usr/lib$(MULTILIB_X86_32_SUFFIX)/perl5/vendor_perl'
+extra_configure_switches += --set vendorarch='/usr/lib$(MULTILIB_X86_32_SUFFIX)/perl5/vendor_perl/$(ARCHNAME)'
+
+
+extra_configure_switches += --set cccdlflags='-fPIC'
 extra_configure_switches += --set pager='/usr/bin/less -isr'
 
 
@@ -158,7 +167,7 @@ $(install_target): $(build_target)
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(PERL_32_PKG))
 	# ======= Remove cross environment from target package =======
-	@( cd $(PERL_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/perl5/$(version)/$(ARCHNAME) ; \
+	@( cd $(PERL_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/perl5/$(ARCHNAME) ; \
 	   sed -i "s,$(CROSS_PREFIX),,g"               Config_heavy.pl ; \
 	   sed -i "s,--sysroot=$(TARGET_DEST_DIR),,g"  Config_heavy.pl ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g"            Config_heavy.pl ; \

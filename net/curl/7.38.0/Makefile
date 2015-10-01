@@ -22,7 +22,7 @@ SOURCE_REQUIRES    = sources/packages/n/curl
 
 REQUIRES           = net/openssh/6.6p1
 REQUIRES          += net/gnutls/3.1.22
-REQUIRES          += net/ca-certificates/32.0
+REQUIRES          += net/ca-certificates/40.0.2
 REQUIRES          += net/openldap-client/2.4.39
 
 # ======= __END_OF_REQUIRES__ =======

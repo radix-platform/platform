@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+          |-----handy-ruler------------------------------------------------------|
+libvpx-x32: libvpx-x32 @VERSION@ (x86_32 WebM VP8 Codec SDK)
+libvpx-x32:
+libvpx-x32: This SDK allows you to integrate your applications with the VP8
+libvpx-x32: video codec, a high quality, royalty free, open source
+libvpx-x32: codec deployed on millions of computers and devices worldwide.
+libvpx-x32:
+libvpx-x32: This distribution of the WebM VP8 Codec SDK includes the following
+libvpx-x32: support:
+libvpx-x32:    - WebM VP8 Encoder
+libvpx-x32:    - WebM VP8 Decoder
+libvpx-x32:

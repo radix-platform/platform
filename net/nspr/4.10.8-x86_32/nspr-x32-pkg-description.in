@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+        |-----handy-ruler------------------------------------------------------|
+nspr-x32: nspr-x32 @VERSION@ (x86_32 Netscape Portable Runtime)
+nspr-x32:
+nspr-x32: Netscape Portable Runtime (NSPR) provides a platform-neutral API for
+nspr-x32: system level and libc-like functions. The API is used in the Mozilla
+nspr-x32: clients, many of Red Hat's and Sun's server applications, and other
+nspr-x32: software offerings.
+nspr-x32:
+nspr-x32:
+nspr-x32: see: https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSPR
+nspr-x32:
+nspr-x32:

@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+        |-----handy-ruler------------------------------------------------------|
+perl-dbi: perl-dbi @VERSION@ (DBI)
+perl-dbi:
+perl-dbi: DBI - The Perl Database Interface.
+perl-dbi:
+perl-dbi: The DBI requires one or more 'driver' modules to talk to databases,
+perl-dbi: but they are not needed to build or install the DBI.
+perl-dbi:
+perl-dbi: Check that a DBD::* module exists for the database you wish to use.
+perl-dbi:
+perl-dbi:
+perl-dbi:

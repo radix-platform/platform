@@ -12,7 +12,7 @@ include ../../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/X.org/driver/xf86-video-vmware
 
-REQUIRES           = X11/X.org/xserver/xorg-server/1.16.2
+REQUIRES           = X11/X.org/xserver/xorg-server/1.16.4
 
 REQUIRES          += X11/libs/opengl-collection
 

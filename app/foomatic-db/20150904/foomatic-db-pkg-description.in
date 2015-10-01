@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+           |-----handy-ruler------------------------------------------------------|
+foomatic-db: foomatic-db @VERSION@ (Foomatic Database)
+foomatic-db:
+foomatic-db: The collected knowledge about printers, drivers, and driver options
+foomatic-db: in XML files, used by foomatic-db-engine to generate PPD files.
+foomatic-db:
+foomatic-db: Till Kamppeter <till.kamppeter@gmail.com>
+foomatic-db:
+foomatic-db: Homepage: http://www.openprinting.org
+foomatic-db:
+foomatic-db:
+foomatic-db:

@@ -25,7 +25,7 @@ SOURCE_REQUIRES   += sources/packages/n/wireless-regdb
 
 REQUIRES           = net/iw/3.17
 ifeq ($(ENABLE_DYNAMIC_PUBKEYS),yes)
-REQUIRES          += net/openssl/1.0.1g
+REQUIRES          += net/openssl/1.0.2d
 else
 REQUIRES          += net/libgcrypt/1.6.2
 endif

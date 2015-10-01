@@ -36,6 +36,10 @@ SRC_DIR            = $(TARGET_BUILD_DIR)/perl-$(version)
 src_dir_name       = perl-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
+
+profile_dir        = $(CURDIR)/profile.d
+
+
 PATCHES = PATCHES
 
 build_target       = $(TARGET_BUILD_DIR)/.build_done
@@ -86,14 +90,69 @@ ROOTFS_TARGETS   = $(pkg_archive)
 include ../../../build-system/core.mk
 
 
+ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32)),)
+ARCH = x86_32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
+ARCH = x86_64
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X)),)
+ARCH = arm
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_FFRK3288)),)
+ARCH = arm
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_VIP1830)),)
+ARCH = arm
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_BEAGLE)),)
+ARCH = arm
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
+ARCH = arm
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_B74)),)
+ARCH = mipsel
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
+ARCH = mips32r2
+endif
+
+
 env_sysroot = DESTDIR=$(PERL_PKG)
 
+ARCHNAME    = $(ARCH)-linux
 
 extra_configure_switches  = --mode=cross
 extra_configure_switches += --target=$(TARGET)
 extra_configure_switches += --target-tools-prefix=$(CROSS_PREFIX)
 extra_configure_switches += --sysroot=$(TARGET_DEST_DIR)
 extra_configure_switches += -A lddlflags=--sysroot=$(TARGET_DEST_DIR) -A lddlflags=-shared
+
+extra_configure_switches += --set archname='$(ARCHNAME)'
+extra_configure_switches += --set libpth='/usr/lib$(LIBSUFFIX) /lib$(LIBSUFFIX)'
+
+extra_configure_switches += --set bin='/usr/bin'
+extra_configure_switches += --set scriptdir='/usr/bin'
+extra_configure_switches += --set libsdirs=' /lib$(LIBSUFFIX) /usr/lib$(LIBSUFFIX)'
+
+extra_configure_switches += --set privlib='/usr/lib$(LIBSUFFIX)/perl5'
+extra_configure_switches += --set archlib='/usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)'
+
+extra_configure_switches += --set siteprefix='/usr'
+extra_configure_switches += --set sitebin='/usr/bin/site_perl'
+extra_configure_switches += --set sitescript='/usr/bin/site_perl'
+extra_configure_switches += --set sitelib='/usr/lib$(LIBSUFFIX)/perl5/site_perl'
+extra_configure_switches += --set sitearch='/usr/lib$(LIBSUFFIX)/perl5/site_perl/$(ARCHNAME)'
+
+extra_configure_switches += --set vendorprefix='/usr'
+extra_configure_switches += --set vendorbin='/usr/bin/vendor_perl'
+extra_configure_switches += --set vendorscript='/usr/bin/vendor_perl'
+extra_configure_switches += --set vendorlib='/usr/lib$(LIBSUFFIX)/perl5/vendor_perl'
+extra_configure_switches += --set vendorarch='/usr/lib$(LIBSUFFIX)/perl5/vendor_perl/$(ARCHNAME)'
+
+extra_configure_switches += --set cccdlflags='-fPIC'
+extra_configure_switches += --set pager='/usr/bin/less -isr'
 
 extra_configure_switches += --html1dir=/usr/share/doc/perl-$(version)/html
 extra_configure_switches += --html3dir=/usr/share/doc/perl-$(version)/html
@@ -123,6 +182,12 @@ $(install_target): $(build_target)
 	   rm -f perl ; \
 	   ln -sf perl$(version) perl ; \
 	 )
+	# ======= Add Profile scripts =======
+	@mkdir -p $(PERL_PKG)/etc/profile.d
+	@cat $(profile_dir)/perl5.csh.in | sed "s,@LIBDIRSUFFIX@,$(LIBSUFFIX),g" > $(PERL_PKG)/etc/profile.d/perl5.csh
+	@cat $(profile_dir)/perl5.sh.in  | sed "s,@LIBDIRSUFFIX@,$(LIBSUFFIX),g" > $(PERL_PKG)/etc/profile.d/perl5.sh
+	@chmod 0755 $(PERL_PKG)/etc/profile.d/*
+	# ======= Install Documentation ======
 	@( cd $(PERL_PKG)/usr/share/man/man1 ; \
 	   rm -f pstruct.1 ; ln -sf c2ph.1 pstruct.1 ; \
 	   rm -f perlthanks.1 ; ln -sf perlbug.1 perlthanks.1 ; \
@@ -141,7 +206,6 @@ $(install_target): $(build_target)
 	    done \
 	  ) \
 	 fi
-	# ======= Install Documentation ======
 	@mkdir -p $(PERL_PKG)/usr/doc/$(src_dir_name)
 	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/Artistic $(SRC_DIR)/Copying \
 	       $(PERL_PKG)/usr/doc/$(src_dir_name)
@@ -153,8 +217,7 @@ $(install_target): $(build_target)
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(PERL_PKG))
 	# ======= Remove cross environment from target package =======
-	@( archname=`cat $(SRC_DIR)/tconfig.sh | grep "^archname=" | sed -e "s,archname=',," | sed -e "s,',,"` ; \
-	   archdir=$(PERL_PKG)/usr/lib$(LIBSUFFIX)/perl5/$(version)/$$archname   ; \
+	@( archdir=$(PERL_PKG)/usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME) ; \
 	   sed -i "s,$(CROSS_PREFIX),,g"               $$archdir/Config_heavy.pl ; \
 	   sed -i "s,--sysroot=$(TARGET_DEST_DIR),,g"  $$archdir/Config_heavy.pl ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g"            $$archdir/Config_heavy.pl ; \

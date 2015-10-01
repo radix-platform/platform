@@ -21,7 +21,7 @@ include ../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/x/qt4
 
 REQUIRES           = dev/gcc/4.9.2
-REQUIRES          += net/ca-certificates/32.0
+REQUIRES          += net/ca-certificates/40.0.2
 REQUIRES          += X11/app/desktop-file-utils/0.22
 REQUIRES          += X11/libs/hicolor-icon-theme/0.14
 REQUIRES          += X11/app/xdg-utils/1.1.0
@@ -182,7 +182,7 @@ configure_switches += -system-sqlite
 configure_switches += -plugin-sql-sqlite
 configure_switches += -plugin-sql-mysql
 configure_switches += -plugin-sql-odbc
-configure_switches += -openssl
+configure_switches += -openssl-linked
 configure_switches += -dbus
 configure_switches += -accessibility
 configure_switches += -glib

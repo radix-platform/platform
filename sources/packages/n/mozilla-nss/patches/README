@@ -1,0 +1,10 @@
+
+/* begin *
+
+   nss-3.19.2-build-tree.patch - build-system defines the BUILD_TREE variable if make target is 'all'.
+                                 NSS source code also check BUILD_TREE defined for building external NSS
+                                 (see: mozilla-release/config/external/nss) but this variable is checked
+                                 incorrectly in all *.mk files of NSS.
+                                 So, this patch is required for building NSS ouside of Firefox sources.
+
+ * end */

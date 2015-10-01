@@ -1,0 +1,34 @@
+
+The Package ca-certificates
+---------------------------
+
+This package includes PEM files of CA certificates to allow SSL-based
+applications to check for the authenticity of SSL connections.
+
+The CA certificates contained in this package are installed into
+/usr/share/ca-certificates/.
+
+The configuration file /etc/ca-certificates.conf is seeded with
+trust information.
+
+'update-ca-certificates' will then update /etc/ssl/certs/ which may be
+used by various software. It will also generate the hash symlinks and
+generate a single-file version in /etc/ssl/certs/ca-certificates.crt.
+Some web browsers, email clients, and other software that use SSL
+maintain their own CA trust database and may not use the trusted CA
+certificates in this package.  Those packages that *do* use
+ca-certificates should depend on this package.
+
+How to install local CA certificates
+------------------------------------
+
+If you want to install local certificate authorities to be implicitly
+trusted, please put the certificate files as single files ending with
+".crt" into /usr/local/share/ca-certificates/ and re-run
+'update-ca-certificates'.  If you remove local certificates from
+/usr/local/share/ca-certificates/, you can remove symlinks by running
+'update-ca-certificates --fresh'.  If you want to prepare a local
+package of your certificates, you should depend on ca-certificates,
+install the PEM files into /usr/local/share/ca-certificates/ as above
+and call 'update-ca-certificates' in the package's postinst, and should
+call 'update-ca-certificates --fresh' in the package's postrm.

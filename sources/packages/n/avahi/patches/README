@@ -1,0 +1,13 @@
+
+/* begin *
+
+   avahi-0.6.31-dnsconfd.patch:
+   ---------------------------
+     avahi-dnsconfd.action looks for /sbin/netconfig, and if found, attempts to 
+     use it to modify /etc/resolv.conf.  While *our* netconfig and SuSE's
+     netconfig started out the same, they're quite different these days, and
+     thus the result is /etc/HOSTNAME getting set to some nonsense such as:
+       INTERFACE='eth0'.DNSSERVERS='192.168.13.1'
+     This was quite some fun tracking down, by the way...  :-)  --rworkman
+
+ * end */

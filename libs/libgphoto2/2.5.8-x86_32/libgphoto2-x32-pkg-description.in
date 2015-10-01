@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+              |-----handy-ruler------------------------------------------------------|
+libgphoto2-x32: libgphoto2-x32 @VERSION@ (x86_32 Library for access to digital cameras)
+libgphoto2-x32:
+libgphoto2-x32: gPhoto is a program and library framework that lets users download
+libgphoto2-x32: pictures from their digital cameras. The libgphoto2 library gives
+libgphoto2-x32: you access to hundreds of models of digital cameras on several
+libgphoto2-x32: platforms.
+libgphoto2-x32:
+libgphoto2-x32:
+libgphoto2-x32:
+libgphoto2-x32:
+libgphoto2-x32:

@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+               |-----handy-ruler------------------------------------------------------|
+perl-xml-libxml: perl-xml-libxml @VERSION@ (XML LibXML)
+perl-xml-libxml:
+perl-xml-libxml: This module implements a Perl interface to the Gnome libxml2 library
+perl-xml-libxml: which provides interfaces for parsing and manipulating XML files.
+perl-xml-libxml: This module allows Perl programmers to make use of the highly
+perl-xml-libxml: capable validating XML parser and the high performance
+perl-xml-libxml: DOM implementation.
+perl-xml-libxml:
+perl-xml-libxml:
+perl-xml-libxml:
+perl-xml-libxml:

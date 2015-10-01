@@ -40,6 +40,11 @@ post_install() {
   if [ -x usr/bin/xdg-icon-resource ]; then
     xdg-icon-resource forceupdate --theme hicolor 2> /dev/null
   fi
+
+  # Update desktop database
+  if [ -x /usr/bin/update-desktop-database ]; then
+    /usr/bin/update-desktop-database -q usr/share/applications > /dev/null 2>&1
+  fi
 }
 
 # arg 1:  the new package version

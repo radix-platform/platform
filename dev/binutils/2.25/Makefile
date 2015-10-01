@@ -248,6 +248,7 @@ endif
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_JZ47XX_GLIBC))
 extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
 extra_configure_switches += '--with-bugurl=$(BUG_URL)'
+extra_configure_switches += --with-arch=mips32r2
 extra_configure_switches += --enable-multilib
 extra_configure_switches += --enable-werror=no
 extra_configure_switches += --enable-targets=$(TARGET),mipsel-radix-linux-gnu

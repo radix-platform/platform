@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+                 |-----handy-ruler------------------------------------------------------|
+perl-xml-sax-base: perl-xml-sax-base @VERSION@ (XML SAX Base)
+perl-xml-sax-base:
+perl-xml-sax-base: XML::SAX::Base is intended for use as a base class for SAX filter
+perl-xml-sax-base: modules and XML parsers generating SAX events.
+perl-xml-sax-base:
+perl-xml-sax-base: This module used to be distributed as part of the XML:SAX
+perl-xml-sax-base: distribution but is now distributed separately and referenced as
+perl-xml-sax-base: a dependency by XML::SAX.
+perl-xml-sax-base:
+perl-xml-sax-base:
+perl-xml-sax-base:

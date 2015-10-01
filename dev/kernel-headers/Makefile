@@ -52,7 +52,7 @@ REQUIRES           = dev/kernel/bcm74x/2.6.36-headers
 endif
 
 ifeq ($(HARDWARE),$(HARDWARE_CI20))
-REQUIRES           = dev/kernel/ci20/3.18-20150313-headers
+REQUIRES           = dev/kernel/ci20/3.0.8-20150728-headers
 endif
 
 

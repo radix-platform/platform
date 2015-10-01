@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/x/libdrm
 
-versions    = 2.4.58
+versions    = 2.4.58 2.4.64
 pkgname     = libdrm
 suffix      = tar.bz2
 
@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/libdrm-2.4.58-ti-glsdk.patch
+patches    += $(CURDIR)/patches/libdrm-2.4.64-ti-glsdk.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,6 +51,7 @@ $(sha1s): $(tarballs)
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-2.4.58-ti-glsdk-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2.4.64-ti-glsdk-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

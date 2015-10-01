@@ -21,7 +21,7 @@ include ../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/x/qt5
 
 REQUIRES           = dev/gcc/4.9.2
-REQUIRES          += net/ca-certificates/32.0
+REQUIRES          += net/ca-certificates/40.0.2
 REQUIRES          += X11/app/desktop-file-utils/0.22
 REQUIRES          += X11/libs/hicolor-icon-theme/0.14
 REQUIRES          += X11/app/xdg-utils/1.1.0
@@ -217,7 +217,7 @@ configure_switches += -system-libpng
 configure_switches += -system-libjpeg
 configure_switches += -system-freetype
 configure_switches += -system-harfbuzz
-configure_switches += -openssl
+configure_switches += -openssl-linked
 configure_switches += -system-pcre
 configure_switches += -system-xcb
 configure_switches += -xinput2
@@ -243,7 +243,11 @@ configure_switches += -no-eglfs
 configure_switches += -no-kms
 else
 configure_switches += -eglfs
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
+configure_switches += -no-kms
+else
 configure_switches += -kms
+endif
 endif
 
 configure_switches += -qpa xcb

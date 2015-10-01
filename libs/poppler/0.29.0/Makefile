@@ -138,6 +138,15 @@ $(build_target): $(src_done)
 	  --build=$(BUILD)            \
 	  --host=$(TARGET)            \
 	  $(extra_configure_switches)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
+	# ======= especially for MIPS Creator CI20 add -lELG, -lGLESv2 flags =======
+	# ======= due to mips prolog optimization for PIC (see gcc configure =======
+	# ======= option --with-mips-plt)                                    =======
+	@( cd $(build_dir)/qt4/tests ; sed -i "s,^\(LIBS =.*\),\1 -lEGL -lGLESv2," Makefile ; )
+	@( cd $(build_dir)/qt4/demos ; sed -i "s,^\(LIBS =.*\),\1 -lEGL -lGLESv2," Makefile ; )
+	@( cd $(build_dir)/qt5/tests ; sed -i "s,^\(LIBS =.*\),\1 -lEGL -lGLESv2," Makefile ; )
+	@( cd $(build_dir)/qt5/demos ; sed -i "s,^\(LIBS =.*\),\1 -lEGL -lGLESv2," Makefile ; )
+endif
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
 	@touch $@
 

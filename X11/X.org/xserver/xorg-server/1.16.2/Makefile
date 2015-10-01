@@ -54,7 +54,7 @@ REQUIRES          += X11/X.org/xcb/xcb-util-cursor/0.1.1
 REQUIRES          += X11/X.org/xcb/xcb-util-keysyms/0.4.0
 REQUIRES          += X11/X.org/xcb/xcb-util-wm/0.4.1
 
-REQUIRES          += X11/libs/libdrm/2.4.58
+REQUIRES          += X11/libs/libdrm/2.4.64
 REQUIRES          += X11/libs/libepoxy/1.2
 REQUIRES          += Wayland/wayland/1.6.0
 

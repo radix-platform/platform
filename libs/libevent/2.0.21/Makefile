@@ -20,7 +20,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/libevent
 
-REQUIRES           = net/openssl/1.0.1g
+REQUIRES           = net/openssl/1.0.2d
 
 # ======= __END_OF_REQUIRES__ =======
 

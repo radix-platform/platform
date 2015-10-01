@@ -1,0 +1,12 @@
+#!/bin/sh
+
+GPHOTO_VERSION=@GPHOTO_VERSION@
+UDEV_VERSION=@UDEV_VERSION@
+
+LD_LIBRARY_PATH=/usr/lib@LIBDIRSUFFIX@ \
+CAMLIBS=/usr/lib/libgphoto2/${GPHOTO_VERSION} \
+ /usr/sbin/print-camera-list hwdb > /etc/udev/hwdb.d/20-gphoto.hwdb  2>/dev/null
+
+LD_LIBRARY_PATH=/usr/lib@LIBDIRSUFFIX@ \
+CAMLIBS=/usr/lib/libgphoto2/${GPHOTO_VERSION} \
+ /usr/sbin/print-camera-list udev-rules version ${UDEV_VERSION} > /lib/udev/rules.d/40-gphoto.rules  2>/dev/null

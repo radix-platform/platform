@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES      = sources/packages/n/openldap
 
 REQUIRES             = net/openldap-client/2.4.39
-REQUIRES            += net/openssl/1.0.1g-x86_32
+REQUIRES            += net/openssl/1.0.2d-x86_32
 REQUIRES            += net/cyrus-sasl/2.1.26-x86_32
 
 # ======= __END_OF_REQUIRES__ =======

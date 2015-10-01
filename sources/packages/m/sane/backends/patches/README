@@ -1,0 +1,10 @@
+
+/* begin *
+
+   sane-backends-1.0.24-kodakaio.patch      - Bugfix in kodakaio.c to fix segfault when non kodak
+                                              scanners return unexpected data via avahi auto discovery.
+
+   sane-backends-1.0.24-sane-settable.patch - Put the SANE_CAP_ALWAYS_SETTABLE definition back until
+                                              everything else catches up with the API change...
+
+ * end */

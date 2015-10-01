@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+                  |-----handy-ruler------------------------------------------------------|
+foomatic-db-engine: foomatic-db-engine @VERSION@ (Foomatic Database  Engine)
+foomatic-db-engine:
+foomatic-db-engine: Foomatic's database engine generates PPD files from the data in
+foomatic-db-engine: Foomatic's XML database. It also contains scripts to directly
+foomatic-db-engine: generate print queues and handle jobs.
+foomatic-db-engine:
+foomatic-db-engine: Till Kamppeter <till.kamppeter@gmail.com>
+foomatic-db-engine: Lars Uebernickel <larsuebernickel@gmx.de>
+foomatic-db-engine:
+foomatic-db-engine: Homepage: http://www.openprinting.org
+foomatic-db-engine:

@@ -40,6 +40,10 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
 REQUIRES += X11/libs/sunxi-mali/3.0.4.0
 endif
 
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
+REQUIRES += X11/libs/ci20-sgx-um/1.13.3341330
+endif
+
 
 # ======= __END_OF_REQUIRES__ =======
 

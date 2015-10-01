@@ -33,7 +33,7 @@ include ../../build-system/constants.mk
 PKG_GROUP = base
 
 BIN_PKG_NAME                = pkgtool
-BIN_PKG_VERSION             = 1.0.6
+BIN_PKG_VERSION             = 1.0.7
 BIN_PKG_ARCH                = $(TOOLCHAIN)
 BIN_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 BIN_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)

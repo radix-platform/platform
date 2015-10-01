@@ -33,7 +33,11 @@ SRC_DIR            = $(TARGET_BUILD_DIR)/openssl-$(version)
 src_dir_name       = openssl-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
+ifeq ($(HARDWARE),$(HARDWARE_CI20))
+PATCHES = PATCHES.jz47xx
+else
 PATCHES = PATCHES
+endif
 
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done

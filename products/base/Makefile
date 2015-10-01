@@ -34,6 +34,12 @@ ifeq ($(HARDWARE),$(HARDWARE_CB3X))
 REQUIRES += boot/u-boot/A20/2015.01
 endif
 
+ifeq ($(HARDWARE),$(HARDWARE_CI20))
+REQUIRES  = hal/drivers/ci20/sgx-ddk/3.0.8/1.13.3341330
+REQUIRES += hal/firmware/ci20/brcm4330/0.0.0
+REQUIRES += boot/u-boot/ci20/2013.10-20150826
+endif
+
 #######
 ####### The System
 #######
@@ -211,8 +217,8 @@ endif
 #             │       ├───────────────────────────────────── libs/zlib/1.2.8
 #             │       │                                      └── libs/zlib/1.2.8-x86_32
 #             │       │
-#             │       ├── net/openssl/1.0.1g
-#             │       │   ├── net/openssl/1.0.1g-x86_32
+#             │       ├── net/openssl/1.0.2d
+#             │       │   ├── net/openssl/1.0.2d-x86_32
 #             │       │   │
 #             │       │   ├── libs/libevent/2.0.21 ■
 #             │       │   │   └── libs/libevent/2.0.21-x86_32
@@ -235,7 +241,7 @@ endif
 #             │       ├── dev/python2/2.7.6               ├── libs/libffi/3.0.13
 #             │       │   └── dev/python2/2.7.6-x86_32    ├── libs/readline/6.3
 #             │      ...                                  ├── libs/expat/2.1.0
-#             │                                           └── net/openssl/1.0.1g
+#             │                                           └── net/openssl/1.0.2d
 #             │      ...
 #             │       ├────────────────────────────────────── libs/gdbm/1.11
 #             │       ├── dev/perl/5.18.2
@@ -245,7 +251,7 @@ endif
 #             │      ...
 #             │       ├───────────────────────────────────┬── libs/libtermcap/1.2.3
 #             │       │                                   ├── dev/flex/2.5.39
-#             │       ├── app/bsd-games/2.17 ■            └── net/openssl/1.0.1g
+#             │       ├── app/bsd-games/2.17 ■            └── net/openssl/1.0.2d
 #             │       │
 #             │      ...
 #             │
@@ -420,6 +426,7 @@ REQUIRES += app/hdparm/9.43
 REQUIRES += app/less/451
 REQUIRES += app/lha/114i
 REQUIRES += app/logrotate/3.8.7
+REQUIRES += app/gettext/0.18.3.2-tools
 
 REQUIRES += secure/libcgroup/0.41
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
@@ -563,12 +570,64 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/zeromq/4.0.5-x86_32
 endif
 
+#            ...     ...
+#             │       │
+#             │       ├── net/nspr/4.10.8
+#             │       │   ├── net/nspr/4.10.8-x86_32
+#             │       │   │
+#             │       │   ├── net/nss/3.19.2 ■  ────────────────────── app/sqlite/3.8.7.1
+#             │       │   │   └── net/nss/3.19.2-x86_32  ──────────────┴── app/sqlite/3.8.7.1-x86_32
+#             │       │  ...
+#            ...     ...
+
+REQUIRES += net/nss/3.19.2
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/nss/3.19.2-x86_32
+endif
+
+REQUIRES += net/net-snmp/5.7.3
+
+#
+# order: libs/libdaemon, app/dbus, libs/glib2, libs/dbus-glib, libs/dbus-python, secure/libcap,
+#        libs/gdbm
+#
+REQUIRES += net/avahi-daemon/0.6.31
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/avahi-daemon/0.6.31-x86_32
+endif
+
 REQUIRES += app/mc/4.8.12
 REQUIRES += app/tmux/1.9a
 REQUIRES += app/chrpath/0.16
 REQUIRES += app/patch/2.7
 REQUIRES += app/which/2.20
 REQUIRES += app/bin/4.4
+
+REQUIRES += app/enscript/1.6.6
+
+
+#######
+####### Perl5 modules:
+#######
+
+# foomatic-db-engine dependencies:
+REQUIRES += dev/perl-modules/perl-clone/0.38
+REQUIRES += dev/perl-modules/perl-dbi/1.634
+REQUIRES += dev/perl-modules/perl-xml-libxml/2.0122
+
+# common purpose modules:
+REQUIRES += dev/perl-modules/perl-xml-simple/2.20
+REQUIRES += dev/perl-modules/perl-uri/1.69
+REQUIRES += dev/perl-modules/perl-gettext/1.06
+
+
+#######
+####### Python2.7 modules:
+#######
+
+REQUIRES += dev/python-modules/pip2/7.1.2
+REQUIRES += libs/pyrex/0.9.9
+
 
 
 #######
@@ -606,9 +665,9 @@ REQUIRES += app/cdparanoia/10.2
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += app/cdparanoia/10.2-x86_32
 endif
-REQUIRES += libs/libvpx/1.3.0
+REQUIRES += libs/libvpx/1.4.0
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/libvpx/1.3.0-x86_32
+REQUIRES += libs/libvpx/1.4.0-x86_32
 endif
 
 REQUIRES += app/vorbis-tools/1.4.0

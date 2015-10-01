@@ -7,14 +7,16 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/xserver/xorg-server
 
-versions    = 1.16.2
+versions    = 1.12.2 1.16.2 1.16.4
 pkgname     = xorg-server
 suffix      = tar.bz2
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/xorg-server-1.16.2-black.patch
+patches     = $(CURDIR)/patches/xorg-server-1.12.2-black.patch
+patches    += $(CURDIR)/patches/xorg-server-1.16.2-black.patch
+patches    += $(CURDIR)/patches/xorg-server-1.16.4-black.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -49,7 +51,9 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
+	 ( cd create-1.12.2-black-patch ; ./create.patch.sh ) ; \
 	 ( cd create-1.16.2-black-patch ; ./create.patch.sh ) ; \
+	 ( cd create-1.16.4-black-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

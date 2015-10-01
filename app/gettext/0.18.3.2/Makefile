@@ -55,7 +55,7 @@ GETTEXT_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
 GETTEXT_PKG_SHORT_DESCRIPTION   = internationalization framework
 GETTEXT_PKG_URL                 = $(BUG_URL)
-GETTEXT_PKG_LICENSE             = GPLv2
+GETTEXT_PKG_LICENSE             = GPLv3
 GETTEXT_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GETTEXT_PKG_NAME)-pkg-description
 GETTEXT_PKG_DESCRIPTION_FILE_IN = $(GETTEXT_PKG_NAME)-pkg-description.in
 GETTEXT_PKG_INSTALL_SCRIPT      = $(GETTEXT_PKG_NAME)-pkg-install.sh
@@ -88,6 +88,7 @@ extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --disable-dependency-tracking
+extra_configure_switches += --disable-rpath
 extra_configure_switches += --enable-shared
 
 
@@ -140,12 +141,20 @@ $(install_target): $(build_target)
 	 fi
 	@mkdir -p $(GETTEXT_PKG)/usr/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a AUTHORS COPYING DEPENDENCIES HACKING INSTALL NEWS PACKAGING README* THANKS \
+	   cp -a AUTHORS COPYING \
 	         $(GETTEXT_PKG)/usr/doc/$(src_dir_name) \
+	 )
+	@mkdir -p $(GETTEXT_PKG)/usr/share/doc/$(src_dir_name)/html
+	@( cd $(GETTEXT_PKG)/usr/share/doc/$(src_dir_name) ; \
+	   mv *.html html ; \
+	 )
+	@( cd $(SRC_DIR) ; \
+	   cp -a AUTHORS COPYING DEPENDENCIES HACKING INSTALL NEWS PACKAGING README* THANKS \
+	         $(GETTEXT_PKG)/usr/share/doc/$(src_dir_name) \
 	 )
 	@( cd $(SRC_DIR) ; \
 	   if [ -r ChangeLog ]; then \
-	     DOCSDIR=`echo $(GETTEXT_PKG)/usr/doc/$(src_dir_name)` ; \
+	     DOCSDIR=`echo $(GETTEXT_PKG)/usr/share/doc/$(src_dir_name)` ; \
 	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
 	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \

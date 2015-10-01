@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+                |-----handy-ruler------------------------------------------------------|
+ci20-brcm4330-fw: ci20-brcm4330-fw @VERSION@ (brcm4330 firmware for CI20)
+ci20-brcm4330-fw:
+ci20-brcm4330-fw: WiFi on the CI20 is provided by a BRCM4330 chip that requires closed
+ci20-brcm4330-fw: source firmware. These files cannot be shipped as part of the kernel
+ci20-brcm4330-fw: repository and are instead loaded through user space.
+ci20-brcm4330-fw:
+ci20-brcm4330-fw: http://elinux.org/CI20_upstream#WiFi_firmware
+ci20-brcm4330-fw:
+ci20-brcm4330-fw:
+ci20-brcm4330-fw:
+ci20-brcm4330-fw:

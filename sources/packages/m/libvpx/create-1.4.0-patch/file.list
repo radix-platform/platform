@@ -1,0 +1,5 @@
+libvpx-1.4.0/build/make/Android.mk
+libvpx-1.4.0/build/make/Makefile
+libvpx-1.4.0/build/make/configure.sh
+libvpx-1.4.0/examples.mk
+libvpx-1.4.0/libs.mk

@@ -28,6 +28,10 @@ SRC_DIR            = $(TARGET_BUILD_DIR)/perl-$(version)
 src_dir_name       = perl-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
+
+profile_dir        = $(CURDIR)/profile.d
+
+
 PATCHES = PATCHES
 
 build_target       = $(TARGET_BUILD_DIR)/.build_done
@@ -164,6 +168,11 @@ $(install_target): $(build_target)
 	   rm -f perl ; \
 	   ln -sf perl$(version) perl ; \
 	 )
+	# ======= Add Profile scripts =======
+	@mkdir -p $(PERL_32_PKG)/etc/profile.d
+	@cat $(profile_dir)/perl5-x32.csh.in | sed "s,@LIBDIRSUFFIX@,$(MULTILIB_X86_32_SUFFIX),g" > $(PERL_32_PKG)/etc/profile.d/perl5-x32.csh
+	@cat $(profile_dir)/perl5-x32.sh.in  | sed "s,@LIBDIRSUFFIX@,$(MULTILIB_X86_32_SUFFIX),g" > $(PERL_32_PKG)/etc/profile.d/perl5-x32.sh
+	@chmod 0644 $(PERL_32_PKG)/etc/profile.d/*
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(PERL_32_PKG))
 	# ======= Remove cross environment from target package =======

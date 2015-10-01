@@ -1,0 +1,4 @@
+
+../../../../sources/packages/m/sane/backends/patches/sane-backends-1.0.24-network.patch        -p0
+../../../../sources/packages/m/sane/backends/patches/sane-backends-1.0.24-kodakaio.patch       -p0
+../../../../sources/packages/m/sane/backends/patches/sane-backends-1.0.24-sane-settable.patch  -p0

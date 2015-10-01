@@ -1,0 +1,2 @@
+
+../../../../sources/packages/d/perl-modules/CPAN/DBD-mysql/patches/DBD-mysql-4.032-i386-stack-chk.patch -p0

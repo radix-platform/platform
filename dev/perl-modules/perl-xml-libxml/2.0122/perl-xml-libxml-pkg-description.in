@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                |-----handy-ruler------------------------------------------------------|
-perl-xml-libxml: perl-xml-libxml @VERSION@ (XML::LibXML)
+perl-xml-libxml: perl-xml-libxml @VERSION@ (XML LibXML)
 perl-xml-libxml:
 perl-xml-libxml: This module implements a Perl interface to the Gnome libxml2 library
 perl-xml-libxml: which provides interfaces for parsing and manipulating XML files.

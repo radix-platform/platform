@@ -239,9 +239,9 @@ $(install_target): $(build_target)
 	@( cd $(SRC_DIR) ; \
 	    $(BUILD_ENVIRONMENT) $(MAKE) $(perl_environment) $(env_sysroot) install ; \
 	 )
-	@( cd $(PERL_PKG)/bin ; \
+	@( cd $(PERL_PKG)/usr/bin ; \
 	   for file in `find vendor_perl -type f -executable -print` ; do \
-	     ln -sf $file . ; \
+	     ln -sf $$file . ; \
 	   done ; \
 	 )
 	@find $(PERL_PKG) -name '.packlist' -delete

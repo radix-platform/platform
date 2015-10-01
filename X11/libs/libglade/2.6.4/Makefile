@@ -95,10 +95,6 @@ extra_configure_switches += --localstatedir=/var/lib
 extra_configure_switches += --enable-static=yes
 extra_configure_switches += --enable-shared=yes
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
-LDFLAGS += -lEGL -lGLESv2
-endif
-
 
 TARGET_LIB_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUFFIX)
 

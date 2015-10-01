@@ -158,10 +158,7 @@ $(build_wl18xx_pkg): $(modules_done)
 	@mkdir -p $(WL18XX_BIN_PKG)/lib/modules/$(modules_version)
 	# Copy modules and firmware (without links to sources):
 	@cd $(TARGET_DEST_DIR)/lib/modules/$(modules_version) && \
-	  cp -rf updates $(WL18XX_BIN_PKG)/lib/modules/$(modules_version) && \
-	  cp -a modules.* $(WL18XX_BIN_PKG)/lib/modules/$(modules_version)
-	@cd $(WL18XX_BIN_PKG)/lib/modules/$(modules_version) && mv modules.builtin modules.builtin.new
-	@cd $(WL18XX_BIN_PKG)/lib/modules/$(modules_version) && mv modules.order modules.order.new
+	  cp -rf updates $(WL18XX_BIN_PKG)/lib/modules/$(modules_version)
 	@mkdir -p $(WL18XX_BIN_PKG)/usr/doc/wl18xx-$(version)
 	@cp -a $(SRC_DIR)/COPYING \
 	       $(WL18XX_BIN_PKG)/usr/doc/wl18xx-$(version)

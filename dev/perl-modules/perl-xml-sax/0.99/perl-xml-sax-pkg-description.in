@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
             |-----handy-ruler------------------------------------------------------|
-perl-xml-sax: perl-xml-sax @VERSION@ (XML::SAX)
+perl-xml-sax: perl-xml-sax @VERSION@ (XML SAX)
 perl-xml-sax:
 perl-xml-sax: XML::SAX consists of several framework classes for using and
 perl-xml-sax: building Perl SAX2 XML parsers, filters, and drivers. It is designed

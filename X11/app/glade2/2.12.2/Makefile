@@ -93,9 +93,6 @@ extra_configure_switches += --enable-gnome-db
 extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --enable-static=yes
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
-extra_environment = LIBS=" -lEGL -lGLESv2"
-endif
 
 TARGET_BIN_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)
 
@@ -109,7 +106,7 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 
 $(build_target): $(src_done)
 	@cd $(SRC_DIR) && \
-	  $(BUILD_ENVIRONMENT) $(extra_environment) ../$(src_dir_name)/configure \
+	  $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
 	  --prefix=/usr               \
 	  --build=$(BUILD)            \
 	  --host=$(TARGET)            \

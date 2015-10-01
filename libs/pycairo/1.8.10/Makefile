@@ -106,9 +106,6 @@ extra_configure_switches += --program-suffix=""
 extra_configure_switches += --enable-static=yes
 extra_configure_switches += --enable-shared=yes
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
-LDFLAGS += -lEGL -lGLESv2
-endif
 
 python_environment  = am_cv_python_version=$(PYTHON_VERSION)
 python_environment += am_cv_python_platform=linux2

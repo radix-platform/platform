@@ -3,10 +3,12 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
 
 
 NEED_ABS_PATH      = true
@@ -19,18 +21,8 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/GNU/gettext
 
 REQUIRES           = app/gettext/0.18.3.2
-#
-# requires:
-#   gettext (libintl)
-#   glib2
-#   libcroco
-#   libunistring
-#   libxml2
-#   libncurses
-#   libtermcap
-#   libexpat
-#   regex - probably
-#
+REQUIRES          += libs/libcroco/0.6.8
+REQUIRES          += libs/libunistring/0.9.3
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -67,7 +59,7 @@ GETTEXT_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
 GETTEXT_PKG_SHORT_DESCRIPTION   = internationalization framework tools
 GETTEXT_PKG_URL                 = $(BUG_URL)
-GETTEXT_PKG_LICENSE             = GPLv2
+GETTEXT_PKG_LICENSE             = GPLv3
 GETTEXT_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GETTEXT_PKG_NAME)-pkg-description
 GETTEXT_PKG_DESCRIPTION_FILE_IN = $(GETTEXT_PKG_NAME)-pkg-description.in
 GETTEXT_PKG_INSTALL_SCRIPT      = $(GETTEXT_PKG_NAME)-pkg-install.sh
@@ -96,11 +88,16 @@ env_sysroot = DESTDIR=$(GETTEXT_PKG)
 
 
 extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
-extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
+extra_configure_switches += --docdir=/usr/share/doc/$(doc_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --disable-dependency-tracking
+extra_configure_switches += --disable-rpath
 extra_configure_switches += --enable-shared
+
+
+TARGET_BIN_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)
+TARGET_LIB_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUFFIX)
 
 
 ####### Dependencies
@@ -141,8 +138,26 @@ $(install_target): $(build_target)
 	  ) \
 	 fi
 	@mkdir -p $(GETTEXT_PKG)/usr/doc/$(doc_dir_name)
-	@cp -a $(SRC_DIR)/gettext-tools/ABOUT-NLS \
-	       $(GETTEXT_PKG)/usr/doc/$(doc_dir_name)
+	@( cd $(SRC_DIR) ; \
+	   cp -a AUTHORS COPYING \
+	         $(GETTEXT_PKG)/usr/doc/$(doc_dir_name) \
+	 )
+	@mkdir -p $(GETTEXT_PKG)/usr/share/doc/$(doc_dir_name)/html
+	@( cd $(GETTEXT_PKG)/usr/share/doc/$(doc_dir_name) ; \
+	   mv *.html html ; \
+	 )
+	@( cd $(SRC_DIR) ; \
+	   cp -a AUTHORS COPYING DEPENDENCIES HACKING INSTALL NEWS PACKAGING README* THANKS \
+	         $(GETTEXT_PKG)/usr/share/doc/$(doc_dir_name) \
+	 )
+	@( cd $(SRC_DIR)/gettext-tools ; \
+	   if [ -r ChangeLog ]; then \
+	     DOCSDIR=`echo $(GETTEXT_PKG)/usr/share/doc/$(doc_dir_name)` ; \
+	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
+	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
+	   fi \
+	 )
+
 	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(GETTEXT_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libgettextlib.la libgettextpo.la libgettextsrc.la  \
@@ -160,6 +175,26 @@ $(install_target): $(build_target)
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifneq ($(CHRPATH),)
+	# ======= Set RPATH/RUNPATH for target binaries =======
+	@( cd $(GETTEXT_PKG)/usr ; \
+	   for file in `find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
+	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
+	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
+	       $(CHRPATH) -r $(TARGET_BIN_RPATH) $$file 1> /dev/null 2> /dev/null ; \
+	     fi ; \
+	   done ; \
+	 )
+	# ======= Set RPATH/RUNPATH for target shared objects =======
+	@( cd $(GETTEXT_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
+	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
+	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
+	       $(CHRPATH) -r $(TARGET_LIB_RPATH) $$file 1> /dev/null 2> /dev/null ; \
+	     fi ; \
+	   done ; \
+	 )
+endif
 	@touch $@
 
 $(GETTEXT_PKG_DESCRIPTION_FILE): $(GETTEXT_PKG_DESCRIPTION_FILE_IN)

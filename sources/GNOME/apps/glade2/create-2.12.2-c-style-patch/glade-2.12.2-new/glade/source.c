@@ -1023,8 +1023,8 @@ source_write_gtk_configure_in (GbWidgetWriteSourceData * data)
   FILE *fp;
   gchar *filename, *alt_filename, *source_subdir;
 
-  filename = glade_util_make_absolute_path (glade_project_get_directory (data->project), "configure.in");
-  alt_filename = glade_util_make_absolute_path (glade_project_get_directory (data->project), "configure.ac");
+  filename = glade_util_make_absolute_path (glade_project_get_directory (data->project), "configure.ac");
+  alt_filename = glade_util_make_absolute_path (glade_project_get_directory (data->project), "configure.in");
 
   /* FIXME: If configure.in exists, just leave it, for now. */
   if (glade_util_file_exists (filename)
@@ -1046,13 +1046,12 @@ source_write_gtk_configure_in (GbWidgetWriteSourceData * data)
       return;
     }
 
-  /* FIXME: Using AC_INIT(configure.in) is not really correct - we should be
-     using a file unique to the project. */
   fprintf (fp,
 	   "dnl Process this file with autoconf to produce a configure script.\n"
 	   "\n"
-	   "AC_INIT(configure.in)\n"
-	   "AM_INIT_AUTOMAKE(%s, 0.1)\n"
+	   "AC_INIT([%s],[0.1])\n"
+	   "AC_CONFIG_SRCDIR([src/main.c])\n"
+	   "AM_INIT_AUTOMAKE\n"
 	   "AM_CONFIG_HEADER(config.h)\n"
 	   "AM_MAINTAINER_MODE\n"
 	   "\n"
@@ -1155,7 +1154,7 @@ source_write_gtk_makefile_am (GbWidgetWriteSourceData * data)
     }
 
   fprintf (fp,
-	   "INCLUDES = \\\n"
+	   "AM_CPPFLAGS = \\\n"
 	   "\t-DPACKAGE_DATA_DIR=\\\"\"$(datadir)\"\\\" \\\n"
 	   "\t-DPACKAGE_LOCALE_DIR=\\\"\"$(prefix)/$(DATADIRNAME)/locale\"\\\" \\\n"
 #ifdef GLADE_ADD_DISABLE_DEPRECATED_FLAGS

@@ -212,8 +212,24 @@ $(install_target): $(build_target)
 	                                    libnetsnmphelpers.la libnetsnmpmibs.la \
 	                                    libnetsnmptrapd.la ; \
 	 )
+	# ======= remove toolchain path from target config scripts =======
+	@( cd $(NSNMP_PKG)/usr/bin ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" net-snmp-config net-snmp-create-v3-user ; \
+	 )
+	# ======= also remove OPTIMIZATION to not create problems to other people =======
+	@( cd $(NSNMP_PKG)/usr/bin ; \
+	   sed -i "s, -O[0-3sg],,g" net-snmp-config ; \
+	   sed -i "s, -O[ ], ,g"    net-snmp-config ; \
+	   sed -i "s, -Ofast,,g"    net-snmp-config ; \
+	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(NSNMP_PKG))
+	# ======= tune 'net-snmp-config' script for target rootfs =======
+	@( cd $(NSNMP_PKG)/usr/bin ; \
+	   sed -i "s,$(BUILD),$(TARGET),g"        net-snmp-config ; \
+	   sed -i "s,$(CCACHE)$(CROSS_PREFIX),,g" net-snmp-config ; \
+	   sed -i "s, --sysroot=,,g"              net-snmp-config ; \
+	 )
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
 	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libnetsnmp.la libnetsnmpagent.la       \
@@ -222,6 +238,14 @@ $(install_target): $(build_target)
 	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libnetsnmp.la libnetsnmpagent.la       \
 	                                             libnetsnmphelpers.la libnetsnmpmibs.la \
 	                                             libnetsnmptrapd.la ; \
+	 )
+	# ======= tune 'net-snmp-config' script for development =======
+	@( cd $(TARGET_DEST_DIR)/usr/bin ; \
+	   sed -i "s,^prefix=/usr,prefix=$(TARGET_DEST_DIR)/usr,g" net-snmp-config ; \
+	   sed -i "s,^libdir=/usr,libdir=$(TARGET_DEST_DIR)/usr,g" net-snmp-config ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g"              net-snmp-config ; \
+	   sed -i "s,L/usr,L$(TARGET_DEST_DIR)/usr,g"              net-snmp-config ; \
+	   sed -i "s,I/usr,I$(TARGET_DEST_DIR)/usr,g"              net-snmp-config ; \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(NSNMP_PKG) ; \

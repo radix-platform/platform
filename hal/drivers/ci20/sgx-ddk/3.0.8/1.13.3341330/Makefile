@@ -111,8 +111,7 @@ $(build_sgxddk_pkg): $(modules_done)
 	@mkdir -p $(SGXDDK_BIN_PKG)/lib/modules/$(modules_version)
 	# ======= Copy modules and firmware (without links to sources): =======
 	@cd $(TARGET_DEST_DIR)/lib/modules/$(modules_version) && \
-	  cp -rf extra $(SGXDDK_BIN_PKG)/lib/modules/$(modules_version) && \
-	  cp -a modules.builtin modules.order $(SGXDDK_BIN_PKG)/lib/modules/$(modules_version)
+	  cp -rf extra $(SGXDDK_BIN_PKG)/lib/modules/$(modules_version)
 	# ======= Install Documentation =======
 	@mkdir -p $(SGXDDK_BIN_PKG)/usr/doc/sgxddk-$(version)
 	@cp -a $(SRC_DIR)/eurasia_km/*-COPYING \
@@ -120,9 +119,6 @@ $(build_sgxddk_pkg): $(modules_done)
 	       $(SGXDDK_BIN_PKG)/usr/doc/sgxddk-$(version)
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(SGXDDK_BIN_PKG))
-	# ======= Move to .new files in target package =======
-	@cd $(SGXDDK_BIN_PKG)/lib/modules/$(modules_version) && mv modules.builtin modules.builtin.new
-	@cd $(SGXDDK_BIN_PKG)/lib/modules/$(modules_version) && mv modules.order modules.order.new
 	@touch $@
 
 $(SGXDDK_BIN_PKG_DESCRIPTION_FILE): $(SGXDDK_BIN_PKG_DESCRIPTION_FILE_IN)

@@ -1,0 +1,104 @@
+
+Using a Scanner in a Network
+============================
+
+This Howto describes how one can use a scanner which is connected
+to another computer over the network.
+
+
+Necessary Software
+------------------
+
+All packages which are necessary are available in a stock installation.
+This are sane and xsane for the scanner. Also the internet super-server
+daemon inetd is used (on the scannerserver) to listen to the network
+for scanner-job.
+
+
+Permissions
+-----------
+
+In order to use the device for scanning (locally or over the network) one has to be member
+of the scanner as well as the lp-group.
+
+
+Server configuration
+--------------------
+
+One has to edit the /etc/sane.d/saned.conf file. Since the inetd is used to listen to
+the network the only part one has to configure is the “Access-List”. It lists the IP-adresses
+of the computers which are allowed to access the scanner. It is possible to list single
+IP-Adresses or the adress of the whole subnet, here I use
+
+192.168.1.0/24
+
+In the /etc/inetd.conf file one needs a line
+
+sane-port    stream    tcp    nowait    root.root    /usr/sbin/saned    saned
+
+Be sure to have the following line in your /etc/services file
+
+sane-port          6566/tcp
+
+Afterwards you will have to restart the inetd-daemon
+
+# /etc/rc.d/rc.inetd restart
+
+
+Testing the network-settings for the server
+-------------------------------------------
+
+With the nmap command one can scan the ports and find out if the sane-port is open,
+sane uses port 6566
+
+# nmap -p 6566 192.168.1.10
+
+Starting Nmap 5.21 ( http://nmap.org ) at 2010-11-29 19:54 CET
+Nmap scan report for srv-zuhause.home.local (192.168.98.10)
+Host is up (0.0031s latency).
+PORT     STATE SERVICE
+6566/tcp open  unknown
+MAC Address: xx:xx:xx:xx:xx:xx (xx Computer)
+
+Nmap done: 1 IP address (1 host up) scanned in 0.23 seconds
+
+The command can be executed on the server as well as any client, the ip-adress
+is the one of the server!
+
+
+Client configuration
+--------------------
+
+On the client one has to edit the /etc/sane.d/net.conf file and add a line with
+the IP-adress of the server.
+
+#/etc/sane.d/net.conf
+192.168.1.10
+
+Theoretically it is possible to insert the DNS-name of the server (instead of it's
+IP-adress) in the net.conf file, but it didn't work here.
+
+Also be sure that in the file /etc/sane.d/dll.conf is a line with the word “net”
+
+#/etc/sane.d/dll.conf
+# enable the next line if you want to allow access through the network:
+net
+...
+
+
+Testing the client-configuration
+--------------------------------
+
+With the command scanimage -L we can check if the scanner is recognized by the system
+
+$ scanimage -L
+device `net:192.168.1.10:hpaio:/usb/PSC_1400_series?serial=CN619D724804DZ' is a Hewlett-Packard PSC_1400_series all-in-one.
+
+Now if you open xsane on the client you should be able to use the scanner.
+
+
+Sources
+--------------
+
+Originally written by Markus Hutmacher [http://docs.slackware.com/wiki:user:markush]
+source: [http://docs.slackware.com/howtos:network_services:scanning_with_sane_in_a_network]

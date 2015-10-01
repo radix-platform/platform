@@ -426,6 +426,7 @@ REQUIRES += app/hdparm/9.43
 REQUIRES += app/less/451
 REQUIRES += app/lha/114i
 REQUIRES += app/logrotate/3.8.7
+REQUIRES += app/gettext/0.18.3.2-tools
 
 REQUIRES += secure/libcgroup/0.41
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
@@ -606,6 +607,29 @@ REQUIRES += app/enscript/1.6.6
 
 
 #######
+####### Perl5 modules:
+#######
+
+# foomatic-db-engine dependencies:
+REQUIRES += dev/perl-modules/perl-clone/0.38
+REQUIRES += dev/perl-modules/perl-dbi/1.634
+REQUIRES += dev/perl-modules/perl-xml-libxml/2.0122
+
+# common purpose modules:
+REQUIRES += dev/perl-modules/perl-xml-simple/2.20
+REQUIRES += dev/perl-modules/perl-uri/1.69
+REQUIRES += dev/perl-modules/perl-gettext/1.06
+
+
+#######
+####### Python2.7 modules:
+#######
+
+REQUIRES += dev/python-modules/pip2/7.1.2
+REQUIRES += libs/pyrex/0.9.9
+
+
+#######
 ####### Media packages:
 #######
 
@@ -640,9 +664,9 @@ REQUIRES += app/cdparanoia/10.2
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += app/cdparanoia/10.2-x86_32
 endif
-REQUIRES += libs/libvpx/1.3.0
+REQUIRES += libs/libvpx/1.4.0
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/libvpx/1.3.0-x86_32
+REQUIRES += libs/libvpx/1.4.0-x86_32
 endif
 
 REQUIRES += app/vorbis-tools/1.4.0
@@ -1129,6 +1153,14 @@ endif
 
 
 #######
+####### Perl5 modules:
+#######
+
+REQUIRES += dev/perl-modules/perl-dbd-mysql/4.032
+
+
+
+#######
 ####### Qt, GTK+, ...:
 #######
 
@@ -1170,9 +1202,11 @@ REQUIRES += X11/app/avahi-ui/0.6.31-x86_32
 endif
 
 #
-# order: app/cups-filters/1.0.76, app/foomatic-db/20150904
+# order: app/cups-filters, app/foomatic-db, app/foomatic-db-engine,
+#        libs/libieee1284, libs/libexif, libs/libgphoto2, libs/v4l-utils,
+#        app/sane/backends
 #
-REQUIRES += app/foomatic-db-engine/20150616
+REQUIRES += app/hplip/3.15.9
 
 
 REQUIRES += libs/log4cplus/1.2.0

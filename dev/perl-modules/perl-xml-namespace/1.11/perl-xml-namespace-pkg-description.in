@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                   |-----handy-ruler------------------------------------------------------|
-perl-xml-namespace: perl-xml-namespace @VERSION@ (XML::NamespaceSupport)
+perl-xml-namespace: perl-xml-namespace @VERSION@ (XML NamespaceSupport)
 perl-xml-namespace:
 perl-xml-namespace: This module offers a simple way to process namespaced XML names
 perl-xml-namespace: (unames) from within any application that may need them. It

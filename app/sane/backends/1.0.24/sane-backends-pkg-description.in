@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+             |-----handy-ruler------------------------------------------------------|
+sane-backends: sane-backends @VERSION@ (universal scanner interface backends)
+sane-backends:
+sane-backends: SANE stands for Scanner Access Now Easy. This package contains
+sane-backends: the SANE libraries (this means backends and network scanning parts)
+sane-backends: and the command line frontend scanimage.
+sane-backends:
+sane-backends: Homepage: http://www.sane-project.org
+sane-backends:
+sane-backends: There are several graphical frontends available for SANE, see
+sane-backends: the list at http://www.sane-project.org/sane-frontends.html .
+sane-backends:

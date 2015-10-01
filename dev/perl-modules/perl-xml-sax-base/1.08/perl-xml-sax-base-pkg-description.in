@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                  |-----handy-ruler------------------------------------------------------|
-perl-xml-sax-base: perl-xml-sax-base @VERSION@ (XML::SAX::Base)
+perl-xml-sax-base: perl-xml-sax-base @VERSION@ (XML SAX Base)
 perl-xml-sax-base:
 perl-xml-sax-base: XML::SAX::Base is intended for use as a base class for SAX filter
 perl-xml-sax-base: modules and XML parsers generating SAX events.

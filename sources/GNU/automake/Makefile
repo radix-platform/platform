@@ -7,7 +7,7 @@ include ../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/GNU/automake
 
-versions    = 1.11.5 1.14
+versions    = 1.11.5 1.12.6 1.14
 pkgname     = automake
 suffix      = tar.xz
 

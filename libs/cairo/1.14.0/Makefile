@@ -153,6 +153,16 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(CAIRO_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
+	# ======= especially for MIPS Creator CI20 add -lELG, -lGLESv2 flags =======
+	# ======= due to mips prolog optimization for PIC (see gcc configure =======
+	# ======= option --with-mips-plt)                                    =======
+	@( cd $(CAIRO_PKG)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
+	   sed -i "s,^\(Libs:.*\),\1 -lEGL,"          cairo-egl.pc    ; \
+	   sed -i "s,^\(Libs:.*\),\1 -lGLESv2,"       cairo-glesv2.pc ; \
+	   sed -i "s,^\(Libs:.*\),\1 -lEGL -lGLESv2," cairo.pc        ; \
+	 )
+endif
 	# ======= Install Documentation =======
 	@if [ -d $(CAIRO_PKG)/usr/share/man ]; then \
 	  ( cd $(CAIRO_PKG)/usr/share/man ; \

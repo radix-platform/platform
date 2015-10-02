@@ -24,6 +24,7 @@ REQUIRES           = dev/gcc/4.9.2
 REQUIRES          += app/sysfsutils/2.1.0
 REQUIRES          += libs/eudev/1.9
 REQUIRES          += libs/libjpeg-turbo/1.3.1
+REQUIRES          += X11/libs/qt4/4.8.6
 
 # ======= __END_OF_REQUIRES__ =======
 

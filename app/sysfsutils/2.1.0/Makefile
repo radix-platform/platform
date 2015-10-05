@@ -20,7 +20,11 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES      = sources/packages/a/sysfsutils
 
+ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES             = app/util-linux/2.24.1
+else
+REQUIRES             = app/util-linux/2.24.1-x86_32
+endif
 
 # ======= __END_OF_REQUIRES__ =======
 

@@ -24,8 +24,12 @@ REQUIRES           = app/ctags/5.8
 REQUIRES          += libs/ncurses/5.9
 REQUIRES          += app/acl/2.2.52
 REQUIRES          += app/gawk/4.1.1
-REQUIRES          += dev/perl/5.18.2
 REQUIRES          += dev/python2/2.7.6
+ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
+REQUIRES          += dev/perl/5.18.2
+else
+REQUIRES          += dev/perl/5.18.2-x86_32
+endif
 
 # ======= __END_OF_REQUIRES__ =======
 

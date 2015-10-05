@@ -24,7 +24,8 @@ REQUIRES           = dev/gcc/4.9.2
 REQUIRES          += app/sysfsutils/2.1.0
 REQUIRES          += libs/eudev/1.9
 REQUIRES          += libs/libjpeg-turbo/1.3.1
-REQUIRES          += X11/libs/qt4/4.8.6
+REQUIRES          += X11/libs/qt5/5.4.0
+REQUIRES          += libs/alsa-lib/1.0.28
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -96,7 +97,16 @@ extra_configure_switches += --disable-rpath
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --with-udevdir=/lib/udev
 
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)),)
+#
+# Graphical Qt v4l2 control panel:
+# ===============================
+#  This utility is available when Qt5 is configured with desktop OpenGL
+#  (i.e. with -opengl without any engine as argument) only. If Qt5 is
+#  configured with -opengl es2 then qv4l2 utility is not available.
+#
 extra_configure_switches += --disable-qv4l2
+endif
 
 extra_configure_switches += --program-prefix=''
 extra_configure_switches += --program-suffix=''
@@ -105,6 +115,12 @@ extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --enable-static=yes
 
 
+qt5_environment  = MOC=$(TARGET_DEST_DIR)/usr/lib/qt5/bin/$(TARGET)-moc-qt5
+qt5_environment += RCC=$(TARGET_DEST_DIR)/usr/lib/qt5/bin/$(TARGET)-rcc-qt5
+qt5_environment += UIC=$(TARGET_DEST_DIR)/usr/lib/qt5/bin/$(TARGET)-uic-qt5
+
+
+TARGET_QT5_RPATH = /usr/lib$(LIBSUFFIX)/qt5/lib:/usr/lib$(LIBSUFFIX)
 TARGET_LIB_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUFFIX)
 
 
@@ -118,7 +134,7 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 $(build_target): $(src_done)
 	@mkdir -p $(build_dir)
 	@cd $(build_dir) && \
-	  $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
+	  $(BUILD_ENVIRONMENT) $(qt5_environment) ../$(src_dir_name)/configure \
 	  --prefix=/usr               \
 	  --build=$(BUILD)            \
 	  --host=$(TARGET)            \
@@ -204,8 +220,17 @@ $(install_target): $(build_target)
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
 ifneq ($(CHRPATH),)
+	# ======= Set RPATH/RUNPATH for target binaries =======
+	@( cd $(V4LUTILS_PKG)/usr/bin ; \
+	   for file in qv4l2 ; do \
+	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
+	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
+	       $(CHRPATH) -r $(TARGET_QT5_RPATH) $$file 1> /dev/null 2> /dev/null ; \
+	     fi ; \
+	   done ; \
+	 )
 	# ======= Set RPATH/RUNPATH for target shared objects =======
-	@( cd $(LIBGD_PKG)/usr/lib$(LIBSUFFIX) ; \
+	@( cd $(V4LUTILS_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
 	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
 	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \

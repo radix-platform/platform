@@ -137,7 +137,7 @@ configure_switches += -demosdir       /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/demo
 
 configure_switches += -graphicssystem raster
 
-configure_switches += -opengl es2
+configure_switches += -opengl
 configure_switches += -system-libpng
 configure_switches += -system-libmng
 configure_switches += -system-libjpeg
@@ -306,7 +306,6 @@ $(install_target): $(build_target)
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libQtCLucene.la     libQtCore.la        \
 	                                    libQtDBus.la        libQtDeclarative.la \
 	                                    libQtGui.la         libQtHelp.la        \
-	                                    libQtMeeGoGraphicsSystemHelper.la       \
 	                                    libQtMultimedia.la  libQtNetwork.la     \
 	                                    libQtOpenGL.la      libQtScript.la      \
 	                                    libQtScriptTools.la libQtSql.la         \
@@ -317,7 +316,6 @@ $(install_target): $(build_target)
 	                                    libQtDBus.prl        libQtDeclarative.prl        \
 	                                    libQtDesigner.prl    libQtDesignerComponents.prl \
 	                                    libQtGui.prl         libQtHelp.prl               \
-	                                    libQtMeeGoGraphicsSystemHelper.prl               \
 	                                    libQtMultimedia.prl  libQtNetwork.prl            \
 	                                    libQtOpenGL.prl      libQtScript.prl             \
 	                                    libQtScriptTools.prl libQtSql.prl                \
@@ -333,7 +331,6 @@ $(install_target): $(build_target)
 	           libQtDBus.prl        libQtDeclarative.prl        \
 	           libQtDesigner.prl    libQtDesignerComponents.prl \
 	           libQtGui.prl         libQtHelp.prl               \
-	           libQtMeeGoGraphicsSystemHelper.prl               \
 	           libQtMultimedia.prl  libQtNetwork.prl            \
 	           libQtOpenGL.prl      libQtScript.prl             \
 	           libQtScriptTools.prl libQtSql.prl                \
@@ -348,7 +345,6 @@ $(install_target): $(build_target)
 	                                    QtDBus.pc        QtDeclarative.pc        \
 	                                    QtDesigner.pc    QtDesignerComponents.pc \
 	                                    QtGui.pc         QtHelp.pc               \
-	                                    QtMeeGoGraphicsSystemHelper.pc           \
 	                                    QtMultimedia.pc  QtNetwork.pc            \
 	                                    QtOpenGL.pc      QtScript.pc             \
 	                                    QtScriptTools.pc QtSql.pc                \
@@ -371,7 +367,6 @@ $(install_target): $(build_target)
 	   sed -i "s,/usr/lib,$(TARGET_DEST_DIR)/usr/lib,g" libQtCLucene.la     libQtCore.la        \
 	                                                    libQtDBus.la        libQtDeclarative.la \
 	                                                    libQtGui.la         libQtHelp.la        \
-	                                                    libQtMeeGoGraphicsSystemHelper.la       \
 	                                                    libQtMultimedia.la  libQtNetwork.la     \
 	                                                    libQtOpenGL.la      libQtScript.la      \
 	                                                    libQtScriptTools.la libQtSql.la         \
@@ -382,7 +377,6 @@ $(install_target): $(build_target)
 	                                                    libQtDBus.prl        libQtDeclarative.prl        \
 	                                                    libQtDesigner.prl    libQtDesignerComponents.prl \
 	                                                    libQtGui.prl         libQtHelp.prl               \
-	                                                    libQtMeeGoGraphicsSystemHelper.prl               \
 	                                                    libQtMultimedia.prl  libQtNetwork.prl            \
 	                                                    libQtOpenGL.prl      libQtScript.prl             \
 	                                                    libQtScriptTools.prl libQtSql.prl                \
@@ -397,7 +391,6 @@ $(install_target): $(build_target)
 	                                                    QtDBus.pc        QtDeclarative.pc        \
 	                                                    QtDesigner.pc    QtDesignerComponents.pc \
 	                                                    QtGui.pc         QtHelp.pc               \
-	                                                    QtMeeGoGraphicsSystemHelper.pc           \
 	                                                    QtMultimedia.pc  QtNetwork.pc            \
 	                                                    QtOpenGL.pc      QtScript.pc             \
 	                                                    QtScriptTools.pc QtSql.pc                \

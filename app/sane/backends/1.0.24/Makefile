@@ -24,11 +24,13 @@ REQUIRES           = libs/eudev/1.9
 REQUIRES          += libs/libusb/1.0.19
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES          += libs/libieee1284/0.2.11
-else
-REQUIRES          += libs/libieee1284/0.2.11-x86_32
-endif
 REQUIRES          += libs/libgphoto2/2.5.8
 REQUIRES          += libs/v4l-utils/1.8.0
+else
+REQUIRES          += libs/libieee1284/0.2.11-x86_32
+REQUIRES          += libs/libgphoto2/2.5.8-x86_32
+REQUIRES          += libs/v4l-utils/1.8.0-x86_32
+endif
 REQUIRES          += net/avahi-daemon/0.6.31
 REQUIRES          += net/net-snmp/5.7.3
 REQUIRES          += app/dbus/1.8.10

@@ -172,7 +172,11 @@ configure_switches += -demosdir       /usr/lib$(LIBSUFFIX)/qt4/demos
 
 configure_switches += -graphicssystem raster
 
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)),)
 configure_switches += -opengl es2
+else
+configure_switches += -opengl
+endif
 configure_switches += -system-libpng
 configure_switches += -system-libmng
 configure_switches += -system-libjpeg
@@ -371,7 +375,6 @@ $(install_target): $(build_target)
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libQtCLucene.la     libQtCore.la        \
 	                                    libQtDBus.la        libQtDeclarative.la \
 	                                    libQtGui.la         libQtHelp.la        \
-	                                    libQtMeeGoGraphicsSystemHelper.la       \
 	                                    libQtMultimedia.la  libQtNetwork.la     \
 	                                    libQtOpenGL.la      libQtScript.la      \
 	                                    libQtScriptTools.la libQtSql.la         \
@@ -382,7 +385,6 @@ $(install_target): $(build_target)
 	                                    libQtDBus.prl        libQtDeclarative.prl        \
 	                                    libQtDesigner.prl    libQtDesignerComponents.prl \
 	                                    libQtGui.prl         libQtHelp.prl               \
-	                                    libQtMeeGoGraphicsSystemHelper.prl               \
 	                                    libQtMultimedia.prl  libQtNetwork.prl            \
 	                                    libQtOpenGL.prl      libQtScript.prl             \
 	                                    libQtScriptTools.prl libQtSql.prl                \
@@ -391,6 +393,12 @@ $(install_target): $(build_target)
 	                                    libQtXml.prl         libQtXmlPatterns.prl        \
 	                                    libphonon.prl                                  ; \
 	 )
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)),)
+	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/lib ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libQtMeeGoGraphicsSystemHelper.la  ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libQtMeeGoGraphicsSystemHelper.prl ; \
+	 )
+endif
 	# ======= Change source directory to more 'normal' place =======
 	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/lib ; \
 	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/src/qt-$(version),g" \
@@ -398,7 +406,6 @@ $(install_target): $(build_target)
 	           libQtDBus.prl        libQtDeclarative.prl        \
 	           libQtDesigner.prl    libQtDesignerComponents.prl \
 	           libQtGui.prl         libQtHelp.prl               \
-	           libQtMeeGoGraphicsSystemHelper.prl               \
 	           libQtMultimedia.prl  libQtNetwork.prl            \
 	           libQtOpenGL.prl      libQtScript.prl             \
 	           libQtScriptTools.prl libQtSql.prl                \
@@ -407,13 +414,18 @@ $(install_target): $(build_target)
 	           libQtXml.prl         libQtXmlPatterns.prl        \
 	           libphonon.prl                                  ; \
 	 )
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)),)
+	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/lib ; \
+	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/src/qt-$(version),g" \
+	           libQtMeeGoGraphicsSystemHelper.prl             ; \
+	 )
+endif
 	# ======= remove toolchain path from target pkgconfig *.pc files =======
 	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/lib/pkgconfig ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" QtCLucene.pc     QtCore.pc               \
 	                                    QtDBus.pc        QtDeclarative.pc        \
 	                                    QtDesigner.pc    QtDesignerComponents.pc \
 	                                    QtGui.pc         QtHelp.pc               \
-	                                    QtMeeGoGraphicsSystemHelper.pc           \
 	                                    QtMultimedia.pc  QtNetwork.pc            \
 	                                    QtOpenGL.pc      QtScript.pc             \
 	                                    QtScriptTools.pc QtSql.pc                \
@@ -422,6 +434,11 @@ $(install_target): $(build_target)
 	                                    QtXml.pc         QtXmlPatterns.pc        \
 	                                    phonon.pc                              ; \
 	 )
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)),)
+	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/lib/pkgconfig ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" QtMeeGoGraphicsSystemHelper.pc ; \
+	 )
+endif
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(QT4_PKG))
 	# ======= Remove build-machine tools from target package =======
@@ -436,7 +453,6 @@ $(install_target): $(build_target)
 	   sed -i "s,/usr/lib,$(TARGET_DEST_DIR)/usr/lib,g" libQtCLucene.la     libQtCore.la        \
 	                                                    libQtDBus.la        libQtDeclarative.la \
 	                                                    libQtGui.la         libQtHelp.la        \
-	                                                    libQtMeeGoGraphicsSystemHelper.la       \
 	                                                    libQtMultimedia.la  libQtNetwork.la     \
 	                                                    libQtOpenGL.la      libQtScript.la      \
 	                                                    libQtScriptTools.la libQtSql.la         \
@@ -447,7 +463,6 @@ $(install_target): $(build_target)
 	                                                    libQtDBus.prl        libQtDeclarative.prl        \
 	                                                    libQtDesigner.prl    libQtDesignerComponents.prl \
 	                                                    libQtGui.prl         libQtHelp.prl               \
-	                                                    libQtMeeGoGraphicsSystemHelper.prl               \
 	                                                    libQtMultimedia.prl  libQtNetwork.prl            \
 	                                                    libQtOpenGL.prl      libQtScript.prl             \
 	                                                    libQtScriptTools.prl libQtSql.prl                \
@@ -456,13 +471,18 @@ $(install_target): $(build_target)
 	                                                    libQtXml.prl         libQtXmlPatterns.prl        \
 	                                                    libphonon.prl                                  ; \
 	 )
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)),)
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/qt4/lib ; \
+	   sed -i "s,/usr/lib,$(TARGET_DEST_DIR)/usr/lib,g" libQtMeeGoGraphicsSystemHelper.la  ; \
+	   sed -i "s,/usr/lib,$(TARGET_DEST_DIR)/usr/lib,g" libQtMeeGoGraphicsSystemHelper.prl ; \
+	 )
+endif
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/qt4/lib/pkgconfig ; \
 	   sed -i "s,/usr/lib,$(TARGET_DEST_DIR)/usr/lib,g" QtCLucene.pc     QtCore.pc               \
 	                                                    QtDBus.pc        QtDeclarative.pc        \
 	                                                    QtDesigner.pc    QtDesignerComponents.pc \
 	                                                    QtGui.pc         QtHelp.pc               \
-	                                                    QtMeeGoGraphicsSystemHelper.pc           \
 	                                                    QtMultimedia.pc  QtNetwork.pc            \
 	                                                    QtOpenGL.pc      QtScript.pc             \
 	                                                    QtScriptTools.pc QtSql.pc                \
@@ -471,6 +491,11 @@ $(install_target): $(build_target)
 	                                                    QtXml.pc         QtXmlPatterns.pc        \
 	                                                    phonon.pc                              ; \
 	 )
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)),)
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/qt4/lib/pkgconfig ; \
+	   sed -i "s,/usr/lib,$(TARGET_DEST_DIR)/usr/lib,g" QtMeeGoGraphicsSystemHelper.pc ; \
+	 )
+endif
 	# ======= Strip binaries =======
 	@( cd $(QT4_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \

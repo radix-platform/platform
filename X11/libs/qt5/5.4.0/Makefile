@@ -201,10 +201,10 @@ ifeq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 configure_switches += -no-largefile
 endif
 configure_switches += -no-gtkstyle
-ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
-configure_switches += -opengl
-else
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)),)
 configure_switches += -opengl es2
+else
+configure_switches += -opengl
 endif
 configure_switches += -accessibility
 configure_switches += -system-sqlite

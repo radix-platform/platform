@@ -110,7 +110,7 @@ extra_configure_switches += --enable-xlib
 extra_configure_switches += --enable-xcb
 extra_configure_switches += --enable-xcb-shm
 extra_configure_switches += --enable-xlib-xcb
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)),)
 extra_configure_switches += --disable-gl
 endif
 extra_configure_switches += --enable-egl

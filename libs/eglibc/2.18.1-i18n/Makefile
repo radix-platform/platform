@@ -50,6 +50,9 @@ build_target      = $(TARGET_BUILD_DIR)/.built
 install_target    = $(TARGET_BUILD_DIR)/.installed
 
 
+OPTIMIZATION_FLAGS  = -O3
+
+
 ####### Targets
 
 PKG_GROUP = libs
@@ -94,7 +97,6 @@ include ../../../build-system/core.mk
 env_sysroot = install_root=$(EGLIBC_I18N_PKG)
 
 
-OPTIMIZATION_FLAGS  = -O3
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
 OPTIMIZATION_FLAGS += -fPIC
 endif

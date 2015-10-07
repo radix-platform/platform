@@ -119,6 +119,7 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(CLOOG_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@rm -f $(CLOOG_PKG)/usr/lib$(LIBSUFFIX)/libisl.so.*-gdb.py
 	# ======= Install Documentation =======
 	@mkdir -p $(CLOOG_PKG)/usr/doc/$(src_dir_name)
 	@cp -a $(SRC_DIR)/README \

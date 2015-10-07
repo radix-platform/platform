@@ -43,6 +43,9 @@ src_done          = $(TARGET_BUILD_DIR)/.source-done
 install_target    = $(TARGET_BUILD_DIR)/.install_done
 
 
+OPTIMIZATION_FLAGS  = -O3
+
+
 ####### Targets
 
 PKG_GROUP = libs
@@ -82,8 +85,6 @@ ROOTFS_TARGETS   = $(pkg_archive)
 
 include ../../../../build-system/core.mk
 
-
-OPTIMIZATION_FLAGS  = -O3
 
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
 OPTIMIZATION_FLAGS += -fPIC

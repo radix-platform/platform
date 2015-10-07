@@ -37,6 +37,9 @@ install_target     = $(TARGET_BUILD_DIR)/.installed
 build_glibc32_pkg = $(TARGET_BUILD_DIR)/.glibc32_pkg_done
 
 
+OPTIMIZATION_FLAGS  = -O3
+
+
 ####### Targets
 
 PKG_GROUP = libs
@@ -80,9 +83,6 @@ include ../../../build-system/core.mk
 
 
 env_sysroot = install_root=$(GLIBC_32_PKG)
-
-
-OPTIMIZATION_FLAGS  = -O3
 
 
 extra_configure_switches  += --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)

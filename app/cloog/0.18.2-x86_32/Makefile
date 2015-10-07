@@ -38,23 +38,23 @@ PKG_GROUP = app
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-CLOOG32_PKG_NAME                = cloog-x32
-CLOOG32_PKG_VERSION             = 0.18.2
-CLOOG32_PKG_ARCH                = $(TOOLCHAIN)
-CLOOG32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
-CLOOG32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
-CLOOG32_PKG_GROUP               = $(PKG_GROUP)
-###                              |---handy-ruler-------------------------------|
-CLOOG32_PKG_SHORT_DESCRIPTION   = The Chunky Loop Generator
-CLOOG32_PKG_URL                 = $(BUG_URL)
-CLOOG32_PKG_LICENSE             = GPLv2
-CLOOG32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(CLOOG32_PKG_NAME)-pkg-description
-CLOOG32_PKG_DESCRIPTION_FILE_IN = $(CLOOG32_PKG_NAME)-pkg-description.in
-CLOOG32_PKG_INSTALL_SCRIPT      = $(CLOOG32_PKG_NAME)-pkg-install.sh
+CLOOG_32_PKG_NAME                = cloog-x32
+CLOOG_32_PKG_VERSION             = 0.18.2
+CLOOG_32_PKG_ARCH                = $(TOOLCHAIN)
+CLOOG_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+CLOOG_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
+CLOOG_32_PKG_GROUP               = $(PKG_GROUP)
+###                               |---handy-ruler-------------------------------|
+CLOOG_32_PKG_SHORT_DESCRIPTION   = The Chunky Loop Generator
+CLOOG_32_PKG_URL                 = $(BUG_URL)
+CLOOG_32_PKG_LICENSE             = GPLv2
+CLOOG_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(CLOOG_32_PKG_NAME)-pkg-description
+CLOOG_32_PKG_DESCRIPTION_FILE_IN = $(CLOOG_32_PKG_NAME)-pkg-description.in
+CLOOG_32_PKG_INSTALL_SCRIPT      = $(CLOOG_32_PKG_NAME)-pkg-install.sh
 
-CLOOG32_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(CLOOG32_PKG_NAME)-package
+CLOOG_32_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(CLOOG_32_PKG_NAME)-package
 
-pkg_basename     = $(CLOOG32_PKG_NAME)-$(CLOOG32_PKG_VERSION)-$(CLOOG32_PKG_ARCH)-$(CLOOG32_PKG_DISTRO_NAME)-$(CLOOG32_PKG_DISTRO_VERSION)
+pkg_basename     = $(CLOOG_32_PKG_NAME)-$(CLOOG_32_PKG_VERSION)-$(CLOOG_32_PKG_ARCH)-$(CLOOG_32_PKG_DISTRO_NAME)-$(CLOOG_32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
 pkg_signature    = $(call sign-name,$(pkg_archive))
@@ -72,7 +72,7 @@ ROOTFS_TARGETS   = $(pkg_archive)
 include ../../../build-system/core.mk
 
 
-env_sysroot = DESTDIR=$(CLOOG32_PKG)
+env_sysroot = DESTDIR=$(CLOOG_32_PKG)
 
 
 extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
@@ -107,29 +107,30 @@ $(build_target): $(src_done)
 	@touch $@
 
 $(install_target): $(build_target)
-	@mkdir -p $(CLOOG32_PKG)
+	@mkdir -p $(CLOOG_32_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
-	@rm -rf $(CLOOG32_PKG)/usr/include
-	@( cd $(CLOOG32_PKG)/usr/bin ; \
+	@rm -f $(CLOOG_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/libisl.so.*-gdb.py
+	@rm -rf $(CLOOG_32_PKG)/usr/include
+	@( cd $(CLOOG_32_PKG)/usr/bin ; \
 	   mkdir 32 ; \
 	   mv cloog 32 ; \
 	 )
 	# ======= remove toolchain path from target libtool *.la files =======
-	@( cd $(CLOOG32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(CLOOG_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   sed -i "s,-L/lib,,g" libcloog-isl.la ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libcloog-isl.la libisl.la \
 	 )
 	# ======= remove toolchain path from target pkg-config *.pc files =======
-	@( cd $(CLOOG32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
+	@( cd $(CLOOG_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
 	   sed -i "s,-L/lib,,g" cloog-isl.pc ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" cloog-isl.pc isl.pc \
 	 )
 	# ======= change /bin directory to /bin/32 in target pkg-config *.pc files =======
-	@( cd $(CLOOG32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
+	@( cd $(CLOOG_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
 	   sed -i "s,/bin,/bin/32,g" cloog-isl.pc isl.pc \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	$(call install-into-devenv, $(CLOOG32_PKG))
+	$(call install-into-devenv, $(CLOOG_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libcloog-isl.la libisl.la ; \
@@ -141,30 +142,30 @@ $(install_target): $(build_target)
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" cloog-isl.pc isl.pc \
 	 )
 	# ======= Strip binaries =======
-	@( cd $(CLOOG32_PKG) ; \
+	@( cd $(CLOOG_32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
 	@touch $@
 
-$(CLOOG32_PKG_DESCRIPTION_FILE): $(CLOOG32_PKG_DESCRIPTION_FILE_IN)
+$(CLOOG_32_PKG_DESCRIPTION_FILE): $(CLOOG_32_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
 $(pkg_signature)   : $(pkg_archive) ;
 $(pkg_description) : $(pkg_archive) ;
 
-$(pkg_archive): $(install_target) $(CLOOG32_PKG_DESCRIPTION_FILE) $(CLOOG32_PKG_INSTALL_SCRIPT)
-	@cp $(CLOOG32_PKG_DESCRIPTION_FILE) $(CLOOG32_PKG)/.DESCRIPTION
-	@cp $(CLOOG32_PKG_INSTALL_SCRIPT) $(CLOOG32_PKG)/.INSTALL
-	@$(BUILD_PKG_REQUIRES) $(CLOOG32_PKG)/.REQUIRES
-	@echo "pkgname=$(CLOOG32_PKG_NAME)"                            >  $(CLOOG32_PKG)/.PKGINFO ; \
-	 echo "pkgver=$(CLOOG32_PKG_VERSION)"                          >> $(CLOOG32_PKG)/.PKGINFO ; \
-	 echo "arch=$(CLOOG32_PKG_ARCH)"                               >> $(CLOOG32_PKG)/.PKGINFO ; \
-	 echo "distroname=$(CLOOG32_PKG_DISTRO_NAME)"                  >> $(CLOOG32_PKG)/.PKGINFO ; \
-	 echo "distrover=$(CLOOG32_PKG_DISTRO_VERSION)"                >> $(CLOOG32_PKG)/.PKGINFO ; \
-	 echo "group=$(CLOOG32_PKG_GROUP)"                             >> $(CLOOG32_PKG)/.PKGINFO ; \
-	 echo "short_description=\"$(CLOOG32_PKG_SHORT_DESCRIPTION)\"" >> $(CLOOG32_PKG)/.PKGINFO ; \
-	 echo "url=$(CLOOG32_PKG_URL)"                                 >> $(CLOOG32_PKG)/.PKGINFO ; \
-	 echo "license=$(CLOOG32_PKG_LICENSE)"                         >> $(CLOOG32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(CLOOG32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+$(pkg_archive): $(install_target) $(CLOOG_32_PKG_DESCRIPTION_FILE) $(CLOOG_32_PKG_INSTALL_SCRIPT)
+	@cp $(CLOOG_32_PKG_DESCRIPTION_FILE) $(CLOOG_32_PKG)/.DESCRIPTION
+	@cp $(CLOOG_32_PKG_INSTALL_SCRIPT) $(CLOOG_32_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(CLOOG_32_PKG)/.REQUIRES
+	@echo "pkgname=$(CLOOG_32_PKG_NAME)"                            >  $(CLOOG_32_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(CLOOG_32_PKG_VERSION)"                          >> $(CLOOG_32_PKG)/.PKGINFO ; \
+	 echo "arch=$(CLOOG_32_PKG_ARCH)"                               >> $(CLOOG_32_PKG)/.PKGINFO ; \
+	 echo "distroname=$(CLOOG_32_PKG_DISTRO_NAME)"                  >> $(CLOOG_32_PKG)/.PKGINFO ; \
+	 echo "distrover=$(CLOOG_32_PKG_DISTRO_VERSION)"                >> $(CLOOG_32_PKG)/.PKGINFO ; \
+	 echo "group=$(CLOOG_32_PKG_GROUP)"                             >> $(CLOOG_32_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(CLOOG_32_PKG_SHORT_DESCRIPTION)\"" >> $(CLOOG_32_PKG)/.PKGINFO ; \
+	 echo "url=$(CLOOG_32_PKG_URL)"                                 >> $(CLOOG_32_PKG)/.PKGINFO ; \
+	 echo "license=$(CLOOG_32_PKG_LICENSE)"                         >> $(CLOOG_32_PKG)/.PKGINFO
+	@$(FAKEROOT) sh -c "cd $(CLOOG_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

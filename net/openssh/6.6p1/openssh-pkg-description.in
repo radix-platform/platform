@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
        |-----handy-ruler------------------------------------------------------|
-openssh: openssh @VERSION (Secure Shell daemon and clients)
+openssh: openssh @VERSION@ (Secure Shell daemon and clients)
 openssh:
 openssh: ssh (Secure Shell) is a program for logging into a remote machine
 openssh: and for executing commands on a remote machine. It is intended to

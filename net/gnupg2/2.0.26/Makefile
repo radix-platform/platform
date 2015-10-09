@@ -137,6 +137,9 @@ $(install_target): $(build_target)
 	# ======= Create directory for global gpg.conf =======
 	@mkdir -p $(GNUPG_PKG)/etc/gnupg
 	# ======= Install Documentation =======
+	@( cd $(GNUPG_PKG)/usr/share/man/man1 ; \
+	   mv gpg-zip.1 gpg2-zip.1 ; \
+	 )
 	@cd $(build_dir)/doc && $(BUILD_ENVIRONMENT) $(MAKE) gnupg.html
 	@( cd $(build_dir)/doc/gnupg.html ; \
 	   mv Controlling-gpg_002dconnect_002dagent.html        Controlling-gpg_connect_agent.html  ; \

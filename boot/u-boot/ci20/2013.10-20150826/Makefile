@@ -130,6 +130,7 @@ $(build_uboot_pkg): $(boot_scr_sd)
 	@cd $(SRC_DIR) && \
 	  cp -a spl/u-boot-spl.bin u-boot.{bin,img,lds,map} $(TARGET_DEST_DIR)/bootfs && \
 	  cp -a spl/u-boot-spl.bin u-boot.{bin,img,lds,map} $(UBOOT_BIN_PKG)/boot
+	@chmod a-x $(UBOOT_BIN_PKG)/boot/u-boot*.bin
 	@mkdir -p $(UBOOT_BIN_PKG)/usr/doc/u-boot-ci20-$(version)
 	@cp -a $(SRC_DIR)/Licenses $(SRC_DIR)/CREDITS $(SRC_DIR)/README \
 	       $(UBOOT_BIN_PKG)/usr/doc/u-boot-ci20-$(version)

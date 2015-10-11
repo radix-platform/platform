@@ -62,6 +62,7 @@ scripts += $(BUILDSYSTEM)/pkgtool/pkglog
 scripts += $(BUILDSYSTEM)/pkgtool/remove-package
 scripts += $(BUILDSYSTEM)/pkgtool/update-package
 
+dialogrc = $(BUILDSYSTEM)/pkgtool/dialogrc
 
 build = $(TARGET_BUILD_DIR)/.done
 
@@ -84,8 +85,9 @@ include ../../build-system/core.mk
 
 
 $(build):
-	@mkdir -p $(BIN_PKG)/sbin/$(BIN_PKG_NAME)
+	@mkdir -p $(BIN_PKG)/sbin/$(BIN_PKG_NAME) $(BIN_PKG)/root
 	@cp $(scripts) $(BIN_PKG)/sbin/$(BIN_PKG_NAME)
+	@cp $(dialogrc) $(BIN_PKG)/root/.dialogrc.new
 	@touch $@
 
 $(BIN_PKG_DESCRIPTION_FILE): $(BIN_PKG_DESCRIPTION_FILE_IN)

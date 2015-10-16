@@ -17,7 +17,8 @@ NEED_ABS_PATH = true
 include ../../build-system/constants.mk
 
 
-REQUIRES           = base/init-devices
+REQUIRES           = base/radix-system
+REQUIRES          += base/init-devices
 
 # ======= __END_OF_REQUIRES__ =======
 

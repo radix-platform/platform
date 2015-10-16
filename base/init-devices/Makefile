@@ -94,6 +94,8 @@ $(pkg_archive): $(build) $(INIT_DEV_PKG_DESCRIPTION_FILE) $(INIT_DEV_PKG_INSTALL
 	                      mknod --mode=660 fb0        c   29 0   ; \
 	                      mknod --mode=660 fb1        c   29 1   ; \
 	                      \
+	                      mknod --mode=660 apm_bios   c   10 134 ; \
+	                      \
 	                      mknod --mode=660 hda        b    3 0   ; \
 	                      mknod --mode=660 hda1       b    3 1   ; \
 	                      mknod --mode=660 hda2       b    3 2   ; \
@@ -167,7 +169,7 @@ $(pkg_archive): $(build) $(INIT_DEV_PKG_DESCRIPTION_FILE) $(INIT_DEV_PKG_INSTALL
 	                      \
 	                      chown 0:5   tty ttySA? cusa?    ; \
 	                      chown 0:16  ppp ttyS?           ; \
-	                      chown 0:0   cgroup pts shm null random urandom zero initctl ; \
+	                      chown 0:0   cgroup pts shm null random urandom zero apm_bios initctl ; \
 	                      chown 0:18  fb0 fb1             ; \
 	                      chown 0:6   ram? hda* sda* sdb* ; \
 	                      chown 0:9   mem kmem            ; \

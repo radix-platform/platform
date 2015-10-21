@@ -35,6 +35,9 @@ u_boot_logo     = $(CURDIR)/logo/radix-2CPU-224x96.bmp
 boot_script_sd  = $(TARGET_BUILD_DIR)/boot.script.sd
 boot_scr_sd     = $(TARGET_BUILD_DIR)/boot.scr.sd
 
+boot_records         = $(TARGET_BUILD_DIR)/$(HARDWARE).boot-records
+install_boot_records = $(TARGET_BUILD_DIR)/.boot_records_done
+
 
 PATCHES = PATCHES
 
@@ -80,6 +83,7 @@ BUILD_TARGETS      = $(u_boot)
 BUILD_TARGETS     += $(boot_script_sd)
 BUILD_TARGETS     += $(boot_scr_sd)
 BUILD_TARGETS     += $(build_uboot_pkg)
+BUILD_TARGETS     += $(install_boot_records)
 
 PRODUCT_TARGETS    = $(products)
 
@@ -136,13 +140,31 @@ $(build_uboot_pkg): $(boot_scr_sd)
 	       $(UBOOT_BIN_PKG)/usr/doc/u-boot-ci20-$(version)
 	@touch $@
 
+$(boot_records): $(build_uboot_pkg)
+	@$(DD) if=/dev/zero of=$@ bs=512 count=2048 conv=notrunc
+	# ======= Clean U-Boot environment (just for remember env address)       =======
+	@$(DD) if=/dev/zero of=$@ bs=1K seek=526 count=32 conv=notrunc
+	# ======= Setup u-boot-spl & u-boot into unallocated space of disk image =======
+	@$(DD) if=$(UBOOT_BIN_PKG)/boot/u-boot-spl.bin of=$@ obs=512 seek=1  conv=notrunc
+	@$(DD) if=$(UBOOT_BIN_PKG)/boot/u-boot.img     of=$@ obs=1K  seek=14 conv=notrunc
+	@touch $@
+
+$(install_boot_records): $(boot_records)
+	@$(BUILDSYSTEM)/install_targets         \
+	   --destination=$(PRODUCTS_DEST_DIR)   \
+	   --toolchain=$(TOOLCHAIN)             \
+	   --hardware=$(HARDWARE)               \
+	   --flavour=$(FLAVOUR)                 \
+	   $^
+	@touch $@
+
 $(UBOOT_BIN_PKG_DESCRIPTION_FILE): $(UBOOT_BIN_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
 $(pkg_signature)   : $(pkg_archive) ;
 $(pkg_description) : $(pkg_archive) ;
 
-$(pkg_archive): $(build_uboot_pkg) $(UBOOT_BIN_PKG_DESCRIPTION_FILE) $(UBOOT_BIN_PKG_INSTALL_SCRIPT)
+$(pkg_archive): $(install_boot_records) $(UBOOT_BIN_PKG_DESCRIPTION_FILE) $(UBOOT_BIN_PKG_INSTALL_SCRIPT)
 	@cp $(UBOOT_BIN_PKG_DESCRIPTION_FILE) $(UBOOT_BIN_PKG)/.DESCRIPTION
 	@cp $(UBOOT_BIN_PKG_INSTALL_SCRIPT) $(UBOOT_BIN_PKG)/.INSTALL
 	@chmod a+x $(UBOOT_BIN_PKG)/.INSTALL

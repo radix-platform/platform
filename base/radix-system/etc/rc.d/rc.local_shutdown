@@ -1,0 +1,8 @@
+#!/bin/sh
+#
+# /etc/rc.d/rc.local_shutdown  -  Local system shutdown script.
+#
+# If you have anything that needs to be run at shutdown time
+# you can put those commands in here.
+#
+

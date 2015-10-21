@@ -1,0 +1,6 @@
+/lib
+/usr/lib
+/usr/lib/openmpi
+/usr/@TARGET@/lib
+/usr/lib/qt4/lib
+/usr/lib/qt5/lib

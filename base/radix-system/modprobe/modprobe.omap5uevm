@@ -1,0 +1,80 @@
+# PowerVR:
+/sbin/modprobe omapdrm_pvr
+# Wireless:
+/sbin/modprobe wl18xx > /dev/null
+
+/sbin/modprobe wlcore_spi
+/sbin/modprobe wlcore_sdio
+
+/sbin/modprobe arc4
+
+/sbin/modprobe cls_fw
+/sbin/modprobe cls_u32 > /dev/null
+/sbin/modprobe sch_gred
+
+/sbin/modprobe omap2430 > /dev/null
+/sbin/modprobe am35x
+
+/sbin/modprobe musb_dsps
+
+/sbin/modprobe bcm203x > /dev/null
+
+/sbin/modprobe omap-usb2
+/sbin/modprobe omap-usb3
+
+/sbin/modprobe dwc3
+
+/sbin/modprobe dwc3-exynos
+/sbin/modprobe palmas-usb
+
+/sbin/modprobe twl4030-usb
+/sbin/modprobe twl6030-usb
+
+/sbin/modprobe bpa10x > /dev/null
+
+/sbin/modprobe tsl2550 > /dev/null
+
+/sbin/modprobe lis3lv02d
+/sbin/modprobe lis3lv02d_i2c
+
+/sbin/modprobe ahci_platform
+
+/sbin/modprobe xhci-hcd > /dev/null
+/sbin/modprobe hci_uart > /dev/null
+
+/sbin/modprobe uvcvideo > /dev/null 2>&1
+
+#
+# GSPCA USB Camera Driver:
+#
+/sbin/modprobe gspca_main > /dev/null 2>&1
+
+#
+# Multifunction Composite Gadget: (probably needs Open Firmware)
+#
+/sbin/modprobe libcomposite
+
+/sbin/modprobe matrix_keypad
+
+# Temperature Sensor (probably needs Open Firmware for omap_i2c)
+/sbin/modprobe lm75
+
+/sbin/modprobe snd-usb-audio
+/sbin/modprobe snd-usbmidi-lib
+/sbin/modprobe snd-hwdep
+/sbin/modprobe snd-rawmidi
+/sbin/modprobe snd-mixer-oss
+/sbin/modprobe snd-pcm-oss
+/sbin/modprobe snd-soc-spdif-rx
+/sbin/modprobe snd-soc-spdif-tx
+/sbin/modprobe snd-soc-twl6040
+/sbin/modprobe snd-soc-dmic
+/sbin/modprobe snd-soc-twl4030
+/sbin/modprobe snd-soc-omap-abe-twl6040
+/sbin/modprobe snd-soc-omap-mcpdm
+/sbin/modprobe snd-soc-omap-dmic
+/sbin/modprobe snd-soc-omap-mcbsp
+/sbin/modprobe snd-soc-omap-mcasp
+/sbin/modprobe snd-soc-abe-hal
+/sbin/modprobe snd-soc-omap-twl4030
+/sbin/modprobe snd-soc-omap-abe

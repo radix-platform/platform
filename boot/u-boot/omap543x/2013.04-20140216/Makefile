@@ -9,7 +9,7 @@ COMPONENT_IS_3PP  = true
 include ../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES   = sources/U-Boot/omap5-glsdk
+SOURCE_REQUIRES   = sources/U-Boot/omap5-glsdk/2013.04
 
 REQUIRES          = boot/kernel/omap543x/3.8.y-20140222
 
@@ -22,7 +22,7 @@ DEFAULT_HW_ADDR          =  2a:ab:c0:97:84:9d
 
 
 version           = 2013.04-20140216
-tar_bz2_archive   = $(SRC_PACKAGE_PATH)/U-Boot/omap5-glsdk/u-boot-omap-$(version).tar.bz2
+tar_bz2_archive   = $(SRC_PACKAGE_PATH)/U-Boot/omap5-glsdk/2013.04/u-boot-omap-$(version).tar.bz2
 SRC_ARCHIVE       = $(tar_bz2_archive)
 SRC_DIR           = $(TARGET_BUILD_DIR)/u-boot-omap-$(version)
 src_done          = $(TARGET_BUILD_DIR)/.source_done
@@ -35,11 +35,15 @@ u_boot_config     = omap5_uevm_config
 boot_script_nfs   = $(TARGET_BUILD_DIR)/boot.script.nfs
 boot_scr_nfs      = $(TARGET_BUILD_DIR)/boot.scr.nfs
 
-boot_script_sd   = $(TARGET_BUILD_DIR)/boot.script.sd
-boot_scr_sd      = $(TARGET_BUILD_DIR)/boot.scr.sd
+boot_script_sd    = $(TARGET_BUILD_DIR)/boot.script.sd
+boot_scr_sd       = $(TARGET_BUILD_DIR)/boot.scr.sd
 
-boot_script_emmc = $(TARGET_BUILD_DIR)/boot.script.emmc
-boot_scr_emmc    = $(TARGET_BUILD_DIR)/boot.scr.emmc
+boot_script_emmc  = $(TARGET_BUILD_DIR)/boot.script.emmc
+boot_scr_emmc     = $(TARGET_BUILD_DIR)/boot.scr.emmc
+
+boot_records         = $(TARGET_BUILD_DIR)/$(HARDWARE).boot-records
+boot_fat32fs         = $(TARGET_BUILD_DIR)/$(HARDWARE).fat32fs
+install_boot_records = $(TARGET_BUILD_DIR)/.boot_records_done
 
 
 PATCHES = PATCHES
@@ -92,6 +96,7 @@ BUILD_TARGETS     += $(boot_scr_nfs)
 BUILD_TARGETS     += $(boot_scr_sd)
 BUILD_TARGETS     += $(boot_scr_emmc)
 BUILD_TARGETS     += $(build_uboot_pkg)
+BUILD_TARGETS     += $(install_boot_records)
 
 PRODUCT_TARGETS    = $(products)
 
@@ -164,9 +169,41 @@ $(build_uboot_pkg): $(u_boot) $(boot_scr_nfs) $(boot_scr_sd) $(boot_scr_emmc)
 	@cd $(SRC_DIR) && \
 	  cp -a MLO u-boot u-boot.bin u-boot.img u-boot.lds u-boot.map u-boot.srec $(TARGET_DEST_DIR)/bootfs && \
 	  cp -a MLO u-boot u-boot.bin u-boot.img u-boot.lds u-boot.map u-boot.srec $(UBOOT_BIN_PKG)/boot
+	@( cd $(UBOOT_BIN_PKG)/boot ; \
+	   chmod a-x u-boot u-boot.bin u-boot.srec ; \
+	 )
 	@mkdir -p $(UBOOT_BIN_PKG)/usr/doc/u-boot-$(version)
 	@cp -a $(SRC_DIR)/COPYING $(SRC_DIR)/CREDITS $(SRC_DIR)/README* $(SRC_DIR)/boards.cfg \
 	       $(UBOOT_BIN_PKG)/usr/doc/u-boot-$(version)
+	@touch $@
+
+$(boot_records): $(build_uboot_pkg)
+	@$(DD) if=/dev/zero of=$@ bs=512 count=2048 conv=notrunc
+	# ======= Setup empty boot-records because FS boot mode =======
+	@touch $@
+
+$(boot_fat32fs): $(build_uboot_pkg)
+	@$(DD) if=/dev/zero of=$@ bs=1M count=511
+	# ======= Create FAT32 boot partition image =======
+	@$(MKDOSFS) -F 32 -n bootfs $@
+	@$(MCOPY) -i $@ $(TARGET_DEST_DIR)/bootfs/MLO            ::/
+	@$(MCOPY) -i $@ $(TARGET_DEST_DIR)/bootfs/u-boot.img     ::/
+	@$(MCOPY) -i $@ $(TARGET_DEST_DIR)/bootfs/boot.scr       ::/
+	@$(MCOPY) -i $@ $(TARGET_DEST_DIR)/bootfs/boot.scr.emmc  ::/
+	@$(MCOPY) -i $@ $(TARGET_DEST_DIR)/bootfs/boot.scr.nfs   ::/
+	@$(MCOPY) -i $@ $(TARGET_DEST_DIR)/bootfs/boot.scr.sd    ::/
+	@$(MCOPY) -i $@ $(TARGET_DEST_DIR)/bootfs/omap5-uevm.dtb ::/
+	@$(MCOPY) -i $@ $(TARGET_DEST_DIR)/bootfs/uImage         ::/
+	@$(DOSFSCK) -a $@
+	@touch $@
+
+$(install_boot_records): $(boot_records) $(boot_fat32fs)
+	@$(BUILDSYSTEM)/install_targets         \
+	   --destination=$(PRODUCTS_DEST_DIR)   \
+	   --toolchain=$(TOOLCHAIN)             \
+	   --hardware=$(HARDWARE)               \
+	   --flavour=$(FLAVOUR)                 \
+	   $^
 	@touch $@
 
 $(UBOOT_BIN_PKG_DESCRIPTION_FILE): $(UBOOT_BIN_PKG_DESCRIPTION_FILE_IN)
@@ -175,7 +212,7 @@ $(UBOOT_BIN_PKG_DESCRIPTION_FILE): $(UBOOT_BIN_PKG_DESCRIPTION_FILE_IN)
 $(pkg_signature)   : $(pkg_archive) ;
 $(pkg_description) : $(pkg_archive) ;
 
-$(pkg_archive): $(build_uboot_pkg) $(UBOOT_BIN_PKG_DESCRIPTION_FILE) $(UBOOT_BIN_PKG_INSTALL_SCRIPT)
+$(pkg_archive): $(install_boot_records) $(UBOOT_BIN_PKG_DESCRIPTION_FILE) $(UBOOT_BIN_PKG_INSTALL_SCRIPT)
 	@cp $(UBOOT_BIN_PKG_DESCRIPTION_FILE) $(UBOOT_BIN_PKG)/.DESCRIPTION
 	@cp $(UBOOT_BIN_PKG_INSTALL_SCRIPT) $(UBOOT_BIN_PKG)/.INSTALL
 	@chmod a+x $(UBOOT_BIN_PKG)/.INSTALL

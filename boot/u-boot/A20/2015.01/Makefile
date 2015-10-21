@@ -40,6 +40,9 @@ script_bin      = $(TARGET_BUILD_DIR)/script.bin
 boot_script_sd  = $(TARGET_BUILD_DIR)/boot.script.sd
 boot_scr_sd     = $(TARGET_BUILD_DIR)/boot.scr.sd
 
+boot_records         = $(TARGET_BUILD_DIR)/$(HARDWARE).boot-records
+install_boot_records = $(TARGET_BUILD_DIR)/.boot_records_done
+
 
 PATCHES = PATCHES
 
@@ -87,6 +90,7 @@ BUILD_TARGETS     += $(script_bin)
 BUILD_TARGETS     += $(boot_script_sd)
 BUILD_TARGETS     += $(boot_scr_sd)
 BUILD_TARGETS     += $(build_uboot_pkg)
+BUILD_TARGETS     += $(install_boot_records)
 
 PRODUCT_TARGETS    = $(products)
 
@@ -154,9 +158,27 @@ $(build_uboot_pkg): $(boot_scr_sd)
 	@cd $(SRC_DIR) && \
 	  cp -a spl/sunxi-spl.bin u-boot-sunxi-with-spl.bin u-boot.{bin,img,lds,map} $(TARGET_DEST_DIR)/bootfs && \
 	  cp -a spl/sunxi-spl.bin u-boot-sunxi-with-spl.bin u-boot.{bin,img,lds,map} $(UBOOT_BIN_PKG)/boot
+	@( cd $(UBOOT_BIN_PKG)/boot ; \
+	   chmod a-x u-boot.bin ; \
+	 )
 	@mkdir -p $(UBOOT_BIN_PKG)/usr/doc/u-boot-sunxi-$(version)
 	@cp -a $(SRC_DIR)/Licenses $(SRC_DIR)/MAINTAINERS $(SRC_DIR)/README \
 	       $(UBOOT_BIN_PKG)/usr/doc/u-boot-sunxi-$(version)
+	@touch $@
+
+$(boot_records): $(build_uboot_pkg)
+	@$(DD) if=/dev/zero of=$@ bs=512 count=2048 conv=notrunc
+	# ======= Setup u-boot-spl & u-boot into unallocated space of disk image =======
+	@$(DD) if=$(UBOOT_BIN_PKG)/boot/u-boot-sunxi-with-spl.bin of=$@ bs=1024 seek=8 conv=notrunc
+	@touch $@
+
+$(install_boot_records): $(boot_records)
+	@$(BUILDSYSTEM)/install_targets         \
+	   --destination=$(PRODUCTS_DEST_DIR)   \
+	   --toolchain=$(TOOLCHAIN)             \
+	   --hardware=$(HARDWARE)               \
+	   --flavour=$(FLAVOUR)                 \
+	   $^
 	@touch $@
 
 $(UBOOT_BIN_PKG_DESCRIPTION_FILE): $(UBOOT_BIN_PKG_DESCRIPTION_FILE_IN)
@@ -165,7 +187,7 @@ $(UBOOT_BIN_PKG_DESCRIPTION_FILE): $(UBOOT_BIN_PKG_DESCRIPTION_FILE_IN)
 $(pkg_signature)   : $(pkg_archive) ;
 $(pkg_description) : $(pkg_archive) ;
 
-$(pkg_archive): $(build_uboot_pkg) $(UBOOT_BIN_PKG_DESCRIPTION_FILE) $(UBOOT_BIN_PKG_INSTALL_SCRIPT)
+$(pkg_archive): $(install_boot_records) $(UBOOT_BIN_PKG_DESCRIPTION_FILE) $(UBOOT_BIN_PKG_INSTALL_SCRIPT)
 	@cp $(UBOOT_BIN_PKG_DESCRIPTION_FILE) $(UBOOT_BIN_PKG)/.DESCRIPTION
 	@cp $(UBOOT_BIN_PKG_INSTALL_SCRIPT) $(UBOOT_BIN_PKG)/.INSTALL
 	@chmod a+x $(UBOOT_BIN_PKG)/.INSTALL

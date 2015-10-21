@@ -1,0 +1,12 @@
+
+NOT FULLY FINISHED STUFF:
+========================
+
+  etc/rc.d/rc.gpm     - will be done in the app/gpm package
+
+  etc/rc.d/rc.font,
+  etc/rc.d/rc.keymap  - will be done in app/kbd package
+
+  etc/rc.d/rc.modules - this is a head of script, we need to add
+                        modprobe commands for needed modules for
+                        different HW.

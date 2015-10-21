@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+            |-----handy-ruler------------------------------------------------------|
+init-devices: init-devices @VERSION@ (Initial Device Inodes)
+init-devices:
+init-devices: init-devices package created not for installation on the working
+init-devices: system. This package can be used only for installation by system
+init-devices: installer running with root privileges or for collecting inodes
+init-devices: for creation the Root FS image.
+init-devices:
+init-devices: This is a set of inodes in the /dev directory.
+init-devices:
+init-devices:
+init-devices:

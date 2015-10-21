@@ -165,9 +165,7 @@ $(install_target): $(build_target)
 	# ======= Change access mode of files and directories =======
 	@find $(EUDEV_PKG)/etc $(EUDEV_PKG)/lib/modprobe.d -type f -exec chmod 644 {} \;
 	@find $(EUDEV_PKG)/etc -type d -exec chmod 755 {} \;
-ifneq ($(HARDWARE),$(HARDWARE_OMAP5UEVM))
 	@chmod 0755 $(EUDEV_PKG)/etc/rc.d/rc.udev.new
-endif
 	@chmod 0755 $(EUDEV_PKG)/lib/udev/*
 	# ======= Gzip man pages =======
 	@if [ -d $(EUDEV_PKG)/usr/share/man ]; then \

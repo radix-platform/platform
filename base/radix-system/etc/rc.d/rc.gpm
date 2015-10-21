@@ -8,7 +8,7 @@ elif [ "$1" = "restart" ]; then
   echo "Restarting gpm..."
   /usr/sbin/gpm -k
   sleep 1
-  /usr/sbin/gpm -m /dev/input/mouse0 -t imps2
+  /usr/sbin/gpm -m /dev/mouse -t imps2
 else # assume $1 = start:
   echo "Starting gpm:  /usr/sbin/gpm -m /dev/mouse -t imps2"
   /usr/sbin/gpm -m /dev/mouse -t imps2

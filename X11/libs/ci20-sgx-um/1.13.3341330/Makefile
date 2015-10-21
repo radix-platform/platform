@@ -106,6 +106,9 @@ $(install_target): $(src_done)
 	@cp -a $(scripts)/X11/xorg.conf.powervr $(XORG_PKG)/etc/X11
 	@cp -a $(scripts)/rc.d/rc.powervr.example $(XORG_PKG)/etc/rc.d
 	@chmod a-x $(XORG_PKG)/etc/rc.d/rc.powervr.example
+	@( cd $(XORG_PKG)/etc/X11 ; \
+	   ln -sf xorg.conf.powervr xorg.conf ; \
+	 )
 	# ======= Install Documentation =======
 	@mkdir -p $(XORG_PKG)/usr/doc/$(doc_dir_name)
 	@cp -a $(license) \

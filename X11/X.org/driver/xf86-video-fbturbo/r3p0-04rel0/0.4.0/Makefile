@@ -24,6 +24,8 @@ SRC_DIR            = $(TARGET_BUILD_DIR)/xf86-video-fbturbo-$(version)
 src_dir_name       = xf86-video-fbturbo-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
+scripts            = $(CURDIR)/etc
+
 PATCHES = PATCHES
 
 build_dir          = $(TARGET_BUILD_DIR)/build
@@ -110,6 +112,12 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(XORG_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	# ======= Install Scripts =======
+	@mkdir -p $(XORG_PKG)/etc/X11
+	@cp -a $(scripts)/X11/xorg.conf.fbturbo $(XORG_PKG)/etc/X11
+	@( cd $(XORG_PKG)/etc/X11 ; \
+	   ln -sf xorg.conf.fbturbo xorg.conf ; \
+	 )
 	# ======= Install Documentation =======
 	@if [ -d $(XORG_PKG)/usr/share/man ]; then \
 	  ( cd $(XORG_PKG)/usr/share/man ; \

@@ -1,0 +1,27 @@
+
+Section "Screen"
+  Identifier "My Screen"
+  Device     "fbturbo device"
+  Monitor    "My Monitor"
+EndSection
+
+Section "Device"
+  Identifier "fbturbo device"
+  Driver     "fbturbo"
+  Option     "fbdev" "/dev/fb0"
+  Option     "SwapbufferWait" "true"
+#  Option     "AccelMethod" "G2D"
+EndSection
+
+Section "Monitor"
+  Identifier "My Monitor"
+  Option     "DPMS" "false"
+EndSection
+
+Section "ServerLayout"
+  Identifier "ServerLayout0"
+  Option     "StandbyTime" "0"
+  Option     "SuspendTime" "0"
+  Option     "OffTime" "0"
+  Option     "NoPM" "true"
+EndSection

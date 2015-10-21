@@ -8,12 +8,12 @@
     |-----handy-ruler------------------------------------------------------|
 cpio: cpio @VERSION@ (backup and archiving utility)
 cpio:
-cpio: This is GNU cpio, a program to manage archives of files. This package
-cpio: also includes mt, a tape drive control program. cpio copies files into
-cpio: or out of a cpio or tar archive, which is a file that contains other
-cpio: files plus information about them, such as their pathname, owner,
-cpio: timestamps, and access permissions. The archive can be another file on
-cpio: the disk, a magnetic tape, or a pipe.
-cpio:
+cpio: This is GNU cpio, a program to manage archives of files.
+cpio: This package also includes mt, a tape drive control program.
+cpio: cpio copies files into or out of a cpio or tar archive, which
+cpio: is a file that contains other files plus information about them,
+cpio: such as their pathname, owner, timestamps, and access permissions.
+cpio: The archive can be another file on the disk, a magnetic tape,
+cpio: or a pipe.
 cpio:
 cpio:

@@ -619,7 +619,7 @@ dlg_fselect(const char *title, const char *path, int height, int width, int dsel
     dlg_print_size(height, width);
     dlg_ctl_size(height, width);
 
-    dialog = dlg_new_window(height, width,
+    dialog = dlg_new_window(height + 1, width,
 			    dlg_box_y_ordinate(height),
 			    dlg_box_x_ordinate(width));
     dlg_register_window(dialog, "fselect", binding);
@@ -627,7 +627,7 @@ dlg_fselect(const char *title, const char *path, int height, int width, int dsel
 
     dlg_mouse_setbase(0, 0);
 
-    dlg_draw_box2(dialog, 0, 0, height, width, dialog_attr, border_attr, border2_attr);
+    dlg_draw_box2(dialog, 0, 0, height + 1, width, dialog_attr, border_attr, border2_attr);
     dlg_draw_bottom_box2(dialog, border_attr, border2_attr, dialog_attr);
     dlg_draw_title(dialog, title);
 
@@ -723,7 +723,7 @@ dlg_fselect(const char *title, const char *path, int height, int width, int dsel
 	if (show_buttons) {
 	    show_buttons = FALSE;
 	    button = (state < 0) ? 0 : state;
-	    dlg_draw_buttons(dialog, height - 2, 0, buttons, button, FALSE, width);
+	    dlg_draw_buttons(dialog, height - 1, 0, buttons, button, FALSE, width);
 	}
 
 	if (first_trace) {

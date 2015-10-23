@@ -7,14 +7,14 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/dialog
 
-versions    = 1.1-20120215 1.2-20130928 1.2-20140112
+versions    = 1.2-20140112
+pkgname     = dialog
+suffix      = tgz
 
-tarballs    = $(addsuffix .orig.tar.gz, $(addprefix dialog_, $(versions)))
+tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/dialog-1.1-20120215.patch
-patches    += $(CURDIR)/patches/dialog-1.2-20130928.patch
-patches    += $(CURDIR)/patches/dialog-1.2-20140112.patch
+patches     = $(CURDIR)/patches/dialog-1.2-20140112.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -49,8 +49,6 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-1.1-20120215-patch ; ./create.patch.sh ) ; \
-	 ( cd create-1.2-20130928-patch ; ./create.patch.sh ) ; \
 	 ( cd create-1.2-20140112-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 

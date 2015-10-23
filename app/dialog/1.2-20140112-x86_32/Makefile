@@ -21,7 +21,7 @@ REQUIRES          += app/ctags/5.8-x86_32
 
 
 version            = 1.2-20140112
-tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/a/dialog/dialog_$(version).orig.tar.gz
+tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/a/dialog/dialog-$(version).tgz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/dialog-$(version)
 src_dir_name       = dialog-$(version)

@@ -17,16 +17,15 @@ NEED_ABS_PATH = true
 include ../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/packages/a/dialog
-
 REQUIRES           = base/init-devices
 
 # ======= __END_OF_REQUIRES__ =======
 
 
 dialog_version            = 1.2-20140112
-dialog_archive            = $(SRC_PACKAGE_PATH)/packages/a/dialog/dialog-$(dialog_version).tgz
-dialog_patch              = $(SRC_PACKAGE_PATH)/packages/a/dialog/patches/dialog-$(dialog_version).patch
+
+dialog_archive            = ../../build-system/3pp/sources/packages/dialog/dialog-$(dialog_version).tgz
+dialog_patch              = ../../build-system/3pp/sources/packages/dialog/patches/dialog-$(dialog_version).patch
 
 dialog_download_script_in = $(CURDIR)/scripts/dialog-download.sh.in
 dialog_install_script_in  = $(CURDIR)/scripts/install-dialog.sh.in
@@ -42,7 +41,7 @@ SETUP_DEV_PKG_ARCH                = $(TOOLCHAIN)
 SETUP_DEV_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 SETUP_DEV_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 SETUP_DEV_PKG_GROUP               = $(PKG_GROUP)
-###                                  |---handy-ruler-------------------------------|
+###                                |---handy-ruler-------------------------------|
 SETUP_DEV_PKG_SHORT_DESCRIPTION   = Radix Installation Tools
 SETUP_DEV_PKG_URL                 = $(BUG_URL)
 SETUP_DEV_PKG_LICENSE             = LGPLv2.1
@@ -51,7 +50,7 @@ SETUP_DEV_PKG_DESCRIPTION_FILE_IN = $(SETUP_DEV_PKG_NAME)-pkg-description.in
 SETUP_DEV_PKG_INSTALL_SCRIPT      = $(SETUP_DEV_PKG_NAME)-pkg-install.sh
 
 
-SETUP_DEV_PKG = $(TARGET_BUILD_DIR)/$(SETUP_DEV_PKG_NAME)-package
+SETUP_DEV_PKG   = $(TARGET_BUILD_DIR)/$(SETUP_DEV_PKG_NAME)-package
 
 scripts  = $(BUILDSYSTEM)/pkgtool/change-refs
 scripts += $(BUILDSYSTEM)/pkgtool/check-db-integrity

@@ -1,0 +1,22 @@
+#!/bin/sh
+
+CWD=`pwd`
+TMP=$CWD/tmp
+
+version=@VERSION@
+install_tools_version=@INSTALL_TOOLS_VERSION@
+
+if [ ! -d $TMP ] ; then
+  mkdir -p $TMP
+fi
+
+
+cd $TMP
+tar xzvf $CWD/dialog-${version}.tgz
+patch -p0 < $CWD/patches/dialog-${version}.patch
+mkdir -p build
+cd build
+../dialog-${version}/configure --prefix=/ --libdir=/usr/lib --mandir=/usr/share/man --without-shared --with-ncursesw
+make
+mkdir -p $HOME/.radix/${install_tools_version}/
+make install DESTDIR=$HOME/.radix/${install_tools_version}/

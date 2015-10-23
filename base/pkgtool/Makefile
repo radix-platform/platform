@@ -18,7 +18,7 @@ include ../../build-system/constants.mk
 
 
 REQUIRES           = base/radix-system
-REQUIRES          += base/init-devices
+REQUIRES          += base/install-tools
 
 # ======= __END_OF_REQUIRES__ =======
 

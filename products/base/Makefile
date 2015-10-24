@@ -424,6 +424,10 @@ REQUIRES += app/procps/3.2.8
 REQUIRES += app/gamin/0.1.10
 REQUIRES += app/usbutils/007
 REQUIRES += app/eudev/1.9
+REQUIRES += app/lvm2/2.02.132
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/lvm2/2.02.132-x86_32
+endif
 REQUIRES += app/cpio/2.11
 REQUIRES += app/ed/1.9
 REQUIRES += app/getty-ps/2.1.0b

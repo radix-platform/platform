@@ -1,0 +1,6 @@
+
+# Radix Boot Image
+  bitmap = /boot/radix.bmp
+  bmp-table = 56,7,1,10,21
+  bmp-colors = 96,,,255,,
+  bmp-timer = 57,23,255,0,0

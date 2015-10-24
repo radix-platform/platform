@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+    |-----handy-ruler------------------------------------------------------|
+lilo: lilo @VERSION@ (Linux Loader)
+lilo:
+lilo: Generic Linux Boot Loader ('LInux LOader') by Werner Almesberger.
+lilo: LILO boots Linux from your hard drive. It can also boot other
+lilo: operating systems such as MS-DOS and OS/2, and can even boot DOS
+lilo: from the second hard drive. LILO comes with utilities and
+lilo: documentation that make it easier to install, such as 'liloconfig'
+lilo: and 'QuickStart'. NOTE: Installing boot loaders is inherently
+lilo: dangerous. Be sure to have some means to boot your system from a
+lilo: different media if you install LILO on your hard disk.
+lilo:

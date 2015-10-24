@@ -20,7 +20,7 @@ include ../../build-system/constants.mk
 
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32) $(HARDWARE_PC64)),)
-REQUIRES           = dev/kernel/x86/3.10.17-headers
+REQUIRES           = dev/kernel/x86/3.14.55-headers
 endif
 
 ifeq ($(HARDWARE),$(HARDWARE_CB1X))

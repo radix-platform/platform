@@ -1,0 +1,9 @@
+
+For both x86_32/x86_64 configurations we use following arch name:
+
+$ ARCH=x86 make oldconfig
+
+NOTE:
+----
+  For generic pc32 hardware we choose Intel Atom CPU family.
+  Currently we working with Atom D2700 (Intel Cedarview Dual Core 2.13MHz).

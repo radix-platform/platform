@@ -8,7 +8,8 @@ include ../../../build-system/constants.mk
 url         = $(DOWNLOAD_SERVER)/sources/Linux/v3.x
 
 versions    = 3.10.17
-versions   += 3.18.20
+versions   += 3.14.55
+versions   += 3.18.22
 
 tarballs    = $(addsuffix .tar.xz, $(addprefix linux-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))

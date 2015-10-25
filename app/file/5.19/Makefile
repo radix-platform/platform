@@ -20,7 +20,18 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/a/file
 
-REQUIRES           = libs/zlib/1.2.8
+REQUIRES           = dev/gcc/4.9.2
+#
+# NOTE:
+# ----
+#   If gcc-runtime used instead of gcc then we have to declare
+#   zlib dependencies in the following way:
+#
+#   REQUIRES           = libs/zlib/1.2.8
+#   ifeq ($(HARDWARE),$(HARDWARE_PC64))
+#   REQUIRES          += libs/zlib/1.2.8-x86_32
+#   endif
+#
 
 # ======= __END_OF_REQUIRES__ =======
 

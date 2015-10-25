@@ -13,7 +13,6 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/m/mad/libid3tag
 
 REQUIRES           = libs/libid3tag/0.15.1b
-REQUIRES          += libs/zlib/1.2.8-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

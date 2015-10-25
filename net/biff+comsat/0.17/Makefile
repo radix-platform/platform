@@ -20,7 +20,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/n/biff+comsat
 
-REQUIRES           = libs/glibc/2.21
+REQUIRES           = dev/gcc/4.9.2
 
 # ======= __END_OF_REQUIRES__ =======
 

@@ -20,7 +20,18 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/x/libdrm
 
-REQUIRES           = libs/glibc/2.21
+REQUIRES           = dev/gcc/4.9.2
+#
+# NOTE:
+# ----
+#   If gcc-runtime used instead of gcc then we have to declare
+#   GNU Libc dependencies in the following way:
+#
+#   REQUIRES           = libs/glibc/2.21
+#   ifeq ($(HARDWARE),$(HARDWARE_PC64))
+#   REQUIRES          += libs/glibc/2.21-x86_32
+#   endif
+#
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64) $(HARDWARE_PC32)),)
 REQUIRES          += X11/X.org/lib/libpciaccess/0.13.2
 endif

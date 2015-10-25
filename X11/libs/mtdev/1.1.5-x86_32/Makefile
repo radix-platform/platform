@@ -13,7 +13,6 @@ include ../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/x/mtdev
 
 REQUIRES           = X11/libs/mtdev/1.1.5
-REQUIRES          += libs/glibc/2.21-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

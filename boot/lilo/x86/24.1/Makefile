@@ -12,7 +12,7 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/a/lilo
 
-ifeq ($(HARDWARE),$(HARDWARE_P32))
+ifeq ($(HARDWARE),$(HARDWARE_PC32))
 REQUIRES           = boot/kernel/x86_32/3.14.55
 endif
 ifeq ($(HARDWARE),$(HARDWARE_PC64))

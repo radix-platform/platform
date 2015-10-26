@@ -11,7 +11,9 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/hal/PowerVR/ci20/sgx-ddk/3.0.8
 
+ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/4.9.2
+endif
 REQUIRES          += hal/drivers/ci20/sgx-ddk/3.0.8/1.13.3341330
 REQUIRES          += X11/libs/mesa/10.3.4
 REQUIRES          += X11/X.org/lib/libXext/1.3.3

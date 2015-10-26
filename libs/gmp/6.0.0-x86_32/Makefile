@@ -12,19 +12,6 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/gmp
 
-#
-# NOTE:
-# ====
-#    'libgmp' can be built in GCC internaly or as a system stuff.
-#    Because libgmpxx requires libstdc++ we can build libgmp package
-#    with GCC runtime libraries from toolchain or after native system
-#    GCC with his runtime libraries.
-#
-#    If we use GCC runtime libraries from toolshain then REQUIRES = libs/glibc/2.21 is enough.
-#    If we use native GCC built in this platform then we have to set REQUIRES = libs/gmp/6.0.0
-#    because this is a x86_32 compatible lib for x86_64 machine and GCC runtime libraries
-#    already installed by request from libs/gmp/6.0.0.
-#
 REQUIRES           = libs/gmp/6.0.0
 
 # ======= __END_OF_REQUIRES__ =======

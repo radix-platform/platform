@@ -20,15 +20,11 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/coreutils
 
+ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/4.9.2
-#
-# NOTE:
-# ----
-#   If gcc-runtime used instead of gcc then we have to declare
-#   GNU Libc dependencies in the following way:
-#
-#   REQUIRES           = libs/glibc/2.21
-#
+else
+REQUIRES           = libs/glibc/2.21
+endif
 
 # ======= __END_OF_REQUIRES__ =======
 

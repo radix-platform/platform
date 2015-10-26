@@ -25,15 +25,11 @@ SOURCE_REQUIRES    += sources/packages/a/todos
 SOURCE_REQUIRES    += sources/packages/m/fb/fbset
 
 
-REQUIRES            = dev/gcc/4.9.2
-#
-# NOTE:
-# ----
-#   If gcc-runtime used instead of gcc then we have to declare
-#   GNU Libc dependencies in the following way:
-#
-#   REQUIRES           = libs/glibc/2.21
-#
+ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
+REQUIRES           = dev/gcc/4.9.2
+else
+REQUIRES           = libs/glibc/2.21
+endif
 
 # ======= __END_OF_REQUIRES__ =======
 

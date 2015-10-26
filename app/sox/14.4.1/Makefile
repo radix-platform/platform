@@ -20,7 +20,9 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/m/sox
 
+ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/4.9.2
+endif
 REQUIRES          += dev/libtool/2.4.2
 REQUIRES          += app/file/5.19
 REQUIRES          += libs/libpng/libpng14/1.4.13

@@ -20,7 +20,9 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/m/xiph/libao
 
+ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/4.9.2
+endif
 REQUIRES          += libs/alsa-oss/1.0.28
 REQUIRES          += app/esound/0.2.41
 

@@ -404,28 +404,6 @@ if [ -x /bin/sed ]; then
   /bin/sed -i "{1s/^Linux.*/$(/bin/uname -sr)\./}" /etc/motd
 fi
 
-# If there are Control Group service run them.
-if [ -x /etc/rc.d/rc.cgconfig ]; then
-  # Umount Control Groups filesystem interfaces:
-  if grep -wq cgroup /proc/filesystems ; then
-    if [ -d /sys/fs/cgroup ]; then
-      # Check if we have some tools to autodetect the available cgroup controllers
-      if [ -x /usr/bin/lssubsys -a -x /usr/bin/tr -a -x /usr/bin/sed ]; then
-        # Autodetect available controllers and mount them in subfolders
-        controllers="$(lssubsys -a 2>/dev/null | tr '\n' ' ' | sed s/.$//)"
-        for i in $controllers; do
-          umount /sys/fs/cgroup/$i
-        done
-      fi
-    fi
-  fi
-  /etc/rc.d/rc.cgconfig start
-fi
-
-if [ -x /etc/rc.d/rc.cgred ]; then
-  /etc/rc.d/rc.cgred start
-fi
-
 # If there are SystemV init scripts for this runlevel, run them.
 if [ -x /etc/rc.d/rc.sysvinit ]; then
   . /etc/rc.d/rc.sysvinit

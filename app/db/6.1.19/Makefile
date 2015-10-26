@@ -20,7 +20,15 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/a/db
 
+ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/4.9.2
+else
+ifneq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES           = libs/glibc/2.21
+else
+REQUIRES           = libs/glibc/2.21-x86_32
+endif
+endif
 
 # ======= __END_OF_REQUIRES__ =======
 

@@ -20,18 +20,15 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/gmp
 
-#
-# NOTE:
-# ====
-#    'libgmp' can be built in GCC internaly or as a system stuff.
-#    Because libgmpxx requires libstdc++ we can build libgmp package
-#    with GCC runtime libraries from toolchain or after native system
-#    GCC with his runtime libraries.
-#
-#    If we use GCC runtime libraries from toolshain then REQUIRES = libs/glibc/2.21 is enough.
-#    If we use native GCC built in this platform then we have to set REQUIRES = dev/gcc/4.9.2.
-#
+ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/4.9.2
+else
+ifneq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES           = libs/glibc/2.21
+else
+REQUIRES           = libs/glibc/2.21-x86_32
+endif
+endif
 
 # ======= __END_OF_REQUIRES__ =======
 

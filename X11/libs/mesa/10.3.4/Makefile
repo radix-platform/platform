@@ -20,7 +20,9 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/x/mesa
 
+ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/4.9.2
+endif
 REQUIRES          += libs/expat/2.1.0
 REQUIRES          += libs/libxml2/2.9.1
 REQUIRES          += libs/eudev/1.9

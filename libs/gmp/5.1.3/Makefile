@@ -18,8 +18,15 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/gmp
 
+ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
+REQUIRES           = dev/gcc/4.9.1
+else
+ifneq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES           = libs/eglibc/2.19.1
-REQUIRES          += dev/gcc/4.9.1
+else
+REQUIRES           = libs/eglibc/2.19.1-x86_32
+endif
+endif
 
 # ======= __END_OF_REQUIRES__ =======
 

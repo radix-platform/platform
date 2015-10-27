@@ -1,2 +1,3 @@
 
-../../../sources/packages/n/cyrus-sasl/patches/cyrus-sasl-2.1.26.patch -p0
+../../../sources/packages/n/cyrus-sasl/patches/cyrus-sasl-2.1.26-ln-sf.patch -p0
+../../../sources/packages/n/cyrus-sasl/patches/cyrus-sasl-2.1.26.patch       -p0

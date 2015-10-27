@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/cyrus-sasl-2.1.23.patch
+patches    += $(CURDIR)/patches/cyrus-sasl-2.1.26-ln-sf.patch
 patches    += $(CURDIR)/patches/cyrus-sasl-2.1.26.patch
 
 .NOTPARALLEL: $(patches)
@@ -50,8 +51,9 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-2.1.23-patch ; ./create.patch.sh ) ; \
-	 ( cd create-2.1.26-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2.1.23-patch       ; ./create.patch.sh ) ; \
+	 ( cd create-2.1.26-ln-sf-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2.1.26-patch       ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

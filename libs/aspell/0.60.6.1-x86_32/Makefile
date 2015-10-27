@@ -105,7 +105,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(ASPELL_32_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@( cd $(ASPELL_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; ln -sf aspell-$(base_version) aspell )
 	@mkdir -p $(ASPELL_32_PKG)/usr/bin/32
 	@( cd $(ASPELL_32_PKG)/usr/bin ; \

@@ -116,7 +116,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(ASPELL_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@( cd $(ASPELL_PKG)/usr/lib$(LIBSUFFIX) ; ln -sf aspell-$(base_version) aspell )
 	@rm -f $(ASPELL_PKG)/usr/share/info/dir
 	@gzip -9 $(ASPELL_PKG)/usr/share/info/*

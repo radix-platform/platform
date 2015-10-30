@@ -130,7 +130,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(CURL_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 	@for header in curlbuild ; do \
 	   mv $(CURL_PKG)/usr/include/curl/$$header{,-64}.h ; \

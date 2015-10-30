@@ -117,7 +117,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(PAM_U2_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@( cd $(PAM_U2_PKG)/usr/share/man/man8 ; \
 	   ln -sf pam_unix2.8 pam_unix2nd.8 ; \
 	 )

@@ -122,7 +122,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(LIBTIFF_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@( cd $(LIBTIFF_PKG)/usr/share/doc ; mv $(src_dir_name) $(doc_dir_name) )
 	# ======= Install Documentation =======
 	@if [ -d $(LIBTIFF_PKG)/usr/share/man ]; then \

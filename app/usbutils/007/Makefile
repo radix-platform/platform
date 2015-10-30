@@ -125,7 +125,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(USBUTILS_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) -j1 install $(env_sysroot)
 	@rm -f $(USBUTILS_PKG)/usr/share/hwdata/usb.ids.gz
 	@mkdir -p $(USBUTILS_PKG)/usr/sbin
 	mv $(USBUTILS_PKG)/sbin/update-usbids.sh $(USBUTILS_PKG)/usr/sbin/update-usbids.sh

@@ -124,7 +124,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(SGML_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@( cd $(SGML_PKG)/usr ; mv doc share )
 	# ======= Install Documentation =======
 	@if [ -d $(SGML_PKG)/usr/share/man ]; then \

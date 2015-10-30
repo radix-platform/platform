@@ -115,7 +115,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(TEXINFO_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@( cd $(TEXINFO_PKG)/usr/share/man/man1 ; \
 	   rm -f pdftexi2dvi.1 texi2any.1 texi2pdf.1 ; \
 	   ln -sf texi2dvi.1 pdftexi2dvi.1 ; \

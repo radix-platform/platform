@@ -201,7 +201,7 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(MARIADB_PKG)
 	@( cd $(SRC_DIR)/build-$(HARDWARE) ; \
-	   $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot) ; \
+	   $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot) ; \
 	 )
 	# ======= Install System Scripts =======
 	@mkdir -p $(MARIADB_PKG)/var/{lib,run}/mysql

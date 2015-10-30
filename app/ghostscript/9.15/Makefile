@@ -193,7 +193,7 @@ endif
 	     --program-prefix= --program-suffix= \
 	     --enable-shared --enable-static   ; \
 	   $(BUILD_ENVIRONMENT) $(MAKE) ; \
-	   $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot) ; \
+	   $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot) ; \
 	 )
 	@touch $@
 

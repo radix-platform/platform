@@ -114,7 +114,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(CHRPATH_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot) docdir=/usr/share/doc/$(src_dir_name)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot) docdir=/usr/share/doc/$(src_dir_name)
 	# ======= Install Documentation =======
 	@if [ -d $(CHRPATH_PKG)/usr/share/man ]; then \
 	  ( cd $(CHRPATH_PKG)/usr/share/man ; \

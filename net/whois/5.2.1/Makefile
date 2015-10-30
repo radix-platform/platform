@@ -99,7 +99,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(WHOIS_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install install-pos $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install install-pos $(env_sysroot)
 	# ======= remove mkpasswd stuff =======
 	@find $(WHOIS_PKG) -iname "mkpasswd*" -exec rm -f {} \;
 	# ======= Install Documentation =======

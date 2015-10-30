@@ -247,7 +247,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(QT4_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Rename build-machine tools =======
 	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/bin ; \
 	   for file in lrelease moc qmake rcc uic ; do \
@@ -271,7 +271,7 @@ $(install_target): $(build_target)
 	  ) ; \
 	 done
 	@( cd $(SRC_DIR)/src/tools ; \
-	   $(MAKE) && $(MAKE) install $(env_sysroot) ; \
+	   $(MAKE) && $(MAKE) -j1 install $(env_sysroot) ; \
 	 )
 	@( cd $(SRC_DIR)/tools/linguist/lrelease ; \
 	   $(MAKE) clean ; \
@@ -280,7 +280,7 @@ $(install_target): $(build_target)
 	    LINK="$(CROSS_PREFIX)g++ --sysroot=$(TARGET_DEST_DIR) -L$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)" \
 	    ../../../bin/qmake -makefile -spec ../../../mkspecs/$(TARGET_SPEC_DIR) ; \
 	   $(MAKE) ; \
-	   $(MAKE) install $(env_sysroot) ; \
+	   $(MAKE) -j1 install $(env_sysroot) ; \
 	 )
 	@( cd $(SRC_DIR) ; \
 	   $(MAKE) distclean ; \

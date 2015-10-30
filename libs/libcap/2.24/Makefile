@@ -107,7 +107,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(LIBCAP_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install $(configure_switches) $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(configure_switches) $(env_sysroot)
 	@chmod 0755 $(LIBCAP_PKG)/lib$(LIBSUFFIX)/libcap.so.?.??
 ifeq ($(BUILD_PAM_MODULE),yes)
 	@mv $(LIBCAP_PKG)/lib$(LIBSUFFIX)/security $(LIBCAP_PKG)/usr/lib$(LIBSUFFIX)

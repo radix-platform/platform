@@ -122,7 +122,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(IMLIB_32_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@rm -f $(IMLIB_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig/imlibgdk.pc
 	@rm -rf $(IMLIB_32_PKG)/etc
 	@rm -rf $(IMLIB_32_PKG)/usr/include

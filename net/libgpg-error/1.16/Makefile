@@ -151,7 +151,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(GPGERROR_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@mkdir -p $(GPGERROR_PKG)/lib$(LIBSUFFIX)
 	@( cd $(GPGERROR_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   chmod +w lib*.so.?.*.? ; \

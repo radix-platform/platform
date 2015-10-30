@@ -157,7 +157,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(GLIB2_PKG)/etc/profile.d
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@cp -a $(CURDIR)/profile.d/libglib2.{csh,sh} $(GLIB2_PKG)/etc/profile.d
 	@chmod 755 $(GLIB2_PKG)/etc/profile.d/*
 	mv $(GLIB2_PKG)/etc/profile.d/libglib2.csh $(GLIB2_PKG)/etc/profile.d/libglib2.csh.new

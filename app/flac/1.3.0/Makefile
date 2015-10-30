@@ -126,7 +126,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(FLAC_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Install Documentation =======
 	@if [ -d $(FLAC_PKG)/usr/share/man ]; then \
 	  ( cd $(FLAC_PKG)/usr/share/man ; \

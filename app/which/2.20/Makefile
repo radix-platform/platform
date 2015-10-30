@@ -118,7 +118,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(WHICH_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@mkdir -p $(WHICH_PKG)/bin
 	@mv $(WHICH_PKG)/usr/bin/which $(WHICH_PKG)/bin
 	@( cd $(WHICH_PKG)/usr/bin ; \

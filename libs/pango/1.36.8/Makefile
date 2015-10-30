@@ -131,7 +131,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(PANGO_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@mkdir -p $(PANGO_PKG)/etc/pango/$(TARGET)
 	@touch $(PANGO_PKG)/etc/pango/$(TARGET)/pango.modules
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)

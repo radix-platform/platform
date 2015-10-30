@@ -105,7 +105,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(NETTLE32_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@chmod a+x $(NETTLE32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/lib*.so.?.?
 	@mkdir -p $(NETTLE32_PKG)/usr/bin/32
 	@( cd $(NETTLE32_PKG)/usr/bin ; \

@@ -119,7 +119,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(XFSDUMP_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@( cd $(XFSDUMP_PKG)/usr/sbin ; \
 	   if [ -L xfsdump ] ; then \
 	     rm -f xfsdump ; ln -sf ../../sbin/xfsdump . ; \

@@ -152,7 +152,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(CAIRO_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
 	# ======= especially for MIPS Creator CI20 add -lELG, -lGLESv2 flags =======
 	# ======= due to mips prolog optimization for PIC (see gcc configure =======

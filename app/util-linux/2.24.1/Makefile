@@ -212,7 +212,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(UTILLINUX_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) -j1 install $(env_sysroot)
 	@( cd $(UTILLINUX_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   ln -sf ../../lib$(LIBSUFFIX)/lib*.so.1.* . ; \
 	   ln -sf libblkid.so.1.* libblkid.so.1 ; \

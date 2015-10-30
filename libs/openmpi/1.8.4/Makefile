@@ -137,7 +137,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(OMPI_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Openmpi's otfinfo conflicts with the one from texlive =======
 	@mv $(OMPI_PKG)/usr/bin/otfinfo{,-mpi}
 	# ======= Remove dangling symlink and useless file =======

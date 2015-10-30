@@ -103,7 +103,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(SG3_UTILS32_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@mkdir -p $(SG3_UTILS32_PKG)/usr/bin/32
 	@( cd $(SG3_UTILS32_PKG)/usr/bin ; \
 	   find . -type f | xargs mv -t 32 ; \

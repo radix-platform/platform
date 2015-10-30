@@ -139,7 +139,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(XORG_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Install XFree86 Key Symbols DB =======
 	@mkdir -p $(XORG_PKG)/usr/share/X11
 	@cp -a $(keysym_DB) $(XORG_PKG)/usr/share/X11

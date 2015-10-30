@@ -121,7 +121,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(SG3_UTILS_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Install Documentation =======
 	@if [ -d $(SG3_UTILS_PKG)/usr/share/man ]; then \
 	  ( cd $(SG3_UTILS_PKG)/usr/share/man ; \

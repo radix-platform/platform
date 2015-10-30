@@ -142,7 +142,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(NCURSES_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@touch $@
 
 $(build_widec_target): $(install_target)
@@ -158,7 +158,7 @@ $(build_widec_target): $(install_target)
 
 $(install_widec_target): $(build_widec_target)
 	@mkdir -p $(NCURSES_PKG)
-	@cd $(build_widec_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_widec_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@if [ ! -d $(NCURSES_PKG)/usr/include/ncursesw -a ! -L $(NCURSES_PKG)/usr/include/ncursesw ] ; then \
 	   ( cd $(NCURSES_PKG)/usr/include ; ln -sf ncurses ncursesw ) \
 	 fi

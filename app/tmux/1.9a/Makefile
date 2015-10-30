@@ -116,7 +116,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(TMUX_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@mkdir -p $(TMUX_PKG)/usr/share/vim/vim74/syntax
 	@cp -a $(SRC_DIR)/examples/tmux.vim $(TMUX_PKG)/usr/share/vim/vim74/syntax
 	@mkdir -p $(TMUX_PKG)/usr/share/bash-completion/completions

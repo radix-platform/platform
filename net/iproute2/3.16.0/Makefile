@@ -111,7 +111,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(IPROUTE2_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install  $(configure_switches) $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install  $(configure_switches) $(env_sysroot)
 	@( cd $(IPROUTE2_PKG)/usr/share/man/man8 ; \
 	   rm -f ctstat.8               ; \
 	   ln -sf lnstat.8 ctstat.8     ; \

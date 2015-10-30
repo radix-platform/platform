@@ -152,7 +152,7 @@ endif
 
 $(install_target): $(build_target)
 	@mkdir -p $(POPPLER_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Install Documentation =======
 	@if [ -d $(POPPLER_PKG)/usr/share/man ]; then \
 	  ( cd $(POPPLER_PKG)/usr/share/man ; \

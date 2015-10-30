@@ -124,7 +124,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(LIBID3TAG_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Create package config file =======
 	@mkdir -p $(LIBID3TAG_PKG)/usr/lib$(LIBSUFFIX)/pkgconfig
 	@sed -e "s,/lib,/lib$(LIBSUFFIX)," $(id3tag_pc_in) \

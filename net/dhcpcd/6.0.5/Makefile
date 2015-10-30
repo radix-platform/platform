@@ -107,7 +107,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(DHCPCD_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Set permissions for dhcpcd daemon =======
 	@chmod 0755 $(DHCPCD_PKG)/sbin/dhcpcd
 	# ======= Let's not clobber the config file =======

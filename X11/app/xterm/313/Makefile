@@ -130,7 +130,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(XTERM_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) -j1 install $(env_sysroot)
 	@mkdir -p $(XTERM_PKG)/usr/share/applications
 	@( cd $(SRC_DIR) ; \
 	   cp -a uxterm.desktop xterm.desktop \

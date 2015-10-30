@@ -109,7 +109,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(PCIUTILS32_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install install-lib $(extra_configure_switches) $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install install-lib $(extra_configure_switches) $(env_sysroot)
 	@chmod a+x $(PCIUTILS32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/libpci.so.?.?.?
 	@rm -rf $(PCIUTILS32_PKG)/sbin
 	@rm -rf $(PCIUTILS32_PKG)/usr/include

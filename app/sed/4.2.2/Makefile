@@ -114,7 +114,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(SED_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@rm -f $(SED_PKG)/usr/share/info/dir
 	@gzip -9 $(SED_PKG)/usr/share/info/*
 	@mkdir -p $(SED_PKG)/bin

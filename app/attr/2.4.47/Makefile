@@ -119,9 +119,9 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(ATTR_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install-dev $(env_sysroot)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install-lib $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install-dev $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install-lib $(env_sysroot)
 	@mkdir -p $(ATTR_PKG)/lib$(LIBSUFFIX)
 	@( cd $(ATTR_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   chmod 755 libattr.so.?.?.? *.la ; \

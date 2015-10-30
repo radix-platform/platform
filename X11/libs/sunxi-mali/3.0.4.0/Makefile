@@ -103,7 +103,7 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(XORG_PKG)/usr/include
 	@mkdir -p $(XORG_PKG)/usr/lib$(LIBSUFFIX)
-	@cd $(SRC_DIR) && $(MAKE) install $(env_sysroot)
+	@cd $(SRC_DIR) && $(MAKE) -j1 install $(env_sysroot)
 	@chmod a+x $(XORG_PKG)/usr/lib$(LIBSUFFIX)/libMali.so
 	# ======= Install pkg-config *.pc files to the target destination for development =======
 	@mkdir -p $(XORG_PKG)/usr/lib$(LIBSUFFIX)/pkgconfig

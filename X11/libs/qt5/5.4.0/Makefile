@@ -362,7 +362,7 @@ $(install_target): $(build_target)
 	     back=`echo $$dir | sed 's,[a-z2-]*,\.\.,g'` ; \
 	     bname=`basename $$dir` ; \
 	     ( cd $$dir ; \
-	       $(MAKE) install $(env_sysroot) ; \
+	       $(MAKE) -j1 install $(env_sysroot) ; \
 	     ) ; \
 	   done ; \
 	 )

@@ -134,7 +134,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(GTK2_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Install a 'starter' gtkrc =======
 	@echo 'gtk-theme-name="GTK+"' > $(GTK2_PKG)/etc/gtk-2.0/gtkrc.new
 	# ======= Don't clobber im-multipress.conf =======

@@ -110,7 +110,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(AUTOMAKE_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@( cd $(AUTOMAKE_PKG)/usr/bin ; \
 	   rm -f aclocal ; \
 	   ln -sf aclocal-$(short_version) aclocal ; \

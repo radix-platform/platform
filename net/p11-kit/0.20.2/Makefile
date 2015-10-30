@@ -120,7 +120,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(P11KIT_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@mkdir -p $(P11KIT_PKG)/etc/pkcs11/modules
 	# ======= Install Documentation =======
 	@if [ -d $(P11KIT_PKG)/usr/share/man ]; then \

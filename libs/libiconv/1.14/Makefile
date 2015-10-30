@@ -113,7 +113,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(ICONV_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@chmod a+x $(ICONV_PKG)/usr/lib$(LIBSUFFIX)/libcharset.la
 	@chmod a+x $(ICONV_PKG)/usr/lib$(LIBSUFFIX)/libcharset.so.?.?.?
 	@chmod a+x $(ICONV_PKG)/usr/lib$(LIBSUFFIX)/libiconv.la

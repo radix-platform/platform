@@ -130,7 +130,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(FONTCFG_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Relinking etc/fonts/conf.d/*.conf =======
 	@( cd $(FONTCFG_PKG)/etc/fonts/conf.d ; \
 	   for file in `find . -type l` ; do \

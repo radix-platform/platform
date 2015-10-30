@@ -115,7 +115,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(TAGLIB_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@if [ -d $(TAGLIB_PKG)/usr/share/man ]; then \
 	  ( cd $(TAGLIB_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \

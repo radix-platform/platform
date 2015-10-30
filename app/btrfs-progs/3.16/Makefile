@@ -106,7 +106,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(BTRFS_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) install $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) -j1 install $(env_sysroot)
 	@mv $(BTRFS_PKG)/usr/bin $(BTRFS_PKG)/sbin
 ifneq ($(SHIP_LIBRARIES),true)
 	@rm -rf $(BTRFS_PKG)/usr/include

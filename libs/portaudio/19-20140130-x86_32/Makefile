@@ -106,7 +106,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(PORTAUDIO_32_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@rm -rf $(PORTAUDIO_32_PKG)/usr/include
 	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(PORTAUDIO_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \

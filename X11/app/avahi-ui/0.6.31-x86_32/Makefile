@@ -159,7 +159,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(AVAHIUI_32_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@rm -rf $(AVAHIUI_32_PKG)/etc
 	@rm -rf $(AVAHIUI_32_PKG)/usr/bin
 	@rm -rf $(AVAHIUI_32_PKG)/usr/include

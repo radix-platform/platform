@@ -114,7 +114,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(CPIO_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) -j1 install $(env_sysroot)
 	@rmdir $(CPIO_PKG)/usr/libexec
 	# ======= Do not clash with the 'mt' which is part of tar: =======
 	@mv $(CPIO_PKG)/bin/mt{,-GNU}

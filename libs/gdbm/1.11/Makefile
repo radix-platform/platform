@@ -121,7 +121,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(GDBM_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@mkdir -p $(GDBM_PKG)/usr/include/gdbm
 	@( cd $(GDBM_PKG)/usr/include/gdbm ; \
 	   ln -sf ../dbm.h .  ; \

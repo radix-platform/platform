@@ -113,7 +113,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(TAR_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) -j1 install $(env_sysroot)
 	@mkdir -p $(TAR_PKG)/bin
 	@mv $(TAR_PKG)/usr/bin/tar $(TAR_PKG)/bin
 	@( cd $(TAR_PKG)/usr/bin ; ln -sf ../../bin/tar . )

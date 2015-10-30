@@ -114,7 +114,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(GPM_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@chmod 755 $(GPM_PKG)/usr/lib$(LIBSUFFIX)/libgpm.so.?.?.?
 	@mkdir -p $(GPM_PKG)/lib$(LIBSUFFIX)
 	@( cd $(GPM_PKG)/usr/lib$(LIBSUFFIX) ; \

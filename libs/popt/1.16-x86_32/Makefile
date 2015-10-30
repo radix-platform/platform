@@ -104,7 +104,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(POPT32_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@mkdir -p $(POPT32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)
 	@( cd $(POPT32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   for file in lib*.so.?.* ; do \

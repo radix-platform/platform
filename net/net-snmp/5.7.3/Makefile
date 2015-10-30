@@ -141,7 +141,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(NSNMP_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install INSTALLDIRS=vendor $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install INSTALLDIRS=vendor $(env_sysroot)
 	@mkdir -p $(NSNMP_PKG)/var/lib/net-snmp
 	@mkdir -p $(NSNMP_PKG)/etc/snmp
 	@cat $(snmpd_conf) > $(NSNMP_PKG)/etc/snmp/snmpd.conf.new

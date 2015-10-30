@@ -129,7 +129,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(XORG_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@cp -a $(conf_d_file) $(XORG_PKG)/usr/share/X11/xorg.conf.d/50-synaptics.conf
 	# ======= Install Documentation =======
 	@if [ -d $(XORG_PKG)/usr/share/man ]; then \

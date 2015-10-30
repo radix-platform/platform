@@ -127,7 +127,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(LIBGD_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@( cd $(LIBGD_PKG)/usr/bin ; \
 	   sed -i 's,@GDLIB_MAJOR@,$(major_version),g' gdlib-config ; \
 	   sed -i 's,@GDLIB_MINOR@,$(minor_version),g' gdlib-config ; \

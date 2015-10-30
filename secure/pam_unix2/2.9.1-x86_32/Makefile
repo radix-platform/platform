@@ -108,7 +108,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(PAM_U2_32_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@rm -rf $(PAM_U2_32_PKG)/etc
 	@rm -rf $(PAM_U2_32_PKG)/usr/share
 	# ======= Install the same to $(TARGET_DEST_DIR) =======

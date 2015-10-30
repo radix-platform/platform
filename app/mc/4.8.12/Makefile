@@ -153,7 +153,7 @@ endif
 
 $(install_target): $(build_target)
 	@mkdir -p $(MC_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Install MC wrappers =======
 	@mkdir -p $(MC_PKG)/etc/profile.d
 	@cp -a $(profile_d)/mc.* $(MC_PKG)/etc/profile.d

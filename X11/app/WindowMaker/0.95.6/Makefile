@@ -146,7 +146,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(WMAKER_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) -j1 install $(env_sysroot)
 	@mkdir -p $(WMAKER_PKG)/usr/share/applications
 	@cp -a $(wmaker_desktop) $(WMAKER_PKG)/usr/share/applications
 	@( cd $(WMAKER_PKG)/usr/bin ; \

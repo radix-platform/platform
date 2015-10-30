@@ -104,7 +104,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(ASPELL6_PKG)
-	@cd $(SRC_DIR) && $(MAKE) install $(env_sysroot)
+	@cd $(SRC_DIR) && $(MAKE) -j1 install $(env_sysroot)
 	# ======= Aspell Dictionaries Documentation =======
 	@mkdir -p $(ASPELL6_PKG)/usr/doc/dict/$(doc_dir_name)
 	@cp -a $(SRC_DIR)/COPYING $(SRC_DIR)/Copyright $(ASPELL6_PKG)/usr/doc/dict/$(doc_dir_name)

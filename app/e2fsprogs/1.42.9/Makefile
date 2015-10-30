@@ -116,8 +116,8 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(E2FSPROGS_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install-libs $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install-libs $(env_sysroot)
 	@mv $(E2FSPROGS_PKG)/etc/mke2fs.conf $(E2FSPROGS_PKG)/etc/mke2fs.conf.new
 	@mkdir -p $(E2FSPROGS_PKG)/usr/lib$(LIBSUFFIX)
 	@mv $(E2FSPROGS_PKG)/lib$(LIBSUFFIX)/pkgconfig \

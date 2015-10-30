@@ -138,7 +138,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(PAM_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@mkdir -p $(PAM_PKG)/var/lib
 	@chmod -v 4755 $(PAM_PKG)/sbin/unix_chkpwd
 	@mkdir -p $(PAM_PKG)/lib$(LIBSUFFIX)

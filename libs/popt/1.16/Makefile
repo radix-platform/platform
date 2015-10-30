@@ -122,7 +122,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(POPT_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@mkdir -p $(POPT_PKG)/lib$(LIBSUFFIX)
 	@( cd $(POPT_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   for file in lib*.so.?.* ; do \

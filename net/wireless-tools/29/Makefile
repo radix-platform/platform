@@ -105,7 +105,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(WTOOLS_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install $(configure_switches) $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(configure_switches) $(env_sysroot)
 	# ======= Install Documentation =======
 	@if [ -d $(WTOOLS_PKG)/usr/share/man ]; then \
 	  ( cd $(WTOOLS_PKG)/usr/share/man ; \

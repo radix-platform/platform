@@ -123,7 +123,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(DATRIE_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@( cd $(DATRIE_PKG)/usr/bin ; ln -sf trietool-?.? trietool )
 	# ======= Install Documentation =======
 	@( cd $(DATRIE_PKG)/usr/share/man/man1 ; mv trietool-?.?.1 trietool.1 )

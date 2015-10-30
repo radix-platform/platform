@@ -124,7 +124,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(PANGO_32_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@mkdir -p $(PANGO_32_PKG)/etc/pango/$(TARGET32)
 	@touch $(PANGO_32_PKG)/etc/pango/$(TARGET32)/pango.modules
 	@mkdir -p $(PANGO_32_PKG)/usr/bin/32

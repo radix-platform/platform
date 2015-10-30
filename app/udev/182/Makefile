@@ -132,7 +132,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(UDEV_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= remove libraries installed by libs/eudev package ======
 	@rm -rf $(UDEV_PKG)/lib$(LIBSUFFIX)/libudev.*
 	@rm -rf $(UDEV_PKG)/lib$(LIBSUFFIX)/libgudev-*

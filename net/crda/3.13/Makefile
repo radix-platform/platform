@@ -148,7 +148,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(CRDA_PKG)/usr/lib$(LIBSUFFIX)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install $(configure_switches) $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(configure_switches) $(env_sysroot)
 ifeq ($(ENABLE_DYNAMIC_PUBKEYS),yes)
 	@mkdir -p $(CRDA_PKG)/$(DYNAMIC_PUBKEY_DIR)
 endif

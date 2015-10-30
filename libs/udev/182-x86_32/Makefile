@@ -124,7 +124,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(UDEV_32_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@rm -rf $(UDEV_32_PKG)/etc
 	@rm -rf $(UDEV_32_PKG)/sbin
 	@rm -rf $(UDEV_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)/udev

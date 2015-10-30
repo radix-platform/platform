@@ -130,7 +130,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(LIBCGROUP_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# If this directory is empty, do not include it in the package:
 	@if [ -d $(LIBCGROUP_PKG)/usr/lib$(LIBSUFFIX)/security ]; then \
 	   rmdir $(LIBCGROUP_PKG)/usr/lib$(LIBSUFFIX)/security 2> /dev/null ; \

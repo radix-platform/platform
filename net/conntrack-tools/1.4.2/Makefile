@@ -125,7 +125,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(CONNTRACK_TOOLS_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@mkdir -p $(CONNTRACK_TOOLS_PKG)/etc/conntrackd
 	@( cd $(SRC_DIR) ; \
 	   cat doc/stats/conntrackd.conf > $(CONNTRACK_TOOLS_PKG)/etc/conntrackd/conntrackd.conf.sample ; \

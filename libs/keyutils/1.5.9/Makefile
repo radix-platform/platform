@@ -106,7 +106,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(KEYUTILS_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_build) $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_build) $(env_sysroot)
 	@( cd $(KEYUTILS_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   rm -f lib*.so ; \
 	   ln -sf ../../lib$(LIBSUFFIX)/lib*.so.?.? . ; \

@@ -117,7 +117,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(LIBNL3_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@mv $(LIBNL3_PKG)/etc/libnl/classid{,.new}
 	@mv $(LIBNL3_PKG)/etc/libnl/pktloc{,.new}
 	@( cd $(LIBNL3_PKG)/usr/share/man/man8 ; \

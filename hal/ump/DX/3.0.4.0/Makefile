@@ -116,7 +116,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(LIBUMP_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@mkdir -p $(LIBUMP_PKG)/lib/udev/rules.d
 	@cp $(udev_rules) $(LIBUMP_PKG)/lib/udev/rules.d
 	# ======= Install Documentation =======

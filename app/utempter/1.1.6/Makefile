@@ -110,7 +110,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(UTEMPTER_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) install $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Install Documentation =======
 	@if [ -d $(UTEMPTER_PKG)/usr/share/man ]; then \
 	  ( cd $(UTEMPTER_PKG)/usr/share/man ; \

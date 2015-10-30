@@ -134,7 +134,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(OPENLDAP_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@rm -f $(OPENLDAP_PKG)/etc/openldap/ldap.conf.default
 	@mv $(OPENLDAP_PKG)/etc/openldap/ldap.conf $(OPENLDAP_PKG)/etc/openldap/ldap.conf.new
 	@echo ""                                                                         >> $(OPENLDAP_PKG)/etc/openldap/ldap.conf.new

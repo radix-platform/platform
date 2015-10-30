@@ -110,7 +110,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(REISERFS_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Install Documentation =======
 	@( cd $(REISERFS_PKG)/usr/share/man/man8 ; \
 	   ln -sf resize_reiserfs.8 resizefs.reiserfs.8 \

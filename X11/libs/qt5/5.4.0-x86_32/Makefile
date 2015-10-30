@@ -240,7 +240,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(QT5_32_PKG)
-	@cd $(SRC_DIR) && $(QT_BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(SRC_DIR) && $(QT_BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Rename build-machine tools =======
 	@( cd $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/bin ; \
 	   for file in lconvert lrelease lupdate moc qdbuscpp2xml qdbusxml2cpp  \
@@ -286,7 +286,7 @@ $(install_target): $(build_target)
 	     back=`echo $$dir | sed 's,[a-z2-]*,\.\.,g'` ; \
 	     bname=`basename $$dir` ; \
 	     ( cd $$dir ; \
-	       $(MAKE) install $(env_sysroot) ; \
+	       $(MAKE) -j1 install $(env_sysroot) ; \
 	     ) ; \
 	   done ; \
 	 )

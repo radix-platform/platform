@@ -116,7 +116,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(FREETYPE_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@( cd $(FREETYPE_PKG)/usr/include ; ln -sf freetype2 freetype ; )
 	# ======= Install Documentation =======
 	@if [ -d $(FREETYPE_PKG)/usr/share/man ]; then \

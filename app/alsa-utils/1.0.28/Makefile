@@ -127,7 +127,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(ALSA_UTILS_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@mkdir -p $(ALSA_UTILS_PKG)/etc/rc.d
 	@cp $(conf_dir)/rc.alsa $(ALSA_UTILS_PKG)/etc/rc.d/rc.alsa.new
 	@chmod 0755 $(ALSA_UTILS_PKG)/etc/rc.d/rc.alsa.new

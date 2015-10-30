@@ -127,7 +127,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(OPENSSH_PKG)/etc/rc.d
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@mkdir -p $(OPENSSH_PKG)/var/empty
 	@chmod 755 $(OPENSSH_PKG)/var/empty
 	@( cd $(SRC_DIR)/contrib ; \

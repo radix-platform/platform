@@ -158,7 +158,7 @@ $(build_target): $(src_done)
 ifneq ($(INSTALL_ALL_LOCALES),yes)
 	@cd $(build_dir) && $(MAKE) SUPPORTED-LOCALES="$(LOCALES)" install-locales $(env_sysroot)
 else
-	@cd $(build_dir) && $(MAKE) install-locales $(env_sysroot)
+	@cd $(build_dir) && $(MAKE) -j1 install-locales $(env_sysroot)
 endif
 	@touch $@
 

@@ -127,7 +127,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(PYTHON32_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(python_environment) $(MAKE) install $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(python_environment) $(MAKE) -j1 install $(env_sysroot)
 	@mkdir -p $(PYTHON32_PKG)/usr/bin/32
 	@( cd $(PYTHON32_PKG)/usr/bin ; \
 	   find . -type f | xargs mv -t 32 ; \

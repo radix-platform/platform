@@ -124,7 +124,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(LIBSNDFILE_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(environment) $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(environment) $(env_sysroot)
 	# ======= Install Documentation =======
 	@if [ -d $(LIBSNDFILE_PKG)/usr/share/man ]; then \
 	  ( cd $(LIBSNDFILE_PKG)/usr/share/man ; \

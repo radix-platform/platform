@@ -119,7 +119,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(BASH_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) -j1 install $(env_sysroot)
 	@mkdir -p $(BASH_PKG)/etc
 	@mkdir -p $(BASH_PKG)/bin
 	@mv $(BASH_PKG)/usr/bin/bash $(BASH_PKG)/bin/bash4.new

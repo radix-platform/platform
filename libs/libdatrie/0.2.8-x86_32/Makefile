@@ -106,7 +106,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(DATRIE_32_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@( cd $(DATRIE_32_PKG)/usr/bin/32 ; ln -sf trietool-?.? trietool )
 	@rm -rf $(DATRIE_32_PKG)/usr/include
 	@rm -rf $(DATRIE_32_PKG)/usr/share

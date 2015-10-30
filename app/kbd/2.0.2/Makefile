@@ -127,7 +127,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(KBD_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= The rhpl keyboard layout table is indexed by kbd layout names, =======
 	# ======= so we need a Korean keyboard                                   =======
 	@( cd $(KBD_PKG)/usr/share/kbd/keymaps/i386/qwerty ; \

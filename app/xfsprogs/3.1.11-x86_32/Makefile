@@ -105,9 +105,9 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(XFSPROGS_32_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install-dev $(env_sysroot)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install-qa $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install-dev $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install-qa $(env_sysroot)
 	@mkdir -p $(XFSPROGS_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)
 	@( cd $(XFSPROGS_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   chmod 755 *.la ; \

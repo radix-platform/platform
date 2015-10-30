@@ -125,7 +125,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(OPENLDAP_32_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@chmod 0755 $(OPENLDAP_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/*.la
 	@chmod 0755 $(OPENLDAP_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/*-?.?.so.?.??.?
 	@mkdir -p $(OPENLDAP_32_PKG)/usr/bin/32

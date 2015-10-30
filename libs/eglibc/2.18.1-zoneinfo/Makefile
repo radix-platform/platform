@@ -101,7 +101,7 @@ $(src_done): $(tar_gz_code_archive) $(tar_gz_data_archive)
 $(install_target): $(src_done)
 	@mkdir -p $(EGLIBC_TZ_PKG)
 	@cd $(SRC_DIR) && $(MAKE)
-	@cd $(SRC_DIR) && $(MAKE) install
+	@cd $(SRC_DIR) && $(MAKE) -j1 install
 	@mkdir -p $(EGLIBC_TZ_PKG)/usr/share/zoneinfo/{posix,right}
 	@cp -a $(SRC_DIR)/zoneinfo/* $(EGLIBC_TZ_PKG)/usr/share/zoneinfo
 	@cp -a $(SRC_DIR)/zoneinfo-posix/* $(EGLIBC_TZ_PKG)/usr/share/zoneinfo/posix

@@ -119,7 +119,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(LIBJPEG_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@( cd $(SRC_DIR) ; chmod a-x *.txt )
 	# ======= Install Documentation =======
 	@if [ -d $(LIBJPEG_PKG)/usr/share/man ]; then \

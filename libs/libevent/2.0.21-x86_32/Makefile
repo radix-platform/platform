@@ -105,7 +105,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(LIBEVENT_32_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@rm -rf $(LIBEVENT_32_PKG)/usr/bin
 	@rm -rf $(LIBEVENT_32_PKG)/usr/include
 	# ======= remove toolchain path from target libtool *.la files =======

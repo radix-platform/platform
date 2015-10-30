@@ -106,7 +106,7 @@ $(src_done): $(tar_gz_code_archive) $(tar_gz_data_archive)
 $(install_target): $(src_done)
 	@mkdir -p $(GLIBC_TZ_PKG)
 	@cd $(SRC_DIR) && $(MAKE)
-	@cd $(SRC_DIR) && $(MAKE) install
+	@cd $(SRC_DIR) && $(MAKE) -j1 install
 	@mkdir -p $(GLIBC_TZ_PKG)/usr/share/zoneinfo/{posix,right}
 	@cp -a $(SRC_DIR)/zoneinfo/* $(GLIBC_TZ_PKG)/usr/share/zoneinfo
 	@cp -a $(SRC_DIR)/zoneinfo-posix/* $(GLIBC_TZ_PKG)/usr/share/zoneinfo/posix

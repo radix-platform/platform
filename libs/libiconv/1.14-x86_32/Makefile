@@ -104,7 +104,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(ICONV32_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@chmod a+x $(ICONV32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/libcharset.la
 	@chmod a+x $(ICONV32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/libcharset.so.?.?.?
 	@chmod a+x $(ICONV32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/libiconv.la

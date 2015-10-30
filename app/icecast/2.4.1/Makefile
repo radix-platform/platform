@@ -141,7 +141,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(ICECAST_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@mv $(ICECAST_PKG)/etc/icecast.xml $(ICECAST_PKG)/etc/icecast.xml.new
 	# ======= Install logrotate script =======
 	@mkdir -p $(ICECAST_PKG)/etc/logrotate.d

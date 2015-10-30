@@ -138,7 +138,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(LOG4CPLUS_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@if [ -d $(LOG4CPLUS_PKG)/usr/share/man ]; then \
 	  ( cd $(LOG4CPLUS_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \

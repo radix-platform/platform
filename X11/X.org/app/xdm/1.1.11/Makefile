@@ -133,7 +133,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(XORG_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@mkdir -p $(XORG_PKG)/usr/lib$(LIBSUFFIX)/X11
 	@ln -sf ../../../etc/X11/xdm $(XORG_PKG)/usr/lib$(LIBSUFFIX)/X11/xdm
 	@mkdir -p $(XORG_PKG)/var/lib/xdm

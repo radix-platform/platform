@@ -120,7 +120,7 @@ $(build_target): $(src_done)
 	@mkdir -p $(host_dir)
 	@( cd $(build_dir) ; \
 	   $(MAKE) ; \
-	   $(MAKE) install DESTDIR=../$(host_dir_name) ; \
+	   $(MAKE) -j1 install DESTDIR=../$(host_dir_name) ; \
 	 )
 	@rm -rf $(build_dir)
 	@mkdir -p $(build_dir)
@@ -142,7 +142,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(CMAKE_PKG)
-	@cd $(build_dir) && $(MAKE) install
+	@cd $(build_dir) && $(MAKE) -j1 install
 	# ======= Install Documentation =======
 	@( cd $(CMAKE_PKG)/usr ; mv doc share )
 	@if [ -d $(CMAKE_PKG)/usr/share/man ]; then \

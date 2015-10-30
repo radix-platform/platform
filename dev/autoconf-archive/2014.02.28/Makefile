@@ -110,7 +110,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(AC_ARCHIVE_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@( cd $(AC_ARCHIVE_PKG)/usr/share ; rm -rf autoconf-archive )
 	@rm -f $(AC_ARCHIVE_PKG)/usr/share/info/dir
 	@gzip -9 $(AC_ARCHIVE_PKG)/usr/share/info/*

@@ -111,7 +111,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(XDGUDIRS_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@mv $(XDGUDIRS_PKG)/etc/xdg/user-dirs.conf     $(XDGUDIRS_PKG)/etc/xdg/user-dirs.conf.new
 	@mv $(XDGUDIRS_PKG)/etc/xdg/user-dirs.defaults $(XDGUDIRS_PKG)/etc/xdg/user-dirs.defaults.new
 	# ======= Install Documentation =======

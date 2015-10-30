@@ -89,7 +89,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(KEYUTILS_32_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_build) $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_build) $(env_sysroot)
 	@( cd $(KEYUTILS_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   rm -f lib*.so ; \
 	   ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/lib*.so.?.? . ; \

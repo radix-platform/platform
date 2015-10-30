@@ -140,7 +140,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(EUDEV_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@rm -rf $(EUDEV_PKG)/etc
 	@rm -rf $(EUDEV_PKG)/sbin
 	@rm -rf $(EUDEV_PKG)/lib$(LIBSUFFIX)/udev

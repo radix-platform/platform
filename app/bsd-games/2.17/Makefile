@@ -122,7 +122,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(BSD_GAMES_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) install
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) -j1 install
 	# ======= Add profile scripts =======
 	@( cd $(BSD_GAMES_PKG) ; \
 	   mkdir -p etc/profile.d ; \

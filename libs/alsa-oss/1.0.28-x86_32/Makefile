@@ -104,7 +104,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(ALSA_OSS_32_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@mkdir -p $(ALSA_OSS_32_PKG)/usr/bin/32
 	@( cd $(ALSA_OSS_32_PKG)/usr/bin ; mv aoss 32 )
 	@rm -rf $(ALSA_OSS_32_PKG)/usr/include

@@ -106,7 +106,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(DNSMASQ_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install-i18n $(configure_switches) $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install-i18n $(configure_switches) $(env_sysroot)
 	@mkdir -p $(DNSMASQ_PKG)/etc/dnsmasq.d
 	@mkdir -p $(DNSMASQ_PKG)/etc/dbus-1/system.d
 	@cat $(SRC_DIR)/dbus/dnsmasq.conf > $(DNSMASQ_PKG)/etc/dbus-1/system.d/dnsmasq.conf

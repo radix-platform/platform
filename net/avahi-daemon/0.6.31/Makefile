@@ -171,7 +171,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(AVAHID_PKG)/etc/rc.d
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@rm -rf $(AVAHID_PKG)/usr/share/applications
 	@rm -rf $(AVAHID_PKG)/usr/share/avahi/interfaces
 	@cp -a $(rc_avahidaemon)   $(AVAHID_PKG)/etc/rc.d

@@ -170,7 +170,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(AVAHIUI_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@rm -rf $(AVAHIUI_PKG)/etc
 	@rm -rf $(AVAHIUI_PKG)/var
 	@rm -rf $(AVAHIUI_PKG)/usr/lib$(LIBSUFFIX)/avahi

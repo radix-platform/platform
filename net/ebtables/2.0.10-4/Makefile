@@ -110,7 +110,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(EBTABLES_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install $(configure_switches) $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(configure_switches) $(env_sysroot)
 	@mv $(EBTABLES_PKG)/etc/ethertypes $(EBTABLES_PKG)/etc/ethertypes.new
 	# ======= Remove Red Hat junk =======
 	@rm -rf $(EBTABLES_PKG)/etc/rc.d $(EBTABLES_PKG)/etc/sysconfig

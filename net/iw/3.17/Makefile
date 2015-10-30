@@ -102,7 +102,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(IW_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install $(configure_switches) $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(configure_switches) $(env_sysroot)
 	# ======= Install Documentation =======
 	@mkdir -p $(IW_PKG)/usr/doc/$(src_dir_name)
 	@cp -a $(SRC_DIR)/CONTRIBUTING $(SRC_DIR)/COPYING \

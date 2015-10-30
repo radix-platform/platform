@@ -150,7 +150,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(BIND_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@( cd $(BIND_PKG)/usr/bin ; \
 	   rm -f bind9-config ; ln -sf isc-config.sh bind9-config ; \
 	 )

@@ -106,7 +106,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(LIBPCAP_32_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@mkdir -p $(LIBPCAP_32_PKG)/usr/bin/32
 	@( cd $(LIBPCAP_32_PKG)/usr/bin ; \
 	   find . -type f | xargs mv -t 32 ; \

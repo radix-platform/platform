@@ -117,7 +117,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(NETTLE_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@chmod a+x $(NETTLE_PKG)/usr/lib$(LIBSUFFIX)/lib*.so.?.?
 	# ======= Install documentation =======
 	@rm -f $(NETTLE_PKG)/usr/share/info/dir

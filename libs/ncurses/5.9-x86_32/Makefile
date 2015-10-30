@@ -124,7 +124,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(NCURSES_32_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@touch $@
 
 $(build_widec_target): $(install_target)
@@ -140,7 +140,7 @@ $(build_widec_target): $(install_target)
 
 $(install_widec_target): $(build_widec_target)
 	@mkdir -p $(NCURSES_32_PKG)
-	@cd $(build_widec_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_widec_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@mkdir -p $(NCURSES_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)
 	@( cd $(NCURSES_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   chmod 755 *.so ; \

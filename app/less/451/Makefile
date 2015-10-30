@@ -109,7 +109,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(LESS_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) -j1 install $(env_sysroot)
 	@cp -a $(lesspipe) $(LESS_PKG)/usr/bin/lesspipe.sh
 	@chmod 755 $(LESS_PKG)/usr/bin/lesspipe.sh
 	# ======= Install Documentation =======

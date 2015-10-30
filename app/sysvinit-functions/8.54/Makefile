@@ -123,7 +123,7 @@ $(FUNCTIONS_DESCRIPTION_FILE): $(FUNCTIONS_DESCRIPTION_FILE_IN)
 
 $(install_target): $(build_target) $(FUNCTIONS_DESCRIPTION_FILE)
 	@mkdir -p $(SYSVFUNC_PKG)/bin $(SYSVFUNC_PKG)/sbin $(SYSVFUNC_PKG)/usr/share/man/man{1,8}
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@mkdir -p $(SYSVFUNC_PKG)/etc/rc.d/init.d
 	@cp -a $(SRC_DIR)/rc.d/init.d/functions $(SYSVFUNC_PKG)/etc/rc.d/init.d
 	@cp -a $(FUNCTIONS_DESCRIPTION_FILE) $(SYSVFUNC_PKG)/etc/rc.d/init.d

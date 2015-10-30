@@ -126,7 +126,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(PAM_32_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@chmod -v 4755 $(PAM_32_PKG)/sbin/unix_chkpwd
 	@mkdir -p $(PAM_32_PKG)/sbin/32
 	@( cd $(PAM_32_PKG)/sbin ; \

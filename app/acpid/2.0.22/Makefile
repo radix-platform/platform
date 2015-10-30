@@ -109,7 +109,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(ACPID_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@mkdir -p $(ACPID_PKG)/etc/acpi/events
 	@cp -a $(config)/acpi/acpi_handler.sh $(ACPID_PKG)/etc/acpi/acpi_handler.sh.new
 	@chmod 0755 $(ACPID_PKG)/etc/acpi/acpi_handler.sh.new

@@ -100,7 +100,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(LIBELF32_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) $(env_sysroot) install
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@rm -rf $(LIBELF32_PKG)/usr/include
 	@rm -rf $(LIBELF32_PKG)/usr/share
 	# ======= Install the same to $(TARGET_DEST_DIR) =======

@@ -91,7 +91,7 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 
 $(build_target): $(src_done)
 	@mkdir -p $(PPDATA_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) $(env_sysroot) install
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@touch $@
 
 $(install_target): $(build_target)

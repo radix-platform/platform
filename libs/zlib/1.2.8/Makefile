@@ -103,7 +103,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(ZLIB_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) $(cross_environment) install $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(cross_environment) $(env_sysroot)
 	@mkdir -p $(ZLIB_PKG)/lib$(LIBSUFFIX)
 	@( cd $(ZLIB_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   for file in lib*.so.?.* ; do \

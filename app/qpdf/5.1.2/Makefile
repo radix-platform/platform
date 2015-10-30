@@ -116,7 +116,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(QPDF_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) $(env_sysroot) install
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Install Documentation =======
 	@if [ -d $(QPDF_PKG)/usr/share/man ]; then \
 	  ( cd $(QPDF_PKG)/usr/share/man ; \

@@ -162,7 +162,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(PERL_32_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) $(env_sysroot) install
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@rm -rf $(PERL_32_PKG)/usr/share
 	@( cd $(PERL_32_PKG)/usr/bin/32 ; \
 	   rm -f perl ; \

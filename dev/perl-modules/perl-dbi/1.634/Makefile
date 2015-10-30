@@ -237,7 +237,7 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(PERL_PKG)
 	@( cd $(SRC_DIR) ; \
-	    $(BUILD_ENVIRONMENT) $(MAKE) $(perl_environment) $(env_sysroot) install ; \
+	   $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(perl_environment) $(env_sysroot) ; \
 	 )
 	@( cd $(PERL_PKG)/usr/bin ; \
 	   for file in `find vendor_perl -type f -executable -print` ; do \

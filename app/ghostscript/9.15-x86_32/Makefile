@@ -181,7 +181,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(GS_32_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) $(env_sysroot) install install-so
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install install-so $(env_sysroot)
 	@rm -rf $(GS_32_PKG)/usr/include
 	@rm -rf $(GS_32_PKG)/usr/share
 	# ======= remove toolchain path from target libtool *.la files =======

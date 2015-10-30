@@ -149,7 +149,7 @@ endif
 
 $(install_target): $(build_target)
 	@mkdir -p $(CUPS_32_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) $(env_sysroot) install
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@( cd $(CUPS_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; chmod 0644 *.a )
 	@rm -rf $(CUPS_32_PKG)/etc
 	@rm -rf $(CUPS_32_PKG)/usr/include

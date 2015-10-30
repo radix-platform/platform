@@ -158,7 +158,7 @@ endif
 
 $(install_target): $(build_target)
 	@mkdir -p $(CUPS_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) $(env_sysroot) install
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@( cd $(CUPS_PKG)/usr/lib$(LIBSUFFIX) ; chmod 0644 *.a )
 	# ======= Remove big test files =======
 	@rm -f $(CUPS_PKG)/usr/share/cups/ipptool/*.{pdf,ps,jpg}

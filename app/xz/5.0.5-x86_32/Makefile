@@ -104,7 +104,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(XZ32_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) $(env_sysroot) install
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Move 32-Bit binaries into /usr/bin/32 directory =======
 	@mkdir -p $(XZ32_PKG)/usr/bin/32
 	@mv $(XZ32_PKG)/usr/bin/{l,u,x}* $(XZ32_PKG)/usr/bin/32

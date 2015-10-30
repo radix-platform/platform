@@ -111,7 +111,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(QPDF_32_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) $(env_sysroot) install
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@rm -rf $(QPDF_32_PKG)/usr/include
 	@rm -rf $(QPDF_32_PKG)/usr/share
 	# ======= remove toolchain path from target libtool *.la files =======

@@ -237,7 +237,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(FODB_ENGINE_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) $(perl_environment) $(env_sysroot) install
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(perl_environment) $(env_sysroot)
 	@find $(FODB_ENGINE_PKG) -name '.packlist' -delete
 	@( cd $(FODB_ENGINE_PKG)/usr/lib$(LIBSUFFIX)/cups/driver ; \
 	   rm -f foomatic ; \

@@ -177,7 +177,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(PERL_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) $(env_sysroot) install
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@( cd $(PERL_PKG)/usr/bin ; \
 	   rm -f perl ; \
 	   ln -sf perl$(version) perl ; \

@@ -240,7 +240,7 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(PERL_PKG)
 	@( cd $(SRC_DIR) ; \
-	    $(BUILD_ENVIRONMENT) $(MAKE) $(perl_environment) $(env_sysroot) install ; \
+	   $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(perl_environment) $(env_sysroot) ; \
 	 )
 	@find $(PERL_PKG) -name '.packlist' -delete
 	@rm -f $(PERL_PKG)/$(perl_local_pod)

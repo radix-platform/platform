@@ -140,7 +140,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(SASL_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 $(sasl_environment) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(sasl_environment) $(env_sysroot)
 	@mkdir -p $(SASL_PKG)/var/state/saslauthd
 	@mkdir -p $(SASL_PKG)/etc/rc.d
 	@cp -a $(rc_saslauthd) $(SASL_PKG)/etc/rc.d/rc.saslauthd.new

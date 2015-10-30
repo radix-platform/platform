@@ -167,7 +167,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(LLVM_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) $(env_sysroot) install
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 	@for header in config llvm-config ; do \
 	   mv $(LLVM_PKG)/usr/include/llvm/Config/$$header{,-64}.h ; \

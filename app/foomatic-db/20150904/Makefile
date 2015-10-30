@@ -115,7 +115,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(FOOMATIC_DB_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) $(env_sysroot) install
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@( cd $(FOOMATIC_DB_PKG)/usr/share/cups/model ; \
 	   rm -f foomatic-db-ppds ; \
 	   ln -sf ../../foomatic/db/source/PPD foomatic-db-ppds ; \

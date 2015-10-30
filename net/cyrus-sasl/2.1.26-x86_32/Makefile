@@ -121,7 +121,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(SASL_32_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) $(sasl_environment) install $(env_sysroot)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(sasl_environment) $(env_sysroot)
 	@mkdir -p $(SASL_32_PKG)/usr/sbin/32
 	@( cd $(SASL_32_PKG)/usr/sbin ; \
 	   find . -type f | xargs mv -t 32 ; \

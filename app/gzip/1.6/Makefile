@@ -115,7 +115,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(GZIP_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) $(env_sysroot) install
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@rm -f $(GZIP_PKG)/usr/share/info/dir
 	@gzip -9 $(GZIP_PKG)/usr/share/info/*
 	# ======= Uncomment next line if you will use 'uncompress' from ncommpress package =======

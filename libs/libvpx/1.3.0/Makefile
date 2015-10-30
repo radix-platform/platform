@@ -157,7 +157,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(LIBVPX_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) $(env_sysroot) install
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Install Documentation =======
 	@if [ -d $(LIBVPX_PKG)/usr/share/man ]; then \
 	  ( cd $(LIBVPX_PKG)/usr/share/man ; \

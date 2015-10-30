@@ -124,7 +124,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(DB_PKG)
-	@cd $(SRC_DIR)/build_unix && $(BUILD_ENVIRONMENT) $(MAKE) $(env_sysroot) install
+	@cd $(SRC_DIR)/build_unix && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@( cd $(DB_PKG)/usr/include ; \
 	   mkdir -p db$(pack_version) ; \
 	   mv *.h db$(pack_version)   ; \

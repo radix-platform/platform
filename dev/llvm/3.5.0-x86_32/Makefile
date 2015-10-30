@@ -157,7 +157,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(LLVM_32_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) $(env_sysroot) install
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@( cd $(LLVM_32_PKG)/usr/bin ; \
 	   ln -sf clang   $(TARGET32)-clang   ; \
 	   ln -sf clang++ $(TARGET32)-clang++ ; \

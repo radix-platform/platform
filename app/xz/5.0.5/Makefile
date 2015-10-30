@@ -131,7 +131,7 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(XZ_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) $(env_sysroot) install
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@mkdir -p $(XZ_PKG)/bin
 	@mv $(XZ_PKG)/usr/bin/xz $(XZ_PKG)/bin
 	@( cd $(XZ_PKG)/usr/bin ; \

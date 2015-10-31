@@ -26,7 +26,7 @@ REQUIRES          += base/install-tools
 PKG_GROUP = base
 
 PKGTOOL_BIN_PKG_NAME                = pkgtool
-PKGTOOL_BIN_PKG_VERSION             = 1.1.2
+PKGTOOL_BIN_PKG_VERSION             = 1.1.3
 PKGTOOL_BIN_PKG_ARCH                = $(TOOLCHAIN)
 PKGTOOL_BIN_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 PKGTOOL_BIN_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)

@@ -41,7 +41,7 @@ REQUIRES += X11/libs/sunxi-mali/3.0.4.0
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
-REQUIRES += X11/libs/ci20-sgx-um/1.13.3341330
+REQUIRES += X11/libs/ci20-sgx-um/1.14.3759903
 endif
 
 

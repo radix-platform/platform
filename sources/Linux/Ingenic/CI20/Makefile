@@ -8,7 +8,7 @@ include ../../../../build-system/constants.mk
 url         = $(DOWNLOAD_SERVER)/sources/Linux/Ingenic/CI20
 
 versions    = ci20-3.0.8-20150728
-versions   += ci20-3.18-20150828
+versions   += ci20-3.18-20151015
 
 description = linux-ci20.txt
 tarballs    = $(addsuffix .tar.bz2, $(addprefix linux-, $(versions)))

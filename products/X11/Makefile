@@ -35,9 +35,9 @@ REQUIRES += boot/u-boot/A20/2015.01
 endif
 
 ifeq ($(HARDWARE),$(HARDWARE_CI20))
-REQUIRES  = hal/drivers/ci20/sgx-ddk/3.0.8/1.13.3341330
+REQUIRES  = hal/drivers/ci20/sgx-ddk/3.18/1.14.3759903
 REQUIRES += hal/firmware/ci20/brcm4330/0.0.0
-REQUIRES += boot/u-boot/ci20/2013.10-20150826
+REQUIRES += boot/u-boot/ci20/2013.10-20150915
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32) $(HARDWARE_PC64)),)
@@ -995,11 +995,7 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X)),)
 REQUIRES += X11/X.org/xserver/xorg-server/1.16.2
 else
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
-REQUIRES += X11/X.org/xserver/xorg-server/1.12.2
-else
 REQUIRES += X11/X.org/xserver/xorg-server/1.16.4
-endif
 endif
 
 #######

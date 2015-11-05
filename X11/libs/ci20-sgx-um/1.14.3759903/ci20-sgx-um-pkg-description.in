@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+           |-----handy-ruler------------------------------------------------------|
+ci20-sgx-um: SGX Embedded Systems DDK UM @VERSION@ for Linux kernel
+ci20-sgx-um:
+ci20-sgx-um: This is the Imagination Technologies SGX DDK Usermode Binaries
+ci20-sgx-um: for the Linux kernel 3.0.8 for Linux MIPS Creator CI20.
+ci20-sgx-um:
+ci20-sgx-um: ci20-sgx-um package is provided as a complete set of Mali userspace
+ci20-sgx-um: drivers, including OpenGLESv2/EGL binaries.
+ci20-sgx-um:
+ci20-sgx-um: Check http://elinux.org/CI20-SGX_kernel_module for details.
+ci20-sgx-um:
+ci20-sgx-um:

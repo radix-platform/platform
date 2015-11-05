@@ -1,0 +1,3 @@
+# PowerVR udev rules file.
+
+KERNEL=="bc_example", GROUP="video", MODE="0666"

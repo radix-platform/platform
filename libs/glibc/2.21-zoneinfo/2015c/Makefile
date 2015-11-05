@@ -45,6 +45,9 @@ doc_dir_name      = zoneinfo-$(version)
 src_done          = $(TARGET_BUILD_DIR)/.source-done
 install_target    = $(TARGET_BUILD_DIR)/.install_done
 
+scripts_dir       = $(CURDIR)/scripts
+part_01           = $(CURDIR)/$(TARGET_BUILD_DIR)/part-01
+
 
 OPTIMIZATION_FLAGS  = -O3
 
@@ -114,6 +117,11 @@ $(install_target): $(src_done)
 	# ======= Remove PACKAGE/usr/share/zoneinfo/localtime --                =======
 	# ======= the install script will create it as a link to /etc/localtime =======
 	@rm -f $(GLIBC_TZ_PKG)/usr/share/zoneinfo/localtime
+	# ======= timeconfig script =======
+	@$(scripts_dir)/list-zones $(GLIBC_TZ_PKG)/usr/share/zoneinfo $(part_01)
+	@mkdir -p $(GLIBC_TZ_PKG)/usr/sbin
+	@cat $(scripts_dir)/part-00 $(part_01) $(scripts_dir)/part-02 > $(GLIBC_TZ_PKG)/usr/sbin/timeconfig
+	@chmod 0755 $(GLIBC_TZ_PKG)/usr/sbin/timeconfig
 	# ======= Install Documentation =======
 	@cp -rf $(SRC_DIR)/man $(GLIBC_TZ_PKG)/usr/share
 	@( cd $(GLIBC_TZ_PKG)/usr/share/man/man3 ; \

@@ -2,31 +2,29 @@
 COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 
 
-include ../../../build-system/constants.mk
+include ../../../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/U-Boot/Ingenic/CI20
+url         = $(DOWNLOAD_SERVER)/sources/hal/PowerVR/ci20/sgx-ddk/3.18
 
-versions    = 2013.10-20150826
-versions   += 2013.10-20150915
+versions    = 1.14.3759903
 
-description = u-boot-ci20.txt
-tarballs    = $(addsuffix .tar.bz2, $(addprefix u-boot-ci20-, $(versions)))
+tarballs    = $(addsuffix .tar.xz, $(addprefix ci20-sgx-um-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
+patches     = $(CURDIR)/patches/ci20-sgx-um-1.14.3759903-no_x11.patch
 
-BUILD_TARGETS = $(description) $(tarballs) $(sha1s)
+.NOTPARALLEL: $(patches)
 
 
-include ../../../build-system/core.mk
+BUILD_TARGETS = $(tarballs) $(sha1s) $(patches)
+
+
+include ../../../../../../build-system/core.mk
 
 
 .PHONY: download_clean
 
-
-$(description):
-	@echo -e "\n======= Downloading $(description) file =======" ; \
-	 echo "$(url)/$(description)" | xargs -n 1 -P 100 wget $(WGET_OPTIONS) -i & wait %1
 
 $(tarballs):
 	@echo -e "\n======= Downloading source tarballs =======" ; \
@@ -47,5 +45,10 @@ $(sha1s): $(tarballs)
 	   fi ; \
 	 done
 
+$(patches): $(sha1s)
+	@echo -e "\n======= Create Patches =======\n" ; \
+	 ( cd create-1.14.3759903-no_x11-patch ; ./create.patch.sh ) ; \
+	 echo -e "\n"
+
 download_clean:
-	@rm -f $(description) $(tarballs) $(sha1s)
+	@rm -f $(tarballs) $(sha1s) $(patches)

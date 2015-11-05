@@ -2,23 +2,22 @@
 COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 
 
-include ../../../build-system/constants.mk
+include ../../../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/U-Boot/Ingenic/CI20
+url         = $(DOWNLOAD_SERVER)/sources/hal/drivers/ci20/sgx-ddk/3.18
 
-versions    = 2013.10-20150826
-versions   += 2013.10-20150915
+versions    = 1.14.3759903
 
-description = u-boot-ci20.txt
-tarballs    = $(addsuffix .tar.bz2, $(addprefix u-boot-ci20-, $(versions)))
+description = ci20-sgx-ddk.txt
+tarballs    = $(addsuffix .tar.xz, $(addprefix ci20-sgx-km-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 
 BUILD_TARGETS = $(description) $(tarballs) $(sha1s)
 
 
-include ../../../build-system/core.mk
+include ../../../../../../build-system/core.mk
 
 
 .PHONY: download_clean

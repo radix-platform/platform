@@ -16,7 +16,7 @@ REQUIRES         = base/pkgtool
 # ======= __END_OF_REQUIRES__ =======
 
 
-version          = 3.18-20150828
+version          = 3.18-20151015
 modules_version  = 3.18.3
 full_version     = $(version)
 tar_bz2_archive  = $(SRC_PACKAGE_PATH)/Linux/Ingenic/CI20/linux-ci20-$(version).tar.bz2

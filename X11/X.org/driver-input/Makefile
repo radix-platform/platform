@@ -27,10 +27,7 @@ REQUIRES += X11/X.org/driver/xf86-input-joystick/1.6.2
 REQUIRES += X11/X.org/driver/xf86-input-keyboard/1.8.0
 REQUIRES += X11/X.org/driver/xf86-input-mouse/1.9.1
 REQUIRES += X11/X.org/driver/xf86-input-penmount/1.5.0
-
-ifeq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
 REQUIRES += X11/X.org/driver/xf86-input-synaptics/1.8.1
-endif
 
 REQUIRES += X11/X.org/driver/xf86-input-void/1.4.0
 

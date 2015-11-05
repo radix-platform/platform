@@ -23,11 +23,7 @@ SOURCE_REQUIRES    = sources/X.org/driver/xf86-video-fbdev
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X)),)
 REQUIRES           = X11/X.org/xserver/xorg-server/1.16.2
 else
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
-REQUIRES           = X11/X.org/xserver/xorg-server/1.12.2
-else
 REQUIRES           = X11/X.org/xserver/xorg-server/1.16.4
-endif
 endif
 
 # ======= __END_OF_REQUIRES__ =======

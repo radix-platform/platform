@@ -14,7 +14,7 @@
 saslauthd_start() {
   # If saslauthd is not running, start it:
   if [ ! -r /var/state/saslauthd/saslauthd.pid ]; then
-    # Use shadow authentication by default on Slackware:
+    # Use shadow authentication by default:
     echo "Starting SASL authentication daemon:  /usr/sbin/saslauthd -a shadow"
     /usr/sbin/saslauthd -a shadow
   fi

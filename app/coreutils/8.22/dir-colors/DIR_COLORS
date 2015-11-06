@@ -1,10 +1,10 @@
+#
 # Configuration file for dircolors, a utility to help you set the
 # LS_COLORS environment variable used by GNU ls with the --color option.
-
-# The keywords COLOR, OPTIONS, and EIGHTBIT (honored by the
-# slackware version of dircolors) are recognized but ignored.
-# (see the scripts in /etc/profile.d/coreutils-dircolors.* to change default
-# options in the Slackware aliases)
+#
+# The keywords COLOR, OPTIONS, and EIGHTBIT are recognized but ignored.
+# (see the scripts in /etc/profile.d/coreutils-dircolors.* to change default options)
+#
 
 # Below, there should be one TERM entry for each termtype that is colorizable
 TERM Eterm

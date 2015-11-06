@@ -362,7 +362,7 @@ if [ -x /usr/sbin/atd ]; then
   /usr/sbin/atd -b 15 -l 1
 fi
 
-## Slackware-Mini-Quota-HOWTO:
+## Mini-Quota-HOWTO:
 ## To really activate quotas, you'll need to add 'usrquota' and/or 'grpquota' to
 ## the appropriate partitions as listed in /etc/fstab.  Here's an example:
 ##

@@ -37,8 +37,6 @@ check_abs_paths()
   if [ ! -z "$TARGET_ROOT_PATH" ] ; then
     if [[ ${TARGET_ROOT_PATH:0:1} != "/" ]] ; then
       TARGET_ROOT_PATH=$CWD/$TARGET_ROOT_PATH
-    else
-      TARGET_ROOT_PATH=$TARGET_ROOT_PATH
     fi
     TARGET_ROOT_PATH="$(echo "$TARGET_ROOT_PATH" | sed -e "s/\/$//")/"
   fi

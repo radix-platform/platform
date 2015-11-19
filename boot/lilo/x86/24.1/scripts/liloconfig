@@ -1,0 +1,650 @@
+#!/bin/sh
+
+# program name:
+program=`basename $0`
+
+# 13 = permission denied (should be root)
+# 16 = root path has not specified arter --root option
+# 91 = root path not correct
+# 92 = Cannot create '/tmp/...' directory
+EXITSTATUS=0
+
+CWD=`pwd`
+
+umask 022
+if [ ! -z "$TMPDIR" ] ; then mkdir -p $TMPDIR ; fi
+TMP=$(mkdir -p /tmp/radix && mktemp -d -p /tmp/radix $program.XXXXXXXX) || { echo "Cannot create '/tmp/...' directory" ; exit 92; }
+trap "rm -rf $TMP" EXIT
+
+
+TARGET_ROOT_PATH=
+
+usage() {
+ cat << EOF
+
+Usage: $program [options]
+
+$program - Radix Linux LILO configuration utility.
+
+options:
+   --root <DIR>   - Setup LILO someplace else, like <DIR>.
+
+EOF
+}
+
+
+check_current_user()
+{
+  if [ "$EUID" != "0" ] ; then
+    $DIALOG --colors --clear \
+            --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+            --title " \Z4LILO Setup:\Zn \Z1\ZbERROR\ZB\Zn " \
+            --msgbox "\n\Z1\Zb$program\ZB - must be run as root.\Zn\n" 7 74
+
+    echo "ERROR: $program - must be run as root."
+    EXITSTATUS=13
+    exit $EXITSTATUS
+  fi
+}
+
+
+check_abs_paths()
+{
+  if [ ! -z "$TARGET_ROOT_PATH" ] ; then
+    if [[ ${TARGET_ROOT_PATH:0:1} != "/" ]] ; then
+      TARGET_ROOT_PATH=$CWD/$TARGET_ROOT_PATH
+    fi
+    TARGET_ROOT_PATH="$(echo "$TARGET_ROOT_PATH" | sed -e "s/\/$//")/"
+  fi
+}
+
+#
+# Parse options:
+#
+while [ 0 ]; do
+  if [ "$1" = "-h" -o "$1" = "--help" ]; then
+    usage
+    exit 0
+  elif [ "$1" = "--root" ]; then
+    if [ "$2" = "" ]; then
+      usage
+      echo "ERROR: Target ROOT directory has not specified. Check --root option."
+      EXITSTATUS=17
+      exit $EXITSTATUS
+    fi
+    TARGET_ROOT_PATH="$2"
+    shift 2
+  else
+    break
+  fi
+done
+
+check_abs_paths
+
+#
+# Set the TARGET_ROOT_PATH
+#
+# ======= NOTE: here we have to check also are we in the system-installer =======
+if [ -z "$TARGET_ROOT_PATH" ] ; then
+  TARGET_ROOT_PATH="/"
+fi
+
+if [ ! -d $TARGET_ROOT_PATH ] ; then
+  echo "ERROR: Target ROOT path specified but not correct."
+  EXITSTATUS=91
+  exit $EXITSTATUS
+fi
+
+: ${DIALOG=dialog}
+: ${DIALOGRC=${TARGET_ROOT_PATH}etc/dialogrc}
+
+check_current_user
+
+#
+# Detect if this is a machine running UEFI and suggest skipping LILO installation.
+#
+if [ -d /sys/firmware/efi ] ; then
+  cat > $TMP/menu-uefi$$ << EOF
+--colors \\
+--backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \\
+--title " \Z1\ZbUEFI Firmware Detected\ZB\Zn " \\
+--menu "\\n\\
+Since LILO (the traditional Linux Loader) does not work with machines \\
+running UEFI firmware (except in Legacy BIOS mode), you probably do not \\
+need to install it.  Instead, you'll need ELILO, which is a version of \\
+LILO designed to work with EFI/UEFI systems.\\n\\n\\
+" 13 74 2 \\
+"Skip" "Skip installing LILO and proceed to ELILO installation" \\
+"Install" "Install LILO anyway" \\
+EOF
+
+  $DIALOG --file $TMP/menu-uefi$$ 2> $TMP/uefi$$
+  if [ $? = 1 -o $? = 255 ]; then
+    rm -f $TMP/uefi$$
+    rm -f $TMP/menu-uefi$$
+    exit
+  fi
+  if [ "`cat $TMP/uefi$$`" = "Skip" ]; then
+    rm -f $TMP/uefi$$
+    rm -f $TMP/menu-uefi$$
+    exit
+  fi
+  rm -f $TMP/uefi$$
+  rm -f $TMP/menu-uefi$$
+fi
+
+#
+# Check TARGET_ROOT_PATH
+#
+if [ ! -x ${TARGET_ROOT_PATH}sbin/lilo ] ; then
+  $DIALOG --colors --clear \
+          --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+          --title " \Z4LILO Setup:\Zn \Z1\ZbERROR\ZB\Zn " \
+          --msgbox "\n\Z1Target \ZbROOT\ZB path specified but \ZbROOT\ZB/sbin/lilo is not installed.\Zn\n" 7 74
+
+  echo "ERROR: Target ROOT path specified but ROOT/sbin/lilo is not installed."
+  EXITSTATUS=91
+  exit $EXITSTATUS
+fi
+
+#
+# Check if the TARGET_ROOT_PATH is a mount point of some partition
+#
+ROOT=$TARGET_ROOT_PATH
+if [ "$ROOT" == "/" ] ; then
+  blkline=`lsblk -l -o name,fstype,mountpoint | grep "$ROOT$" | sed -e 's,\s\+, ,g'`
+else
+  ROOT="$(echo "$ROOT" | sed -e "s/\/$//")"
+  blkline=`lsblk -l -o name,fstype,mountpoint | grep "$ROOT" | sed -e 's,\s\+, ,g'`
+fi
+
+if [ -z "$blkline" ] ; then
+  $DIALOG --colors --clear \
+          --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+          --title " \Z4LILO Setup:\Zn \Z1\ZbERROR\ZB\Zn " \
+          --msgbox "\n\Z1Target \ZbROOT\ZB path \Zbis not a mount point\ZB of partition.\Zn\n" 7 74
+
+  echo "ERROR: Target ROOT path is not a mount point of partition."
+  EXITSTATUS=91
+  exit $EXITSTATUS
+fi
+
+partname=`echo "$blkline" | cut -f 1 -d ' '`
+fstype=`echo "$blkline" | cut -f 2 -d ' '`
+mntpoint=`echo "$blkline" | cut -f 3 -d ' '`
+
+part="/dev/$partname"
+
+diskname=
+for dn in `lsblk -d -o name` ; do
+  if [ ! -z "`echo $partname | grep $dn`" ] ; then
+    diskname=$dn
+  fi
+done
+
+disk="/dev/$diskname"
+
+#
+# Check Target File System
+#
+if [ "${TARGET_ROOT_PATH}" != "/" ] ; then
+  case "$fstype" in
+    "minix" | "ext2" | "ext3" | "ext4" | "reiserfs" )
+      break
+      ;;
+    *)
+      cat > $TMP/menu-fs$$ << EOF
+--colors --clear \\
+--backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \\
+--title " \Z4LILO Setup:\Zn \Z1\ZbWrong Target File System\ZB\Zn " \\
+--menu "\\n\\
+Since you are installing LILO not to ext2, ext3, ext4, or reiserfs \\
+partition, it's suggested that you do not configure LILO at this time. \\n\\n\\
+Skip LILO configuration (\Z1\Zbhighly recommended\ZB\Zn)\Z1\Zb?\ZB\Zn\\n\\
+" 12 74 2 \\
+"Skip" "Skip installing LILO" \\
+"Install" "Install LILO anyway" \\
+EOF
+
+      $DIALOG --file $TMP/menu-fs$$ 2> $TMP/fs$$
+      if [ $? = 1 -o $? = 255 ]; then
+        rm -f $TMP/fs$$
+        rm -f $TMP/menu-fs$$
+        echo "ERROR: Wrong Target File System for LILO installation."
+        EXITSTATUS=91
+        exit $EXITSTATUS
+      fi
+      if [ "`cat $TMP/fs$$`" = "Skip" ]; then
+        rm -f $TMP/fs$$
+        rm -f $TMP/menu-fs$$
+        echo "ERROR: Wrong Target File System for LILO installation."
+        EXITSTATUS=91
+        exit $EXITSTATUS
+      fi
+      rm -f $TMP/fs$$
+      rm -f $TMP/menu-fs$$
+      break
+      ;;
+  esac
+fi
+
+#
+# Check the Linux kernel
+#
+if [ ! -L ${TARGET_ROOT_PATH}boot/vmlinuz -a ! -r ${TARGET_ROOT_PATH}boot/vmlinuz ] ; then
+  $DIALOG --colors --clear \
+          --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+          --title " \Z4LILO Setup:\Zn \Z1\ZbERROR\ZB\Zn " \
+          --msgbox "\n\Z1Linux \Zbkernel not found\ZB. Check the \ZbROOT\ZB/boot/vmlinuz link or image.\Zn\n" 7 74
+
+  echo "ERROR: Linux kernel not found. Check the ROOT/boot/vmlinuz link or image."
+  EXITSTATUS=91
+  exit $EXITSTATUS
+fi
+
+KERNEL=/boot/vmlinuz
+image=/boot/vmlinuz
+label=Linux
+
+if [ -L ${TARGET_ROOT_PATH}boot/vmlinuz ] ; then
+  image=/boot/`readlink ${TARGET_ROOT_PATH}boot/vmlinuz`
+  ver=`echo "$image" | sed -r "s/.*-([0-9.]*)/\1/g"`
+  if [ ! -z "$ver" ] ; then
+    label=linux-$ver
+  fi
+fi
+
+#
+# Assume that we are working on the target machine
+#
+CONSOLETYPE=standard
+CONSOLEMODE=
+framebuffer_mode() {
+  if cat /proc/devices | grep "29 fb" 1> /dev/null ; then
+    cat > $TMP/menu-fbmode$$ << EOF
+--colors --clear \\
+--backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \\
+--title " \Z4LILO Setup: \ZbConfigure Frame Buffer Console\ZB\Zn " \\
+--default-item standard \\
+--menu "\\n\\
+Your kernel has support for the VESA frame buffer console.\\n\\
+If we enable this in /etc/lilo.conf, it will allow more rows and \\
+columns of text on the screen and give you a cool penguin logo at \\
+boot time. However, the frame buffer text console is slower than \\
+a standard text console. In addition, not every video card or \\
+monitor supports all of these video modes, and some X drivers \\
+could be confused by them.\\n\\n\\
+\ZbWould you like to use the frame buffer console\ZB, or the standard Linux console\Zb?\ZB\\
+" 22 69 5 \\
+"standard" "Use the standard Linux console" \\
+"ask" "Ask about using VESA modes at boot" \\
+"640x480x64k" "Frame buffer console, 640x480x64k" \\
+"800x600x64k" "Frame buffer console, 800x600x64k" \\
+"1024x768x64k" "Frame buffer console, 1024x768x64k" \\
+"640x480x32k" "Frame buffer console, 640x480x32k" \\
+"800x600x32k" "Frame buffer console, 800x600x32k" \\
+"1024x768x32k" "Frame buffer console, 1024x768x32k" \\
+"640x480x256" "Frame buffer console, 640x480x256" \\
+"800x600x256" "Frame buffer console, 800x600x256" \\
+"1024x768x256" "Frame buffer console, 1024x768x256" \\
+EOF
+
+    $DIALOG --file $TMP/menu-fbmode$$ 2> $TMP/fbmode$$
+    if [ $? = 1 -o $? = 255 ]; then
+      rm -f $TMP/fbmode$$
+      rm -f $TMP/menu-fbmode$$
+      return
+    fi
+    CONSOLETYPE="`cat $TMP/fbmode$$`"
+    rm -f $TMP/fbmode$$
+    rm -f $TMP/menu-fbmode$$
+      if [ "$CONSOLETYPE" = "640x480x64k"  ] ; then
+      CONSOLEMODE=785
+    elif [ "$CONSOLETYPE" = "640x480x32k"  ] ; then
+      CONSOLEMODE=784
+    elif [ "$CONSOLETYPE" = "640x480x256"  ] ; then
+      CONSOLEMODE=769
+    elif [ "$CONSOLETYPE" = "800x600x64k"  ] ; then
+      CONSOLEMODE=788
+    elif [ "$CONSOLETYPE" = "800x600x32k"  ] ; then
+      CONSOLEMODE=787
+    elif [ "$CONSOLETYPE" = "800x600x256"  ] ; then
+      CONSOLEMODE=771
+    elif [ "$CONSOLETYPE" = "1024x768x64k" ] ; then
+      CONSOLEMODE=791
+    elif [ "$CONSOLETYPE" = "1024x768x32k" ] ; then
+      CONSOLEMODE=790
+    elif [ "$CONSOLETYPE" = "1024x768x256" ] ; then
+      CONSOLEMODE=773
+    fi
+  fi
+}
+
+APPEND=
+ask_append() {
+  cat > $TMP/append-help$$ << EOF
+
+Some systems might require extra parameters to be passed to the kernel.
+If you needed to pass parameters to the kernel when you booted, you'll
+probably want to enter the same ones here.  Most systems won't require
+any extra parameters.
+
+If you don't need any, just hit \ZbENTER\ZB to continue.
+EOF
+
+  result=`$DIALOG --stdout  --colors \
+                  --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+                  --title " \Z4LILO Setup: \ZbOptional appand=<kernel parameters>\ZB\Zn " \
+                  --inputbox "$(cat $TMP/append-help$$)" 14 76 ""`
+  ret=$?
+  if [ $ret = 0 ]; then
+    APPEND=$result
+  fi
+  rm -f $TMP/append-help$$
+}
+
+UTFVT="vt.default_utf8=0"
+ask_utf() {
+  cat > $TMP/console-utf-help$$ << EOF
+
+Beginning with  the 2.6.24  kernel,  the text consoles default to
+UTF-8 mode. Unless you are using a  UTF-8  locale,  using the old
+default of a non-UTF text console is safer until some issues with
+various console programs are addressed. This option has no effect
+on the use of UTF-8 with X.
+
+\ZbNo\ZB is the safe choice here.
+EOF
+
+  $DIALOG --colors --defaultno \
+          --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+          --title " \Z4LILO Setup: \ZbUse UTF-8 Text Console?\ZB\Zn " \
+          --yesno "$(cat $TMP/console-utf-help$$)" 13 69
+  ret=$?
+  if [ $ret = 0 ]; then
+    UTFVT="vt.default_utf8=1"
+  fi
+  rm -f $TMP/console-utf-help$$
+}
+
+BOOTSPLASH=no
+ask_bootsplash() {
+  cat > $TMP/bootsplash-help$$ << EOF
+
+Would you like to use a boot screen with the Radix logo against
+a black background?
+
+If you answer \ZbNO\ZB here, the standard LILO menu will be used.
+EOF
+
+  $DIALOG --colors \
+          --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+          --title " \Z4LILO Setup: \ZbOptional Radix LOGO Boot Screen\ZB\Zn " \
+          --yesno "$(cat $TMP/bootsplash-help$$)" 10 69
+  ret=$?
+  if [ $ret = 0 ]; then
+    BOOTSPLASH=yes
+  fi
+  rm -f $TMP/bootsplash-help$$
+}
+
+
+LILODOCDIR="$(ls -d ${TARGET_ROOT_PATH}usr/share/doc/lilo-* 2> /dev/null | tail -n 1)"
+if [ ! -d "$LILODOCDIR" ]; then
+  LILODOCDIR="/usr/share/doc/lilo-24.1"
+else
+  LILODOCDIR=`echo "$LILODOCDIR" | sed -e "s,${TARGET_ROOT_PATH},,"`
+fi
+
+install_lilo() {
+  $DIALOG --colors \
+          --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+          --title " \Z4LILO Setup\Zn " \
+          --infobox "\nInstalling the Linux Loader...\n" 5 74
+
+  if [ "${TARGET_ROOT_PATH}" = "/" ] ; then
+    lilo 1> /dev/null 2> $TMP/lilo-error.$$
+    SUCCESS=$?
+  else
+    chroot ${TARGET_ROOT_PATH} lilo -m /boot/map -C /etc/lilo.conf 1> /dev/null 2> $TMP/lilo-error.$$
+    #
+    # NOTE:
+    #   We use CROOT command instead of option -r like follow
+    #   # lilo -r ${TARGET_ROOT_PATH} -m /boot/map -C /etc/lilo.conf 1> /dev/null 2> $TMP/lilo-error.$$
+    #   because we can have other LILO on the target rootfs then we have on the development machine.
+    #
+    SUCCESS=$?
+  fi
+  sleep 1
+  if [ "$SUCCESS" != "0" ]; then
+    echo "" >> $TMP/lilo-error.$$
+    cat << EOF >> $TMP/lilo-error.$$
+Sorry, but the attempt to install LILO has returned an error, so LILO
+has not been  correctly  installed.  You'll have to use a bootdisk to
+start your machine instead.  It should still be possible  to get LILO
+working by editing the /etc/lilo.conf and reinstalling LILO manually.
+See the LILO man page and documentation in
+
+   \Zb$LILODOCDIR\ZB
+
+directory for more help. The error message may be seen above.
+
+EOF
+    $DIALOG --colors --clear \
+            --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+            --title " \Z1LILO Setup ERROR:\Zn " \
+            --msgbox "$(cat $TMP/lilo-error.$$)" 0 0
+  fi
+
+  #
+  # Check if the target disk is listen by BIOS:
+  #
+  lilo -T table=$disk 1> /dev/null 2> /dev/null
+  ret=$?
+  if [ $ret != 0 ]; then
+    cat > $TMP/removeable-help$$ << EOF
+
+LILO installed \Z4sussessful\Zn \Z1but\Zn the  TARGET disk is not listen
+by BIOS on your machine. Probably you have installed LILO on
+removeable volume.  Please NOTE that  when you will assembly
+this target disk  \Z1on the real target machine  LILO  will not
+work\Zn and you will have to boot target machine from BOOTDISK,
+change root to your boot pardition,  edit your \Z4etc/lilo.conf\Zn
+manualy to set up real partition like follow
+
+\Z4\Zbboot = /dev/<device>\ZB\Zn
+
+\Z4\Zb  . . .\ZB\Zn
+
+\Z4\Zb  root = /dev/<device partition>\ZB\Zn
+
+\Z4\Zb  . . .\ZB\Zn
+
+and then run lilo comand again.
+EOF
+    $DIALOG --colors --clear \
+            --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+            --title " \Z4LILO Setup:\Zn \Z1\ZbNOTE\ZB\Zn " \
+            --msgbox "$(cat $TMP/removeable-help$$)" 23 65
+    rm -f $TMP/removeable-help$$
+  fi
+}
+
+simple_lilo() {
+  framebuffer_mode ;
+  ask_append ;
+  ask_utf ;
+
+  lilo_conf_file=$TMP/lilo.conf$$
+  lilo_conf_edited=$TMP/lilo.conf.edited$$
+
+  cat << EOF > $lilo_conf_file
+#
+# LILO configuration file generated by '$program'
+#
+
+# Start LILO Global Section:
+
+boot = $disk
+
+lba32
+
+#compact    # faster, but won't work on all systems.
+EOF
+
+  if [ -r ${TARGET_ROOT_PATH}boot/radix.bmp -a -r ${TARGET_ROOT_PATH}boot/radix.dat ] ; then
+    ask_bootsplash ;
+  fi
+  if [ "$BOOTSPLASH" == "yes" ] ; then
+    cat ${TARGET_ROOT_PATH}boot/radix.dat >> $lilo_conf_file
+    echo "" >> $lilo_conf_file
+  else
+    cat << EOF >> $lilo_conf_file
+
+# Standard menu:
+message = /boot/message.txt
+
+EOF
+    cat << EOF > ${TARGET_ROOT_PATH}boot/message.txt
+
+Welcome to the LILO Boot Loader!
+
+Please enter the name of the partition you would like to boot
+at the prompt below.  The choices are:
+
+EOF
+  fi
+
+  if [ "$APPEND" != "" -o "$UTFVT" != "" ]; then
+    echo "# Append any additional kernel parameters:" >> $lilo_conf_file
+    echo "append=\"$APPEND $UTFVT\"" >> $lilo_conf_file
+  fi
+
+  cat << EOF >> $lilo_conf_file
+
+prompt
+timeout = 50
+
+EOF
+
+  if [ $CONSOLETYPE = standard ]; then
+    cat << EOF >> $lilo_conf_file
+# Normal VGA console
+vga = normal
+# Ask for video mode at boot (time out to normal in 30s)
+#vga = ask
+EOF
+  elif [ $CONSOLETYPE = ask ]; then
+    cat << EOF >> $lilo_conf_file
+# Ask for video mode at boot (time out to normal in 30s)
+vga = ask
+# Normal VGA console
+#vga = normal
+EOF
+  else
+    cat << EOF >> $lilo_conf_file
+# VESA framebuffer at $CONSOLETYPE
+vga = $CONSOLEMODE
+# Ask for video mode at boot (time out to normal in 30s)
+#vga = ask
+# Normal VGA console
+#vga = normal
+EOF
+  fi
+
+  cat << EOF >> $lilo_conf_file
+
+# End LILO Global Section.
+
+# Start Linux Bootable Partition:
+
+image = $image
+  root = $part
+  label = $label
+  read-only # Partitions should be mounted read-only for checking
+
+# End Linux Bootable Partition.
+EOF
+
+
+  cat > $TMP/liloconf-edit-help$$ << EOF
+
+The \ZbLILO\ZB config file has been generated to boot following kernel image.
+
+image = $image
+  root = $part
+  label = $label
+  read-only
+
+\ZbDo you want to edit resulting lilo.conf file?\ZB
+EOF
+
+  $DIALOG --colors \
+          --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+          --title " \Z4LILO Setup: \ZbEdit Generated lilo.conf File?\ZB\Zn " \
+          --yesno "$(cat $TMP/liloconf-edit-help$$)" 14 76
+  ret=$?
+  rm -f $TMP/liloconf-edit-help$$
+  if [ $ret = 0 ]; then
+    $DIALOG --colors \
+            --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+            --title " \Z4LILO Setup: \ZbGenerated lilo.conf File\ZB\Zn " \
+            --fixed-font --editbox $lilo_conf_file 22 76 2> $lilo_conf_edited
+    ret=$?
+    if [ $ret = 0 ]; then
+      cp $lilo_conf_edited $lilo_conf_file
+    fi
+    rm -f $lilo_conf_edited
+  fi
+
+  #
+  # Now we have the NEW $lilo_conf_file
+  #
+  if [ -r ${TARGET_ROOT_PATH}etc/lilo.conf ] ; then
+    mv ${TARGET_ROOT_PATH}etc/lilo.conf ${TARGET_ROOT_PATH}etc/lilo.conf.orig
+  fi
+  cp $lilo_conf_file ${TARGET_ROOT_PATH}etc/lilo.conf
+
+  install_lilo ;
+}
+
+cat > $TMP/menu-lo$$ << EOF
+--colors --clear \\
+--backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \\
+--title " \Z4LILO Setup\Zn " \\
+--menu "\\n\\
+\ZbLILO\ZB (\ZbLinux Loader\ZB) is a generic boot loader. There's a simple \\
+installation which tries to automatically set up LILO to boot Linux.\\n\\n\\
+For more advanced users, the expert option offers more control over the \\
+installation process. Since LILO does not work in all cases (and can \\
+damage partitions if incorrectly installed), there's the third (safe) \\
+option, which is to skip installing LILO for now. You can always install \\
+it later with the 'liloconfig' command.\\n\\n\\
+Which option would you like?\\n\\
+" 20 74 3 \\
+"Simple" "Try to install LILO automaticaly" \\
+"Expert" "Use expert lilo.conf setup menu" \\
+"Skip" "Do not install LILO" \\
+EOF
+
+$DIALOG --file $TMP/menu-lo$$ 2> $TMP/lo$$
+if [ $? = 1 -o $? = 255 ] ; then
+  rm -f $TMP/lo$$
+  rm -f $TMP/menu-lo$$
+  exit
+fi
+REPLY="`cat $TMP/lo$$`"
+rm -f $TMP/lo$$
+rm -f $TMP/menu-lo$$
+if [ "$REPLY" = "Skip" ] ; then
+  exit
+elif [ "$REPLY" = "Simple" ] ; then
+  simple_lilo
+  exit
+fi
+
+while [ 0 ] ; do
+  # "======= Expert Menu ======="
+  simple_lilo
+  break
+done

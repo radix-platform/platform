@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+      |-----handy-ruler------------------------------------------------------|
+mtools: mtools @VERSION@ (utilities to access DOS disks in Unix)
+mtools:
+mtools: Mtools is a collection of tools to allow Unix systems to manipulate
+mtools: MS-DOS files: read, write, and move around files on an MS-DOS file
+mtools: system (typically a floppy disk). Where reasonable, each program
+mtools: attempts to emulate the MS-DOS equivalent command. However,
+mtools: unnecessary restrictions and oddities of DOS are not emulated.
+mtools: For instance, it is possible to move subdirectories from one
+mtools: subdirectory to another.
+mtools:
+mtools:

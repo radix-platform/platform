@@ -408,6 +408,7 @@ REQUIRES += app/reiserfsprogs/3.6.24
 REQUIRES += app/dosfstools/3.0.26
 REQUIRES += app/jfsutils/1.1.15
 REQUIRES += app/sysfsutils/2.1.0
+REQUIRES += app/mtools/4.0.18
 
 
 #######

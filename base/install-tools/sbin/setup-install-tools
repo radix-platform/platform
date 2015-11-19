@@ -1,0 +1,187 @@
+#!/bin/sh
+
+# program name:
+program=`basename $0`
+
+# 17 = products source directory has not specified
+# 18 = toolchain has not specified arter --toolchain option
+# 19 = hardware has not specified arter --hardware option
+# 91 = Setup Tools not found
+# 92 = Cannot create '/tmp/...' directory
+EXITSTATUS=0
+
+CWD=`pwd`
+
+umask 022
+if [ ! -z "$TMPDIR" ] ; then mkdir -p $TMPDIR ; fi
+TMP=$(mkdir -p /tmp/radix && mktemp -d -p /tmp/radix $program.XXXXXXXX) || { echo "Cannot create '/tmp/...' directory" ; exit 92; }
+trap "rm -rf $TMP" EXIT
+
+
+PRODUCTS_PATH=
+HARDWARE=
+TOOLCHAIN=
+
+
+usage() {
+ cat << EOF
+
+Usage: $program [options]
+
+$program - is used to setup Radix Install Tools into $HOME/.radix directory.
+
+options:
+   --products <DIR>   - the PRODUCTS source directory.
+                        If the PRODUCTS path is not absolute then
+                        $program will try to find PRODUCTS directory
+                        relative to the current directory:
+
+                          CURDIR=${CWD} ;
+
+   --toolchain <NAME> - the TOOLCHAIN name;
+   --hardware <NAME>  - the HARDWARE name;
+
+EOF
+}
+
+
+check_abs_paths()
+{
+  if [ ! -z "$PRODUCTS_PATH" ] ; then
+    if [[ ${PRODUCTS_PATH:0:1} != "/" ]] ; then
+      PRODUCTS_PATH=$CWD/$PRODUCTS_PATH
+    fi
+  fi
+}
+
+#
+# Parse options:
+#
+while [ 0 ]; do
+  if [ "$1" = "-h" -o "$1" = "--help" ]; then
+    usage
+    exit 0
+  elif [ "$1" = "--products" ]; then
+    if [ "$2" = "" ]; then
+      usage
+      echo "ERROR: PRODUCTS source directory has not specified. Check --products option."
+      EXITSTATUS=17
+      exit $EXITSTATUS
+    fi
+    PRODUCTS_PATH="$2"
+    shift 2
+  elif [ "$1" = "--toolchain" ]; then
+    if [ "$2" = "" ]; then
+      usage
+      echo "ERROR: TOOLCHAIN name has not specified. Check --toolchain option."
+      EXITSTATUS=18
+      exit $EXITSTATUS
+    fi
+    TOOLCHAIN="$2"
+    shift 2
+  elif [ "$1" = "--hardware" ]; then
+    if [ "$2" = "" ]; then
+      usage
+      echo "ERROR: HARDWARE name has not specified. Check --hardware option."
+      EXITSTATUS=19
+      exit $EXITSTATUS
+    fi
+    HARDWARE="$2"
+    shift 2
+  else
+    break
+  fi
+done
+
+if [ -z "$PRODUCTS_PATH" -o -z "$TOOLCHAIN" -o -z "$HARDWARE" ] ; then
+  usage
+  if [ -z "$PRODUCTS_PATH" ] ; then
+    echo "ERROR: PRODUCTS source path should be specified."
+    EXITSTATUS=17
+  fi
+  if [ -z "$TOOLCHAIN" ] ; then
+    echo "ERROR: TOOLCHAIN name should be specified."
+    EXITSTATUS=18
+  fi
+  if [ -z "$HARDWARE" ] ; then
+    echo "ERROR: HARDWARE name should be specified."
+    EXITSTATUS=19
+  fi
+  exit $EXITSTATUS
+fi
+
+check_abs_paths
+
+PRODUCTS_PATH=$PRODUCTS_PATH/$TOOLCHAIN/$HARDWARE
+
+if [ ! -d $PRODUCTS_PATH ] ; then
+  echo "ERROR: PRODUCTS source path specified but not correct."
+  EXITSTATUS=91
+  exit $EXITSTATUS
+fi
+
+
+#######
+####### Install Setup Tools
+#######
+
+install_tools_version=`cat $PRODUCTS_PATH/.install/.version | tr '\n' '\0'`
+if [ $install_tools_version == "" ] ; then
+  echo "ERROR: Cannot find setup tools in the '$PRODUCTS_PATH' directory."
+  EXITSTATUS=17
+  exit $EXITSTATUS
+fi
+
+#
+# Install Dialog:
+# --------------
+#
+TOOLS_PATH=$PRODUCTS_PATH/.install/$install_tools_version
+DIALOG_PATH=$TOOLS_PATH/tools/dialog
+
+dialog_version=`ls $DIALOG_PATH/dialog-*.tgz | sed 's,.*\([0-9].[0-9]-[0-9]*\)\.tgz,\1,'`
+DIALOGPKG=$DIALOG_PATH/dialog-${dialog_version}.tgz
+DIALOGPATCH=$DIALOG_PATH/patches/dialog-${dialog_version}.patch
+
+( cd $TMP
+  tar xzvf $DIALOGPKG
+  patch -p0 < $DIALOGPATCH
+  mkdir -p build
+  cd build
+  ../dialog-${dialog_version}/configure --prefix=/ \
+                                        --libdir=/usr/lib \
+                                        --mandir=/usr/share/man \
+                                        --without-shared --with-ncursesw
+  make
+  mkdir -p 
+  make install DESTDIR=$HOME/.radix/${install_tools_version}/
+)
+
+#
+# Install Pkgtool:
+# ---------------
+#
+cp -a $TOOLS_PATH/doc $TOOLS_PATH/etc $TOOLS_PATH/sbin $HOME/.radix/${install_tools_version}/
+chown -R `id -u`:`id -g` $HOME/.radix/${install_tools_version}/
+
+#
+# Version stamp:
+# -------------
+#
+echo "${install_tools_version}" > $HOME/.radix/.version
+
+echo "#######"
+echo "####### Radix Installation Tools have been installed into"
+echo "#######"
+echo "#######   $HOME/.radix/${install_tools_version}"
+echo "#######"
+echo "####### directory."
+echo "#######"
+echo "####### Latest version number ${install_tools_version} is saved into"
+echo "#######"
+echo "#######   $HOME/.radix/.version"
+echo "#######"
+echo "####### file."
+echo "#######"
+
+exit 0

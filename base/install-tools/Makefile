@@ -32,6 +32,8 @@ dialog_install_script_in  = $(CURDIR)/scripts/install-dialog.sh.in
 
 readme                    = $(CURDIR)/doc/README
 
+radix_setup_in            = $(CURDIR)/sbin/radix-setup.in
+setup_install_tools       = $(CURDIR)/sbin/setup-install-tools
 
 PKG_GROUP = base
 
@@ -91,6 +93,15 @@ $(build):
 	@mkdir -p $(SETUP_DEV_PKG)/usr/share/$(share_dir_name)/{doc,etc,sbin/pkgtool,tools/dialog/patches}
 	# ======= Install Package Tool scripts =======
 	@cp $(scripts) $(SETUP_DEV_PKG)/usr/share/$(share_dir_name)/sbin/pkgtool
+	# ======= Install Setup Scripts =======
+	@cat $(radix_setup_in) | \
+	     sed 's,@TOOLCHAIN@,$(TOOLCHAIN),' | \
+	     sed 's,@HARDWARE@,$(HARDWARE),'   > $(SETUP_DEV_PKG)/usr/share/$(share_dir_name)/sbin/radix-setup
+	@cp $(setup_install_tools) $(SETUP_DEV_PKG)/usr/share/$(share_dir_name)/sbin
+	@( cd $(SETUP_DEV_PKG)/usr/share/$(share_dir_name)/sbin ; \
+	   chmod 0755 radix-setup                       ; \
+	   chmod 0755 `basename $(setup_install_tools)` ; \
+	 )
 	# ======= Install Dialog Sources =======
 	@cp $(dialogrc) $(SETUP_DEV_PKG)/usr/share/$(share_dir_name)/etc/dialogrc
 	@cat $(dialog_download_script_in) | \
@@ -106,6 +117,7 @@ $(build):
 	# ======= Install Documentation =======
 	@cp $(readme) $(SETUP_DEV_PKG)/usr/share/$(share_dir_name)/doc/README
 	# ======= Install to the products directory for making releases =======
+	@rm -rf $(PRODUCTS_DEST_DIR)/.install
 	@mkdir -p $(PRODUCTS_DEST_DIR)/.install
 	@cp -a $(SETUP_DEV_PKG)/usr/share/$(share_dir_name) $(PRODUCTS_DEST_DIR)/.install
 	# ======= Products Version Stamp =======

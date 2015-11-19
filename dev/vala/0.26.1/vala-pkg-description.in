@@ -17,4 +17,3 @@ vala: source code into C source and header files. It uses the GObject
 vala: type system to create classes and interfaces declared in the Vala
 vala: source code.
 vala:
-vala:

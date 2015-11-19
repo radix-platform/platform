@@ -1,0 +1,1706 @@
+#!/bin/sh
+
+# program name:
+program=`basename $0`
+
+# 13 = permission denied (should be root)
+# 14 = there is no '.pkglist' file
+# 16 = root path has not specified arter --root option
+# 17 = products source directory has not specified
+# 18 = toolchain has not specified arter --toolchain option
+# 19 = hardware has not specified arter --hardware option
+# 92 = Cannot create '/tmp/...' directory
+EXITSTATUS=0
+
+CWD=`pwd`
+
+umask 022
+if [ ! -z "$TMPDIR" ] ; then mkdir -p $TMPDIR ; fi
+TMP=$(mkdir -p /tmp/radix && mktemp -d -p /tmp/radix $program.XXXXXXXX) || { echo "Cannot create '/tmp/...' directory" ; exit 92; }
+MNT=/mnt
+if [ ! -f /etc/system-installer ] ; then
+  if [ ! -z "$TMPDIR" ] ; then
+    mkdir -p $TMPDIR/mnt
+    MNT=$TMPDIR/mnt
+  else
+    mkdir -p /tmp/radix/mnt
+    MNT=/tmp/radix/mnt
+  fi
+  trap 'for dir in "`find $MNT -type d -mindepth 1 -maxdepth 1`" ; do \
+          umount $dir 2> /dev/null ; \
+        done ; \
+        rm -rf $TMP' EXIT INT QUIT TERM
+fi
+
+
+default_toolchain=@TOOLCHAIN@
+default_hardware=@HARDWARE@
+
+INSTALLTYPE=dev
+
+TARGET_ROOT_PATH=
+TARGET_ROOT_DEVICE=
+
+PRODUCTS_PATH=
+HARDWARE=
+TOOLCHAIN=
+
+SKIPREQUIRES=
+
+
+usage() {
+ cat << EOF
+
+Usage: $program [options]
+
+$program - is used to setup Radix.pro Linux from the 'products' directory.
+
+  The 'products' directory sould contains Radix packages set with '.pkglist'
+  file at least for one HARDWARE. The ordinary structure of the 'products'
+  directory should seems like following:
+
+    products
+    ├── TOOLCHAIN
+   ...  └── HARDWARE
+            ├── ...
+    │      ...
+    └── TOOLCHAIN
+        └── HARDWARE
+            ├── app
+            │   ├── ...
+            │  ...
+            ├── base
+            │   ├── init-devices-1.0.9-omap543x-glibc-radix-1.0.tgz
+            │   ├── pkgtool-1.0.9-omap543x-glibc-radix-1.0.tgz
+            │  ...
+            ├── boot
+            │   ├── ...
+            │  ...
+           ...
+
+            └── .pkglist
+
+options:
+   --root-path <DIR> | --root--dev <DEVICE>
+                       - install someplace else, like /destdir or /dev/sda ;
+                         If the taret ROOT path is not absolute then
+                         $program will try to create ROOT directory
+                         in the current directory;
+
+   --products <DIR>    - the PRODUCTS source directory.
+                         If the PRODUCTS path is not absolute then
+                         $program will try to find PRODUCTS directory
+                         relative to the current directory:
+
+                           CURDIR=${CWD} ;
+
+   --toolchain <NAME>  - the TOOLCHAIN name;
+   --hardware <NAME>   - the HARDWARE name;
+
+EOF
+}
+
+
+exit_setup() {
+  cat > $TMP/exit-setup-help$$ << EOF
+
+Do you want to terminate Radix System Installation?
+
+EOF
+
+    $DIALOG --colors --defaultno --clear \
+            --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+            --title " \Z4Setup:\Zn \Z1\ZbExit?\ZB\Zn " \
+            --yesno "$(cat $TMP/exit-setup-help$$)" 7 74
+    ret=$?
+    rm -f $TMP/exit-setup-help$$
+    if [ $ret = 0 ] ; then
+      exit
+    fi
+}
+
+running_from_device() {
+  froms=`dirname $(which $0)`
+  echo "`lsblk -l -o name,mountpoint`" | sed -e 's,\s\+, ,g' | while read -r line ; do
+    prname=`echo "$line" | cut -f 1 -d ' '`
+    mpoint=`echo "$line" | cut -f 2 -d ' '`
+
+    found=`echo "$froms" | grep "$mpoint"`
+    if [ "$found" != "" ] ; then
+      echo "/dev/$prname"
+      break
+    fi
+  done
+}
+
+placed_on_device() {
+  fromp=$1
+  echo "`lsblk -l -o name,mountpoint`" | sed -e 's,\s\+, ,g' | while read -r line ; do
+    prname=`echo "$line" | cut -f 1 -d ' '`
+    mpoint=`echo "$line" | cut -f 2 -d ' '`
+
+    found=`echo "$fromp" | grep "$mpoint"`
+    if [ "$found" != "" ] ; then
+      echo "/dev/$prname"
+      break
+    fi
+  done
+}
+
+check_current_user()
+{
+  if [ "$EUID" != "0" ] ; then
+    $DIALOG --colors --clear \
+            --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+            --title " \Z4Setup:\Zn \Z1\ZbERROR\ZB\Zn " \
+            --msgbox "\n\Z1\Zb$program\ZB - must be run as root.\Zn\n" 7 74
+
+    echo "ERROR: $program - must be run as root."
+    EXITSTATUS=13
+    exit $EXITSTATUS
+  fi
+}
+
+check_abs_paths()
+{
+  if [ ! -z "$TARGET_ROOT_PATH" ] ; then
+    if [[ ${TARGET_ROOT_PATH:0:1} != "/" ]] ; then
+      TARGET_ROOT_PATH=$CWD/$TARGET_ROOT_PATH
+    fi
+  fi
+
+  if [ ! -z "$PRODUCTS_PATH" ] ; then
+    if [[ ${PRODUCTS_PATH:0:1} != "/" ]] ; then
+      PRODUCTS_PATH=$CWD/$PRODUCTS_PATH
+    fi
+  fi
+}
+
+
+if [ ! -r $HOME/.radix/.version ] ; then
+  echo -e "\n ERROR: Cannot find setup tools in the '$HOME/.radix' directory.\n"
+  echo "#######"
+  echo "####### Please make use 'setup-install-tools' script to setup"
+  echo "####### Radix Installation Tools into your HOME directory."
+  echo "#######"
+  EXITSTATUS=17
+  exit $EXITSTATUS
+fi
+
+install_tools_version=`cat $HOME/.radix/.version | tr '\n' '\0'`
+if [ ! -d $HOME/.radix/$install_tools_version ] ; then
+  echo -e "\n ERROR: Setup tools in the '$HOME/.radix' directory is not correct.\n"
+  echo "#######"
+  echo "####### Please make use 'setup-install-tools' script to setup"
+  echo "####### Radix Installation Tools into your HOME directory."
+  echo "#######"
+  EXITSTATUS=17
+  exit $EXITSTATUS
+fi
+
+TOOLS_PATH=$HOME/.radix/$install_tools_version
+
+export PATH=$TOOLS_PATH/sbin/pkgtool:$TOOLS_PATH/bin:$PATH
+export DIALOG=$TOOLS_PATH/bin/dialog
+export DIALOGRC=$TOOLS_PATH/etc/dialogrc
+
+
+check_current_user
+
+#
+# Parse options:
+#
+while [ 0 ]; do
+  if [ "$1" = "-h" -o "$1" = "--help" ]; then
+    usage
+    exit 0
+  elif [ "$1" = "--skip-requires" ]; then
+    SKIPREQUIRES="yes"
+    shift 1
+  elif [ "$1" = "--root-path" ]; then
+    if [ "$2" = "" ]; then
+      usage
+      echo "ERROR: Target root path has not specified. Check --root-path option."
+      EXITSTATUS=16
+      exit $EXITSTATUS
+    fi
+    INSTALLTYPE=path
+    TARGET_ROOT_PATH="$2"
+    shift 2
+  elif [ "$1" = "--root-dev" ]; then
+    if [ "$2" = "" ]; then
+      usage
+      echo "ERROR: Target root device has not specified. Check --root-dev option."
+      EXITSTATUS=16
+      exit $EXITSTATUS
+    fi
+    INSTALLTYPE=dev
+    TARGET_ROOT_DEVICE="$2"
+    shift 2
+  elif [ "$1" = "--products" ]; then
+    if [ "$2" = "" ]; then
+      usage
+      echo "ERROR: Source products directory has not specified. Check --products option."
+      EXITSTATUS=17
+      exit $EXITSTATUS
+    fi
+    PRODUCTS_PATH="$2"
+    shift 2
+  elif [ "$1" = "--toolchain" ]; then
+    if [ "$2" = "" ]; then
+      usage
+      echo "ERROR: TOOLCHAIN name has not specified. Check --toolchain option."
+      EXITSTATUS=18
+      exit $EXITSTATUS
+    fi
+    TOOLCHAIN="$2"
+    shift 2
+  elif [ "$1" = "--hardware" ]; then
+    if [ "$2" = "" ]; then
+      usage
+      echo "ERROR: HARDWARE name has not specified. Check --hardware option."
+      EXITSTATUS=19
+      exit $EXITSTATUS
+    fi
+    HARDWARE="$2"
+    shift 2
+  else
+    break
+  fi
+done
+
+if [ -z "$TARGET_ROOT_PATH" -o -z "$TARGET_ROOT_DEVICE" \
+     -o -z "$PRODUCTS_PATH" -o -z "$TOOLCHAIN" -o -z "$HARDWARE" ] ; then
+
+  cat > $TMP/dselect-help$$ << EOF
+
+  Use the space-bar to copy the current selection into the text-entry
+  window.
+
+EOF
+
+  if [ -z "$PRODUCTS_PATH" ] ; then
+    result=`$DIALOG --stdout  --colors \
+                    --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+                    --title " \Z0\ZbSelect the\ZB\Zn \Z1\ZbPRODUCTS\ZB\Zn \Z0\ZbSource Directory (\ZB\Zn\Z4press F1 for help\Zn\Z0\Zb):\ZB\Zn " \
+                    --hfile $TMP/dselect-help$$ \
+                    --no-shadow \
+                    --dselect $CWD/ 7 74`
+    ret=$?
+    if [ $ret = 0 ]; then
+      PRODUCTS_PATH=$result
+    else
+      usage
+      echo "ERROR: Source PRODUCTS path should be specified."
+      EXITSTATUS=17
+      exit $EXITSTATUS
+    fi
+  fi
+
+  cat > $TMP/toolchain-help$$ << EOF
+
+Please select the TOOLCHAIN name. This name will be used for
+finding the distribution packages in the PRODUCTS directory.
+
+Try entering TOOLCHAIN name below:
+EOF
+
+  if [ -z "$TOOLCHAIN" ] ; then
+    result=`$DIALOG --stdout  --colors \
+                    --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+                    --title " \Z0\ZbSelect the\ZB\Zn \Z1\ZbTOOLCHAIN\ZB\Zn \Z0\ZbName:\ZB\Zn " \
+                    --inputbox "$(cat $TMP/toolchain-help$$)" 12 74 "${default_toolchain}"`
+    ret=$?
+    if [ $ret = 0 ]; then
+      TOOLCHAIN=$result
+    else
+      usage
+      echo "ERROR: TOOLCHAIN name should be specified."
+      EXITSTATUS=18
+      exit $EXITSTATUS
+    fi
+  fi
+
+  cat > $TMP/hardware-help$$ << EOF
+
+Please select the HARDWARE name. This name will be used for
+finding the distribution packages in the PRODUCTS directory.
+
+Try entering HARDWARE name below:
+EOF
+
+  if [ -z "$HARDWARE" ] ; then
+    result=`$DIALOG --stdout  --colors \
+                    --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+                    --title " \Z0\ZbSelect the\ZB\Zn \Z1\ZbHARDWARE\ZB\Zn \Z0\ZbName:\ZB\Zn " \
+                    --inputbox "$(cat $TMP/hardware-help$$)" 12 74 "${default_hardware}"`
+    ret=$?
+    if [ $ret = 0 ]; then
+      HARDWARE=$result
+    else
+      usage
+      echo "ERROR: HARDWARE name should be specified."
+      EXITSTATUS=19
+      exit $EXITSTATUS
+    fi
+  fi
+
+  if [ -z "$TARGET_ROOT_PATH" -a -z "$TARGET_ROOT_DEVICE" ] ; then
+    cat > $TMP/menu-dest$$ << EOF
+--colors --clear \\
+--backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \\
+--title " \Z0\ZbSelect the Destination\ZB\Zn " \\
+--menu "\\n\\
+Radix system can be installed into some directory on the development machine for \\
+different purposes. Also the Radix system allow the normal installation on the \\
+hard drive or the removeable disk for other target machine. \\
+\\n\\n\\
+Please select what kind of installation you want?\\
+" 16 74 3 \\
+"Directory" "Install the system to an ordinary folder" \\
+"Device" "Install the system to the attached device" \\
+"Skip" "Skip the Radix Linux installation" \\
+EOF
+
+    $DIALOG --default-item "Device" --file $TMP/menu-dest$$ 2> $TMP/dest$$
+    if [ $? = 1 -o $? = 255 ]; then
+      rm -f $TMP/dest$$
+      rm -f $TMP/menu-dest$$
+      usage
+      echo "ERROR: Destination should be specified."
+      EXITSTATUS=16
+      exit $EXITSTATUS
+    fi
+    RETVAL=`cat $TMP/dest$$`
+    rm -f $TMP/dest$$
+    rm -f $TMP/menu-dest$$
+    if [ "$RETVAL" = "Skip" ]; then
+      exit
+    elif [ "$RETVAL" = "Directory" ]; then
+      INSTALLTYPE=path
+      result=`$DIALOG --stdout  --colors \
+                      --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+                      --title " \Z0\ZbSelect the Destination\ZB\Zn \Z1\ZbROOTFS\ZB\Zn \Z0\ZbDirectory (\ZB\Zn\Z4press F1 for help\Zn\Z0\Zb):\ZB\Zn " \
+                      --hfile $TMP/dselect-help$$ \
+                      --no-shadow \
+                      --dselect $CWD/ 7 74`
+      ret=$?
+      if [ $ret = 0 ]; then
+        TARGET_ROOT_PATH=$result
+      else
+        usage
+        echo "ERROR: Destination ROOTFS path should be specified."
+        EXITSTATUS=16
+        exit $EXITSTATUS
+      fi
+    elif [ "$RETVAL" = "Device" ]; then
+      INSTALLTYPE=dev
+      cat > $TMP/device-help$$ << EOF
+--colors \\
+--backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \\
+--title " \Z0\ZbSelect the destination\ZB\Zn \Z1\ZbDEVICE:\ZB\Zn " \\
+--menu "\\n\\
+If the needed device is not shown on the following list, please \\
+insert the disk and repeat installation.\\n\\
+\\n\\
+Please select the target device:\\
+" 14 74 3 \\
+EOF
+
+      #
+      # Exclude device where radix-setup script or PRODUCTS is placed:
+      #
+      setupscrdevice=`running_from_device`
+      profuctsdevice=`placed_on_device $PRODUCTS_PATH`
+      for dev in `lsblk -ldn -o name` ; do
+        sfound=`echo "$setupscrdevice" | grep "/dev/$dev"`
+        pfound=`echo "$profuctsdevice" | grep "/dev/$dev"`
+        if [ "$sfound" == "" -a "$pfound" == "" ] ; then
+          echo "\"/dev/$dev\" \" \" \\\\" >> $TMP/device-help$$
+        fi
+      done
+
+      $DIALOG --file $TMP/device-help$$ 2> $TMP/devmame$$
+      if [ $? = 1 -o $? = 255 ]; then
+        rm -f $TMP/devmame$$
+        rm -f $TMP/device-help$$
+        exit
+      fi
+      result=`cat $TMP/devmame$$`
+      rm -f $TMP/devmame$$
+      rm -f $TMP/device-help$$
+      if [ "$result" = "Skip" ]; then
+        exit
+      else
+        TARGET_ROOT_DEVICE=$result
+      fi
+    fi
+  fi
+fi
+
+check_abs_paths
+
+PRODUCTS_PATH=$PRODUCTS_PATH/$TOOLCHAIN/$HARDWARE
+
+if [ ! -d $PRODUCTS_PATH -o \
+     ! -L $PRODUCTS_PATH/.pkglist -o ! -r $PRODUCTS_PATH/.pkglist ] ; then
+  $DIALOG --colors --clear \
+          --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+          --title " \Z4Setup:\Zn \Z1\ZbERROR\ZB\Zn " \
+          --msgbox "\n\Z1PRODUCTS source path\n\n  '\Zb$PRODUCTS_PATH\ZB'\n\nspecified but not correct.\Zn\n" 11 78
+
+  usage
+  echo "ERROR: PRODUCTS source path '$PRODUCTS_PATH' specified but not correct."
+  EXITSTATUS=91
+  exit $EXITSTATUS
+fi
+
+if [ "$INSTALLTYPE" == "path" ] ; then
+  mkdir -p $TARGET_ROOT_PATH
+  if [ "`find $TARGET_ROOT_PATH -maxdepth 0 -type d -empty 2> /dev/null`" == "" ] ; then
+    $DIALOG --colors --clear \
+            --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+            --title " \Z4Setup:\Zn \Z1\ZbERROR\ZB\Zn " \
+            --msgbox "\n\Z1Target ROOT directory\n\n  '\Zb$TARGET_ROOT_PATH\ZB'\n\nis not empty.\Zn\n" 11 78
+
+    usage
+    echo "ERROR: Target ROOT directory '$TARGET_ROOT_PATH' is not empty."
+    EXITSTATUS=16
+    exit $EXITSTATUS
+  fi
+fi
+
+check_target_device() {
+  lsblk $TARGET_ROOT_DEVICE 1> /dev/null 2> /dev/null
+  ret=$?
+  if [ $ret != 0 ] ; then
+    $DIALOG --colors --clear \
+            --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+            --title " \Z4Setup:\Zn \Z1\ZbERROR\ZB\Zn " \
+            --msgbox "\n\Z1Selected Target DEVICE '\Zb$TARGET_ROOT_DEVICE\ZB' is not a block device.\Zn\n" 7 78
+
+    echo "ERROR: Selected Target DEVICE '$TARGET_ROOT_DEVICE' is not a block device."
+    EXITSTATUS=16
+    exit $EXITSTATUS
+  fi
+
+}
+
+####################################################################
+#
+# parcel_disk_out() - Run the Fdisk Program for TARGET_ROOT_DEVICE.
+#
+fdiskprg=
+gdiskprg=
+
+parcel_disk_out() {
+  clear
+  $fdiskprg $TARGET_ROOT_DEVICE
+  ret=$?
+  if [ $ret != 0 ] ; then
+    $DIALOG --colors \
+            --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+            --title " \Z4Setup:\Zn \Z1\ZbERROR\ZB\Zn " \
+            --msgbox "\n\Z1\Zbfdisk\ZB returned bad status. So, we have to interrupt the installation.\Zn\n" 7 74
+    exit
+  fi
+}
+#
+# End of parcel_disk_out() declaration.
+#
+####################################################################
+
+
+####################################################################
+#
+# ask_partioning() - do we need to parcel target disk out
+#                    and which program we have to use for.
+#
+#   arguments:
+#   ---------
+#         $1 - target device (i.e. TARGET_ROOT_DEVICE).
+#
+devname=
+nocancel=
+
+trygdisk=no
+
+check_target_partitions() {
+  has_linux_partition=`fdisk -l /dev/$devname | grep "^/dev/${devname}.* 83 .*"`
+  if [ "$has_linux_partition" == "" ] ; then
+    nocancel="--no-cancel"
+    return 1
+  fi
+
+  #
+  # NOTE:
+  # ====
+  #   If we have ${HARDWARE}.fat32fs (for example omap5uevm) then
+  #   the first partirion should be active vfat partirion.
+  #
+  if [ -r $PRODUCTS_PATH/${HARDWARE}.fat32fs ] ; then
+    has_vfat_partition=`fdisk -l /dev/$devname | grep "^/dev/${devname}.* [cC] W*"`
+    if [ "$has_vfat_partition" == "" ] ; then
+      nocancel="--no-cancel"
+      return 2
+    fi
+  fi
+
+  plist=`lsblk -l -o name,fstype,mountpoint | sed "s,$devname\s*$,," | grep $devname | sed -e 's,\s\+, ,g'`
+  if [ "$plist" == "" ] ; then
+    # disk /dev/$devname has no partitions
+    nocancel="--no-cancel"
+    return 1
+  else
+    #############################################
+    # Unmount all file systems
+    #
+    echo -e "$plist" | while read -r line ; do
+      words=`echo "$line" | wc -w`
+      prname=
+      fstype=
+      mpoint=
+      prname=`echo "$line" | cut -f 1 -d ' '`
+      if [ $words -ge 2 ] ; then
+        fstype=`echo "$line" | cut -f 2 -d ' '`
+      fi
+      if [ $words -ge 3 ] ; then
+        mpoint=`echo "$line" | cut -f 3 -d ' '`
+      fi
+      if [ "$mpoint" != "" -a -d "$mpoint" ] ; then
+        $DIALOG --colors --clear \
+                --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+                --title " \Z0Unmount The Existing File Systems\Zn " \
+                --msgbox "\nPartition \Z1\Zb/dev/$prname\ZB\Zn has \Z1\Zb$fstype\ZB\Zn file system mounted\n\n\
+at: \Z4\Zb$mpoint\ZB\Zn\n\n\
+\Z1\ZbWe have to unmount /dev/$prname partition.\ZB\Zn\n" 11 74
+
+        umount $mpoint 2> /dev/null
+      fi
+    done
+    #
+    #############################################
+    space=0
+    totalsectors=`fdisk -l /dev/$devname | grep ".*total [0-9]* sectors$" | sed -r "s,.*total ([0-9]*) sectors,\1,g"`
+    lastsector=`fdisk -l /dev/$devname | tail -n1 | sed -e 's,\s\+, ,g' | cut -f 3 -d ' '`
+    let "space = totalsectors - lastsector"
+    if [ $space -gt 1 ] ; then
+      # There is additional space on the disk (probably not enough for partition but ...)
+      return 3
+    fi
+  fi
+}
+
+ask_partioning() {
+  device=$1
+
+  if [ "$device" == "" ] ; then return 255 ; fi
+  devname=`echo $device | sed -e 's,/dev/,,'`
+
+  case "$HARDWARE" in
+    "pc32" | "pc64" )
+      trygdisk=yes
+      gdiskprg=`which gdisk 2> /dev/null`
+      items=3
+      height=14
+      ;;
+    *)
+      trygdisk=no
+      items=2
+      height=13
+      ;;
+  esac
+
+  fdiskprg=`which fdisk 2> /dev/null`
+
+  #
+  # Run check_target_partitions() function before starting
+  # the dialog creation to set 'nocancel' variable on time:
+  #
+  check_target_partitions ;
+  retval=$?
+
+  cat > $TMP/menu-parcel$$ << EOF
+--colors --clear $nocancel \\
+--backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \\
+--title " \Z0Partioning the\Zn \Z1TARGET\Zn \Z0disk\Zn " \\
+--menu "\\n\\
+EOF
+
+
+  ############################################################
+  # Check return value of check_target_partitions() function:
+  #
+  if [ $retval = 1 ] ; then
+    cat >> $TMP/menu-parcel$$ << EOF
+The target disk should has at least one \ZbLinux\ZB partition for root file system. \\
+Also you may want to have \Zb/home\ZB and \Zbswap\ZB partitions. \\
+EOF
+  elif [ $retval = 2 ] ; then
+    let "height = height + 2"
+    cat >> $TMP/menu-parcel$$ << EOF
+The target disk should has at least two partitions. First one should be the active \\
+vfat \Z1BOOT\Zn partition type=0x0C [W95 FAT32 (LBA)]. Second one should be \ZbLinux\ZB \\
+partition (type=0x83) for root file system. Also you may want to have \Zb/home\ZB and \\
+\Zbswap\ZB partitions. \\
+EOF
+  elif [ $retval = 3 ] ; then
+    cat >> $TMP/menu-parcel$$ << EOF
+There is unallocated space. You can create new partitions or change disk space. \\
+Also you may want to have \Zb/home\ZB and \Zbswap\ZB partitions. \\
+EOF
+  else
+    cat >> $TMP/menu-parcel$$ << EOF
+Now you can allocate disk space for target root file system. \\
+Also you may want to have \Zb/home\ZB and \Zbswap\ZB partitions. \\
+EOF
+  fi
+  #
+  # End of checking retvals from check_target_partitions().
+  ############################################################
+
+
+  cat >> $TMP/menu-parcel$$ << EOF
+\\n\\n\\
+Please select program for partioning:\\
+" $height 74 $items \\
+EOF
+
+  if [ "$fdiskprg" != "" -a -x "$fdiskprg" ] ; then
+    cat >> $TMP/menu-parcel$$ << EOF
+"Fdisk" "Use '\Zb$fdiskprg\ZB' for partioning" \\
+EOF
+  else
+    fdiskprg=
+  fi
+
+  if [ "$trygdisk" == "yes" -a "$gdiskprg" != "" -a -x "$gdiskprg" ] ; then
+    cat >> $TMP/menu-parcel$$ << EOF
+"Gdisk" "Use '\Zb$gdiskprg\ZB' for partioning" \\
+EOF
+  else
+    gdiskprg=
+  fi
+
+  cat >> $TMP/menu-parcel$$ << EOF
+"Exit" "Terminate the Radix Linux installation" \\
+EOF
+
+  $DIALOG --default-item "Fdisk" --file $TMP/menu-parcel$$ 2> $TMP/parcel$$
+  ret=$?
+  if [ $ret = 1 -o $ret = 255 ]; then
+    rm -f $TMP/parcel$$
+    rm -f $TMP/menu-parcel$$
+    return $ret
+  fi
+  RETVAL=`cat $TMP/parcel$$`
+  rm -f $TMP/parcel$$
+  rm -f $TMP/menu-parcel$$
+  if [ "$RETVAL" = "Exit" ]; then
+    return 255
+  elif [ "$RETVAL" = "Fdisk" ]; then
+    fdiskprg="$fdiskprg"
+    return 0
+  else
+    if [ "$trygdisk" == "yes" -a "$gdiskprg" != "" -a -x "$gdiskprg" ] ; then
+      fdiskprg="$gdiskprg"
+    else
+      fdiskprg="$fdiskprg"
+    fi
+    return 0
+  fi
+}
+#
+# End of ask_partioning() declaration.
+#
+####################################################################
+
+
+####################################################################
+#
+# write_boot_image() - copy the BOOT image into TARGET_ROOT_DEVICE.
+#
+#   arguments:
+#   ---------
+#         $1 - device name (i.e. TARGET_ROOT_DEVICE);
+#         $2 - boot records file name;
+#         $3 - root FS image file name;
+#         $4 - temporary dd output file;
+#         $5 - DOS boot FS image file name (optional).
+#
+devname=
+bootrecords=
+dospartition=
+rootfsimage=
+ddoutput=
+
+waitdd() {
+  pid=$1
+  PCT=0
+  spin='-\|/'
+
+  dsize=0
+  if [ "$dospartition" != "" -a -r "$dospartition" ] ; then dsize=`stat --format=%s $dospartition` ; fi
+  bsize=`stat --format=%s $bootrecords`
+  fsize=`stat --format=%s $rootfsimage`
+  isize=
+  let "isize = bsize + dsize + fsize"
+
+  i=0
+  ( while [ "`ps -eo pid | grep $pid`" != "" ] ; do
+      kill -USR1 "$pid"
+      sleep 1
+      line=`tail -n1 $ddoutput | grep "bytes"`
+      bytes=`echo "$line" | cut -f 1 -d ' '`
+      if [ "$bytes" != "" ] ; then
+        let "PCT = bytes * 100 / isize"
+      fi
+      backline=$line
+      if [ $PCT -ge 99 -a $PCT -ne 100 ] ; then
+        let "i = ( i + 1 ) % 4"
+        line="$backline [${spin:$i:1}]"
+      fi
+      cat << EOF
+XXX
+$PCT
+\n\
+ Please wait for $isize bytes:\n\n\
+ $line
+XXX
+EOF
+    done
+  ) |
+  $DIALOG --colors \
+          --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+          --title " \Z0Writing the\Zn \Z1BOOT\Zn \Z0image\Zn " --gauge "\n Please wait for $isize bytes:" 10 74 0
+}
+
+
+boot_image_has_been_written=
+
+write_boot_image() {
+  devname=$1      ; shift
+  bootrecords=$1  ; shift
+  rootfsimage=$1  ; shift
+  ddoutput=$1     ; shift
+
+  if [ "$#" -gt "0" ] ; then
+    dospartition=$1 ; shift
+  fi
+
+  cat $bootrecords $dospartition $rootfsimage | dd of=$devname bs=512 >> $ddoutput 2>&1 & waitdd $!
+  ret=$?
+  sleep 3
+  errmsg="is done successful"
+  if [ $ret = 0 ] ; then
+    boot_image_has_been_written=yes
+  else
+    errmsg="returns bad status"
+  fi
+  $DIALOG --colors --clear \
+          --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+          --title " \Z0Writing the\Zn \Z1BOOT\Zn \Z0image\Zn " \
+          --msgbox "\n\Z1\ZbWriting\ZB - ${errmsg}.\Zn\n" 7 74
+
+}
+#
+# End of write_boot_image() declaration.
+#
+####################################################################
+
+flash_images() {
+  if [ ! -r $PRODUCTS_PATH/${HARDWARE}.boot-records -o \
+       ! -r $PRODUCTS_PATH/${HARDWARE}.ext4fs ] ; then
+    #
+    # Return if image is not found
+    #
+    return
+  else
+
+    cat > $TMP/flash-images-help$$ << EOF
+
+There is a simplest way to install the system. Namely, just write the
+\Z1\ZbBOOT\ZB\Zn image to the disk. This way is not recommended for BIOS machines
+such as Intel Personal Computers but enough for devices based on SoCs.
+If you will select  \Z4\Zb< No >\ZB\Zn  then the interactive installation will be
+continued. If you will select  \Z1\Zb< Yes >\ZB\Zn  then the  \Z1\ZbBOOT\ZB\Zn  image will be
+writen and device will be ready for boot.
+
+\Z1\ZbNOTE\ZB\Zn: This will erase all data on the \Zb${TARGET_ROOT_DEVICE}\ZB
+
+\Z0\ZbWould you like to write\ZB\Zn \Z1\ZbBOOT\ZB\Zn \Z0\Zbimage to this device?\ZB\Zn
+EOF
+
+    $DIALOG --colors --defaultno \
+            --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+            --title " \Z0Make boot disk by writing\Zn \Z1BOOT\Zn \Z0image\Zn " \
+            --yesno "$(cat $TMP/flash-images-help$$)" 16 74
+    ret=$?
+    rm -f $TMP/flash-images-help$$
+    if [ $ret = 0 ] ; then
+      dosboot=
+      if [ -r $PRODUCTS_PATH/${HARDWARE}.fat32fs ] ; then
+        dosboot=$PRODUCTS_PATH/${HARDWARE}.fat32fs
+      fi
+      write_boot_image "$TARGET_ROOT_DEVICE"                     \
+                       "$PRODUCTS_PATH/${HARDWARE}.boot-records" \
+                       "$PRODUCTS_PATH/${HARDWARE}.ext4fs"       \
+                       "$TMP/dd-output.$$"                       \
+                       "$dosboot"
+    fi
+  fi
+}
+
+####################################################################
+#
+# prepare_target_disk() - prepare target TARGET_ROOT_DEVICE.
+#
+#   - ask for flashing existing image;
+#   - partioning device or allocate additional partitions.
+#
+
+prepare_target_disk() {
+  #
+  # Prepare target disk for installation or flash the drive with available ext4fs image:
+  #
+
+  # ask for direct flashing ext4fs
+  flash_images
+
+  # do we need to run some fdisk program?
+  ask_partioning "$TARGET_ROOT_DEVICE"
+  ret=$?
+  if [ $ret = 0 ] ; then
+    # run the $fdiskprg for partioning the $TARGET_ROOT_DEVICE
+    parcel_disk_out
+  elif [ $ret = 255 ] ; then
+    # User want to exit setup by Esc Button or Exit/Skip menu item
+    exit_setup
+  else
+    /bin/true # skip partioning the $TARGET_ROOT_DEVICE
+  fi
+}
+#
+# End of prepare_target_disk() declaration.
+#
+####################################################################
+
+
+####################################################################
+#
+# prepare_partitions() - create needed file systems on each
+#                        partitions and create new /etc/fstab.
+#
+#   arguments:
+#   ---------
+#         $1 - target device (i.e. TARGET_ROOT_DEVICE).
+#
+devname=
+partlist=$TMP/plist.$$
+
+gen_parts_list() {
+  truncate -s0 $partlist
+
+  first_boot= ; first_root= ; first_home=
+
+  plist=`lsblk -lb -o name,size,type,fstype,mountpoint | grep $devname | sed -e 's,\s\+, ,g'`
+  echo -e "$plist" | while read -r line ; do
+    words=`echo "$line" | wc -w`
+
+    prname= ; prsize= ; prtype= ; fstype= ; mpoint=
+
+    prname=`echo "$line" | cut -f 1 -d ' '`
+    if [ $words -ge 2 ] ; then
+      prsize=`echo "$line" | cut -f 2 -d ' '`
+    fi
+    if [ $words -ge 3 ] ; then
+      prtype=`echo "$line" | cut -f 3 -d ' '`
+      if [ "$prtype" != "part" ] ; then
+        continue
+      fi
+    fi
+    if [ $words -ge 4 ] ; then
+      fstype=`echo "$line" | cut -f 4 -d ' '`
+    fi
+    if [ $words -ge 5 ] ; then
+      mpoint=`echo "$line" | cut -f 5 -d ' '`
+    fi
+
+    #
+    # recomended values
+    #
+    used=
+    partid=`fdisk -l /dev/$devname | grep "^/dev/${prname}" | sed 's,\s\+, ,g' | cut -f 5 -d ' '`
+    partid=`printf '%02s' "$partid"`
+    if [ "$partid" == "82" -o "$partid" == "82" ] ; then
+      mpoint="swap"
+      fstype="swap"
+    fi
+    if [ "${first_boot}" == "" ] ; then
+      if [ "$partid" == " c" -o "$partid" == " C" ] ; then
+        first_boot="/dev/$prname"
+        mpoint="/bootfs"
+        fstype="vfat"
+        if [ "$boot_image_has_been_written" == "yes" ] ; then
+          used="use"
+        fi
+      fi
+    fi
+    if [ "${first_root}" == "" ] ; then
+      if [ "$partid" == "83" -o "$partid" == "83" ] ; then
+        first_root="/dev/$prname"
+        mpoint="/"
+        fstype="ext4"
+        if [ "$boot_image_has_been_written" == "yes" ] ; then
+          used="use"
+        fi
+      fi
+    fi
+    if [ "${first_root}" != "" -a "${first_home}" == "" ] ; then
+      if [ "$partid" == "83" -o "$partid" == "83" ] ; then
+         if [ "$first_root" != "/dev/$prname" ] ; then
+           first_home="/dev/$prname"
+           mpoint="/home"
+           fstype="ext4"
+        fi
+      fi
+    fi
+
+    echo "/dev/${prname}:${prsize}:${fstype}:${mpoint}:${used}" | sed -e 's,\s\+$,,g' >> $partlist
+  done
+}
+
+partitems=$TMP/ptems.$$
+
+gen_parts_menu_items() {
+  first_boot=
+  first_root=
+  first_home=
+
+  truncate -s0 $partitems
+
+  cat "$partlist" | while read -r line ; do
+    prname= ; prsize= ; prtype= ; fstype= ; mpoint=
+
+    prname=`echo "$line" | cut -f 1 -d ':'`
+
+    prtype=`fdisk -l /dev/$devname | grep "^${prname}" | sed 's,\s\+, ,g' | cut -f 5 -d ' '`
+    prtype=`printf '%02s' "$prtype"`
+
+    prsize=`echo "$line" | cut -f 2 -d ':'`
+    let "prsize = prsize / 1048576"
+    prsize=`printf '%6d' $prsize`
+
+    fstype=`echo "$line" | cut -f 3 -d ':'`
+    fstype=`printf '%-8s' "$fstype"`
+
+    mpoint=`echo "$line" | cut -f 4 -d ':'`
+
+    used=`echo "$line" | cut -f 5 -d ':'`
+    if [ "$used" == "use" ] ; then
+      fstype="\\Z5$fstype\\Zn"
+      mpoint="\\Z5$mpoint\\Zn"
+    fi
+    echo "\"$prname\" \"${prsize}M $prtype $fstype $mpoint\" \\\\" | sed -e 's,\s\+$,,g' >> $partitems
+  done
+}
+
+
+get_partition_size() {
+  dev=$1
+  prsize=`cat $partlist | grep "^$dev" | cut -f 2 -d ':'`
+  echo -n "$prsize"
+}
+
+get_recomended_fstype() {
+  dev=$1
+  fstype=`cat $partlist | grep "^$dev" | cut -f 3 -d ':'`
+  echo -n "$fstype"
+}
+
+set_recomended_fstype() {
+  dev=$1
+  fstype=$2
+    name=`echo $dev | sed -e 's,/dev/,,'`
+  prsize=`cat $partlist | grep "^$dev" | cut -f 2 -d ':'`
+  mpoint=`cat $partlist | grep "^$dev" | cut -f 4 -d ':'`
+  sed -i "/$name/c\/dev/${name}:${prsize}:${fstype}:${mpoint}:use" $partlist
+}
+
+get_recomended_mpoint() {
+  dev=$1
+  mpoint=`cat $partlist | grep "^$dev" | cut -f 4 -d ':'`
+  echo -n "$mpoint"
+}
+
+set_recomended_mpoint() {
+  dev=$1
+  mpoint=$2
+    name=`echo $dev | sed -e 's,/dev/,,'`
+  prsize=`cat $partlist | grep "^$dev" | cut -f 2 -d ':'`
+  fstype=`cat $partlist | grep "^$dev" | cut -f 3 -d ':'`
+  sed -i "/$name/c\/dev/${name}:${prsize}:${fstype}:${mpoint}:use" $partlist
+}
+
+get_bootfs_devname() {
+  cat "$partlist" | while read -r line ; do
+    prname= ; fstype= ; mpoint=
+
+    prname=`echo "$line" | cut -f 1 -d ':'`
+    fstype=`echo "$line" | cut -f 3 -d ':'`
+    mpoint=`echo "$line" | cut -f 4 -d ':'`
+
+    if [ "$fstype" == "vfat" -a "$mpoint" == "/bootfs" ] ; then
+      echo -n "$prname"
+      break
+    fi
+  done
+}
+
+get_rootfs_devname() {
+  cat "$partlist" | while read -r line ; do
+    prname= ; fstype= ; mpoint=
+
+    prname=`echo "$line" | cut -f 1 -d ':'`
+    fstype=`echo "$line" | cut -f 3 -d ':'`
+    mpoint=`echo "$line" | cut -f 4 -d ':'`
+
+    if [ "$mpoint" == "/" ] ; then
+      echo -n "$prname"
+      break
+    fi
+  done
+}
+
+
+make_ext2() {
+  prname=$1
+  plabel=$2
+
+  prsize=`get_partition_size $prname`
+  let "prsize = prsize / 1024"
+
+  $DIALOG --colors \
+          --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+          --title " \Z0\ZbFormatting\ZB\Zn \Z1\Zb$prname\ZB\Zn " \
+          --infobox "\nFormatting \Z4\Zb$prname\ZB\Zn\n\n\
+Size in 1K blocks: \Z4\Zb$prsize\ZB\Zn\n\
+  Filesystem type: \Z4\Zbext2\ZB\Zn\n" 8 74
+  if mount | grep "$prname " 1> /dev/null 2> /dev/null ; then
+    umount $prname 2> /dev/null
+  fi
+  if [ "$plabel" != "" ] ; then
+    mkfs.ext2 -L "$plabel" $prname 1> /dev/null 2> /dev/null
+  else
+    mkfs.ext2 $prname 1> /dev/null 2> /dev/null
+  fi
+}
+
+make_ext3() {
+  prname=$1
+  plabel=$2
+
+  prsize=`get_partition_size $prname`
+  let "prsize = prsize / 1024"
+
+  $DIALOG --colors \
+          --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+          --title " \Z0\ZbFormatting\ZB\Zn \Z1\Zb$prname\ZB\Zn " \
+          --infobox "\nFormatting \Z4\Zb$prname\ZB\Zn\n\n\
+Size in 1K blocks: \Z4\Zb$prsize\ZB\Zn\n\
+  Filesystem type: \Z4\Zbext3\ZB\Zn\n" 8 74
+  if mount | grep "$prname " 1> /dev/null 2> /dev/null ; then
+    umount $prname 2> /dev/null
+  fi
+  if [ "$plabel" != "" ] ; then
+    mkfs.ext3 -L "$plabel" $prname 1> /dev/null 2> /dev/null
+  else
+    mkfs.ext3 $prname 1> /dev/null 2> /dev/null
+  fi
+}
+
+make_ext4() {
+  prname=$1
+  plabel=$2
+
+  prsize=`get_partition_size $prname`
+  let "prsize = prsize / 1024"
+
+  $DIALOG --colors \
+          --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+          --title " \Z0\ZbFormatting\ZB\Zn \Z1\Zb$prname\ZB\Zn " \
+          --infobox "\nFormatting \Z4\Zb$prname\ZB\Zn\n\n\
+Size in 1K blocks: \Z4\Zb$prsize\ZB\Zn\n\
+  Filesystem type: \Z4\Zbext4\ZB\Zn\n" 8 74
+  if mount | grep "$prname " 1> /dev/null 2> /dev/null ; then
+    umount $prname 2> /dev/null
+  fi
+  if [ "$plabel" != "" ] ; then
+    mkfs.ext4 -L "$plabel" $prname 1> /dev/null 2> /dev/null
+  else
+    mkfs.ext4 $prname 1> /dev/null 2> /dev/null
+  fi
+}
+
+make_vfat() {
+  prname=$1
+  plabel=$2
+
+  prsize=`get_partition_size $prname`
+  let "prsize = prsize / 1024"
+
+  $DIALOG --colors \
+          --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+          --title " \Z0\ZbFormatting\ZB\Zn \Z1\Zb$prname\ZB\Zn " \
+          --infobox "\nFormatting \Z4\Zb$prname\ZB\Zn\n\n\
+Size in 1K blocks: \Z4\Zb$prsize\ZB\Zn\n\
+  Filesystem type: \Z4\Zbvfat\ZB\Zn\n" 8 74
+  if mount | grep "$prname " 1> /dev/null 2> /dev/null ; then
+    umount $prname 2> /dev/null
+  fi
+  if [ "$plabel" != "" ] ; then
+    mkfs.fat -F 32 -n "$plabel" $prname 1> /dev/null 2> /dev/null
+  else
+    mkfs.fat -F 32 $prname 1> /dev/null 2> /dev/null
+  fi
+}
+
+make_btrfs() {
+  prname=$1
+  plabel=$2
+
+  prsize=`get_partition_size $prname`
+  let "prsize = prsize / 1024"
+
+  $DIALOG --colors \
+          --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+          --title " \Z0\ZbFormatting\ZB\Zn \Z1\Zb$prname\ZB\Zn " \
+          --infobox "\nFormatting \Z4\Zb$prname\ZB\Zn\n\n\
+Size in 1K blocks: \Z4\Zb$prsize\ZB\Zn\n\
+  Filesystem type: \Z4\Zbbtrfs\ZB\Zn\n" 8 74
+  if mount | grep "$prname " 1> /dev/null 2> /dev/null ; then
+    umount $prname 2> /dev/null
+  fi
+  if [ "$plabel" != "" ] ; then
+    mkfs.btrfs -d single -m single -L "$plabel" $prname 1> /dev/null 2> /dev/null
+  else
+    mkfs.btrfs -d single -m single $prname 1> /dev/null 2> /dev/null
+  fi
+}
+
+make_reiserfs() {
+  prname=$1
+  plabel=$2
+
+  prsize=`get_partition_size $prname`
+  let "prsize = prsize / 1024"
+
+  $DIALOG --colors \
+          --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+          --title " \Z0\ZbFormatting\ZB\Zn \Z1\Zb$prname\ZB\Zn " \
+          --infobox "\nFormatting \Z4\Zb$prname\ZB\Zn\n\n\
+Size in 1K blocks: \Z4\Zb$prsize\ZB\Zn\n\
+  Filesystem type: \Z4\Zbreiserfs\ZB\Zn\n" 8 74
+  if mount | grep "$prname " 1> /dev/null 2> /dev/null ; then
+    umount $prname 2> /dev/null
+  fi
+  if [ "$plabel" != "" ] ; then
+    echo "y" | mkreiserfs --label "$plabel" $prname 1> /dev/null 2> /dev/null
+  else
+    echo "y" | mkreiserfs $prname 1> /dev/null 2> /dev/null
+  fi
+}
+
+make_jfs() {
+  prname=$1
+  plabel=$2
+
+  prsize=`get_partition_size $prname`
+  let "prsize = prsize / 1024"
+
+  $DIALOG --colors \
+          --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+          --title " \Z0\ZbFormatting\ZB\Zn \Z1\Zb$prname\ZB\Zn " \
+          --infobox "\nFormatting \Z4\Zb$prname\ZB\Zn\n\n\
+Size in 1K blocks: \Z4\Zb$prsize\ZB\Zn\n\
+  Filesystem type: \Z4\Zbjfs\ZB\Zn\n" 8 74
+  if mount | grep "$prname " 1> /dev/null 2> /dev/null ; then
+    umount $prname 2> /dev/null
+  fi
+  if [ "$plabel" != "" ] ; then
+    mkfs.jfs -q -L "$plabel" $prname 1> /dev/null 2> /dev/null
+  else
+    mkfs.jfs -q $prname 1> /dev/null 2> /dev/null
+  fi
+}
+
+make_xfs() {
+  prname=$1
+  plabel=$2
+
+  prsize=`get_partition_size $prname`
+  let "prsize = prsize / 1024"
+
+  $DIALOG --colors \
+          --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+          --title " \Z0\ZbFormatting\ZB\Zn \Z1\Zb$prname\ZB\Zn " \
+          --infobox "\nFormatting \Z4\Zb$prname\ZB\Zn\n\n\
+Size in 1K blocks: \Z4\Zb$prsize\ZB\Zn\n\
+  Filesystem type: \Z4\Zbxfs\ZB\Zn\n" 8 74
+  if mount | grep "$prname " 1> /dev/null 2> /dev/null ; then
+    umount $prname 2> /dev/null
+  fi
+  if [ "$plabel" != "" ] ; then
+    mkfs.xfs -q -f -L "$plabel" $prname 1> /dev/null 2> /dev/null
+  else
+    mkfs.xfs -q -f $prname 1> /dev/null 2> /dev/null
+  fi
+}
+
+
+create_file_system() {
+  prname=$1
+  fstype=$2
+  plabel=
+
+  mpoint=`get_recomended_mpoint $prname`
+  if [ "$mpoint" == "/" ] ; then
+    plabel="$HARDWARE"
+  fi
+  if [ "$mpoint" == "/bootfs" ] ; then
+    plabel="boot"
+  fi
+
+  cat > $TMP/partlabel-help$$ << EOF
+
+Please specify the volume label for file system on the \Zb$prname\ZB partition.
+
+\ZbType the volume label or leave following line empty:\ZB
+EOF
+
+  result=`$DIALOG --stdout  --colors \
+                  --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+                  --title " \Z0\ZbSelect Volume Label\ZB\Zn " \
+                  --inputbox "$(cat $TMP/partlabel-help$$)" 12 74 "${plabel}"`
+  ret=$?
+  rm -f $TMP/partlabel-help$$
+  if [ $ret = 0 ]; then
+    plabel="$result"
+  fi
+
+  case "$fstype" in
+    ext2 )
+      make_ext2 "$prname" "$plabel"
+      ;;
+    ext3 )
+      make_ext3 "$prname" "$plabel"
+      ;;
+    ext4 )
+      make_ext4 "$prname" "$plabel"
+      ;;
+    vfat )
+      make_vfat "$prname" "$plabel"
+      ;;
+    reiserfs )
+      make_reiserfs "$prname" "$plabel"
+      ;;
+    btrfs )
+      make_btrfs "$prname" "$plabel"
+      ;;
+    * )
+      break
+      ;;
+  esac
+
+  set_recomended_fstype "$prname" "$fstype"
+}
+
+set_mount_point() {
+  cat > $TMP/mountpoint-help$$ << EOF
+
+Please specify where you want the \Zb$prname\ZB partition mounted.
+
+For example, if you want to put it under \Z4\Zb/opt\ZB\Zn, then respond: \Z4\Zb/opt\ZB\Zn
+
+\ZbWhere would you like to mount \Z1$prname\Zn\ZB\Zb?\ZB
+EOF
+
+  result=`$DIALOG --stdout  --colors \
+                  --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+                  --title " \Z0\ZbSelect Mount Point for\ZB\Zn \Z1\Zb$prname\ZB\Zn " \
+                  --inputbox "$(cat $TMP/mountpoint-help$$)" 12 74 "${mpoint}"`
+  ret=$?
+  rm -f $TMP/mountpoint-help$$
+  if [ $ret = 0 ]; then
+    mpoint="$result"
+  fi
+  set_recomended_mpoint "$prname" "$mpoint"
+}
+
+
+format_partition() {
+  prname=$1
+
+  fstype=`get_recomended_fstype $prname`
+  mpoint=`get_recomended_mpoint $prname`
+
+  if [ "$fstype" == "swap" ] ; then
+    cat > $TMP/mountpoint-help$$ << EOF
+
+Radix Setup will now prepare your system's \Z1\Zbswap\ZB\Zn space.
+
+\ZbWould you like to format\ZB \Z1\Zb$prname\ZB\Zn using \Z4\Zbmkswap\ZB\Zn\Zb?\ZB
+EOF
+
+    result=`$DIALOG --stdout  --colors \
+                    --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+                    --title " \Z0\ZbFormat Swap Partition\ZB\Zn \Z1\Zb$prname\ZB\Zn \Z0\Zb?\ZB\Zn " \
+                    --yesno "$(cat $TMP/mountpoint-help$$)" 9 74`
+    ret=$?
+    rm -f $TMP/mountpoint-help$$
+    if [ $ret = 0 ]; then
+      $DIALOG --colors \
+              --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+              --title " \Z0\ZbFormatting\ZB\Zn \Z1\Zb$prname\ZB\Zn " \
+              --infobox "\nFormatting \Z1\Zb$prname\ZB\Zn partition as a system's swap...\n" 6 74
+      mkswap -v1 $prname 1> /dev/null 2> /dev/null
+    else
+      return
+    fi
+    set_recomended_fstype "$prname" "swap"
+    set_recomended_mpoint "$prname" "swap"
+    return
+  else
+    unset EXT2 EXT3 EXT4 REISERFS BTRFS VFAT JFS XFS
+    if grep -wq ext2 /proc/filesystems 1> /dev/null 2> /dev/null ; then
+      EXT2="Ext2 is the traditional Linux file system and is fast and stable."
+    fi
+    if grep -wq ext3 /proc/filesystems 1> /dev/null 2> /dev/null ; then
+      EXT3="Ext3 is the journaling version of the Ext2 filesystem."
+    fi
+    if grep -wq ext4 /proc/filesystems 1> /dev/null 2> /dev/null ; then
+      EXT4="Ext4 is the successor to the ext3 filesystem."
+    fi
+    if grep -wq reiserfs /proc/filesystems 1> /dev/null 2> /dev/null ; then
+      REISERFS="ReiserFS is a journaling filesystem that stores all files and filenames in a balanced tree structure."
+    fi
+    if grep -wq btrfs /proc/filesystems 1> /dev/null 2> /dev/null ; then
+      BTRFS="Btrfs is a B-tree copy-on-write filesystem."
+    fi
+    if grep -wq vfat /proc/filesystems 1> /dev/null 2> /dev/null ; then
+      VFAT="VFAT is a updated version of the FAT filesystem for Windows. VFAT's updates are mainly support for longer file names."
+    fi
+    if grep -wq jfs /proc/filesystems 1> /dev/null 2> /dev/null ; then
+      JFS="JFS is IBM's Journaled Filesystem, currently used in IBM enterprise servers."
+    fi
+    if grep -wq xfs /proc/filesystems 1> /dev/null 2> /dev/null ; then
+      XFS="XFS is SGI's journaling filesystem that originated on IRIX."
+    fi
+
+    cat > $TMP/filesystem-help$$ << EOF
+--colors --default-item "$fstype" \\
+--backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \\
+--title " \Z0\ZbSelect File System for \ZB\Zn \Z1\Zb$prname\ZB\Zn " \\
+--menu "\\n\\
+Please select the type of filesystem to use for the specified device. \\
+\\n\\n\\
+Here are descriptions of the available filesystems:\\
+" 14 74 4 \\
+EOF
+
+    if [ ! "$EXT2" = "" ]; then
+      echo "\"ext2\" \"Standard Linux Ext2 Filesystem\" \\" >> $TMP/filesystem-help$$
+    fi
+    if [ ! "$EXT3" = "" ]; then
+      echo "\"ext3\" \"Ext3 Journaling Filesystem\" \\" >> $TMP/filesystem-help$$
+    fi
+    if [ ! "$EXT4" = "" ]; then
+      echo "\"ext4\" \"Ext4 Journaling Filesystem\" \\" >> $TMP/filesystem-help$$
+    fi
+    if [ ! "$VFAT" = "" ]; then
+      echo "\"vfat\" \"VFAT updated version of the FAT filesystem\" \\" >> $TMP/filesystem-help$$
+    fi
+    if [ ! "$REISERFS" = "" ]; then
+      echo "\"reiserfs\" \"ReiserFS Journaling Filesystem\" \\" >> $TMP/filesystem-help$$
+    fi
+    if [ ! "$BTRFS" = "" ]; then
+      echo "\"btrfs\" \"Btrfs Copy-on-Write B-tree Filesystem\" \\" >> $TMP/filesystem-help$$
+    fi
+
+    $DIALOG --file $TMP/filesystem-help$$ 2> $TMP/filesystem$$
+    ret=$?
+    result=`cat $TMP/filesystem$$`
+    rm -f $TMP/filesystem$$
+    rm -f $TMP/filesystem-help$$
+    if [ $ret = 0 ]; then
+      fstype=$result
+
+      ################################################################
+      # Create File System:
+      #
+      if [ "$boot_image_has_been_written" == "yes" ] ; then
+        if [ "$mpoint" == "/" -o "$mpoint" == "/bootfs" ] ; then
+          $DIALOG --colors --clear \
+                  --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+                  --title " \Z1Do not try to format the system partition\Zn " \
+                  --msgbox "\n\Z1The system is already installed. Please do not try to format the system partition.\Zn\n" 8 74
+        else
+          create_file_system "$prname" "$fstype"
+        fi
+      else
+        create_file_system "$prname" "$fstype"
+      fi
+      #
+      ################################################################
+
+      ################################################################
+      # Set Mount Point:
+      #
+      if [ "$boot_image_has_been_written" == "yes" ] ; then
+        if [ "$mpoint" != "/" -a "$mpoint" != "/bootfs" ] ; then
+          set_mount_point
+        fi
+      else
+        set_mount_point
+      fi
+      #
+      ################################################################
+    fi
+  fi
+}
+
+prepare_partitions() {
+  device=$1
+
+  if [ "$device" == "" ] ; then return 255 ; fi
+  devname=`echo $device | sed -e 's,/dev/,,'`
+
+  items=3
+  height=20
+
+  gen_parts_list
+
+  while [ 0 ] ; do
+    cat > $TMP/menu-format$$ << EOF
+--colors --clear --cancel-label "Continue" \\
+--backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \\
+--title " \Z0Create File Systems and Select\Zn \Z1TARGET\Zn \Z0Mountpoints\Zn " \\
+--menu "\\n\\
+EOF
+
+    cat >> $TMP/menu-format$$ << EOF
+The target disk has fillowing partitions. Each menu item show the device name, \\
+size in MiB, and type of existing partition. Last two columns may shows recomended \\
+filesystem and mount point for the target system. Now you can create filesystem on \\
+each existing partitions (if needed) and choose or confirm mount point.\\n\\n\\
+Already changed values will be shown in \Z5\ZbMagenta\ZB\Zn (0xFF00FF) color. \\
+EOF
+
+    cat >> $TMP/menu-format$$ << EOF
+\\n\\n\\
+Please select each of partitions listed below, or if you're done,\\nhit <Continue>:\\
+" $height 73 $items \\
+EOF
+
+    gen_parts_menu_items
+
+    cat "$partitems" >> $TMP/menu-format$$
+
+    $DIALOG --file $TMP/menu-format$$ 2> $TMP/format$$
+    ret=$?
+    if [ $ret = 1 -o $ret = 255 ]; then
+      rm -f $TMP/format$$
+      rm -f $TMP/menu-format$$
+      # continue the installation
+      return $ret
+    fi
+    RETVAL=`cat $TMP/format$$`
+    rm -f $TMP/format$$
+    rm -f $TMP/menu-format$$
+
+    format_partition "$RETVAL"
+  done
+}
+#
+# End of prepare_partitions() declaration.
+#
+####################################################################
+
+
+####################################################################
+#
+# prepare_etc_fstab() - create temporary /etc/fstab according to
+#                       the table of formated partitions.
+#
+fstab=$TMP/fstab.$$
+
+prepare_etc_fstab() {
+  cat > $fstab << EOF
+#
+# /etc/fstab
+#
+# --------------+----------------+-----------+------------------------+------+------
+         device | mount point    | FS type   | options                | dump | pass
+# --------------+----------------+-----------+------------------------+------+------
+
+EOF
+
+  cat "$partlist" | while read -r line ; do
+    prname= ; fstype= ; mpoint= ; dump= ; pass=
+
+    prname=`echo "$line" | cut -f 1 -d ':'`
+    fstype=`echo "$line" | cut -f 3 -d ':'`
+    mpoint=`echo "$line" | cut -f 4 -d ':'`
+
+      used=`echo "$line" | cut -f 5 -d ':'`
+    if [ "$used" == "use" ] ; then
+      if [ "$mpoint" == "/" ] ; then
+        dump=1 ; pass=1
+      elif [ "$fstype" == "vfat" -a "$mpoint" == "/bootfs" ] ; then
+        dump=0 ; pass=0
+      elif [ "$mpoint" == "swap" ] ; then
+        dump=0 ; pass=0
+      else
+        dump=1 ; pass=2
+      fi
+      printf "%-16s %-16s %-11s %-24s %-6s %s\n" "$prname" "$mpoint" "$fstype" "defaults" "$dump" "$pass" >> $fstab
+    fi
+  done
+
+  printf "%-16s %-16s %-11s %-24s %-6s %s\n" "devpts" "/dev/pts" "devpts" "gid=5,mode=620" "0" "0" >> $fstab
+  printf "%-16s %-16s %-11s %-24s %-6s %s\n" "proc"   "/proc"    "proc"   "defaults"       "0" "0" >> $fstab
+  printf "%-16s %-16s %-11s %-24s %-6s %s\n" "tmpfs"  "/dev/shm" "tmpfs"  "defaults"       "0" "0" >> $fstab
+
+  cat >> $fstab << EOF
+
+# --------------+----------------+-----------+------------------------+------+------
+EOF
+}
+#
+# End of prepare_etc_fstab() declaration.
+#
+####################################################################
+
+
+
+ROOTFS_MPOINT=${MNT}/root
+
+if [ "$INSTALLTYPE" == "dev" ] ; then
+  check_target_device
+  prepare_target_disk
+  prepare_partitions "$TARGET_ROOT_DEVICE"
+  prepare_etc_fstab
+
+  #
+  # Write BOOT files from BOOTFS image:
+  #
+  if [ "$boot_image_has_been_written" != "yes" ] ; then
+    bootfsdev=`get_bootfs_devname`
+    if [ -r $PRODUCTS_PATH/${HARDWARE}.fat32fs -a "$bootfsdev" != "" ] ; then
+      mkdir -p $TMP/mnt/bootfs
+      mount -t vfat $bootfsdev $TMP/mnt/bootfs
+      ret=$?
+      if [ $ret = 0 ] ; then
+        $DIALOG --colors \
+                --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+                --title " \Z0\ZbBoot Partition\ZB\Zn \Z1\Zb$bootfsdev\ZB\Zn \Z0\ZbPreparation\ZB\Zn " \
+                --infobox "\nWritting boot images into special \Z4\Zb$bootfsdev\ZB\Zn partition.\n" 5 74
+        mcopy -n -i $PRODUCTS_PATH/${HARDWARE}.fat32fs ::/* $TMP/mnt/bootfs/
+        umount $TMP/mnt/bootfs 2> /dev/null
+      else
+        $DIALOG --colors --clear \
+                --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+                --title " \Z0\ZbBoot Partition\ZB\Zn \Z1\Zb$bootfsdev\ZB\Zn \Z0\ZbPreparation\ZB\Zn " \
+                --msgbox "\nCannot mount the Boot VFAT file system. Please check \Z4\Zb$bootfsdev\ZB\Zn after system installation.\n" 8 74
+      fi
+      rm -rf $TMP/mnt/bootfs
+    fi
+  fi
+
+  rootfsdev=`get_rootfs_devname`
+  if [ "$rootfsdev" != "" ] ; then
+    if mount | grep "${ROOTFS_MPOINT} " 1> /dev/null 2> /dev/null ; then
+      umount ${ROOTFS_MPOINT} 2> /dev/null
+    fi
+    mkdir -p ${ROOTFS_MPOINT}
+    mount $rootfsdev ${ROOTFS_MPOINT}
+    ret=$?
+    if [ $ret = 0 ] ; then
+      TARGET_ROOT_PATH=${ROOTFS_MPOINT}
+    else
+      $DIALOG --colors --clear \
+              --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+              --title " \Z4Setup:\Zn \Z1\ZbERROR\ZB\Zn " \
+              --msgbox "\n\Z1Cannot mount ROOT file system for installation. Please check the \Zb$rootfsdev\ZB partition.\n" 8 78
+      echo "ERROR: Cannot mount ROOT file system for installation."
+      EXITSTATUS=16
+      exit $EXITSTATUS
+    fi
+  fi
+fi
+
+
+#######
+####### Continue Installation into Root Path:
+#######
+
+#
+# Do the installation:
+#
+if [ "$boot_image_has_been_written" != "yes" ] ; then
+  cd ${PRODUCTS_PATH}
+  install-package --root ${TARGET_ROOT_PATH} --infodialog base/init-devices-${install_tools_version}-${TOOLCHAIN}-radix-1.0.txz
+  install-pkglist --root ${TARGET_ROOT_PATH}
+  cd ${CWD}
+fi
+
+#
+# /etc/fstab:
+#
+if [ "$INSTALLTYPE" == "dev" ] ; then
+  if [ -f ${TARGET_ROOT_PATH}/etc/fstab ] ; then
+    mv -f ${TARGET_ROOT_PATH}/etc/fstab ${TARGET_ROOT_PATH}/etc/fstab.orig
+    cat $fstab > ${TARGET_ROOT_PATH}/etc/fstab
+    echo ""                    >> ${TARGET_ROOT_PATH}/etc/fstab
+    echo "# previous records:" >> ${TARGET_ROOT_PATH}/etc/fstab
+    echo "# ----------------"  >> ${TARGET_ROOT_PATH}/etc/fstab
+    cat ${TARGET_ROOT_PATH}/etc/fstab.orig | while read -r line ; do
+      if [ "$line" != "" ] ; then
+        echo "# $line" >> ${TARGET_ROOT_PATH}/etc/fstab
+      else
+        echo "#"       >> ${TARGET_ROOT_PATH}/etc/fstab
+      fi
+    done
+    rm -f ${TARGET_ROOT_PATH}/etc/fstab.orig
+  fi
+fi
+
+#
+# post-install settings:
+#
+if [ -x ${TARGET_ROOT_PATH}/usr/sbin/timeconfig ] ; then
+  ${TARGET_ROOT_PATH}/usr/sbin/timeconfig --root ${TARGET_ROOT_PATH}
+fi
+
+#
+# if x86 then LILO:
+#
+if [ "$INSTALLTYPE" == "dev" ] ; then
+  if [ -x ${TARGET_ROOT_PATH}/sbin/liloconfig ] ; then
+    ${TARGET_ROOT_PATH}/sbin/liloconfig --root ${TARGET_ROOT_PATH}
+  fi
+fi
+
+#
+# The final Message:
+#
+$DIALOG --colors --clear \
+        --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+        --title " \Z0System Installation is Complete\Zn " \
+        --msgbox "\nSetup is complete. Please set \Z4\Zbroot\ZB\Zn password at first login.\n" 7 74
+
+if [ "$INSTALLTYPE" == "dev" ] ; then
+  if mount | grep "${ROOTFS_MPOINT} " 1> /dev/null 2> /dev/null ; then
+    umount ${ROOTFS_MPOINT} 2> /dev/null
+  fi
+fi

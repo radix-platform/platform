@@ -39,6 +39,8 @@ pixmaps            = $(CURDIR)/pixmaps
 radix_bmp          = $(pixmaps)/radix-256-v1.0.bmp
 radix_dat          = $(pixmaps)/radix-256-v1.0.dat
 
+scripts            = $(CURDIR)/scripts
+
 boot_records         = $(TARGET_BUILD_DIR)/$(HARDWARE).boot-records
 install_boot_records = $(TARGET_BUILD_DIR)/.boot_records_done
 
@@ -116,9 +118,11 @@ $(install_target): $(build_target)
 	# ======= Install 256 color bitmap =======
 	@cp -a $(radix_bmp) $(LILO_PKG)/boot/radix.bmp
 	@cp -a $(radix_dat) $(LILO_PKG)/boot/radix.dat
-	# ======= Remove liloconfig (until liloconfig will be redesigned) =======
+	# ======= Replace liloconfig =======
 	@mkdir -p $(LILO_PKG)/sbin
 	@rm -f $(LILO_PKG)/usr/sbin/liloconfig $(LILO_PKG)/usr/share/man/man8/liloconfig.8
+	@cp -a $(scripts)/liloconfig $(LILO_PKG)/sbin
+	@chmod 0755 $(LILO_PKG)/sbin/liloconfig
 	# ======= Install Documentation =======
 	@if [ -d $(LILO_PKG)/usr/share/man ]; then \
 	  ( cd $(LILO_PKG)/usr/share/man ; \

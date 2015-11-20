@@ -392,6 +392,7 @@ REQUIRES += share/dict/words-ru/0.99f7-1
 ####### Core Utilites and SysVInit:
 #######
 REQUIRES += app/coreutils/8.22
+REQUIRES += app/sharutils/4.15.2
 REQUIRES += app/grep/2.18
 REQUIRES += app/texinfo/5.2
 REQUIRES += dev/gperf/3.0.4

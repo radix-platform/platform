@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+         |-----handy-ruler------------------------------------------------------|
+sharutils: sharutils @VERSION@ (GNU shell archive packing utilities)
+sharutils:
+sharutils: shar     - makes so-called shell archives out of many files,
+sharutils:            preparing them for transmission by electronic mail
+sharutils:            services.
+sharutils: unshar   - helps unpacking shell archives after reception.
+sharutils: uuencode - prepares a file for transmission over an electronic
+sharutils:            channel which ignores or otherwise mangles the eight
+sharutils:            bit (high order bit) of bytes.
+sharutils: uudecode - does the converse transformation.
+sharutils:

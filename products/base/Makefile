@@ -23,6 +23,7 @@ include ../../build-system/constants.mk
 
 ifeq ($(HARDWARE),$(HARDWARE_OMAP5UEVM))
 REQUIRES  = hal/drivers/omap543x/wl18xx_fw/8.8.10
+REQUIRES += hal/firmware/omap5-uevm/6.04.00.02
 REQUIRES += boot/u-boot/omap543x/2013.04-20140216
 endif
 

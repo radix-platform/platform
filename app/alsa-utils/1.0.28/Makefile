@@ -51,7 +51,8 @@ build_dir           = $(TARGET_BUILD_DIR)/build
 build_target        = $(TARGET_BUILD_DIR)/.build_done
 install_target      = $(TARGET_BUILD_DIR)/.install_done
 
-conf_dir            = $(CURDIR)/conf
+conf_dir            = $(CURDIR)/etc
+panda5_conf_dir     = $(CURDIR)/panda5-conf
 
 
 ####### Targets
@@ -129,10 +130,26 @@ $(install_target): $(build_target)
 	@mkdir -p $(ALSA_UTILS_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@mkdir -p $(ALSA_UTILS_PKG)/etc/rc.d
-	@cp $(conf_dir)/rc.alsa $(ALSA_UTILS_PKG)/etc/rc.d/rc.alsa.new
+	# ======= Install /etc/rc.d/rc.alsa script =======
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
+	@cp $(conf_dir)/rc.d/rc.alsa-$(HARDWARE) $(ALSA_UTILS_PKG)/etc/rc.d/rc.alsa.new
+else
+	@cp $(conf_dir)/rc.d/rc.alsa $(ALSA_UTILS_PKG)/etc/rc.d/rc.alsa.new
+endif
 	@chmod 0755 $(ALSA_UTILS_PKG)/etc/rc.d/rc.alsa.new
-	@cp $(conf_dir)/rc.alsa-oss $(ALSA_UTILS_PKG)/etc/rc.d/rc.alsa-oss.new
+	@cp $(conf_dir)/rc.d/rc.alsa-oss $(ALSA_UTILS_PKG)/etc/rc.d/rc.alsa-oss.new
 	@chmod 0644 $(ALSA_UTILS_PKG)/etc/rc.d/rc.alsa-oss.new
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
+	# ======= Install Panda5 asound.conf =======
+	@mkdir -p $(ALSA_UTILS_PKG)/etc
+	@cp $(panda5_conf_dir)/asound-hdmi.conf $(ALSA_UTILS_PKG)/etc/asound-hdmi.conf
+	@chmod 0644 $(ALSA_UTILS_PKG)/etc/asound-hdmi.conf
+	@cp $(panda5_conf_dir)/asound-panda5.conf $(ALSA_UTILS_PKG)/etc/asound-panda5.conf
+	@chmod 0644 $(ALSA_UTILS_PKG)/etc/asound-panda5.conf
+	@( cd $(ALSA_UTILS_PKG)/etc ; \
+	   ln -sf asound-panda5.conf asound.conf ; \
+	 )
+endif
 	# ======= Install Documentation =======
 	@if [ -d $(ALSA_UTILS_PKG)/usr/share/man ]; then \
 	  ( cd $(ALSA_UTILS_PKG)/usr/share/man ; \

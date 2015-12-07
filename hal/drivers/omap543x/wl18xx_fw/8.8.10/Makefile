@@ -78,6 +78,7 @@ $(build_wl18fw_pkg): $(src_done)
 	@mkdir -p $(WL18FW_BIN_PKG)/lib/firmware
 	@mkdir -p $(WL18FW_BIN_PKG)/etc/firmware/ti-connectivity
 	# Copy firmware:
+	@chmod a-x $(SRC_DIR)/wl18xx-fw-2.bin
 	@cp -a $(SRC_DIR)/wl18xx-fw-2.bin \
 	       $(WL18FW_BIN_PKG)/lib/firmware
 	@cp -a $(SRC_DIR)/wl18xx-fw-2.bin \

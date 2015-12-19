@@ -89,6 +89,7 @@ extra_configure_switches += --with-gpm
 extra_configure_switches += --disable-termcap
 extra_configure_switches += --with-normal
 extra_configure_switches += --with-shared
+extra_configure_switches += --with-cxx-shared
 extra_configure_switches += --enable-symlinks
 extra_configure_switches += --enable-pc-files
 extra_configure_switches += --with-pkg-config-libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig
@@ -145,14 +146,22 @@ $(install_widec_target): $(build_widec_target)
 	@( cd $(NCURSES_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   chmod 755 *.so ; \
 	   chmod 644 *.a ; \
-	   cp -a libncurses.so.5 $(NCURSES_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   cp -a libncursesw.so.5 $(NCURSES_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   mv libncurses.so.5.? $(NCURSES_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   mv libncursesw.so.5.? $(NCURSES_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/libncurses.so.5.? . ; \
-	   ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/libncursesw.so.5.? . ; \
-	   ln -sf libncursesw.a libcursesw.a ; \
-	   ln -sf libncursesw.so.5.? libcursesw.so ; \
+	   cp -a libncurses.so.5 $(NCURSES_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)    ; \
+	   cp -a libncurses++.so.5 $(NCURSES_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)  ; \
+	   cp -a libncursesw.so.5 $(NCURSES_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)   ; \
+	   cp -a libncurses++w.so.5 $(NCURSES_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	   mv libncurses.so.5.? $(NCURSES_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)     ; \
+	   mv libncurses++.so.5.? $(NCURSES_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)   ; \
+	   mv libncursesw.so.5.? $(NCURSES_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)    ; \
+	   mv libncurses++w.so.5.? $(NCURSES_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)  ; \
+	   ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/libncurses.so.5.? .    ; \
+	   ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/libncurses++.so.5.? .  ; \
+	   ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/libncursesw.so.5.? .   ; \
+	   ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/libncurses++w.so.5.? . ; \
+	   ln -sf libncursesw.a libcursesw.a           ; \
+	   ln -sf libncurses++w.a libcurses++w.a       ; \
+	   ln -sf libncursesw.so.5.? libcursesw.so     ; \
+	   ln -sf libncurses++w.so.5.? libcurses++w.so ; \
 	 )
 	@( cd $(NCURSES_32_PKG)/usr/bin ; \
 	   mkdir 32 ; \

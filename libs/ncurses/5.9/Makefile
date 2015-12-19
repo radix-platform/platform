@@ -102,6 +102,7 @@ extra_configure_switches += --with-gpm
 extra_configure_switches += --disable-termcap
 extra_configure_switches += --with-normal
 extra_configure_switches += --with-shared
+extra_configure_switches += --with-cxx-shared
 extra_configure_switches += --enable-symlinks
 extra_configure_switches += --enable-pc-files
 extra_configure_switches += --with-pkg-config-libdir=/usr/lib$(LIBSUFFIX)/pkgconfig
@@ -175,16 +176,24 @@ $(install_widec_target): $(build_widec_target)
 	@( cd $(NCURSES_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   chmod 755 *.so ; \
 	   chmod 644 *.a ; \
-	   cp -a libncurses.so.5 $(NCURSES_PKG)/lib$(LIBSUFFIX) ; \
-	   cp -a libncursesw.so.5 $(NCURSES_PKG)/lib$(LIBSUFFIX) ; \
-	   mv libncurses.so.5.? $(NCURSES_PKG)/lib$(LIBSUFFIX) ; \
-	   mv libncursesw.so.5.? $(NCURSES_PKG)/lib$(LIBSUFFIX) ; \
-	   ln -sf ../../lib$(LIBSUFFIX)/libncurses.so.5.? . ; \
-	   ln -sf ../../lib$(LIBSUFFIX)/libncursesw.so.5.? . ; \
-	   ln -sf libncursesw.a libcursesw.a ; \
-	   ln -sf libncursesw.so.5.? libcursesw.so ; \
+	   cp -a libncurses.so.5 $(NCURSES_PKG)/lib$(LIBSUFFIX)    ; \
+	   cp -a libncurses++.so.5 $(NCURSES_PKG)/lib$(LIBSUFFIX)  ; \
+	   cp -a libncursesw.so.5 $(NCURSES_PKG)/lib$(LIBSUFFIX)   ; \
+	   cp -a libncurses++w.so.5 $(NCURSES_PKG)/lib$(LIBSUFFIX) ; \
+	   mv libncurses.so.5.? $(NCURSES_PKG)/lib$(LIBSUFFIX)     ; \
+	   mv libncurses++.so.5.? $(NCURSES_PKG)/lib$(LIBSUFFIX)   ; \
+	   mv libncursesw.so.5.? $(NCURSES_PKG)/lib$(LIBSUFFIX)    ; \
+	   mv libncurses++w.so.5.? $(NCURSES_PKG)/lib$(LIBSUFFIX)  ; \
+	   ln -sf ../../lib$(LIBSUFFIX)/libncurses.so.5.? .    ; \
+	   ln -sf ../../lib$(LIBSUFFIX)/libncurses++.so.5.? .  ; \
+	   ln -sf ../../lib$(LIBSUFFIX)/libncursesw.so.5.? .   ; \
+	   ln -sf ../../lib$(LIBSUFFIX)/libncurses++w.so.5.? . ; \
+	   ln -sf libncursesw.a libcursesw.a           ; \
+	   ln -sf libncurses++w.a libcurses++w.a       ; \
+	   ln -sf libncursesw.so.5.? libcursesw.so     ; \
+	   ln -sf libncurses++w.so.5.? libcurses++w.so ; \
 	 )
-	# Fix the xterm, screen, rxvt, and Eterm entries:
+	# ======= Fix the xterm, screen, rxvt, and Eterm entries: =======
 	@( export TERMINFO=$(NCURSES_PKG)/usr/share/terminfo ; \
 	   if [ -x /usr/bin/tic -o -x /bin/tic ] ; then \
 	     for tfile in $(terminfo_files) ; do \

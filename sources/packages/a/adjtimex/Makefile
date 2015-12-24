@@ -5,7 +5,7 @@ COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 include ../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/packages/a/adjtimex
+url         = $(DOWNLOAD_SERVER)/sources/packages/a/adjtimex-debian
 
 version     = 1.29
 pkgname     = adjtimex

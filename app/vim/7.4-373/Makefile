@@ -115,12 +115,46 @@ extra_configure_switches += --disable-netbeans
 extra_configure_switches += --with-tlib=ncurses
 extra_configure_switches += --enable-pythoninterp=yes
 extra_configure_switches += --with-python-config-dir=$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/python$(PYTHON_VERSION)/config
-extra_configure_switches += --enable-perlinterp
+extra_configure_switches += --enable-perlinterp=dynamic
 extra_configure_switches += --disable-tclinterp
 extra_configure_switches += --enable-multibyte
 extra_configure_switches += --enable-cscope
 extra_configure_switches += --with-features=huge
 extra_configure_switches += --with-compiledby="<kosteltsev@gmail.com>"
+
+
+#######
+####### Perl5 architectures (see: dev/perl)
+#######
+ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32)),)
+ARCH = x86_32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
+ARCH = x86_64
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X)),)
+ARCH = arm
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_FFRK3288)),)
+ARCH = arm
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_VIP1830)),)
+ARCH = arm
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_BEAGLE)),)
+ARCH = arm
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
+ARCH = arm
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_B74)),)
+ARCH = mipsel
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
+ARCH = mips32r2
+endif
+
+PERL_TARGET_CORE = /usr/lib$(LIBSUFFIX)/perl5/$(ARCH)-linux/CORE
 
 
 ####### Dependencies
@@ -137,6 +171,11 @@ $(build_target): $(src_done)
 	  --build=$(BUILD)            \
 	  --host=$(TARGET)            \
 	  $(extra_configure_switches)
+	@( cd $(SRC_DIR)/src/auto ; \
+	   sed -i "s,-I/usr/lib[a-z/0-9]*/CORE,-I$(TARGET_DEST_DIR)/$(PERL_TARGET_CORE),g" config.mk ; \
+	   sed -i "s,-L/usr/lib[a-z/0-9]*/CORE,-L$(TARGET_DEST_DIR)/$(PERL_TARGET_CORE),g" config.mk ; \
+	   sed -i "s,rpath\,/usr/lib[a-z/0-9]*/CORE,rpath\,$(PERL_TARGET_CORE),g" config.mk ; \
+	 )
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE)
 	@touch $@
 

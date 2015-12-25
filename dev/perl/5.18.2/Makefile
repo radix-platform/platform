@@ -152,6 +152,13 @@ extra_configure_switches += --set vendorlib='/usr/lib$(LIBSUFFIX)/perl5/vendor_p
 extra_configure_switches += --set vendorarch='/usr/lib$(LIBSUFFIX)/perl5/vendor_perl/$(ARCHNAME)'
 
 extra_configure_switches += --set cccdlflags='-fPIC'
+extra_configure_switches += -D useshrplib
+extra_configure_switches += --set lib_ext='.so'
+extra_configure_switches += --set libperl='libperl.so'
+ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
+extra_configure_switches += -D uselargefiles -D use64bitall
+endif
+
 extra_configure_switches += --set pager='/usr/bin/less -isr'
 
 extra_configure_switches += --html1dir=/usr/share/doc/perl-$(version)/html

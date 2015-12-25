@@ -92,7 +92,7 @@ extra_configure_switches  = --mode=cross
 extra_configure_switches += --target=$(shell echo $(TARGET) | sed 's/x86_64/i486/')
 extra_configure_switches += --target-tools-prefix=$(CROSS_PREFIX)
 extra_configure_switches += --sysroot=$(TARGET_DEST_DIR)
-extra_configure_switches += -A lddlflags=--sysroot=$(TARGET_DEST_DIR) -A lddlflags=-melf_i386 -A lddlflags=-shared
+extra_configure_switches += -A lddlflags=--sysroot=$(TARGET_DEST_DIR) -A lddlflags=-m32 -A lddlflags=-shared
 
 extra_configure_switches += --html1dir=/usr/share/doc/perl-$(version)/html
 extra_configure_switches += --html3dir=/usr/share/doc/perl-$(version)/html
@@ -142,6 +142,10 @@ extra_configure_switches += --set vendorarch='/usr/lib$(MULTILIB_X86_32_SUFFIX)/
 
 
 extra_configure_switches += --set cccdlflags='-fPIC'
+extra_configure_switches += -D useshrplib
+extra_configure_switches += --set lib_ext='.so'
+extra_configure_switches += --set libperl='libperl.so'
+
 extra_configure_switches += --set pager='/usr/bin/less -isr'
 
 

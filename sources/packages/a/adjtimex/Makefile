@@ -5,20 +5,24 @@ COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 include ../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/packages/a/adjtimex-debian
+url         = $(DOWNLOAD_SERVER)/sources/packages/a/adjtimex
 
-version     = 1.29
+version     = 1.28
 pkgname     = adjtimex
-suffix      = orig.tar.gz
+suffix      = tar.gz
 
-tarball     = $(addsuffix .$(suffix), $(addprefix $(pkgname)_, $(version)))
-patch       = $(addsuffix -2.2.diff.gz, $(addprefix $(pkgname)_, $(version)))
+tarball     = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(version)))
 sha1s       = $(addsuffix .sha1sum, $(tarball))
 
-src_tarball = $(addsuffix .tar.gz, $(addprefix $(pkgname)-, $(version)))
+src_29_tarball = $(addsuffix .tar.gz, $(addprefix $(pkgname)-, 1.29))
+
+patches      = $(CURDIR)/patches/adjtimex-1.28.patch
+patches     += $(CURDIR)/patches/adjtimex-1.29.patch
+
+.NOTPARALLEL: $(patches)
 
 
-BUILD_TARGETS = $(tarball) $(patch) $(sha1s) $(src_tarball)
+BUILD_TARGETS = $(tarball) $(patches) $(sha1s)
 
 
 include ../../../../build-system/core.mk
@@ -30,10 +34,6 @@ include ../../../../build-system/core.mk
 $(tarball):
 	@echo -e "\n======= Downloading $(tarball) file =======" ; \
 	 echo "$(url)/$(tarball)" | xargs -n 1 -P 100 wget $(WGET_OPTIONS) -i & wait %1
-
-$(patch): $(tarball)
-	@echo -e "\n======= Downloading $(patch) file =======" ; \
-	 echo "$(url)/$(patch)" | xargs -n 1 -P 100 wget $(WGET_OPTIONS) -i & wait %1
 
 $(sha1s): $(tarball)
 	@for sha in $@ ; do \
@@ -48,13 +48,11 @@ $(sha1s): $(tarball)
 	   fi ; \
 	 done
 
-.NOTPARALLEL: $(src_tarball)
-
-$(src_tarball): $(tarball) $(patch) $(sha1s)
-	@tar xzf $(tarball)
-	@zcat $(patch) | patch -p0 > /dev/null 2>&1
-	@tar czf $(pkgname)-$(version).tar.gz $(pkgname)-$(version)
-	@rm -rf $(pkgname)-$(version)
+$(patches): $(sha1s)
+	@echo -e "\n======= Create Patches =======\n" ; \
+	 ( cd create-1.28-patch ; ./create.patch.sh ) ; \
+	 ( cd create-1.29-patch ; ./create.patch.sh ) ; \
+	 echo -e "\n"
 
 download_clean:
-	@rm -f $(src_tarball) $(tarball) $(patch) $(sha1s)
+	@rm -f $(tarball) $(src_29_tarball) $(sha1s) $(patches)

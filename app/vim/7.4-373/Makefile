@@ -156,6 +156,21 @@ endif
 
 PERL_TARGET_CORE = /usr/lib$(LIBSUFFIX)/perl5/$(ARCH)-linux/CORE
 
+CFLAGS  += -I$(TARGET_DEST_DIR)$(PERL_TARGET_CORE)
+LDFLAGS += -Wl,-E -Wl,-rpath,$(PERL_TARGET_CORE) -L$(TARGET_DEST_DIR)$(PERL_TARGET_CORE)
+
+#
+# NOTE: file scr/auto/config.mk should contents somethinl like follow:
+#
+# PERL_LIBS     = -Wl,-E -Wl,-rpath,$(PERL_TARGET_CORE)  -fstack-protector  -L$(TARGET_DEST_DIR)$(PERL_TARGET_CORE) -lperl -lnsl -ldl -lm -lcrypt -lutil -lpthread -lc
+# PERL_SRC      = auto/if_perl.c if_perlsfio.c
+# PERL_OBJ      = objects/if_perl.o objects/if_perlsfio.o
+# PERL_PRO      = if_perl.pro if_perlsfio.pro
+# ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
+# __LARGEFILE_SRC__  =  -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64
+# endif
+# PERL_CFLAGS   = -DDYNAMIC_PERL_DLL=\"libperl.so\"  -D_REENTRANT -D_GNU_SOURCE  -fstack-protector $(__LARGEFILE_SRC__) -I$(TARGET_DEST_DIR)$(PERL_TARGET_CORE)
+
 
 ####### Dependencies
 
@@ -172,8 +187,9 @@ $(build_target): $(src_done)
 	  --host=$(TARGET)            \
 	  $(extra_configure_switches)
 	@( cd $(SRC_DIR)/src/auto ; \
-	   sed -i "s,-I/usr/lib[a-z/0-9]*/CORE,-I$(TARGET_DEST_DIR)/$(PERL_TARGET_CORE),g" config.mk ; \
-	   sed -i "s,-L/usr/lib[a-z/0-9]*/CORE,-L$(TARGET_DEST_DIR)/$(PERL_TARGET_CORE),g" config.mk ; \
+	   sed -i "s,-I/usr/local/include,,g" config.mk ; \
+	   sed -i "s,-I/usr/lib[a-z/0-9]*/CORE,-I$(TARGET_DEST_DIR)$(PERL_TARGET_CORE),g" config.mk ; \
+	   sed -i "s,-L/usr/lib[a-z/0-9]*/CORE,-L$(TARGET_DEST_DIR)$(PERL_TARGET_CORE),g" config.mk ; \
 	   sed -i "s,rpath\,/usr/lib[a-z/0-9]*/CORE,rpath\,$(PERL_TARGET_CORE),g" config.mk ; \
 	 )
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE)

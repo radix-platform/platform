@@ -132,7 +132,7 @@ $(build_target): $(src_done)
 	@( cd $(build_dir)/doc ; \
 	   sed -i '/^all: /i.NOTPARALLEL: all\n' Makefile ; \
 	 )
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1
 	@touch $@
 
 $(install_target): $(build_target)

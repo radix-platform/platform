@@ -9,6 +9,7 @@ COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -20,7 +21,7 @@ include ../../build-system/constants.mk
 
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32) $(HARDWARE_PC64)),)
-REQUIRES           = dev/kernel/x86/3.14.55-headers
+REQUIRES           = dev/kernel/x86/4.1.15-headers
 endif
 
 ifeq ($(HARDWARE),$(HARDWARE_CB1X))
@@ -32,7 +33,7 @@ REQUIRES           = dev/kernel/a2x/3.4-20150315-headers
 endif
 
 ifeq ($(HARDWARE),$(HARDWARE_FFRK3288))
-REQUIRES           = dev/kernel/firefly/3.10-20150417-headers
+REQUIRES           = dev/kernel/firefly/3.10-20151126-headers
 endif
 
 ifeq ($(HARDWARE),$(HARDWARE_VIP1830))
@@ -53,6 +54,10 @@ endif
 
 ifeq ($(HARDWARE),$(HARDWARE_CI20))
 REQUIRES           = dev/kernel/ci20/3.18-20151015-headers
+endif
+
+ifeq ($(HARDWARE),$(HARDWARE_BT1))
+REQUIRES           = dev/kernel/bt1/4.1.15-headers
 endif
 
 

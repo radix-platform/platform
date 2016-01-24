@@ -20,7 +20,7 @@ SOURCE_REQUIRES    = sources/GNU/wget
 
 REQUIRES           = app/util-linux/2.24.1
 REQUIRES          += libs/libidn/1.28
-REQUIRES          += libs/pcre/8.34
+REQUIRES          += libs/pcre/8.38
 REQUIRES          += libs/zlib/1.2.8
 REQUIRES          += net/openssl/1.0.2d
 REQUIRES          += net/ca-certificates/40.0.2

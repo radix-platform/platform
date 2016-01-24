@@ -9,6 +9,7 @@ COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -35,7 +36,7 @@ SRC_DIR            = $(TARGET_BUILD_DIR)/boost-$(version)
 src_dir_name       = boost-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_B74) $(HARDWARE_CI20)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_B74) $(HARDWARE_CI20) $(HARDWARE_BT1)),)
 PATCHES = PATCHES.mips
 else
 PATCHES = PATCHES
@@ -107,7 +108,7 @@ ABI           = sysv
 BINARY_FORMAT = elf
 ADDRESS_MODEL = 64
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_B74) $(HARDWARE_CI20)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_B74) $(HARDWARE_CI20) $(HARDWARE_BT1)),)
 ARCH          = mips1
 ABI           = o32
 BINARY_FORMAT = elf

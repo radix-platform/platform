@@ -9,6 +9,7 @@ COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -24,11 +25,11 @@ REQUIRES           = app/ctags/5.8
 REQUIRES          += libs/ncurses/5.9
 REQUIRES          += app/acl/2.2.52
 REQUIRES          += app/gawk/4.1.1
-REQUIRES          += dev/python2/2.7.6
+REQUIRES          += dev/python2/2.7.11
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
-REQUIRES          += dev/perl/5.18.2
+REQUIRES          += dev/perl/5.22.1
 else
-REQUIRES          += dev/perl/5.18.2-x86_32
+REQUIRES          += dev/perl/5.22.1-x86_32
 endif
 
 # ======= __END_OF_REQUIRES__ =======
@@ -36,9 +37,9 @@ endif
 PYTHON_VERSION = 2.7
 
 
-version            = 7.4-373
-tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/a/vim/vim-$(version).tar.bz2
-SRC_ARCHIVE        = $(tar_bz2_archive)
+version            = 7.4-1156
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/a/vim/vim-$(version).tar.xz
+SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/vim-$(version)
 src_dir_name       = vim-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
@@ -62,7 +63,7 @@ PKG_GROUP = app
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 VIM_PKG_NAME                = vim
-VIM_PKG_VERSION             = 7.4-373
+VIM_PKG_VERSION             = 7.4-1156
 VIM_PKG_ARCH                = $(TOOLCHAIN)
 VIM_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 VIM_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -153,6 +154,9 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
 ARCH = mips32r2
 endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_BT1)),)
+ARCH = mips32r5
+endif
 
 PERL_TARGET_CORE = /usr/lib$(LIBSUFFIX)/perl5/$(ARCH)-linux/CORE
 
@@ -160,7 +164,7 @@ CFLAGS  += -I$(TARGET_DEST_DIR)$(PERL_TARGET_CORE)
 LDFLAGS += -Wl,-E -Wl,-rpath,$(PERL_TARGET_CORE) -L$(TARGET_DEST_DIR)$(PERL_TARGET_CORE)
 
 #
-# NOTE: file scr/auto/config.mk should contents somethinl like follow:
+# NOTE: file scr/auto/config.mk should contents somethink like follow:
 #
 # PERL_LIBS     = -Wl,-E -Wl,-rpath,$(PERL_TARGET_CORE)  -fstack-protector  -L$(TARGET_DEST_DIR)$(PERL_TARGET_CORE) -lperl -lnsl -ldl -lm -lcrypt -lutil -lpthread -lc
 # PERL_SRC      = auto/if_perl.c if_perlsfio.c
@@ -187,7 +191,7 @@ $(build_target): $(src_done)
 	  --host=$(TARGET)            \
 	  $(extra_configure_switches)
 	@( cd $(SRC_DIR)/src/auto ; \
-	   sed -i "s,-I/usr/local/include,,g" config.mk ; \
+	   sed -i "s,-I/usr/include,-I$(TARGET_DEST_DIR)/usr/include,g" config.mk ; \
 	   sed -i "s,-I/usr/lib[a-z/0-9]*/CORE,-I$(TARGET_DEST_DIR)$(PERL_TARGET_CORE),g" config.mk ; \
 	   sed -i "s,-L/usr/lib[a-z/0-9]*/CORE,-L$(TARGET_DEST_DIR)$(PERL_TARGET_CORE),g" config.mk ; \
 	   sed -i "s,rpath\,/usr/lib[a-z/0-9]*/CORE,rpath\,$(PERL_TARGET_CORE),g" config.mk ; \
@@ -236,8 +240,6 @@ $(install_target): $(build_target)
 	@( cd $(VIM_PKG)/usr/share/doc/$(src_dir_name) ; \
 	   ln -sf ../../vim/vim$(shell echo $(version) | cut -f 1 -d '-' | sed -e "s,\.,,")/doc doc ; \
 	 )
-	@cp -a $(SRC_DIR)/.hg_archival.txt \
-	       $(VIM_PKG)/usr/share/doc/$(src_dir_name)/hg-revision.txt
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(VIM_PKG))
 	# ======= Strip binaries =======

@@ -9,6 +9,7 @@ COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH = true
@@ -21,29 +22,29 @@ include ../../build-system/constants.mk
 ####### Boot
 #######
 
-ifeq ($(HARDWARE),$(HARDWARE_OMAP5UEVM))
-REQUIRES  = hal/drivers/omap543x/wl18xx_fw/8.8.10
-REQUIRES += hal/firmware/omap5-uevm/6.04.00.02
-REQUIRES += boot/u-boot/omap543x/2013.04-20140216
-endif
-
-ifeq ($(HARDWARE),$(HARDWARE_CB1X))
-REQUIRES += boot/u-boot/A10/20140713
-endif
-
-ifeq ($(HARDWARE),$(HARDWARE_CB3X))
-REQUIRES += boot/u-boot/A20/2015.01
-endif
-
-ifeq ($(HARDWARE),$(HARDWARE_CI20))
-REQUIRES  = hal/drivers/ci20/sgx-ddk/3.18/1.14.3759903
-REQUIRES += hal/firmware/ci20/brcm4330/0.0.0
-REQUIRES += boot/u-boot/ci20/2013.10-20150915
-endif
-
-ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32) $(HARDWARE_PC64)),)
-REQUIRES  = boot/lilo/x86/24.1
-endif
+#ifeq ($(HARDWARE),$(HARDWARE_OMAP5UEVM))
+#REQUIRES  = hal/drivers/omap543x/wl18xx_fw/8.8.10
+#REQUIRES += hal/firmware/omap5-uevm/6.04.00.02
+#REQUIRES += boot/u-boot/omap543x/2013.04-20140216
+#endif
+#
+#ifeq ($(HARDWARE),$(HARDWARE_CB1X))
+#REQUIRES += boot/u-boot/A10/20140713
+#endif
+#
+#ifeq ($(HARDWARE),$(HARDWARE_CB3X))
+#REQUIRES += boot/u-boot/A20/2015.01
+#endif
+#
+#ifeq ($(HARDWARE),$(HARDWARE_CI20))
+#REQUIRES  = hal/drivers/ci20/sgx-ddk/3.18/1.14.3759903
+#REQUIRES += hal/firmware/ci20/brcm4330/0.0.0
+#REQUIRES += boot/u-boot/ci20/2013.10-20150915
+#endif
+#
+#ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32) $(HARDWARE_PC64)),)
+#REQUIRES  = boot/lilo/x86/24.1
+#endif
 
 
 #######
@@ -55,32 +56,32 @@ endif
 # └── base/pkgtool
 #     └── dev/kernel-headers
 #         └── dev/gcc-runtime
-#             ├── libs/glibc/2.21
-#             │   ├── libs/glibc/2.21-i18n
-#             │   │   └── libs/glibc-zoneinfo/2015c ■
+#             ├── libs/glibc/2.22
+#             │   ├── libs/glibc/2.22-i18n
+#             │   │   └── libs/glibc-zoneinfo/2015g ■
 #             │   │
-#             │   └── libs/glibc/2.21-x86_32
+#             │   └── libs/glibc/2.22-x86_32
 #             │
 #            ...
 #
 
-REQUIRES += libs/glibc/2.21-zoneinfo/2015c
+REQUIRES += libs/glibc/2.22-zoneinfo/2015g
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/glibc/2.21-x86_32
+REQUIRES += libs/glibc/2.22-x86_32
 endif
 
 #            ...
 #             │   ┌──────────────────────────────────────────────────────────────┐
 #             │   │                                                              │
 #             ├── libs/zlib/1.2.8 ─────────────────────────┐                     │
-#             │   ├── libs/zlib/1.2.8-x86_32 ─────────┐    │                     │
-#             │   │                                   │    │                     │
-#             │   └── dev/binutils/2.25 ── if x86_64 ─┘    │                     │
-#             │       └── dev/gcc/4.9.2                    │                     │
+#             │   ├── libs/zlib/1.2.8-x86_32 ───────────┐  │                     │
+#             │   │                                     │  │                     │
+#             │   └── dev/binutils/2.25.1 ── if x86_64 ─┘  │                     │
+#             │       └── dev/gcc/5.3.0                    │                     │
 #             │                                            │                     │
-#             ├── app/xz/5.0.5               ─────┬────────┘                     │
-#             │   └── app/xz/5.0.5-x86_32         └── app/kmod/16                │
-#             │                                       └── app/kmod/16-x86_32     │
+#             ├── app/xz/5.2.2               ─────┬────────┘                     │
+#             │   └── app/xz/5.2.2-x86_32         └── app/kmod/22                │
+#             │                                       └── app/kmod/22-x86_32     │
 #             ├── libs/libffi/3.0.13                                             │
 #             │   └── libs/libffi/3.0.13-x86_32                                  │
 #             │                                                                  │
@@ -88,8 +89,8 @@ endif
 #             │   └── libs/libelf/0.8.13-x86_32                                  │
 #             │                                                                  │
 #             ├── app/bzip2/1.0.6 ─────────────────┬─────────────────────────────┤
-#             │   └── app/bzip2/1.0.6-x86_32       └── libs/pcre/8.34            │
-#             │                                        └── libs/pcre/8.34-x86_32 │
+#             │   └── app/bzip2/1.0.6-x86_32       └── libs/pcre/8.38            │
+#             │                                        └── libs/pcre/8.38-x86_32 │
 #             ├── app/gzip/1.6                                                   │
 #             │                                                                  │
 #             ├── app/inputattach/1.4.7                                          │
@@ -104,44 +105,30 @@ endif
 #             │           └── libs/libtermcap/1.2.3   ───┘
 #             │               └── libs/libtermcap/1.2.3-x86_32
 #             │
-#             │    NOTE:
-#             │    ====
-#             │         pcre requires libstdc++.so.6 we can use gcc-runtime libraries from toolchain
-#             │         but in our distribution there is native GCC and we can build GCC for target
-#             │         system before pcre to complitely move our system to native libraries instead
-#             │         of using cross-toolchain libraries.
-#             │         This allow as to be independed from libraries implemented into toolchain
-#             │         sys-root for linking target objects with. This is very important when we want
-#             │         to move our system to any version of GNU C Libraries.
-#             │
 #            ...
 #
 
 #            ...
 #             │      ...
-#             │       ├────────────────────────────────────── dev/gcc/4.9.2
+#             │       │
 #             │       ├── app/gettext/0.18.3.2
 #             │      ...
 #            ...
 #
 
 #            ...
-#             │  ...
+#             │
+#             ├── libs/gmp/6.1.0 ────────────────┐
+#             │   ├── libs/gmp/6.1.0-x86_32      │
+#             │   │                              ├── libs/mpc/1.0.3 ■
+#             │   ├── libs/mpfr/3.1.3 ───────────┘   └── libs/mpc/1.0.3-x86_32
+#             │   │   └── libs/mpfr/3.1.3-x86_32
 #             │   │
-#             │   └── dev/binutils/2.25
-#             │       ├── dev/gcc/4.9.2
-#             │       │
-#             │       └── libs/gmp/6.0.0 ────────────────┐
-#             │           ├── libs/gmp/6.0.0-x86_32      │
-#             │           │                              ├── libs/mpc/1.0.3 ■
-#             │           ├── libs/mpfr/3.1.2 ───────────┘   └── libs/mpc/1.0.3-x86_32
-#             │           │   └── libs/mpfr/3.1.2-x86_32
-#             │           │
-#             │           ├── app/cloog/0.18.2 ■ ─────────────┐
-#             │           │   └── app/cloog/0.18.2-x86_32     │
-#             │           │                                   ├── We do not use these stuff for GCC but you
-#             │           └── libs/ppl/1.1 ■                  │   can uncomment following REQUIRES.
-#             │               └── libs/ppl/1.1-x86_32 ────────┘
+#             │   ├── app/cloog/0.18.2 ■ ─────────────┐
+#             │   │   └── app/cloog/0.18.2-x86_32     │
+#             │   │                                   ├── We do not use these stuff for GCC but you
+#             │   └── libs/ppl/1.1 ■                  │   can uncomment following REQUIRES.
+#             │       └── libs/ppl/1.1-x86_32 ────────┘
 #             │
 #            ...
 
@@ -157,21 +144,18 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/ppl/1.1-x86_32
 endif
 
-#
-#                   NOTE:
-#                   ====
-#                      'libgmp' can be built in GCC internaly or as a system stuff.
-#                      Because libgmpxx requires libstdc++ we can build libgmp package
-#                      with GCC runtime libraries from toolchain or after native system
-#                      GCC with his runtime libraries.
-#
-#                      We use second way to be independed from toolchain.
-#
-
 REQUIRES += libs/mpc/1.0.3
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/mpc/1.0.3-x86_32
 endif
+
+#            ...
+#             │  ...
+#             │   │
+#             │   └── dev/binutils/2.25.1
+#             │       └── dev/gcc/5.3.0 ───────────── ??????? java: fastjar, gtk,zlib, mpc  ???????
+#             │
+#            ...
 
 #            ...
 #             │
@@ -218,8 +202,8 @@ endif
 #             │      ...  └── dev/lua/5.2.3-x86_32
 #             │
 #             │      ...
-#             │       ├───────────────────────────────────── libs/gmp/6.0.0
-#             │       │                                      └── libs/gmp/6.0.0-x86_32
+#             │       ├───────────────────────────────────── libs/gmp/6.1.0
+#             │       │                                      └── libs/gmp/6.1.0-x86_32
 #             │       ├───────────────────────────────────── libs/zlib/1.2.8
 #             │       │                                      └── libs/zlib/1.2.8-x86_32
 #             │       │
@@ -232,8 +216,6 @@ endif
 #             │      ...
 #             │
 #             │      ...
-#             │       ├────────────────────────────────────── dev/gcc/4.9.2
-#             │       │
 #             │       ├── app/db/6.1.19
 #             │      ...  └── app/db/6.1.19-x86_32
 #             │
@@ -243,15 +225,15 @@ endif
 #             │
 #             │      ...
 #             │       ├───────────────────────────────────┬── libs/zlib/1.2.8
-#             │       │                                   ├── app/xz/5.0.5
-#             │       ├── dev/python2/2.7.6               ├── libs/libffi/3.0.13
-#             │       │   └── dev/python2/2.7.6-x86_32    ├── libs/readline/6.3
+#             │       │                                   ├── app/xz/5.2.2
+#             │       ├── dev/python2/2.7.11              ├── libs/libffi/3.0.13
+#             │       │   └── dev/python2/2.7.11-x86_32   ├── libs/readline/6.3
 #             │      ...                                  ├── libs/expat/2.1.0
 #             │                                           └── net/openssl/1.0.2d
 #             │      ...
 #             │       ├────────────────────────────────────── libs/gdbm/1.11
-#             │       ├── dev/perl/5.18.2
-#             │       │   └── dev/perl/5.18.2-x86_32
+#             │       ├── dev/perl/5.22.1
+#             │       │   └── dev/perl/5.22.1-x86_32
 #             │      ...
 #             │
 #             │      ...
@@ -262,8 +244,8 @@ endif
 #             │      ...
 #             │
 #             │      ...
-#             │       ├───────────────────────────────────┬── dev/gcc/4.9.2
-#             │       │                                   └── libs/ncurses/5.9
+#             │       ├────────────────────────────────────── libs/ncurses/5.9
+#             │       │
 #             │       ├── libs/aspell/0.60.6.1
 #             │      ...  ├── libs/aspell/0.60.6.1-x86_32
 #             │           │
@@ -285,7 +267,7 @@ endif
 #             │
 #             │      ...
 #             │       │
-#             │       ├── secure/cracklib/2.9.1 ────────────────────────── dev/python2/2.7.6
+#             │       ├── secure/cracklib/2.9.1 ────────────────────────── dev/python2/2.7.11
 #             │       │   ├── secure/cracklib/2.9.1-x86_32
 #             │      ...  │
 #             │           └── secure/pam/1.1.8 ─────────────────────────── dev/flex/2.5.39
@@ -469,7 +451,7 @@ REQUIRES += net/netkit-timed/0.17
 REQUIRES += net/netwrite/0.17
 REQUIRES += net/tftp-hpa/5.2
 
-REQUIRES += net/dhcpcd/6.4.2
+REQUIRES += net/dhcpcd/6.10.1
 
 REQUIRES += net/iputils/s20121221
 REQUIRES += net/ethtool/3.12
@@ -503,12 +485,10 @@ endif
 
 REQUIRES += net/conntrack-tools/1.4.2
 REQUIRES += net/dhcp/4.3.1
-REQUIRES += net/gnupg/1.4.18
-REQUIRES += net/gnupg2/2.0.26
 
-REQUIRES += net/gpgme/1.5.1
+REQUIRES += net/gpgme/1.6.0
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += net/gpgme/1.5.1-x86_32
+REQUIRES += net/gpgme/1.6.0-x86_32
 endif
 
 REQUIRES += net/bind/9.10.1
@@ -517,7 +497,7 @@ REQUIRES += net/whois/5.2.1
 
 REQUIRES += net/rfkill/0.5
 REQUIRES += net/bridge-utils/1.5
-REQUIRES += net/crda/3.13
+REQUIRES += net/crda/3.18
 REQUIRES += net/wireless-tools/29
 
 REQUIRES += libs/dbus-python/1.2.0
@@ -535,9 +515,9 @@ REQUIRES += net/iptraf-ng/1.1.4
 #######
 ####### Development tools:
 #######
-REQUIRES += dev/llvm/3.5.0
+REQUIRES += dev/llvm/3.7.1
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += dev/llvm/3.5.0-x86_32
+REQUIRES += dev/llvm/3.7.1-x86_32
 endif
 REQUIRES += dev/cmake/2.8.12.2
 REQUIRES += dev/make/4.0
@@ -555,7 +535,7 @@ REQUIRES += app/xmlto/0.0.26
 ####### Base utilites:
 #######
 
-REQUIRES += app/vim/7.4-373
+REQUIRES += app/vim/7.4-1156
 
 REQUIRES += libs/libtiff/4.0.3
 ifeq ($(HARDWARE),$(HARDWARE_PC64))

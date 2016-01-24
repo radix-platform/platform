@@ -9,6 +9,7 @@ COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -40,7 +41,7 @@ SRC_DIR            = $(TARGET_BUILD_DIR)/crda-$(version)
 src_dir_name       = crda-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
-wireless_regdb_version = 20141107
+wireless_regdb_version = 2014.11.07
 wireless_regdb_tarball = $(SRC_PACKAGE_PATH)/packages/n/wireless-regdb/wireless-regdb-$(wireless_regdb_version).tar.xz
 
 PATCHES = PATCHES

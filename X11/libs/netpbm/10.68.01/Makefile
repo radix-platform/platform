@@ -9,6 +9,7 @@ COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -22,7 +23,7 @@ SOURCE_REQUIRES    = sources/packages/l/netpbm
 SOURCE_REQUIRES   += sources/packages/l/netpbm-doc
 
 REQUIRES           = libs/zlib/1.2.8
-REQUIRES          += app/xz/5.0.5
+REQUIRES          += app/xz/5.2.2
 REQUIRES          += libs/libxml2/2.9.1
 REQUIRES          += app/jbigkit/2.1
 REQUIRES          += libs/libpng/libpng14/1.4.13
@@ -32,7 +33,7 @@ REQUIRES          += X11/X.org/lib/libX11/1.6.2
 #
 # Runtime required packages:
 #
-REQUIRES          += dev/perl/5.18.2
+REQUIRES          += dev/perl/5.22.1
 
 # ======= __END_OF_REQUIRES__ =======
 

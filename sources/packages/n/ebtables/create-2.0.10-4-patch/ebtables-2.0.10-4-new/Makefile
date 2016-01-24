@@ -17,7 +17,7 @@ INITDIR:=/etc/rc.d/init.d
 SYSCONFIGDIR:=/etc/sysconfig
 DESTDIR:=
 
-CFLAGS        += -Wall -Wunused -Werror
+CFLAGS        += -Wall -Wunused -Werror -D_GNU_SOURCE
 CFLAGS_SH_LIB ?= -fPIC -O2
 CC            ?= gcc
 

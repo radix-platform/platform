@@ -9,6 +9,7 @@ COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -20,14 +21,11 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/x/mesa
 
-ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/4.9.2
-endif
-REQUIRES          += libs/expat/2.1.0
+REQUIRES           = libs/expat/2.1.0
 REQUIRES          += libs/libxml2/2.9.1
 REQUIRES          += libs/eudev/1.9
 REQUIRES          += libs/libomxil-bellagio/0.9.3
-REQUIRES          += dev/llvm/3.5.0
+REQUIRES          += dev/llvm/3.7.1
 REQUIRES          += X11/libs/libdrm/2.4.64
 REQUIRES          += X11/X.org/proto/glproto/1.4.17
 REQUIRES          += X11/X.org/proto/dri2proto/2.8

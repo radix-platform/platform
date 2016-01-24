@@ -14,7 +14,7 @@ SOURCE_REQUIRES    = sources/packages/d/python2
 
 REQUIRES           = dev/python2/2.7.6
 REQUIRES          += libs/zlib/1.2.8-x86_32
-REQUIRES          += app/xz/5.0.5-x86_32
+REQUIRES          += app/xz/5.2.2-x86_32
 REQUIRES          += libs/libffi/3.0.13-x86_32
 REQUIRES          += libs/readline/6.3-x86_32
 REQUIRES          += libs/expat/2.1.0-x86_32

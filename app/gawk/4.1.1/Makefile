@@ -9,6 +9,7 @@ COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -21,7 +22,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/GNU/gawk
 
 REQUIRES           = libs/readline/6.3
-REQUIRES          += libs/mpfr/3.1.2
+REQUIRES          += libs/mpfr/3.1.3
 
 # ======= __END_OF_REQUIRES__ =======
 

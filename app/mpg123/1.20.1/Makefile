@@ -9,6 +9,7 @@ COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -20,10 +21,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/m/mpg123
 
-ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/4.9.2
-endif
-REQUIRES          += libs/alsa-oss/1.0.28
+REQUIRES           = libs/alsa-oss/1.0.28
 REQUIRES          += app/esound/0.2.41
 
 # ======= __END_OF_REQUIRES__ =======
@@ -133,6 +131,9 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_B74)),)
 extra_configure_switches += --with-cpu=generic_fpu
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
+extra_configure_switches += --with-cpu=generic_fpu
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_BT1)),)
 extra_configure_switches += --with-cpu=generic_fpu
 endif
 

@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/pycairo
 
 REQUIRES           = libs/pycairo/1.8.10
-REQUIRES          += dev/python2/2.7.6-x86_32
+REQUIRES          += dev/python2/2.7.11-x86_32
 REQUIRES          += X11/libs/cairo/1.14.0-x86_32
 
 # ======= __END_OF_REQUIRES__ =======

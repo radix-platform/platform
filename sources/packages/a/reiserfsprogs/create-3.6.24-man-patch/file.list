@@ -1,0 +1,5 @@
+reiserfsprogs-3.6.24/debugreiserfs/debugreiserfs.8.in
+reiserfsprogs-3.6.24/fsck/reiserfsck.8.in
+reiserfsprogs-3.6.24/mkreiserfs/mkreiserfs.8.in
+reiserfsprogs-3.6.24/resize_reiserfs/resize_reiserfs.8.in
+reiserfsprogs-3.6.24/tune/reiserfstune.8.in

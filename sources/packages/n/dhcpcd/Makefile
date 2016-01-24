@@ -5,17 +5,20 @@ COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 include ../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/packages/n/dhcpcd
+url          = $(DOWNLOAD_SERVER)/sources/packages/n/dhcpcd
 
-versions    = 6.0.5 6.4.2
-pkgname     = dhcpcd
-suffix      = tar.bz2
+versions     = 6.10.1
+old_versions = 6.0.5 6.4.2
+pkgname      = dhcpcd
 
-tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
-sha1s       = $(addsuffix .sha1sum, $(tarballs))
+tarballs     = $(addsuffix .tar.xz, $(addprefix $(pkgname)-, $(versions)))
+old_tarballs = $(addsuffix .tar.bz2, $(addprefix $(pkgname)-, $(old_versions)))
 
-patches     = $(CURDIR)/patches/dhcpcd-6.0.5.patch
-patches    += $(CURDIR)/patches/dhcpcd-6.4.2.patch
+tarballs    += $(old_tarballs)
+sha1s        = $(addsuffix .sha1sum, $(tarballs))
+
+patches      = $(CURDIR)/patches/dhcpcd-6.0.5.patch
+patches     += $(CURDIR)/patches/dhcpcd-6.4.2.patch
 
 .NOTPARALLEL: $(patches)
 

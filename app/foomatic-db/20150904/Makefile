@@ -9,6 +9,7 @@ COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -21,7 +22,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/foomatic-db
 
 REQUIRES           = app/cups-filters/1.0.76
-REQUIRES          += dev/perl/5.18.2
+REQUIRES          += dev/perl/5.22.1
 REQUIRES          += libs/libxml2/2.9.1
 
 # ======= __END_OF_REQUIRES__ =======

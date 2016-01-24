@@ -9,6 +9,7 @@ COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -20,10 +21,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/m/sox
 
-ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/4.9.2
-endif
-REQUIRES          += dev/libtool/2.4.2
+REQUIRES           = dev/libtool/2.4.2
 REQUIRES          += app/file/5.19
 REQUIRES          += libs/libpng/libpng14/1.4.13
 REQUIRES          += libs/libao/1.1.0

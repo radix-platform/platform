@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/libieee1284
 
 REQUIRES           = libs/libieee1284/0.2.11
-REQUIRES          += dev/python2/2.7.6-x86_32
+REQUIRES          += dev/python2/2.7.11-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

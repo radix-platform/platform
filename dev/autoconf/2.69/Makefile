@@ -9,6 +9,7 @@ COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -24,7 +25,7 @@ REQUIRES           = app/bash/4.3
 REQUIRES          += app/gawk/4.1.1
 REQUIRES          += app/diffutils/3.3
 REQUIRES          += dev/m4/1.4.17
-REQUIRES          += dev/perl/5.18.2
+REQUIRES          += dev/perl/5.22.1
 
 # ======= __END_OF_REQUIRES__ =======
 

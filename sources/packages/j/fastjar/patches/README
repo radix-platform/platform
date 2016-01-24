@@ -1,0 +1,13 @@
+
+apply order:
+===========
+  fastjar-0.97-CVE-2010-0831.patch
+  fastjar-0.97-len1.patch
+  fastjar-0.97-segfault.patch
+  fastjar-0.97-filename0.patch
+  fastjar-0.97-man.patch
+
+  fastjar-0.98-CVE-2010-0831.patch
+  fastjar-0.98-len1.patch
+  fastjar-0.98-filename0.patch
+  fastjar-0.98-man.patch

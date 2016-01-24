@@ -14,7 +14,7 @@ SOURCE_REQUIRES    = sources/packages/l/cairo
 
 REQUIRES           = libs/cairo/1.14.0
 REQUIRES          += libs/lzo/2.08-x86_32
-REQUIRES          += libs/pcre/8.34-x86_32
+REQUIRES          += libs/pcre/8.38-x86_32
 REQUIRES          += libs/glib2/2.40.0-x86_32
 REQUIRES          += X11/libs/fontconfig/2.11.1-x86_32
 REQUIRES          += X11/X.org/lib/pixman/0.32.6-x86_32

@@ -9,6 +9,7 @@ COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -20,10 +21,7 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/harfbuzz
 
-ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/4.9.2
-endif
-REQUIRES          += libs/glib2/2.40.0
+REQUIRES           = libs/glib2/2.40.0
 REQUIRES          += libs/libpng/libpng14/1.4.13
 REQUIRES          += libs/icu4c/54.1
 REQUIRES          += X11/libs/cairo/1.14.0

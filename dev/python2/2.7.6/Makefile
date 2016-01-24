@@ -9,6 +9,7 @@ COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -22,7 +23,7 @@ SOURCE_REQUIRES    = sources/packages/d/python2
 SOURCE_REQUIRES   += sources/packages/d/python2-doc
 
 REQUIRES           = libs/zlib/1.2.8
-REQUIRES          += app/xz/5.0.5
+REQUIRES          += app/xz/5.2.2
 REQUIRES          += libs/libffi/3.0.13
 REQUIRES          += libs/readline/6.3
 REQUIRES          += libs/expat/2.1.0

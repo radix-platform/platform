@@ -9,7 +9,7 @@ FLAVOURS = de fr
 include ../../../build-system/constants.mk
 
 
-REQUIRES = libs/glibc/2.21
+REQUIRES = libs/glibc/2.22
 
 
 # ======= __END_OF_REQUIRES__ =======

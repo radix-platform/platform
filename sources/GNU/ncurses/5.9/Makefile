@@ -20,6 +20,7 @@ nc-patches  = $(addsuffix .sh.gz, $(addprefix patch-$(version)-, $(dates)))
 
 patches     = $(CURDIR)/patches/ncurses-5.9-mkhashsize.patch
 patches    += $(CURDIR)/patches/ncurses-5.9-cross.patch
+patches    += $(CURDIR)/patches/ncurses-5.9-gcc-5.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -62,6 +63,7 @@ $(patches): $(sha1s) $(nc-patches)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-5.9-mkhashsize-patch ; ./create.patch.sh ) ; \
 	 ( cd create-5.9-cross-patch ;      ./create.patch.sh ) ; \
+	 ( cd create-5.9-gcc-5-patch ;      ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

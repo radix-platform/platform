@@ -9,6 +9,7 @@ COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH = true
@@ -55,28 +56,28 @@ endif
 # └── base/pkgtool
 #     └── dev/kernel-headers
 #         └── dev/gcc-runtime
-#             ├── libs/glibc/2.21
-#             │   ├── libs/glibc/2.21-i18n
-#             │   │   └── libs/glibc-zoneinfo/2015c ■
+#             ├── libs/glibc/2.22
+#             │   ├── libs/glibc/2.22-i18n
+#             │   │   └── libs/glibc-zoneinfo/2015g ■
 #             │   │
-#             │   └── libs/glibc/2.21-x86_32
+#             │   └── libs/glibc/2.22-x86_32
 #             │
 #            ...
 #
 
-REQUIRES += libs/glibc/2.21-zoneinfo/2015c
+REQUIRES += libs/glibc/2.22-zoneinfo/2015g
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/glibc/2.21-x86_32
+REQUIRES += libs/glibc/2.22-x86_32
 endif
 
 #            ...
 #             │   ┌──────────────────────────────────────────────────────────────┐
 #             │   │                                                              │
 #             ├── libs/zlib/1.2.8 ─────────────────────────┐                     │
-#             │   ├── libs/zlib/1.2.8-x86_32 ─────────┐    │                     │
-#             │   │                                   │    │                     │
-#             │   └── dev/binutils/2.25 ── if x86_64 ─┘    │                     │
-#             │       └── dev/gcc/4.9.2                    │                     │
+#             │   ├── libs/zlib/1.2.8-x86_32 ───────────┐  │                     │
+#             │   │                                     │  │                     │
+#             │   └── dev/binutils/2.25.1 ── if x86_64 ─┘  │                     │
+#             │       └── dev/gcc/5.3.0                    │                     │
 #             │                                            │                     │
 #             ├── app/xz/5.0.5               ─────┬────────┘                     │
 #             │   └── app/xz/5.0.5-x86_32         └── app/kmod/16                │

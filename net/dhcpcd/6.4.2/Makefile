@@ -9,6 +9,7 @@ COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -90,7 +91,7 @@ extra_configure_switches += --dbdir=/var/lib/dhcpcd
 extra_configure_switches += --libexecdir=/lib/dhcpcd
 extra_configure_switches += --mandir=/usr/share/man
 
-
+CFLAGS += -D_DEFAULT_SOURCE
 ####### Dependencies
 
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
@@ -105,6 +106,7 @@ $(build_target): $(src_done)
 	  --host=$(TARGET)            \
 	  $(extra_configure_switches)
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE)
+	exit 1
 	@touch $@
 
 $(install_target): $(build_target)

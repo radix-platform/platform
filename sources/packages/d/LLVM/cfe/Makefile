@@ -7,7 +7,7 @@ include ../../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/d/LLVM/cfe
 
-versions    = 3.5.0
+versions    = 3.5.0 3.7.1
 pkgname     = cfe
 suffix      = src.tar.xz
 

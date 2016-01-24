@@ -9,6 +9,7 @@ COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -21,10 +22,10 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/n/dirmngr
 
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
-REQUIRES           = net/libgcrypt/1.6.2
+REQUIRES           = net/libgcrypt/1.6.4
 REQUIRES          += net/openldap-client/2.4.39
 else
-REQUIRES           = net/libgcrypt/1.6.2-x86_32
+REQUIRES           = net/libgcrypt/1.6.4-x86_32
 REQUIRES          += net/openldap-client/2.4.39-x86_32
 endif
 

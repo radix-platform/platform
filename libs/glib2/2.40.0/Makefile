@@ -9,6 +9,7 @@ COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -22,7 +23,7 @@ SOURCE_REQUIRES    = sources/GNOME/core/glib2
 
 REQUIRES           = libs/libffi/3.0.13
 REQUIRES          += libs/libelf/0.8.13
-REQUIRES          += libs/pcre/8.34
+REQUIRES          += libs/pcre/8.38
 REQUIRES          += app/attr/2.4.47
 REQUIRES          += libs/libgamin/0.1.10
 
@@ -62,6 +63,9 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_B74)),)
 hw_cache_in        = $(CURDIR)/cross/hw.cache.mips
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
+hw_cache_in        = $(CURDIR)/cross/hw.cache.mips
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_BT1)),)
 hw_cache_in        = $(CURDIR)/cross/hw.cache.mips
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32) $(HARDWARE_PC64)),)

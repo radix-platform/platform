@@ -3,10 +3,13 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_VIP1830)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -19,9 +22,9 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/udev
 
 REQUIRES           = libs/udev/182
-REQUIRES          += app/kmod/16
+REQUIRES          += app/kmod/22
 REQUIRES          += libs/libffi/3.0.13
-REQUIRES          += libs/pcre/8.34
+REQUIRES          += libs/pcre/8.38
 REQUIRES          += app/util-linux/2.24.1
 REQUIRES          += libs/glib2/2.40.0
 REQUIRES          += app/pciutils/3.2.1

@@ -9,6 +9,7 @@ COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -21,7 +22,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/n/ebtables
 
 REQUIRES           = app/bash/4.3
-REQUIRES          += dev/perl/5.18.2
+REQUIRES          += dev/perl/5.22.1
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -92,7 +93,7 @@ configure_switches += SYSCONFIGDIR=/etc/sysconfig
 #
 # Do not use KERNEL_INCLUDES for kernels which doesn't have IPv6 (linux/netfilter_bridge/ebt_ulog.h)
 #
-ifeq ($(filter $(HARDWARE),$(HARDWARE_VIP1830) $(HARDWARE_BEAGLE) $(HARDWARE_B74) $(HARDWARE_CI20)),)
+ifeq ($(filter $(HARDWARE),$(HARDWARE_VIP1830) $(HARDWARE_BEAGLE) $(HARDWARE_B74) $(HARDWARE_CI20)  $(HARDWARE_BT1)),)
 configure_switches += KERNEL_INCLUDES=$(TARGET_DEST_DIR)/usr/include
 endif
 

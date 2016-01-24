@@ -9,6 +9,7 @@ COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -21,7 +22,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/cairo
 
 REQUIRES           = libs/lzo/2.08
-REQUIRES          += libs/pcre/8.34
+REQUIRES          += libs/pcre/8.38
 REQUIRES          += libs/glib2/2.40.0
 REQUIRES          += X11/libs/fontconfig/2.11.1
 REQUIRES          += X11/X.org/lib/pixman/0.32.6

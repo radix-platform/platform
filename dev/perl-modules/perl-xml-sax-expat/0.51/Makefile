@@ -9,6 +9,7 @@ COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -20,7 +21,7 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/d/perl-modules/CPAN/XML-SAX-Expat
 
-REQUIRES           = dev/perl/5.18.2
+REQUIRES           = dev/perl/5.22.1
 REQUIRES          += dev/perl-modules/perl-xml-namespace/1.11
 REQUIRES          += dev/perl-modules/perl-xml-sax-base/1.08
 REQUIRES          += dev/perl-modules/perl-xml-parser/2.44
@@ -89,60 +90,65 @@ include ../../../../build-system/core.mk
 #
 # Global Variables:
 # ================
-#   ARCH            - defined in dev/perl/2.18.2/Makefile
+#   ARCH            - defined in dev/perl/5.22.1/Makefile
 #   UNAME_R_VERSION - used Linux kernel
 #
 # TODO: create special global collection for filling by package Makefiles
 #
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32)),)
 ARCH            = x86_32
-UNAME_R_VERSION = 3.10.17
-GLIBC_VERSION   = 2.21
+UNAME_R_VERSION = 4.1.15
+GLIBC_VERSION   = 2.22
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 ARCH            = x86_64
-UNAME_R_VERSION = 3.10.17
-GLIBC_VERSION   = 2.21
+UNAME_R_VERSION = 4.1.15
+GLIBC_VERSION   = 2.22
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
 ARCH            = arm
 UNAME_R_VERSION = 3.4.90
-GLIBC_VERSION   = 2.21
+GLIBC_VERSION   = 2.22
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB3X)),)
 ARCH            = arm
 UNAME_R_VERSION = 3.4.104
-GLIBC_VERSION   = 2.21
+GLIBC_VERSION   = 2.22
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_FFRK3288)),)
 ARCH            = arm
 UNAME_R_VERSION = 3.10.37
-GLIBC_VERSION   = 2.21
+GLIBC_VERSION   = 2.22
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_VIP1830)),)
 ARCH            = arm
 UNAME_R_VERSION = 2.6.36
-GLIBC_VERSION   = 2.21
+GLIBC_VERSION   = 2.22
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_BEAGLE)),)
 ARCH            = arm
 UNAME_R_VERSION = 2.6.36
-GLIBC_VERSION   = 2.21
+GLIBC_VERSION   = 2.22
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
 ARCH            = arm
 UNAME_R_VERSION = 3.8.13
-GLIBC_VERSION   = 2.21
+GLIBC_VERSION   = 2.22
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_B74)),)
 ARCH            = mipsel
 UNAME_R_VERSION = 2.6.36
-GLIBC_VERSION   = 2.21
+GLIBC_VERSION   = 2.22
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
 ARCH            = mips32r2
-UNAME_R_VERSION = 3.0.8
-GLIBC_VERSION   = 2.21
+UNAME_R_VERSION = 3.18.3
+GLIBC_VERSION   = 2.22
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_BT1)),)
+ARCH            = mips32r5
+UNAME_R_VERSION = 4.1.15
+GLIBC_VERSION   = 2.22
 endif
 
 
@@ -202,11 +208,13 @@ perl_environment += CC='$(CC) --sysroot=$(TARGET_DEST_DIR) $(ARCH_OPTIMIZATION) 
 perl_environment += LD='$(LD) --sysroot=$(TARGET_DEST_DIR)'
 perl_environment += LDFLAGS='--sysroot=$(TARGET_DEST_DIR) -L$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)'
 perl_environment += CCCDLFLAGS='-fPIC'
-perl_environment += CCDLFLAGS='-Wl,-E -Wl,-rpath,/usr/lib$(LIBSUFFIX)/perl5/CORE'
+perl_environment += CCDLFLAGS='-Wl,-E -Wl,-rpath,/usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)/CORE'
 perl_environment += FULL_AR=$(AR)
 perl_environment += LIBC=$(TARGET_DEST_DIR)/lib/libc-$(GLIBC_VERSION).so
 perl_environment += OSNAME=linux
 perl_environment += OSVERS=$(UNAME_R_VERSION)
+
+perl_environment += PERL5LIB=$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5
 
 #
 # Module Specific Perl5 Environment:
@@ -236,7 +244,7 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 
 $(build_target): $(src_done)
 	@( cd  $(SRC_DIR) ; \
-	   $(BUILD_ENVIRONMENT) perl Makefile.PL $(perl_environment) ; \
+	   perl Makefile.PL ; \
 	 )
 	@( cd $(SRC_DIR) ; \
 	   $(BUILD_ENVIRONMENT) $(MAKE) $(perl_environment) ; \

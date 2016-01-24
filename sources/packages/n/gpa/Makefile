@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/gpa
 
-versions    = 0.9.5
+versions    = 0.9.5 0.9.9
 pkgname     = gpa
 suffix      = tar.bz2
 

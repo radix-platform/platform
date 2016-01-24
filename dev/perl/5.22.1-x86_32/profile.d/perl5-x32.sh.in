@@ -1,0 +1,4 @@
+#!/bin/sh
+
+PERL5LIB=/usr/lib@LIBDIRSUFFIX@/perl5:/usr/lib@LIBDIRSUFFIX@/perl5/vendor_perl:/usr/lib@LIBDIRSUFFIX@/perl5/site_perl
+export PERL5LIB

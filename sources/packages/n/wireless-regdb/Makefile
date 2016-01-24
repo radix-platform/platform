@@ -5,9 +5,9 @@ COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 include ../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/packages/n/crda
+url         = $(DOWNLOAD_SERVER)/sources/packages/n/wireless-regdb
 
-versions    = 20141107
+versions    = 2014.11.07 2015.12.14
 pkgname     = wireless-regdb
 suffix      = tar.xz
 

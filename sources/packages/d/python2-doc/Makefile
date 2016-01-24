@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/d/python2-doc
 
-versions    = 2.7.6
+versions    = 2.7.6 2.7.11
 pkgname     = python
 suffix      = tar.bz2
 formats     = text html pdf-a4

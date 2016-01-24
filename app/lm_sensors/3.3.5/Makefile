@@ -9,6 +9,7 @@ COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -21,7 +22,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/lm_sensors
 
 REQUIRES           = app/sysfsutils/2.1.0
-REQUIRES          += dev/perl/5.18.2
+REQUIRES          += dev/perl/5.22.1
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -127,6 +128,9 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_B74)),)
 lmsens_environment    += MACHINE="mips"
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
+lmsens_environment    += MACHINE="mips"
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_BT1)),)
 lmsens_environment    += MACHINE="mips"
 endif
 

@@ -7,7 +7,7 @@ include ../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/GNU/gmp
 
-versions    = 5.0.5 5.1.3 6.0.0a
+versions    = 5.0.5 5.1.3 6.0.0a 6.1.0
 pkgname     = gmp
 suffix      = tar.bz2
 

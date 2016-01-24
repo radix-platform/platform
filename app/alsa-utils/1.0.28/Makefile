@@ -1,58 +1,59 @@
 
-COMPONENT_TARGETS   = $(HARDWARE_PC32)
-COMPONENT_TARGETS  += $(HARDWARE_PC64)
-COMPONENT_TARGETS  += $(HARDWARE_CB1X)
-COMPONENT_TARGETS  += $(HARDWARE_CB3X)
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS  += $(HARDWARE_VIP1830)
-COMPONENT_TARGETS  += $(HARDWARE_BEAGLE)
-COMPONENT_TARGETS  += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS  += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
-NEED_ABS_PATH       = true
-COMPONENT_IS_3PP    = true
+NEED_ABS_PATH      = true
+COMPONENT_IS_3PP   = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES     = sources/packages/m/alsa/utils
+SOURCE_REQUIRES    = sources/packages/m/alsa/utils
 
-REQUIRES            = app/procps/3.2.8
+REQUIRES           = app/procps/3.2.8
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
-REQUIRES           += libs/alsa-lib/1.0.28
-REQUIRES           += libs/libsamplerate/0.1.8
-REQUIRES           += app/pciutils/3.2.1
-REQUIRES           += libs/ncurses/5.9
-REQUIRES           += app/dialog/1.2-20140112
+REQUIRES          += libs/alsa-lib/1.0.28
+REQUIRES          += libs/libsamplerate/0.1.8
+REQUIRES          += app/pciutils/3.2.1
+REQUIRES          += libs/ncurses/5.9
+REQUIRES          += app/dialog/1.2-20140112
 else
-REQUIRES           += libs/alsa-lib/1.0.28-x86_32
-REQUIRES           += libs/libsamplerate/0.1.8-x86_32
-REQUIRES           += app/pciutils/3.2.1-x86_32
-REQUIRES           += libs/ncurses/5.9-x86_32
-REQUIRES           += app/dialog/1.2-20140112-x86_32
+REQUIRES          += libs/alsa-lib/1.0.28-x86_32
+REQUIRES          += libs/libsamplerate/0.1.8-x86_32
+REQUIRES          += app/pciutils/3.2.1-x86_32
+REQUIRES          += libs/ncurses/5.9-x86_32
+REQUIRES          += app/dialog/1.2-20140112-x86_32
 endif
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version             = 1.0.28
-tar_bz2_archive     = $(SRC_PACKAGE_PATH)/packages/m/alsa/utils/alsa-utils-$(version).tar.bz2
-SRC_ARCHIVE         = $(tar_bz2_archive)
-SRC_DIR             = $(TARGET_BUILD_DIR)/alsa-utils-$(version)
-src_dir_name        = alsa-utils-$(version)
-src_done            = $(TARGET_BUILD_DIR)/.source_done
+version            = 1.0.28
+tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/m/alsa/utils/alsa-utils-$(version).tar.bz2
+SRC_ARCHIVE        = $(tar_bz2_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/alsa-utils-$(version)
+src_dir_name       = alsa-utils-$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
 
-build_dir           = $(TARGET_BUILD_DIR)/build
-build_target        = $(TARGET_BUILD_DIR)/.build_done
-install_target      = $(TARGET_BUILD_DIR)/.install_done
+build_dir          = $(TARGET_BUILD_DIR)/build
+build_target       = $(TARGET_BUILD_DIR)/.build_done
+install_target     = $(TARGET_BUILD_DIR)/.install_done
 
-conf_dir            = $(CURDIR)/etc
-panda5_conf_dir     = $(CURDIR)/panda5-conf
+conf_dir           = $(CURDIR)/etc
+panda5_conf_dir    = $(CURDIR)/panda5-conf
 
 
 ####### Targets

@@ -9,6 +9,7 @@ COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -20,10 +21,7 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/x/qt5
 
-ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/4.9.2
-endif
-REQUIRES          += net/ca-certificates/40.0.2
+REQUIRES           = net/ca-certificates/40.0.2
 REQUIRES          += X11/app/desktop-file-utils/0.22
 REQUIRES          += X11/libs/hicolor-icon-theme/0.14
 REQUIRES          += X11/app/xdg-utils/1.1.0
@@ -77,7 +75,7 @@ applications_dir   = $(CURDIR)/applications
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
 PATCHES = PATCHES.eglfs
 else
-ifneq ($(filter $(HARDWARE),$(HARDWARE_B74) $(HARDWARE_CI20)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_B74) $(HARDWARE_CI20) $(HARDWARE_BT1)),)
 PATCHES = PATCHES.mips
 else
 PATCHES = PATCHES
@@ -151,7 +149,7 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 ARCH   = x86_64
 ABI    = gnu
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_B74) $(HARDWARE_CI20)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_B74) $(HARDWARE_CI20) $(HARDWARE_BT1)),)
 ARCH   = mips
 ABI    = gnu
 endif
@@ -172,7 +170,7 @@ configure_switches += -device-option CCACHE=$(CCACHE)
 configure_switches += -device-option CROSS_COMPILE=$(CROSS_PREFIX)
 
 # ======= Target compiler doesn't support MIPS DSP/DSPr2 =======
-ifneq ($(filter $(HARDWARE),$(HARDWARE_B74) $(HARDWARE_CI20)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_B74) $(HARDWARE_CI20) $(HARDWARE_BT1)),)
 configure_switches += -no-mips_dsp
 configure_switches += -no-mips_dspr2
 endif

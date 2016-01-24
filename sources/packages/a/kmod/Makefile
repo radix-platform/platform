@@ -7,14 +7,15 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/kmod
 
-versions    = 15 16
+versions    = 16 22
 pkgname     = kmod
-suffix      = tar.bz2
+suffix      = tar.xz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/kmod-16-pkgconfig.patch
+patches    += $(CURDIR)/patches/kmod-22-pkgconfig.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,6 +51,7 @@ $(sha1s): $(tarballs)
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-16-pkgconfig-patch ; ./create.patch.sh ) ; \
+	 ( cd create-22-pkgconfig-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

@@ -11,15 +11,6 @@ COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
 COMPONENT_TARGETS += $(HARDWARE_BT1)
 
-#
-# The rest targets links staticaly and not requires gcc runtime libraties
-#
-# COMPONENT_TARGETS += $(HARDWARE_CB1N)
-# COMPONENT_TARGETS += $(HARDWARE_AT91S)
-# COMPONENT_TARGETS += $(HARDWARE_VIP1830N)
-# COMPONENT_TARGETS += $(HARDWARE_L17UC)
-#
-
 
 NEED_ABS_PATH      = true
 COMPONENT_IS_3PP   = true
@@ -92,69 +83,15 @@ endif
 $(build_gcc_rt_pkg):
 	@mkdir -p $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX)
 	@( cd $(src_dir)/lib$(LIBSUFFIX) && \
-	   if [ "" != "`find -iname 'libasan*'        -exec echo '{}' \; -quit`" ] ; then cp -a libasan*        $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
-	   if [ "" != "`find -iname 'libatomic*'      -exec echo '{}' \; -quit`" ] ; then cp -a libatomic*      $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
-	   if [ "" != "`find -iname 'libcilkrts*'     -exec echo '{}' \; -quit`" ] ; then cp -a libcilkrts*     $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
-	   if [ "" != "`find -iname 'libgcc*'         -exec echo '{}' \; -quit`" ] ; then cp -a libgcc*         $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
-	   if [ "" != "`find -iname 'libgcj*'         -exec echo '{}' \; -quit`" ] ; then cp -a libgcj*         $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
-	   if [ "" != "`find -iname 'libgfortran*'    -exec echo '{}' \; -quit`" ] ; then cp -a libgfortran*    $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
-	   if [ "" != "`find -iname 'libgij*'         -exec echo '{}' \; -quit`" ] ; then cp -a libgij*         $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
-	   if [ "" != "`find -iname 'libgo.*'         -exec echo '{}' \; -quit`" ] ; then cp -a libgo.*         $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
-	   if [ "" != "`find -iname 'libgobegin.a'    -exec echo '{}' \; -quit`" ] ; then cp -a libgobegin.a    $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
-	   if [ "" != "`find -iname 'libgolibbegin.a' -exec echo '{}' \; -quit`" ] ; then cp -a libgolibbegin.a $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
-	   if [ "" != "`find -iname 'libgomp*'        -exec echo '{}' \; -quit`" ] ; then cp -a libgomp*        $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
-	   if [ "" != "`find -iname 'libitm*'         -exec echo '{}' \; -quit`" ] ; then cp -a libitm*         $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
-	   if [ "" != "`find -iname 'liblsan*'        -exec echo '{}' \; -quit`" ] ; then cp -a liblsan*        $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
-	   if [ "" != "`find -iname 'libnetgo.a'      -exec echo '{}' \; -quit`" ] ; then cp -a libnetgo.a      $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
-	   if [ "" != "`find -iname 'libobjc*'        -exec echo '{}' \; -quit`" ] ; then cp -a libobjc*        $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
-	   if [ "" != "`find -iname 'libsanitizer*'   -exec echo '{}' \; -quit`" ] ; then cp -a libsanitizer*   $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
-	   if [ "" != "`find -iname 'logging*'        -exec echo '{}' \; -quit`" ] ; then cp -a logging*        $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
-	   if [ "" != "`find -iname 'libmudflap*'     -exec echo '{}' \; -quit`" ] ; then cp -a libmudflap*     $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
-	   if [ "" != "`find -iname 'libquadmath*'    -exec echo '{}' \; -quit`" ] ; then cp -a libquadmath*    $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
-	   if [ "" != "`find -iname 'libssp*'         -exec echo '{}' \; -quit`" ] ; then cp -a libssp*         $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
-	   if [ "" != "`find -iname 'libstdc*'        -exec echo '{}' \; -quit`" ] ; then cp -a libstdc*        $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
-	   if [ "" != "`find -iname 'libsupc*'        -exec echo '{}' \; -quit`" ] ; then cp -a libsupc*        $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
-	   if [ "" != "`find -iname 'libtsan*'        -exec echo '{}' \; -quit`" ] ; then cp -a libtsan*        $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
-	   if [ "" != "`find -iname 'libubsan*'       -exec echo '{}' \; -quit`" ] ; then cp -a libubsan*       $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
-	   if [ "" != "`find -iname 'libvtv*'         -exec echo '{}' \; -quit`" ] ; then cp -a libvtv*         $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
-	   if [ -d gcj-$(version)-* ] ; then cp -rf gcj-$(version)-* $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
-	   if [ -d go ]               ; then cp -rf go               $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
-	   if [ -d ldscripts ]        ; then cp -rf ldscripts        $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
-	   if [ -d pkgconfig ]        ; then cp -rf pkgconfig        $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
-	   if [ -d security ]         ; then cp -rf security         $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi )
+	   if [ "" != "`find -iname 'libgcc*'   -exec echo '{}' \; -quit`" ] ; then cp -a libgcc*  $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi && \
+	   if [ "" != "`find -iname 'libstdc*'  -exec echo '{}' \; -quit`" ] ; then cp -a libstdc* $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; fi    \
+	 )
 	@if test "$(lib_compat)" == "yes" ; then \
 	  mkdir  -p $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	  ( cd $(src_dir)/lib$(MULTILIB_X86_32_SUFFIX) && \
-	    if [ "" != "`find -iname 'libasan*'        -exec echo '{}' \; -quit`" ] ; then cp -a libasan*        $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
-	    if [ "" != "`find -iname 'libatomic*'      -exec echo '{}' \; -quit`" ] ; then cp -a libatomic*      $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
-	    if [ "" != "`find -iname 'libcilkrts*'     -exec echo '{}' \; -quit`" ] ; then cp -a libcilkrts*     $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
-	    if [ "" != "`find -iname 'libgcc*'         -exec echo '{}' \; -quit`" ] ; then cp -a libgcc*         $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
-	    if [ "" != "`find -iname 'libgcj*'         -exec echo '{}' \; -quit`" ] ; then cp -a libgcj*         $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
-	    if [ "" != "`find -iname 'libgfortran*'    -exec echo '{}' \; -quit`" ] ; then cp -a libgfortran*    $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
-	    if [ "" != "`find -iname 'libgij*'         -exec echo '{}' \; -quit`" ] ; then cp -a libgij*         $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
-	    if [ "" != "`find -iname 'libgo.*'         -exec echo '{}' \; -quit`" ] ; then cp -a libgo.*         $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
-	    if [ "" != "`find -iname 'libgobegin.a'    -exec echo '{}' \; -quit`" ] ; then cp -a libgobegin.a    $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
-	    if [ "" != "`find -iname 'libgolibbegin.a' -exec echo '{}' \; -quit`" ] ; then cp -a libgolibbegin.a $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
-	    if [ "" != "`find -iname 'libgomp*'        -exec echo '{}' \; -quit`" ] ; then cp -a libgomp*        $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
-	    if [ "" != "`find -iname 'libitm*'         -exec echo '{}' \; -quit`" ] ; then cp -a libitm*         $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
-	    if [ "" != "`find -iname 'libnetgo.a'      -exec echo '{}' \; -quit`" ] ; then cp -a libnetgo.a      $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
-	    if [ "" != "`find -iname 'libobjc*'        -exec echo '{}' \; -quit`" ] ; then cp -a libobjc*        $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
-	    if [ "" != "`find -iname 'libsanitizer*'   -exec echo '{}' \; -quit`" ] ; then cp -a libsanitizer*   $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
-	    if [ "" != "`find -iname 'logging*'        -exec echo '{}' \; -quit`" ] ; then cp -a logging*        $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
-	    if [ "" != "`find -iname 'liblsan*'        -exec echo '{}' \; -quit`" ] ; then cp -a liblsan*        $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
-	    if [ "" != "`find -iname 'libmudflap*'     -exec echo '{}' \; -quit`" ] ; then cp -a libmudflap*     $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
-	    if [ "" != "`find -iname 'libquadmath*'    -exec echo '{}' \; -quit`" ] ; then cp -a libquadmath*    $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
-	    if [ "" != "`find -iname 'libssp*'         -exec echo '{}' \; -quit`" ] ; then cp -a libssp*         $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
-	    if [ "" != "`find -iname 'libstdc*'        -exec echo '{}' \; -quit`" ] ; then cp -a libstdc*        $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
-	    if [ "" != "`find -iname 'libsupc*'        -exec echo '{}' \; -quit`" ] ; then cp -a libsupc*        $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
-	    if [ "" != "`find -iname 'libtsan*'        -exec echo '{}' \; -quit`" ] ; then cp -a libtsan*        $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
-	    if [ "" != "`find -iname 'libubsan*'       -exec echo '{}' \; -quit`" ] ; then cp -a libubsan*       $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
-	    if [ "" != "`find -iname 'libvtv*'         -exec echo '{}' \; -quit`" ] ; then cp -a libvtv*         $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
-	    if [ -d gcj-$(version)-* ] ; then cp -rf gcj-$(version)-* $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi  && \
-	    if [ -d go ]               ; then cp -rf go               $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi  && \
-	    if [ -d ldscripts ]        ; then cp -rf ldscripts        $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi  && \
-	    if [ -d pkgconfig ]        ; then cp -rf pkgconfig        $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi  && \
-	    if [ -d security ]         ; then cp -rf security         $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi ) ; \
+	    if [ "" != "`find -iname 'libgcc*'  -exec echo '{}' \; -quit`" ] ; then cp -a libgcc*  $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi && \
+	    if [ "" != "`find -iname 'libstdc*' -exec echo '{}' \; -quit`" ] ; then cp -a libstdc* $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; fi    \
+	  ) ; \
 	 fi
 	@rm -f $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX)/*gdb.py
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
@@ -169,115 +106,23 @@ endif
 	    sed -i "s,$(src_dir)/lib,$(TARGET_DEST_DIR)/usr/lib,g" *.la  \
 	 ) ; \
 	 fi
-	@( cd $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX)/gcj-$(version)-* ; \
-	   sed -i "s,$(src_dir)/lib,$(TARGET_DEST_DIR)/usr/lib,g" *.la ; \
-	   sed -i "s,-L[^[:space:]]*\.libs,,g" *.la ; \
-	   sed -i "s,-L[^[:space:]]*libjava,-L$(TARGET_DEST_DIR)/usr/lib,g" *.la ; \
-	 )
-	@if test "$(lib_compat)" == "yes" ; then \
-	  ( cd $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/gcj-$(version)-* ; \
-	    sed -i "s,$(src_dir)/lib,$(TARGET_DEST_DIR)/usr/lib,g" *.la ; \
-	    sed -i "s,-L[^[:space:]]*\.libs,,g" *.la ; \
-	    sed -i "s,-L[^[:space:]]*libjava,-L$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX),g" *.la ; \
-	  ) ; \
-	 fi
-	# ======= tune pkg-config *.pc files =======
-	@( cd $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	   sed -i "s,$(TOOLCHAIN_PATH),$(TARGET_DEST_DIR)/usr,g" *.pc \
-	 )
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
-	@( cd $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
-	   sed -i "s,$(TOOLCHAIN_PATH),$(TARGET_DEST_DIR)/usr,g" *.pc \
-	 )
-endif
-	# ======= copy lib/gcc =======
-	@mkdir -p $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX)
-	@( cd $(TOOLCHAIN_PATH) && \
-	   cp -r lib$(LIBSUFFIX)/gcc $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) \
-	 )
-	@( cd $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX)/gcc/$(TARGET)/$(version) && \
-	   sed -i "s,$(TOOLCHAIN_PATH),$(TARGET_DEST_DIR)/usr,g" *.la \
-	 )
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
-	@( cd $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX)/gcc/$(TARGET)/$(version)/32 && \
-	   sed -i "s,$(TOOLCHAIN_PATH),$(TARGET_DEST_DIR)/usr,g" *.la \
-	 )
-endif
-	# ======= tune cc1plugin *.la =======
-	@( cd $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX)/gcc/$(TARGET)/$(version)/plugin ; \
-	   sed -i "s,$(TOOLCHAIN_PATH),$(TARGET_DEST_DIR)/usr,g" *.la ; \
-	   sed -i "s,'/.*/gnattools/$(version),'$(TARGET_DEST_DIR),g" *.la ; \
-	   sed -i "s,lib64,lib,g" *.la ; \
-	 )
-	# ======= copy libexec/gcc =======
-	@mkdir -p $(GCC_RT_DEV_PKG)/usr/libexec
-	@( cd $(TOOLCHAIN_PATH) && \
-	   cp -r libexec/gcc $(GCC_RT_DEV_PKG)/usr/libexec \
-	 )
-	@( cd $(GCC_RT_DEV_PKG)/usr/libexec/gcc/$(TARGET)/$(version) && \
-	   sed -i "s,$(TOOLCHAIN_PATH),$(TARGET_DEST_DIR)/usr,g" *.la \
-	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(GCC_RT_DEV_PKG))
 	# ======= tune target libtool *.la scripts =======
-	@( cd $(GCC_RT_DEV_PKG)/usr/libexec/gcc/$(TARGET)/$(version) && \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" *.la \
-	 )
-	@( cd $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX)/gcc/$(TARGET)/$(version) ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" *.la \
-	 )
-	@( cd $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX)/gcc/$(TARGET)/$(version)/plugin ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" *.la \
-	 )
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
-	@( cd $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX)/gcc/$(TARGET)/$(version)/32 ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" *.la \
-	 )
-endif
 	@( cd $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" *.la ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" gcj-$(version)-*/*.la ; \
 	 )
 	@if test "$(lib_compat)" == "yes" ; then \
 	  ( cd $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	    sed -i "s,$(TARGET_DEST_DIR),,g" *.la ; \
-	    sed -i "s,$(TARGET_DEST_DIR),,g" gcj-$(version)-*/*.la ; \
 	  ) ; \
 	 fi
-	# ======= tune target pkg-config *.pc files =======
-	@( cd $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" *.pc ; \
+	# ======= Strip binaries =======
+	@( cd $(GCC_RT_DEV_PKG) ; \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
 	 )
-	@if test "$(lib_compat)" == "yes" ; then \
-	  ( cd $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
-	    sed -i "s,$(TARGET_DEST_DIR),,g" *.pc ; \
-	    sed -i "s,^libdir=/usr/lib,libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX),g" *.pc ; \
-	  ) ; \
-	 fi
-ifneq ($(CHRPATH),)
-	# ======= Set RPATH/RUNPATH for target binaries =======
-	@( cd $(GCC_RT_DEV_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   target_rpath="/lib/../lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUFFIX)" ; \
-	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
-	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
-	     if [ -n "$$rpath" ] ; then \
-	       $(CHRPATH) -r $${target_rpath} $$file 1> /dev/null 2> /dev/null ; \
-	     fi ; \
-	   done ; \
-	 )
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
-	# ======= Set RPATH/RUNPATH for target shared objects =======
-	@( cd $(GCC_RT_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   target_rpath="/lib/../lib$(MULTILIB_X86_32_SUFFIX):/usr/lib/../lib$(MULTILIB_X86_32_SUFFIX)" ; \
-	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
-	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
-	     if [ -n "$$rpath" ] ; then \
-	       $(CHRPATH) -r $${target_rpath} $$file 1> /dev/null 2> /dev/null ; \
-	     fi ; \
-	   done ; \
-	 )
-endif
-endif
 	@touch $@
 
 $(GCC_RT_DEV_PKG_DESCRIPTION_FILE): $(GCC_RT_DEV_PKG_DESCRIPTION_FILE_IN)

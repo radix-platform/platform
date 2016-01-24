@@ -9,6 +9,7 @@ COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -24,11 +25,11 @@ REQUIRES           = net/ca-certificates/40.0.2
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES          += app/util-linux/2.24.1
 REQUIRES          += libs/libidn/1.28
-REQUIRES          += libs/pcre/8.34
+REQUIRES          += libs/pcre/8.38
 else
 REQUIRES          += app/util-linux/2.24.1-x86_32
 REQUIRES          += libs/libidn/1.28-x86_32
-REQUIRES          += libs/pcre/8.34-x86_32
+REQUIRES          += libs/pcre/8.38-x86_32
 endif
 
 # ======= __END_OF_REQUIRES__ =======

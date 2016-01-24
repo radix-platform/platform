@@ -10,6 +10,7 @@ url         = $(DOWNLOAD_SERVER)/sources/iana/tz
 versions    = 2013i
 versions   += 2015a
 versions   += 2015c
+versions   += 2015g
 
 tarballs    = $(sort \
                 $(shell \
@@ -22,6 +23,7 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/glibc-2.21-tzcode-2015a.patch
 patches    += $(CURDIR)/patches/glibc-2.21-tzcode-2015c.patch
+patches    += $(CURDIR)/patches/glibc-2.22-tzcode-2015g.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -58,6 +60,7 @@ $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-2015a-glibc-2.21-patch ; ./create.patch.sh ) ; \
 	 ( cd create-2015c-glibc-2.21-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2015g-glibc-2.22-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

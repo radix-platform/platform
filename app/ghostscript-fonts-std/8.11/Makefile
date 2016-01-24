@@ -9,6 +9,7 @@ COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -21,9 +22,9 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/ghostscript-fonts-std
 
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
-REQUIRES            = app/ghostscript/9.15
+REQUIRES           = app/ghostscript/9.15
 else
-REQUIRES            = app/ghostscript/9.15-x86_32
+REQUIRES           = app/ghostscript/9.15-x86_32
 endif
 REQUIRES          += X11/X.org/app/mkfontdir/1.0.7
 REQUIRES          += X11/X.org/app/mkfontscale/1.1.1

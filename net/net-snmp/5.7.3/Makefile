@@ -9,6 +9,7 @@ COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -30,8 +31,8 @@ REQUIRES          += app/lm_sensors/3.3.5-x86_32
 endif
 REQUIRES          += net/openssl/1.0.2d
 REQUIRES          += app/pciutils/3.2.1
-REQUIRES          += dev/perl/5.18.2
-REQUIRES          += dev/python2/2.7.6
+REQUIRES          += dev/perl/5.22.1
+REQUIRES          += dev/python2/2.7.11
 
 # ======= __END_OF_REQUIRES__ =======
 

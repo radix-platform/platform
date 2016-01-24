@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/gpgme
 
-versions    = 1.5.1
+versions    = 1.5.1 1.6.0
 pkgname     = gpgme
 suffix      = tar.bz2
 

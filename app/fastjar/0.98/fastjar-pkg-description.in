@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+       |-----handy-ruler------------------------------------------------------|
+fastjar: fastjar @VERSION@ (fast jar command)
+fastjar:
+fastjar: FastJar is an attempt at creating a feature-for-feature copy of
+fastjar: Sun's JDK's 'jar' command.  Sun's jar (or Blackdown's for that
+fastjar: matter) is written entirely in Java which makes it dog slow.
+fastjar: Since FastJar is written in C, it can create the same .jar file
+fastjar: as Sun's tool in a fraction of the time.
+fastjar:
+fastjar:
+fastjar:
+fastjar:

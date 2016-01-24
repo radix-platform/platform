@@ -9,6 +9,7 @@ COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -20,8 +21,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/mpc
 
-REQUIRES           = libs/gmp/6.0.0
-REQUIRES          += libs/mpfr/3.1.2
+REQUIRES           = libs/gmp/6.1.0
+REQUIRES          += libs/mpfr/3.1.3
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -121,9 +122,13 @@ $(install_target): $(build_target)
 	@rm -f $(MPC_PKG)/usr/share/info/dir
 	@gzip -9 $(MPC_PKG)/usr/share/info/*
 	@mkdir -p $(MPC_PKG)/usr/doc/$(src_dir_name)
-	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/COPYING* $(SRC_DIR)/INSTALL* \
-	       $(SRC_DIR)/NEWS $(SRC_DIR)/README $(SRC_DIR)/TODO \
+	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/COPYING* \
 	       $(MPC_PKG)/usr/doc/$(src_dir_name)
+	@mkdir -p $(MPC_PKG)/usr/share/doc/$(src_dir_name)
+	@( cd $(SRC_DIR) ; \
+	   cp -a AUTHORS COPYING* INSTALL* NEWS README TODO \
+	       $(MPC_PKG)/usr/share/doc/$(src_dir_name) ; \
+	 )
 	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(MPC_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libmpc.la  \

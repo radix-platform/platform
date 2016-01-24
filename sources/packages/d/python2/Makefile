@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/d/python2
 
-versions    = 2.7.6
+versions    = 2.7.6 2.7.11
 pkgname     = Python
 suffix      = tar.xz
 
@@ -18,6 +18,10 @@ patches     = $(CURDIR)/patches/Python-2.7.6-cross.patch
 patches    += $(CURDIR)/patches/Python-2.7.6-cross32.patch
 patches    += $(CURDIR)/patches/Python-2.7.6-x86_32.patch
 patches    += $(CURDIR)/patches/Python-2.7.6-readline.patch
+patches    += $(CURDIR)/patches/Python-2.7.11-cross.patch
+patches    += $(CURDIR)/patches/Python-2.7.11-cross32.patch
+patches    += $(CURDIR)/patches/Python-2.7.11-x86_32.patch
+patches    += $(CURDIR)/patches/Python-2.7.11-readline.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -52,10 +56,14 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-2.7.6-readline-patch ; ./create.patch.sh ) ; \
-	 ( cd create-2.7.6-x86_32-patch ;   ./create.patch.sh ) ; \
-	 ( cd create-2.7.6-cross32-patch ;  ./create.patch.sh ) ; \
-	 ( cd create-2.7.6-cross-patch ;    ./create.patch.sh ) ; \
+	 ( cd create-2.7.6-readline-patch ;  ./create.patch.sh ) ; \
+	 ( cd create-2.7.6-x86_32-patch ;    ./create.patch.sh ) ; \
+	 ( cd create-2.7.6-cross32-patch ;   ./create.patch.sh ) ; \
+	 ( cd create-2.7.6-cross-patch ;     ./create.patch.sh ) ; \
+	 ( cd create-2.7.11-readline-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2.7.11-x86_32-patch ;   ./create.patch.sh ) ; \
+	 ( cd create-2.7.11-cross32-patch ;  ./create.patch.sh ) ; \
+	 ( cd create-2.7.11-cross-patch ;    ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

@@ -7,13 +7,15 @@ include ../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/GNU/binutils
 
-versions    = 2.23.2 2.24 2.25
+versions    = 2.23.2 2.24 2.25 2.25.1
 
 tarballs    = $(addsuffix .tar.bz2, $(addprefix binutils-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/binutils-2.23.2-x86_64-multilib.patch
 patches    += $(CURDIR)/patches/binutils-2.24-x86_64-multilib.patch
+patches    += $(CURDIR)/patches/binutils-2.25.1-export-demangle-h.patch
+patches    += $(CURDIR)/patches/binutils-2.25.1-no-config-h-check.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -48,8 +50,10 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-patch-2.23.2-x86_64-multilib ; ./create.patch.sh ) ; \
-	 ( cd create-patch-2.24-x86_64-multilib ;   ./create.patch.sh ) ; \
+	 ( cd create-2.23.2-x86_64-multilib-patch   ; ./create.patch.sh ) ; \
+	 ( cd create-2.24-x86_64-multilib-patch     ; ./create.patch.sh ) ; \
+	 ( cd create-2.25.1-export-demangle-h-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2.25.1-no-config-h-check-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

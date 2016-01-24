@@ -14,7 +14,7 @@ SOURCE_REQUIRES     = sources/packages/n/openssl
 
 REQUIRES            = net/openssl/1.0.2d
 REQUIRES           += libs/zlib/1.2.8-x86_32
-REQUIRES           += libs/gmp/6.0.0-x86_32
+REQUIRES           += libs/gmp/6.1.0-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/crda
 
-versions    = 3.13
+versions    = 3.13 3.18
 pkgname     = crda
 suffix      = tar.xz
 
@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/crda-3.13.patch
+patches    += $(CURDIR)/patches/crda-3.18.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,6 +51,7 @@ $(sha1s): $(tarballs)
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-3.13-patch ; ./create.patch.sh ) ; \
+	 ( cd create-3.18-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

@@ -9,6 +9,7 @@ COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -22,7 +23,7 @@ SOURCE_REQUIRES    = sources/packages/l/libxslt
 
 REQUIRES           = libs/pth/2.0.7
 REQUIRES          += libs/libxml2/2.9.1
-REQUIRES          += net/libgcrypt/1.6.2
+REQUIRES          += net/libgcrypt/1.6.4
 
 # ======= __END_OF_REQUIRES__ =======
 

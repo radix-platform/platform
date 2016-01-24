@@ -9,6 +9,7 @@ COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -179,6 +180,10 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
 nss_environment    += CPU_ARCH=mips32r2
 NSS_TARGET_OBJ_DIR  = Linux_mips32r2_$(TARGET)-gcc_glibc_PTH_OPT.OBJ
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_BT1)),)
+nss_environment    += CPU_ARCH=mips32r5
+NSS_TARGET_OBJ_DIR  = Linux_mips32r5_$(TARGET)-gcc_glibc_PTH_OPT.OBJ
 endif
 
 

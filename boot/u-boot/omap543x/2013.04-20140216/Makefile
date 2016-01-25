@@ -9,9 +9,9 @@ COMPONENT_IS_3PP  = true
 include ../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES   = sources/U-Boot/omap5-glsdk/2013.04
+SOURCE_REQUIRES   = sources/U-Boot/TI/omap5/glsdk
 
-REQUIRES          = boot/kernel/omap543x/3.8.y-20140222
+REQUIRES          = boot/kernel/omap543x/3.8.13-20140222
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -22,8 +22,8 @@ DEFAULT_HW_ADDR          =  2a:ab:c0:97:84:9d
 
 
 version           = 2013.04-20140216
-tar_bz2_archive   = $(SRC_PACKAGE_PATH)/U-Boot/omap5-glsdk/2013.04/u-boot-omap-$(version).tar.bz2
-SRC_ARCHIVE       = $(tar_bz2_archive)
+tar_xz_archive    = $(SRC_PACKAGE_PATH)/U-Boot/TI/omap5/glsdk/u-boot-omap-$(version).tar.xz
+SRC_ARCHIVE       = $(tar_xz_archive)
 SRC_DIR           = $(TARGET_BUILD_DIR)/u-boot-omap-$(version)
 src_done          = $(TARGET_BUILD_DIR)/.source_done
 

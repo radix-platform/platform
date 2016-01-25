@@ -44,7 +44,7 @@ REQUIRES           = dev/kernel/omap35x/2.6.36-headers
 endif
 
 ifeq ($(HARDWARE),$(HARDWARE_OMAP5UEVM))
-REQUIRES           = dev/kernel/omap543x/3.8.y-20140222-headers
+REQUIRES           = dev/kernel/omap543x/3.8.13-20140222-headers
 endif
 
 ifeq ($(HARDWARE),$(HARDWARE_B74))

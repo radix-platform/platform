@@ -11,13 +11,13 @@ include ../../../../../build-system/constants.mk
 
 SOURCE_REQUIRES   = sources/hal/drivers/omap543x/sgx-ddk
 
-REQUIRES          = boot/kernel/omap543x/3.8.y-20140222
+REQUIRES          = boot/kernel/omap543x/3.8.13-20140222
 
 # ======= __END_OF_REQUIRES__ =======
 
 
 version           = 1.9.0.11
-kernel_version    = 3.8.y-20140222
+kernel_version    = 3.8.13-20140222
 modules_version   = 3.8.13
 tar_bz2_archive   = $(SRC_PACKAGE_PATH)/hal/drivers/omap543x/sgx-ddk/ti_imgddk_$(version).tar.bz2
 SRC_ARCHIVE       = $(tar_bz2_archive)

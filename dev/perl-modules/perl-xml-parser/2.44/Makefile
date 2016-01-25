@@ -216,7 +216,13 @@ perl_environment += LIBC=$(TARGET_DEST_DIR)/lib/libc-$(GLIBC_VERSION).so
 perl_environment += OSNAME=linux
 perl_environment += OSVERS=$(UNAME_R_VERSION)
 
-perl_environment += PERL5LIB=$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5
+#
+# Give the path of target machine PERL headers to the ExtUtils::MakeMaker for creating
+# the PERL_HDRS list in the resulting Makefile created by  `perl Makefile.PL` command.
+#
+# see: _perl_header_files() fuction in the MM_Any.pm script to understand PERL_SRC env.
+#
+perl_src_hdrs  = PERL_SRC=$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)/CORE
 
 #
 # Module Specific Perl5 Environment:
@@ -224,10 +230,11 @@ perl_environment += PERL5LIB=$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5
 #
 perl_environment += EXPATINCPATH='$(TARGET_DEST_DIR)/usr/include'
 perl_environment += EXPATLIBPATH='$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)'
-perl_environment += LD_RUN_PATH='/usr/lib$(LIBSUFFIX)'
-
 
 perl_local_pod = usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)/perllocal.pod
+
+
+TARGET_LIB_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUFFIX)
 
 
 ####### Dependencies
@@ -239,7 +246,10 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 
 $(build_target): $(src_done)
 	@( cd  $(SRC_DIR) ; \
-	   perl Makefile.PL ; \
+	   $(BUILD_ENVIRONMENT) $(perl_src_hdrs) perl Makefile.PL $(perl_environment)  ; \
+	   sed -i "s,-I/usr/local/include,-I$(TARGET_DEST_DIR)/usr/include,g" Makefile ; \
+	   sed -i "s,-I/usr/include,-I$(TARGET_DEST_DIR)/usr/include,g"       Makefile ; \
+	   sed -i 's,Expat \&\& $$(MAKE),Expat \&\& $$(MAKE) PERL_INCDEP=$$(PERL_INCDEP),' Makefile ; \
 	 )
 	@( cd $(SRC_DIR) ; \
 	   $(BUILD_ENVIRONMENT) $(MAKE) $(perl_environment) ; \
@@ -289,6 +299,17 @@ $(install_target): $(build_target)
 	@( cd $(PERL_PKG) ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )
+ifneq ($(CHRPATH),)
+	# ======= Set RPATH/RUNPATH for target shared objects =======
+	@( cd $(PERL_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
+	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
+	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
+	       $(CHRPATH) -r $(TARGET_LIB_RPATH) $$file 1> /dev/null 2> /dev/null ; \
+	     fi ; \
+	   done ; \
+	 )
+endif
 	@touch $@
 
 $(PERL_PKG_DESCRIPTION_FILE): $(PERL_PKG_DESCRIPTION_FILE_IN)

@@ -1,2 +1,3 @@
 
+../../../../sources/packages/d/perl-modules/CPAN/DBI/patches/DBI-1.634-prev-inst-warn.patch -p0
 ../../../../sources/packages/d/perl-modules/CPAN/DBI/patches/DBI-1.634-i386-stack-chk.patch -p0

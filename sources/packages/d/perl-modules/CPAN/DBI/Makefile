@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/DBI-1.634-i386-stack-chk.patch
+patches    += $(CURDIR)/patches/DBI-1.634-prev-inst-warn.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,6 +51,7 @@ $(sha1s): $(tarballs)
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-1.634-i386-stack-chk-patch ; ./create.patch.sh ) ; \
+	 ( cd create-1.634-prev-inst-warn-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

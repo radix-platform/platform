@@ -90,10 +90,12 @@ configure_switches += INITDIR=/etc/rc.d/init.d
 configure_switches += SYSCONFIGDIR=/etc/sysconfig
 
 #
-# Do not use KERNEL_INCLUDES for kernels which doesn't have IPv6 (linux/netfilter_bridge/ebt_ulog.h)
+# Use KERNEL_INCLUDES only for kernels which have IPv6 (linux/netfilter_bridge/ebt_ulog.h)
 #
-ifeq ($(filter $(HARDWARE),$(HARDWARE_VIP1830) $(HARDWARE_BEAGLE) $(HARDWARE_B74) $(HARDWARE_CI20)),)
+ifneq ($(wildcard $(TARGET_DEST_DIR)/usr/include/linux/netfilter_bridge/ebt_ulog.h),)
+ifneq ($(wildcard $(TARGET_DEST_DIR)/usr/include/linux/netfilter_bridge/ebt_ip6.h),)
 configure_switches += KERNEL_INCLUDES=$(TARGET_DEST_DIR)/usr/include
+endif
 endif
 
 

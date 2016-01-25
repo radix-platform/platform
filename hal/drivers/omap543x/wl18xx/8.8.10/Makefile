@@ -19,7 +19,7 @@ REQUIRES          = hal/drivers/omap543x/sgx-ddk/1.9.0.11
 
 
 version           = ol_r8.a8.10
-kernel_version    = 3.8.y-20140222
+kernel_version    = 3.8.13-20140222
 modules_version   = 3.8.13
 tar_bz2_archive   = $(SRC_PACKAGE_PATH)/hal/drivers/omap543x/wl18xx/wl18xx/wl18xx-$(version).tar.bz2
 SRC_ARCHIVE       = $(tar_bz2_archive)

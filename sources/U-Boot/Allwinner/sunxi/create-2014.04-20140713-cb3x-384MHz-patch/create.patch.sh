@@ -1,8 +1,8 @@
 #!/bin/sh
 
-VERSION=20140713
+VERSION=2014.04-20140713
 
-tar --files-from=file.list -xjvf ../u-boot-sunxi-$VERSION.tar.bz2
+tar --files-from=file.list -xJvf ../u-boot-sunxi-$VERSION.tar.xz
 mv u-boot-sunxi-$VERSION u-boot-sunxi-$VERSION-orig
 
 cp -rf ./u-boot-sunxi-$VERSION-new ./u-boot-sunxi-$VERSION

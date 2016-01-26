@@ -29,7 +29,7 @@ include ../../build-system/constants.mk
 #endif
 #
 #ifeq ($(HARDWARE),$(HARDWARE_CB1X))
-#REQUIRES += boot/u-boot/A10/20140713
+#REQUIRES += boot/u-boot/A10/2014.04-20140713
 #endif
 #
 #ifeq ($(HARDWARE),$(HARDWARE_CB3X))

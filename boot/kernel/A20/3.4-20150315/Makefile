@@ -9,7 +9,7 @@ COMPONENT_IS_3PP   = true
 include ../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/Linux/sunxi-3.4
+SOURCE_REQUIRES    = sources/Linux/Allwinner/sunxi-3.4
 
 REQUIRES           = base/pkgtool
 
@@ -20,7 +20,7 @@ version            = 3.4-20150315
 subversion         =
 modules_version    = 3.4.104
 full_version       = $(version)
-tar_bz2_archive    = $(SRC_PACKAGE_PATH)/Linux/sunxi-3.4/linux-sunxi-$(full_version).tar.bz2
+tar_bz2_archive    = $(SRC_PACKAGE_PATH)/Linux/Allwinner/sunxi-3.4/linux-sunxi-$(full_version).tar.bz2
 SRC_ARCHIVE        = $(tar_bz2_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/usr/src/linux-sunxi-$(full_version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done

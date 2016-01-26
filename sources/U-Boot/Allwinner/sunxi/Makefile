@@ -2,35 +2,30 @@
 COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 
 
-include ../../../build-system/constants.mk
+include ../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/U-Boot/sunxi/sunxi
+url         = $(DOWNLOAD_SERVER)/sources/U-Boot/Allwinner/sunxi
 
-versions    = 20140713
-versions   += 20141124
+versions    = 2014.04-20140713
+versions   += 2014.04-20141124
 
-description = u-boot-sunxi.txt
-tarballs    = $(addsuffix .tar.bz2, $(addprefix u-boot-sunxi-, $(versions)))
+tarballs    = $(addsuffix .tar.xz, $(addprefix u-boot-sunxi-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/u-boot-sunxi-20140713-cb3x-384MHz.patch
+patches     = $(CURDIR)/patches/u-boot-sunxi-2014.04-20140713-cb3x-384MHz.patch
 
 .NOTPARALLEL: $(patches)
 
 
-BUILD_TARGETS = $(description) $(tarballs) $(sha1s) $(patches)
+BUILD_TARGETS = $(tarballs) $(sha1s) $(patches)
 
 
-include ../../../build-system/core.mk
+include ../../../../build-system/core.mk
 
 
 .PHONY: download_clean
 
-
-$(description):
-	@echo -e "\n======= Downloading $(description) file =======" ; \
-	 echo "$(url)/$(description)" | xargs -n 1 -P 100 wget $(WGET_OPTIONS) -i & wait %1
 
 $(tarballs):
 	@echo -e "\n======= Downloading source tarballs =======" ; \
@@ -53,8 +48,8 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-20140713-cb3x-384MHz-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2014.04-20140713-cb3x-384MHz-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:
-	@rm -f $(description) $(tarballs) $(sha1s) $(patches)
+	@rm -f $(tarballs) $(sha1s) $(patches)

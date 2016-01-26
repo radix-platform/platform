@@ -1,2 +1,3 @@
 
+../../../../sources/Linux/TI/omap5/glsdk/patches/linux-glsdk-3.8.13-20140222-gcc5.patch        -p0
 ../../../../sources/Linux/TI/omap5/glsdk/patches/linux-glsdk-3.8.13-20140222-memset-3.12.patch -p0

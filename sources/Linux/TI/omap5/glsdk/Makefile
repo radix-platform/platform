@@ -15,6 +15,7 @@ defconfigs    = $(subst .tar.xz,.defconfig, $(tarballs))
 sha1s         = $(addsuffix .sha1sum, $(tarballs))
 
 patches       = $(CURDIR)/patches/linux-glsdk-3.8.13-20131223-memset.patch
+patches      += $(CURDIR)/patches/linux-glsdk-3.8.13-20140222-gcc5.patch
 patches      += $(CURDIR)/patches/linux-glsdk-3.8.13-20140222-hdr-inst.patch
 patches      += $(CURDIR)/patches/linux-glsdk-3.8.13-20140222-l1-cache.patch
 patches      += $(CURDIR)/patches/linux-glsdk-3.8.13-20140222-memset.patch
@@ -62,6 +63,7 @@ $(sha1s): $(tarballs)
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-3.8.13-20131223-memset-patch ;      ./create.patch.sh ) ; \
+	 ( cd create-3.8.13-20140222-gcc5-patch ;        ./create.patch.sh ) ; \
 	 ( cd create-3.8.13-20140222-hdr-inst-patch ;    ./create.patch.sh ) ; \
 	 ( cd create-3.8.13-20140222-l1-cache-patch ;    ./create.patch.sh ) ; \
 	 ( cd create-3.8.13-20140222-memset-patch ;      ./create.patch.sh ) ; \

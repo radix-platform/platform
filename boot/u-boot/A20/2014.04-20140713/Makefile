@@ -9,7 +9,7 @@ COMPONENT_IS_3PP  = true
 include ../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES   = sources/U-Boot/sunxi
+SOURCE_REQUIRES   = sources/U-Boot/Allwinner/sunxi
 
 REQUIRES          = boot/kernel/A20/3.4-20141014
 
@@ -21,9 +21,9 @@ DEFAULT_NFS_ROOT_PATH    = "nfsroot-cb3x"
 DEFAULT_HW_ADDR          = 2a:ab:c0:ba:36:4e
 
 
-version         = 20140713
-tar_bz2_archive = $(SRC_PACKAGE_PATH)/U-Boot/sunxi/u-boot-sunxi-$(version).tar.bz2
-SRC_ARCHIVE     = $(tar_bz2_archive)
+version         = 2014.04-20140713
+tar_xz_archive  = $(SRC_PACKAGE_PATH)/U-Boot/Allwinner/sunxi/u-boot-sunxi-$(version).tar.xz
+SRC_ARCHIVE     = $(tar_xz_archive)
 SRC_DIR         = $(TARGET_BUILD_DIR)/u-boot-sunxi-$(version)
 src_done        = $(TARGET_BUILD_DIR)/.source_done
 
@@ -56,7 +56,7 @@ PKG_GROUP = boot
 
 
 UBOOT_BIN_PKG_NAME                = u-boot
-UBOOT_BIN_PKG_VERSION             = 20140713
+UBOOT_BIN_PKG_VERSION             = 2014.04
 UBOOT_BIN_PKG_ARCH                = $(TOOLCHAIN)
 UBOOT_BIN_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 UBOOT_BIN_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)

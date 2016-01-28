@@ -22,7 +22,10 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/b/mariadb
 
-REQUIRES           = libs/pcre/8.38
+ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
+REQUIRES           = dev/gcc/5.3.0
+endif
+REQUIRES          += libs/pcre/8.38
 REQUIRES          += libs/libxml2/2.9.1
 REQUIRES          += libs/libaio/0.3.110
 REQUIRES          += net/openssl/1.0.2d

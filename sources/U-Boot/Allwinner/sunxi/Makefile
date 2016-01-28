@@ -14,6 +14,8 @@ tarballs    = $(addsuffix .tar.xz, $(addprefix u-boot-sunxi-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/u-boot-sunxi-2014.04-20140713-cb3x-384MHz.patch
+patches    += $(CURDIR)/patches/u-boot-sunxi-2014.04-20140713-gcc5.patch
+patches    += $(CURDIR)/patches/u-boot-sunxi-2014.04-20141124-gcc5.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -49,6 +51,8 @@ $(sha1s): $(tarballs)
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-2014.04-20140713-cb3x-384MHz-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2014.04-20140713-gcc5-patch        ; ./create.patch.sh ) ; \
+	 ( cd create-2014.04-20141124-gcc5-patch        ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

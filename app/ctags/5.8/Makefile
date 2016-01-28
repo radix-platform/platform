@@ -19,12 +19,16 @@ COMPONENT_IS_3PP   = true
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES     = sources/packages/a/ctags
+SOURCE_REQUIRES    = sources/packages/a/ctags
 
+ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
+REQUIRES           = dev/gcc/5.3.0
+else
 ifneq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES           = libs/glibc/2.22
 else
 REQUIRES           = libs/glibc/2.22-x86_32
+endif
 endif
 
 # ======= __END_OF_REQUIRES__ =======

@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/CLooG
 
-versions    = 0.18.1 0.18.2
+versions    = 0.18.2 0.18.4
 pkgname     = cloog
 suffix      = tar.gz
 

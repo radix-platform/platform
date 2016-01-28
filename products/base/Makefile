@@ -22,29 +22,29 @@ include ../../build-system/constants.mk
 ####### Boot
 #######
 
-#ifeq ($(HARDWARE),$(HARDWARE_OMAP5UEVM))
-#REQUIRES  = hal/drivers/omap543x/wl18xx_fw/8.8.10
-#REQUIRES += hal/firmware/omap5-uevm/6.04.00.02
-#REQUIRES += boot/u-boot/omap543x/2013.04-20140216
-#endif
-#
-#ifeq ($(HARDWARE),$(HARDWARE_CB1X))
-#REQUIRES += boot/u-boot/A10/2014.04-20140713
-#endif
-#
-#ifeq ($(HARDWARE),$(HARDWARE_CB3X))
-#REQUIRES += boot/u-boot/A20/2015.01
-#endif
-#
-#ifeq ($(HARDWARE),$(HARDWARE_CI20))
-#REQUIRES  = hal/drivers/ci20/sgx-ddk/3.18/1.14.3759903
-#REQUIRES += hal/firmware/ci20/brcm4330/0.0.0
-#REQUIRES += boot/u-boot/ci20/2013.10-20150915
-#endif
-#
-#ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32) $(HARDWARE_PC64)),)
-#REQUIRES  = boot/lilo/x86/24.1
-#endif
+ifeq ($(HARDWARE),$(HARDWARE_OMAP5UEVM))
+REQUIRES  = hal/drivers/omap543x/wl18xx_fw/8.8.10
+REQUIRES += hal/firmware/omap5-uevm/6.04.00.02
+REQUIRES += boot/u-boot/omap543x/2013.04-20140216
+endif
+
+ifeq ($(HARDWARE),$(HARDWARE_CB1X))
+REQUIRES += boot/u-boot/A10/2014.04-20140713
+endif
+
+ifeq ($(HARDWARE),$(HARDWARE_CB3X))
+REQUIRES += boot/u-boot/A20/2015.01
+endif
+
+ifeq ($(HARDWARE),$(HARDWARE_CI20))
+REQUIRES  = hal/drivers/ci20/sgx-ddk/3.18/1.14.3759903
+REQUIRES += hal/firmware/ci20/brcm4330/0.0.0
+REQUIRES += boot/u-boot/ci20/2013.10-20150915
+endif
+
+ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32) $(HARDWARE_PC64)),)
+REQUIRES  = boot/lilo/x86/24.1
+endif
 
 
 #######
@@ -120,13 +120,16 @@ endif
 #             │
 #             ├── libs/gmp/6.1.0 ────────────────┐
 #             │   ├── libs/gmp/6.1.0-x86_32      │
-#             │   │                              ├── libs/mpc/1.0.3 ■
+#             │   │                              ├── libs/mpc/1.0.3
 #             │   ├── libs/mpfr/3.1.3 ───────────┘   └── libs/mpc/1.0.3-x86_32
 #             │   │   └── libs/mpfr/3.1.3-x86_32
 #             │   │
-#             │   ├── app/cloog/0.18.2 ■ ─────────────┐
-#             │   │   └── app/cloog/0.18.2-x86_32     │
-#             │   │                                   ├── We do not use these stuff for GCC but you
+#             │   ├── libs/isl/0.16.1
+#             │   │   └── libs/isl/0.16.1-x86_32
+#             │   │
+#             │   ├── app/cloog/0.18.4 ■ ─────────────┐
+#             │   │   └── app/cloog/0.18.4-x86_32     │
+#             │   │                                   ├── GCC do not use these stuff but you
 #             │   └── libs/ppl/1.1 ■                  │   can uncomment following REQUIRES.
 #             │       └── libs/ppl/1.1-x86_32 ────────┘
 #             │
@@ -135,9 +138,9 @@ endif
 #######
 ####### additional libs for bootstrap GCC:
 #######
-REQUIRES += app/cloog/0.18.2
+REQUIRES += app/cloog/0.18.4
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += app/cloog/0.18.2-x86_32
+REQUIRES += app/cloog/0.18.4-x86_32
 endif
 REQUIRES += libs/ppl/1.1
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
@@ -153,9 +156,19 @@ endif
 #             │  ...
 #             │   │
 #             │   └── dev/binutils/2.25.1
-#             │       └── dev/gcc/5.3.0 ───────────── ??????? java: fastjar, gtk,zlib, mpc  ???????
-#             │
-#            ...
+#             │       │
+#             │       ├── dev/gcc/5.3.0 ──────────┬── libs/mpc/1.0.3
+#             │       │                           └── libs/isl/0.16.1
+#            ...     ...
+
+
+#            ...     ...
+#             │       │
+#             │       └── dev/gcc-java/5.3.0 ─────┬── app/fastjar/0.98
+#             │                                   ├── X11/libs/gtk+2/2.24.25
+#            ...                                  ├── ...
+#                                                 ├── ...
+#                                                ...
 
 #            ...
 #             │

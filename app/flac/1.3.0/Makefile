@@ -21,7 +21,10 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/m/xiph/flac
 
-REQUIRES           = libs/libogg/1.3.2
+ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
+REQUIRES           = dev/gcc/5.3.0
+endif
+REQUIRES          += libs/libogg/1.3.2
 
 # ======= __END_OF_REQUIRES__ =======
 

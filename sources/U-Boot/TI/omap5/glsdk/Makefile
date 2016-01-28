@@ -14,6 +14,7 @@ tarballs    = $(addsuffix .tar.xz, $(addprefix u-boot-omap-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/u-boot-omap-2013.04-20140216-gcc5.patch
+patches    += $(CURDIR)/patches/u-boot-omap-2014.07-20150216-gcc5.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -49,6 +50,7 @@ $(sha1s): $(tarballs)
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-2013.04-20140216-gcc5-patch ;  ./create.patch.sh ) ; \
+	 ( cd create-2014.07-20150216-gcc5-patch ;  ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

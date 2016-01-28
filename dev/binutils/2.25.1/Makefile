@@ -11,14 +11,6 @@ COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
 COMPONENT_TARGETS += $(HARDWARE_BT1)
 
-#
-# The rest targets links staticaly with newlib or uclibc and not requires binutils on host
-#
-# COMPONENT_TARGETS += $(HARDWARE_CB1N)
-# COMPONENT_TARGETS += $(HARDWARE_AT91S)
-# COMPONENT_TARGETS += $(HARDWARE_VIP1830N)
-# COMPONENT_TARGETS += $(HARDWARE_L17UC)
-#
 
 NEED_ABS_PATH      = true
 COMPONENT_IS_3PP   = true
@@ -100,6 +92,11 @@ DEFAULT_LD  = ld.bfd
 # Common controls for components:
 #
 extra_configure_switches  = --disable-dependency-tracking
+extra_configure_switches += --libdir=/usr/lib$(LIBSUFFIX)
+extra_configure_switches += --enable-shared
+extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --infodir=/usr/share/info
+extra_configure_switches += --docdir=/usr/share/doc
 
 # NOTE:
 #   --enable-threads, --enable-plugins - are GOLD related options
@@ -120,11 +117,6 @@ extra_configure_switches += --with-abi=aapcs-linux
 extra_configure_switches += --enable-threads
 extra_configure_switches += --enable-plugins
 extra_configure_switches += --enable-targets=$(TARGET),arm-radix-linux-gnu
-extra_configure_switches += --enable-shared
-extra_configure_switches += --libdir=/usr/lib
-extra_configure_switches += --mandir=/usr/share/man
-extra_configure_switches += --infodir=/usr/share/info
-extra_configure_switches += --docdir=/usr/share/doc
 endif
 
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_A2X_GLIBC))
@@ -142,11 +134,6 @@ extra_configure_switches += --with-abi=aapcs-linux
 extra_configure_switches += --enable-threads
 extra_configure_switches += --enable-plugins
 extra_configure_switches += --enable-targets=$(TARGET),arm-radix-linux-gnu
-extra_configure_switches += --enable-shared
-extra_configure_switches += --libdir=/usr/lib
-extra_configure_switches += --mandir=/usr/share/man
-extra_configure_switches += --infodir=/usr/share/info
-extra_configure_switches += --docdir=/usr/share/doc
 endif
 
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_RK328X_GLIBC))
@@ -166,11 +153,6 @@ extra_configure_switches += --with-abi=aapcs-linux
 extra_configure_switches += --enable-threads
 extra_configure_switches += --enable-plugins
 extra_configure_switches += --enable-targets=$(TARGET),arm-radix-linux-gnu
-extra_configure_switches += --enable-shared
-extra_configure_switches += --libdir=/usr/lib
-extra_configure_switches += --mandir=/usr/share/man
-extra_configure_switches += --infodir=/usr/share/info
-extra_configure_switches += --docdir=/usr/share/doc
 endif
 
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_OMAP35X_GLIBC))
@@ -188,11 +170,6 @@ extra_configure_switches += --with-abi=aapcs-linux
 extra_configure_switches += --enable-threads
 extra_configure_switches += --enable-plugins
 extra_configure_switches += --enable-targets=$(TARGET),arm-radix-linux-gnu
-extra_configure_switches += --enable-shared
-extra_configure_switches += --libdir=/usr/lib
-extra_configure_switches += --mandir=/usr/share/man
-extra_configure_switches += --infodir=/usr/share/info
-extra_configure_switches += --docdir=/usr/share/doc
 endif
 
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_OMAP543X_GLIBC))
@@ -210,11 +187,6 @@ extra_configure_switches += --with-abi=aapcs-linux
 extra_configure_switches += --enable-threads
 extra_configure_switches += --enable-plugins
 extra_configure_switches += --enable-targets=$(TARGET),arm-radix-linux-gnu
-extra_configure_switches += --enable-shared
-extra_configure_switches += --libdir=/usr/lib
-extra_configure_switches += --mandir=/usr/share/man
-extra_configure_switches += --infodir=/usr/share/info
-extra_configure_switches += --docdir=/usr/share/doc
 endif
 
 
@@ -227,11 +199,6 @@ extra_configure_switches += --with-cpu=arm926ej-s
 extra_configure_switches += --with-arch=armv5tej
 extra_configure_switches += --with-tune=arm926ej-s
 extra_configure_switches += --enable-targets=$(TARGET),arm-radix-linux-gnu
-extra_configure_switches += --enable-shared
-extra_configure_switches += --libdir=/usr/lib
-extra_configure_switches += --mandir=/usr/share/man
-extra_configure_switches += --infodir=/usr/share/info
-extra_configure_switches += --docdir=/usr/share/doc
 endif
 
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_BCM74X_GLIBC))
@@ -239,11 +206,6 @@ extra_configure_switches += --enable-multilib
 extra_configure_switches += --with-arch=mips32
 extra_configure_switches += --disable-werror
 extra_configure_switches += --enable-targets=$(TARGET),mipsel-radix-linux-gnu
-extra_configure_switches += --enable-shared
-extra_configure_switches += --libdir=/usr/lib
-extra_configure_switches += --mandir=/usr/share/man
-extra_configure_switches += --infodir=/usr/share/info
-extra_configure_switches += --docdir=/usr/share/doc
 endif
 
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_JZ47XX_GLIBC))
@@ -252,13 +214,8 @@ extra_configure_switches += '--with-bugurl=$(BUG_URL)'
 extra_configure_switches += --with-arch=mips32r2
 extra_configure_switches += --enable-multilib
 extra_configure_switches += --enable-werror=no
-extra_configure_switches += --enable-targets=$(TARGET),mipsel-radix-linux-gnu
-extra_configure_switches += --enable-shared
 extra_configure_switches += --enable-plugins
-extra_configure_switches += --libdir=/usr/lib
-extra_configure_switches += --mandir=/usr/share/man
-extra_configure_switches += --infodir=/usr/share/info
-extra_configure_switches += --docdir=/usr/share/doc
+extra_configure_switches += --enable-targets=$(TARGET),mipsel-radix-linux-gnu
 endif
 
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_P5600_GLIBC))
@@ -268,13 +225,8 @@ extra_configure_switches += --with-arch=mips32r5
 extra_configure_switches += --with-tune=p5600
 extra_configure_switches += --enable-multilib
 extra_configure_switches += --enable-werror=no
-extra_configure_switches += --enable-targets=$(TARGET),mipsel-radix-linux-gnu
-extra_configure_switches += --enable-shared
 extra_configure_switches += --enable-plugins
-extra_configure_switches += --libdir=/usr/lib
-extra_configure_switches += --mandir=/usr/share/man
-extra_configure_switches += --infodir=/usr/share/info
-extra_configure_switches += --docdir=/usr/share/doc
+extra_configure_switches += --enable-targets=$(TARGET),mipsel-radix-linux-gnu
 endif
 
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_I686_GLIBC))
@@ -298,11 +250,6 @@ extra_configure_switches += --disable-initfini-array
 extra_configure_switches += --enable-threads
 extra_configure_switches += --enable-plugins
 extra_configure_switches += --enable-targets=$(TARGET),i486-$(DISTRO_NAME)-linux-gnu,i486-$(DISTRO_NAME)-linux-gnulibc1,i486-$(DISTRO_NAME)-linux-gnuaout
-extra_configure_switches += --enable-shared
-extra_configure_switches += --libdir=/usr/lib$(LIBSUFFIX)
-extra_configure_switches += --mandir=/usr/share/man
-extra_configure_switches += --infodir=/usr/share/info
-extra_configure_switches += --docdir=/usr/share/doc
 endif
 
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
@@ -324,15 +271,11 @@ extra_configure_switches += --enable-werror=no
 extra_configure_switches += --disable-initfini-array
 # standard options:
 extra_configure_switches += --enable-multilib
+extra_configure_switches += --enable-64-bit-bfd
 extra_configure_switches += --enable-threads
 extra_configure_switches += --enable-plugins
 extra_configure_switches += --enable-targets=$(TARGET),x86_64-$(DISTRO_NAME)-linux,x86_64-$(DISTRO_NAME)-linux-gnulibc1,x86_64-$(DISTRO_NAME)-linux-gnuaout
-extra_configure_switches += --enable-64-bit-bfd
 extra_configure_switches += --enable-shared
-extra_configure_switches += --libdir=/usr/lib$(LIBSUFFIX)
-extra_configure_switches += --mandir=/usr/share/man
-extra_configure_switches += --infodir=/usr/share/info
-extra_configure_switches += --docdir=/usr/share/doc
 endif
 
 
@@ -361,8 +304,18 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(BINUTILS_DEV_PKG)
-	$(BUILD_ENVIRONMENT) $(MAKE) -C $(build_dir) install $(env_sysroot)
-	$(BUILD_ENVIRONMENT) $(MAKE) -C $(build_dir) install-info $(env_sysroot)
+	$(BUILD_ENVIRONMENT) $(MAKE) -j1 -C $(build_dir) install $(env_sysroot)
+	$(BUILD_ENVIRONMENT) $(MAKE) -j1 -C $(build_dir) install-info $(env_sysroot)
+	# ======= Differentiate between BSD strings (util-linux) and GNU strings =======
+	@( cd $(BINUTILS_DEV_PKG)/usr/bin ; \
+	   mv strings strings-GNU ; \
+	 )
+	@( cd $(BINUTILS_DEV_PKG)/usr/share/man/man1 ; \
+	   mv strings.1 strings-GNU.1 ; \
+	 )
+	# ======= Remove unneeded man pages =======
+	@rm -f $(BINUTILS_DEV_PKG)/usr/share/man/man1/{dlltool,windmc,windres}.1
+	# ======= Install Documentation =======
 	@rm -f $(BINUTILS_DEV_PKG)/usr/share/info/dir
 	@gzip -9 $(BINUTILS_DEV_PKG)/usr/share/info/*
 	@if [ -d $(BINUTILS_DEV_PKG)/usr/share/man ]; then \
@@ -422,15 +375,15 @@ ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
 endif
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(BINUTILS_DEV_PKG))
-	# Libiberty will be installed from GCC by --enable-install-libiberty option
-	# we don't need LIBIBERTY on $(TARGET_DEST_DIR) until GCC will be built
-	# tune libtool *.la search path to the target destination for development
+	# ======= Libiberty will be installed from GCC by --enable-install-libiberty option
+	# ======= we don't need LIBIBERTY on $(TARGET_DEST_DIR) until GCC will be built
+	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libbfd.la libopcodes.la ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libbfd.la libopcodes.la \
 	 )
 	# ======= Strip binaries =======
-	@( cd $(BINUTILS_DEV_PKG); \
+	@( cd $(BINUTILS_DEV_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \

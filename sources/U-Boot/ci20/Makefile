@@ -10,12 +10,16 @@ url         = $(DOWNLOAD_SERVER)/sources/U-Boot/Ingenic/CI20
 versions    = 2013.10-20150826
 versions   += 2013.10-20150915
 
-description = u-boot-ci20.txt
 tarballs    = $(addsuffix .tar.bz2, $(addprefix u-boot-ci20-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
+patches     = $(CURDIR)/patches/u-boot-ci20-2013.10-20150826-gcc5.patch
+patches    += $(CURDIR)/patches/u-boot-ci20-2013.10-20150915-gcc5.patch
 
-BUILD_TARGETS = $(description) $(tarballs) $(sha1s)
+.NOTPARALLEL: $(patches)
+
+
+BUILD_TARGETS = $(tarballs) $(sha1s) $(patches)
 
 
 include ../../../build-system/core.mk
@@ -23,10 +27,6 @@ include ../../../build-system/core.mk
 
 .PHONY: download_clean
 
-
-$(description):
-	@echo -e "\n======= Downloading $(description) file =======" ; \
-	 echo "$(url)/$(description)" | xargs -n 1 -P 100 wget $(WGET_OPTIONS) -i & wait %1
 
 $(tarballs):
 	@echo -e "\n======= Downloading source tarballs =======" ; \
@@ -47,5 +47,11 @@ $(sha1s): $(tarballs)
 	   fi ; \
 	 done
 
+$(patches): $(sha1s)
+	@echo -e "\n======= Create Patches =======\n" ; \
+	 ( cd create-2013.10-20150826-gcc5-patch  ; ./create.patch.sh ) ; \
+	 ( cd create-2013.10-20150915-gcc5-patch  ; ./create.patch.sh ) ; \
+	 echo -e "\n"
+
 download_clean:
-	@rm -f $(description) $(tarballs) $(sha1s)
+	@rm -f $(tarballs) $(sha1s) $(patches)

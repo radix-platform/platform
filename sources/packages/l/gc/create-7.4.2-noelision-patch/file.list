@@ -1,0 +1,5 @@
+gc-7.4.2/include/private/gc_priv.h
+gc-7.4.2/include/private/gcconfig.h
+gc-7.4.2/include/private/pthread_support.h
+gc-7.4.2/misc.c
+gc-7.4.2/pthread_support.c

@@ -21,7 +21,10 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/m/linuxtv/v4l-utils
 
-REQUIRES           = app/sysfsutils/2.1.0
+ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
+REQUIRES           = dev/gcc/5.3.0
+endif
+REQUIRES          += app/sysfsutils/2.1.0
 REQUIRES          += libs/eudev/1.9
 REQUIRES          += libs/libjpeg-turbo/1.3.1
 REQUIRES          += X11/libs/qt5/5.4.0

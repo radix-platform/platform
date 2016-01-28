@@ -21,7 +21,10 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/harfbuzz
 
-REQUIRES           = libs/glib2/2.40.0
+ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
+REQUIRES           = dev/gcc/5.3.0
+endif
+REQUIRES          += libs/glib2/2.40.0
 REQUIRES          += libs/libpng/libpng14/1.4.13
 REQUIRES          += libs/icu4c/54.1
 REQUIRES          += X11/libs/cairo/1.14.0

@@ -21,7 +21,10 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/m/mpg123
 
-REQUIRES           = libs/alsa-oss/1.0.28
+ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
+REQUIRES           = dev/gcc/5.3.0
+endif
+REQUIRES          += libs/alsa-oss/1.0.28
 REQUIRES          += app/esound/0.2.41
 
 # ======= __END_OF_REQUIRES__ =======

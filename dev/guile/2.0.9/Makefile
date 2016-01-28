@@ -26,7 +26,7 @@ REQUIRES          += libs/gmp/6.1.0
 REQUIRES          += libs/readline/6.3
 REQUIRES          += dev/libtool/2.4.2
 REQUIRES          += libs/libunistring/0.9.3
-REQUIRES          += libs/gc/7.2d
+REQUIRES          += libs/gc/7.4.2
 
 # ======= __END_OF_REQUIRES__ =======
 

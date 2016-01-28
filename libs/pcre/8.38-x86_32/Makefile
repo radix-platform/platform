@@ -13,7 +13,6 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/pcre
 
 REQUIRES           = libs/pcre/8.38
-REQUIRES          += libs/zlib/1.2.8-x86_32
 REQUIRES          += app/bzip2/1.0.6-x86_32
 REQUIRES          += libs/readline/6.3-x86_32
 

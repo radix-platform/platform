@@ -176,8 +176,8 @@ $(devel_sources_done): $(modules_done)
 	@echo "" >> $(TARGET_DEST_DIR)/usr/src/.CONTENT
 	@cp -a $(build_dir) $(TARGET_DEST_DIR)/usr/src
 	@( cd $(TARGET_DEST_DIR)/lib/modules/$(modules_version)       ; \
-	   ln -sf ../../../usr/src/linux-ci20-$(full_version) build  ; \
-	   ln -sf ../../../usr/src/linux-ci20-$(full_version) source ; \
+	   ln -sf ../../../usr/src/linux-$(full_version) build  ; \
+	   ln -sf ../../../usr/src/linux-$(full_version) source ; \
 	 )
 	@touch $@
 

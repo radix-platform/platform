@@ -21,6 +21,9 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/aspell
 
+ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
+REQUIRES           = dev/gcc/5.3.0
+endif
 REQUIRES          += libs/ncurses/5.9
 
 # ======= __END_OF_REQUIRES__ =======

@@ -21,7 +21,11 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES     = sources/packages/a/sysvinit
 
+ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
+REQUIRES           = dev/gcc/5.3.0
+else
 REQUIRES           = libs/glibc/2.22
+endif
 
 # ======= __END_OF_REQUIRES__ =======
 

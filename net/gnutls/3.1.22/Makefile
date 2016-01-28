@@ -21,7 +21,10 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/n/gnutls
 
-REQUIRES           = libs/libidn/1.28
+ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
+REQUIRES           = dev/gcc/5.3.0
+endif
+REQUIRES          += libs/libidn/1.28
 REQUIRES          += net/p11-kit/0.20.2
 REQUIRES          += net/nettle/2.7.1
 REQUIRES          += dev/guile/2.0.9

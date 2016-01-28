@@ -21,7 +21,10 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/x/mesa
 
-REQUIRES           = libs/expat/2.1.0
+ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
+REQUIRES           = dev/gcc/5.3.0
+endif
+REQUIRES          += libs/expat/2.1.0
 REQUIRES          += libs/libxml2/2.9.1
 REQUIRES          += libs/eudev/1.9
 REQUIRES          += libs/libomxil-bellagio/0.9.3

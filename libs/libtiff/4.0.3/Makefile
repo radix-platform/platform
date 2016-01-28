@@ -21,7 +21,10 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/libtiff
 
-REQUIRES           = app/xz/5.2.2
+ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
+REQUIRES           = dev/gcc/5.3.0
+endif
+REQUIRES          += app/xz/5.2.2
 REQUIRES          += app/jbigkit/2.1
 REQUIRES          += libs/libjpeg-turbo/1.3.1
 

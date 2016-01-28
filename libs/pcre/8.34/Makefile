@@ -21,7 +21,15 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/pcre
 
+ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
+REQUIRES           = dev/gcc/5.3.0
+else
+ifneq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES           = libs/zlib/1.2.8
+else
+REQUIRES           = libs/zlib/1.2.8-x86_32
+endif
+endif
 REQUIRES          += app/bzip2/1.0.6
 REQUIRES          += libs/readline/6.3
 

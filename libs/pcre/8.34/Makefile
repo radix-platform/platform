@@ -22,8 +22,13 @@ SOURCE_REQUIRES    = sources/packages/l/pcre
 
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/4.9.2
+else
+ifneq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES           = libs/zlib/1.2.8
+else
+REQUIRES           = libs/zlib/1.2.8-x86_32
 endif
-REQUIRES          += libs/zlib/1.2.8
+endif
 REQUIRES          += app/bzip2/1.0.6
 REQUIRES          += libs/readline/6.3
 

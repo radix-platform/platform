@@ -22,11 +22,11 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/n/pinentry
 
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
-REQUIRES           = libs/ncurses/5.9
+REQUIRES           = libs/ncurses/6.0
 REQUIRES          += secure/libcap/2.24
 REQUIRES          += net/libassuan/2.4.2
 else
-REQUIRES           = libs/ncurses/5.9-x86_32
+REQUIRES           = libs/ncurses/6.0-x86_32
 REQUIRES          += secure/libcap/2.24-x86_32
 REQUIRES          += net/libassuan/2.4.2-x86_32
 endif

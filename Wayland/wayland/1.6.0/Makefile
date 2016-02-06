@@ -22,7 +22,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/Wayland/wayland
 
 REQUIRES           = libs/expat/2.1.0
-REQUIRES          += libs/libffi/3.0.13
+REQUIRES          += libs/libffi/3.2.1
 
 # ======= __END_OF_REQUIRES__ =======
 

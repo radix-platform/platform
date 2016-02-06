@@ -22,7 +22,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/GNU/bash
 
 REQUIRES           = libs/readline/6.3
-REQUIRES          += app/gettext/0.18.3.2
+REQUIRES          += app/gettext/0.19.7
 
 # ======= __END_OF_REQUIRES__ =======
 

@@ -23,7 +23,7 @@ SOURCE_REQUIRES    = sources/packages/l/libarchive
 
 REQUIRES           = app/acl/2.2.52
 REQUIRES          += app/bzip2/1.0.6
-REQUIRES          += libs/lzo/2.08
+REQUIRES          += libs/lzo/2.09
 REQUIRES          += net/nettle/2.7.1
 REQUIRES          += libs/libxml2/2.9.1
 

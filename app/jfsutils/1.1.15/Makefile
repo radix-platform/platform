@@ -21,7 +21,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES     = sources/packages/a/jfsutils
 
-REQUIRES            = app/util-linux/2.24.1
+REQUIRES            = app/util-linux/2.27.1
 
 # ======= __END_OF_REQUIRES__ =======
 

@@ -26,13 +26,13 @@ ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES          += libs/alsa-lib/1.0.28
 REQUIRES          += libs/libsamplerate/0.1.8
 REQUIRES          += app/pciutils/3.2.1
-REQUIRES          += libs/ncurses/5.9
+REQUIRES          += libs/ncurses/6.0
 REQUIRES          += app/dialog/1.2-20140112
 else
 REQUIRES          += libs/alsa-lib/1.0.28-x86_32
 REQUIRES          += libs/libsamplerate/0.1.8-x86_32
 REQUIRES          += app/pciutils/3.2.1-x86_32
-REQUIRES          += libs/ncurses/5.9-x86_32
+REQUIRES          += libs/ncurses/6.0-x86_32
 REQUIRES          += app/dialog/1.2-20140112-x86_32
 endif
 

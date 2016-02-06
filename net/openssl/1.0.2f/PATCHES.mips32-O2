@@ -1,0 +1,3 @@
+
+../../../sources/packages/n/openssl/patches/openssl-1.0.2f-mips-O2.patch -p0
+../../../sources/packages/n/openssl/patches/openssl-1.0.2f-shlib.patch   -p0

@@ -22,8 +22,8 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/y/bsd-games
 
 REQUIRES           = libs/libtermcap/1.2.3
-REQUIRES          += net/openssl/1.0.2d
-REQUIRES          += dev/flex/2.5.39
+REQUIRES          += net/openssl/1.0.2f
+REQUIRES          += dev/flex/2.6.0
 
 # ======= __END_OF_REQUIRES__ =======
 

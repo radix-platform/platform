@@ -82,8 +82,8 @@ endif
 #             ├── app/xz/5.2.2               ─────┬────────┘                     │
 #             │   └── app/xz/5.2.2-x86_32         └── app/kmod/22                │
 #             │                                       └── app/kmod/22-x86_32     │
-#             ├── libs/libffi/3.0.13                                             │
-#             │   └── libs/libffi/3.0.13-x86_32                                  │
+#             ├── libs/libffi/3.2.1                                              │
+#             │   └── libs/libffi/3.2.1-x86_32                                   │
 #             │                                                                  │
 #             ├── libs/libelf/0.8.13                                             │
 #             │   └── libs/libelf/0.8.13-x86_32                                  │
@@ -93,14 +93,14 @@ endif
 #             │                                        └── libs/pcre/8.38-x86_32 │
 #             ├── app/gzip/1.6                                                   │
 #             │                                                                  │
-#             ├── app/inputattach/1.4.7                                          │
-#             │   ├── app/inputattach/1.4.7-x86_32                               │
+#             ├── app/inputattach/1.4.9                                          │
+#             │   ├── app/inputattach/1.4.9-x86_32                               │
 #             │   │                                                              │
 #             │   └── app/gpm/1.20.7                                             │
 #             │       ├── app/gpm/1.20.7-x86_32                                  │
 #             │       │                                                          │
-#             │       └── libs/ncurses/5.9            ───┐                       │
-#             │           ├── libs/ncurses/5.9-x86_32    ├── libs/readline/6.3 ──┘
+#             │       └── libs/ncurses/6.0            ───┐                       │
+#             │           ├── libs/ncurses/6.0-x86_32    ├── libs/readline/6.3 ──┘
 #             │           │                              │   └── libs/readline/6.3-x86_32
 #             │           └── libs/libtermcap/1.2.3   ───┘
 #             │               └── libs/libtermcap/1.2.3-x86_32
@@ -111,7 +111,7 @@ endif
 #            ...
 #             │      ...
 #             │       │
-#             │       ├── app/gettext/0.18.3.2
+#             │       ├── app/gettext/0.19.7
 #             │      ...
 #            ...
 #
@@ -181,14 +181,14 @@ endif
 #             ├── libs/libunistring/0.9.3
 #             │   └── libs/libunistring/0.9.3-x86_32
 #             │
-#             ├── libs/lzo/2.08
-#             │   └── libs/lzo/2.08-x86_32
+#             ├── libs/lzo/2.09
+#             │   └── libs/lzo/2.09-x86_32
 #             │
 #             ├── dev/libtool/2.4.2
 #             │   └── dev/libtool/2.4.2-x86_32
 #             │
-#             ├── libs/gc/7.2d
-#             │   └── libs/gc/7.2d-x86_32
+#             ├── libs/gc/7.4.2
+#             │   └── libs/gc/7.4.2-x86_32
 #             │
 #             ├── libs/keyutils/1.5.9 ■
 #             │   └── libs/keyutils/1.5.9-x86_32
@@ -201,18 +201,18 @@ endif
 #             ├── app/utempter/1.1.6 ■
 #             │   └── app/utempter/1.1.6-x86_32
 #             │
-#             ├── dev/flex/2.5.39
-#             │   └── dev/flex/2.5.39-x86_32
+#             ├── dev/flex/2.6.0
+#             │   └── dev/flex/2.6.0-x86_32
 #             │
-#             ├── dev/bison/2.7 ■
-#             │   └── dev/bison/2.7-x86_32
+#             ├── dev/bison/3.0.4 ■
+#             │   └── dev/bison/3.0.4-x86_32
 #             │
 #             │      ...
 #             │       ├───────────────────────────────────── libs/readline/6.3
 #             │       │                                      └── libs/readline/6.3-x86_32
 #             │       │
-#             │       ├── dev/lua/5.2.3 ■
-#             │      ...  └── dev/lua/5.2.3-x86_32
+#             │       ├── dev/lua/5.3.2 ■
+#             │      ...  └── dev/lua/5.3.2-x86_32
 #             │
 #             │      ...
 #             │       ├───────────────────────────────────── libs/gmp/6.1.0
@@ -220,11 +220,11 @@ endif
 #             │       ├───────────────────────────────────── libs/zlib/1.2.8
 #             │       │                                      └── libs/zlib/1.2.8-x86_32
 #             │       │
-#             │       ├── net/openssl/1.0.2d
-#             │       │   ├── net/openssl/1.0.2d-x86_32
+#             │       ├── net/openssl/1.0.2f
+#             │       │   ├── net/openssl/1.0.2f-x86_32
 #             │       │   │
-#             │       │   ├── libs/libevent/2.0.21 ■
-#             │       │   │   └── libs/libevent/2.0.21-x86_32
+#             │       │   ├── libs/libevent/2.0.22 ■
+#             │       │   │   └── libs/libevent/2.0.22-x86_32
 #             │       │  ...
 #             │      ...
 #             │
@@ -242,7 +242,7 @@ endif
 #             │       ├── dev/python2/2.7.11              ├── libs/libffi/3.0.13
 #             │       │   └── dev/python2/2.7.11-x86_32   ├── libs/readline/6.3
 #             │      ...                                  ├── libs/expat/2.1.0
-#             │                                           └── net/openssl/1.0.2d
+#             │                                           └── net/openssl/1.0.2f
 #             │      ...
 #             │       ├────────────────────────────────────── libs/gdbm/1.11
 #             │       ├── dev/perl/5.22.1
@@ -251,13 +251,13 @@ endif
 #             │
 #             │      ...
 #             │       ├───────────────────────────────────┬── libs/libtermcap/1.2.3
-#             │       │                                   ├── dev/flex/2.5.39
-#             │       ├── app/bsd-games/2.17 ■            └── net/openssl/1.0.2d
+#             │       │                                   ├── dev/flex/2.6.0
+#             │       ├── app/bsd-games/2.17 ■            └── net/openssl/1.0.2f
 #             │       │
 #             │      ...
 #             │
 #             │      ...
-#             │       ├────────────────────────────────────── libs/ncurses/5.9
+#             │       ├────────────────────────────────────── libs/ncurses/6.0
 #             │       │
 #             │       ├── libs/aspell/0.60.6.1
 #             │      ...  ├── libs/aspell/0.60.6.1-x86_32
@@ -272,28 +272,28 @@ endif
 #             │           └── libs/dict/aspell6-ru/0.99f7-1 ■
 #             │
 #             │
-#             ├── dev/check/0.9.13
-#             │   └── dev/check/0.9.13-x86_32
+#             ├── dev/check/0.9.14
+#             │   └── dev/check/0.9.14-x86_32
 #             │
 #             ├── app/ctags/5.8
 #             │   └── app/ctags/5.8-x86_32
 #             │
 #             │      ...
 #             │       │
-#             │       ├── secure/cracklib/2.9.1 ────────────────────────── dev/python2/2.7.11
-#             │       │   ├── secure/cracklib/2.9.1-x86_32
+#             │       ├── secure/cracklib/2.9.5 ────────────────────────── dev/python2/2.7.11
+#             │       │   ├── secure/cracklib/2.9.5-x86_32
 #             │      ...  │
-#             │           └── secure/pam/1.1.8 ─────────────────────────── dev/flex/2.5.39
+#             │           └── secure/pam/1.1.8 ─────────────────────────── dev/flex/2.6.0
 #             │               ├── secure/pam/1.1.8-x86_32
 #             │               │
 #             │               └── secure/pam_unix2/2.9.1
 #             │                   ├── secure/pam_unix2/2.9.1-x86_32
 #             │                   │
-#             │                   ├── app/kbd/2.0.2 ■ ──────────────────── dev/check/0.9.13
-#             │                   │   └── app/kbd/2.0.2-x86_32
+#             │                   ├── app/kbd/2.0.3 ■ ──────────────────── dev/check/0.9.14
+#             │                   │   └── app/kbd/2.0.3-x86_32
 #             │                  ...
 #             │      ...
-#             │       ├────────────────────────────────────────────────┬── libs/ncurses/5.9
+#             │       ├────────────────────────────────────────────────┬── libs/ncurses/6.0
 #             │       │                                                ├── dev/libtool/2.4.2
 #             │       ├── app/dialog/1.2-20140112 ■                    └── app/ctags/5.8
 #             │       │   └── app/dialog/1.2-20140112-x86_32
@@ -301,7 +301,7 @@ endif
 #             │
 #             │      ...
 #             │       ├───────────────────────────────────┬── libs/readline/6.3
-#             │       │                                   └── app/gettext/0.18.3.2
+#             │       │                                   └── app/gettext/0.19.7
 #             │       ├── app/bash/4.3 ■
 #             │       │
 #             │      ...
@@ -324,13 +324,13 @@ REQUIRES += app/utempter/1.1.6
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += app/utempter/1.1.6-x86_32
 endif
-REQUIRES += dev/bison/2.7
+REQUIRES += dev/bison/3.0.4
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += dev/bison/2.7-x86_32
+REQUIRES += dev/bison/3.0.4-x86_32
 endif
-REQUIRES += dev/lua/5.2.3
+REQUIRES += dev/lua/5.3.2
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += dev/lua/5.2.3-x86_32
+REQUIRES += dev/lua/5.3.2-x86_32
 endif
 
 REQUIRES += app/bsd-games/2.17
@@ -351,9 +351,9 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/aspell/0.60.6.1-x86_32
 endif
 
-REQUIRES += app/kbd/2.0.2
+REQUIRES += app/kbd/2.0.3
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += app/kbd/2.0.2-x86_32
+REQUIRES += app/kbd/2.0.3-x86_32
 endif
 
 #######
@@ -399,7 +399,7 @@ REQUIRES += app/sysvinit-functions/8.54
 #######
 ####### File Systems support:
 #######
-REQUIRES += app/xfsdump/3.1.3
+REQUIRES += app/xfsdump/3.1.6
 REQUIRES += app/btrfs-progs/3.16
 REQUIRES += app/reiserfsprogs/3.6.24
 REQUIRES += app/dosfstools/3.0.26
@@ -433,7 +433,7 @@ REQUIRES += app/hdparm/9.43
 REQUIRES += app/less/451
 REQUIRES += app/lha/114i
 REQUIRES += app/logrotate/3.8.7
-REQUIRES += app/gettext/0.18.3.2-tools
+REQUIRES += app/gettext/0.19.7-tools
 
 REQUIRES += secure/libcgroup/0.41
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
@@ -601,8 +601,8 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += net/avahi-daemon/0.6.31-x86_32
 endif
 
-REQUIRES += app/mc/4.8.12
-REQUIRES += app/tmux/1.9a
+REQUIRES += app/mc/4.8.15
+REQUIRES += app/tmux/2.0
 REQUIRES += app/chrpath/0.16
 REQUIRES += app/patch/2.7
 REQUIRES += app/which/2.20

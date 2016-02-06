@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/linuxconsole
 
-versions    = 1.4.7
+versions    = 1.4.9
 pkgname     = linuxconsoletools
 suffix      = tar.bz2
 

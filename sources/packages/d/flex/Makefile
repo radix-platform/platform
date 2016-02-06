@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/d/flex
 
-versions    = 2.5.39
+versions    = 2.5.39 2.6.0
 pkgname     = flex
 suffix      = tar.xz
 
@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/flex-2.5.39.patch
+patches    += $(CURDIR)/patches/flex-2.6.0.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,6 +51,7 @@ $(sha1s): $(tarballs)
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-2.5.39-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2.6.0-patch  ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

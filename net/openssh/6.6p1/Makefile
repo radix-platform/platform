@@ -23,9 +23,9 @@ SOURCE_REQUIRES    = sources/packages/n/openssh
 
 REQUIRES           = net/tcp_wrappers/7.6
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
-REQUIRES          += net/openssl/1.0.2d
+REQUIRES          += net/openssl/1.0.2f
 else
-REQUIRES          += net/openssl/1.0.2d-x86_32
+REQUIRES          += net/openssl/1.0.2f-x86_32
 endif
 
 # ======= __END_OF_REQUIRES__ =======

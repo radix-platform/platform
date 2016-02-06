@@ -1,2 +1,3 @@
 dmapi-2.2.12/include/builddefs.in
 dmapi-2.2.12/include/buildmacros
+dmapi-2.2.12/libdm/dm_handle2path.c

@@ -24,11 +24,11 @@ SOURCE_REQUIRES    = sources/packages/n/iputils
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES           = libs/readline/6.3
 REQUIRES          += net/gnutls/3.1.22
-REQUIRES          += net/openssl/1.0.2d
+REQUIRES          += net/openssl/1.0.2f
 else
 REQUIRES           = libs/readline/6.3-x86_32
 REQUIRES          += net/gnutls/3.1.22-x86_32
-REQUIRES          += net/openssl/1.0.2d-x86_32
+REQUIRES          += net/openssl/1.0.2f-x86_32
 endif
 
 # ======= __END_OF_REQUIRES__ =======

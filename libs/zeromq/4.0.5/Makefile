@@ -24,7 +24,7 @@ SOURCE_REQUIRES    = sources/packages/l/zeromq
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/5.3.0
 endif
-REQUIRES          += app/util-linux/2.24.1
+REQUIRES          += app/util-linux/2.27.1
 REQUIRES          += libs/libsodium/1.0.2
 
 # ======= __END_OF_REQUIRES__ =======

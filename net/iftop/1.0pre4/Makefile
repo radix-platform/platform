@@ -22,7 +22,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/n/iftop
 
 REQUIRES           = libs/libusb/1.0.19
-REQUIRES          += libs/ncurses/5.9
+REQUIRES          += libs/ncurses/6.0
 REQUIRES          += net/libnl3/3.2.25
 REQUIRES          += net/libpcap/1.6.2
 

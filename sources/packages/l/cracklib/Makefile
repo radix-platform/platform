@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/cracklib
 
-versions    = 2.9.1
+versions    = 2.9.1 2.9.5
 pkgname     = cracklib
 suffix      = tar.gz
 

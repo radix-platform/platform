@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/xfs/xfsprogs
 
-versions    = 3.1.10 3.1.11
+versions    = 3.1.10 3.1.11 4.3.0
 pkgname     = xfsprogs
 suffix      = tar.gz
 
@@ -16,6 +16,8 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/xfsprogs-3.1.10.patch
 patches    += $(CURDIR)/patches/xfsprogs-3.1.11.patch
+patches    += $(CURDIR)/patches/xfsprogs-4.3.0-build_cc.patch
+patches    += $(CURDIR)/patches/xfsprogs-4.3.0.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,8 +52,10 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-3.1.10-patch ; ./create.patch.sh ) ; \
-	 ( cd create-3.1.11-patch ; ./create.patch.sh ) ; \
+	 ( cd create-3.1.10-patch         ; ./create.patch.sh ) ; \
+	 ( cd create-3.1.11-patch         ; ./create.patch.sh ) ; \
+	 ( cd create-4.3.0-build_cc-patch ; ./create.patch.sh ) ; \
+	 ( cd create-4.3.0-patch          ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

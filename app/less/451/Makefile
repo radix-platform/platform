@@ -21,7 +21,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/less
 
-REQUIRES           = libs/ncurses/5.9
+REQUIRES           = libs/ncurses/6.0
 
 # ======= __END_OF_REQUIRES__ =======
 

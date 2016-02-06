@@ -22,7 +22,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/n/cyrus-sasl
 
 REQUIRES           = libs/gdbm/1.11
-REQUIRES          += net/openssl/1.0.2d
+REQUIRES          += net/openssl/1.0.2f
 
 # ======= __END_OF_REQUIRES__ =======
 

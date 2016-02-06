@@ -24,7 +24,7 @@ SOURCE_REQUIRES   += sources/packages/n/ca-certificates/mozilla
 SOURCE_REQUIRES   += sources/packages/n/ca-certificates/spi-inc.org
 
 
-REQUIRES           = net/openssl/1.0.2d
+REQUIRES           = net/openssl/1.0.2f
 REQUIRES          += app/dcron/4.5
 
 # ======= __END_OF_REQUIRES__ =======

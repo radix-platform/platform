@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/openssl
 
-versions    = 1.0.1f 1.0.1g 1.0.1p 1.0.2d
+versions    = 1.0.1f 1.0.1g 1.0.1p 1.0.2d 1.0.2f
 pkgname     = openssl
 suffix      = tar.gz
 
@@ -21,6 +21,8 @@ patches    += $(CURDIR)/patches/openssl-1.0.1g-pod.patch
 patches    += $(CURDIR)/patches/openssl-1.0.1g-shlib.patch
 patches    += $(CURDIR)/patches/openssl-1.0.2d-mips-O2.patch
 patches    += $(CURDIR)/patches/openssl-1.0.2d-shlib.patch
+patches    += $(CURDIR)/patches/openssl-1.0.2f-mips-O2.patch
+patches    += $(CURDIR)/patches/openssl-1.0.2f-shlib.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -62,6 +64,8 @@ $(patches): $(sha1s)
 	 ( cd create-1.0.1g-shlib-patch ;   ./create.patch.sh ) ; \
 	 ( cd create-1.0.2d-mips-O2-patch ; ./create.patch.sh ) ; \
 	 ( cd create-1.0.2d-shlib-patch ;   ./create.patch.sh ) ; \
+	 ( cd create-1.0.2f-mips-O2-patch ; ./create.patch.sh ) ; \
+	 ( cd create-1.0.2f-shlib-patch ;   ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

@@ -7,7 +7,7 @@ include ../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/GNU/bison
 
-versions    = 2.7 3.0.2
+versions    = 2.7 3.0.2 3.0.4
 pkgname     = bison
 suffix      = tar.xz
 

@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/libffi
 
-versions    = 3.0.12 3.0.13
+versions    = 3.0.13 3.2.1
 pkgname     = libffi
 suffix      = tar.gz
 
@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/libffi-3.0.13-includedir.patch
+patches    += $(CURDIR)/patches/libffi-3.2.1-includedir.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,6 +51,7 @@ $(sha1s): $(tarballs)
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-3.0.13-includedir-patch ; ./create.patch.sh ) ; \
+	 ( cd create-3.2.1-includedir-patch  ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

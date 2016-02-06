@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/util-linux
 
-versions    = 2.21.2 2.24.1
+versions    = 2.21.2 2.24.1 2.27.1
 pkgname     = util-linux
 suffix      = tar.gz
 

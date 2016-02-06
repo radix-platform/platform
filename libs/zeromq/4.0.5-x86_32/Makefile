@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/zeromq
 
 REQUIRES           = libs/zeromq/4.0.5
-REQUIRES          += app/util-linux/2.24.1-x86_32
+REQUIRES          += app/util-linux/2.27.1-x86_32
 REQUIRES          += libs/libsodium/1.0.2-x86_32
 
 # ======= __END_OF_REQUIRES__ =======

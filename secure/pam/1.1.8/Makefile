@@ -21,8 +21,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/s/Linux-PAM
 
-REQUIRES           = secure/cracklib/2.9.1
-REQUIRES          += dev/flex/2.5.39
+REQUIRES           = secure/cracklib/2.9.5
+REQUIRES          += dev/flex/2.6.0
 
 # ======= __END_OF_REQUIRES__ =======
 

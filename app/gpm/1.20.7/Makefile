@@ -21,7 +21,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/a/gpm
 
-REQUIRES           = app/inputattach/1.4.7
+REQUIRES           = app/inputattach/1.4.9
 
 # ======= __END_OF_REQUIRES__ =======
 

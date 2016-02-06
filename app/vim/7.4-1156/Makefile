@@ -22,7 +22,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/vim
 
 REQUIRES           = app/ctags/5.8
-REQUIRES          += libs/ncurses/5.9
+REQUIRES          += libs/ncurses/6.0
 REQUIRES          += app/acl/2.2.52
 REQUIRES          += app/gawk/4.1.1
 REQUIRES          += dev/python2/2.7.11

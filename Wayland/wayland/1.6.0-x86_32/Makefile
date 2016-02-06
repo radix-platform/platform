@@ -14,7 +14,7 @@ SOURCE_REQUIRES    = sources/Wayland/wayland
 
 REQUIRES           = Wayland/wayland/1.6.0
 REQUIRES          += libs/expat/2.1.0-x86_32
-REQUIRES          += libs/libffi/3.0.13-x86_32
+REQUIRES          += libs/libffi/3.2.1-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

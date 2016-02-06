@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/d/check
 
-versions    = 0.9.12 0.9.13
+versions    = 0.9.12 0.9.13 0.9.14
 pkgname     = check
 suffix      = tar.gz
 

@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/kbd
 
 REQUIRES           = app/kbd/2.0.2
-REQUIRES          += dev/check/0.9.13-x86_32
+REQUIRES          += dev/check/0.9.14-x86_32
 REQUIRES          += secure/pam_unix2/2.9.1-x86_32
 
 # ======= __END_OF_REQUIRES__ =======

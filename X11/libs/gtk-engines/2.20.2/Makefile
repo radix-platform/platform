@@ -22,7 +22,7 @@ include ../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/GNOME/core/gtk-engines
 
 REQUIRES           = X11/libs/gtk+2/2.24.25
-REQUIRES          += dev/lua/5.2.3
+REQUIRES          += dev/lua/5.3.2
 
 # ======= __END_OF_REQUIRES__ =======
 

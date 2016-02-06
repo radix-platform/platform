@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/kbd
 
-versions    = 1.15.3 2.0.2
+versions    = 1.15.3 2.0.2 2.0.3
 pkgname     = kbd
 suffix      = tar.xz
 
@@ -16,6 +16,7 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/kbd-1.15.3.patch
 patches    += $(CURDIR)/patches/kbd-2.0.2.patch
+patches    += $(CURDIR)/patches/kbd-2.0.3.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -52,6 +53,7 @@ $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-1.15.3-patch ; ./create.patch.sh ) ; \
 	 ( cd create-2.0.2-patch  ; ./create.patch.sh ) ; \
+	 ( cd create-2.0.3-patch  ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

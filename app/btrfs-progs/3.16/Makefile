@@ -23,11 +23,11 @@ SOURCE_REQUIRES    = sources/packages/a/btrfs-progs
 
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES           = app/acl/2.2.52
-REQUIRES          += libs/lzo/2.08
+REQUIRES          += libs/lzo/2.09
 REQUIRES          += app/e2fsprogs/1.42.9
 else
 REQUIRES           = app/acl/2.2.52-x86_32
-REQUIRES          += libs/lzo/2.08-x86_32
+REQUIRES          += libs/lzo/2.09-x86_32
 REQUIRES          += app/e2fsprogs/1.42.9-x86_32
 endif
 

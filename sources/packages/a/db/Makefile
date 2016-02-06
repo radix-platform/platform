@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/db
 
-versions    = 5.3.28 6.1.19
+versions    = 5.3.28 6.1.19 6.1.26
 pkgname     = db
 suffix      = tar.gz
 

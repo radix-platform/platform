@@ -21,7 +21,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/guile
 
-REQUIRES           = libs/libffi/3.0.13
+REQUIRES           = libs/libffi/3.2.1
 REQUIRES          += libs/gmp/6.1.0
 REQUIRES          += libs/readline/6.3
 REQUIRES          += dev/libtool/2.4.2

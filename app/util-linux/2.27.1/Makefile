@@ -66,8 +66,11 @@ ziptool_archive     = $(SRC_PACKAGE_PATH)/packages/a/ziptool/ziptool-$(ziptool_v
 ZIPTOOL_SRC_DIR     = $(TARGET_BUILD_DIR)/ziptool-$(ziptool_version)
 ziptool_src_done    = $(TARGET_BUILD_DIR)/.ziptool-source-done
 
-
+ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32)),)
+PATCHES = PATCHES.$(HARDWARE)
+else
 PATCHES = PATCHES
+endif
 
 build_dir           = $(TARGET_BUILD_DIR)/build
 build_target        = $(TARGET_BUILD_DIR)/.build_done
@@ -128,7 +131,9 @@ extra_configure_switches += --localstatedir=/var
 extra_configure_switches += --with-ncurses
 extra_configure_switches += --with-termcap
 extra_configure_switches += --with-readline
+
 extra_configure_switches += --with-python=2
+
 extra_configure_switches += --enable-agetty
 extra_configure_switches += --enable-cramfs
 extra_configure_switches += --enable-fdformat
@@ -159,9 +164,16 @@ extra_configure_switches += --enable-libmount
 extra_configure_switches += --enable-libuuid
 extra_configure_switches += --disable-uuidd
 
-ziptool_environment = CFLAGS="-isystem $(TARGET_DEST_DIR)/usr/include $(ARCH_FLAGS) $(OPTIMIZATION_FLAGS) -Wall"
-bsdstrings_environment = CFLAGS="-isystem $(TARGET_DEST_DIR)/usr/include $(ARCH_FLAGS) $(OPTIMIZATION_FLAGS)"
-nettools_environment = CFLAGS="-isystem $(TARGET_DEST_DIR)/usr/include $(ARCH_FLAGS) $(OPTIMIZATION_FLAGS) -Wall"
+extra_configure_switches += --without-systemd
+extra_configure_switches += --without-systemdsystemunitdir
+
+
+ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32)),)
+util_linux_environment  = REALTIME_LIBS="$(TARGET_DEST_DIR)/lib/libpthread.so.0 -lrt"
+endif
+ziptool_environment     = CFLAGS="-isystem $(TARGET_DEST_DIR)/usr/include $(ARCH_FLAGS) $(OPTIMIZATION_FLAGS) -Wall"
+bsdstrings_environment  = CFLAGS="-isystem $(TARGET_DEST_DIR)/usr/include $(ARCH_FLAGS) $(OPTIMIZATION_FLAGS)"
+nettools_environment    = CFLAGS="-isystem $(TARGET_DEST_DIR)/usr/include $(ARCH_FLAGS) $(OPTIMIZATION_FLAGS) -Wall"
 
 
 PYTHON_VERSION      = 2.7
@@ -218,7 +230,7 @@ $(build_target): $(src_done)
 	   sed -i 's,^\(READLINE_LIBS =.*\),\1 -ltermcap,' Makefile ; \
 	   sed -i 's,^\(READLINE_LIBS_STATIC =.*\),\1 -ltermcap,' Makefile ; \
 	 )
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) $(util_linux_environment)
 	@cd $(ZIPTOOL_SRC_DIR) && $(BUILD_ENVIRONMENT) $(ziptool_environment) $(MAKE)
 	@cd $(BSDSTRINGS_SRC_DIR) && $(BUILD_ENVIRONMENT) $(bsdstrings_environment) $(MAKE)
 	@cd $(NETTOOLS_SRC_DIR) && $(BUILD_ENVIRONMENT) $(nettools_environment) $(MAKE) hostname

@@ -30,7 +30,7 @@ endif
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 1.08
+version            = 1.09
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/a/sdparm/sdparm-$(version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/sdparm-$(version)
@@ -52,7 +52,7 @@ PKG_GROUP = app
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 SDPARM_PKG_NAME                = sdparm
-SDPARM_PKG_VERSION             = 1.08
+SDPARM_PKG_VERSION             = 1.09
 SDPARM_PKG_ARCH                = $(TOOLCHAIN)
 SDPARM_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 SDPARM_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)

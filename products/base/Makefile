@@ -440,7 +440,7 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += secure/libcgroup/0.41-x86_32
 endif
 
-REQUIRES += app/sdparm/1.08
+REQUIRES += app/sdparm/1.09
 
 
 #######

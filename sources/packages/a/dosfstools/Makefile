@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/dosfstools
 
-versions    = 3.0.25 3.0.26
+versions    = 3.0.25 3.0.26 3.0.28
 pkgname     = dosfstools
 suffix      = tar.xz
 
@@ -16,6 +16,7 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/dosfstools-3.0.25.patch
 patches    += $(CURDIR)/patches/dosfstools-3.0.26.patch
+patches    += $(CURDIR)/patches/dosfstools-3.0.28.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -52,6 +53,7 @@ $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-3.0.25-patch ; ./create.patch.sh ) ; \
 	 ( cd create-3.0.26-patch ; ./create.patch.sh ) ; \
+	 ( cd create-3.0.28-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

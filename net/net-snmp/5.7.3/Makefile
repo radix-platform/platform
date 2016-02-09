@@ -30,7 +30,7 @@ else
 REQUIRES          += app/lm_sensors/3.3.5-x86_32
 endif
 REQUIRES          += net/openssl/1.0.2f
-REQUIRES          += app/pciutils/3.2.1
+REQUIRES          += app/pciutils/3.4.1
 REQUIRES          += dev/perl/5.22.1
 REQUIRES          += dev/python2/2.7.11
 

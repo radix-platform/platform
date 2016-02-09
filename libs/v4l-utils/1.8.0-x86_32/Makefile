@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/m/linuxtv/v4l-utils
 
 REQUIRES           = libs/v4l-utils/1.8.0
-REQUIRES          += libs/eudev/1.9-x86_32
+REQUIRES          += libs/eudev/3.1.5-x86_32
 REQUIRES          += libs/libjpeg-turbo/1.3.1-x86_32
 REQUIRES          += X11/libs/qt5/5.4.0-x86_32
 

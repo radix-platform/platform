@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/libusb
 
 REQUIRES           = libs/libusb/1.0.19
-REQUIRES          += libs/eudev/1.9-x86_32
+REQUIRES          += libs/eudev/3.1.5-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

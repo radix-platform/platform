@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES      = sources/packages/n/libmbim
 
 REQUIRES             = net/libmbim/1.10.0
-REQUIRES            += libs/eudev/1.9-x86_32
+REQUIRES            += libs/eudev/3.1.5-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

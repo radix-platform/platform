@@ -400,9 +400,9 @@ REQUIRES += app/sysvinit-functions/8.54
 ####### File Systems support:
 #######
 REQUIRES += app/xfsdump/3.1.6
-REQUIRES += app/btrfs-progs/3.16
+REQUIRES += app/btrfs-progs/4.4
 REQUIRES += app/reiserfsprogs/3.6.24
-REQUIRES += app/dosfstools/3.0.26
+REQUIRES += app/dosfstools/3.0.28
 REQUIRES += app/jfsutils/1.1.15
 REQUIRES += app/sysfsutils/2.1.0
 REQUIRES += app/mtools/4.0.18
@@ -420,8 +420,8 @@ REQUIRES += app/procps/3.2.8
 ####### Packages:
 #######
 REQUIRES += app/gamin/0.1.10
-REQUIRES += app/usbutils/007
-REQUIRES += app/eudev/1.9
+REQUIRES += app/usbutils/008
+REQUIRES += app/eudev/3.1.5
 REQUIRES += app/lvm2/2.02.132
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += app/lvm2/2.02.132-x86_32

@@ -16,7 +16,7 @@ REQUIRES           = libs/hwloc/1.10.0
 REQUIRES          += X11/libs/cairo/1.14.0-x86_32
 REQUIRES          += X11/X.org/lib/libpciaccess/0.13.2-x86_32
 REQUIRES          += libs/libxml2/2.9.1-x86_32
-REQUIRES          += app/pciutils/3.2.1-x86_32
+REQUIRES          += app/pciutils/3.4.1-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

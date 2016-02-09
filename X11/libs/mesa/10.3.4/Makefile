@@ -26,7 +26,7 @@ REQUIRES           = dev/gcc/5.3.0
 endif
 REQUIRES          += libs/expat/2.1.0
 REQUIRES          += libs/libxml2/2.9.1
-REQUIRES          += libs/eudev/1.9
+REQUIRES          += libs/eudev/3.1.5
 REQUIRES          += libs/libomxil-bellagio/0.9.3
 REQUIRES          += dev/llvm/3.7.1
 REQUIRES          += X11/libs/libdrm/2.4.64

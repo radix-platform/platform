@@ -21,7 +21,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/n/libmbim
 
-REQUIRES           = libs/eudev/1.9
+REQUIRES           = libs/eudev/3.1.5
 
 # ======= __END_OF_REQUIRES__ =======
 

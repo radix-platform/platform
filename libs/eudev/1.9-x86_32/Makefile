@@ -15,7 +15,6 @@ SOURCE_REQUIRES    = sources/packages/a/eudev
 REQUIRES           = libs/eudev/1.9
 REQUIRES          += app/util-linux/2.27.1-x86_32
 REQUIRES          += libs/glib2/2.40.0-x86_32
-REQUIRES          += app/pciutils/3.2.1-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

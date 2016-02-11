@@ -4,10 +4,7 @@ COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
 COMPONENT_TARGETS += $(HARDWARE_BT1)
 
@@ -50,17 +47,8 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_FFRK3288)),)
 hw_cache_in        = $(CURDIR)/cross/hw.cache.arm
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_DM64X)),)
-hw_cache_in        = $(CURDIR)/cross/hw.cache.arm
-endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_BEAGLE)),)
-hw_cache_in        = $(CURDIR)/cross/hw.cache.arm
-endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
 hw_cache_in        = $(CURDIR)/cross/hw.cache.arm
-endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_B74)),)
-hw_cache_in        = $(CURDIR)/cross/hw.cache.mips
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
 hw_cache_in        = $(CURDIR)/cross/hw.cache.mips

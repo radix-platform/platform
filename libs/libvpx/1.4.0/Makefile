@@ -4,10 +4,7 @@ COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
 COMPONENT_TARGETS += $(HARDWARE_BT1)
 
@@ -125,17 +122,8 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_FFRK3288)),)
 target_platform = armv7-linux-gcc
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_DM64X)),)
-target_platform = armv5te-linux-gcc
-endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_BEAGLE)),)
-target_platform = armv7-linux-gcc
-endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
 target_platform = armv7-linux-gcc
-endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_B74)),)
-target_platform = mips32-linux-gcc
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
 target_platform = mips32r2-linux-gcc

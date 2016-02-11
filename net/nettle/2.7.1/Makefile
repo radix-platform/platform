@@ -4,10 +4,7 @@ COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
 COMPONENT_TARGETS += $(HARDWARE_BT1)
 
@@ -93,10 +90,6 @@ extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var
 extra_configure_switches += --enable-static=yes
 extra_configure_switches += --enable-shared=yes
-
-ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_OMAP35X_GLIBC)),)
-extra_configure_switches += --enable-arm-neon
-endif
 
 
 ####### Dependencies

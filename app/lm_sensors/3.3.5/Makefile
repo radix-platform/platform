@@ -4,10 +4,7 @@ COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
 COMPONENT_TARGETS += $(HARDWARE_BT1)
 
@@ -115,17 +112,8 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_FFRK3288)),)
 lmsens_environment    += MACHINE="arm"
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_DM64X)),)
-lmsens_environment    += MACHINE="arm"
-endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_BEAGLE)),)
-lmsens_environment    += MACHINE="arm"
-endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
 lmsens_environment    += MACHINE="arm"
-endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_B74)),)
-lmsens_environment    += MACHINE="mips"
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
 lmsens_environment    += MACHINE="mips"

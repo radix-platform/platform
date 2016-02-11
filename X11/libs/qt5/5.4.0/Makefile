@@ -4,10 +4,7 @@ COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
 COMPONENT_TARGETS += $(HARDWARE_BT1)
 
@@ -78,7 +75,7 @@ applications_dir   = $(CURDIR)/applications
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
 PATCHES = PATCHES.eglfs
 else
-ifneq ($(filter $(HARDWARE),$(HARDWARE_B74) $(HARDWARE_CI20) $(HARDWARE_BT1)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20) $(HARDWARE_BT1)),)
 PATCHES = PATCHES.mips
 else
 PATCHES = PATCHES
@@ -135,15 +132,10 @@ env_sysroot = INSTALL_ROOT=$(QT5_PKG)
 QT5_JOBS = -j$(NUMPROCS)
 
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X) $(HARDWARE_FFRK3288) $(HARDWARE_BEAGLE) $(HARDWARE_OMAP5UEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X) $(HARDWARE_FFRK3288) $(HARDWARE_OMAP5UEVM)),)
 ARCH   = arm
 ABI    = gnueabihf
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_DM64X)),)
-ARCH   = arm
-ABI    = gnueabi
-endif
-
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32)),)
 ARCH   = i386
 ABI    = gnu
@@ -152,7 +144,7 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 ARCH   = x86_64
 ABI    = gnu
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_B74) $(HARDWARE_CI20) $(HARDWARE_BT1)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20) $(HARDWARE_BT1)),)
 ARCH   = mips
 ABI    = gnu
 endif
@@ -173,7 +165,7 @@ configure_switches += -device-option CCACHE=$(CCACHE)
 configure_switches += -device-option CROSS_COMPILE=$(CROSS_PREFIX)
 
 # ======= Target compiler doesn't support MIPS DSP/DSPr2 =======
-ifneq ($(filter $(HARDWARE),$(HARDWARE_B74) $(HARDWARE_CI20) $(HARDWARE_BT1)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20) $(HARDWARE_BT1)),)
 configure_switches += -no-mips_dsp
 configure_switches += -no-mips_dspr2
 endif
@@ -276,12 +268,6 @@ TARGET_BIN_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)/qt
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
-ifneq ($(filter $(HARDWARE),$(HARDWARE_BEAGLE)),)
-	# ======= Remove not needed 'beagleboard' device specification =======
-	@( cd $(SRC_DIR)/qtbase/mkspecs/devices ; \
-	   rm -rf linux-beagleboard-g++ ; \
-	 )
-endif
 	@cp -a $(CURDIR)/mkspecs/devices/$(DEVICE_SPEC_DIR) $(SRC_DIR)/qtbase/mkspecs/devices
 	@cp -a $(CURDIR)/mkspecs/$(TARGET_SPEC_DIR) $(SRC_DIR)/qtbase/mkspecs
 	@( cd $(SRC_DIR)/qtbase/mkspecs/devices/$(DEVICE_SPEC_DIR) ; \

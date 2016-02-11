@@ -3,10 +3,7 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
 
 #
 # The rest targets links staticaly with newlib or uclibc and not requires binutils on host
@@ -149,33 +146,12 @@ extra_configure_switches += --with-float=hard
 extra_configure_switches += --with-abi=aapcs-linux
 endif
 
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_OMAP35X_GLIBC))
-extra_configure_switches += --with-cpu=cortex-a8
-extra_configure_switches += --with-arch=armv7-a
-extra_configure_switches += --with-fpu=neon
-extra_configure_switches += --with-float=hard
-extra_configure_switches += --with-abi=aapcs-linux
-endif
-
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_OMAP543X_GLIBC))
 extra_configure_switches += --with-arch=armv7-a
 extra_configure_switches += --with-tune=cortex-a15
 extra_configure_switches += --with-fpu=neon-vfpv4
 extra_configure_switches += --with-float=hard
 extra_configure_switches += --with-abi=aapcs-linux
-endif
-
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_DM644X_GLIBC))
-extra_configure_switches += --with-float=soft
-extra_configure_switches += --with-arch=armv5te
-extra_configure_switches += --with-tune=arm926ej-s
-extra_configure_switches += --with-dwarf2
-endif
-
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_BCM74X_GLIBC))
-extra_configure_switches += --with-arch=mips32
-extra_configure_switches += --with-float=hard
-extra_configure_switches += --enable-target-optspace
 endif
 
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_I686_GLIBC))

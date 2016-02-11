@@ -4,10 +4,7 @@ COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
 COMPONENT_TARGETS += $(HARDWARE_BT1)
 
@@ -208,15 +205,6 @@ extra_configure_switches += --with-float=hard
 extra_configure_switches += --with-abi=aapcs-linux
 endif
 
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_OMAP35X_GLIBC))
-JAVA_LIB_ARCH = armv7a
-extra_configure_switches += --with-arch=armv7-a
-extra_configure_switches += --with-tune=cortex-a8
-extra_configure_switches += --with-fpu=neon
-extra_configure_switches += --with-float=hard
-extra_configure_switches += --with-abi=aapcs-linux
-endif
-
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_OMAP543X_GLIBC))
 JAVA_LIB_ARCH = armv7a
 extra_configure_switches += --with-arch=armv7-a
@@ -224,21 +212,6 @@ extra_configure_switches += --with-tune=cortex-a15
 extra_configure_switches += --with-fpu=neon-vfpv4
 extra_configure_switches += --with-float=hard
 extra_configure_switches += --with-abi=aapcs-linux
-endif
-
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_DM644X_GLIBC))
-JAVA_LIB_ARCH = armv5te
-extra_configure_switches += --with-float=soft
-extra_configure_switches += --with-arch=armv5te
-extra_configure_switches += --with-tune=arm926ej-s
-extra_configure_switches += --with-dwarf2
-endif
-
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_BCM74X_GLIBC))
-JAVA_LIB_ARCH = mips32
-extra_configure_switches += --with-arch=mips32
-extra_configure_switches += --with-float=hard
-extra_configure_switches += --enable-target-optspace
 endif
 
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_JZ47XX_GLIBC))
@@ -442,7 +415,6 @@ endif
 	# ======= remove build & toolchain path from target java libtool *.la files =======
 ifeq ($(filter $(HARDWARE),$(HARDWARE_PC32) \
                            $(HARDWARE_PC64) \
-                           $(HARDWARE_B74)  \
                            $(HARDWARE_CI20) \
                            $(HARDWARE_BT1)),)
 	@( cd $(GCC_DEV_PKG)/usr/lib$(LIBSUFFIX)/gcj-$(version)-$(jversion) ; \
@@ -475,7 +447,6 @@ endif
 	 )
 ifeq ($(filter $(HARDWARE),$(HARDWARE_PC32) \
                            $(HARDWARE_PC64) \
-                           $(HARDWARE_B74)  \
                            $(HARDWARE_CI20) \
                            $(HARDWARE_BT1)),)
 	@( cd $(GCC_DEV_PKG)/usr/lib$(LIBSUFFIX) ; \

@@ -4,10 +4,7 @@ COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
 COMPONENT_TARGETS += $(HARDWARE_BT1)
 
@@ -155,23 +152,6 @@ extra_configure_switches += --enable-plugins
 extra_configure_switches += --enable-targets=$(TARGET),arm-radix-linux-gnu
 endif
 
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_OMAP35X_GLIBC))
-# experimental gold linker( DEFAULT_LD=ld.bfd ):
-extra_configure_switches += --enable-gold=yes
-extra_configure_switches += --enable-ld=default
-extra_configure_switches += --enable-werror=no
-# standard options:
-extra_configure_switches += --enable-interwork
-extra_configure_switches += --enable-multilib
-extra_configure_switches += --with-cpu=cortex-a8
-extra_configure_switches += --with-arch=armv7-a
-extra_configure_switches += --with-fpu=neon
-extra_configure_switches += --with-abi=aapcs-linux
-extra_configure_switches += --enable-threads
-extra_configure_switches += --enable-plugins
-extra_configure_switches += --enable-targets=$(TARGET),arm-radix-linux-gnu
-endif
-
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_OMAP543X_GLIBC))
 # experimental gold linker( DEFAULT_LD=ld.bfd ):
 extra_configure_switches += --enable-gold=yes
@@ -187,25 +167,6 @@ extra_configure_switches += --with-abi=aapcs-linux
 extra_configure_switches += --enable-threads
 extra_configure_switches += --enable-plugins
 extra_configure_switches += --enable-targets=$(TARGET),arm-radix-linux-gnu
-endif
-
-
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_DM644X_GLIBC))
-extra_configure_switches += --enable-werror=no
-extra_configure_switches += --enable-interwork
-extra_configure_switches += --enable-multilib
-extra_configure_switches += --with-float=soft
-extra_configure_switches += --with-cpu=arm926ej-s
-extra_configure_switches += --with-arch=armv5tej
-extra_configure_switches += --with-tune=arm926ej-s
-extra_configure_switches += --enable-targets=$(TARGET),arm-radix-linux-gnu
-endif
-
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_BCM74X_GLIBC))
-extra_configure_switches += --enable-multilib
-extra_configure_switches += --with-arch=mips32
-extra_configure_switches += --disable-werror
-extra_configure_switches += --enable-targets=$(TARGET),mipsel-radix-linux-gnu
 endif
 
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_JZ47XX_GLIBC))

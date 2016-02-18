@@ -5,7 +5,7 @@ COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 include ../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/packages/a/eudev
+url         = $(DOWNLOAD_SERVER)/sources/packages/a/eudev-tarballs
 
 versions    = 1.9
 pkgname     = eudev

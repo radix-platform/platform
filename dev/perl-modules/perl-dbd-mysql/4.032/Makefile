@@ -4,7 +4,7 @@ COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_VIP1830)
+COMPONENT_TARGETS += $(HARDWARE_DM64X)
 COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_B74)
@@ -122,7 +122,7 @@ ARCH            = arm
 UNAME_R_VERSION = 3.10.37
 GLIBC_VERSION   = 2.21
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_VIP1830)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_DM64X)),)
 ARCH            = arm
 UNAME_R_VERSION = 2.6.36
 GLIBC_VERSION   = 2.21
@@ -205,18 +205,28 @@ perl_environment += CC='$(CC) --sysroot=$(TARGET_DEST_DIR) $(ARCH_OPTIMIZATION) 
 perl_environment += LD='$(LD) --sysroot=$(TARGET_DEST_DIR)'
 perl_environment += LDFLAGS='--sysroot=$(TARGET_DEST_DIR) -L$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)'
 perl_environment += CCCDLFLAGS='-fPIC -shared'
-perl_environment += CCDLFLAGS='-Wl,-E -Wl,-rpath,/usr/lib$(LIBSUFFIX)/perl5/CORE'
+perl_environment += CCDLFLAGS='-Wl,-E -Wl,-rpath,/usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)/CORE'
 perl_environment += FULL_AR=$(AR)
 perl_environment += LIBC=$(TARGET_DEST_DIR)/lib/libc-$(GLIBC_VERSION).so
 perl_environment += OSNAME=linux
 perl_environment += OSVERS=$(UNAME_R_VERSION)
 
 #
+# Give the path of target machine PERL headers to the ExtUtils::MakeMaker for creating
+# the PERL_HDRS list in the resulting Makefile created by  `perl Makefile.PL` command.
+#
+# see: _perl_header_files() fuction in the MM_Any.pm script to understand PERL_SRC env.
+#
+perl_src_hdrs = PERL_SRC=$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)/CORE
+
+#
 # Module Specific Perl5 Environment:
 # =================================
 #
+perl_environment += DBI_INSTARCH_DIR='$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/vendor_perl/$(ARCHNAME)/auto/DBI'
+perl_environment += DBI_DRIVER_XST='$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/vendor_perl/$(ARCHNAME)/auto/DBI/Driver.xst'
+perl_environment += INC='-I$(TARGET_DEST_DIR)/usr/include -I$(TARGET_DEST_DIR)/usr/include/mysql -I$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/vendor_perl/$(ARCHNAME)/auto/DBI'
 perl_environment += LD_RUN_PATH='/usr/lib$(LIBSUFFIX)'
-
 
 perl_local_pod = usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)/perllocal.pod
 
@@ -231,7 +241,10 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 $(build_target): $(src_done)
 	@( cd  $(SRC_DIR) ; \
 	   $(BUILD_ENVIRONMENT) DBD_MYSQL_CONFIG='$(TARGET_DEST_DIR)/usr/bin/mysql_config' \
-	                        perl Makefile.PL --testuser=mysql $(perl_environment) ; \
+	                        $(perl_src_hdrs) perl Makefile.PL --testuser=mysql $(perl_environment) ; \
+	   sed -i "s,-I/usr/local/include,-I$(TARGET_DEST_DIR)/usr/include,g" Makefile ; \
+	   sed -i "s,-I/usr/include,-I$(TARGET_DEST_DIR)/usr/include,g"       Makefile ; \
+	   sed -i "s,/usr/.*/DBI/Driver_xst.h,$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/vendor_perl/$(ARCHNAME)/auto/DBI/Driver_xst.h,g" Makefile ; \
 	 )
 	@( cd $(SRC_DIR) ; \
 	   $(BUILD_ENVIRONMENT) $(MAKE) $(perl_environment) ; \

@@ -16,7 +16,7 @@ COMPONENT_IS_3PP   = true
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/packages/a/eudev-git
+SOURCE_REQUIRES    = sources/packages/a/eudev
 
 REQUIRES           = app/util-linux/2.27.1
 REQUIRES          += app/kmod/22
@@ -25,7 +25,7 @@ REQUIRES          += app/kmod/22
 
 
 version            = 3.1.5
-tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/a/eudev-git/eudev-$(version).tar.xz
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/a/eudev/eudev-$(version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/eudev-$(version)
 src_dir_name       = eudev-$(version)

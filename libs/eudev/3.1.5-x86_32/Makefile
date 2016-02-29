@@ -10,7 +10,7 @@ CREATE_X86_32_PACKAGE = true
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/packages/a/eudev-git
+SOURCE_REQUIRES    = sources/packages/a/eudev
 
 REQUIRES           = libs/eudev/3.1.5
 REQUIRES          += app/util-linux/2.27.1-x86_32
@@ -20,7 +20,7 @@ REQUIRES          += app/kmod/22-x86_32
 
 
 version            = 3.1.5
-tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/a/eudev-git/eudev-$(version).tar.xz
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/a/eudev/eudev-$(version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/eudev-$(version)
 src_dir_name       = eudev-$(version)

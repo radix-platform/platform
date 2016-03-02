@@ -22,9 +22,9 @@ ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/5.3.0
 endif
 REQUIRES          += libs/libidn/1.28
-REQUIRES          += net/p11-kit/0.20.2
-REQUIRES          += net/nettle/2.7.1
-REQUIRES          += dev/guile/2.0.9
+REQUIRES          += net/p11-kit/0.23.2
+REQUIRES          += net/nettle/3.2
+REQUIRES          += dev/guile/2.0.11
 
 # ======= __END_OF_REQUIRES__ =======
 

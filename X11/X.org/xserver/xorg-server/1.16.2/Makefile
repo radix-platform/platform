@@ -19,7 +19,7 @@ include ../../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/X.org/xserver/xorg-server
 
 REQUIRES           = libs/eudev/3.1.5
-REQUIRES          += net/nettle/2.7.1
+REQUIRES          += net/nettle/3.2
 REQUIRES          += X11/app/dbus-x11-launch/1.8.10
 
 REQUIRES          += X11/X.org/proto/xproto/7.0.26

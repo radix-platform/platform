@@ -14,9 +14,9 @@ SOURCE_REQUIRES      = sources/packages/n/gnutls
 
 REQUIRES             = net/gnutls/3.1.22
 REQUIRES            += libs/libidn/1.28-x86_32
-REQUIRES            += net/p11-kit/0.20.2-x86_32
-REQUIRES            += net/nettle/2.7.1-x86_32
-REQUIRES            += dev/guile/2.0.9-x86_32
+REQUIRES            += net/p11-kit/0.23.2-x86_32
+REQUIRES            += net/nettle/3.2-x86_32
+REQUIRES            += dev/guile/2.0.11-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

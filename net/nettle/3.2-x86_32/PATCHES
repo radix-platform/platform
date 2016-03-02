@@ -1,0 +1,2 @@
+
+../../../sources/packages/n/nettle/patches/nettle-3.2-parallel.patch -p0

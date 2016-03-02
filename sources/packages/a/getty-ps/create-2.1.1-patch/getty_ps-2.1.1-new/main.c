@@ -687,8 +687,8 @@ void doutmp()
 	with the uts struct filled above.
 	*/
 
-	debug(D_UTMP, "adding utmp entry: type: %d, pid: %d, line: %s,
-	   id: %c%c, time: %d, user: %s, host: %s, addr: %d",
+	debug(D_UTMP, "adding utmp entry: type: %d, pid: %d, line: %s, "
+	   "id: %c%c, time: %d, user: %s, host: %s, addr: %d",
 	   uts.ut_type, uts.ut_pid, uts.ut_line,
 	   (uts.ut_id[0] ? uts.ut_id[0] : ' '), 
 	   (uts.ut_id[1] ? uts.ut_id[1] : ' '), 

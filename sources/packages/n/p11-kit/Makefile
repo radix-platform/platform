@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/p11-kit
 
-versions    = 0.20.2
+versions    = 0.20.2 0.23.2
 pkgname     = p11-kit
 suffix      = tar.gz
 

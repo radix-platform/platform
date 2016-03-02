@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/lvm2
 
-versions    = 2.02.132
+versions    = 2.02.132 2.02.141
 pkgname     = LVM2
 suffix      = tar.xz
 
@@ -16,6 +16,8 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/LVM2-2.02.132-rpl_malloc.patch
 patches    += $(CURDIR)/patches/LVM2-2.02.132-sockets-static.patch
+patches    += $(CURDIR)/patches/LVM2-2.02.141-rpl_malloc.patch
+patches    += $(CURDIR)/patches/LVM2-2.02.141-sockets-static.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -52,6 +54,8 @@ $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-2.02.132-rpl_malloc-patch     ; ./create.patch.sh ) ; \
 	 ( cd create-2.02.132-sockets-static-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2.02.141-rpl_malloc-patch     ; ./create.patch.sh ) ; \
+	 ( cd create-2.02.141-sockets-static-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

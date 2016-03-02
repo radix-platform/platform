@@ -21,7 +21,7 @@ SOURCE_REQUIRES    = sources/packages/n/dnsmasq
 REQUIRES           = app/dbus/1.8.10
 REQUIRES          += libs/libidn/1.28
 REQUIRES          += net/libnetfilter_conntrack/1.0.4
-REQUIRES          += net/nettle/2.7.1
+REQUIRES          += net/nettle/3.2
 
 # ======= __END_OF_REQUIRES__ =======
 

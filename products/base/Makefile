@@ -169,8 +169,8 @@ endif
 
 #            ...
 #             │
-#             ├── libs/libtasn1/3.4
-#             │   └── libs/libtasn1/3.4-x86_32
+#             ├── libs/libtasn1/4.7
+#             │   └── libs/libtasn1/4.7-x86_32
 #             │
 #             ├── libs/libidn/1.28
 #             │   └── libs/libidn/1.28-x86_32
@@ -419,17 +419,17 @@ REQUIRES += app/procps/3.2.8
 REQUIRES += app/gamin/0.1.10
 REQUIRES += app/usbutils/008
 REQUIRES += app/eudev/3.1.5
-REQUIRES += app/lvm2/2.02.132
+REQUIRES += app/lvm2/2.02.141
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += app/lvm2/2.02.132-x86_32
+REQUIRES += app/lvm2/2.02.141-x86_32
 endif
 REQUIRES += app/cpio/2.11
 REQUIRES += app/ed/1.9
-REQUIRES += app/getty-ps/2.1.0b
-REQUIRES += app/hdparm/9.43
+REQUIRES += app/getty-ps/2.1.1
+REQUIRES += app/hdparm/9.48
 REQUIRES += app/less/451
 REQUIRES += app/lha/114i
-REQUIRES += app/logrotate/3.8.7
+REQUIRES += app/logrotate/3.9.1
 REQUIRES += app/gettext/0.19.7-tools
 
 REQUIRES += secure/libcgroup/0.41
@@ -463,7 +463,7 @@ REQUIRES += net/tftp-hpa/5.2
 
 REQUIRES += net/dhcpcd/6.10.1
 
-REQUIRES += net/iputils/s20121221
+REQUIRES += net/iputils/s20151218
 REQUIRES += net/ethtool/3.12
 REQUIRES += net/inetd/1.79
 REQUIRES += net/openssh/6.6p1

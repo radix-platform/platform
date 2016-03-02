@@ -7,7 +7,7 @@ include ../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/GNU/guile
 
-versions    = 2.0.9
+versions    = 2.0.9 2.0.11
 pkgname     = guile
 suffix      = tar.xz
 
@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/guile-2.0.9.patch
+patches    += $(CURDIR)/patches/guile-2.0.11.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -49,7 +50,8 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-2.0.9-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2.0.9-patch  ; ./create.patch.sh ) ; \
+	 ( cd create-2.0.11-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

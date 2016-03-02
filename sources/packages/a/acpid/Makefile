@@ -7,15 +7,19 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/acpid
 
-versions    = 2.0.22
+versions    = 2.0.22 2.0.26
 pkgname     = acpid
 suffix      = tar.xz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
+patches     = $(CURDIR)/patches/acpid-2.0.26-rpl-malloc.patch
 
-BUILD_TARGETS = $(tarballs) $(sha1s)
+.NOTPARALLEL: $(patches)
+
+
+BUILD_TARGETS = $(tarballs) $(sha1s) $(patches)
 
 
 include ../../../../build-system/core.mk
@@ -43,5 +47,10 @@ $(sha1s): $(tarballs)
 	   fi ; \
 	 done
 
+$(patches): $(sha1s)
+	@echo -e "\n======= Create Patches =======\n" ; \
+	 ( cd create-2.0.26-rpl-malloc-patch ; ./create.patch.sh ) ; \
+	 echo -e "\n"
+
 download_clean:
-	@rm -f $(tarballs) $(sha1s)
+	@rm -f $(tarballs) $(sha1s) $(patches)

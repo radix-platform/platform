@@ -23,7 +23,7 @@ REQUIRES          += app/dbus/1.8.10
 REQUIRES          += libs/glib2/2.40.0
 REQUIRES          += libs/dbus-python/1.2.0
 REQUIRES          += libs/gdbm/1.11
-REQUIRES          += secure/libcap/2.24
+REQUIRES          += secure/libcap/2.25
 REQUIRES          += libs/libdaemon/0.14
 
 # ======= __END_OF_REQUIRES__ =======

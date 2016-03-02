@@ -19,12 +19,12 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/n/bind
 
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
-REQUIRES           = secure/libcap/2.24
+REQUIRES           = secure/libcap/2.25
 REQUIRES          += libs/json-c/0.12
 REQUIRES          += libs/libxml2/2.9.1
 REQUIRES          += net/idnkit/1.0
 else
-REQUIRES           = secure/libcap/2.24-x86_32
+REQUIRES           = secure/libcap/2.25-x86_32
 REQUIRES          += libs/json-c/0.12-x86_32
 REQUIRES          += libs/libxml2/2.9.1-x86_32
 REQUIRES          += net/idnkit/1.0-x86_32

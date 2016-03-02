@@ -2,8 +2,10 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
 COMPONENT_TARGETS += $(HARDWARE_BT1)
@@ -148,11 +150,17 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
 	@echo "s1:12345:respawn:/sbin/agetty -L ttyS0 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
 endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB2X)),)
+	@echo "s1:12345:respawn:/sbin/agetty -L ttyS0 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
+endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB3X)),)
 	@echo "s1:12345:respawn:/sbin/agetty -L ttyS0 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
 	@echo "s1:12345:respawn:/sbin/agetty -L ttyS4 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
+	@echo "mxc1:12345:respawn:/sbin/agetty -L ttymxc1 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
 	@echo "s1:12345:respawn:/sbin/agetty -L ttyO2 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new

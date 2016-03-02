@@ -86,14 +86,16 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 
 $(SRC_DIR)/include/generated/uapi/linux/version.h: $(src_done)
 	@touch $(SRC_DIR)/.config
-	$(MAKE) -C $(SRC_DIR) include/generated/uapi/linux/version.h
+	@$(MAKE) -C $(SRC_DIR) \
+	            ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_PREFIX) \
+	            include/generated/uapi/linux/version.h
 
 $(KH_DEV_PKG)/usr/include/linux/autoconf.h: $(SRC_DIR)/include/generated/uapi/linux/version.h
 	@mkdir -p $(KH_DEV_PKG)/usr
-	$(MAKE) -C $(SRC_DIR) headers_install \
-	           ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_PREFIX) \
-	           INSTALL_HDR_PATH=$(KH_DEV_PKG)/usr
-	touch $@
+	@$(MAKE) -C $(SRC_DIR) headers_install \
+	            ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_PREFIX) \
+	            INSTALL_HDR_PATH=$(KH_DEV_PKG)/usr
+	@touch $@
 
 $(build_kh_pkg): $(KH_DEV_PKG)/usr/include/linux/autoconf.h
 	@( cd $(KH_DEV_PKG)/usr/include ; \

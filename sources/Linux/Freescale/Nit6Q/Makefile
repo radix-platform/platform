@@ -2,26 +2,30 @@
 COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 
 
-include ../../../build-system/constants.mk
+include ../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/Linux/v4.x
+url         = $(DOWNLOAD_SERVER)/sources/Linux/Freescale/Nit6Q
 
-versions    = 4.1.15 4.1.18
-versions   += 4.4.3
+versions    = imx-3.14.28-20150320
 
+description = linux-imx6.txt
 tarballs    = $(addsuffix .tar.xz, $(addprefix linux-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 
-BUILD_TARGETS = $(tarballs) $(sha1s)
+BUILD_TARGETS = $(description) $(tarballs) $(sha1s)
 
 
-include ../../../build-system/core.mk
+include ../../../../build-system/core.mk
 
 
 .PHONY: download_clean
 
+
+$(description):
+	@echo -e "\n======= Downloading $(description) file =======" ; \
+	 echo "$(url)/$(description)" | xargs -n 1 -P 100 wget $(WGET_OPTIONS) -i & wait %1
 
 $(tarballs):
 	@echo -e "\n======= Downloading source tarballs =======" ; \
@@ -43,4 +47,4 @@ $(sha1s): $(tarballs)
 	 done
 
 download_clean:
-	@rm -f $(tarballs) $(sha1s)
+	@rm -f $(description) $(tarballs) $(sha1s)

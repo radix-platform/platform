@@ -1,6 +1,5 @@
 
-COMPONENT_TARGETS  = $(HARDWARE_CB2X)
-COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS = $(HARDWARE_CI20)
 
 NEED_ABS_PATH     = true
 
@@ -10,19 +9,19 @@ COMPONENT_IS_3PP  = true
 include ../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES  = sources/Linux/Allwinner/sunxi-3.4
+SOURCE_REQUIRES  = sources/Linux/Ingenic/CI20
 
 REQUIRES         = base/pkgtool
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version          = 3.4-20150315
-modules_version  = 3.4.104
+version          = 3.18-20160210
+modules_version  = 3.18.3
 full_version     = $(version)
-tar_bz2_archive  = $(SRC_PACKAGE_PATH)/Linux/Allwinner/sunxi-3.4/linux-sunxi-$(version).tar.bz2
+tar_bz2_archive  = $(SRC_PACKAGE_PATH)/Linux/Ingenic/CI20/linux-ci20-$(version).tar.bz2
 SRC_ARCHIVE      = $(tar_bz2_archive)
-SRC_DIR          = $(TARGET_BUILD_DIR)/linux-sunxi-$(full_version)
+SRC_DIR          = $(TARGET_BUILD_DIR)/linux-ci20-$(full_version)
 src_done         = $(TARGET_BUILD_DIR)/.source_done
 
 
@@ -31,8 +30,8 @@ build_kh_pkg = $(TARGET_BUILD_DIR)/.kernel_headers_pkg_done
 
 PATCHES =
 
-ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_A2X_GLIBC)),)
-ARCH = arm
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_JZ47XX_GLIBC)),)
+ARCH = mips
 endif
 
 USE_TARGET_DEST_DIR_SYSROOT = no
@@ -45,13 +44,13 @@ PKG_GROUP = dev
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 KH_DEV_PKG_NAME                = kernel-headers
-KH_DEV_PKG_VERSION             = 3.4.104
+KH_DEV_PKG_VERSION             = 3.18.3
 KH_DEV_PKG_ARCH                = $(TOOLCHAIN)
 KH_DEV_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 KH_DEV_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 KH_DEV_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-KH_DEV_PKG_SHORT_DESCRIPTION   = A20 Linux kernel header files
+KH_DEV_PKG_SHORT_DESCRIPTION   = CI20 Linux kernel header files
 KH_DEV_PKG_URL                 = $(BUG_URL)
 KH_DEV_PKG_LICENSE             = GPLv2
 KH_DEV_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(KH_DEV_PKG_NAME)-pkg-description
@@ -85,16 +84,18 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(APPLY_PATCHES)
 	@touch $@
 
-$(SRC_DIR)/include/linux/version.h: $(src_done)
+$(SRC_DIR)/include/generated/uapi/linux/version.h: $(src_done)
 	@touch $(SRC_DIR)/.config
-	$(MAKE) -C $(SRC_DIR) include/linux/version.h
+	@$(MAKE) -C $(SRC_DIR) \
+	            ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_PREFIX) \
+	            include/generated/uapi/linux/version.h
 
-$(KH_DEV_PKG)/usr/include/linux/autoconf.h: $(SRC_DIR)/include/linux/version.h
+$(KH_DEV_PKG)/usr/include/linux/autoconf.h: $(SRC_DIR)/include/generated/uapi/linux/version.h
 	@mkdir -p $(KH_DEV_PKG)/usr
-	$(MAKE) -C $(SRC_DIR) headers_install \
-	           ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_PREFIX) \
-	           INSTALL_HDR_PATH=$(KH_DEV_PKG)/usr
-	touch $@
+	@$(MAKE) -C $(SRC_DIR) headers_install \
+	            ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_PREFIX) \
+	            INSTALL_HDR_PATH=$(KH_DEV_PKG)/usr
+	@touch $@
 
 $(build_kh_pkg): $(KH_DEV_PKG)/usr/include/linux/autoconf.h
 	@( cd $(KH_DEV_PKG)/usr/include ; \
@@ -106,7 +107,7 @@ $(build_kh_pkg): $(KH_DEV_PKG)/usr/include/linux/autoconf.h
 	@touch $@
 
 $(KH_DEV_PKG_DESCRIPTION_FILE): $(KH_DEV_PKG_DESCRIPTION_FILE_IN)
-	@cat $< | $(SED) -e "s/@KERNEL_VERSION@/$(version)/g" > $@
+	@cat $< | $(SED) -e "s/@KERNEL_VERSION@/$(modules_version)/g" > $@
 
 $(pkg_signature)   : $(pkg_archive) ;
 $(pkg_description) : $(pkg_archive) ;

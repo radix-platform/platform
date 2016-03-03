@@ -27,7 +27,7 @@ ifeq ($(HARDWARE),$(HARDWARE_CB1X))
 REQUIRES           = dev/kernel/a1x/3.4-20140514-headers
 endif
 
-ifeq ($(HARDWARE),$(HARDWARE_CB2X) $(HARDWARE_CB3X))
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB2X) $(HARDWARE_CB3X)),)
 REQUIRES           = dev/kernel/a2x/3.4-20150315-headers
 endif
 

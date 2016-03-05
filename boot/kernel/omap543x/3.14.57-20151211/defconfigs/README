@@ -1,0 +1,26 @@
+
+Kernel Configuration:
+====================
+
+According to glsdk 7.03.00.03 , the kernel .config created by following commands:
+
+$ cd KERNEL_SRC_DIR
+
+$ make ARCH=arm omap2plus_defconfig
+
+$ ./scripts/kconfig/merge_config.sh -m .config ti_config_fragments/audio_display.cfg \
+                                               ti_config_fragments/baseport.cfg      \
+                                               ti_config_fragments/connectivity.cfg  \
+                                               ti_config_fragments/ipc.cfg           \
+                                               ti_config_fragments/power.cfg         \
+                                               ti_config_fragments/wlan.cfg          \
+                                               ti_config_fragments/system_test.cfg   \
+                                               ti_config_fragments/auto.cfg          \
+                                               ti_config_fragments/radio.cfg
+
+$ make olddefconfig ARCH=arm
+
+
+NOTE:
+====
+ - In the CONFIG_CMDLINE the ttyO2 has been chaged to ttyO0 .

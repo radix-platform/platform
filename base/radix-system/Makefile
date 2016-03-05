@@ -7,6 +7,7 @@ COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
 COMPONENT_TARGETS += $(HARDWARE_BT1)
 
@@ -164,6 +165,9 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
 	@echo "s1:12345:respawn:/sbin/agetty -L ttyO2 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_DRA7XXEVM)),)
+	@echo "s1:12345:respawn:/sbin/agetty -L ttyO0 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
 endif
 	@echo ""                                                    >> $(SYSINIT_BIN_PKG)/etc/inittab.new
 	@echo "# End of /etc/inittab"                               >> $(SYSINIT_BIN_PKG)/etc/inittab.new

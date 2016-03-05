@@ -1,28 +1,29 @@
 
-COMPONENT_TARGETS = $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS  = $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 
-NEED_ABS_PATH     = true
+NEED_ABS_PATH      = true
 
-COMPONENT_IS_3PP  = true
+COMPONENT_IS_3PP   = true
 
 
 include ../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES  = sources/Linux/TI/omap5/glsdk
+SOURCE_REQUIRES    = sources/Linux/TI/omap5/glsdk
 
-REQUIRES         = base/pkgtool
+REQUIRES           = base/pkgtool
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version          = 3.14.57-20151211
-modules_version  = 3.14.57
-full_version     = $(version)
-tar_xz_archive   = $(SRC_PACKAGE_PATH)/Linux/TI/omap5/glsdk/linux-glsdk-$(version).tar.xz
-SRC_ARCHIVE      = $(tar_xz_archive)
-SRC_DIR          = $(TARGET_BUILD_DIR)/linux-glsdk-$(full_version)
-src_done         = $(TARGET_BUILD_DIR)/.source_done
+version            = 3.14.57-20151211
+modules_version    = 3.14.57
+full_version       = $(version)
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/Linux/TI/omap5/glsdk/linux-glsdk-$(version).tar.xz
+SRC_ARCHIVE        = $(tar_xz_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/linux-glsdk-$(full_version)
+src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 
 build_kh_pkg = $(TARGET_BUILD_DIR)/.kernel_headers_pkg_done

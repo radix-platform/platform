@@ -1,0 +1,8 @@
+
+Kernel Configuration:
+====================
+
+$ cp nitrogen6x_defconfig KERNEL_SRC_DIR/.config
+$ cd KERNEL_SRC_DIR
+$ ARCH=arm make menuconfig
+$ ARCH=arm make oldconfig

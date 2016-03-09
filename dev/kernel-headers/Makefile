@@ -40,10 +40,7 @@ ifeq ($(HARDWARE),$(HARDWARE_NIT6Q))
 REQUIRES           = dev/kernel/nit6q/3.14.28-20160304-headers
 endif
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
-REQUIRES           = dev/kernel/omap543x/3.8.13-20140222-headers
-endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_DRA7XXEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
 REQUIRES           = dev/kernel/omap543x/3.14.57-20151211-headers
 endif
 

@@ -24,3 +24,6 @@ $ make olddefconfig ARCH=arm
 NOTE:
 ====
  - In the CONFIG_CMDLINE the ttyO2 has been chaged to ttyO0 .
+ - OMAP5 uEVM:
+   $ ARCH=arm make menuconfig
+      and remove: System Type -> TI DRA7XX

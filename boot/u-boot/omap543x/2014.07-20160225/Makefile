@@ -12,7 +12,12 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES   = sources/U-Boot/TI/omap5/glsdk
 
+ifneq ($(filter $(HARDWARE),$(HARDWARE_DRA7XXEVM)),)
 REQUIRES          = boot/kernel/omap543x/3.14.57-20151211
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
+REQUIRES          = boot/kernel/omap543x/3.8.13-20140222
+endif
 
 # ======= __END_OF_REQUIRES__ =======
 

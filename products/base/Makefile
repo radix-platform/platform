@@ -27,9 +27,12 @@ REQUIRES += boot/kernel/nit6q/3.14.28-20160304
 endif
 
 ifeq ($(HARDWARE),$(HARDWARE_OMAP5UEVM))
-#REQUIRES  = hal/drivers/omap543x/wl18xx_fw/8.8.10
-#REQUIRES += hal/firmware/omap5-uevm/6.04.00.02
-#REQUIRES += boot/u-boot/omap543x/2013.04-20140216
+REQUIRES  = hal/drivers/omap543x/wl18xx_fw/8.8.10
+REQUIRES += hal/firmware/omap5-uevm/6.04.00.02
+REQUIRES += boot/u-boot/omap543x/2014.07-20160225
+endif
+
+ifeq ($(HARDWARE),$(HARDWARE_DRA7XXEVM))
 REQUIRES  = hal/drivers/omap543x/sgx-ddk/7.03.00.03
 REQUIRES += boot/u-boot/omap543x/2014.07-20160225
 endif

@@ -10,7 +10,7 @@ COMPONENT_IS_3PP   = true
 include ../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES   = sources/U-Boot/TI/omap5/glsdk
+SOURCE_REQUIRES   = sources/U-Boot/denx
 
 REQUIRES          = boot/kernel/omap543x/3.14.57-20151211
 
@@ -22,10 +22,10 @@ DEFAULT_NFS_ROOT_PATH    = "nfsroot-$(HARDWARE)"
 DEFAULT_HW_ADDR          =  2a:ab:c0:97:84:9d
 
 
-version           = 2014.07-20160225
-tar_xz_archive    = $(SRC_PACKAGE_PATH)/U-Boot/TI/omap5/glsdk/u-boot-omap-$(version).tar.xz
-SRC_ARCHIVE       = $(tar_xz_archive)
-SRC_DIR           = $(TARGET_BUILD_DIR)/u-boot-omap-$(version)
+version           = 2016.01
+tar_bz2_archive   = $(SRC_PACKAGE_PATH)/U-Boot/denx/u-boot-$(version).tar.bz2
+SRC_ARCHIVE       = $(tar_bz2_archive)
+SRC_DIR           = $(TARGET_BUILD_DIR)/u-boot-$(version)
 src_done          = $(TARGET_BUILD_DIR)/.source_done
 
 u_boot            = $(TARGET_BUILD_DIR)/.u_boot_done
@@ -47,7 +47,6 @@ boot_script_emmc  = $(TARGET_BUILD_DIR)/boot.script.emmc
 boot_scr_emmc     = $(TARGET_BUILD_DIR)/boot.scr.emmc
 
 boot_records         = $(TARGET_BUILD_DIR)/$(HARDWARE).boot-records
-boot_fat32fs         = $(TARGET_BUILD_DIR)/$(HARDWARE).fat32fs
 install_boot_records = $(TARGET_BUILD_DIR)/.boot_records_done
 
 
@@ -67,7 +66,7 @@ PKG_GROUP = boot
 
 
 UBOOT_BIN_PKG_NAME                = u-boot
-UBOOT_BIN_PKG_VERSION             = 2014.07
+UBOOT_BIN_PKG_VERSION             = 2016.01
 UBOOT_BIN_PKG_ARCH                = $(TOOLCHAIN)
 UBOOT_BIN_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 UBOOT_BIN_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -129,7 +128,7 @@ device_dtbs      += dra72-evm-vision.dtb
 device_dtbs      += dra72-evm.dtb
 endif
 
-extra  = rw
+extra  = ro
 extra += rootwait
 extra += earlyprintk
 extra += fixrtc
@@ -154,23 +153,23 @@ $(u_boot): $(src_done)
 
 $(boot_script_nfs): $(u_boot)
 	@( echo "mmc part"  > $(boot_script_nfs) && \
-	   echo "fatload mmc 0:1 0x88000000 $(device_tree_name)" >> $(boot_script_nfs) && \
-	   echo "fatload mmc 0:1 0x82000000 uImage" >> $(boot_script_nfs) && \
+	   echo "ext4load mmc 0:1 0x88000000 /boot/$(device_tree_name)" >> $(boot_script_nfs) && \
+	   echo "ext4load mmc 0:1 0x82000000 /boot/uImage" >> $(boot_script_nfs) && \
 	   echo "setenv bootargs 'root=/dev/nfs nfsroot=$(DEFAULT_NFS_ROOT_IP_ADDR):/$(DEFAULT_NFS_ROOT_PATH) console=$(console_dev),115200n8 ip=dhcp $(extra)'" >> $(boot_script_nfs) && \
 	   echo "bootm 0x82000000 - 0x88000000" >> $(boot_script_nfs) )
 
 $(boot_script_sd): $(u_boot)
 	@( echo "mmc part"  > $(boot_script_sd) && \
-	   echo "fatload mmc 0:1 0x88000000 $(device_tree_name)" >> $(boot_script_sd) && \
-	   echo "fatload mmc 0:1 0x82000000 uImage" >> $(boot_script_sd) && \
-	   echo "setenv bootargs 'elevator=noop console=$(console_dev),115200n8 root=/dev/mmcblk0p2 $(extra)'" >> $(boot_script_sd) && \
+	   echo "ext4load mmc 0:1 0x88000000 /boot/$(device_tree_name)" >> $(boot_script_sd) && \
+	   echo "ext4load mmc 0:1 0x82000000 /boot/uImage" >> $(boot_script_sd) && \
+	   echo "setenv bootargs 'elevator=noop console=$(console_dev),115200n8 root=/dev/mmcblk0p1 $(extra)'" >> $(boot_script_sd) && \
 	   echo "bootm 0x82000000 - 0x88000000" >> $(boot_script_sd) )
 
 $(boot_script_emmc): $(u_boot)
 	@( echo "mmc part"  > $(boot_script_emmc) && \
-	   echo "fatload mmc 1:1 0x88000000 $(device_tree_name)" >> $(boot_script_emmc) && \
-	   echo "fatload mmc 1:1 0x82000000 uImage" >> $(boot_script_emmc) && \
-	   echo "setenv bootargs 'elevator=noop console=$(console_dev),115200n8 root=/dev/mmcblk0p2 $(extra)'" >> $(boot_script_emmc) && \
+	   echo "ext4load mmc 1:1 0x88000000 /boot/$(device_tree_name)" >> $(boot_script_emmc) && \
+	   echo "ext4load mmc 1:1 0x82000000 /boot/uImage" >> $(boot_script_emmc) && \
+	   echo "setenv bootargs 'elevator=noop console=$(console_dev),115200n8 root=/dev/mmcblk0p1 $(extra)'" >> $(boot_script_emmc) && \
 	   echo "bootm 0x82000000 - 0x88000000" >> $(boot_script_emmc) )
 
 $(boot_scr_nfs): $(boot_script_nfs)
@@ -198,33 +197,20 @@ $(build_uboot_pkg): $(u_boot) $(boot_scr_nfs) $(boot_scr_sd) $(boot_scr_emmc)
 	  cp -a MLO u-boot.img $(TARGET_DEST_DIR)/bootfs && \
 	  cp -a MLO u-boot.img $(UBOOT_BIN_PKG)/boot
 	@mkdir -p $(UBOOT_BIN_PKG)/usr/doc/u-boot-$(version)
-	@cp -a $(SRC_DIR)/Licenses $(SRC_DIR)/CREDITS $(SRC_DIR)/README $(SRC_DIR)/boards.cfg \
+	@cp -a $(SRC_DIR)/Licenses $(SRC_DIR)/MAINTAINERS $(SRC_DIR)/README \
 	       $(UBOOT_BIN_PKG)/usr/doc/u-boot-$(version)
 	@touch $@
 
 $(boot_records): $(build_uboot_pkg)
 	@$(DD) if=/dev/zero of=$@ bs=512 count=2048 conv=notrunc
-	# ======= Setup empty boot-records because FS boot mode =======
+	# ======= Clear Environment Example =======
+	@$(DD) if=/dev/zero of=$@ bs=128k count=1 seek=1 conv=notrunc
+	# ======= Setup u-boot-spl(MLO) & u-boot.img into unallocated space of disk image =======
+	@$(DD) if=$(UBOOT_BIN_PKG)/boot/MLO of=$@ bs=128k count=1 seek=1 conv=notrunc
+	@$(DD) if=$(UBOOT_BIN_PKG)/boot/u-boot.img of=$@ bs=384k count=2 seek=1 conv=notrunc
 	@touch $@
 
-$(boot_fat32fs): $(build_uboot_pkg)
-	@$(DD) if=/dev/zero of=$@ bs=1M count=511
-	# ======= Create FAT32 boot partition image =======
-	@$(MKDOSFS) -F 32 -n bootfs $@
-	@$(MCOPY) -i $@ $(TARGET_DEST_DIR)/bootfs/MLO            ::/
-	@$(MCOPY) -i $@ $(TARGET_DEST_DIR)/bootfs/u-boot.img     ::/
-	@$(MCOPY) -i $@ $(TARGET_DEST_DIR)/bootfs/boot.scr       ::/
-	@$(MCOPY) -i $@ $(TARGET_DEST_DIR)/bootfs/boot.scr.emmc  ::/
-	@$(MCOPY) -i $@ $(TARGET_DEST_DIR)/bootfs/boot.scr.nfs   ::/
-	@$(MCOPY) -i $@ $(TARGET_DEST_DIR)/bootfs/boot.scr.sd    ::/
-	@for dtb in $(device_dtbs) ; do \
-	   $(MCOPY) -i $@ $(TARGET_DEST_DIR)/bootfs/$$dtb ::/ ; \
-	 done
-	@$(MCOPY) -i $@ $(TARGET_DEST_DIR)/bootfs/uImage         ::/
-	@$(DOSFSCK) -a $@
-	@touch $@
-
-$(install_boot_records): $(boot_records) $(boot_fat32fs)
+$(install_boot_records): $(boot_records)
 	@$(BUILDSYSTEM)/install_targets         \
 	   --destination=$(PRODUCTS_DEST_DIR)   \
 	   --toolchain=$(TOOLCHAIN)             \

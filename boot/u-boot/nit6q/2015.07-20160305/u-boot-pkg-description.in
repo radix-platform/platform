@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+      |-----handy-ruler------------------------------------------------------|
+u-boot: U-Boot @VERSION@ for @HARDWARE_SPEC@ board
+u-boot:
+u-boot: Boundary Devices clone of the U-Boot, a boot loader for Nitrogen6X
+u-boot: boards based on i.MX6 ARM processors.
+u-boot:
+u-boot: Original DENX Git Repository: git://git.denx.de/u-boot.git
+u-boot:
+u-boot: Git Repository: https://github.com/boundarydevices/u-boot-imx6.git
+u-boot:
+u-boot:
+u-boot:

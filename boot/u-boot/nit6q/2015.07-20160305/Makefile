@@ -1,6 +1,5 @@
 
-COMPONENT_TARGETS  = $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
+COMPONENT_TARGETS  = $(HARDWARE_NIT6Q)
 
 NEED_ABS_PATH      = true
 
@@ -10,41 +9,36 @@ COMPONENT_IS_3PP   = true
 include ../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES   = sources/U-Boot/TI/omap5/glsdk
+SOURCE_REQUIRES   = sources/U-Boot/Boundary/Nit6Q
 
-REQUIRES          = boot/kernel/omap543x/3.14.57-20151211
+REQUIRES          = boot/kernel/nit6q/3.14.28-20160304
 
 # ======= __END_OF_REQUIRES__ =======
 
 
 DEFAULT_NFS_ROOT_IP_ADDR =  172.16.0.3
 DEFAULT_NFS_ROOT_PATH    = "nfsroot-$(HARDWARE)"
-DEFAULT_HW_ADDR          =  2a:ab:c0:97:84:9d
+DEFAULT_HW_ADDR          =  2a:ab:c0:90:96:ba
 
 
-version           = 2014.07-20160225
-tar_xz_archive    = $(SRC_PACKAGE_PATH)/U-Boot/TI/omap5/glsdk/u-boot-omap-$(version).tar.xz
+version           = 2015.07-20160305
+tar_xz_archive    = $(SRC_PACKAGE_PATH)/U-Boot/Boundary/Nit6Q/u-boot-imx6-$(version).tar.xz
 SRC_ARCHIVE       = $(tar_xz_archive)
-SRC_DIR           = $(TARGET_BUILD_DIR)/u-boot-omap-$(version)
+SRC_DIR           = $(TARGET_BUILD_DIR)/u-boot-imx6-$(version)
 src_done          = $(TARGET_BUILD_DIR)/.source_done
 
 u_boot            = $(TARGET_BUILD_DIR)/.u_boot_done
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
-u_boot_config     = omap5_uevm_config
-endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_DRA7XXEVM)),)
-u_boot_config     = dra7xx_evm_config
+ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
+u_boot_name       = nitrogen6q
+u_boot_config     = $(u_boot_name)_defconfig
 endif
 
-boot_script_nfs   = $(TARGET_BUILD_DIR)/boot.script.nfs
-boot_scr_nfs      = $(TARGET_BUILD_DIR)/boot.scr.nfs
+upgrade_src_script   = scripts/6x_upgrade
+upgrade_script       = $(TARGET_BUILD_DIR)/6x_upgrade
 
-boot_script_sd    = $(TARGET_BUILD_DIR)/boot.script.sd
-boot_scr_sd       = $(TARGET_BUILD_DIR)/boot.scr.sd
-
-boot_script_emmc  = $(TARGET_BUILD_DIR)/boot.script.emmc
-boot_scr_emmc     = $(TARGET_BUILD_DIR)/boot.scr.emmc
+boot_src_script      = scripts/6x_bootscript
+boot_script          = $(TARGET_BUILD_DIR)/6x_bootscript
 
 boot_records         = $(TARGET_BUILD_DIR)/$(HARDWARE).boot-records
 boot_fat32fs         = $(TARGET_BUILD_DIR)/$(HARDWARE).fat32fs
@@ -54,7 +48,7 @@ install_boot_records = $(TARGET_BUILD_DIR)/.boot_records_done
 PATCHES = PATCHES
 
 
-ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_OMAP543X_GLIBC)),)
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_IMX6_GLIBC)),)
 ARCH = arm
 endif
 
@@ -67,7 +61,7 @@ PKG_GROUP = boot
 
 
 UBOOT_BIN_PKG_NAME                = u-boot
-UBOOT_BIN_PKG_VERSION             = 2014.07
+UBOOT_BIN_PKG_VERSION             = 2015.07
 UBOOT_BIN_PKG_ARCH                = $(TOOLCHAIN)
 UBOOT_BIN_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 UBOOT_BIN_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -111,33 +105,15 @@ include ../../../../build-system/core.mk
 
 ####### Dependencies
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
-console_dev       = ttyO2
-device_tree_name  = omap5-uevm.dtb
-device_dtbs       = omap5-uevm.dtb
+ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
+device_dtbs  = imx6dl-nit6xlite.dtb
+device_dtbs += imx6dl-nitrogen6_vm-magstripe.dtb
+device_dtbs += imx6dl-nitrogen6_vm.dtb
+device_dtbs += imx6dl-nitrogen6x.dtb
+device_dtbs += imx6q-nitrogen6_max.dtb
+device_dtbs += imx6q-nitrogen6x.dtb
+device_dtbs += imx6q-sabrelite.dtb
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_DRA7XXEVM)),)
-console_dev       = ttyO0
-device_tree_name  = dra7-evm.dtb
-device_dtbs       = dra7-evm-lcd10.dtb
-device_dtbs      += dra7-evm-lcd7.dtb
-device_dtbs      += dra7-evm-vision.dtb
-device_dtbs      += dra7-evm.dtb
-device_dtbs      += dra72-evm-lcd10.dtb
-device_dtbs      += dra72-evm-lcd7.dtb
-device_dtbs      += dra72-evm-vision.dtb
-device_dtbs      += dra72-evm.dtb
-endif
-
-extra  = rw
-extra += rootwait
-extra += earlyprintk
-extra += fixrtc
-extra += omapdrm.num_crtc=2
-extra += consoleblank=0
-extra += cma=64M
-extra += rootfstype=ext4
-extra += snd.slots_reserved=1,1
 
 
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
@@ -152,53 +128,25 @@ $(u_boot): $(src_done)
 	$(UMAKE)
 	@touch $@
 
-$(boot_script_nfs): $(u_boot)
-	@( echo "mmc part"  > $(boot_script_nfs) && \
-	   echo "fatload mmc 0:1 0x88000000 $(device_tree_name)" >> $(boot_script_nfs) && \
-	   echo "fatload mmc 0:1 0x82000000 uImage" >> $(boot_script_nfs) && \
-	   echo "setenv bootargs 'root=/dev/nfs nfsroot=$(DEFAULT_NFS_ROOT_IP_ADDR):/$(DEFAULT_NFS_ROOT_PATH) console=$(console_dev),115200n8 ip=dhcp $(extra)'" >> $(boot_script_nfs) && \
-	   echo "bootm 0x82000000 - 0x88000000" >> $(boot_script_nfs) )
+$(upgrade_script): $(upgrade_src_script) $(u_boot)
+	$(SRC_DIR)/tools/mkimage -A $(ARCH) -O linux -T script -C none -a 0 -e 0 -n 'upgrade script' -d $< $@
 
-$(boot_script_sd): $(u_boot)
-	@( echo "mmc part"  > $(boot_script_sd) && \
-	   echo "fatload mmc 0:1 0x88000000 $(device_tree_name)" >> $(boot_script_sd) && \
-	   echo "fatload mmc 0:1 0x82000000 uImage" >> $(boot_script_sd) && \
-	   echo "setenv bootargs 'elevator=noop console=$(console_dev),115200n8 root=/dev/mmcblk0p2 $(extra)'" >> $(boot_script_sd) && \
-	   echo "bootm 0x82000000 - 0x88000000" >> $(boot_script_sd) )
+$(boot_script): $(boot_src_script) $(u_boot)
+	$(SRC_DIR)/tools/mkimage -A $(ARCH) -O linux -T script -C none -a 0 -e 0 -n 'boot script' -d $< $@
 
-$(boot_script_emmc): $(u_boot)
-	@( echo "mmc part"  > $(boot_script_emmc) && \
-	   echo "fatload mmc 1:1 0x88000000 $(device_tree_name)" >> $(boot_script_emmc) && \
-	   echo "fatload mmc 1:1 0x82000000 uImage" >> $(boot_script_emmc) && \
-	   echo "setenv bootargs 'elevator=noop console=$(console_dev),115200n8 root=/dev/mmcblk0p2 $(extra)'" >> $(boot_script_emmc) && \
-	   echo "bootm 0x82000000 - 0x88000000" >> $(boot_script_emmc) )
-
-$(boot_scr_nfs): $(boot_script_nfs)
-	$(SRC_DIR)/tools/mkimage -A $(ARCH) -T script -C none -n "Boot Image" -d $< $@
-
-$(boot_scr_sd): $(boot_script_sd)
-	$(SRC_DIR)/tools/mkimage -A $(ARCH) -T script -C none -n "Boot Image" -d $< $@
-
-$(boot_scr_emmc): $(boot_script_emmc)
-	$(SRC_DIR)/tools/mkimage -A $(ARCH) -T script -C none -n "Boot Image" -d $< $@
-
-$(build_uboot_pkg): $(u_boot) $(boot_scr_nfs) $(boot_scr_sd) $(boot_scr_emmc)
+$(build_uboot_pkg): $(u_boot) $(upgrade_script) $(boot_script)
 	@mkdir -p $(TARGET_DEST_DIR)/bootfs
 	@mkdir -p $(UBOOT_BIN_PKG)/boot
 	# ======= Copy U-Boot images: =======
-	@cp -a $(boot_scr_nfs)  $(TARGET_DEST_DIR)/bootfs
-	@cp -a $(boot_scr_nfs)  $(UBOOT_BIN_PKG)/boot
-	@cp -a $(boot_scr_sd)   $(TARGET_DEST_DIR)/bootfs
-	@cp -a $(boot_scr_sd)   $(TARGET_DEST_DIR)/bootfs/boot.scr
-	@cp -a $(boot_scr_sd)   $(UBOOT_BIN_PKG)/boot
-	@cp -a $(boot_scr_sd)   $(UBOOT_BIN_PKG)/boot/boot.scr
-	@cp -a $(boot_scr_emmc) $(TARGET_DEST_DIR)/bootfs
-	@cp -a $(boot_scr_emmc) $(UBOOT_BIN_PKG)/boot
+	@cp -a $(upgrade_script)  $(TARGET_DEST_DIR)/bootfs
+	@cp -a $(upgrade_script)  $(UBOOT_BIN_PKG)/boot
+	@cp -a $(boot_script)  $(TARGET_DEST_DIR)/bootfs
+	@cp -a $(boot_script)  $(UBOOT_BIN_PKG)/boot
 	@cd $(SRC_DIR) && \
-	  cp -a MLO u-boot.img $(TARGET_DEST_DIR)/bootfs && \
-	  cp -a MLO u-boot.img $(UBOOT_BIN_PKG)/boot
+	  cp -a u-boot.imx $(TARGET_DEST_DIR)/bootfs/u-boot.$(u_boot_name) && \
+	  cp -a u-boot.imx $(UBOOT_BIN_PKG)/boot/u-boot.$(u_boot_name)
 	@mkdir -p $(UBOOT_BIN_PKG)/usr/doc/u-boot-$(version)
-	@cp -a $(SRC_DIR)/Licenses $(SRC_DIR)/CREDITS $(SRC_DIR)/README $(SRC_DIR)/boards.cfg \
+	@cp -a $(SRC_DIR)/Licenses $(SRC_DIR)/MAINTAINERS $(SRC_DIR)/README \
 	       $(UBOOT_BIN_PKG)/usr/doc/u-boot-$(version)
 	@touch $@
 
@@ -211,16 +159,13 @@ $(boot_fat32fs): $(build_uboot_pkg)
 	@$(DD) if=/dev/zero of=$@ bs=1M count=511
 	# ======= Create FAT32 boot partition image =======
 	@$(MKDOSFS) -F 32 -n bootfs $@
-	@$(MCOPY) -i $@ $(TARGET_DEST_DIR)/bootfs/MLO            ::/
-	@$(MCOPY) -i $@ $(TARGET_DEST_DIR)/bootfs/u-boot.img     ::/
-	@$(MCOPY) -i $@ $(TARGET_DEST_DIR)/bootfs/boot.scr       ::/
-	@$(MCOPY) -i $@ $(TARGET_DEST_DIR)/bootfs/boot.scr.emmc  ::/
-	@$(MCOPY) -i $@ $(TARGET_DEST_DIR)/bootfs/boot.scr.nfs   ::/
-	@$(MCOPY) -i $@ $(TARGET_DEST_DIR)/bootfs/boot.scr.sd    ::/
+	@$(MCOPY) -i $@ $(TARGET_DEST_DIR)/bootfs/u-boot.$(u_boot_name) ::/
+	@$(MCOPY) -i $@ $(upgrade_script)                               ::/
+	@$(MCOPY) -i $@ $(boot_script)                                  ::/
 	@for dtb in $(device_dtbs) ; do \
 	   $(MCOPY) -i $@ $(TARGET_DEST_DIR)/bootfs/$$dtb ::/ ; \
 	 done
-	@$(MCOPY) -i $@ $(TARGET_DEST_DIR)/bootfs/uImage         ::/
+	@$(MCOPY) -i $@ $(TARGET_DEST_DIR)/bootfs/uImage                ::/
 	@$(DOSFSCK) -a $@
 	@touch $@
 

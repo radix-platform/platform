@@ -164,10 +164,10 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
 	@echo "mxc1:12345:respawn:/sbin/agetty -L ttymxc1 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
-	@echo "s1:12345:respawn:/sbin/agetty -L ttyO2 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
+	@echo "s1:12345:respawn:/sbin/agetty -L ttyS2 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_DRA7XXEVM)),)
-	@echo "s1:12345:respawn:/sbin/agetty -L ttyO0 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
+	@echo "s1:12345:respawn:/sbin/agetty -L ttyS0 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
 endif
 	@echo ""                                                    >> $(SYSINIT_BIN_PKG)/etc/inittab.new
 	@echo "# End of /etc/inittab"                               >> $(SYSINIT_BIN_PKG)/etc/inittab.new

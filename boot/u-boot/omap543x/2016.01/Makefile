@@ -72,7 +72,7 @@ UBOOT_BIN_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 UBOOT_BIN_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 UBOOT_BIN_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
-UBOOT_BIN_PKG_SHORT_DESCRIPTION   = $(HW_SPAC) U-Boot
+UBOOT_BIN_PKG_SHORT_DESCRIPTION   = $(HW_SPEC) U-Boot
 UBOOT_BIN_PKG_URL                 = $(BUG_URL)
 UBOOT_BIN_PKG_LICENSE             = GPLv2
 UBOOT_BIN_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(UBOOT_BIN_PKG_NAME)-pkg-description

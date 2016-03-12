@@ -9,9 +9,9 @@ COMPONENT_IS_3PP  = true
 include ../../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES   = sources/hal/drivers/omap543x/wl18xx/wl18xx
-SOURCE_REQUIRES  += sources/hal/drivers/omap543x/wl18xx/compat-wireless
-SOURCE_REQUIRES  += sources/hal/drivers/omap543x/wl18xx/compat
+SOURCE_REQUIRES   = sources/hal/drivers/omap543x/wireless/wl18xx/wl18xx
+SOURCE_REQUIRES  += sources/hal/drivers/omap543x/wireless/wl18xx/compat-wireless
+SOURCE_REQUIRES  += sources/hal/drivers/omap543x/wireless/wl18xx/compat
 
 REQUIRES          = hal/drivers/omap543x/sgx-ddk/1.9.0.11
 
@@ -21,14 +21,14 @@ REQUIRES          = hal/drivers/omap543x/sgx-ddk/1.9.0.11
 version           = ol_r8.a8.10
 kernel_version    = 3.8.13-20140222
 modules_version   = 3.8.13
-tar_bz2_archive   = $(SRC_PACKAGE_PATH)/hal/drivers/omap543x/wl18xx/wl18xx/wl18xx-$(version).tar.bz2
+tar_bz2_archive   = $(SRC_PACKAGE_PATH)/hal/drivers/omap543x/wireless/wl18xx/wl18xx/wl18xx-$(version).tar.bz2
 SRC_ARCHIVE       = $(tar_bz2_archive)
 SRC_DIR           = $(TARGET_BUILD_DIR)/wl18xx-$(version)
 src_done          = $(TARGET_BUILD_DIR)/.source_done
 
-w_compat_archive  = $(SRC_PACKAGE_PATH)/hal/drivers/omap543x/wl18xx/compat-wireless/compat-wireless-$(version).tar.bz2
+w_compat_archive  = $(SRC_PACKAGE_PATH)/hal/drivers/omap543x/wireless/wl18xx/compat-wireless/compat-wireless-$(version).tar.bz2
 w_compat_src_dir  = $(TARGET_BUILD_DIR)/compat-wireless-$(version)
-compat_archive    = $(SRC_PACKAGE_PATH)/hal/drivers/omap543x/wl18xx/compat/compat-$(version).tar.bz2
+compat_archive    = $(SRC_PACKAGE_PATH)/hal/drivers/omap543x/wireless/wl18xx/compat/compat-$(version).tar.bz2
 compat_src_dir    = $(TARGET_BUILD_DIR)/compat-$(version)
 
 w_compat_src_done = $(TARGET_BUILD_DIR)/.wireless_compat_source_done

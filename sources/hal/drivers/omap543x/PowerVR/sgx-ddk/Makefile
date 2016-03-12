@@ -5,16 +5,20 @@ COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 include ../../../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/hal/drivers/omap543x/wl18xx/compat
+url         = $(DOWNLOAD_SERVER)/sources/hal/drivers/omap543x/PowerVR/sgx-ddk
 
-versions    = ol_r8.a8.09
-versions   += ol_r8.a8.10
+versions    = 1.9.0.11
 
-tarballs    = $(addsuffix .tar.bz2, $(addprefix compat-, $(versions)))
+description = sgx-ddk.txt
+tarballs    = $(addsuffix .tar.bz2, $(addprefix ti_imgddk_, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
+patches     = $(CURDIR)/patches/fix-dos2unix.patch
 
-BUILD_TARGETS = $(tarballs) $(sha1s)
+.NOTPARALLEL: $(patches)
+
+
+BUILD_TARGETS = $(description) $(tarballs) $(sha1s) $(patches)
 
 
 include ../../../../../../build-system/core.mk
@@ -22,6 +26,10 @@ include ../../../../../../build-system/core.mk
 
 .PHONY: download_clean
 
+
+$(description):
+	@echo -e "\n======= Downloading $(description) file =======" ; \
+	 echo "$(url)/$(description)" | xargs -n 1 -P 100 wget $(WGET_OPTIONS) -i & wait %1
 
 $(tarballs):
 	@echo -e "\n======= Downloading source tarballs =======" ; \
@@ -42,5 +50,10 @@ $(sha1s): $(tarballs)
 	   fi ; \
 	 done
 
+$(patches): $(sha1s)
+	@echo -e "\n======= Create Patches =======\n" ; \
+	 ( cd create-imgddk-1.9.0.11-patch ; ./create.patch.sh ) ; \
+	 echo -e "\n"
+
 download_clean:
-	@rm -f $(tarballs) $(sha1s)
+	@rm -f $(description) $(tarballs) $(sha1s) $(patches)

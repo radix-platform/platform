@@ -5,23 +5,16 @@ COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 include ../../../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/hal/drivers/omap543x/wl18xx/wl18xx
+url         = $(DOWNLOAD_SERVER)/sources/hal/drivers/omap543x/wireless/wl18xx_fw
 
 versions    = ol_r8.a8.09
 versions   += ol_r8.a8.10
-versions   += ol_r8.a8.10_32
 
-tarballs    = $(addsuffix .tar.bz2, $(addprefix wl18xx-, $(versions)))
+tarballs    = $(addsuffix .tar.bz2, $(addprefix wl18xx_fw-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/wl18xx-ol_r8.a8.10-build.patch
-patches    += $(CURDIR)/patches/wl18xx-ol_r8.a8.10-neon-vfpv4.patch
-patches    += $(CURDIR)/patches/wl18xx-ol_r8.a8.10-vfpv3-d16.patch
 
-.NOTPARALLEL: $(patches)
-
-
-BUILD_TARGETS = $(tarballs) $(sha1s) $(patches)
+BUILD_TARGETS = $(tarballs) $(sha1s)
 
 
 include ../../../../../../build-system/core.mk
@@ -49,12 +42,5 @@ $(sha1s): $(tarballs)
 	   fi ; \
 	 done
 
-$(patches): $(sha1s)
-	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-ol_r8.a8.10-build-patch ;      ./create.patch.sh ) ; \
-	 ( cd create-ol_r8.a8.10-neon-vfpv4-patch ; ./create.patch.sh ) ; \
-	 ( cd create-ol_r8.a8.10-vfpv3-d16-patch ;  ./create.patch.sh ) ; \
-	 echo -e "\n"
-
 download_clean:
-	@rm -f $(tarballs) $(sha1s) $(patches)
+	@rm -f $(tarballs) $(sha1s)

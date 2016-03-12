@@ -10,7 +10,7 @@ COMPONENT_IS_3PP   = true
 include ../../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/hal/drivers/omap543x/PoewrVR/glsdk
+SOURCE_REQUIRES    = sources/hal/drivers/omap543x/PowerVR/glsdk
 
 REQUIRES           = boot/kernel/omap543x/3.14.57-20151211
 

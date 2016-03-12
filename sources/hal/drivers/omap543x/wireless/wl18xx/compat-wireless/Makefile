@@ -2,34 +2,30 @@
 COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 
 
-include ../../../../../build-system/constants.mk
+include ../../../../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/hal/drivers/omap543x/sgx-ddk
+url         = $(DOWNLOAD_SERVER)/sources/hal/drivers/omap543x/wireless/wl18xx/compat-wireless
 
-versions    = 1.9.0.11
+versions    = ol_r8.a8.09
+versions   += ol_r8.a8.10
 
-description = sgx-ddk.txt
-tarballs    = $(addsuffix .tar.bz2, $(addprefix ti_imgddk_, $(versions)))
+tarballs    = $(addsuffix .tar.bz2, $(addprefix compat-wireless-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/fix-dos2unix.patch
+patches     = $(CURDIR)/patches/compat-wireless-ol_r8.a8.10-cross.patch
 
 .NOTPARALLEL: $(patches)
 
 
-BUILD_TARGETS = $(description) $(tarballs) $(sha1s) $(patches)
+BUILD_TARGETS = $(tarballs) $(sha1s) $(patches)
 
 
-include ../../../../../build-system/core.mk
+include ../../../../../../../build-system/core.mk
 
 
 .PHONY: download_clean
 
-
-$(description):
-	@echo -e "\n======= Downloading $(description) file =======" ; \
-	 echo "$(url)/$(description)" | xargs -n 1 -P 100 wget $(WGET_OPTIONS) -i & wait %1
 
 $(tarballs):
 	@echo -e "\n======= Downloading source tarballs =======" ; \
@@ -52,8 +48,8 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-imgddk-1.9.0.11-patch ; ./create.patch.sh ) ; \
+	 ( cd create-ol_r8.a8.10-cross-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:
-	@rm -f $(description) $(tarballs) $(sha1s) $(patches)
+	@rm -f $(tarballs) $(sha1s) $(patches)

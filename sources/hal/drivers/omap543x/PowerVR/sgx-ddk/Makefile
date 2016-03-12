@@ -2,18 +2,18 @@
 COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 
 
-include ../../../../../build-system/constants.mk
+include ../../../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/hal/drivers/omap543x/glsdk
+url         = $(DOWNLOAD_SERVER)/sources/hal/drivers/omap543x/PowerVR/sgx-ddk
 
-versions    = 7.03.00.03
+versions    = 1.9.0.11
 
 description = sgx-ddk.txt
-tarballs    = $(addsuffix .tar.xz, $(addprefix glsdk_, $(versions)))
+tarballs    = $(addsuffix .tar.bz2, $(addprefix ti_imgddk_, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/glsdk-7.03.00.03-dos2unix.patch
+patches     = $(CURDIR)/patches/fix-dos2unix.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -21,7 +21,7 @@ patches     = $(CURDIR)/patches/glsdk-7.03.00.03-dos2unix.patch
 BUILD_TARGETS = $(description) $(tarballs) $(sha1s) $(patches)
 
 
-include ../../../../../build-system/core.mk
+include ../../../../../../build-system/core.mk
 
 
 .PHONY: download_clean
@@ -52,7 +52,7 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-7.03.00.03-dos2unix-patch ; ./create.patch.sh ) ; \
+	 ( cd create-imgddk-1.9.0.11-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

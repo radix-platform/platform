@@ -2,22 +2,26 @@
 COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 
 
-include ../../../../../../build-system/constants.mk
+include ../../../../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/hal/drivers/omap543x/wl18xx/compat
+url         = $(DOWNLOAD_SERVER)/sources/hal/drivers/omap543x/wireless/wl18xx/compat-wireless
 
 versions    = ol_r8.a8.09
 versions   += ol_r8.a8.10
 
-tarballs    = $(addsuffix .tar.bz2, $(addprefix compat-, $(versions)))
+tarballs    = $(addsuffix .tar.bz2, $(addprefix compat-wireless-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
+patches     = $(CURDIR)/patches/compat-wireless-ol_r8.a8.10-cross.patch
 
-BUILD_TARGETS = $(tarballs) $(sha1s)
+.NOTPARALLEL: $(patches)
 
 
-include ../../../../../../build-system/core.mk
+BUILD_TARGETS = $(tarballs) $(sha1s) $(patches)
+
+
+include ../../../../../../../build-system/core.mk
 
 
 .PHONY: download_clean
@@ -42,5 +46,10 @@ $(sha1s): $(tarballs)
 	   fi ; \
 	 done
 
+$(patches): $(sha1s)
+	@echo -e "\n======= Create Patches =======\n" ; \
+	 ( cd create-ol_r8.a8.10-cross-patch ; ./create.patch.sh ) ; \
+	 echo -e "\n"
+
 download_clean:
-	@rm -f $(tarballs) $(sha1s)
+	@rm -f $(tarballs) $(sha1s) $(patches)

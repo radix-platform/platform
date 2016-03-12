@@ -10,7 +10,7 @@ COMPONENT_IS_3PP   = true
 include ../../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/hal/drivers/omap543x/glsdk
+SOURCE_REQUIRES    = sources/hal/drivers/omap543x/PoewrVR/glsdk
 
 REQUIRES           = boot/kernel/omap543x/3.14.57-20151211
 
@@ -20,7 +20,7 @@ REQUIRES           = boot/kernel/omap543x/3.14.57-20151211
 version            = 7.03.00.03
 kernel_version     = 3.14.57-20151211
 modules_version    = 3.14.57
-tar_xz_archive     = $(SRC_PACKAGE_PATH)/hal/drivers/omap543x/glsdk/glsdk_$(version).tar.xz
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/hal/drivers/omap543x/PoewrVR/glsdk/glsdk_$(version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/glsdk_$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done

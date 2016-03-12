@@ -2,22 +2,22 @@
 COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 
 
-include ../../../../../build-system/constants.mk
+include ../../../../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/hal/drivers/omap543x/wl18xx_fw
+url         = $(DOWNLOAD_SERVER)/sources/hal/drivers/omap543x/wireless/wl18xx/compat
 
 versions    = ol_r8.a8.09
 versions   += ol_r8.a8.10
 
-tarballs    = $(addsuffix .tar.bz2, $(addprefix wl18xx_fw-, $(versions)))
+tarballs    = $(addsuffix .tar.bz2, $(addprefix compat-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 
 BUILD_TARGETS = $(tarballs) $(sha1s)
 
 
-include ../../../../../build-system/core.mk
+include ../../../../../../../build-system/core.mk
 
 
 .PHONY: download_clean

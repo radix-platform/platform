@@ -15,7 +15,7 @@ SOURCE_REQUIRES    += sources/packages/l/usbids
 
 REQUIRES            = app/pciutils/3.4.1
 REQUIRES           += app/kmod/22-x86_32
-REQUIRES           += libs/eudev/1.9-x86_32
+REQUIRES           += libs/eudev/3.1.5-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

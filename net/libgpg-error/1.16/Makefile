@@ -107,13 +107,16 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 gpgrt_lock_t_name = x86_64-pc-linux-gnu
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB2X) $(HARDWARE_CB3X)),)
 gpgrt_lock_t_name = arm-unknown-linux-gnueabihf
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_FFRK3288)),)
-gpgrt_lock_t_name = arm-unknown-linux-gnueabi
+gpgrt_lock_t_name = arm-unknown-linux-gnueabihf
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
+gpgrt_lock_t_name = arm-unknown-linux-gnueabihf
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
 gpgrt_lock_t_name = arm-unknown-linux-gnueabihf
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)

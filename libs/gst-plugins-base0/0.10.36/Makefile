@@ -36,14 +36,14 @@ REQUIRES          += X11/X.org/lib/libSM/1.2.2
 
 
 version            = 0.10.36
-ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/hal/omap543x/glsdk/gst-plugins-base0.10/gst-plugins-base-ti-$(version).tar.xz
 else
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/x/gst-plugins-base/gst-plugins-base-$(version).tar.xz
 endif
 SRC_ARCHIVE        = $(tar_xz_archive)
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
 src_dir_name       = gst-plugins-base-ti-$(version)
 else
 src_dir_name       = gst-plugins-base-$(version)
@@ -53,7 +53,7 @@ SRC_DIR            = $(TARGET_BUILD_DIR)/$(src_dir_name)
 doc_dir_name       = gst-plugins-base0-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
 PATCHES = PATCHES.omap543x
 else
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32)),)
@@ -146,7 +146,7 @@ TARGET_LIB_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUF
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
-ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
 	@( cd $(SRC_DIR) ; ./autogen.sh ; make distclean )
 endif
 	@touch $@
@@ -179,7 +179,7 @@ $(install_target): $(build_target)
 	    done \
 	  ) \
 	 fi
-ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
 	# ======= TI GLSDK gst-plugins-base doesn't have HTML Documentation =======
 else
 	@mkdir -p $(GSTP_BASE_PKG)/usr/share/gtk-doc/html/gst-plugins-base{-libs,-plugins}-0.10
@@ -200,7 +200,7 @@ endif
 	   cp -a AUTHORS COPYING* INSTALL NEWS README RELEASE REQUIREMENTS \
 	         $(GSTP_BASE_PKG)/usr/share/doc/$(doc_dir_name) ; \
 	 )
-ifeq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
+ifeq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
 	@mkdir -p $(GSTP_BASE_PKG)/usr/share/doc/$(doc_dir_name)/html
 	@ln -sf ../../../gtk-doc/html/gst-plugins-base-libs-0.10 $(GSTP_BASE_PKG)/usr/share/doc/$(doc_dir_name)/html/gst-plugins-base-libs-0.10
 	@ln -sf ../../../gtk-doc/html/gst-plugins-base-plugins-0.10 $(GSTP_BASE_PKG)/usr/share/doc/$(doc_dir_name)/html/gst-plugins-base-plugins-0.10

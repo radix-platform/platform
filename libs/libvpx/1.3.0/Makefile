@@ -116,13 +116,16 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 target_platform = x86_64-linux-gcc
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB2X) $(HARDWARE_CB3X)),)
 target_platform = armv7-linux-gcc
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_FFRK3288)),)
 target_platform = armv7-linux-gcc
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
+target_platform = armv7-linux-gcc
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
 target_platform = armv7-linux-gcc
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)

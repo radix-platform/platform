@@ -106,16 +106,16 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 lmsens_environment    += MACHINE="x86_64"
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
-lmsens_environment    += MACHINE="arm"
-endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB3X)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB2X) $(HARDWARE_CB3X)),)
 lmsens_environment    += MACHINE="arm"
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_FFRK3288)),)
 lmsens_environment    += MACHINE="arm"
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
+lmsens_environment    += MACHINE="arm"
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_OMAP5UEVM)),)
 lmsens_environment    += MACHINE="arm"
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)

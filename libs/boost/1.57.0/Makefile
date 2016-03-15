@@ -90,7 +90,13 @@ include ../../../build-system/core.mk
 #
 # See: $(SRC_DIR)/libs/context/build/Jamfile.v2
 #
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X) $(HARDWARE_FFRK3288) $(HARDWARE_OMAP5UEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)      \
+                            $(HARDWARE_CB2X)      \
+                            $(HARDWARE_CB3X)      \
+                            $(HARDWARE_FFRK3288)  \
+                            $(HARDWARE_NIT6Q)     \
+                            $(HARDWARE_OMAP5UEVM) \
+                            $(HARDWARE_DRA7XXEVM)),)
 ARCH          = arm
 ABI           = aapcs
 BINARY_FORMAT = elf

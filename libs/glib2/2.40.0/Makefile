@@ -44,13 +44,16 @@ build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
 
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB2X) $(HARDWARE_CB3X)),)
 hw_cache_in        = $(CURDIR)/cross/hw.cache.arm
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_FFRK3288)),)
 hw_cache_in        = $(CURDIR)/cross/hw.cache.arm
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
+hw_cache_in        = $(CURDIR)/cross/hw.cache.arm
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
 hw_cache_in        = $(CURDIR)/cross/hw.cache.arm
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)

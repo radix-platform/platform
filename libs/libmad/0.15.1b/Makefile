@@ -113,13 +113,16 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 extra_configure_switches += --enable-fpm=64bit
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB2X) $(HARDWARE_CB3X)),)
 extra_configure_switches += --enable-fpm=arm
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_FFRK3288)),)
 extra_configure_switches += --enable-fpm=arm
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
+extra_configure_switches += --enable-fpm=arm
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
 extra_configure_switches += --enable-fpm=arm
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)

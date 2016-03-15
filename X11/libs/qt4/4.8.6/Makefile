@@ -71,7 +71,7 @@ profile_dir        = $(CURDIR)/profile.d
 applications_dir   = $(CURDIR)/applications
 
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
 PATCHES = PATCHES.omap543x
 else
 PATCHES = PATCHES
@@ -125,7 +125,13 @@ include ../../../../build-system/core.mk
 env_sysroot = INSTALL_ROOT=$(QT4_PKG)
 
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X) $(HARDWARE_FFRK3288) $(HARDWARE_OMAP5UEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)      \
+                            $(HARDWARE_CB2X)      \
+                            $(HARDWARE_CB3X)      \
+                            $(HARDWARE_FFRK3288)  \
+                            $(HARDWARE_NIT6Q)     \
+                            $(HARDWARE_OMAP5UEVM) \
+                            $(HARDWARE_DRA7XXEVM)),)
 ARCH   = arm
 ABI    = gnueabihf
 endif

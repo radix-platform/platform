@@ -115,13 +115,16 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 extra_configure_switches += --with-cpu=x86-64
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB2X) $(HARDWARE_CB3X)),)
 extra_configure_switches += --with-cpu=neon
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_FFRK3288)),)
 extra_configure_switches += --with-cpu=neon
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
+extra_configure_switches += --with-cpu=neon
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
 extra_configure_switches += --with-cpu=arm_fpu
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)

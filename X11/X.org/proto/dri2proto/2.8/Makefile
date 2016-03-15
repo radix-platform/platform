@@ -33,7 +33,7 @@ SRC_DIR            = $(TARGET_BUILD_DIR)/dri2proto-$(version)
 src_dir_name       = dri2proto-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
 PATCHES = PATCHES.omap543x
 else
 PATCHES = PATCHES

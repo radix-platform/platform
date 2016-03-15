@@ -153,7 +153,7 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
 nss_environment    += CPU_ARCH=armv7a
 NSS_TARGET_OBJ_DIR  = Linux_armv7a_$(TARGET)-gcc_glibc_PTH_OPT.OBJ
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB3X)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB2X) $(HARDWARE_CB3X)),)
 nss_environment    += CPU_ARCH=armv7ve
 NSS_TARGET_OBJ_DIR  = Linux_armv7ve_$(TARGET)-gcc_glibc_PTH_OPT.OBJ
 endif
@@ -161,7 +161,11 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_FFRK3288)),)
 nss_environment    += CPU_ARCH=armv7ve
 NSS_TARGET_OBJ_DIR  = Linux_armv7ve_$(TARGET)-gcc_glibc_PTH_OPT.OBJ
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
+nss_environment    += CPU_ARCH=armv7a
+NSS_TARGET_OBJ_DIR  = Linux_armv7a_$(TARGET)-gcc_glibc_PTH_OPT.OBJ
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
 nss_environment    += CPU_ARCH=armv7a
 NSS_TARGET_OBJ_DIR  = Linux_armv7a_$(TARGET)-gcc_glibc_PTH_OPT.OBJ
 endif

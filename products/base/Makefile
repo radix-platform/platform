@@ -22,8 +22,8 @@ include ../../build-system/constants.mk
 ####### Boot
 #######
 
-ifeq ($(HARDWARE),$(HARDWARE_NIT6Q))
-REQUIRES += boot/kernel/nit6q/3.14.28-20160304
+ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
+REQUIRES  = boot/kernel/nit6q/3.14.28-20160304
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
@@ -31,15 +31,15 @@ REQUIRES  = hal/drivers/omap543x/wl18xx_fw/8.9.27
 REQUIRES += boot/u-boot/omap543x/2016.01
 endif
 
-ifeq ($(HARDWARE),$(HARDWARE_CB1X))
-REQUIRES += boot/u-boot/A10/2014.04-20140713
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
+REQUIRES  = boot/u-boot/A10/2014.04-20140713
 endif
 
-ifeq ($(HARDWARE),$(HARDWARE_CB3X))
-REQUIRES += boot/u-boot/A20/2015.01
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB3X)),)
+REQUIRES  = boot/u-boot/A20/2015.01
 endif
 
-ifeq ($(HARDWARE),$(HARDWARE_CI20))
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
 REQUIRES  = hal/drivers/ci20/sgx-ddk/3.18/1.14.3759903
 REQUIRES += hal/firmware/ci20/brcm4330/0.0.0
 REQUIRES += boot/u-boot/ci20/2013.10-20150915

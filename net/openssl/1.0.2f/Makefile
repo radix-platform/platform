@@ -110,28 +110,28 @@ extra_configure_switches += zlib-dynamic
 extra_configure_switches += shared
 
 
-ifeq ($(HARDWARE),$(HARDWARE_PC32))
+ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32)),)
 arch = i486
 endif
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
+ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 arch = x86_64
 endif
-ifeq ($(HARDWARE),$(HARDWARE_CB1X))
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB2X) $(HARDWARE_CB3X)),)
 arch = arm
 endif
-ifeq ($(HARDWARE),$(HARDWARE_CB3X))
+ifneq ($(filter $(HARDWARE),$(HARDWARE_FFRK3288)),)
 arch = arm
 endif
-ifeq ($(HARDWARE),$(HARDWARE_FFRK3288))
+ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
 arch = arm
 endif
-ifeq ($(HARDWARE),$(HARDWARE_OMAP5UEVM))
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
 arch = arm
 endif
-ifeq ($(HARDWARE),$(HARDWARE_CI20))
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
 arch = mips32
 endif
-ifeq ($(HARDWARE),$(HARDWARE_BT1))
+ifneq ($(filter $(HARDWARE),$(HARDWARE_BT1)),)
 arch = mips32
 endif
 

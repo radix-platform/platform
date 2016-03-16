@@ -89,19 +89,19 @@ extra_configure_switches += zlib-dynamic
 extra_configure_switches += shared
 
 
-ifeq ($(HARDWARE),$(HARDWARE_PC32))
+ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32)),)
 arch = i486
 endif
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
+ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 arch = x86_64
 endif
-ifeq ($(HARDWARE),$(HARDWARE_CB1X))
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
 arch = arm
 endif
-ifeq ($(HARDWARE),$(HARDWARE_CB3X))
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB3X)),)
 arch = arm
 endif
-ifeq ($(HARDWARE),$(HARDWARE_OMAP5UEVM))
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
 arch = arm
 endif
 

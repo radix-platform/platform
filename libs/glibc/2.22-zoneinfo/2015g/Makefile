@@ -21,7 +21,7 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES   = sources/iana/tz
 
-REQUIRES          = libs/glibc/2.22-i18n
+REQUIRES          = libs/glibc/2.23-i18n
 
 # ======= __END_OF_REQUIRES__ =======
 

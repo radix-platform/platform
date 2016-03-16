@@ -26,9 +26,9 @@ ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/5.3.0
 else
 ifneq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES           = libs/glibc/2.22
+REQUIRES           = libs/glibc/2.23
 else
-REQUIRES           = libs/glibc/2.22-x86_32
+REQUIRES           = libs/glibc/2.23-x86_32
 endif
 endif
 

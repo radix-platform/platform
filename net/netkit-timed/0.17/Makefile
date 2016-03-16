@@ -24,7 +24,7 @@ SOURCE_REQUIRES    = sources/packages/n/netkit-timed
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/5.3.0
 else
-REQUIRES           = libs/glibc/2.22
+REQUIRES           = libs/glibc/2.23
 endif
 
 # ======= __END_OF_REQUIRES__ =======

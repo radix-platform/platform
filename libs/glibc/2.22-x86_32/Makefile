@@ -12,7 +12,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/glibc/2.22
 
-REQUIRES           = libs/glibc/2.22
+REQUIRES           = libs/glibc/2.23
 REQUIRES          += dev/kernel-headers
 REQUIRES          += dev/gcc-runtime/5.3.0
 

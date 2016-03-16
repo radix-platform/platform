@@ -56,18 +56,18 @@ endif
 # └── base/pkgtool
 #     └── dev/kernel-headers
 #         └── dev/gcc-runtime
-#             ├── libs/glibc/2.22
-#             │   ├── libs/glibc/2.22-i18n
-#             │   │   └── libs/glibc-zoneinfo/2015g ■
+#             ├── libs/glibc/2.23
+#             │   ├── libs/glibc/2.23-i18n
+#             │   │   └── libs/glibc-zoneinfo/2016a ■
 #             │   │
-#             │   └── libs/glibc/2.22-x86_32
+#             │   └── libs/glibc/2.23-x86_32
 #             │
 #            ...
 #
 
-REQUIRES += libs/glibc/2.22-zoneinfo/2015g
+REQUIRES += libs/glibc/2.23-zoneinfo/2016a
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/glibc/2.22-x86_32
+REQUIRES += libs/glibc/2.23-x86_32
 endif
 
 #            ...

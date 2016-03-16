@@ -295,7 +295,6 @@ $(install_target): $(build_target)
 	@mkdir -p $(BINUTILS_DEV_PKG)
 	$(BUILD_ENVIRONMENT) $(MAKE) -j1 -C $(build_dir) install $(env_sysroot)
 	$(BUILD_ENVIRONMENT) $(MAKE) -j1 -C $(build_dir) install-info $(env_sysroot)
-	exit 1
 	# ======= Differentiate between BSD strings (util-linux) and GNU strings =======
 	@( cd $(BINUTILS_DEV_PKG)/usr/bin ; \
 	   mv strings strings-GNU ; \
@@ -337,12 +336,12 @@ $(install_target): $(build_target)
 	 )
 	# ======= remove target destination path from target libtool *.la files =======
 	@( cd $(BINUTILS_DEV_PKG)/usr/lib$(LIBSUFFIX) ; \
-	  sed -i "s,$(TARGET_DEST_DIR),,g" libbfd.la libopcodes.la \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libbfd.la libopcodes.la \
 	 )
 	# ======= remove (-L/usr/lib$(LIBSUFFIX) already set) libiberty.a search path in libtool *.la files too =======
 	@( cd $(BINUTILS_DEV_PKG)/usr/lib$(LIBSUFFIX) ; \
-	  sed -i "s,-L$(CURDIR)/$(build_dir)/bfd/../libiberty/pic,,g" libbfd.la ; \
-	  sed -i "s,-L$(CURDIR)/$(build_dir)/opcodes/../libiberty/pic,,g" libopcodes.la \
+	   sed -i "s,-L$(CURDIR)/$(build_dir)/bfd/../libiberty/pic,,g" libbfd.la ; \
+	   sed -i "s,-L$(CURDIR)/$(build_dir)/opcodes/../libiberty/pic,,g" libopcodes.la \
 	 )
 	@if [ -r $(BINUTILS_DEV_PKG)/usr/bin/$(DEFAULT_LD) ] ; then \
 	   ( cd $(BINUTILS_DEV_PKG)/usr/bin ; rm -f ld ; ln -sf $(DEFAULT_LD) ld ) \
@@ -351,7 +350,7 @@ $(install_target): $(build_target)
 	@( cd $(BINUTILS_DEV_PKG)/usr/$(TARGET) ; \
 	   rm -rf lib ; \
 	   ln -s ../lib$(LIBSUFFIX) . ; \
-	   for FILE in ar as ld ld.bfd ld.gold nm objcopy objdump ranlib strip ; do \
+	   for FILE in ar as ld ld.bfd ld.gold nm objcopy objdump ranlib readelf strip ; do \
 	     if [ -r ../bin/$$FILE ]; then \
 	       rm -f bin/$$FILE ; \
 	       ln -s ../../bin/$$FILE bin/$$FILE ; \

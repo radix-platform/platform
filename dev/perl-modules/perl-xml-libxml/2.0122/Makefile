@@ -113,7 +113,7 @@ ARCH            = arm
 UNAME_R_VERSION = 3.4.90
 GLIBC_VERSION   = 2.23
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB3X) $(HARDWARE_CB3X)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB2X) $(HARDWARE_CB3X)),)
 ARCH            = arm
 UNAME_R_VERSION = 3.4.104
 GLIBC_VERSION   = 2.23

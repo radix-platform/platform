@@ -21,7 +21,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/gcc/gcc-5.3.0
 
-REQUIRES           = dev/binutils/2.25.1
+REQUIRES           = dev/binutils/2.26
 REQUIRES          += libs/isl/0.16.1
 REQUIRES          += libs/mpc/1.0.3
 
@@ -150,6 +150,8 @@ extra_configure_switches += --with-gnu-as
 
 
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_A1X_GLIBC))
+extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
+extra_configure_switches += '--with-bugurl=$(BUG_URL)'
 extra_configure_switches += --with-arch=armv7-a
 extra_configure_switches += --with-tune=cortex-a8
 extra_configure_switches += --with-fpu=neon
@@ -158,6 +160,8 @@ extra_configure_switches += --with-abi=aapcs-linux
 endif
 
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_A2X_GLIBC))
+extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
+extra_configure_switches += '--with-bugurl=$(BUG_URL)'
 extra_configure_switches += --with-arch=armv7ve
 extra_configure_switches += --with-tune=cortex-a7
 extra_configure_switches += --with-fpu=neon-vfpv4
@@ -175,7 +179,19 @@ extra_configure_switches += --with-float=hard
 extra_configure_switches += --with-abi=aapcs-linux
 endif
 
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_IMX6_GLIBC))
+extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
+extra_configure_switches += '--with-bugurl=$(BUG_URL)'
+extra_configure_switches += --with-arch=armv7-a
+extra_configure_switches += --with-tune=cortex-a9
+extra_configure_switches += --with-fpu=vfpv3
+extra_configure_switches += --with-float=hard
+extra_configure_switches += --with-abi=aapcs-linux
+endif
+
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_OMAP543X_GLIBC))
+extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
+extra_configure_switches += '--with-bugurl=$(BUG_URL)'
 extra_configure_switches += --with-arch=armv7-a
 extra_configure_switches += --with-tune=cortex-a15
 extra_configure_switches += --with-fpu=neon-vfpv4

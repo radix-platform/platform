@@ -14,7 +14,7 @@ SOURCE_REQUIRES    = sources/GNOME/core/libgudev
 
 REQUIRES           = libs/libgudev/230
 REQUIRES          += libs/glib2/2.40.0-x86_32
-REQUIRES          += libs/libeudev/3.1.5-x86_32
+REQUIRES          += libs/eudev/3.1.5-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -40,23 +40,23 @@ PKG_GROUP = libs
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-CROCO_32_PKG_NAME                = libgudev-x32
-CROCO_32_PKG_VERSION             = 230
-CROCO_32_PKG_ARCH                = $(TOOLCHAIN)
-CROCO_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
-CROCO_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
-CROCO_32_PKG_GROUP               = $(PKG_GROUP)
+GUDEV_32_PKG_NAME                = libgudev-x32
+GUDEV_32_PKG_VERSION             = 230
+GUDEV_32_PKG_ARCH                = $(TOOLCHAIN)
+GUDEV_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+GUDEV_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
+GUDEV_32_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-CROCO_32_PKG_SHORT_DESCRIPTION   = CSS2 parsing and manipulation library
-CROCO_32_PKG_URL                 = $(BUG_URL)
-CROCO_32_PKG_LICENSE             = LGPLv2
-CROCO_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(CROCO_32_PKG_NAME)-pkg-description
-CROCO_32_PKG_DESCRIPTION_FILE_IN = $(CROCO_32_PKG_NAME)-pkg-description.in
-CROCO_32_PKG_INSTALL_SCRIPT      = $(CROCO_32_PKG_NAME)-pkg-install.sh
+GUDEV_32_PKG_SHORT_DESCRIPTION   = a library of GObject bindings for libudev
+GUDEV_32_PKG_URL                 = $(BUG_URL)
+GUDEV_32_PKG_LICENSE             = LGPLv2.1
+GUDEV_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GUDEV_32_PKG_NAME)-pkg-description
+GUDEV_32_PKG_DESCRIPTION_FILE_IN = $(GUDEV_32_PKG_NAME)-pkg-description.in
+GUDEV_32_PKG_INSTALL_SCRIPT      = $(GUDEV_32_PKG_NAME)-pkg-install.sh
 
-CROCO_32_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(CROCO_32_PKG_NAME)-package
+GUDEV_32_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(GUDEV_32_PKG_NAME)-package
 
-pkg_basename     = $(CROCO_32_PKG_NAME)-$(CROCO_32_PKG_VERSION)-$(CROCO_32_PKG_ARCH)-$(CROCO_32_PKG_DISTRO_NAME)-$(CROCO_32_PKG_DISTRO_VERSION)
+pkg_basename     = $(GUDEV_32_PKG_NAME)-$(GUDEV_32_PKG_VERSION)-$(GUDEV_32_PKG_ARCH)-$(GUDEV_32_PKG_DISTRO_NAME)-$(GUDEV_32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
 pkg_signature    = $(call sign-name,$(pkg_archive))
@@ -74,7 +74,7 @@ ROOTFS_TARGETS   = $(pkg_archive)
 include ../../../build-system/core.mk
 
 
-env_sysroot  = DESTDIR=$(CROCO_32_PKG)
+env_sysroot  = DESTDIR=$(GUDEV_32_PKG)
 
 
 extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
@@ -94,7 +94,7 @@ extra_configure_switches += --enable-static=yes
 extra_configure_switches += --enable-shared=yes
 
 
-TARGET_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX)
+TARGET_LIB_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX):/usr/lib/../lib$(MULTILIB_X86_32_SUFFIX)
 
 
 ####### Dependencies
@@ -115,79 +115,61 @@ $(build_target): $(src_done)
 	@touch $@
 
 $(install_target): $(build_target)
-	@mkdir -p $(CROCO_32_PKG)
+	@mkdir -p $(GUDEV_32_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
-	exit 1
-	@rm -rf $(CROCO_32_PKG)/usr/include
-	@rm -rf $(CROCO_32_PKG)/usr/share
+	@rm -rf $(GUDEV_32_PKG)/usr/include
+	@rm -rf $(GUDEV_32_PKG)/usr/share
 	# ======= remove toolchain path from target libtool *.la files =======
-	@( cd $(CROCO_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" libcroco-?.?.la ; \
-	 )
-	@( cd $(CROCO_32_PKG)/usr/bin/32 ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" croco-?.?-config ; \
-	   sed -i "s,  @GLIB2_CFLAGS@ @LIBXML2_CFLAGS@,-I/usr/include/libcroco-0.6,g" croco-?.?-config ; \
-	   sed -i "s,  @GLIB2_LIBS@ @LIBXML2_LIBS@,-lcroco-0.6,g" croco-?.?-config ; \
+	@( cd $(GUDEV_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libgudev-?.?.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	$(call install-into-devenv, $(CROCO_32_PKG))
+	$(call install-into-devenv, $(GUDEV_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libcroco-?.?.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libcroco-?.?.la ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgudev-?.?.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libgudev-?.?.la ; \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libcroco-?.?.pc ; \
-	 )
-	@( cd $(TARGET_DEST_DIR)/usr/bin/32 ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" croco-?.?-config ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" gudev-?.?.pc ; \
 	 )
 	# ======= Strip binaries =======
-	@( cd $(CROCO_32_PKG); \
+	@( cd $(GUDEV_32_PKG); \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
 ifneq ($(CHRPATH),)
-	# ======= Set RPATH/RUNPATH for target binaries =======
-	@( cd $(CROCO_32_PKG)/usr/bin/32 ; \
-	   for file in `find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
-	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
-	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
-	       $(CHRPATH) -r $(TARGET_RPATH) $$file 1> /dev/null 2> /dev/null ; \
-	     fi ; \
-	   done ; \
-	 )
 	# ======= Set RPATH/RUNPATH for target shared objects =======
-	@( cd $(CROCO_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(GUDEV_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
 	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
 	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
-	       $(CHRPATH) -r $(TARGET_RPATH) $$file 1> /dev/null 2> /dev/null ; \
+	       $(CHRPATH) -r $(TARGET_LIB_RPATH) $$file 1> /dev/null 2> /dev/null ; \
 	     fi ; \
 	   done ; \
 	 )
 endif
 	@touch $@
 
-$(CROCO_32_PKG_DESCRIPTION_FILE): $(CROCO_32_PKG_DESCRIPTION_FILE_IN)
+$(GUDEV_32_PKG_DESCRIPTION_FILE): $(GUDEV_32_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
 $(pkg_signature)   : $(pkg_archive) ;
 $(pkg_description) : $(pkg_archive) ;
 
-$(pkg_archive): $(install_target) $(CROCO_32_PKG_DESCRIPTION_FILE) $(CROCO_32_PKG_INSTALL_SCRIPT)
-	@cp $(CROCO_32_PKG_DESCRIPTION_FILE) $(CROCO_32_PKG)/.DESCRIPTION
-	@cp $(CROCO_32_PKG_INSTALL_SCRIPT) $(CROCO_32_PKG)/.INSTALL
-	@$(BUILD_PKG_REQUIRES) $(CROCO_32_PKG)/.REQUIRES
-	@echo "pkgname=$(CROCO_32_PKG_NAME)"                            >  $(CROCO_32_PKG)/.PKGINFO ; \
-	 echo "pkgver=$(CROCO_32_PKG_VERSION)"                          >> $(CROCO_32_PKG)/.PKGINFO ; \
-	 echo "arch=$(CROCO_32_PKG_ARCH)"                               >> $(CROCO_32_PKG)/.PKGINFO ; \
-	 echo "distroname=$(CROCO_32_PKG_DISTRO_NAME)"                  >> $(CROCO_32_PKG)/.PKGINFO ; \
-	 echo "distrover=$(CROCO_32_PKG_DISTRO_VERSION)"                >> $(CROCO_32_PKG)/.PKGINFO ; \
-	 echo "group=$(CROCO_32_PKG_GROUP)"                             >> $(CROCO_32_PKG)/.PKGINFO ; \
-	 echo "short_description=\"$(CROCO_32_PKG_SHORT_DESCRIPTION)\"" >> $(CROCO_32_PKG)/.PKGINFO ; \
-	 echo "url=$(CROCO_32_PKG_URL)"                                 >> $(CROCO_32_PKG)/.PKGINFO ; \
-	 echo "license=$(CROCO_32_PKG_LICENSE)"                         >> $(CROCO_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(CROCO_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+$(pkg_archive): $(install_target) $(GUDEV_32_PKG_DESCRIPTION_FILE) $(GUDEV_32_PKG_INSTALL_SCRIPT)
+	@cp $(GUDEV_32_PKG_DESCRIPTION_FILE) $(GUDEV_32_PKG)/.DESCRIPTION
+	@cp $(GUDEV_32_PKG_INSTALL_SCRIPT) $(GUDEV_32_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(GUDEV_32_PKG)/.REQUIRES
+	@echo "pkgname=$(GUDEV_32_PKG_NAME)"                            >  $(GUDEV_32_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(GUDEV_32_PKG_VERSION)"                          >> $(GUDEV_32_PKG)/.PKGINFO ; \
+	 echo "arch=$(GUDEV_32_PKG_ARCH)"                               >> $(GUDEV_32_PKG)/.PKGINFO ; \
+	 echo "distroname=$(GUDEV_32_PKG_DISTRO_NAME)"                  >> $(GUDEV_32_PKG)/.PKGINFO ; \
+	 echo "distrover=$(GUDEV_32_PKG_DISTRO_VERSION)"                >> $(GUDEV_32_PKG)/.PKGINFO ; \
+	 echo "group=$(GUDEV_32_PKG_GROUP)"                             >> $(GUDEV_32_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(GUDEV_32_PKG_SHORT_DESCRIPTION)\"" >> $(GUDEV_32_PKG)/.PKGINFO ; \
+	 echo "url=$(GUDEV_32_PKG_URL)"                                 >> $(GUDEV_32_PKG)/.PKGINFO ; \
+	 echo "license=$(GUDEV_32_PKG_LICENSE)"                         >> $(GUDEV_32_PKG)/.PKGINFO
+	@$(FAKEROOT) sh -c "cd $(GUDEV_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

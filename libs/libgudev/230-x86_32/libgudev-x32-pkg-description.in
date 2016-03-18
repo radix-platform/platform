@@ -6,14 +6,14 @@
 # customary to leave one space after the ':'.
 
             |-----handy-ruler------------------------------------------------------|
-libcroco-x32: libcroco-x32 @VERSION@ (x86_32 CSS2 parsing and manipulation library)
-libcroco-x32:
-libcroco-x32: Libcroco is a standalone CSS2 parsing and manipulation library.
-libcroco-x32: The parser provides a low level event driven SAC like API and a CSS
-libcroco-x32: object model like API.
-libcroco-x32:
-libcroco-x32: Libcroco provides a CSS2 selection engine and an experimental
-libcroco-x32: XML/CSS rendering engine.
-libcroco-x32:
-libcroco-x32:
-libcroco-x32:
+libgudev-x32: libgudev-x32 @VERSION@ (x86_32 library of GObject bindings for libudev)
+libgudev-x32:
+libgudev-x32: Libcroco is a library providing GObject bindings for libudev.
+libgudev-x32: It used to be part of udev, then merged into systemd. It's now
+libgudev-x32: a project on its own.
+libgudev-x32:
+libgudev-x32: Download: http://download.gnome.org/sources/libgudev
+libgudev-x32: Web site: http://wiki.gnome.org/Projects/libgudev
+libgudev-x32:
+libgudev-x32:
+libgudev-x32:

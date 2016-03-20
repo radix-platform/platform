@@ -85,7 +85,11 @@ include ../../../build-system/core.mk
 env_sysroot = DESTDIR=$(GUDEV_PKG)
 
 
+ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32) $(HARDWARE_PC64)),)
 ENABLE_GTK_DOCUMENTATION  = yes
+else
+ENABLE_GTK_DOCUMENTATION  = no
+endif
 
 extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
@@ -154,9 +158,14 @@ $(install_target): $(build_target)
 	   cp -a COPYING NEWS README \
 	         $(GUDEV_PKG)/usr/share/doc/$(src_dir_name) ; \
 	 )
-ifeq ($(ENABLE_GTK_DOCUMENTATION),yes)
-	@ln -sf ../../gtk-doc/html/gudev $(GUDEV_PKG)/usr/share/doc/$(src_dir_name)/html
+ifneq ($(ENABLE_GTK_DOCUMENTATION),yes)
+	@mkdir -p $(GUDEV_PKG)/usr/share/gtk-doc/html/gudev
+	@( cd $(SRC_DIR)/docs/html ; \
+	   cp -a *.html *.css *.png gudev.devhelp2 \
+	         $(GUDEV_PKG)/usr/share/gtk-doc/html/gudev ; \
+	 )
 endif
+	@ln -sf ../../gtk-doc/html/gudev $(GUDEV_PKG)/usr/share/doc/$(src_dir_name)/html
 	@( cd $(SRC_DIR) ; \
 	   if [ -r ChangeLog ]; then \
 	     DOCSDIR=`echo $(GUDEV_PKG)/usr/share/doc/$(src_dir_name)` ; \

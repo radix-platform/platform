@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/libmbim
 
-versions    = 1.10.0
+versions    = 1.10.0 1.12.4
 pkgname     = libmbim
 suffix      = tar.xz
 

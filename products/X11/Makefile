@@ -482,9 +482,9 @@ endif
 
 REQUIRES += net/tcpdump/4.6.2
 
-REQUIRES += net/libmbim/1.10.0
+REQUIRES += net/libmbim/1.12.4
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += net/libmbim/1.10.0-x86_32
+REQUIRES += net/libmbim/1.12.4-x86_32
 endif
 REQUIRES += net/libqmi/1.10.4
 ifeq ($(HARDWARE),$(HARDWARE_PC64))

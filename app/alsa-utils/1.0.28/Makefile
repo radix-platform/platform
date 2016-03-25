@@ -132,7 +132,7 @@ $(install_target): $(build_target)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@mkdir -p $(ALSA_UTILS_PKG)/etc/rc.d
 	# ======= Install /etc/rc.d/rc.alsa script =======
-ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
 	@cp $(conf_dir)/rc.d/rc.alsa-$(HARDWARE) $(ALSA_UTILS_PKG)/etc/rc.d/rc.alsa.new
 else
 	@cp $(conf_dir)/rc.d/rc.alsa $(ALSA_UTILS_PKG)/etc/rc.d/rc.alsa.new
@@ -140,7 +140,7 @@ endif
 	@chmod 0755 $(ALSA_UTILS_PKG)/etc/rc.d/rc.alsa.new
 	@cp $(conf_dir)/rc.d/rc.alsa-oss $(ALSA_UTILS_PKG)/etc/rc.d/rc.alsa-oss.new
 	@chmod 0644 $(ALSA_UTILS_PKG)/etc/rc.d/rc.alsa-oss.new
-ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
 	# ======= Install Panda5 asound.conf =======
 	@mkdir -p $(ALSA_UTILS_PKG)/etc
 	@cp $(panda5_conf_dir)/asound-hdmi.conf $(ALSA_UTILS_PKG)/etc/asound-hdmi.conf

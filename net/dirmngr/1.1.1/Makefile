@@ -23,10 +23,10 @@ SOURCE_REQUIRES    = sources/packages/n/dirmngr
 
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES           = net/libgcrypt/1.6.4
-REQUIRES          += net/openldap-client/2.4.39
+REQUIRES          += net/openldap-client/2.4.43
 else
 REQUIRES           = net/libgcrypt/1.6.4-x86_32
-REQUIRES          += net/openldap-client/2.4.39-x86_32
+REQUIRES          += net/openldap-client/2.4.43-x86_32
 endif
 
 # ======= __END_OF_REQUIRES__ =======

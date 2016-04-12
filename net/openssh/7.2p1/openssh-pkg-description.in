@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+       |-----handy-ruler------------------------------------------------------|
+openssh: openssh @VERSION@ (Secure Shell daemon and clients)
+openssh:
+openssh: ssh (Secure Shell) is a program for logging into a remote machine
+openssh: and for executing commands on a remote machine. It is intended to
+openssh: replace rlogin and rsh, and provide secure encrypted communications
+openssh: between two untrusted hosts over an insecure network.
+openssh: sshd (SSH Daemon) is the daemon program for ssh. OpenSSH is based on
+openssh: the last free version of Tatu Ylonen's SSH, further enhanced and
+openssh: cleaned up by Aaron Campbell, Bob Beck, Markus Friedl, Niels Provos,
+openssh: Theo de Raadt, and Dug Song.
+openssh:

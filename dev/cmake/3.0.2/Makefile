@@ -28,7 +28,7 @@ else
 REQUIRES           = libs/libarchive/3.1.2-x86_32
 endif
 REQUIRES          += libs/shared-mime-info/1.3
-REQUIRES          += net/curl/7.38.0
+REQUIRES          += net/curl/7.47.0
 
 # ======= __END_OF_REQUIRES__ =======
 

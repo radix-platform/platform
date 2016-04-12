@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/openssh
 
-versions    = 6.6p1
+versions    = 6.6p1 7.2p1
 pkgname     = openssh
 suffix      = tar.gz
 
@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/openssh-6.6p1.patch
+patches    += $(CURDIR)/patches/openssh-7.2p1.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,6 +51,7 @@ $(sha1s): $(tarballs)
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-6.6p1-patch ; ./create.patch.sh ) ; \
+	 ( cd create-7.2p1-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

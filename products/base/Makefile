@@ -472,7 +472,7 @@ REQUIRES += net/dhcpcd/6.10.1
 REQUIRES += net/iputils/s20151218
 REQUIRES += net/ethtool/3.12
 REQUIRES += net/inetd/1.79
-REQUIRES += net/openssh/6.6p1
+REQUIRES += net/openssh/7.2p1
 
 
 REQUIRES += net/libnl/1.1.4

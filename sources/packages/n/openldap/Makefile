@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/openldap
 
-versions    = 2.4.39
+versions    = 2.4.39 2.4.43
 pkgname     = openldap
 suffix      = tgz
 

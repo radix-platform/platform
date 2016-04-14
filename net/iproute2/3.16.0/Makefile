@@ -23,9 +23,9 @@ SOURCE_REQUIRES    = sources/packages/n/iproute2
 
 REQUIRES           = net/iptables/1.4.21
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
-REQUIRES          += app/db/6.1.19
+REQUIRES          += app/db/6.1.26
 else
-REQUIRES          += app/db/6.1.19-x86_32
+REQUIRES          += app/db/6.1.26-x86_32
 endif
 
 # ======= __END_OF_REQUIRES__ =======

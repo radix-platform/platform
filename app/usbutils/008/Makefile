@@ -57,7 +57,7 @@ PKG_GROUP = app
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 USBUTILS_PKG_NAME                = usbutils
-USBUTILS_PKG_VERSION             = 007
+USBUTILS_PKG_VERSION             = 008
 USBUTILS_PKG_ARCH                = $(TOOLCHAIN)
 USBUTILS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 USBUTILS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)

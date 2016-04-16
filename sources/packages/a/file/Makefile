@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/file
 
-versions    = 5.14 5.15 5.18 5.19
+versions    = 5.14 5.15 5.18 5.19 5.25
 pkgname     = file
 suffix      = tar.gz
 
@@ -19,6 +19,8 @@ patches    += $(CURDIR)/patches/file-5.15.patch
 patches    += $(CURDIR)/patches/file-5.18.patch
 patches    += $(CURDIR)/patches/file-5.19.patch
 patches    += $(CURDIR)/patches/file-5.19-cross.patch
+patches    += $(CURDIR)/patches/file-5.25.patch
+patches    += $(CURDIR)/patches/file-5.25-cross.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -58,6 +60,8 @@ $(patches): $(sha1s)
 	 ( cd create-5.18-patch       ; ./create.patch.sh ) ; \
 	 ( cd create-5.19-patch       ; ./create.patch.sh ) ; \
 	 ( cd create-5.19-cross-patch ; ./create.patch.sh ) ; \
+	 ( cd create-5.25-patch       ; ./create.patch.sh ) ; \
+	 ( cd create-5.25-cross-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

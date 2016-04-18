@@ -28,7 +28,7 @@ REQUIRES           = net/iw/3.17
 ifeq ($(ENABLE_DYNAMIC_PUBKEYS),yes)
 REQUIRES          += net/openssl/1.0.2f
 else
-REQUIRES          += net/libgcrypt/1.6.4
+REQUIRES          += net/libgcrypt/1.7.0
 endif
 
 # ======= __END_OF_REQUIRES__ =======

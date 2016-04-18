@@ -557,9 +557,9 @@ REQUIRES += libs/libtiff/4.0.3
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/libtiff/4.0.3-x86_32
 endif
-REQUIRES += libs/icu4c/54.1
+REQUIRES += libs/icu4c/55.1
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/icu4c/54.1-x86_32
+REQUIRES += libs/icu4c/55.1-x86_32
 endif
 REQUIRES += libs/libpipeline/1.4.0
 ifeq ($(HARDWARE),$(HARDWARE_PC64))

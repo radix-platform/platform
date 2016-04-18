@@ -26,7 +26,7 @@ REQUIRES           = dev/gcc/5.3.0
 endif
 REQUIRES          += libs/glib2/2.40.0
 REQUIRES          += libs/libpng/libpng14/1.4.13
-REQUIRES          += libs/icu4c/54.1
+REQUIRES          += libs/icu4c/55.1
 REQUIRES          += X11/libs/cairo/1.14.0
 REQUIRES          += libs/libffi/3.2.1
 REQUIRES          += libs/zlib/1.2.8

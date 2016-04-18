@@ -22,7 +22,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/harfbuzz
 
 REQUIRES           = libs/libpng/libpng14/1.4.13
-REQUIRES          += libs/icu4c/54.1
+REQUIRES          += libs/icu4c/55.1
 REQUIRES          += libs/cairo/1.14.0
 REQUIRES          += env/freetype/2.5.3
 

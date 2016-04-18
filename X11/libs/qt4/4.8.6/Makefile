@@ -33,7 +33,7 @@ REQUIRES          += libs/alsa-lib/1.0.28
 REQUIRES          += X11/app/dbus-x11-launch/1.8.10
 
 REQUIRES          += libs/libmng/2.0.2
-REQUIRES          += libs/icu4c/54.1
+REQUIRES          += libs/icu4c/55.1
 REQUIRES          += app/cups/2.0.1
 
 REQUIRES          += X11/libs/fontconfig/2.11.1

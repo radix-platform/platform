@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+       |-----handy-ruler------------------------------------------------------|
+fdk-aac: fdk-aac @VERSION@ (The Fraunhofer FDK AAC Codec Library)
+fdk-aac:
+fdk-aac: The Fraunhofer FDK AAC Codec Library for Android ("FDK AAC Codec")
+fdk-aac: is software that implements the MPEG Advanced Audio Coding ("AAC")
+fdk-aac: encoding and decoding scheme for digital audio.
+fdk-aac:
+fdk-aac: AAC's HE-AAC and HE-AAC v2 versions are regarded as today's most
+fdk-aac: efficient general perceptual audio codecs. AAC-ELD is considered the
+fdk-aac: best-performing full-bandwidth communications codec. AAC has been
+fdk-aac: standardized by ISO and IEC as part of the MPEG specifications.
+fdk-aac:

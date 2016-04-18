@@ -7,7 +7,7 @@ include ../../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/m/amr/fdk-aac
 
-versions    = 0.1.3
+versions    = 0.1.3 0.1.4
 pkgname     = fdk-aac
 suffix      = tar.gz
 

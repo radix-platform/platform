@@ -649,9 +649,9 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += app/mpg123/1.20.1-x86_32
 endif
 
-REQUIRES += libs/fdk-aac/0.1.3
+REQUIRES += libs/fdk-aac/0.1.4
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/fdk-aac/0.1.3-x86_32
+REQUIRES += libs/fdk-aac/0.1.4-x86_32
 endif
 REQUIRES += libs/vo-aacenc/0.1.3
 ifeq ($(HARDWARE),$(HARDWARE_PC64))

@@ -13,7 +13,7 @@ include ../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/x/libevdev
 
 REQUIRES           = X11/libs/libevdev/1.3.2
-REQUIRES          += dev/check/0.9.14-x86_32
+REQUIRES          += dev/check/0.10.0-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

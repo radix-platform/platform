@@ -34,9 +34,9 @@ endif
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 0.9.14
-tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/d/check/check-$(version).tar.gz
-SRC_ARCHIVE        = $(tar_gz_archive)
+version            = 0.10.0
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/d/check/check-$(version).tar.xz
+SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/check-$(version)
 src_dir_name       = check-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
@@ -56,7 +56,7 @@ PKG_GROUP = dev
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 CHECK_PKG_NAME                = check
-CHECK_PKG_VERSION             = 0.9.14
+CHECK_PKG_VERSION             = 0.10.0
 CHECK_PKG_ARCH                = $(TOOLCHAIN)
 CHECK_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 CHECK_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)

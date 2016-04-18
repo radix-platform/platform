@@ -12,14 +12,14 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/d/check
 
-REQUIRES           = dev/check/0.9.13
+REQUIRES           = dev/check/0.10.0
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 0.9.13
-tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/d/check/check-$(version).tar.gz
-SRC_ARCHIVE        = $(tar_gz_archive)
+version            = 0.10.0
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/d/check/check-$(version).tar.xz
+SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/check-$(version)
 src_dir_name       = check-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
@@ -38,7 +38,7 @@ PKG_GROUP = dev
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 CHECK_32_PKG_NAME                = check-x32
-CHECK_32_PKG_VERSION             = 0.9.13
+CHECK_32_PKG_VERSION             = 0.10.0
 CHECK_32_PKG_ARCH                = $(TOOLCHAIN)
 CHECK_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 CHECK_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -78,6 +78,7 @@ extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --bindir=/usr/bin/32
 extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --enable-static=yes
@@ -103,10 +104,6 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(CHECK_32_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
-	@mkdir -p $(CHECK_32_PKG)/usr/bin/32
-	@( cd $(CHECK_32_PKG)/usr/bin ; \
-	   find . -type f | xargs mv -t 32 ; \
-	 )
 	@rm -rf $(CHECK_32_PKG)/usr/include
 	@rm -rf $(CHECK_32_PKG)/usr/share
 	# ======= remove toolchain path from target libtool *.la files =======

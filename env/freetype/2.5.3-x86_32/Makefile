@@ -14,7 +14,7 @@ SOURCE_REQUIRES    = sources/packages/l/freetype
 
 REQUIRES           = env/freetype/2.5.3
 REQUIRES          += app/bzip2/1.0.6-x86_32
-REQUIRES          += libs/libpng/libpng14/1.4.13-x86_32
+REQUIRES          += libs/libpng/libpng14/1.4.19-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

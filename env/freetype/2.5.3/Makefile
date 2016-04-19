@@ -22,7 +22,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/freetype
 
 REQUIRES           = app/bzip2/1.0.6
-REQUIRES          += libs/libpng/libpng14/1.4.13
+REQUIRES          += libs/libpng/libpng14/1.4.19
 
 # ======= __END_OF_REQUIRES__ =======
 

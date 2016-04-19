@@ -26,7 +26,7 @@ REQUIRES           = dev/gcc/5.3.0
 endif
 REQUIRES          += dev/libtool/2.4.2
 REQUIRES          += app/file/5.25
-REQUIRES          += libs/libpng/libpng14/1.4.13
+REQUIRES          += libs/libpng/libpng14/1.4.19
 REQUIRES          += libs/libao/1.1.0
 REQUIRES          += libs/lame/3.99.5
 REQUIRES          += libs/libid3tag/0.15.1b

@@ -22,7 +22,7 @@ include ../../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/X.org/app/xcursorgen
 
 REQUIRES           = X11/X.org/lib/libXcursor/1.1.14
-REQUIRES          += libs/libpng/libpng14/1.4.13
+REQUIRES          += libs/libpng/libpng14/1.4.19
 
 # ======= __END_OF_REQUIRES__ =======
 

@@ -14,7 +14,7 @@ SOURCE_REQUIRES    = sources/packages/l/slang
 
 REQUIRES           = libs/slang/2.2.4
 REQUIRES          += libs/pcre/8.38-x86_32
-REQUIRES          += libs/libpng/libpng14/1.4.13-x86_32
+REQUIRES          += libs/libpng/libpng14/1.4.19-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

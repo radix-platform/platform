@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/libjpeg-turbo
 
-versions    = 1.3.1
+versions    = 1.3.1 1.4.2
 pkgname     = libjpeg-turbo
 suffix      = tar.gz
 

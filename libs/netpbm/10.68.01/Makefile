@@ -28,7 +28,7 @@ REQUIRES          += libs/libxml2/2.9.1
 REQUIRES          += app/jbigkit/2.1
 REQUIRES          += libs/libpng/libpng14/1.4.13
 REQUIRES          += libs/libtiff/4.0.3
-REQUIRES          += libs/libjpeg-turbo/1.3.1
+REQUIRES          += libs/libjpeg-turbo/1.4.2
 #
 # Runtime required packages:
 #

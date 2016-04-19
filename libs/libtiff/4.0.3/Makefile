@@ -26,7 +26,7 @@ REQUIRES           = dev/gcc/5.3.0
 endif
 REQUIRES          += app/xz/5.2.2
 REQUIRES          += app/jbigkit/2.1
-REQUIRES          += libs/libjpeg-turbo/1.3.1
+REQUIRES          += libs/libjpeg-turbo/1.4.2
 
 # ======= __END_OF_REQUIRES__ =======
 

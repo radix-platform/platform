@@ -561,9 +561,9 @@ REQUIRES += libs/icu4c/55.1
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/icu4c/55.1-x86_32
 endif
-REQUIRES += libs/libpipeline/1.4.0
+REQUIRES += libs/libpipeline/1.4.1
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/libpipeline/1.4.0-x86_32
+REQUIRES += libs/libpipeline/1.4.1-x86_32
 endif
 REQUIRES += app/sqlite/3.8.7.1
 ifeq ($(HARDWARE),$(HARDWARE_PC64))

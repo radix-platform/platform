@@ -673,9 +673,9 @@ REQUIRES += app/cdparanoia/10.2
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += app/cdparanoia/10.2-x86_32
 endif
-REQUIRES += libs/libvpx/1.4.0
+REQUIRES += libs/libvpx/1.5.0
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/libvpx/1.4.0-x86_32
+REQUIRES += libs/libvpx/1.5.0-x86_32
 endif
 
 REQUIRES += app/vorbis-tools/1.4.0

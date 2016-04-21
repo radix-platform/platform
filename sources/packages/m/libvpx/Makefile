@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/m/libvpx
 
-versions    = 1.3.0 1.4.0
+versions    = 1.3.0 1.4.0 1.5.0
 pkgname     = libvpx
 suffix      = tar.bz2
 
@@ -17,6 +17,8 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 patches     = $(CURDIR)/patches/libvpx-1.3.0.patch
 patches    += $(CURDIR)/patches/libvpx-1.4.0.patch
 patches    += $(CURDIR)/patches/libvpx-1.4.0-arch.patch
+patches    += $(CURDIR)/patches/libvpx-1.5.0.patch
+patches    += $(CURDIR)/patches/libvpx-1.5.0-arch.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -54,6 +56,8 @@ $(patches): $(sha1s)
 	 ( cd create-1.3.0-patch      ; ./create.patch.sh ) ; \
 	 ( cd create-1.4.0-patch      ; ./create.patch.sh ) ; \
 	 ( cd create-1.4.0-arch-patch ; ./create.patch.sh ) ; \
+	 ( cd create-1.5.0-patch      ; ./create.patch.sh ) ; \
+	 ( cd create-1.5.0-arch-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

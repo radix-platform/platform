@@ -14,7 +14,7 @@ SOURCE_REQUIRES    = sources/packages/n/avahi
 
 REQUIRES           = net/avahi-daemon/0.6.31
 REQUIRES          += dev/python2/2.7.11-x86_32
-REQUIRES          += app/dbus/1.8.10-x86_32
+REQUIRES          += app/dbus/1.11.2-x86_32
 REQUIRES          += libs/glib2/2.40.0-x86_32
 REQUIRES          += libs/dbus-python/1.2.0-x86_32
 REQUIRES          += libs/gdbm/1.11-x86_32

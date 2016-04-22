@@ -22,7 +22,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/n/avahi
 
 REQUIRES           = dev/python2/2.7.11
-REQUIRES          += app/dbus/1.8.10
+REQUIRES          += app/dbus/1.11.2
 REQUIRES          += libs/glib2/2.40.0
 REQUIRES          += libs/dbus-python/1.2.0
 REQUIRES          += libs/gdbm/1.11

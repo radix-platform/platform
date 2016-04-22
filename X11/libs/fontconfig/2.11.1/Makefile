@@ -21,7 +21,7 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/x/fontconfig
 
-REQUIRES           = libs/expat/2.1.0
+REQUIRES           = libs/expat/2.1.1
 REQUIRES          += env/freetype/2.5.3
 
 # ======= __END_OF_REQUIRES__ =======

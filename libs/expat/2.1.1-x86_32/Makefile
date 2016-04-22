@@ -12,14 +12,14 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/expat
 
-REQUIRES           = libs/expat/2.1.0
+REQUIRES           = libs/expat/2.1.1
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 2.1.0
-tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/expat/expat-$(version).tar.gz
-SRC_ARCHIVE        = $(tar_gz_archive)
+version            = 2.1.1
+tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/l/expat/expat-$(version).tar.bz2
+SRC_ARCHIVE        = $(tar_bz2_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/expat-$(version)
 src_dir_name       = expat-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
@@ -38,7 +38,7 @@ PKG_GROUP = libs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 EXPAT32_PKG_NAME                = expat-x32
-EXPAT32_PKG_VERSION             = 2.1.0
+EXPAT32_PKG_VERSION             = 2.1.1
 EXPAT32_PKG_ARCH                = $(TOOLCHAIN)
 EXPAT32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 EXPAT32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -77,6 +77,9 @@ env_sysroot  = DESTDIR=$(EXPAT32_PKG)
 extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
+
+extra_configure_switches += --bindir=/usr/bin/32
+
 extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --enable-static=yes
 
@@ -101,10 +104,6 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(EXPAT32_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
-	@( cd $(EXPAT32_PKG)/usr/bin ; \
-	   mkdir 32 ; \
-	   mv xmlwf 32 \
-	 )
 	@rm -rf $(EXPAT32_PKG)/usr/include
 	@rm -rf $(EXPAT32_PKG)/usr/share
 	# ======= remove toolchain path from target libtool *.la files =======

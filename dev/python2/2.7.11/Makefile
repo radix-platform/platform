@@ -26,7 +26,7 @@ REQUIRES           = libs/zlib/1.2.8
 REQUIRES          += app/xz/5.2.2
 REQUIRES          += libs/libffi/3.2.1
 REQUIRES          += libs/readline/6.3
-REQUIRES          += libs/expat/2.1.0
+REQUIRES          += libs/expat/2.1.1
 REQUIRES          += net/openssl/1.0.2f
 
 # ======= __END_OF_REQUIRES__ =======

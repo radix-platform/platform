@@ -24,7 +24,7 @@ SOURCE_REQUIRES    = sources/packages/x/mesa
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/5.3.0
 endif
-REQUIRES          += libs/expat/2.1.0
+REQUIRES          += libs/expat/2.1.1
 REQUIRES          += libs/libxml2/2.9.1
 REQUIRES          += libs/eudev/3.1.5
 REQUIRES          += libs/libomxil-bellagio/0.9.3

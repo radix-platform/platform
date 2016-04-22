@@ -198,8 +198,8 @@ endif
 #             │
 #             ├── app/ncompress/4.2.4.4 ■
 #             │
-#             ├── libs/expat/2.1.0
-#             │   └── libs/expat/2.1.0-x86_32
+#             ├── libs/expat/2.1.1
+#             │   └── libs/expat/2.1.1-x86_32
 #             │
 #             ├── app/utempter/1.1.6 ■
 #             │   └── app/utempter/1.1.6-x86_32
@@ -244,7 +244,7 @@ endif
 #             │       │                                   ├── app/xz/5.2.2
 #             │       ├── dev/python2/2.7.11              ├── libs/libffi/3.2.1
 #             │       │   └── dev/python2/2.7.11-x86_32   ├── libs/readline/6.3
-#             │      ...                                  ├── libs/expat/2.1.0
+#             │      ...                                  ├── libs/expat/2.1.1
 #             │                                           └── net/openssl/1.0.2f
 #             │      ...
 #             │       ├────────────────────────────────────── libs/gdbm/1.11

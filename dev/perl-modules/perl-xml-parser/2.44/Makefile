@@ -22,7 +22,7 @@ include ../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/d/perl-modules/CPAN/XML-Parser
 
 REQUIRES           = dev/perl/5.22.1
-REQUIRES          += libs/expat/2.1.0
+REQUIRES          += libs/expat/2.1.1
 
 # ======= __END_OF_REQUIRES__ =======
 

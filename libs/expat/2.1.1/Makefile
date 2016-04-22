@@ -34,9 +34,9 @@ endif
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 2.1.0
-tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/expat/expat-$(version).tar.gz
-SRC_ARCHIVE        = $(tar_gz_archive)
+version            = 2.1.1
+tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/l/expat/expat-$(version).tar.bz2
+SRC_ARCHIVE        = $(tar_bz2_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/expat-$(version)
 src_dir_name       = expat-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
@@ -56,7 +56,7 @@ PKG_GROUP = libs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 EXPAT_PKG_NAME                = expat
-EXPAT_PKG_VERSION             = 2.1.0
+EXPAT_PKG_VERSION             = 2.1.1
 EXPAT_PKG_ARCH                = $(TOOLCHAIN)
 EXPAT_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 EXPAT_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)

@@ -33,7 +33,7 @@ REQUIRES          += libs/libid3tag/0.15.1b
 REQUIRES          += libs/libmad/0.15.1b
 REQUIRES          += libs/libsndfile/1.0.25
 REQUIRES          += libs/opencore-amr/0.1.3
-REQUIRES          += libs/wavpack/4.70.0
+REQUIRES          += libs/wavpack/4.75.2
 REQUIRES          += libs/gsm/1.0.13
 
 # ======= __END_OF_REQUIRES__ =======

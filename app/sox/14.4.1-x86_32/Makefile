@@ -22,7 +22,7 @@ REQUIRES          += libs/libid3tag/0.15.1b-x86_32
 REQUIRES          += libs/libmad/0.15.1b-x86_32
 REQUIRES          += libs/libsndfile/1.0.25-x86_32
 REQUIRES          += libs/opencore-amr/0.1.3-x86_32
-REQUIRES          += libs/wavpack/4.70.0-x86_32
+REQUIRES          += libs/wavpack/4.75.2-x86_32
 REQUIRES          += libs/gsm/1.0.13-x86_32
 
 # ======= __END_OF_REQUIRES__ =======

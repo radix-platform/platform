@@ -21,7 +21,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/lcms2
 
-REQUIRES           = libs/libtiff/4.0.3
+REQUIRES           = libs/libtiff/4.0.6
 
 # ======= __END_OF_REQUIRES__ =======
 

@@ -27,7 +27,7 @@ REQUIRES          += X11/X.org/lib/libXft/2.3.2
 REQUIRES          += X11/X.org/lib/libXinerama/1.1.3
 REQUIRES          += X11/X.org/lib/libXrandr/1.4.2
 REQUIRES          += X11/X.org/lib/libxshmfence/1.1
-REQUIRES          += libs/libtiff/4.0.3
+REQUIRES          += libs/libtiff/4.0.6
 REQUIRES          += libs/giflib/5.1.0
 
 # ======= __END_OF_REQUIRES__ =======

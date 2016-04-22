@@ -14,7 +14,7 @@ SOURCE_REQUIRES    = sources/packages/l/imlib
 
 REQUIRES           = libs/imlib/1.9.15
 REQUIRES          += libs/libpng/libpng14/1.4.19-x86_32
-REQUIRES          += libs/libtiff/4.0.3-x86_32
+REQUIRES          += libs/libtiff/4.0.6-x86_32
 REQUIRES          += libs/giflib/5.1.0-x86_32
 REQUIRES          += X11/X.org/lib/libXt/1.1.4-x86_32
 REQUIRES          += X11/X.org/lib/libXext/1.3.3-x86_32

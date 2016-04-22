@@ -21,7 +21,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/imlib2
 
-REQUIRES           = libs/libtiff/4.0.3
+REQUIRES           = libs/libtiff/4.0.6
 REQUIRES          += libs/giflib/5.1.0
 REQUIRES          += libs/libjpeg-turbo/1.4.2
 REQUIRES          += libs/libid3tag/0.15.1b

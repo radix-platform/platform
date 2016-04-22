@@ -21,7 +21,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/m/libgd
 
-REQUIRES           = libs/libtiff/4.0.3
+REQUIRES           = libs/libtiff/4.0.6
 REQUIRES          += libs/libvpx/1.5.0
 REQUIRES          += libs/libpng/libpng14/1.4.19
 REQUIRES          += libs/libjpeg-turbo/1.4.2

@@ -553,9 +553,9 @@ REQUIRES += app/xmlto/0.0.26
 
 REQUIRES += app/vim/7.4-1156
 
-REQUIRES += libs/libtiff/4.0.3
+REQUIRES += libs/libtiff/4.0.6
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/libtiff/4.0.3-x86_32
+REQUIRES += libs/libtiff/4.0.6-x86_32
 endif
 REQUIRES += libs/icu4c/55.1
 ifeq ($(HARDWARE),$(HARDWARE_PC64))

@@ -470,7 +470,7 @@ REQUIRES += net/tftp-hpa/5.2
 REQUIRES += net/dhcpcd/6.10.1
 
 REQUIRES += net/iputils/s20151218
-REQUIRES += net/ethtool/3.12
+REQUIRES += net/ethtool/4.5
 REQUIRES += net/inetd/1.79
 REQUIRES += net/openssh/7.2p1
 

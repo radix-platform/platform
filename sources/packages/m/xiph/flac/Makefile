@@ -7,7 +7,7 @@ include ../../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/m/xiph/flac
 
-versions    = 1.3.0
+versions    = 1.3.0 1.3.1
 pkgname     = flac
 suffix      = tar.xz
 
@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/flac-1.3.0.patch
+patches    += $(CURDIR)/patches/flac-1.3.1.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,6 +51,7 @@ $(sha1s): $(tarballs)
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-1.3.0-patch ; ./create.patch.sh ) ; \
+	 ( cd create-1.3.1-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

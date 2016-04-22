@@ -580,17 +580,17 @@ endif
 
 #            ...     ...
 #             │       │
-#             │       ├── net/nspr/4.10.8
-#             │       │   ├── net/nspr/4.10.8-x86_32
+#             │       ├── net/nspr/4.12
+#             │       │   ├── net/nspr/4.12-x86_32
 #             │       │   │
-#             │       │   ├── net/nss/3.19.2 ■  ────────────────────── app/sqlite/3.8.7.1
-#             │       │   │   └── net/nss/3.19.2-x86_32  ──────────────┴── app/sqlite/3.8.7.1-x86_32
+#             │       │   ├── net/nss/3.23 ■  ────────────────────── app/sqlite/3.8.7.1
+#             │       │   │   └── net/nss/3.23-x86_32  ──────────────┴── app/sqlite/3.8.7.1-x86_32
 #             │       │  ...
 #            ...     ...
 
-REQUIRES += net/nss/3.19.2
+REQUIRES += net/nss/3.23
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += net/nss/3.19.2-x86_32
+REQUIRES += net/nss/3.23-x86_32
 endif
 
 REQUIRES += net/net-snmp/5.7.3

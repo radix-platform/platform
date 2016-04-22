@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/mozilla-nss
 
-versions    = 3.19.2
+versions    = 3.19.2 3.23
 pkgname     = nss
 suffix      = tar.xz
 
@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/nss-3.19.2-build-tree.patch
+patches    += $(CURDIR)/patches/nss-3.23-build-tree.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,6 +51,7 @@ $(sha1s): $(tarballs)
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-3.19.2-build-tree-patch ; ./create.patch.sh ) ; \
+	 ( cd create-3.23-build-tree-patch   ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

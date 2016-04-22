@@ -569,9 +569,9 @@ REQUIRES += app/sqlite/3.8.7.1
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += app/sqlite/3.8.7.1-x86_32
 endif
-REQUIRES += libs/taglib/1.9.1
+REQUIRES += libs/taglib/1.10
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/taglib/1.9.1-x86_32
+REQUIRES += libs/taglib/1.10-x86_32
 endif
 REQUIRES += libs/zeromq/4.0.5
 ifeq ($(HARDWARE),$(HARDWARE_PC64))

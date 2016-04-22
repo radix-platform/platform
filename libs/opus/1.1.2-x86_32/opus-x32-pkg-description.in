@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+        |-----handy-ruler------------------------------------------------------|
+opus-x32: opus-x32 @VERSION@ (Interactive Audio Codec)
+opus-x32:
+opus-x32: Opus is a totally open, royalty-free, highly versatile audio codec.
+opus-x32: Opus is unmatched for interactive speech and music transmission over
+opus-x32: the Internet, but is also intended for storage and streaming
+opus-x32: applications. It is standardized by the Internet Engineering Task
+opus-x32: Force (IETF) as RFC 6716 which incorporated technology from Skype's
+opus-x32: SILK codec and Xiph.Org's CELT codec.
+opus-x32:
+opus-x32:
+opus-x32:

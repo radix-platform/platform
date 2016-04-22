@@ -661,9 +661,9 @@ REQUIRES += libs/vo-amrwbenc/0.1.3
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/vo-amrwbenc/0.1.3-x86_32
 endif
-REQUIRES += libs/opus/1.1
+REQUIRES += libs/opus/1.1.2
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/opus/1.1-x86_32
+REQUIRES += libs/opus/1.1.2-x86_32
 endif
 REQUIRES += libs/portaudio/19-20140130
 ifeq ($(HARDWARE),$(HARDWARE_PC64))

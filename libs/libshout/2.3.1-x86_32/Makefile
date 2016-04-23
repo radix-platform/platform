@@ -14,7 +14,7 @@ SOURCE_REQUIRES    = sources/packages/m/xiph/libshout
 
 REQUIRES           = libs/libshout/2.3.1
 REQUIRES          += libs/libtheora/1.1.1-x86_32
-REQUIRES          += libs/libvorbis/1.3.4-x86_32
+REQUIRES          += libs/libvorbis/1.3.5-x86_32
 REQUIRES          += libs/speex/1.2rc2-x86_32
 
 # ======= __END_OF_REQUIRES__ =======

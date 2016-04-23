@@ -22,7 +22,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/m/mega-nerd/libsndfile
 
 REQUIRES           = libs/alsa-lib/1.0.28
-REQUIRES          += libs/libvorbis/1.3.4
+REQUIRES          += libs/libvorbis/1.3.5
 REQUIRES          += libs/libogg/1.3.2
 REQUIRES          += app/flac/1.3.0
 

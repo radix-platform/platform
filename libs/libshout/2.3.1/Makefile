@@ -22,7 +22,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/m/xiph/libshout
 
 REQUIRES           = libs/libtheora/1.1.1
-REQUIRES          += libs/libvorbis/1.3.4
+REQUIRES          += libs/libvorbis/1.3.5
 REQUIRES          += libs/speex/1.2rc2
 
 # ======= __END_OF_REQUIRES__ =======

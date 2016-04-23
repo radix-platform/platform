@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+         |-----handy-ruler------------------------------------------------------|
+libvorbis: libvorbis @VERSION@ (Ogg Vorbis library)
+libvorbis:
+libvorbis: This library supports the Vorbis General Audio Compression
+libvorbis: Codec (commonly known as Ogg Vorbis). Ogg Vorbis is a fully
+libvorbis: open, non-proprietary, patent-and-royalty-free, general-purpose
+libvorbis: compressed audio format for audio and music at fixed and variable
+libvorbis: bitrates.
+libvorbis:
+libvorbis:
+libvorbis:
+libvorbis:

@@ -499,7 +499,7 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += net/libnetfilter_log/1.0.1-x86_32
 endif
 
-REQUIRES += net/conntrack-tools/1.4.2
+REQUIRES += net/conntrack-tools/1.4.3
 REQUIRES += net/dhcp/4.3.1
 
 REQUIRES += net/gpgme/1.6.0

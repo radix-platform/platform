@@ -7,9 +7,9 @@ include ../../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/ca-certificates/mozilla
 
-versions    = 32.0 32.0.2 40.0.2
+versions    = 45.0.2
 pkgname     = mozilla-certs
-suffix      = tar.bz2
+suffix      = tar.xz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))

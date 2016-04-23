@@ -30,9 +30,9 @@ REQUIRES          += app/dcron/4.5
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 32.0
-tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/ca-certificates/mozilla/mozilla-certs-$(version).tar.bz2
-SRC_ARCHIVE        = $(tar_bz2_archive)
+version            = 45.0.2
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/n/ca-certificates/mozilla/mozilla-certs-$(version).tar.xz
+SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/mozilla-certs-$(version)
 src_dir_name       = mozilla-certs-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source-done
@@ -64,7 +64,7 @@ PKG_GROUP = net
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 CACERTS_PKG_NAME                = ca-certificates
-CACERTS_PKG_VERSION             = 32.0
+CACERTS_PKG_VERSION             = 45.0.2
 CACERTS_PKG_ARCH                = $(TOOLCHAIN)
 CACERTS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 CACERTS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)

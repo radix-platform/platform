@@ -24,10 +24,10 @@ SOURCE_REQUIRES    = sources/packages/n/iptables
 REQUIRES           = net/nfacct/1.0.1
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES          += net/libpcap/1.6.2
-REQUIRES          += net/libnetfilter_conntrack/1.0.4
+REQUIRES          += net/libnetfilter_conntrack/1.0.5
 else
 REQUIRES          += net/libpcap/1.6.2-x86_32
-REQUIRES          += net/libnetfilter_conntrack/1.0.4-x86_32
+REQUIRES          += net/libnetfilter_conntrack/1.0.5-x86_32
 endif
 
 # ======= __END_OF_REQUIRES__ =======

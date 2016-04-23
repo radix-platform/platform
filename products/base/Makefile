@@ -490,9 +490,9 @@ REQUIRES += net/libqmi/1.10.4
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += net/libqmi/1.10.4-x86_32
 endif
-REQUIRES += net/ipset/6.21
+REQUIRES += net/ipset/6.29
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += net/ipset/6.21-x86_32
+REQUIRES += net/ipset/6.29-x86_32
 endif
 REQUIRES += net/libnetfilter_log/1.0.1
 ifeq ($(HARDWARE),$(HARDWARE_PC64))

@@ -10,16 +10,16 @@ CREATE_X86_32_PACKAGE = true
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/packages/b/sqlite/2014
+SOURCE_REQUIRES    = sources/packages/b/sqlite/2016
 
-REQUIRES           = app/sqlite/3.8.7.1
+REQUIRES           = app/sqlite/3.12.2.0
 REQUIRES          += libs/readline/6.3-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 3.8.7.1
-tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/b/sqlite/2014/sqlite-$(version).tar.gz
+version            = 3.12.2.0
+tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/b/sqlite/2016/sqlite-$(version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/sqlite-$(version)
 src_dir_name       = sqlite-$(version)
@@ -40,7 +40,7 @@ PKG_GROUP = app
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 SQLITE_32_PKG_NAME                = sqlite-x32
-SQLITE_32_PKG_VERSION             = 3.8.7.1
+SQLITE_32_PKG_VERSION             = 3.12.2.0
 SQLITE_32_PKG_ARCH                = $(TOOLCHAIN)
 SQLITE_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 SQLITE_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -93,6 +93,9 @@ extra_configure_switches += --enable-static=yes
 extra_configure_switches += --enable-shared=yes
 
 
+configure_environment  = LDFLAGS=-Wl,-rpath,/lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX)
+
+
 ####### Dependencies
 
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
@@ -102,7 +105,8 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 
 $(build_target): $(src_done)
 	@mkdir -p $(build_dir)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
+	@cd $(build_dir) && \
+	  $(BUILD_ENVIRONMENT) $(configure_environment) ../$(src_dir_name)/configure \
 	  --prefix=/usr               \
 	  --build=$(BUILD)            \
 	  --host=$(TARGET32)          \

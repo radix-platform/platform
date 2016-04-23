@@ -34,7 +34,7 @@ REQUIRES          += X11/X.org/lib/libxkbfile/1.0.8-x86_32
 REQUIRES          += libs/gstreamer0/0.10.36-x86_32
 REQUIRES          += libs/gst-plugins-base0/0.10.36-x86_32
 
-REQUIRES          += app/sqlite/3.8.7.1-x86_32
+REQUIRES          += app/sqlite/3.12.2.0-x86_32
 REQUIRES          += app/mariadb/5.5.41-x86_32
 REQUIRES          += libs/libiodbc/3.52.9-x86_32
 

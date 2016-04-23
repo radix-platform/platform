@@ -19,15 +19,15 @@ COMPONENT_IS_3PP   = true
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/packages/b/sqlite/2014
+SOURCE_REQUIRES    = sources/packages/b/sqlite/2016
 
 REQUIRES           = libs/readline/6.3
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 3.8.7.1
-tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/b/sqlite/2014/sqlite-$(version).tar.gz
+version            = 3.12.2.0
+tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/b/sqlite/2016/sqlite-$(version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/sqlite-$(version)
 src_dir_name       = sqlite-$(version)
@@ -50,7 +50,7 @@ PKG_GROUP = app
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 SQLITE_PKG_NAME                = sqlite
-SQLITE_PKG_VERSION             = 3.8.7.1
+SQLITE_PKG_VERSION             = 3.12.2.0
 SQLITE_PKG_ARCH                = $(TOOLCHAIN)
 SQLITE_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 SQLITE_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -140,7 +140,7 @@ $(install_target): $(build_target)
 	@cp -a $(license) \
 	       $(SQLITE_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(SQLITE_PKG)/usr/share/doc/$(src_dir_name)
-	@cp -a $(SRC_DIR)/INSTALL $(SRC_DIR)/README \
+	@cp -a $(SRC_DIR)/INSTALL $(SRC_DIR)/README* \
 	       $(SQLITE_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
 	   if [ -r ChangeLog ]; then \

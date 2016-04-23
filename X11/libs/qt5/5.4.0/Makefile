@@ -53,7 +53,7 @@ REQUIRES          += X11/X.org/xcb/xcb-util-wm/0.4.1
 REQUIRES          += libs/gstreamer/1.4.5
 REQUIRES          += libs/gst-plugins-base/1.4.5
 
-REQUIRES          += app/sqlite/3.8.7.1
+REQUIRES          += app/sqlite/3.12.2.0
 REQUIRES          += app/mariadb/5.5.41
 REQUIRES          += libs/libiodbc/3.52.9
 

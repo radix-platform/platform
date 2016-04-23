@@ -565,9 +565,9 @@ REQUIRES += libs/libpipeline/1.4.1
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/libpipeline/1.4.1-x86_32
 endif
-REQUIRES += app/sqlite/3.8.7.1
+REQUIRES += app/sqlite/3.12.2.0
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += app/sqlite/3.8.7.1-x86_32
+REQUIRES += app/sqlite/3.12.2.0-x86_32
 endif
 REQUIRES += libs/taglib/1.10
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
@@ -583,8 +583,8 @@ endif
 #             │       ├── net/nspr/4.12
 #             │       │   ├── net/nspr/4.12-x86_32
 #             │       │   │
-#             │       │   ├── net/nss/3.23 ■  ────────────────────── app/sqlite/3.8.7.1
-#             │       │   │   └── net/nss/3.23-x86_32  ──────────────┴── app/sqlite/3.8.7.1-x86_32
+#             │       │   ├── net/nss/3.23 ■  ────────────────────── app/sqlite/3.12.2.0
+#             │       │   │   └── net/nss/3.23-x86_32  ──────────────┴── app/sqlite/3.12.2.0-x86_32
 #             │       │  ...
 #            ...     ...
 

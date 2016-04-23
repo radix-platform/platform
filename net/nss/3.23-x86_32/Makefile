@@ -16,7 +16,7 @@ SOURCE_REQUIRES    = sources/packages/n/mozilla-nss
 
 REQUIRES           = net/nss/3.23
 REQUIRES          += net/nspr/4.12-x86_32
-REQUIRES          += app/sqlite/3.8.7.1-x86_32
+REQUIRES          += app/sqlite/3.12.2.0-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

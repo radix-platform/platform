@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/whois
 
-versions    = 5.2.1
+versions    = 5.2.1 5.2.12
 pkgname     = whois
 suffix      = tar.bz2
 

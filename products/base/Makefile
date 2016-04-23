@@ -509,7 +509,7 @@ endif
 
 REQUIRES += net/bind/9.10.1
 REQUIRES += net/wget/1.16
-REQUIRES += net/whois/5.2.1
+REQUIRES += net/whois/5.2.12
 
 REQUIRES += net/rfkill/0.5
 REQUIRES += net/bridge-utils/1.5

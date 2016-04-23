@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/conntrack-tools
 
-versions    = 1.4.2
+versions    = 1.4.2 1.4.3
 pkgname     = conntrack-tools
 suffix      = tar.bz2
 

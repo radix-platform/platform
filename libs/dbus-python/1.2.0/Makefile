@@ -22,7 +22,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/dbus-python
 
 REQUIRES           = app/dbus/1.11.2
-REQUIRES          += libs/dbus-glib/0.102
+REQUIRES          += libs/dbus-glib/0.106
 REQUIRES          += dev/python2/2.7.11
 
 # ======= __END_OF_REQUIRES__ =======

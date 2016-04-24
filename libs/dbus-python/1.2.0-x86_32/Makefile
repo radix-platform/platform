@@ -14,7 +14,7 @@ SOURCE_REQUIRES    = sources/packages/l/dbus-python
 
 REQUIRES           = libs/dbus-python/1.2.0
 REQUIRES          += app/dbus/1.11.2-x86_32
-REQUIRES          += libs/dbus-glib/0.102-x86_32
+REQUIRES          += libs/dbus-glib/0.106-x86_32
 REQUIRES          += dev/python2/2.7.11-x86_32
 
 # ======= __END_OF_REQUIRES__ =======

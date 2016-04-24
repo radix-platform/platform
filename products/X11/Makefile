@@ -516,9 +516,9 @@ REQUIRES += net/bridge-utils/1.5
 REQUIRES += net/crda/3.18
 REQUIRES += net/wireless-tools/29
 
-REQUIRES += libs/dbus-python/1.2.0
+REQUIRES += libs/dbus-python/1.2.4
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/dbus-python/1.2.0-x86_32
+REQUIRES += libs/dbus-python/1.2.4-x86_32
 endif
 
 REQUIRES += net/wpa_supplicant/2.5

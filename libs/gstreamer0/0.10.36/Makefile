@@ -22,7 +22,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/x/gstreamer
 SOURCE_REQUIRES   += sources/hal/omap543x/glsdk/gstreamer0.10
 
-REQUIRES           = libs/glib2/2.40.0
+REQUIRES           = libs/glib2/2.48.0
 REQUIRES          += libs/libxml2/2.9.3
 
 # ======= __END_OF_REQUIRES__ =======

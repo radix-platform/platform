@@ -22,9 +22,9 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/gamin
 
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
-REQUIRES           = libs/glib2/2.40.0
+REQUIRES           = libs/glib2/2.48.0
 else
-REQUIRES           = libs/glib2/2.40.0-x86_32
+REQUIRES           = libs/glib2/2.48.0-x86_32
 endif
 
 # ======= __END_OF_REQUIRES__ =======

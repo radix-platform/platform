@@ -14,7 +14,7 @@ SOURCE_REQUIRES    = sources/GNOME/core/libcroco
 
 REQUIRES           = libs/libcroco/0.6.8
 REQUIRES          += libs/glib2/2.40.0-x86_32
-REQUIRES          += libs/libxml2/2.9.1-x86_32
+REQUIRES          += libs/libxml2/2.9.3-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

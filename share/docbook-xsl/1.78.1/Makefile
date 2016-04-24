@@ -22,7 +22,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/linuxdoc-tools/docbook-xsl
 SOURCE_REQUIRES   += sources/packages/a/linuxdoc-tools/docbook-xsl-doc
 
-REQUIRES           = libs/libxml2/2.9.1
+REQUIRES           = libs/libxml2/2.9.3
 REQUIRES          += libs/libxslt/1.1.28
 REQUIRES          += share/docbook-xml/4.5
 

@@ -14,7 +14,7 @@ SOURCE_REQUIRES    = sources/packages/x/mesa
 
 REQUIRES           = X11/libs/mesa/10.3.4
 REQUIRES          += libs/expat/2.1.1-x86_32
-REQUIRES          += libs/libxml2/2.9.1-x86_32
+REQUIRES          += libs/libxml2/2.9.3-x86_32
 REQUIRES          += libs/eudev/3.1.5-x86_32
 REQUIRES          += libs/libomxil-bellagio/0.9.3-x86_32
 REQUIRES          += dev/llvm/3.7.1-x86_32

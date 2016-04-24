@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/libxml2
 
-versions    = 2.9.1
+versions    = 2.9.1 2.9.3
 pkgname     = libxml2
 suffix      = tar.gz
 
@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/libxml2-2.9.1.patch
+patches    += $(CURDIR)/patches/libxml2-2.9.3.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,6 +51,7 @@ $(sha1s): $(tarballs)
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-2.9.1-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2.9.3-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

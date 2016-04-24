@@ -19,22 +19,20 @@ COMPONENT_IS_3PP   = true
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/packages/l/libxslt
+SOURCE_REQUIRES    = sources/packages/l/libxml2
 
-REQUIRES           = libs/pth/2.0.7
-REQUIRES          += libs/libxml2/2.9.3
-REQUIRES          += net/libgcrypt/1.7.0
+REQUIRES           = dev/python2/2.7.11
 
 # ======= __END_OF_REQUIRES__ =======
 
 PYTHON_VERSION = 2.7
 
 
-version            = 1.1.28
-tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/libxslt/libxslt-$(version).tar.gz
+version            = 2.9.3
+tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/libxml2/libxml2-$(version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
-SRC_DIR            = $(TARGET_BUILD_DIR)/libxslt-$(version)
-src_dir_name       = libxslt-$(version)
+SRC_DIR            = $(TARGET_BUILD_DIR)/libxml2-$(version)
+src_dir_name       = libxml2-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
@@ -51,23 +49,23 @@ PKG_GROUP = libs
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-LIBXSLT_PKG_NAME                = libxslt
-LIBXSLT_PKG_VERSION             = 1.1.28
-LIBXSLT_PKG_ARCH                = $(TOOLCHAIN)
-LIBXSLT_PKG_DISTRO_NAME         = $(DISTRO_NAME)
-LIBXSLT_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
-LIBXSLT_PKG_GROUP               = $(PKG_GROUP)
+LIBXML2_PKG_NAME                = libxml2
+LIBXML2_PKG_VERSION             = 2.9.3
+LIBXML2_PKG_ARCH                = $(TOOLCHAIN)
+LIBXML2_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+LIBXML2_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
+LIBXML2_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
-LIBXSLT_PKG_SHORT_DESCRIPTION   = XML transformation library
-LIBXSLT_PKG_URL                 = $(BUG_URL)
-LIBXSLT_PKG_LICENSE             = custom
-LIBXSLT_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBXSLT_PKG_NAME)-pkg-description
-LIBXSLT_PKG_DESCRIPTION_FILE_IN = $(LIBXSLT_PKG_NAME)-pkg-description.in
-LIBXSLT_PKG_INSTALL_SCRIPT      = $(LIBXSLT_PKG_NAME)-pkg-install.sh
+LIBXML2_PKG_SHORT_DESCRIPTION   = XML parser library
+LIBXML2_PKG_URL                 = $(BUG_URL)
+LIBXML2_PKG_LICENSE             = custom
+LIBXML2_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBXML2_PKG_NAME)-pkg-description
+LIBXML2_PKG_DESCRIPTION_FILE_IN = $(LIBXML2_PKG_NAME)-pkg-description.in
+LIBXML2_PKG_INSTALL_SCRIPT      = $(LIBXML2_PKG_NAME)-pkg-install.sh
 
-LIBXSLT_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBXSLT_PKG_NAME)-package
+LIBXML2_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBXML2_PKG_NAME)-package
 
-pkg_basename     = $(LIBXSLT_PKG_NAME)-$(LIBXSLT_PKG_VERSION)-$(LIBXSLT_PKG_ARCH)-$(LIBXSLT_PKG_DISTRO_NAME)-$(LIBXSLT_PKG_DISTRO_VERSION)
+pkg_basename     = $(LIBXML2_PKG_NAME)-$(LIBXML2_PKG_VERSION)-$(LIBXML2_PKG_ARCH)-$(LIBXML2_PKG_DISTRO_NAME)-$(LIBXML2_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
 pkg_signature    = $(call sign-name,$(pkg_archive))
@@ -85,7 +83,7 @@ ROOTFS_TARGETS   = $(pkg_archive)
 include ../../../build-system/core.mk
 
 
-env_sysroot = DESTDIR=$(LIBXSLT_PKG)
+env_sysroot = DESTDIR=$(LIBXML2_PKG)
 
 #
 # Path to Python.h
@@ -116,7 +114,9 @@ TARGET_LIB_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUF
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
-	@touch -t 201401010000.00 $(SRC_DIR)/*
+	@( cd $(SRC_DIR) ; \
+	   autoreconf -i ; \
+	 )
 	@touch $@
 
 $(build_target): $(src_done)
@@ -131,11 +131,11 @@ $(build_target): $(src_done)
 	@touch $@
 
 $(install_target): $(build_target)
-	@mkdir -p $(LIBXSLT_PKG)
+	@mkdir -p $(LIBXML2_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Install Documentation =======
-	@if [ -d $(LIBXSLT_PKG)/usr/share/man ]; then \
-	  ( cd $(LIBXSLT_PKG)/usr/share/man ; \
+	@if [ -d $(LIBXML2_PKG)/usr/share/man ]; then \
+	  ( cd $(LIBXML2_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \
 	      ( cd $$manpagedir ; \
 	        for eachpage in `find . -type l -maxdepth 1` ; do \
@@ -147,69 +147,60 @@ $(install_target): $(build_target)
 	    done \
 	  ) \
 	 fi
-	@( cd $(LIBXSLT_PKG)/usr/share/doc ; \
-	   mv libxslt-python-$(version) $(src_dir_name) ; \
-	 )
-	@mkdir -p $(LIBXSLT_PKG)/usr/doc/$(src_dir_name)
+	@mkdir -p $(LIBXML2_PKG)/usr/doc/$(src_dir_name)
 	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/COPYING \
-	       $(LIBXSLT_PKG)/usr/doc/$(src_dir_name)
-	@mkdir -p $(LIBXSLT_PKG)/usr/share/doc/$(src_dir_name)
+	       $(LIBXML2_PKG)/usr/doc/$(src_dir_name)
+	@mkdir -p $(LIBXML2_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a AUTHORS COPYING Copyright FEATURES INSTALL NEWS README TODO \
-	         $(LIBXSLT_PKG)/usr/share/doc/$(src_dir_name) ; \
+	   cp -a AUTHORS COPYING INSTALL NEWS README* TODO* \
+	         $(LIBXML2_PKG)/usr/share/doc/$(src_dir_name) ; \
 	 )
 	@( cd $(SRC_DIR) ; \
 	   if [ -r ChangeLog ]; then \
-	     DOCSDIR=`echo $(LIBXSLT_PKG)/usr/share/doc/$(src_dir_name)` ; \
+	     DOCSDIR=`echo $(LIBXML2_PKG)/usr/share/doc/$(src_dir_name)` ; \
 	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
 	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \
 	 )
 	# ======= remove toolchain path from target libtool *.la files =======
-	@( cd $(LIBXSLT_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,-L/usr/lib64,,g" libexslt.la ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" libexslt.la libxslt.la  \
+	@( cd $(LIBXML2_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libxml2.la  \
 	 )
-	@( cd $(LIBXSLT_PKG)/usr/lib$(LIBSUFFIX)/python$(PYTHON_VERSION)/site-packages ; \
-	   sed -i "s,-L/usr/lib64,,g" libxsltmod.la ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" libxsltmod.la \
+	@( cd $(LIBXML2_PKG)/usr/lib$(LIBSUFFIX)/python$(PYTHON_VERSION)/site-packages ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libxml2mod.la \
 	 )
-	# ======= Fix LDFLAGS in libexslt.pc =======
-	@( cd $(LIBXSLT_PKG)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	   sed -i "s,-L/usr/lib64,,g" libexslt.pc ; \
-	 )
-	# ======= tune xslt-config script for runtime =======
-	@( cd $(LIBXSLT_PKG)/usr/bin ; \
-	   sed -i "s,lib/lib,lib$(LIBSUFFIX)/lib,g" xslt-config ; \
+	@( cd $(LIBXML2_PKG)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libxml-2.0.pc \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	$(call install-into-devenv, $(LIBXSLT_PKG))
+	$(call install-into-devenv, $(LIBXML2_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libexslt.la libxslt.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libexslt.la libxslt.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libxml2.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libxml2.la \
 	 )
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/python$(PYTHON_VERSION)/site-packages ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libxsltmod.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libxsltmod.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libxml2mod.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libxml2mod.la \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libexslt.pc libxslt.pc \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libxml-2.0.pc \
 	 )
-	# ======= tune xslt-config script for development =======
+	# ======= tune xml2-config script for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/bin ; \
-	   sed -i "s,=/usr,=$(TARGET_DEST_DIR)/usr,g" xslt-config ; \
+	   sed -i "s,=/usr,=$(TARGET_DEST_DIR)/usr,g"     xml2-config ; \
+	   sed -i "s,prefix/lib,prefix/lib$(LIBSUFFIX),g" xml2-config ; \
 	 )
 	# ======= Strip binaries =======
-	@( cd $(LIBXSLT_PKG) ; \
+	@( cd $(LIBXML2_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target binaries =======
-	@( cd $(LIBXSLT_PKG)/usr/bin ; \
+	@( cd $(LIBXML2_PKG)/usr/bin ; \
 	   for file in `find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
 	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
 	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
@@ -218,7 +209,7 @@ ifneq ($(CHRPATH),)
 	   done ; \
 	 )
 	# ======= Set RPATH/RUNPATH for target shared objects =======
-	@( cd $(LIBXSLT_PKG)/usr/lib$(LIBSUFFIX) ; \
+	@( cd $(LIBXML2_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
 	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
 	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
@@ -229,23 +220,23 @@ ifneq ($(CHRPATH),)
 endif
 	@touch $@
 
-$(LIBXSLT_PKG_DESCRIPTION_FILE): $(LIBXSLT_PKG_DESCRIPTION_FILE_IN)
+$(LIBXML2_PKG_DESCRIPTION_FILE): $(LIBXML2_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
 $(pkg_signature)   : $(pkg_archive) ;
 $(pkg_description) : $(pkg_archive) ;
 
-$(pkg_archive): $(install_target) $(LIBXSLT_PKG_DESCRIPTION_FILE) $(LIBXSLT_PKG_INSTALL_SCRIPT)
-	@cp $(LIBXSLT_PKG_DESCRIPTION_FILE) $(LIBXSLT_PKG)/.DESCRIPTION
-	@cp $(LIBXSLT_PKG_INSTALL_SCRIPT) $(LIBXSLT_PKG)/.INSTALL
-	@$(BUILD_PKG_REQUIRES) $(LIBXSLT_PKG)/.REQUIRES
-	@echo "pkgname=$(LIBXSLT_PKG_NAME)"                            >  $(LIBXSLT_PKG)/.PKGINFO ; \
-	 echo "pkgver=$(LIBXSLT_PKG_VERSION)"                          >> $(LIBXSLT_PKG)/.PKGINFO ; \
-	 echo "arch=$(LIBXSLT_PKG_ARCH)"                               >> $(LIBXSLT_PKG)/.PKGINFO ; \
-	 echo "distroname=$(LIBXSLT_PKG_DISTRO_NAME)"                  >> $(LIBXSLT_PKG)/.PKGINFO ; \
-	 echo "distrover=$(LIBXSLT_PKG_DISTRO_VERSION)"                >> $(LIBXSLT_PKG)/.PKGINFO ; \
-	 echo "group=$(LIBXSLT_PKG_GROUP)"                             >> $(LIBXSLT_PKG)/.PKGINFO ; \
-	 echo "short_description=\"$(LIBXSLT_PKG_SHORT_DESCRIPTION)\"" >> $(LIBXSLT_PKG)/.PKGINFO ; \
-	 echo "url=$(LIBXSLT_PKG_URL)"                                 >> $(LIBXSLT_PKG)/.PKGINFO ; \
-	 echo "license=$(LIBXSLT_PKG_LICENSE)"                         >> $(LIBXSLT_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBXSLT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+$(pkg_archive): $(install_target) $(LIBXML2_PKG_DESCRIPTION_FILE) $(LIBXML2_PKG_INSTALL_SCRIPT)
+	@cp $(LIBXML2_PKG_DESCRIPTION_FILE) $(LIBXML2_PKG)/.DESCRIPTION
+	@cp $(LIBXML2_PKG_INSTALL_SCRIPT) $(LIBXML2_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(LIBXML2_PKG)/.REQUIRES
+	@echo "pkgname=$(LIBXML2_PKG_NAME)"                            >  $(LIBXML2_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(LIBXML2_PKG_VERSION)"                          >> $(LIBXML2_PKG)/.PKGINFO ; \
+	 echo "arch=$(LIBXML2_PKG_ARCH)"                               >> $(LIBXML2_PKG)/.PKGINFO ; \
+	 echo "distroname=$(LIBXML2_PKG_DISTRO_NAME)"                  >> $(LIBXML2_PKG)/.PKGINFO ; \
+	 echo "distrover=$(LIBXML2_PKG_DISTRO_VERSION)"                >> $(LIBXML2_PKG)/.PKGINFO ; \
+	 echo "group=$(LIBXML2_PKG_GROUP)"                             >> $(LIBXML2_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(LIBXML2_PKG_SHORT_DESCRIPTION)\"" >> $(LIBXML2_PKG)/.PKGINFO ; \
+	 echo "url=$(LIBXML2_PKG_URL)"                                 >> $(LIBXML2_PKG)/.PKGINFO ; \
+	 echo "license=$(LIBXML2_PKG_LICENSE)"                         >> $(LIBXML2_PKG)/.PKGINFO
+	@$(FAKEROOT) sh -c "cd $(LIBXML2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

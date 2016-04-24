@@ -16,7 +16,7 @@ REQUIRES           = libs/libgphoto2/2.5.8
 REQUIRES          += libs/libexif/0.6.21-x86_32
 REQUIRES          += libs/libgd/2.1.1-x86_32
 REQUIRES          += libs/libusb/1.0.19-x86_32
-REQUIRES          += libs/libxml2/2.9.1-x86_32
+REQUIRES          += libs/libxml2/2.9.3-x86_32
 REQUIRES          += dev/libtool/2.4.2-x86_32
 
 # ======= __END_OF_REQUIRES__ =======

@@ -21,7 +21,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/a/linuxdoc-tools/docbook-xml/4.x
 
-REQUIRES           = libs/libxml2/2.9.1
+REQUIRES           = libs/libxml2/2.9.3
 REQUIRES          += share/sgml-common/0.6.3
 
 # ======= __END_OF_REQUIRES__ =======

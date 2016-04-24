@@ -22,7 +22,7 @@ SOURCE_REQUIRES    = sources/packages/l/shared-mime-info
 
 REQUIRES           = libs/glib2/2.40.0
 REQUIRES          += app/gettext/0.19.7
-REQUIRES          += libs/libxml2/2.9.1
+REQUIRES          += libs/libxml2/2.9.3
 
 # ======= __END_OF_REQUIRES__ =======
 

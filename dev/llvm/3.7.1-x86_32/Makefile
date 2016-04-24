@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/d/LLVM
 
 REQUIRES           = dev/llvm/3.7.1
-REQUIRES          += libs/libxml2/2.9.1-x86_32
+REQUIRES          += libs/libxml2/2.9.3-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

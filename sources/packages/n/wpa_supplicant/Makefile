@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/wpa_supplicant
 
-versions    = 2.3
+versions    = 2.3 2.5
 pkgname     = wpa_supplicant
 suffix      = tar.gz
 
@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/wpa_supplicant-2.3.patch
+patches    += $(CURDIR)/patches/wpa_supplicant-2.5.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,6 +51,7 @@ $(sha1s): $(tarballs)
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-2.3-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2.5-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

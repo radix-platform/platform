@@ -521,7 +521,7 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/dbus-python/1.2.0-x86_32
 endif
 
-REQUIRES += net/wpa_supplicant/2.3
+REQUIRES += net/wpa_supplicant/2.5
 REQUIRES += net/dnsmasq/2.75
 REQUIRES += net/ebtables/2.0.10-4
 REQUIRES += net/iftop/1.0pre4

@@ -22,7 +22,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/x/gst-plugins-base
 
 REQUIRES           = libs/gstreamer/1.4.5
-REQUIRES          += libs/alsa-lib/1.0.28
+REQUIRES          += libs/alsa-lib/1.1.1
 REQUIRES          += libs/libvorbis/1.3.5
 REQUIRES          += libs/libtheora/1.1.1
 REQUIRES          += app/cdparanoia/10.2

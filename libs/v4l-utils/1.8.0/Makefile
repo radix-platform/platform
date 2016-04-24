@@ -28,7 +28,6 @@ REQUIRES          += app/sysfsutils/2.1.0
 REQUIRES          += libs/eudev/3.1.5
 REQUIRES          += libs/libjpeg-turbo/1.4.2
 REQUIRES          += X11/libs/qt5/5.4.0
-REQUIRES          += libs/alsa-lib/1.0.28
 
 # ======= __END_OF_REQUIRES__ =======
 

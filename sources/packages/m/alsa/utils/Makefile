@@ -7,7 +7,7 @@ include ../../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/m/alsa/utils
 
-versions    = 1.0.28
+versions    = 1.0.28 1.1.1
 pkgname     = alsa-utils
 suffix      = tar.bz2
 
@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/alsa-utils-1.0.28.patch
+patches    += $(CURDIR)/patches/alsa-utils-1.1.1.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,6 +51,7 @@ $(sha1s): $(tarballs)
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-1.0.28-patch ; ./create.patch.sh ) ; \
+	 ( cd create-1.1.1-patch  ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

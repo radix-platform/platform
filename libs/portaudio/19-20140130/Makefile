@@ -21,7 +21,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/m/portaudio
 
-REQUIRES           = libs/alsa-lib/1.0.28
+REQUIRES           = libs/alsa-lib/1.1.1
 
 # ======= __END_OF_REQUIRES__ =======
 

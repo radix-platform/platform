@@ -14,7 +14,7 @@ SOURCE_REQUIRES    = sources/packages/x/gst-plugins-base
 
 REQUIRES           = libs/gst-plugins-base0/0.10.36
 REQUIRES          += libs/gstreamer0/0.10.36-x86_32
-REQUIRES          += libs/alsa-lib/1.0.28-x86_32
+REQUIRES          += libs/alsa-lib/1.1.1-x86_32
 REQUIRES          += libs/libvorbis/1.3.5-x86_32
 REQUIRES          += libs/libtheora/1.1.1-x86_32
 REQUIRES          += app/cdparanoia/10.2-x86_32

@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/m/alsa/oss
 
 REQUIRES           = libs/alsa-oss/1.0.28
-REQUIRES          += libs/alsa-lib/1.0.28-x86_32
+REQUIRES          += libs/alsa-lib/1.1.1-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

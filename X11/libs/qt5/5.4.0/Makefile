@@ -29,7 +29,7 @@ REQUIRES          += X11/app/desktop-file-utils/0.22
 REQUIRES          += X11/libs/hicolor-icon-theme/0.14
 REQUIRES          += X11/app/xdg-utils/1.1.0
 
-REQUIRES          += libs/alsa-lib/1.0.28
+REQUIRES          += libs/alsa-lib/1.1.1
 REQUIRES          += X11/app/dbus-x11-launch/1.11.2
 
 REQUIRES          += libs/libmng/2.0.2

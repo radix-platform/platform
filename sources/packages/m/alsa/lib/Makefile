@@ -7,7 +7,7 @@ include ../../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/m/alsa/lib
 
-versions    = 1.0.28
+versions    = 1.0.28 1.1.1
 pkgname     = alsa-lib
 suffix      = tar.bz2
 

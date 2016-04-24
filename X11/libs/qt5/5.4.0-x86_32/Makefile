@@ -14,7 +14,7 @@ SOURCE_REQUIRES    = sources/packages/x/qt5
 
 REQUIRES           = X11/libs/qt5/5.4.0
 
-REQUIRES          += libs/alsa-lib/1.0.28-x86_32
+REQUIRES          += libs/alsa-lib/1.1.1-x86_32
 REQUIRES          += X11/app/dbus-x11-launch/1.11.2-x86_32
 
 REQUIRES          += libs/libmng/2.0.2-x86_32

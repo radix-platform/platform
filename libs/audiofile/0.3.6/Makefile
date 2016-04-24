@@ -24,8 +24,8 @@ SOURCE_REQUIRES    = sources/packages/m/audiofile
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/5.3.0
 endif
-REQUIRES          += libs/alsa-lib/1.0.28
-REQUIRES          += app/flac/1.3.0
+REQUIRES          += libs/alsa-lib/1.1.1
+REQUIRES          += app/flac/1.3.1
 
 # ======= __END_OF_REQUIRES__ =======
 

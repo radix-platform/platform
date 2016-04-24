@@ -23,7 +23,7 @@ SOURCE_REQUIRES    = sources/packages/x/gst-plugins-base
 SOURCE_REQUIRES   += sources/hal/omap543x/glsdk/gst-plugins-base0.10
 
 REQUIRES           = libs/gstreamer0/0.10.36
-REQUIRES          += libs/alsa-lib/1.0.28
+REQUIRES          += libs/alsa-lib/1.1.1
 REQUIRES          += libs/libvorbis/1.3.5
 REQUIRES          += libs/libtheora/1.1.1
 REQUIRES          += app/cdparanoia/10.2

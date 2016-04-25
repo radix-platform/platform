@@ -197,9 +197,14 @@ endif
 	@mkdir -p $(PYTHON_PKG)/usr/bin
 	@( cd $(PYTHON_PKG)/usr/bin ; \
 	   mv 2to3 2to3-2.7 ; ln -sf 2to3-2.7 2to3 ; \
-	   ln -sf ../lib$(LIBSUFFIX)/python2.7/site-packages/pynche/pynche pynche ; \
-	   ln -sf ../lib$(LIBSUFFIX)/python2.7/site-packages/i18n/msgfmt.py . ; \
-	   ln -sf ../lib$(LIBSUFFIX)/python2.7/site-packages/i18n/pygettext.py . ; \
+	   mv idle idle2.7 ; ln -sf idle2.7 idle2 ; ln -sf idle2 idle ;\
+	   mv pydoc pydoc2.7 ; ln -sf pydoc2.7 pydoc2 ; ln -sf pydoc2 pydoc ;\
+	   ln -sf ../lib$(LIBSUFFIX)/python2.7/site-packages/pynche/pynche pynche2 ; \
+	   ln -sf pynche2 pynche ; \
+	   ln -sf ../lib$(LIBSUFFIX)/python2.7/site-packages/i18n/msgfmt.py msgfmt-2.7.py ; \
+	   ln -sf msgfmt-2.7.py msgfmt.py ; \
+	   ln -sf ../lib$(LIBSUFFIX)/python2.7/site-packages/i18n/pygettext.py pygettext-2.7.py ; \
+	   ln -sf pygettext-2.7.py pygettext.py ; \
 	 )
 	# ======= Install Documentation ======
 	@mkdir -p $(PYTHON_PKG)/usr/share/doc/$(src_dir_name)/Documentation

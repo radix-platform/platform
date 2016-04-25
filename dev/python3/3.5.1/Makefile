@@ -40,6 +40,8 @@ SRC_DIR            = $(TARGET_BUILD_DIR)/Python-$(version)
 src_dir_name       = Python-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
+scripts_dir        = $(CURDIR)/scripts
+
 PATCHES = PATCHES
 
 build_target       = $(TARGET_BUILD_DIR)/.build_done
@@ -139,7 +141,14 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(PYTHON_PKG)
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(python_environment) $(MAKE) -j1 install $(env_sysroot)
+	# ======= Install 2to3/3to2 scripts =======
+	@mkdir -p $(PYTHON_PKG)/usr/bin
+	@cat $(scripts_dir)/python-2to3 > $(PYTHON_PKG)/usr/bin/python-2to3
+	@cat $(scripts_dir)/python-3to2 > $(PYTHON_PKG)/usr/bin/python-3to2
+	@chmod 0755 $(PYTHON_PKG)/usr/bin/python-2to3
+	@chmod 0755 $(PYTHON_PKG)/usr/bin/python-3to2
 ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
+	# ======= copy pyconfig.h for x86_64 =======
 	@( cd $(PYTHON_PKG)/usr/include/python3.5m ; \
 	   mv pyconfig.h pyconfig-64.h ; \
 	   echo ''                                       > pyconfig.h ; \
@@ -197,9 +206,10 @@ endif
 	 )
 	@mkdir -p $(PYTHON_PKG)/usr/bin
 	@( cd $(PYTHON_PKG)/usr/bin ; \
-	   ln -sf ../lib$(LIBSUFFIX)/python3.5/site-packages/pynche/pynche pynche ; \
-	   ln -sf ../lib$(LIBSUFFIX)/python3.5/site-packages/i18n/msgfmt.py . ; \
-	   ln -sf ../lib$(LIBSUFFIX)/python3.5/site-packages/i18n/pygettext.py . ; \
+	   rm -f 2to3 ; \
+	   ln -sf ../lib$(LIBSUFFIX)/python3.5/site-packages/pynche/pynche pynche3 ; \
+	   ln -sf ../lib$(LIBSUFFIX)/python3.5/site-packages/i18n/msgfmt.py msgfmt-3.5.py ; \
+	   ln -sf ../lib$(LIBSUFFIX)/python3.5/site-packages/i18n/pygettext.py pygettext-3.5.py ; \
 	 )
 	# ======= Install Documentation ======
 	@mkdir -p $(PYTHON_PKG)/usr/share/doc/$(src_dir_name)/Documentation
@@ -213,17 +223,14 @@ endif
 	 )
 	# ======= tune python3.5m-config CFLAGS for target machine =======
 	@( cd $(PYTHON_PKG)/usr/bin ; \
+	   sed -i 's,includedir=$$(echo "$${prefix},includedir=$$(echo "/usr,g' python3.5m-config ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" python3.5m-config ; \
 	 )
-	exit 1
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(PYTHON_PKG))
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" python-3.5.pc ; \
-	 )
-	@( cd $(TARGET_DEST_DIR)/usr/bin ; \
-	   sed -i "s,-I/usr,-I$(TARGET_DEST_DIR)/usr,g" python3.5m-config ; \
 	 )
 	@chmod +w $(PYTHON_PKG)/usr/lib$(LIBSUFFIX)/libpython*.so*
 	# ======= Strip binaries =======

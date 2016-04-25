@@ -1,0 +1,15 @@
+#!/bin/sh
+
+program=$0
+prgpath=$(cd $(dirname $program) ; pwd -P)
+
+( cd $prgpath
+  rm -f 2to3          ; ln -sf 2to3-2.7         2to3
+  rm -f idle          ; ln -sf idle2            idle
+  rm -f pydoc         ; ln -sf pydoc2           pydoc
+  rm -f pynche        ; ln -sf pynche2          pynche
+  rm -f msgfmt.py     ; ln -sf msgfmt-2.7.py    msgfmt.py
+  rm -f pygettext.py  ; ln -sf pygettext-2.7.py pygettext.py
+  rm -f python        ; ln -sf python2          python
+  rm -f python-config ; ln -sf python2-config   python-config
+)

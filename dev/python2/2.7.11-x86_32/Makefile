@@ -86,6 +86,9 @@ LDFLAGS    += -L.
 extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
+
+extra_configure_switches += --bindir=/usr/bin/32
+
 extra_configure_switches += --with-system-expat
 extra_configure_switches += --with-system-ffi
 extra_configure_switches += --with-threads
@@ -98,6 +101,7 @@ python_environment  = RFS=$(TARGET_DEST_DIR)
 python_environment += HOSTARCH=$(TARGET32)
 python_environment += BUILDARCH=$(BUILD)
 python_environment += PYTHONHOME=$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/python2.7
+python_environment += LDFLAGS=-Wl,-rpath,/lib32:/usr/lib32
 
 
 ####### Dependencies
@@ -128,11 +132,6 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(PYTHON32_PKG)
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(python_environment) $(MAKE) -j1 install $(env_sysroot)
-	@mkdir -p $(PYTHON32_PKG)/usr/bin/32
-	@( cd $(PYTHON32_PKG)/usr/bin ; \
-	   find . -type f | xargs mv -t 32 ; \
-	   find . -type l | xargs mv -t 32 ; \
-	 )
 	@( cd $(PYTHON32_PKG)/usr/include ; \
 	   mv python2.7/pyconfig.h . ; \
 	   rm -f python2.7/* ; \
@@ -148,9 +147,14 @@ $(install_target): $(build_target)
 	@mkdir -p $(PYTHON32_PKG)/usr/bin/32
 	@( cd $(PYTHON32_PKG)/usr/bin/32 ; \
 	   mv 2to3 2to3-2.7 ; ln -sf 2to3-2.7 2to3 ; \
-	   ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/python2.7/site-packages/pynche/pynche pynche ; \
-	   ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/python2.7/site-packages/i18n/msgfmt.py . ; \
-	   ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/python2.7/site-packages/i18n/pygettext.py . ; \
+	   mv idle idle2.7 ; ln -sf idle2.7 idle2 ; ln -sf idle2 idle ;\
+	   mv pydoc pydoc2.7 ; ln -sf pydoc2.7 pydoc2 ; ln -sf pydoc2 pydoc ;\
+	   ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/python2.7/site-packages/pynche/pynche pynche2 ; \
+	   ln -sf pynche2 pynche ; \
+	   ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/python2.7/site-packages/i18n/msgfmt.py msgfmt-2.7.py ; \
+	   ln -sf msgfmt-2.7.py msgfmt.py ; \
+	   ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/python2.7/site-packages/i18n/pygettext.py pygettext-2.7.py ; \
+	   ln -sf pygettext-2.7.py pygettext.py ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(PYTHON32_PKG))

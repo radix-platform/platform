@@ -30,6 +30,8 @@ SRC_DIR            = $(TARGET_BUILD_DIR)/Python-$(version)
 src_dir_name       = Python-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
+scripts_dir        = $(CURDIR)/scripts
+
 PATCHES = PATCHES
 
 build_target       = $(TARGET_BUILD_DIR)/.build_done
@@ -86,6 +88,9 @@ LDFLAGS    += -L.
 extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
+
+extra_configure_switches += --bindir=/usr/bin/32
+
 extra_configure_switches += --with-system-expat
 extra_configure_switches += --with-system-ffi
 extra_configure_switches += --with-threads
@@ -99,6 +104,7 @@ python_environment += HOSTARCH=$(TARGET32)
 python_environment += BUILDARCH=$(BUILD)
 python_environment += PYTHONHOME=$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/python3.5
 python_environment += ac_cv_prog_READELF=$(TOOLCHAIN_PATH)/bin/$(TARGET)-readelf
+python_environment += LDFLAGS=-Wl,-rpath,/lib32:/usr/lib32
 
 
 ####### Dependencies
@@ -130,11 +136,13 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(PYTHON32_PKG)
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(python_environment) $(MAKE) -j1 install $(env_sysroot)
+	# ======= Install 2to3/3to2 scripts =======
 	@mkdir -p $(PYTHON32_PKG)/usr/bin/32
-	@( cd $(PYTHON32_PKG)/usr/bin ; \
-	   find . -type f | xargs mv -t 32 ; \
-	   find . -type l | xargs mv -t 32 ; \
-	 )
+	@cat $(scripts_dir)/python-2to3 > $(PYTHON32_PKG)/usr/bin/32/python-2to3
+	@cat $(scripts_dir)/python-3to2 > $(PYTHON32_PKG)/usr/bin/32/python-3to2
+	@chmod 0755 $(PYTHON32_PKG)/usr/bin/32/python-2to3
+	@chmod 0755 $(PYTHON32_PKG)/usr/bin/32/python-3to2
+	# ======= copy pyconfig.h for x86_32 =======
 	@( cd $(PYTHON32_PKG)/usr/include ; \
 	   mv python3.5m/pyconfig.h . ; \
 	   rm -f python3.5m/* ; \
@@ -149,25 +157,23 @@ $(install_target): $(build_target)
 	 )
 	@mkdir -p $(PYTHON32_PKG)/usr/bin/32
 	@( cd $(PYTHON32_PKG)/usr/bin/32 ; \
-	   ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/python3.5/site-packages/pynche/pynche pynche ; \
-	   ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/python3.5/site-packages/i18n/msgfmt.py . ; \
-	   ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/python3.5/site-packages/i18n/pygettext.py . ; \
+	   rm -f 2to3 ; \
+	   ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/python3.5/site-packages/pynche/pynche pynche3 ; \
+	   ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/python3.5/site-packages/i18n/msgfmt.py msgfmt-3.5.py ; \
+	   ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/python3.5/site-packages/i18n/pygettext.py pygettext-3.5.py ; \
 	 )
 	# ======= tune python3.5m-config CFLAGS for target machine =======
 	@( cd $(PYTHON32_PKG)/usr/bin/32 ; \
+	   sed -i 's,includedir=$$(echo "$${prefix},includedir=$$(echo "/usr,g' python3.5m-config ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" python3.5m-config ; \
 	 )
-	exit 1
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(PYTHON32_PKG))
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" python-3.5.pc ; \
 	 )
-	@( cd $(TARGET_DEST_DIR)/usr/bin/32 ; \
-	   sed -i "s,-I/usr,-I$(TARGET_DEST_DIR)/usr,g" python3.5m-config ; \
-	 )
-	@chmod +w $(PYTHON32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/libpython*.so.*
+	@chmod +w $(PYTHON32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/libpython*.so*
 	# ======= Strip binaries =======
 	@( cd $(PYTHON32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \

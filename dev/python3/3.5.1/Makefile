@@ -19,8 +19,8 @@ COMPONENT_IS_3PP   = true
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/packages/d/python2
-SOURCE_REQUIRES   += sources/packages/d/python2-doc
+SOURCE_REQUIRES    = sources/packages/d/python3
+SOURCE_REQUIRES   += sources/packages/d/python3-doc
 
 REQUIRES           = libs/zlib/1.2.8
 REQUIRES          += app/xz/5.2.2
@@ -32,9 +32,9 @@ REQUIRES          += net/openssl/1.0.2f
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 2.7.11
-tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/d/python2/Python-$(version).tar.xz
-doc_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/d/python2-doc/python-$(version)-docs-text.tar.bz2
+version            = 3.5.1
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/d/python3/Python-$(version).tar.xz
+doc_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/d/python3-doc/python-$(version)-docs-text.tar.bz2
 SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/Python-$(version)
 src_dir_name       = Python-$(version)
@@ -47,7 +47,7 @@ install_target     = $(TARGET_BUILD_DIR)/.install_done
 
 hw_cache_in        = $(CURDIR)/cross/hw.cache
 hw_cache           = $(CURDIR)/$(SRC_DIR)/hw.cache
-cross_patch        = $(SRC_PACKAGE_PATH_ABS)/packages/d/python2/patches/Python-$(version)-cross.patch
+cross_patch        = $(SRC_PACKAGE_PATH_ABS)/packages/d/python3/patches/Python-$(version)-cross.patch
 
 ####### Targets
 
@@ -55,8 +55,8 @@ PKG_GROUP = dev
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-PYTHON_PKG_NAME                = python2
-PYTHON_PKG_VERSION             = 2.7.11
+PYTHON_PKG_NAME                = python3
+PYTHON_PKG_VERSION             = 3.5.1
 PYTHON_PKG_ARCH                = $(TOOLCHAIN)
 PYTHON_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 PYTHON_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -107,7 +107,7 @@ extra_configure_switches += --cache-file=$(hw_cache)
 python_environment  = RFS=$(TARGET_DEST_DIR)
 python_environment += HOSTARCH=$(TARGET)
 python_environment += BUILDARCH=$(BUILD)
-python_environment += PYTHONHOME=$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/python2.7
+python_environment += PYTHONHOME=$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/python3.5
 
 
 ####### Dependencies
@@ -120,9 +120,10 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 $(build_target): $(src_done)
 	@( cd $(SRC_DIR) ; \
 	   ./configure ; \
-	   make python Parser/pgen ; \
+	   make python ; \
 	   mv python python_for_build ; \
 	   mv Parser/pgen Parser/pgen_for_build ; \
+	   mv Programs/_freeze_importlib Programs/_freeze_importlib_for_build ; \
 	   make distclean ; \
 	 )
 	@( cd $(TARGET_BUILD_DIR) ; patch -p0 < $(cross_patch) )
@@ -139,7 +140,7 @@ $(install_target): $(build_target)
 	@mkdir -p $(PYTHON_PKG)
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(python_environment) $(MAKE) -j1 install $(env_sysroot)
 ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
-	@( cd $(PYTHON_PKG)/usr/include/python2.7 ; \
+	@( cd $(PYTHON_PKG)/usr/include/python3.5m ; \
 	   mv pyconfig.h pyconfig-64.h ; \
 	   echo ''                                       > pyconfig.h ; \
 	   echo '/******************************'       >> pyconfig.h ; \
@@ -180,26 +181,25 @@ endif
 	       $(PYTHON_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(PYTHON_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a LICENSE README Demo Misc \
+	   cp -a LICENSE README \
 	         $(PYTHON_PKG)/usr/share/doc/$(src_dir_name) \
 	 )
-	@mkdir -p $(PYTHON_PKG)/usr/lib$(LIBSUFFIX)/python2.7/site-packages
+	@mkdir -p $(PYTHON_PKG)/usr/lib$(LIBSUFFIX)/python3.5/site-packages
 	@( cd $(SRC_DIR) ; \
 	   mv Tools/README Tools/README.python-tools ; \
 	   cp -a Tools/* \
-	         $(PYTHON_PKG)/usr/lib$(LIBSUFFIX)/python2.7/site-packages \
+	         $(PYTHON_PKG)/usr/lib$(LIBSUFFIX)/python3.5/site-packages \
 	 )
-	@cp -a $(PYTHON_PKG)/usr/lib$(LIBSUFFIX)/python2.7/site-packages/README.python-tools \
+	@cp -a $(PYTHON_PKG)/usr/lib$(LIBSUFFIX)/python3.5/site-packages/README.python-tools \
 	       $(PYTHON_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(PYTHON_PKG)/usr/share/doc/$(src_dir_name) ; \
-	   ln -sf ../../../lib$(LIBSUFFIX)/python2.7/site-packages Tools \
+	   ln -sf ../../../lib$(LIBSUFFIX)/python3.5/site-packages Tools \
 	 )
 	@mkdir -p $(PYTHON_PKG)/usr/bin
 	@( cd $(PYTHON_PKG)/usr/bin ; \
-	   mv 2to3 2to3-2.7 ; ln -sf 2to3-2.7 2to3 ; \
-	   ln -sf ../lib$(LIBSUFFIX)/python2.7/site-packages/pynche/pynche pynche ; \
-	   ln -sf ../lib$(LIBSUFFIX)/python2.7/site-packages/i18n/msgfmt.py . ; \
-	   ln -sf ../lib$(LIBSUFFIX)/python2.7/site-packages/i18n/pygettext.py . ; \
+	   ln -sf ../lib$(LIBSUFFIX)/python3.5/site-packages/pynche/pynche pynche ; \
+	   ln -sf ../lib$(LIBSUFFIX)/python3.5/site-packages/i18n/msgfmt.py . ; \
+	   ln -sf ../lib$(LIBSUFFIX)/python3.5/site-packages/i18n/pygettext.py . ; \
 	 )
 	# ======= Install Documentation ======
 	@mkdir -p $(PYTHON_PKG)/usr/share/doc/$(src_dir_name)/Documentation
@@ -211,13 +211,21 @@ endif
 	   find . -perm 640 -exec chmod 644 "{}" \;  ; \
 	   find . -perm 750 -exec chmod 755 "{}" \;  ; \
 	 )
+	# ======= tune python3.5m-config CFLAGS for target machine =======
+	@( cd $(PYTHON_PKG)/usr/bin ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" python3.5m-config ; \
+	 )
+	exit 1
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(PYTHON_PKG))
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" python-2.7.pc ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" python-3.5.pc ; \
 	 )
-	@chmod +w $(PYTHON_PKG)/usr/lib$(LIBSUFFIX)/libpython*.so.*
+	@( cd $(TARGET_DEST_DIR)/usr/bin ; \
+	   sed -i "s,-I/usr,-I$(TARGET_DEST_DIR)/usr,g" python3.5m-config ; \
+	 )
+	@chmod +w $(PYTHON_PKG)/usr/lib$(LIBSUFFIX)/libpython*.so*
 	# ======= Strip binaries =======
 	@( cd $(PYTHON_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \

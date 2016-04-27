@@ -111,11 +111,14 @@ $(build_target): $(src_done)
 	   sed -i 's,@LDFLAGS@,\"$(LDFLAGS)\",g'                    config.params ; \
 	   $(BUILD_ENVIRONMENT) $(environment) ./configure ; \
 	 )
+	@( cd $(SRC_DIR) ; \
+	   $(environment) $(MAKE) fortune/strfile/strfile_build ; \
+	 )
 	@( cd $(SRC_DIR)/fortune/datfiles ;           \
-	   if [ -x /usr/bin/strfile ] ; then          \
+	   if [ -x ../strfile/strfile_build ] ; then  \
 	     cp unamerican-o.real unamerican-o.fake ; \
 	     cp unamerican-o.real unamerican-o      ; \
-	     strfile unamerican-o unamerican-o.dat  ; \
+	     ../strfile/strfile_build unamerican-o unamerican-o.dat  ; \
 	   fi ; \
 	 )
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE)

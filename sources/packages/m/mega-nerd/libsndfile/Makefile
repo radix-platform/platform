@@ -7,7 +7,7 @@ include ../../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/m/mega-nerd/libsndfile
 
-versions    = 1.0.25
+versions    = 1.0.25 1.0.26
 pkgname     = libsndfile
 suffix      = tar.gz
 

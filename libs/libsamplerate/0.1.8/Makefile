@@ -21,7 +21,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/m/mega-nerd/libsamplerate
 
-REQUIRES           = libs/libsndfile/1.0.25
+REQUIRES           = libs/libsndfile/1.0.26
 
 # ======= __END_OF_REQUIRES__ =======
 

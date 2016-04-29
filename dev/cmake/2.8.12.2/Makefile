@@ -26,7 +26,7 @@ REQUIRES           = libs/libarchive/3.1.2
 else
 REQUIRES           = libs/libarchive/3.1.2-x86_32
 endif
-REQUIRES          += libs/shared-mime-info/1.3
+REQUIRES          += libs/shared-mime-info/1.6
 REQUIRES          += net/curl/7.47.0
 
 

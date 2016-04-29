@@ -1,0 +1,5 @@
+#!/bin/sh
+#
+# Run update-mime-database.
+#
+chroot . /usr/bin/update-mime-database /usr/share/mime 1> /dev/null 2> /dev/null

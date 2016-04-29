@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/shared-mime-info
 
-versions    = 1.3
+versions    = 1.3 1.6
 pkgname     = shared-mime-info
 suffix      = tar.xz
 
@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/shared-mime-info-1.3.patch
+patches    += $(CURDIR)/patches/shared-mime-info-1.6.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,6 +51,7 @@ $(sha1s): $(tarballs)
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-1.3-patch ; ./create.patch.sh ) ; \
+	 ( cd create-1.6-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

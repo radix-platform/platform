@@ -633,8 +633,14 @@ REQUIRES += dev/perl-modules/perl-gettext/1.06
 ####### Python2.7 modules:
 #######
 
-REQUIRES += dev/python-modules/pip2/7.1.2
+REQUIRES += dev/python-modules/pip2/8.1.1
 REQUIRES += libs/pyrex/0.9.9
+
+#######
+####### Python3.5 modules:
+#######
+
+REQUIRES += dev/python-modules/pip3/8.1.1
 
 
 

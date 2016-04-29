@@ -165,6 +165,7 @@ $(install_target): $(build_target)
 	# ======= tune python3.5m-config CFLAGS for target machine =======
 	@( cd $(PYTHON32_PKG)/usr/bin/32 ; \
 	   sed -i 's,includedir=$$(echo "$${prefix},includedir=$$(echo "/usr,g' python3.5m-config ; \
+	   sed -i 's,LIBPL=$$(echo "$${prefix},LIBPL=$$(echo "/usr,g' python3.5m-config ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" python3.5m-config ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======

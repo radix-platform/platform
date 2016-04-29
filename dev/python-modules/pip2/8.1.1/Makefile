@@ -21,14 +21,14 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/d/python-modules/pip
 
-REQUIRES           = dev/python2/2.7.11
+REQUIRES           = dev/python-modules/setuptools2/20.10.1
 
 # ======= __END_OF_REQUIRES__ =======
 
 PYTHON_VERSION = 2.7
 
 
-version            = 7.1.2
+version            = 8.1.1
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/d/python-modules/pip/pip-$(version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/pip-$(version)
@@ -49,7 +49,7 @@ PKG_GROUP = app
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 PIP2_PKG_NAME                = pip2
-PIP2_PKG_VERSION             = 7.1.2
+PIP2_PKG_VERSION             = 8.1.1
 PIP2_PKG_ARCH                = $(TOOLCHAIN)
 PIP2_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 PIP2_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -57,7 +57,7 @@ PIP2_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
 PIP2_PKG_SHORT_DESCRIPTION   = Python packages tool
 PIP2_PKG_URL                 = $(BUG_URL)
-PIP2_PKG_LICENSE             = custom
+PIP2_PKG_LICENSE             = MIT
 PIP2_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(PIP2_PKG_NAME)-pkg-description
 PIP2_PKG_DESCRIPTION_FILE_IN = $(PIP2_PKG_NAME)-pkg-description.in
 PIP2_PKG_INSTALL_SCRIPT      = $(PIP2_PKG_NAME)-pkg-install.sh

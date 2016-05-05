@@ -486,9 +486,9 @@ REQUIRES += net/libmbim/1.12.4
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += net/libmbim/1.12.4-x86_32
 endif
-REQUIRES += net/libqmi/1.10.4
+REQUIRES += net/libqmi/1.14.2
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += net/libqmi/1.10.4-x86_32
+REQUIRES += net/libqmi/1.14.2-x86_32
 endif
 REQUIRES += net/ipset/6.29
 ifeq ($(HARDWARE),$(HARDWARE_PC64))

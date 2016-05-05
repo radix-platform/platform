@@ -507,7 +507,7 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += net/gpgme/1.6.0-x86_32
 endif
 
-REQUIRES += net/bind/9.10.1
+REQUIRES += net/bind/9.10.4
 REQUIRES += net/wget/1.16
 REQUIRES += net/whois/5.2.12
 

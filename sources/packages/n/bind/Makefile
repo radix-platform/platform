@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/bind
 
-versions    = 9.10.1
+versions    = 9.10.1 9.10.4
 pkgname     = bind
 suffix      = tar.gz
 
@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/bind-9.10.1.patch
+patches    += $(CURDIR)/patches/bind-9.10.4.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,6 +51,7 @@ $(sha1s): $(tarballs)
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-9.10.1-patch ; ./create.patch.sh ) ; \
+	 ( cd create-9.10.4-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

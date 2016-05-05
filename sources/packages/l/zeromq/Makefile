@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/zeromq
 
-versions    = 4.0.5
+versions    = 4.0.5 4.1.4
 pkgname     = zeromq
 suffix      = tar.gz
 

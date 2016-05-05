@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+          |-----handy-ruler------------------------------------------------------|
+zeromq-x32: zeromq-x32 @VERSION@ (x86_32 Fast messaging system)
+zeromq-x32:
+zeromq-x32: The 0MQ lightweight messaging kernel is a library which extends
+zeromq-x32: the standard socket interfaces with features traditionally provided
+zeromq-x32: by specialised messaging middleware products. 0MQ sockets provide
+zeromq-x32: an abstraction of asynchronous message queues, multiple messaging
+zeromq-x32: patterns, message filtering (subscriptions), seamless access to
+zeromq-x32: multiple transport protocols and more.
+zeromq-x32:
+zeromq-x32:
+zeromq-x32:

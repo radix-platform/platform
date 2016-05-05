@@ -22,10 +22,10 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/m/xiph/vorbis-tools
 
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
-REQUIRES           = libs/libao/1.1.0
+REQUIRES           = libs/libao/1.2.0
 REQUIRES          += net/curl/7.47.0
 else
-REQUIRES           = libs/libao/1.1.0-x86_32
+REQUIRES           = libs/libao/1.2.0-x86_32
 REQUIRES          += net/curl/7.47.0-x86_32
 endif
 

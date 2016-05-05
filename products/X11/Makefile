@@ -691,7 +691,7 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += app/sox/14.4.1-x86_32
 endif
 
-REQUIRES += app/icecast/2.4.1
+REQUIRES += app/icecast/2.4.3
 REQUIRES += app/ices/2.0.2
 
 

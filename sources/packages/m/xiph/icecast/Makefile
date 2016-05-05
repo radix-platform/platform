@@ -7,7 +7,7 @@ include ../../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/m/xiph/icecast
 
-versions    = 2.4.1
+versions    = 2.4.1 2.4.3
 pkgname     = icecast
 suffix      = tar.gz
 
@@ -16,6 +16,8 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/icecast-2.4.1-nobody.patch
 patches    += $(CURDIR)/patches/icecast-2.4.1-configure.patch
+patches    += $(CURDIR)/patches/icecast-2.4.3-nobody.patch
+patches    += $(CURDIR)/patches/icecast-2.4.3-configure.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -52,6 +54,8 @@ $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-2.4.1-nobody-patch    ; ./create.patch.sh ) ; \
 	 ( cd create-2.4.1-configure-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2.4.3-nobody-patch    ; ./create.patch.sh ) ; \
+	 ( cd create-2.4.3-configure-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

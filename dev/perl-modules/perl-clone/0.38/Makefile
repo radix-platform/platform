@@ -236,9 +236,16 @@ $(build_target): $(src_done)
 	   sed -i "s,-I/usr/local/include,-I$(TARGET_DEST_DIR)/usr/include,g" Makefile ; \
 	   sed -i "s,-I/usr/include,-I$(TARGET_DEST_DIR)/usr/include,g"       Makefile ; \
 	 )
+	# ======= Fix for Perl >= 5.20 missing fakethe.h perlsfio.h =======
+	@touch $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)/CORE/fakethr.h
+	@touch $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)/CORE/perlsfio.h
+	# ======= build the perl-clone module =======
 	@( cd $(SRC_DIR) ; \
 	   $(BUILD_ENVIRONMENT) $(MAKE) $(perl_environment) ; \
 	 )
+	# ======= Fix for Perl >= 5.20 remove unneeded fakethe.h perlsfio.h =======
+	@rm -f $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)/CORE/fakethr.h
+	@rm -f $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)/CORE/perlsfio.h
 	@touch $@
 
 $(install_target): $(build_target)

@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/m/mpg123
 
-versions    = 1.20.1
+versions    = 1.20.1 1.23.3
 pkgname     = mpg123
 suffix      = tar.bz2
 

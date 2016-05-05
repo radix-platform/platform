@@ -650,9 +650,9 @@ REQUIRES += dev/python-modules/pip3/8.1.1
 
 REQUIRES += app/alsa-utils/1.0.28
 
-REQUIRES += app/mpg123/1.20.1
+REQUIRES += app/mpg123/1.23.3
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += app/mpg123/1.20.1-x86_32
+REQUIRES += app/mpg123/1.23.3-x86_32
 endif
 
 REQUIRES += libs/fdk-aac/0.1.4

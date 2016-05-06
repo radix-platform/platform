@@ -25,9 +25,9 @@ REQUIRES           = net/tcp_wrappers/7.6
 REQUIRES          += net/libnl/1.1.4
 REQUIRES          += net/libnl3/3.2.25
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
-REQUIRES          += app/lm_sensors/3.3.5
+REQUIRES          += app/lm_sensors/3.4.0
 else
-REQUIRES          += app/lm_sensors/3.3.5-x86_32
+REQUIRES          += app/lm_sensors/3.4.0-x86_32
 endif
 REQUIRES          += net/openssl/1.0.2f
 REQUIRES          += app/pciutils/3.4.1

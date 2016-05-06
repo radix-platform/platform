@@ -654,7 +654,7 @@ REQUIRES += dev/python-modules/pip3/8.1.1
 ####### Media packages:
 #######
 
-REQUIRES += app/alsa-utils/1.0.28
+REQUIRES += app/alsa-utils/1.1.1
 
 REQUIRES += app/mpg123/1.23.3
 ifeq ($(HARDWARE),$(HARDWARE_PC64))

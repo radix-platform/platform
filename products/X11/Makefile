@@ -692,9 +692,9 @@ endif
 
 REQUIRES += app/vorbis-tools/1.4.0
 
-REQUIRES += app/sox/14.4.1
+REQUIRES += app/sox/14.4.2
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += app/sox/14.4.1-x86_32
+REQUIRES += app/sox/14.4.2-x86_32
 endif
 
 REQUIRES += app/icecast/2.4.3

@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/m/sox
 
-versions    = 14.4.1
+versions    = 14.4.1 14.4.2
 pkgname     = sox
 suffix      = tar.bz2
 

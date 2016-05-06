@@ -28,7 +28,7 @@ REQUIRES          += libs/libtiff/4.0.6
 REQUIRES          += libs/libpng/libpng14/1.4.19
 REQUIRES          += net/gnutls/3.4.8
 REQUIRES          += net/openssl/1.0.2f
-REQUIRES          += libs/libusb/1.0.19
+REQUIRES          += libs/libusb/1.0.20
 REQUIRES          += net/avahi-daemon/0.6.31
 
 # ======= __END_OF_REQUIRES__ =======

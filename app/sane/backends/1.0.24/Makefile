@@ -22,7 +22,7 @@ include ../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/m/sane/backends
 
 REQUIRES           = libs/eudev/3.1.5
-REQUIRES          += libs/libusb/1.0.19
+REQUIRES          += libs/libusb/1.0.20
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES          += libs/libieee1284/0.2.11
 REQUIRES          += libs/libgphoto2/2.5.8

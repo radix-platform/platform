@@ -21,7 +21,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/n/libpcap
 
-REQUIRES           = libs/libusb/1.0.19
+REQUIRES           = libs/libusb/1.0.20
 REQUIRES          += net/libnl3/3.2.25
 
 # ======= __END_OF_REQUIRES__ =======

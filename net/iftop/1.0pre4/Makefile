@@ -23,8 +23,8 @@ SOURCE_REQUIRES    = sources/packages/n/iftop
 
 REQUIRES           = libs/libusb/1.0.20
 REQUIRES          += libs/ncurses/6.0
-REQUIRES          += net/libnl3/3.2.25
-REQUIRES          += net/libpcap/1.6.2
+REQUIRES          += net/libnl3/3.2.27
+REQUIRES          += net/libpcap/1.7.4
 
 # ======= __END_OF_REQUIRES__ =======
 

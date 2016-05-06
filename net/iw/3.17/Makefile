@@ -22,9 +22,9 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/n/iw
 
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
-REQUIRES           = net/libnl3/3.2.25
+REQUIRES           = net/libnl3/3.2.27
 else
-REQUIRES           = net/libnl3/3.2.25-x86_32
+REQUIRES           = net/libnl3/3.2.27-x86_32
 endif
 
 # ======= __END_OF_REQUIRES__ =======

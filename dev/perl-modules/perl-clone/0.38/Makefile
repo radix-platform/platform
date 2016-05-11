@@ -243,9 +243,6 @@ $(build_target): $(src_done)
 	@( cd $(SRC_DIR) ; \
 	   $(BUILD_ENVIRONMENT) $(MAKE) $(perl_environment) ; \
 	 )
-	# ======= Fix for Perl >= 5.20 remove unneeded fakethe.h perlsfio.h =======
-	@rm -f $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)/CORE/fakethr.h
-	@rm -f $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)/CORE/perlsfio.h
 	@touch $@
 
 $(install_target): $(build_target)
@@ -253,6 +250,9 @@ $(install_target): $(build_target)
 	@( cd $(SRC_DIR) ; \
 	   $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(perl_environment) $(env_sysroot) ; \
 	 )
+	# ======= Fix for Perl >= 5.20 remove unneeded fakethe.h perlsfio.h =======
+	@rm -f $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)/CORE/fakethr.h
+	@rm -f $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)/CORE/perlsfio.h
 	@find $(PERL_PKG) -name '.packlist' -delete
 	@rm -f $(PERL_PKG)/$(perl_local_pod)
 	@chmod 755 $(PERL_PKG)/usr/lib$(LIBSUFFIX)/perl5/vendor_perl/$(ARCHNAME)/auto/Clone/Clone.so

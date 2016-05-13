@@ -5,10 +5,10 @@ COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 include ../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/packages/n/gnupg2
+url         = $(DOWNLOAD_SERVER)/sources/packages/l/npth
 
-versions    = 2.0.26 2.0.29 2.1.12
-pkgname     = gnupg
+versions    = 1.2
+pkgname     = npth
 suffix      = tar.bz2
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))

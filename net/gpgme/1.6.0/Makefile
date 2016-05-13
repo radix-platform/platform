@@ -22,7 +22,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/n/gpgme
 
 REQUIRES           = net/gnupg/1.4.20
-REQUIRES          += net/gnupg2/2.0.29
+REQUIRES          += net/gnupg2/2.1.12
 
 # ======= __END_OF_REQUIRES__ =======
 

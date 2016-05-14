@@ -480,7 +480,7 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += net/libnl/1.1.4-x86_32
 endif
 
-REQUIRES += net/tcpdump/4.6.2
+REQUIRES += net/tcpdump/4.7.4
 
 REQUIRES += net/libmbim/1.12.4
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
@@ -500,7 +500,7 @@ REQUIRES += net/libnetfilter_log/1.0.1-x86_32
 endif
 
 REQUIRES += net/conntrack-tools/1.4.3
-REQUIRES += net/dhcp/4.3.1
+REQUIRES += net/dhcp/4.3.4
 
 REQUIRES += net/gpgme/1.6.0
 ifeq ($(HARDWARE),$(HARDWARE_PC64))

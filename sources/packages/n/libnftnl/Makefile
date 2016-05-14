@@ -5,11 +5,11 @@ COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 include ../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/packages/n/tcpdump
+url         = $(DOWNLOAD_SERVER)/sources/packages/n/libnftnl
 
-versions    = 4.6.2 4.7.4
-pkgname     = tcpdump
-suffix      = tar.gz
+versions    = 1.0.5
+pkgname     = libnftnl
+suffix      = tar.bz2
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))

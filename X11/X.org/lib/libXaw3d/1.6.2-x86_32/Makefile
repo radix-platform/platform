@@ -13,7 +13,7 @@ include ../../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/X.org/lib/libXaw3d
 
 REQUIRES           = X11/X.org/lib/libXaw3d/1.6.2
-REQUIRES          += X11/X.org/proto/xproto/7.0.26-x86_32
+REQUIRES          += X11/X.org/proto/xproto/7.0.29-x86_32
 REQUIRES          += X11/X.org/lib/libXmu/1.1.2-x86_32
 REQUIRES          += X11/X.org/lib/libXpm/3.5.11-x86_32
 

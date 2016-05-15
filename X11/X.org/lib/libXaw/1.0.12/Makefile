@@ -21,7 +21,7 @@ include ../../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/X.org/lib/libXaw
 
-REQUIRES           = X11/X.org/proto/xproto/7.0.26
+REQUIRES           = X11/X.org/proto/xproto/7.0.29
 REQUIRES          += X11/X.org/lib/libXmu/1.1.2
 REQUIRES          += X11/X.org/lib/libXpm/3.5.11
 

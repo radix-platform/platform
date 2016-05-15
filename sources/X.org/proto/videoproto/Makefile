@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/proto/videoproto
 
-versions    = 2.3.2
+versions    = 2.3.2 2.3.3
 pkgname     = videoproto
 suffix      = tar.bz2
 

@@ -21,7 +21,7 @@ include ../../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/X.org/lib/libFS
 
-REQUIRES           = X11/X.org/proto/xproto/7.0.26
+REQUIRES           = X11/X.org/proto/xproto/7.0.29
 REQUIRES          += X11/X.org/proto/fontsproto/2.1.3
 REQUIRES          += X11/X.org/lib/xtrans/1.3.5
 

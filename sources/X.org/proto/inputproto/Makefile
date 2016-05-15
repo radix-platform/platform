@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/proto/inputproto
 
-versions    = 2.3.1
+versions    = 2.3.1 2.3.2
 pkgname     = inputproto
 suffix      = tar.bz2
 

@@ -46,7 +46,7 @@ REQUIRES          += X11/X.org/lib/libXrandr/1.4.2
 REQUIRES          += X11/X.org/lib/libXv/1.0.10
 REQUIRES          += X11/X.org/lib/libxkbfile/1.0.8
 
-REQUIRES          += X11/X.org/xcb/xcb-util-cursor/0.1.1
+REQUIRES          += X11/X.org/xcb/xcb-util-cursor/0.1.3
 REQUIRES          += X11/X.org/xcb/xcb-util-keysyms/0.4.0
 REQUIRES          += X11/X.org/xcb/xcb-util-wm/0.4.1
 

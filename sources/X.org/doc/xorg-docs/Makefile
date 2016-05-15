@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/doc/xorg-docs
 
-versions    = 1.7
+versions    = 1.7 1.7.1
 pkgname     = xorg-docs
 suffix      = tar.bz2
 

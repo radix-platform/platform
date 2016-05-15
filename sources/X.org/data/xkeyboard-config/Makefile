@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/data/xkeyboard-config
 
-versions    = 2.13
+versions    = 2.13 2.17
 pkgname     = xkeyboard-config
 suffix      = tar.bz2
 

@@ -13,7 +13,7 @@ include ../../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/X.org/lib/libXt
 
 REQUIRES           = X11/X.org/lib/libXt/1.1.4
-REQUIRES          += X11/X.org/proto/xproto/7.0.26-x86_32
+REQUIRES          += X11/X.org/proto/xproto/7.0.29-x86_32
 REQUIRES          += X11/X.org/lib/libX11/1.6.2-x86_32
 REQUIRES          += X11/X.org/lib/libSM/1.2.2-x86_32
 

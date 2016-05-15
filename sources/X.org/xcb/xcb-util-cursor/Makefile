@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/xcb/xcb-util-cursor
 
-versions    = 0.1.1
+versions    = 0.1.1 0.1.3
 pkgname     = xcb-util-cursor
 suffix      = tar.bz2
 

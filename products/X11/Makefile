@@ -762,7 +762,7 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += X11/X.org/data/xbitmaps/1.1.1-x86_32
 endif
 REQUIRES += X11/X.org/data/xcursor-themes/1.0.4
-REQUIRES += X11/X.org/data/xkeyboard-config/2.13
+REQUIRES += X11/X.org/data/xkeyboard-config/2.17
 
 #
 # X.org lib: [ order: libXau, libXdmcp ] required by xcb
@@ -775,9 +775,9 @@ REQUIRES += X11/X.org/data/xkeyboard-config/2.13
 #        xcb-proto, libxcb, xcb-util, xcb-util-image, xcb-util-renderutil,
 #        xcb-util-cursor, xcb-util-keysyms, xcb-util-wm, xpyb, libpthread-stubs
 #
-#REQUIRES += X11/X.org/xcb/xcb-util-cursor/0.1.1
+#REQUIRES += X11/X.org/xcb/xcb-util-cursor/0.1.3
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
-#REQUIRES += X11/X.org/xcb/xcb-util-cursor/0.1.1-x86_32
+#REQUIRES += X11/X.org/xcb/xcb-util-cursor/0.1.3-x86_32
 #endif
 #REQUIRES += X11/X.org/xcb/xcb-util-keysyms/0.4.0
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
@@ -795,6 +795,8 @@ REQUIRES += X11/X.org/xcb/libpthread-stubs/0.3
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += X11/X.org/xcb/libpthread-stubs/0.3-x86_32
 endif
+
+# ■  ────────────────────────────────────────────────────────────────  ■
 
 #
 # X.org lib (continue):

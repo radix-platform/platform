@@ -21,12 +21,12 @@ include ../../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/X.org/lib/libX11
 
-REQUIRES           = X11/X.org/proto/xproto/7.0.26
-REQUIRES          += X11/X.org/proto/kbproto/1.0.6
-REQUIRES          += X11/X.org/proto/inputproto/2.3.1
+REQUIRES           = X11/X.org/proto/xproto/7.0.29
+REQUIRES          += X11/X.org/proto/kbproto/1.0.7
+REQUIRES          += X11/X.org/proto/inputproto/2.3.2
 REQUIRES          += X11/X.org/proto/xextproto/7.3.0
 REQUIRES          += X11/X.org/proto/xf86bigfontproto/1.2.0
-REQUIRES          += X11/X.org/xcb/libxcb/1.11
+REQUIRES          += X11/X.org/xcb/libxcb/1.11.1
 REQUIRES          += X11/X.org/lib/xtrans/1.3.5
 
 # ======= __END_OF_REQUIRES__ =======

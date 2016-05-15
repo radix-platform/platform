@@ -21,7 +21,7 @@ include ../../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/X.org/lib/libXpm
 
-REQUIRES           = X11/X.org/proto/xproto/7.0.26
+REQUIRES           = X11/X.org/proto/xproto/7.0.29
 REQUIRES          += X11/X.org/lib/libXext/1.3.3
 REQUIRES          += X11/X.org/lib/libXt/1.1.4
 

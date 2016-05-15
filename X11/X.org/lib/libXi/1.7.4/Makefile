@@ -21,7 +21,7 @@ include ../../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/X.org/lib/libXi
 
-REQUIRES           = X11/X.org/proto/inputproto/2.3.1
+REQUIRES           = X11/X.org/proto/inputproto/2.3.2
 REQUIRES          += X11/X.org/lib/libXext/1.3.3
 REQUIRES          += X11/X.org/lib/libXfixes/5.0.1
 

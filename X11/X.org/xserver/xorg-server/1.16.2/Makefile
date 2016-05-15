@@ -25,17 +25,17 @@ REQUIRES           = libs/eudev/3.1.5
 REQUIRES          += net/nettle/3.2
 REQUIRES          += X11/app/dbus-x11-launch/1.11.2
 
-REQUIRES          += X11/X.org/proto/xproto/7.0.26
+REQUIRES          += X11/X.org/proto/xproto/7.0.29
 REQUIRES          += X11/X.org/proto/dri2proto/2.8
 REQUIRES          += X11/X.org/proto/dri3proto/1.0
 REQUIRES          += X11/X.org/proto/xf86driproto/2.1.1
-REQUIRES          += X11/X.org/proto/randrproto/1.4.0
+REQUIRES          += X11/X.org/proto/randrproto/1.5.0
 REQUIRES          += X11/X.org/proto/renderproto/0.11.1
-REQUIRES          += X11/X.org/proto/videoproto/2.3.2
+REQUIRES          += X11/X.org/proto/videoproto/2.3.3
 REQUIRES          += X11/X.org/proto/xineramaproto/1.2.1
 REQUIRES          += X11/X.org/proto/presentproto/1.0
-REQUIRES          += X11/X.org/proto/inputproto/2.3.1
-REQUIRES          += X11/X.org/proto/kbproto/1.0.6
+REQUIRES          += X11/X.org/proto/inputproto/2.3.2
+REQUIRES          += X11/X.org/proto/kbproto/1.0.7
 REQUIRES          += X11/X.org/proto/scrnsaverproto/1.2.2
 REQUIRES          += X11/X.org/proto/xextproto/7.3.0
 REQUIRES          += X11/X.org/proto/fontsproto/2.1.3
@@ -51,7 +51,7 @@ REQUIRES          += X11/X.org/lib/libXxf86vm/1.1.3
 REQUIRES          += X11/X.org/lib/pixman/0.32.6
 REQUIRES          += X11/X.org/lib/libxshmfence/1.1
 
-REQUIRES          += X11/X.org/xcb/xcb-util-cursor/0.1.1
+REQUIRES          += X11/X.org/xcb/xcb-util-cursor/0.1.3
 REQUIRES          += X11/X.org/xcb/xcb-util-keysyms/0.4.0
 REQUIRES          += X11/X.org/xcb/xcb-util-wm/0.4.1
 

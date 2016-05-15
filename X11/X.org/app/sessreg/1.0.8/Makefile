@@ -22,7 +22,7 @@ include ../../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/X.org/app/sessreg
 
 REQUIRES           = X11/X.org/util/util-macros/1.19.0
-REQUIRES          += X11/X.org/proto/xproto/7.0.26
+REQUIRES          += X11/X.org/proto/xproto/7.0.29
 
 # ======= __END_OF_REQUIRES__ =======
 

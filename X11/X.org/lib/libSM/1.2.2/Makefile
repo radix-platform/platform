@@ -21,7 +21,7 @@ include ../../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/X.org/lib/libSM
 
-REQUIRES           = X11/X.org/proto/xproto/7.0.26
+REQUIRES           = X11/X.org/proto/xproto/7.0.29
 REQUIRES          += X11/X.org/lib/xtrans/1.3.5
 REQUIRES          += X11/X.org/lib/libICE/1.0.9
 REQUIRES          += app/util-linux/2.27.1

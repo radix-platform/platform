@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/proto/kbproto
 
-versions    = 1.0.6
+versions    = 1.0.6 1.0.7
 pkgname     = kbproto
 suffix      = tar.bz2
 

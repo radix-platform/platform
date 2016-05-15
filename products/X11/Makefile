@@ -628,11 +628,17 @@ REQUIRES += dev/perl-modules/perl-xml-simple/2.20
 REQUIRES += dev/perl-modules/perl-uri/1.69
 REQUIRES += dev/perl-modules/perl-gettext/1.06
 
+
 #######
 ####### Development:
 #######
 
 REQUIRES += dev/xmltoman/0.4
+
+REQUIRES += dev/vala/0.32.0
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += dev/vala/0.32.0-x86_32
+endif
 
 
 #######
@@ -1134,12 +1140,8 @@ endif
 #######
 
 #
-# order: dev/vala, libs/hwloc, libs/openmpi, libs/boost
+# order: libs/hwloc, libs/openmpi, libs/boost
 #
-REQUIRES += dev/vala/0.26.1
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += dev/vala/0.26.1-x86_32
-endif
 #REQUIRES += libs/boost/1.57.0
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
 #REQUIRES += libs/boost/1.57.0-x86_32

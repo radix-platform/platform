@@ -861,9 +861,9 @@ endif
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
 #REQUIRES += X11/X.org/lib/libXinerama/1.1.3-x86_32
 #endif
-REQUIRES += X11/X.org/lib/libXp/1.0.2
+REQUIRES += X11/X.org/lib/libXp/1.0.3
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += X11/X.org/lib/libXp/1.0.2-x86_32
+REQUIRES += X11/X.org/lib/libXp/1.0.3-x86_32
 endif
 #REQUIRES += X11/X.org/lib/libXrandr/1.4.2
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))

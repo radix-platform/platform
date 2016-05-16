@@ -897,9 +897,9 @@ REQUIRES += X11/X.org/lib/libdmx/1.1.3
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += X11/X.org/lib/libdmx/1.1.3-x86_32
 endif
-REQUIRES += X11/X.org/lib/libpciaccess/0.13.2
+REQUIRES += X11/X.org/lib/libpciaccess/0.13.4
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += X11/X.org/lib/libpciaccess/0.13.2-x86_32
+REQUIRES += X11/X.org/lib/libpciaccess/0.13.4-x86_32
 endif
 #REQUIRES += X11/X.org/lib/libxkbfile/1.0.8
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))

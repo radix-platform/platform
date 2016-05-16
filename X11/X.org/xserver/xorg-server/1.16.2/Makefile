@@ -60,7 +60,7 @@ REQUIRES          += X11/libs/libepoxy/1.2
 REQUIRES          += Wayland/wayland/1.6.0
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64) $(HARDWARE_PC32)),)
-REQUIRES          += X11/X.org/lib/libpciaccess/0.13.2
+REQUIRES          += X11/X.org/lib/libpciaccess/0.13.4
 endif
 
 REQUIRES          += X11/libs/opengl-collection

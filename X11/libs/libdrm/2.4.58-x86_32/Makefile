@@ -13,7 +13,7 @@ include ../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/x/libdrm
 
 REQUIRES           = X11/libs/libdrm/2.4.58
-REQUIRES          += X11/X.org/lib/libpciaccess/0.13.2-x86_32
+REQUIRES          += X11/X.org/lib/libpciaccess/0.13.4-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

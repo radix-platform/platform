@@ -22,7 +22,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/hwloc
 
 REQUIRES           = X11/libs/cairo/1.14.0
-REQUIRES          += X11/X.org/lib/libpciaccess/0.13.2
+REQUIRES          += X11/X.org/lib/libpciaccess/0.13.4
 REQUIRES          += libs/libxml2/2.9.3
 REQUIRES          += app/pciutils/3.4.1
 

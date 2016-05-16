@@ -36,7 +36,7 @@ REQUIRES          += X11/X.org/proto/dri3proto/1.0
 REQUIRES          += X11/X.org/proto/presentproto/1.0
 REQUIRES          += X11/X.org/lib/libxshmfence/1.1
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64) $(HARDWARE_PC32)),)
-REQUIRES          += X11/X.org/lib/libpciaccess/0.13.2
+REQUIRES          += X11/X.org/lib/libpciaccess/0.13.4
 endif
 REQUIRES          += X11/X.org/lib/libXxf86vm/1.1.4
 REQUIRES          += X11/X.org/lib/libXdamage/1.1.4

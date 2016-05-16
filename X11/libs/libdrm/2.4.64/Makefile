@@ -31,7 +31,7 @@ REQUIRES           = libs/glibc/2.23-x86_32
 endif
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64) $(HARDWARE_PC32)),)
-REQUIRES          += X11/X.org/lib/libpciaccess/0.13.2
+REQUIRES          += X11/X.org/lib/libpciaccess/0.13.4
 endif
 
 # ======= __END_OF_REQUIRES__ =======

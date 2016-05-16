@@ -865,9 +865,9 @@ REQUIRES += X11/X.org/lib/libXp/1.0.3
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += X11/X.org/lib/libXp/1.0.3-x86_32
 endif
-#REQUIRES += X11/X.org/lib/libXrandr/1.4.2
+#REQUIRES += X11/X.org/lib/libXrandr/1.5.0
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
-#REQUIRES += X11/X.org/lib/libXrandr/1.4.2-x86_32
+#REQUIRES += X11/X.org/lib/libXrandr/1.5.0-x86_32
 #endif
 REQUIRES += X11/X.org/lib/libXres/1.0.7
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
@@ -877,9 +877,9 @@ REQUIRES += X11/X.org/lib/libXtst/1.2.2
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += X11/X.org/lib/libXtst/1.2.2-x86_32
 endif
-REQUIRES += X11/X.org/lib/libXvMC/1.0.8
+REQUIRES += X11/X.org/lib/libXvMC/1.0.9
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += X11/X.org/lib/libXvMC/1.0.8-x86_32
+REQUIRES += X11/X.org/lib/libXvMC/1.0.9-x86_32
 endif
 REQUIRES += X11/X.org/lib/libXxf86dga/1.1.4
 ifeq ($(HARDWARE),$(HARDWARE_PC64))

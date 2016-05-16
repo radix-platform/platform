@@ -38,7 +38,7 @@ REQUIRES          += X11/X.org/lib/libxshmfence/1.1
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64) $(HARDWARE_PC32)),)
 REQUIRES          += X11/X.org/lib/libpciaccess/0.13.2
 endif
-REQUIRES          += X11/X.org/lib/libXxf86vm/1.1.3
+REQUIRES          += X11/X.org/lib/libXxf86vm/1.1.4
 REQUIRES          += X11/X.org/lib/libXdamage/1.1.4
 REQUIRES          += Wayland/wayland/1.6.0
 

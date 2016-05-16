@@ -23,7 +23,7 @@ SOURCE_REQUIRES    = sources/X.org/app/xdpyinfo
 
 REQUIRES           = X11/X.org/lib/libXxf86dga/1.1.4
 REQUIRES          += X11/X.org/lib/libXxf86misc/1.0.3
-REQUIRES          += X11/X.org/lib/libXxf86vm/1.1.3
+REQUIRES          += X11/X.org/lib/libXxf86vm/1.1.4
 REQUIRES          += X11/X.org/lib/libdmx/1.1.3
 REQUIRES          += X11/X.org/lib/libXinerama/1.1.3
 REQUIRES          += X11/X.org/lib/libXcomposite/0.4.4

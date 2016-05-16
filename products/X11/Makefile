@@ -889,9 +889,9 @@ REQUIRES += X11/X.org/lib/libXxf86misc/1.0.3
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += X11/X.org/lib/libXxf86misc/1.0.3-x86_32
 endif
-#REQUIRES += X11/X.org/lib/libXxf86vm/1.1.3
+#REQUIRES += X11/X.org/lib/libXxf86vm/1.1.4
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
-#REQUIRES += X11/X.org/lib/libXxf86vm/1.1.3-x86_32
+#REQUIRES += X11/X.org/lib/libXxf86vm/1.1.4-x86_32
 #endif
 REQUIRES += X11/X.org/lib/libdmx/1.1.3
 ifeq ($(HARDWARE),$(HARDWARE_PC64))

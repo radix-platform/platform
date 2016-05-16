@@ -25,7 +25,7 @@ REQUIRES          += X11/X.org/proto/dri3proto/1.0-x86_32
 REQUIRES          += X11/X.org/proto/presentproto/1.0-x86_32
 REQUIRES          += X11/X.org/lib/libxshmfence/1.1-x86_32
 REQUIRES          += X11/X.org/lib/libpciaccess/0.13.2-x86_32
-REQUIRES          += X11/X.org/lib/libXxf86vm/1.1.3-x86_32
+REQUIRES          += X11/X.org/lib/libXxf86vm/1.1.4-x86_32
 REQUIRES          += X11/X.org/lib/libXdamage/1.1.4-x86_32
 REQUIRES          += Wayland/wayland/1.6.0-x86_32
 

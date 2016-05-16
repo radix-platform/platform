@@ -796,8 +796,6 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += X11/X.org/xcb/libpthread-stubs/0.3-x86_32
 endif
 
-# ■  ────────────────────────────────────────────────────────────────  ■
-
 #
 # X.org lib (continue):
 #
@@ -905,11 +903,13 @@ endif
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
 #REQUIRES += X11/X.org/lib/libxkbfile/1.0.9-x86_32
 #endif
-#REQUIRES += X11/X.org/lib/libxshmfence/1.1
+#REQUIRES += X11/X.org/lib/libxshmfence/1.2
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
-#REQUIRES += X11/X.org/lib/libxshmfence/1.1-x86_32
+#REQUIRES += X11/X.org/lib/libxshmfence/1.2-x86_32
 #endif
 
+
+# ■  ────────────────────────────────────────────────────────────────  ■
 
 #######
 ####### Now we have to return to fontconfig, harfbuzz, cairo, Mesa and then

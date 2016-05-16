@@ -49,7 +49,7 @@ REQUIRES          += X11/X.org/lib/libXi/1.7.6
 REQUIRES          += X11/X.org/lib/libXdamage/1.1.4
 REQUIRES          += X11/X.org/lib/libXxf86vm/1.1.4
 REQUIRES          += X11/X.org/lib/pixman/0.34.0
-REQUIRES          += X11/X.org/lib/libxshmfence/1.1
+REQUIRES          += X11/X.org/lib/libxshmfence/1.2
 
 REQUIRES          += X11/X.org/xcb/xcb-util-cursor/0.1.3
 REQUIRES          += X11/X.org/xcb/xcb-util-keysyms/0.4.0

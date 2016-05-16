@@ -10,20 +10,21 @@ CREATE_X86_32_PACKAGE = true
 include ../../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/X.org/lib/libXtst
+SOURCE_REQUIRES    = sources/X.org/lib/libXi
 
-REQUIRES           = X11/X.org/lib/libXtst/1.2.2
-REQUIRES          += X11/X.org/proto/recordproto/1.14.2-x86_32
-REQUIRES          += X11/X.org/lib/libXi/1.7.6-x86_32
+REQUIRES           = X11/X.org/lib/libXi/1.7.6
+REQUIRES          += X11/X.org/proto/inputproto/2.3.2-x86_32
+REQUIRES          += X11/X.org/lib/libXext/1.3.3-x86_32
+REQUIRES          += X11/X.org/lib/libXfixes/5.0.1-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 1.2.2
-tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libXtst/libXtst-$(version).tar.bz2
+version            = 1.7.6
+tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libXi/libXi-$(version).tar.bz2
 SRC_ARCHIVE        = $(tar_bz2_archive)
-SRC_DIR            = $(TARGET_BUILD_DIR)/libXtst-$(version)
-src_dir_name       = libXtst-$(version)
+SRC_DIR            = $(TARGET_BUILD_DIR)/libXi-$(version)
+src_dir_name       = libXi-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
@@ -40,14 +41,14 @@ PKG_GROUP = xorg
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-XORG_32_PKG_NAME                = libXtst-x32
-XORG_32_PKG_VERSION             = 1.2.2
+XORG_32_PKG_NAME                = libXi-x32
+XORG_32_PKG_VERSION             = 1.7.6
 XORG_32_PKG_ARCH                = $(TOOLCHAIN)
 XORG_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 XORG_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 XORG_32_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
-XORG_32_PKG_SHORT_DESCRIPTION   = XTEST & RECORD client library
+XORG_32_PKG_SHORT_DESCRIPTION   = X Input Extension library
 XORG_32_PKG_URL                 = $(BUG_URL)
 XORG_32_PKG_LICENSE             = custom
 XORG_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(XORG_32_PKG_NAME)-pkg-description
@@ -87,6 +88,8 @@ extra_configure_switches += --localstatedir=/var
 extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --enable-static=yes
 
+extra_configure_switches += --enable-malloc0returnsnull=yes
+
 
 TARGET_LIB_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX):/usr/lib/../lib$(MULTILIB_X86_32_SUFFIX)
 
@@ -115,18 +118,18 @@ $(install_target): $(build_target)
 	@rm -rf $(XORG_32_PKG)/usr/share
 	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(XORG_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" libXtst.la \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libXi.la \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(XORG_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libXtst.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libXtst.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libXi.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libXi.la \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" xtst.pc \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" xi.pc \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(XORG_32_PKG) ; \

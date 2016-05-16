@@ -21,7 +21,7 @@ include ../../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/X.org/app/xinput
 
-REQUIRES           = X11/X.org/lib/libXi/1.7.4
+REQUIRES           = X11/X.org/lib/libXi/1.7.6
 REQUIRES          += X11/X.org/lib/libXrandr/1.4.2
 REQUIRES          += X11/X.org/lib/libXinerama/1.1.3
 

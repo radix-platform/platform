@@ -805,7 +805,7 @@ endif
 #        xtrans, libX11, pixman, libXext, libXrender, libfontenc, libFS,
 #        libICE, libSM, libXScrnSaver, libXt, libXpm, libXmu, libXaw, libXaw3d,
 #        libXfixes, libXcm, libXcomposite, libXcursor, libXdamage, libXevie,
-#        libXfontcache, libXi, liXinerama, libXp, libXrandr, libXres, libXtst,
+#        libXfontcache, libXi, libXinerama, libXp, libXrandr, libXres, libXtst,
 #        libXv, libXvMC, libXxf86dga, libXxf86misc, libXxf86vm, libdmx,
 #        libpciaccess, libxkbfile, libxshmfence
 #

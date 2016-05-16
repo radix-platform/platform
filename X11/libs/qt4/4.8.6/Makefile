@@ -40,7 +40,7 @@ REQUIRES          += X11/libs/fontconfig/2.11.1
 
 REQUIRES          += X11/X.org/lib/libXaw/1.0.13
 REQUIRES          += X11/X.org/lib/libXcursor/1.1.14
-REQUIRES          += X11/X.org/lib/libXi/1.7.4
+REQUIRES          += X11/X.org/lib/libXi/1.7.6
 REQUIRES          += X11/X.org/lib/libXinerama/1.1.3
 REQUIRES          += X11/X.org/lib/libXrandr/1.4.2
 REQUIRES          += X11/X.org/lib/libXv/1.0.10

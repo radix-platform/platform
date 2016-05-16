@@ -901,9 +901,9 @@ REQUIRES += X11/X.org/lib/libpciaccess/0.13.4
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += X11/X.org/lib/libpciaccess/0.13.4-x86_32
 endif
-#REQUIRES += X11/X.org/lib/libxkbfile/1.0.8
+#REQUIRES += X11/X.org/lib/libxkbfile/1.0.9
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
-#REQUIRES += X11/X.org/lib/libxkbfile/1.0.8-x86_32
+#REQUIRES += X11/X.org/lib/libxkbfile/1.0.9-x86_32
 #endif
 #REQUIRES += X11/X.org/lib/libxshmfence/1.1
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))

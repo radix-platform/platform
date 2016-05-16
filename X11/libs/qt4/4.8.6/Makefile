@@ -44,7 +44,7 @@ REQUIRES          += X11/X.org/lib/libXi/1.7.6
 REQUIRES          += X11/X.org/lib/libXinerama/1.1.3
 REQUIRES          += X11/X.org/lib/libXrandr/1.5.0
 REQUIRES          += X11/X.org/lib/libXv/1.0.10
-REQUIRES          += X11/X.org/lib/libxkbfile/1.0.8
+REQUIRES          += X11/X.org/lib/libxkbfile/1.0.9
 
 REQUIRES          += libs/gstreamer0/0.10.36
 REQUIRES          += libs/gst-plugins-base0/0.10.36

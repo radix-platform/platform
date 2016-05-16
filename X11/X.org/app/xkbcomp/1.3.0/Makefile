@@ -21,7 +21,7 @@ include ../../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/X.org/app/xkbcomp
 
-REQUIRES           = X11/X.org/lib/libxkbfile/1.0.8
+REQUIRES           = X11/X.org/lib/libxkbfile/1.0.9
 
 # ======= __END_OF_REQUIRES__ =======
 

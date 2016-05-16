@@ -29,7 +29,7 @@ REQUIRES          += X11/X.org/lib/libXi/1.7.6-x86_32
 REQUIRES          += X11/X.org/lib/libXinerama/1.1.3-x86_32
 REQUIRES          += X11/X.org/lib/libXrandr/1.5.0-x86_32
 REQUIRES          += X11/X.org/lib/libXv/1.0.10-x86_32
-REQUIRES          += X11/X.org/lib/libxkbfile/1.0.8-x86_32
+REQUIRES          += X11/X.org/lib/libxkbfile/1.0.9-x86_32
 
 REQUIRES          += X11/X.org/xcb/xcb-util-cursor/0.1.3-x86_32
 REQUIRES          += X11/X.org/xcb/xcb-util-keysyms/0.4.0-x86_32

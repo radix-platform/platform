@@ -5,10 +5,10 @@ COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 include ../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/X.org/lib/libpciaccess
+url         = $(DOWNLOAD_SERVER)/sources/X.org/lib/libXfont2
 
-versions    = 0.13.2 0.13.4
-pkgname     = libpciaccess
+versions    = 2.0.1
+pkgname     = libXfont2
 suffix      = tar.bz2
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))

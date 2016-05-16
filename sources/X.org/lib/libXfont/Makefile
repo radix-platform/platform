@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/lib/libXfont
 
-versions    = 1.5.0
+versions    = 1.5.0 1.5.1
 pkgname     = libXfont
 suffix      = tar.bz2
 

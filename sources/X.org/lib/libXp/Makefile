@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/lib/libXp
 
-versions    = 1.0.2
+versions    = 1.0.2 1.0.3
 pkgname     = libXp
 suffix      = tar.bz2
 

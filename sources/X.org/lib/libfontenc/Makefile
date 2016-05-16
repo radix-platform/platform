@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/lib/libfontenc
 
-versions    = 1.1.2
+versions    = 1.1.2 1.1.3
 pkgname     = libfontenc
 suffix      = tar.bz2
 

@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/lib/libX11
 
-versions    = 1.6.2
+versions    = 1.6.2 1.6.3
 pkgname     = libX11
 suffix      = tar.bz2
 

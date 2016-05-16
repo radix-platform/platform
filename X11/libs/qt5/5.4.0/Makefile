@@ -42,7 +42,7 @@ REQUIRES          += X11/X.org/lib/libXaw/1.0.12
 REQUIRES          += X11/X.org/lib/libXcursor/1.1.14
 REQUIRES          += X11/X.org/lib/libXi/1.7.6
 REQUIRES          += X11/X.org/lib/libXinerama/1.1.3
-REQUIRES          += X11/X.org/lib/libXrandr/1.4.2
+REQUIRES          += X11/X.org/lib/libXrandr/1.5.0
 REQUIRES          += X11/X.org/lib/libXv/1.0.10
 REQUIRES          += X11/X.org/lib/libxkbfile/1.0.8
 

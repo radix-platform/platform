@@ -23,7 +23,7 @@ SOURCE_REQUIRES    = sources/packages/x/freeglut
 
 REQUIRES           = X11/libs/glu/9.0.0
 REQUIRES          += X11/X.org/lib/libXi/1.7.6
-REQUIRES          += X11/X.org/lib/libXrandr/1.4.2
+REQUIRES          += X11/X.org/lib/libXrandr/1.5.0
 
 # ======= __END_OF_REQUIRES__ =======
 

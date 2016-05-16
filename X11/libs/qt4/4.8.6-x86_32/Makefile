@@ -23,7 +23,7 @@ REQUIRES          += app/cups/2.0.1-x86_32
 
 REQUIRES          += X11/libs/fontconfig/2.11.1-x86_32
 
-REQUIRES          += X11/X.org/lib/libXaw/1.0.12-x86_32
+REQUIRES          += X11/X.org/lib/libXaw/1.0.13-x86_32
 REQUIRES          += X11/X.org/lib/libXcursor/1.1.14-x86_32
 REQUIRES          += X11/X.org/lib/libXi/1.7.4-x86_32
 REQUIRES          += X11/X.org/lib/libXinerama/1.1.3-x86_32

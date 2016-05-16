@@ -23,7 +23,7 @@ SOURCE_REQUIRES    = sources/packages/x/xterm
 
 REQUIRES           = libs/libtermcap/1.2.3
 REQUIRES          += app/utempter/1.1.6
-REQUIRES          += X11/X.org/lib/libXaw/1.0.12
+REQUIRES          += X11/X.org/lib/libXaw/1.0.13
 REQUIRES          += X11/X.org/lib/libXft/2.3.2
 REQUIRES          += X11/X.org/lib/libxkbfile/1.0.8
 REQUIRES          += X11/X.org/data/xbitmaps/1.1.1

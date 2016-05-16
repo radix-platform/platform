@@ -21,7 +21,7 @@ include ../../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/X.org/app/xvidtune
 
-REQUIRES           = X11/X.org/lib/libXaw/1.0.12
+REQUIRES           = X11/X.org/lib/libXaw/1.0.13
 REQUIRES          += X11/X.org/lib/libXxf86vm/1.1.3
 
 # ======= __END_OF_REQUIRES__ =======

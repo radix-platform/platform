@@ -21,7 +21,7 @@ include ../../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/X.org/app/xfd
 
-REQUIRES           = X11/X.org/lib/libXaw/1.0.12
+REQUIRES           = X11/X.org/lib/libXaw/1.0.13
 REQUIRES          += X11/X.org/lib/libXft/2.3.2
 
 # ======= __END_OF_REQUIRES__ =======

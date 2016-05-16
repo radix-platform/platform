@@ -825,9 +825,9 @@ REQUIRES += X11/X.org/lib/libXScrnSaver/1.2.2
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += X11/X.org/lib/libXScrnSaver/1.2.2-x86_32
 endif
-#REQUIRES += X11/X.org/lib/libXaw/1.0.12
+#REQUIRES += X11/X.org/lib/libXaw/1.0.13
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
-#REQUIRES += X11/X.org/lib/libXaw/1.0.12-x86_32
+#REQUIRES += X11/X.org/lib/libXaw/1.0.13-x86_32
 #endif
 REQUIRES += X11/X.org/lib/libXaw3d/1.6.2
 ifeq ($(HARDWARE),$(HARDWARE_PC64))

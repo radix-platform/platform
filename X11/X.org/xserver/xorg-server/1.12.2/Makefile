@@ -42,7 +42,7 @@ REQUIRES          += X11/X.org/proto/fontsproto/2.1.3
 REQUIRES          += X11/X.org/proto/glproto/1.4.17
 REQUIRES          += X11/X.org/proto/resourceproto/1.2.0
 
-REQUIRES          += X11/X.org/lib/libXaw/1.0.12
+REQUIRES          += X11/X.org/lib/libXaw/1.0.13
 REQUIRES          += X11/X.org/lib/libXft/2.3.2
 REQUIRES          += X11/X.org/lib/libXfont/1.5.0
 REQUIRES          += X11/X.org/lib/libXi/1.7.4

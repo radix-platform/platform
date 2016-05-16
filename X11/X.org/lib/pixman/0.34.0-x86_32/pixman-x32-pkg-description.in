@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+          |-----handy-ruler------------------------------------------------------|
+pixman-x32: pixman-x32 @VERSION@ (x86_32 pixel manipulation library)
+pixman-x32:
+pixman-x32: pixman is part of X11.
+pixman-x32:
+pixman-x32: For more information about the X.Org Foundation (the providers
+pixman-x32: of the X.Org implementation of the X Window System).
+pixman-x32:
+pixman-x32: See: http://www.x.org
+pixman-x32:
+pixman-x32:
+pixman-x32:

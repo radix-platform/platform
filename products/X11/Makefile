@@ -809,9 +809,9 @@ endif
 #        libXv, libXvMC, libXxf86dga, libXxf86misc, libXxf86vm, libdmx,
 #        libpciaccess, libxkbfile, libxshmfence
 #
-#REQUIRES += X11/X.org/lib/pixman/0.32.6
+#REQUIRES += X11/X.org/lib/pixman/0.34.0
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
-#REQUIRES += X11/X.org/lib/pixman/0.32.6-x86_32
+#REQUIRES += X11/X.org/lib/pixman/0.34.0-x86_32
 #endif
 REQUIRES += X11/X.org/lib/libfontenc/1.1.2
 ifeq ($(HARDWARE),$(HARDWARE_PC64))

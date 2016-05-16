@@ -17,7 +17,7 @@ REQUIRES          += libs/lzo/2.09-x86_32
 REQUIRES          += libs/pcre/8.38-x86_32
 REQUIRES          += libs/glib2/2.48.0-x86_32
 REQUIRES          += X11/libs/fontconfig/2.11.1-x86_32
-REQUIRES          += X11/X.org/lib/pixman/0.32.6-x86_32
+REQUIRES          += X11/X.org/lib/pixman/0.34.0-x86_32
 REQUIRES          += X11/X.org/lib/libXext/1.3.3-x86_32
 REQUIRES          += X11/X.org/lib/libXrender/0.9.8-x86_32
 

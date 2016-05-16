@@ -22,7 +22,7 @@ include ../../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/X.org/app/fstobdf
 
 REQUIRES           = X11/X.org/lib/libX11/1.6.3
-REQUIRES          += X11/X.org/lib/libFS/1.0.6
+REQUIRES          += X11/X.org/lib/libFS/1.0.7
 
 # ======= __END_OF_REQUIRES__ =======
 

@@ -22,7 +22,7 @@ include ../../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/X.org/lib/libXcursor
 
 REQUIRES           = X11/X.org/lib/libXfixes/5.0.1
-REQUIRES          += X11/X.org/lib/libXrender/0.9.8
+REQUIRES          += X11/X.org/lib/libXrender/0.9.9
 
 # ======= __END_OF_REQUIRES__ =======
 

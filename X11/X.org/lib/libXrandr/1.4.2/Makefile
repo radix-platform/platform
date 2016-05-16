@@ -23,7 +23,7 @@ SOURCE_REQUIRES    = sources/X.org/lib/libXrandr
 
 REQUIRES           = X11/X.org/proto/randrproto/1.4.0
 REQUIRES          += X11/X.org/lib/libXext/1.3.3
-REQUIRES          += X11/X.org/lib/libXrender/0.9.8
+REQUIRES          += X11/X.org/lib/libXrender/0.9.9
 
 # ======= __END_OF_REQUIRES__ =======
 

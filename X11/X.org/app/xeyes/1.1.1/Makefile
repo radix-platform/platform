@@ -22,7 +22,7 @@ include ../../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/X.org/app/xeyes
 
 REQUIRES           = X11/X.org/lib/libXmu/1.1.2
-REQUIRES          += X11/X.org/lib/libXrender/0.9.8
+REQUIRES          += X11/X.org/lib/libXrender/0.9.9
 
 # ======= __END_OF_REQUIRES__ =======
 

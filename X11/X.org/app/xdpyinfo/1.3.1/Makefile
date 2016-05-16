@@ -27,7 +27,7 @@ REQUIRES          += X11/X.org/lib/libXxf86vm/1.1.3
 REQUIRES          += X11/X.org/lib/libdmx/1.1.3
 REQUIRES          += X11/X.org/lib/libXinerama/1.1.3
 REQUIRES          += X11/X.org/lib/libXcomposite/0.4.4
-REQUIRES          += X11/X.org/lib/libXrender/0.9.8
+REQUIRES          += X11/X.org/lib/libXrender/0.9.9
 REQUIRES          += X11/X.org/lib/libXtst/1.2.2
 
 # ======= __END_OF_REQUIRES__ =======

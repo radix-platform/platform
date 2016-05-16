@@ -23,7 +23,7 @@ SOURCE_REQUIRES    = sources/X.org/lib/libXft
 
 REQUIRES           = libs/freetype/2.5.3
 REQUIRES          += X11/libs/fontconfig/2.11.1
-REQUIRES          += X11/X.org/lib/libXrender/0.9.8
+REQUIRES          += X11/X.org/lib/libXrender/0.9.9
 
 # ======= __END_OF_REQUIRES__ =======
 

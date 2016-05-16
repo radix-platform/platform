@@ -27,7 +27,7 @@ REQUIRES          += libs/glib2/2.48.0
 REQUIRES          += X11/libs/fontconfig/2.11.1
 REQUIRES          += X11/X.org/lib/pixman/0.34.0
 REQUIRES          += X11/X.org/lib/libXext/1.3.3
-REQUIRES          += X11/X.org/lib/libXrender/0.9.8
+REQUIRES          += X11/X.org/lib/libXrender/0.9.9
 REQUIRES          += libs/libspectre/0.2.7
 REQUIRES          += X11/libs/librsvg/2.40.5
 

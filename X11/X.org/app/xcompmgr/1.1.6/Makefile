@@ -24,7 +24,7 @@ SOURCE_REQUIRES    = sources/X.org/app/xcompmgr
 REQUIRES           = X11/X.org/lib/libXext/1.3.3
 REQUIRES          += X11/X.org/lib/libXcomposite/0.4.4
 REQUIRES          += X11/X.org/lib/libXdamage/1.1.4
-REQUIRES          += X11/X.org/lib/libXrender/0.9.8
+REQUIRES          += X11/X.org/lib/libXrender/0.9.9
 
 # ======= __END_OF_REQUIRES__ =======
 

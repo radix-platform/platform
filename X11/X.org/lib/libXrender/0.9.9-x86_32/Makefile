@@ -12,14 +12,14 @@ include ../../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/X.org/lib/libXrender
 
-REQUIRES           = X11/X.org/lib/libXrender/0.9.8
-REQUIRES          += X11/X.org/lib/libX11/1.6.2-x86_32
+REQUIRES           = X11/X.org/lib/libXrender/0.9.9
+REQUIRES          += X11/X.org/lib/libX11/1.6.3-x86_32
 REQUIRES          += X11/X.org/proto/renderproto/0.11.1-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 0.9.8
+version            = 0.9.9
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libXrender/libXrender-$(version).tar.bz2
 SRC_ARCHIVE        = $(tar_bz2_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/libXrender-$(version)
@@ -41,7 +41,7 @@ PKG_GROUP = xorg
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 XORG_32_PKG_NAME                = libXrender-x32
-XORG_32_PKG_VERSION             = 0.9.8
+XORG_32_PKG_VERSION             = 0.9.9
 XORG_32_PKG_ARCH                = $(TOOLCHAIN)
 XORG_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 XORG_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -87,6 +87,8 @@ extra_configure_switches += --localstatedir=/var
 extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --enable-static=yes
 
+env_build = xorg_cv_malloc0_returns_null=yes
+
 
 TARGET_LIB_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX):/usr/lib/../lib$(MULTILIB_X86_32_SUFFIX)
 
@@ -100,7 +102,7 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 
 $(build_target): $(src_done)
 	@mkdir -p $(build_dir)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(env_build) ../$(src_dir_name)/configure \
 	  --prefix=/usr               \
 	  --build=$(BUILD)            \
 	  --host=$(TARGET32)          \

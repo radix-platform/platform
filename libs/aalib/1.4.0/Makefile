@@ -22,7 +22,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/aalib
 
 REQUIRES          += libs/slang/2.2.4
-REQUIRES          += X11/X.org/lib/libXt/1.1.4
+REQUIRES          += X11/X.org/lib/libXt/1.1.5
 
 # ======= __END_OF_REQUIRES__ =======
 

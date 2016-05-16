@@ -10,21 +10,21 @@ CREATE_X86_32_PACKAGE = true
 include ../../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/X.org/lib/libXmu
+SOURCE_REQUIRES    = sources/X.org/lib/libXt
 
-REQUIRES           = X11/X.org/lib/libXmu/1.1.2
+REQUIRES           = X11/X.org/lib/libXt/1.1.5
 REQUIRES          += X11/X.org/proto/xproto/7.0.29-x86_32
-REQUIRES          += X11/X.org/lib/libXext/1.3.3-x86_32
-REQUIRES          += X11/X.org/lib/libXt/1.1.5-x86_32
+REQUIRES          += X11/X.org/lib/libX11/1.6.3-x86_32
+REQUIRES          += X11/X.org/lib/libSM/1.2.2-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 1.1.2
-tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libXmu/libXmu-$(version).tar.bz2
+version            = 1.1.5
+tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libXt/libXt-$(version).tar.bz2
 SRC_ARCHIVE        = $(tar_bz2_archive)
-SRC_DIR            = $(TARGET_BUILD_DIR)/libXmu-$(version)
-src_dir_name       = libXmu-$(version)
+SRC_DIR            = $(TARGET_BUILD_DIR)/libXt-$(version)
+src_dir_name       = libXt-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
@@ -41,14 +41,14 @@ PKG_GROUP = xorg
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-XORG_32_PKG_NAME                = libXmu-x32
-XORG_32_PKG_VERSION             = 1.1.2
+XORG_32_PKG_NAME                = libXt-x32
+XORG_32_PKG_VERSION             = 1.1.5
 XORG_32_PKG_ARCH                = $(TOOLCHAIN)
 XORG_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 XORG_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 XORG_32_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
-XORG_32_PKG_SHORT_DESCRIPTION   = X miscellaneous utility library
+XORG_32_PKG_SHORT_DESCRIPTION   = X Toolkit Intrinsics library
 XORG_32_PKG_URL                 = $(BUG_URL)
 XORG_32_PKG_LICENSE             = custom
 XORG_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(XORG_32_PKG_NAME)-pkg-description
@@ -85,8 +85,11 @@ extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var
+extra_configure_switches += --with-appdefaultdir=/etc/X11/app-defaults
 extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --enable-static=yes
+
+extra_configure_switches += --enable-malloc0returnsnull=yes
 
 
 TARGET_LIB_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX):/usr/lib/../lib$(MULTILIB_X86_32_SUFFIX)
@@ -106,6 +109,11 @@ $(build_target): $(src_done)
 	  --build=$(BUILD)            \
 	  --host=$(TARGET32)          \
 	  $(extra_configure_switches)
+	# ======= trick the Makefile.am developers =======
+	@( cd $(build_dir)/util ; \
+	   gcc -c -o makestrs.o $(CURDIR)/$(SRC_DIR)/util/makestrs.c ; \
+	   gcc -o makestrs makestrs.o ; \
+	 )
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
 	@touch $@
 
@@ -116,18 +124,18 @@ $(install_target): $(build_target)
 	@rm -rf $(XORG_32_PKG)/usr/share
 	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(XORG_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" libXmu.la libXmuu.la \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libXt.la \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(XORG_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libXmu.la libXmuu.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libXmu.la libXmuu.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libXt.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libXt.la \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" xmu.pc xmuu.pc \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" xt.pc \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(XORG_32_PKG) ; \

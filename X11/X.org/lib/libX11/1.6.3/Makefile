@@ -102,13 +102,14 @@ extra_configure_switches += --localstatedir=/var
 extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --enable-static=yes
 
+extra_configure_switches += --enable-malloc0returnsnull=yes
+
 CC_FOR_BUILD       = gcc
 CFLAGS_FOR_BUILD   = -I/usr/include
 CPPFLAGS_FOR_BUILD = -I/usr/include
 LDFLAGS_FOR_BUILD  = -L/usr/lib64
 
-env_build = xorg_cv_malloc0_returns_null=yes         \
-            CC_FOR_BUILD=$(CC_FOR_BUILD)             \
+env_build = CC_FOR_BUILD=$(CC_FOR_BUILD)             \
             CFLAGS_FOR_BUILD=$(CFLAGS_FOR_BUILD)     \
             CPPFLAGS_FOR_BUILD=$(CPPFLAGS_FOR_BUILD) \
             LDFLAGS_FOR_BUILD=$(LDFLAGS_FOR_BUILD)

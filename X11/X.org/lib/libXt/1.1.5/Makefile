@@ -19,20 +19,20 @@ COMPONENT_IS_3PP   = true
 include ../../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/X.org/lib/libXpm
+SOURCE_REQUIRES    = sources/X.org/lib/libXt
 
 REQUIRES           = X11/X.org/proto/xproto/7.0.29
-REQUIRES          += X11/X.org/lib/libXext/1.3.3
-REQUIRES          += X11/X.org/lib/libXt/1.1.5
+REQUIRES          += X11/X.org/lib/libX11/1.6.3
+REQUIRES          += X11/X.org/lib/libSM/1.2.2
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 3.5.11
-tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libXpm/libXpm-$(version).tar.bz2
+version            = 1.1.5
+tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libXt/libXt-$(version).tar.bz2
 SRC_ARCHIVE        = $(tar_bz2_archive)
-SRC_DIR            = $(TARGET_BUILD_DIR)/libXpm-$(version)
-src_dir_name       = libXpm-$(version)
+SRC_DIR            = $(TARGET_BUILD_DIR)/libXt-$(version)
+src_dir_name       = libXt-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
@@ -49,14 +49,14 @@ PKG_GROUP = xorg
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-XORG_PKG_NAME                = libXpm
-XORG_PKG_VERSION             = 3.5.11
+XORG_PKG_NAME                = libXt
+XORG_PKG_VERSION             = 1.1.5
 XORG_PKG_ARCH                = $(TOOLCHAIN)
 XORG_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 XORG_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 XORG_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
-XORG_PKG_SHORT_DESCRIPTION   = X Pixmap image library
+XORG_PKG_SHORT_DESCRIPTION   = X Toolkit Intrinsics library
 XORG_PKG_URL                 = $(BUG_URL)
 XORG_PKG_LICENSE             = custom
 XORG_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(XORG_PKG_NAME)-pkg-description
@@ -93,11 +93,13 @@ extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var
+extra_configure_switches += --with-appdefaultdir=/etc/X11/app-defaults
 extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --enable-static=yes
 
+extra_configure_switches += --enable-malloc0returnsnull=yes
 
-TARGET_BIN_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)
+
 TARGET_LIB_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUFFIX)
 
 
@@ -116,6 +118,11 @@ $(build_target): $(src_done)
 	  --build=$(BUILD)            \
 	  --host=$(TARGET)            \
 	  $(extra_configure_switches)
+	# ======= trick the Makefile.am developers =======
+	@( cd $(build_dir)/util ; \
+	   gcc -c -o makestrs.o $(CURDIR)/$(SRC_DIR)/util/makestrs.c ; \
+	   gcc -o makestrs makestrs.o ; \
+	 )
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
 	@touch $@
 
@@ -123,6 +130,17 @@ $(install_target): $(build_target)
 	@mkdir -p $(XORG_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Install Documentation =======
+	@( cd $(XORG_PKG)/usr/share/man/man3 ; \
+	   for file in *.3 ; do                                \
+	     ln=`head -n 1 $$file` ;                           \
+	     if [ "`echo $$ln | grep '^\.so '`" != "" ] ; then \
+	       origin=`echo $$ln | cut -f 2 -d ' '` ;          \
+	       origin=`basename $$origin` ;                    \
+	       rm -f $$file ;                                  \
+	       ln -sf $$origin $$file ;                        \
+	     fi ;                                              \
+	   done ;                                              \
+	 )
 	@if [ -d $(XORG_PKG)/usr/share/man ]; then \
 	  ( cd $(XORG_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \
@@ -137,11 +155,11 @@ $(install_target): $(build_target)
 	  ) \
 	 fi
 	@mkdir -p $(XORG_PKG)/usr/doc/$(src_dir_name)
-	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/COPYING $(SRC_DIR)/COPYRIGHT \
+	@cp -a $(SRC_DIR)/COPYING \
 	       $(XORG_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(XORG_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a AUTHORS COPYING COPYRIGHT INSTALL NEWS.old README \
+	   cp -a COPYING INSTALL README \
 	         $(XORG_PKG)/usr/share/doc/$(src_dir_name) \
 	 )
 	@( cd $(XORG_PKG)/usr/share/doc ; \
@@ -156,18 +174,18 @@ $(install_target): $(build_target)
 	 )
 	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(XORG_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" libXpm.la \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libXt.la \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(XORG_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libXpm.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libXpm.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libXt.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libXt.la \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" xpm.pc \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" xt.pc \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(XORG_PKG) ; \
@@ -176,15 +194,6 @@ $(install_target): $(build_target)
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
 ifneq ($(CHRPATH),)
-	# ======= Set RPATH/RUNPATH for target binaries =======
-	@( cd $(XORG_PKG)/usr/bin ; \
-	   for file in `find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
-	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
-	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
-	       $(CHRPATH) -r $(TARGET_BIN_RPATH) $$file 1> /dev/null 2> /dev/null ; \
-	     fi ; \
-	   done ; \
-	 )
 	# ======= Set RPATH/RUNPATH for target shared objects =======
 	@( cd $(XORG_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \

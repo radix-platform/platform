@@ -21,7 +21,7 @@ include ../../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/X.org/app/beforelight
 
-REQUIRES           = X11/X.org/lib/libXt/1.1.4
+REQUIRES           = X11/X.org/lib/libXt/1.1.5
 REQUIRES          += X11/X.org/lib/libXScrnSaver/1.2.2
 
 # ======= __END_OF_REQUIRES__ =======

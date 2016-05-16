@@ -91,7 +91,7 @@ extra_configure_switches += --localstatedir=/var
 extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --enable-static=yes
 
-env_build = xorg_cv_malloc0_returns_null=yes
+extra_configure_switches += --enable-malloc0returnsnull=yes
 
 
 TARGET_LIB_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX):/usr/lib/../lib$(MULTILIB_X86_32_SUFFIX)
@@ -106,7 +106,7 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 
 $(build_target): $(src_done)
 	@mkdir -p $(build_dir)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(env_build) ../$(src_dir_name)/configure \
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
 	  --prefix=/usr               \
 	  --build=$(BUILD)            \
 	  --host=$(TARGET32)          \

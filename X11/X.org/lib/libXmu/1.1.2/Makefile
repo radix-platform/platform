@@ -23,7 +23,7 @@ SOURCE_REQUIRES    = sources/X.org/lib/libXmu
 
 REQUIRES           = X11/X.org/proto/xproto/7.0.29
 REQUIRES          += X11/X.org/lib/libXext/1.3.3
-REQUIRES          += X11/X.org/lib/libXt/1.1.4
+REQUIRES          += X11/X.org/lib/libXt/1.1.5
 
 # ======= __END_OF_REQUIRES__ =======
 

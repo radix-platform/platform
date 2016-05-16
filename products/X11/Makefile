@@ -813,9 +813,9 @@ endif
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
 #REQUIRES += X11/X.org/lib/pixman/0.34.0-x86_32
 #endif
-REQUIRES += X11/X.org/lib/libfontenc/1.1.2
+REQUIRES += X11/X.org/lib/libfontenc/1.1.3
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += X11/X.org/lib/libfontenc/1.1.2-x86_32
+REQUIRES += X11/X.org/lib/libfontenc/1.1.3-x86_32
 endif
 REQUIRES += X11/X.org/lib/libFS/1.0.6
 ifeq ($(HARDWARE),$(HARDWARE_PC64))

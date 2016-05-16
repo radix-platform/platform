@@ -10,22 +10,20 @@ CREATE_X86_32_PACKAGE = true
 include ../../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/X.org/lib/libXfont
+SOURCE_REQUIRES    = sources/X.org/lib/libfontenc
 
-REQUIRES           = X11/X.org/lib/libXfont/1.5.0
-REQUIRES          += libs/freetype/2.5.3-x86_32
-REQUIRES          += X11/X.org/lib/xtrans/1.3.5-x86_32
-REQUIRES          += X11/X.org/lib/libfontenc/1.1.3-x86_32
-REQUIRES          += X11/X.org/proto/fontsproto/2.1.3-x86_32
+REQUIRES           = X11/X.org/lib/libfontenc/1.1.3
+REQUIRES          += libs/zlib/1.2.8-x86_32
+REQUIRES          += X11/X.org/proto/xproto/7.0.29-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 1.5.0
-tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libXfont/libXfont-$(version).tar.bz2
+version            = 1.1.3
+tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/lib/libfontenc/libfontenc-$(version).tar.bz2
 SRC_ARCHIVE        = $(tar_bz2_archive)
-SRC_DIR            = $(TARGET_BUILD_DIR)/libXfont-$(version)
-src_dir_name       = libXfont-$(version)
+SRC_DIR            = $(TARGET_BUILD_DIR)/libfontenc-$(version)
+src_dir_name       = libfontenc-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
@@ -42,14 +40,14 @@ PKG_GROUP = xorg
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-XORG_32_PKG_NAME                = libXfont-x32
-XORG_32_PKG_VERSION             = 1.5.0
+XORG_32_PKG_NAME                = libfontenc-x32
+XORG_32_PKG_VERSION             = 1.1.3
 XORG_32_PKG_ARCH                = $(TOOLCHAIN)
 XORG_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 XORG_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 XORG_32_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
-XORG_32_PKG_SHORT_DESCRIPTION   = legacy X11 font system library
+XORG_32_PKG_SHORT_DESCRIPTION   = font encoding library
 XORG_32_PKG_URL                 = $(BUG_URL)
 XORG_32_PKG_LICENSE             = custom
 XORG_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(XORG_32_PKG_NAME)-pkg-description
@@ -90,9 +88,6 @@ extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --enable-static=yes
 
 
-TARGET_LIB_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX):/usr/lib/../lib$(MULTILIB_X86_32_SUFFIX)
-
-
 ####### Dependencies
 
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
@@ -117,36 +112,25 @@ $(install_target): $(build_target)
 	@rm -rf $(XORG_32_PKG)/usr/share
 	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(XORG_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" libXfont.la \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libfontenc.la \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(XORG_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libXfont.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libXfont.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libfontenc.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libfontenc.la \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" xfont.pc \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" fontenc.pc \
 	 )
 	# ======= Strip binaries =======
-	@( cd $(XORG_32_PKG) ; \
+	@( cd $(XORG_32_PKG); \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
-ifneq ($(CHRPATH),)
-	# ======= Set RPATH/RUNPATH for target shared objects =======
-	@( cd $(XORG_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
-	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
-	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
-	       $(CHRPATH) -r $(TARGET_LIB_RPATH) $$file 1> /dev/null 2> /dev/null ; \
-	     fi ; \
-	   done ; \
-	 )
-endif
 	@touch $@
 
 $(XORG_32_PKG_DESCRIPTION_FILE): $(XORG_32_PKG_DESCRIPTION_FILE_IN)

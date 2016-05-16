@@ -23,7 +23,7 @@ SOURCE_REQUIRES    = sources/X.org/lib/libXfont
 
 REQUIRES           = libs/freetype/2.5.3
 REQUIRES          += X11/X.org/lib/xtrans/1.3.5
-REQUIRES          += X11/X.org/lib/libfontenc/1.1.2
+REQUIRES          += X11/X.org/lib/libfontenc/1.1.3
 REQUIRES          += X11/X.org/proto/fontsproto/2.1.3
 
 # ======= __END_OF_REQUIRES__ =======

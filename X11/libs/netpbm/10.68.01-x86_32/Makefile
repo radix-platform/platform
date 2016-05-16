@@ -21,7 +21,7 @@ REQUIRES          += app/jbigkit/2.1-x86_32
 REQUIRES          += libs/libpng/libpng14/1.4.19-x86_32
 REQUIRES          += libs/libtiff/4.0.6-x86_32
 REQUIRES          += libs/libjpeg-turbo/1.4.2-x86_32
-REQUIRES          += X11/X.org/lib/libX11/1.6.2-x86_32
+REQUIRES          += X11/X.org/lib/libX11/1.6.3-x86_32
 #
 # Runtime required packages:
 #

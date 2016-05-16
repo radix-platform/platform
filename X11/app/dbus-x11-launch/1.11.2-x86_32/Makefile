@@ -14,7 +14,7 @@ SOURCE_REQUIRES    = sources/packages/a/dbus
 
 REQUIRES           = X11/app/dbus-x11-launch/1.11.2
 REQUIRES          += app/dbus/1.11.2-x86_32
-REQUIRES          += X11/X.org/lib/libX11/1.6.2-x86_32
+REQUIRES          += X11/X.org/lib/libX11/1.6.3-x86_32
 REQUIRES          += X11/X.org/lib/libSM/1.2.2-x86_32
 
 # ======= __END_OF_REQUIRES__ =======

@@ -22,7 +22,7 @@ include ../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/dbus
 
 REQUIRES           = app/dbus/1.11.2
-REQUIRES          += X11/X.org/lib/libX11/1.6.2
+REQUIRES          += X11/X.org/lib/libX11/1.6.3
 REQUIRES          += X11/X.org/lib/libSM/1.2.2
 
 # ======= __END_OF_REQUIRES__ =======

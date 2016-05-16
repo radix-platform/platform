@@ -24,7 +24,7 @@ SOURCE_REQUIRES    = sources/GNOME/core/gdk-pixbuf
 REQUIRES           = libs/glib2/2.48.0
 REQUIRES          += libs/libpng/libpng14/1.4.19
 REQUIRES          += libs/libtiff/4.0.6
-REQUIRES          += X11/X.org/lib/libX11/1.6.2
+REQUIRES          += X11/X.org/lib/libX11/1.6.3
 
 # ======= __END_OF_REQUIRES__ =======
 

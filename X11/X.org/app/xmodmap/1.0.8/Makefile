@@ -21,7 +21,7 @@ include ../../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/X.org/app/xmodmap
 
-REQUIRES           = X11/X.org/lib/libX11/1.6.2
+REQUIRES           = X11/X.org/lib/libX11/1.6.3
 
 # ======= __END_OF_REQUIRES__ =======
 

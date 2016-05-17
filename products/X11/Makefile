@@ -912,8 +912,13 @@ endif
 # ■  ────────────────────────────────────────────────────────────────  ■
 
 #######
-####### Now we have to return to fontconfig, harfbuzz, cairo, Mesa and then
-####### we will return to libXft, libXfont.
+####### Now we have to return to fontconfig, harfbuzz, cairo, Mesa
+#######
+####### (order: env/freetype/2.6.3, X11/libs/fontconfig/2.11.95,
+#######         ...
+####### )
+#######
+####### and then we will return to libXft, libXfont.
 #######
 
 # order: X11/libs/libdrm, Wayland/wayland

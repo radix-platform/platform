@@ -26,7 +26,7 @@ REQUIRES          += libs/libvpx/1.5.0
 REQUIRES          += libs/libpng/libpng14/1.4.19
 REQUIRES          += libs/libjpeg-turbo/1.4.2
 REQUIRES          += libs/freetype/2.5.3
-REQUIRES          += X11/libs/fontconfig/2.11.1
+REQUIRES          += X11/libs/fontconfig/2.11.95
 REQUIRES          += X11/X.org/lib/libXpm/3.5.11
 
 # ======= __END_OF_REQUIRES__ =======

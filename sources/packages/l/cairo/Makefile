@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/cairo
 
-versions    = 1.14.0
+versions    = 1.14.0 1.14.6
 pkgname     = cairo
 suffix      = tar.xz
 
@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/cairo-1.14.0.patch
+patches    += $(CURDIR)/patches/cairo-1.14.6.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,6 +51,7 @@ $(sha1s): $(tarballs)
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-1.14.0-patch ; ./create.patch.sh ) ; \
+	 ( cd create-1.14.6-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

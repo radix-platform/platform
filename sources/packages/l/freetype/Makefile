@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/freetype
 
-versions    = 2.5.3
+versions    = 2.5.3 2.6.3
 pkgname     = freetype
 suffix      = tar.bz2
 
@@ -15,6 +15,8 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/freetype-2.5.3.patch
+patches    += $(CURDIR)/patches/freetype-2.6.3.patch
+patches    += $(CURDIR)/patches/freetype-2.6.3-subpixel.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -49,7 +51,9 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-2.5.3-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2.5.3-patch          ; ./create.patch.sh ) ; \
+	 ( cd create-2.6.3-patch          ; ./create.patch.sh ) ; \
+	 ( cd create-2.6.3-subpixel-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

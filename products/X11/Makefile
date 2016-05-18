@@ -915,17 +915,17 @@ endif
 ####### Now we have to return to fontconfig, harfbuzz, cairo, Mesa
 #######
 ####### (order: env/freetype/2.6.3, X11/libs/fontconfig/2.11.95,
-#######         ...
+#######         X11/libs/libdrm, ...
 ####### )
 #######
-####### and then we will return to libXft, libXfont.
+####### and then we will return to libXft, libXfont:
 #######
 
 # order: X11/libs/libdrm, Wayland/wayland
 
-#REQUIRES += X11/libs/libdrm/2.4.64
+#REQUIRES += X11/libs/libdrm/2.4.68
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
-#REQUIRES += X11/libs/libdrm/2.4.64-x86_32
+#REQUIRES += X11/libs/libdrm/2.4.68-x86_32
 #endif
 
 #REQUIRES += Wayland/wayland/1.6.0

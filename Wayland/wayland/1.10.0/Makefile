@@ -23,11 +23,12 @@ SOURCE_REQUIRES    = sources/Wayland/wayland
 
 REQUIRES           = libs/expat/2.1.1
 REQUIRES          += libs/libffi/3.2.1
+REQUIRES          += libs/libxml2/2.9.3
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 1.6.0
+version            = 1.10.0
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/Wayland/wayland/wayland-$(version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/wayland-$(version)
@@ -49,7 +50,7 @@ PKG_GROUP = wayland
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 WAYLAND_PKG_NAME                = wayland
-WAYLAND_PKG_VERSION             = 1.6.0
+WAYLAND_PKG_VERSION             = 1.10.0
 WAYLAND_PKG_ARCH                = $(TOOLCHAIN)
 WAYLAND_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 WAYLAND_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -126,6 +127,8 @@ $(install_target): $(build_target)
 	@mkdir -p $(WAYLAND_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Install Documentation =======
+	@cat $(CURDIR)/$(build_dir)/doc/doxygen/man/man3/wayland-util.h.3 | \
+	     sed "s,$(CURDIR)/$(SRC_DIR)/src/,,g" > $(WAYLAND_PKG)/usr/share/man/man3/wayland-util.h.3
 	@( cd $(WAYLAND_PKG)/usr/share/man/man3 ; \
 	   for file in *.3 ; do                                \
 	     ln=`head -n 1 $$file` ;                           \

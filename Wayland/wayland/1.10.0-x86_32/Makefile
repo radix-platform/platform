@@ -12,14 +12,15 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/Wayland/wayland
 
-REQUIRES           = Wayland/wayland/1.6.0
+REQUIRES           = Wayland/wayland/1.10.0
 REQUIRES          += libs/expat/2.1.1-x86_32
 REQUIRES          += libs/libffi/3.2.1-x86_32
+REQUIRES          += libs/libxml2/2.9.3-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 1.6.0
+version            = 1.10.0
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/Wayland/wayland/wayland-$(version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/wayland-$(version)
@@ -41,7 +42,7 @@ PKG_GROUP = wayland
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 WAYLAND_32_PKG_NAME                = wayland-x32
-WAYLAND_32_PKG_VERSION             = 1.6.0
+WAYLAND_32_PKG_VERSION             = 1.10.0
 WAYLAND_32_PKG_ARCH                = $(TOOLCHAIN)
 WAYLAND_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 WAYLAND_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)

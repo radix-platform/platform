@@ -40,7 +40,7 @@ REQUIRES          += X11/X.org/lib/libpciaccess/0.13.4
 endif
 REQUIRES          += X11/X.org/lib/libXxf86vm/1.1.4
 REQUIRES          += X11/X.org/lib/libXdamage/1.1.4
-REQUIRES          += Wayland/wayland/1.6.0
+REQUIRES          += Wayland/wayland/1.10.0
 
 # ======= __END_OF_REQUIRES__ =======
 

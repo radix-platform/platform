@@ -10,7 +10,7 @@ CREATE_X86_32_PACKAGE = true
 include ../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/packages/x/mesa
+SOURCE_REQUIRES    = sources/packages/x/MesaLib/10.x
 
 REQUIRES           = X11/libs/mesa/10.3.4
 REQUIRES          += libs/expat/2.1.1-x86_32
@@ -33,7 +33,7 @@ REQUIRES          += Wayland/wayland/1.6.0-x86_32
 
 
 version            = 10.3.4
-tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/x/mesa/MesaLib-$(version).tar.bz2
+tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/x/MesaLib/10.x/MesaLib-$(version).tar.bz2
 SRC_ARCHIVE        = $(tar_bz2_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/Mesa-$(version)
 src_dir_name       = Mesa-$(version)

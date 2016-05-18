@@ -18,7 +18,7 @@ COMPONENT_IS_3PP   = true
 include ../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/packages/x/mesa
+SOURCE_REQUIRES    = sources/packages/x/MesaLib/10.x
 
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/4.9.2
@@ -45,7 +45,7 @@ REQUIRES          += Wayland/wayland/1.6.0
 
 
 version            = 10.3.4
-tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/x/mesa/MesaLib-$(version).tar.bz2
+tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/x/MesaLib/10.x/MesaLib-$(version).tar.bz2
 SRC_ARCHIVE        = $(tar_bz2_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/Mesa-$(version)
 src_dir_name       = Mesa-$(version)

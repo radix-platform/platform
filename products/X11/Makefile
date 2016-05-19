@@ -931,8 +931,6 @@ endif
 #REQUIRES += Wayland/wayland/1.10.0-x86_32
 #endif
 
-# ■  ────────────────────────────────────────────────────────────────  ■
-
 # order: libs/libomxil-bellagio, X11/libs/mesa
 
 #
@@ -944,15 +942,17 @@ endif
 #       It will affects X11 drivers also.
 #
 REQUIRES += X11/libs/opengl-collection
-
 #
 # order: env/freetype, X11/libs/fontconfig, libs/cairo, libs/harfbuzz,
 #        libs/freetype, X11/libs/netpbm, X11/app/dbus-x11-launch
 
-REQUIRES += libs/freetype/2.5.3
+REQUIRES += libs/freetype/2.6.3
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/freetype/2.5.3-x86_32
+REQUIRES += libs/freetype/2.6.3-x86_32
 endif
+
+# ■  ────────────────────────────────────────────────────────────────  ■
+
 REQUIRES += X11/libs/netpbm/10.68.01
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += X11/libs/netpbm/10.68.01-x86_32

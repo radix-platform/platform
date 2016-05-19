@@ -22,7 +22,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/libspectre
 
 REQUIRES           = app/ghostscript-fonts-std/8.11
-REQUIRES          += libs/cairo/1.14.0
+REQUIRES          += libs/cairo/1.14.6
 
 # ======= __END_OF_REQUIRES__ =======
 

@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/libspectre
 
 REQUIRES           = libs/libspectre/0.2.7
-REQUIRES          += libs/cairo/1.14.0-x86_32
+REQUIRES          += libs/cairo/1.14.6-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

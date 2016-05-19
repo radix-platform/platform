@@ -21,7 +21,7 @@ include ../../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/X.org/app/fonttosfnt
 
-REQUIRES           = libs/freetype/2.5.3
+REQUIRES           = libs/freetype/2.6.3
 REQUIRES          += X11/X.org/lib/libfontenc/1.1.3
 
 # ======= __END_OF_REQUIRES__ =======

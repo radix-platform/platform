@@ -127,6 +127,10 @@ $(install_target): $(build_target)
 	                                    libwayland-cursor.la   \
 	                                    libwayland-server.la ; \
 	 )
+	# ======= create symbolic link to pkgconfig wayland-scanner.pc file  =======
+	@( cd $(WAYLAND_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
+	   ln -sf wayland-scanner.pc wayland_scanner.pc ; \
+	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(WAYLAND_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
@@ -144,6 +148,7 @@ $(install_target): $(build_target)
 	                                            wayland-cursor.pc   \
 	                                            wayland-scanner.pc  \
 	                                            wayland-server.pc ; \
+	   sed -i "s,/bin/32/wayland-scanner,/bin/$(TARGET)-wayland-scanner,g" wayland-scanner.pc ; \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(WAYLAND_32_PKG) ; \

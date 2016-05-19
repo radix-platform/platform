@@ -253,6 +253,7 @@ $(install_target): $(build_target)
 	# ======= Fix for Perl >= 5.20 remove unneeded fakethe.h perlsfio.h =======
 	@rm -f $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)/CORE/fakethr.h
 	@rm -f $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)/CORE/perlsfio.h
+	# ======= install the perl-clone module =======
 	@find $(PERL_PKG) -name '.packlist' -delete
 	@rm -f $(PERL_PKG)/$(perl_local_pod)
 	@chmod 755 $(PERL_PKG)/usr/lib$(LIBSUFFIX)/perl5/vendor_perl/$(ARCHNAME)/auto/Clone/Clone.so

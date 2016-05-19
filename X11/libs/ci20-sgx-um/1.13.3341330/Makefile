@@ -15,7 +15,7 @@ ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/5.3.0
 endif
 REQUIRES          += hal/drivers/ci20/sgx-ddk/3.0.8/1.13.3341330
-REQUIRES          += X11/libs/mesa/10.3.4
+REQUIRES          += X11/libs/mesa/11.2.2
 REQUIRES          += X11/X.org/lib/libXext/1.3.3
 REQUIRES          += X11/X.org/lib/libXfixes/5.0.1
 

@@ -241,6 +241,10 @@ $(build_target): $(src_done)
 	   sed -i "s,-I/usr/include,-I$(TARGET_DEST_DIR)/usr/include,g"       Makefile ; \
 	   sed -i 's,Expat \&\& $$(MAKE),Expat \&\& $$(MAKE) PERL_INCDEP=$$(PERL_INCDEP),' Makefile ; \
 	 )
+	# ======= Fix for Perl >= 5.20 missing fakethe.h perlsfio.h =======
+	@touch $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)/CORE/fakethr.h
+	@touch $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)/CORE/perlsfio.h
+	# ======= build the perl-xml-parser module =======
 	@( cd $(SRC_DIR) ; \
 	   $(BUILD_ENVIRONMENT) $(MAKE) $(perl_environment) ; \
 	 )
@@ -251,6 +255,10 @@ $(install_target): $(build_target)
 	@( cd $(SRC_DIR) ; \
 	    $(BUILD_ENVIRONMENT) $(MAKE) $(perl_environment) $(env_sysroot) pure_install doc_install ; \
 	 )
+	# ======= Fix for Perl >= 5.20 remove unneeded fakethe.h perlsfio.h =======
+	@rm -f $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)/CORE/fakethr.h
+	@rm -f $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)/CORE/perlsfio.h
+	# ======= install the perl-xml-parser module =======
 	@find $(PERL_PKG) -name '.packlist' -delete
 	@rm -f $(PERL_PKG)/$(perl_local_pod)
 	@chmod 755 $(PERL_PKG)/usr/lib$(LIBSUFFIX)/perl5/vendor_perl/$(ARCHNAME)/auto/XML/Parser/Expat/Expat.so

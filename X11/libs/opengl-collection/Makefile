@@ -30,10 +30,10 @@ include ../../../build-system/constants.mk
 #  ARM 32 compat for ARM aarch64 platform.
 #
 ifeq ($(filter true,$(CREATE_X86_32_PACKAGE)),)
-REQUIRES += X11/libs/mesa/10.3.4
+REQUIRES += X11/libs/mesa/11.2.2
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
-REQUIRES += X11/libs/mesa/10.3.4-x86_32
+REQUIRES += X11/libs/mesa/11.2.2-x86_32
 endif
 
 

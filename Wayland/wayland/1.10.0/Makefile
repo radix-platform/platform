@@ -174,6 +174,10 @@ $(install_target): $(build_target)
 	                                    libwayland-cursor.la   \
 	                                    libwayland-server.la ; \
 	 )
+	# ======= create symbolic link to pkgconfig wayland-scanner.pc file  =======
+	@( cd $(WAYLAND_PKG)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
+	   ln -sf wayland-scanner.pc wayland_scanner.pc ; \
+	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(WAYLAND_PKG))
 	# ======= Install wayland-scanner into $(TARGET_DEST_DIR) =======
@@ -193,6 +197,7 @@ $(install_target): $(build_target)
 	                                            wayland-cursor.pc   \
 	                                            wayland-scanner.pc  \
 	                                            wayland-server.pc ; \
+	   sed -i "s,/bin/wayland-scanner,/bin/$(TARGET)-wayland-scanner,g" wayland-scanner.pc ; \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(WAYLAND_PKG) ; \

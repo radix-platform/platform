@@ -950,18 +950,17 @@ REQUIRES += libs/freetype/2.6.3
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/freetype/2.6.3-x86_32
 endif
-
-# ■  ────────────────────────────────────────────────────────────────  ■
-
-REQUIRES += X11/libs/netpbm/10.68.01
+REQUIRES += X11/libs/netpbm/10.74.03
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += X11/libs/netpbm/10.68.01-x86_32
+REQUIRES += X11/libs/netpbm/10.74.03-x86_32
 endif
 #REQUIRES += X11/app/dbus-x11-launch/1.11.2
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
 #REQUIRES += X11/app/dbus-x11-launch/1.11.2-x86_32
 #endif
 
+
+# ■  ────────────────────────────────────────────────────────────────  ■
 
 #
 # X.org lib (continue):

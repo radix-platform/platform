@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/netpbm-doc
 
-versions    = 20141125
+versions    = 20141125 20160519
 pkgname     = netpbm-doc
 suffix      = tar.bz2
 

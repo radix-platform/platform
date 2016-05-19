@@ -1,0 +1,8 @@
+
+/* begin *
+
+   dbus-1.11.2-x11-launch.patch - this patch is needed to link already inslalled libdbus-1 with
+                                  dbus-launch utility. This patch applicable only for building
+                                  dbus-x11-launch package.
+
+ * end */

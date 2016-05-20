@@ -21,7 +21,7 @@ include ../../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/X.org/app/bdftopcf
 
-REQUIRES           = X11/X.org/lib/libXfont/1.5.0
+REQUIRES           = X11/X.org/lib/libXfont/1.5.1
 
 # ======= __END_OF_REQUIRES__ =======
 

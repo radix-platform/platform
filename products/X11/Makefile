@@ -960,8 +960,6 @@ endif
 #endif
 
 
-# ■  ────────────────────────────────────────────────────────────────  ■
-
 #
 # X.org lib (continue):
 #
@@ -971,11 +969,13 @@ endif
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
 #REQUIRES += X11/X.org/lib/libXft/2.3.2-x86_32
 #endif
-#REQUIRES += X11/X.org/lib/libXfont/1.5.0
+#REQUIRES += X11/X.org/lib/libXfont/1.5.1
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
-#REQUIRES += X11/X.org/lib/libXfont/1.5.0-x86_32
+#REQUIRES += X11/X.org/lib/libXfont/1.5.1-x86_32
 #endif
 
+
+# ■  ────────────────────────────────────────────────────────────────  ■
 
 #######
 ####### X.org applications:

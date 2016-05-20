@@ -19,19 +19,19 @@ COMPONENT_IS_3PP   = true
 include ../../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/X.org/app/mkfontdir
+SOURCE_REQUIRES    = sources/X.org/app/mkfontscale
 
-REQUIRES           = X11/X.org/util/util-macros/1.19.0
-REQUIRES          += X11/X.org/app/mkfontscale/1.1.2
+REQUIRES           = libs/freetype/2.6.3
+REQUIRES          += X11/X.org/lib/libfontenc/1.1.3
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 1.0.7
-tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/mkfontdir/mkfontdir-$(version).tar.bz2
+version            = 1.1.2
+tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/mkfontscale/mkfontscale-$(version).tar.bz2
 SRC_ARCHIVE        = $(tar_bz2_archive)
-SRC_DIR            = $(TARGET_BUILD_DIR)/mkfontdir-$(version)
-src_dir_name       = mkfontdir-$(version)
+SRC_DIR            = $(TARGET_BUILD_DIR)/mkfontscale-$(version)
+src_dir_name       = mkfontscale-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
@@ -48,8 +48,8 @@ PKG_GROUP = xorg
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-XORG_PKG_NAME                = mkfontdir
-XORG_PKG_VERSION             = 1.0.7
+XORG_PKG_NAME                = mkfontscale
+XORG_PKG_VERSION             = 1.1.2
 XORG_PKG_ARCH                = $(TOOLCHAIN)
 XORG_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 XORG_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -149,6 +149,10 @@ $(install_target): $(build_target)
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(XORG_PKG))
+	# ======= Strip binaries =======
+	@( cd $(XORG_PKG); \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	 )
 	@touch $@
 
 $(XORG_PKG_DESCRIPTION_FILE): $(XORG_PKG_DESCRIPTION_FILE_IN)

@@ -27,7 +27,7 @@ else
 REQUIRES           = app/ghostscript/9.15-x86_32
 endif
 REQUIRES          += X11/X.org/app/mkfontdir/1.0.7
-REQUIRES          += X11/X.org/app/mkfontscale/1.1.1
+REQUIRES          += X11/X.org/app/mkfontscale/1.1.2
 
 # ======= __END_OF_REQUIRES__ =======
 

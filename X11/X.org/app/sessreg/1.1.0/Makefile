@@ -19,19 +19,19 @@ COMPONENT_IS_3PP   = true
 include ../../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/X.org/app/mkfontdir
+SOURCE_REQUIRES    = sources/X.org/app/sessreg
 
 REQUIRES           = X11/X.org/util/util-macros/1.19.0
-REQUIRES          += X11/X.org/app/mkfontscale/1.1.2
+REQUIRES          += X11/X.org/proto/xproto/7.0.29
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 1.0.7
-tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/mkfontdir/mkfontdir-$(version).tar.bz2
+version            = 1.1.0
+tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/app/sessreg/sessreg-$(version).tar.bz2
 SRC_ARCHIVE        = $(tar_bz2_archive)
-SRC_DIR            = $(TARGET_BUILD_DIR)/mkfontdir-$(version)
-src_dir_name       = mkfontdir-$(version)
+SRC_DIR            = $(TARGET_BUILD_DIR)/sessreg-$(version)
+src_dir_name       = sessreg-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
@@ -48,14 +48,14 @@ PKG_GROUP = xorg
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-XORG_PKG_NAME                = mkfontdir
-XORG_PKG_VERSION             = 1.0.7
+XORG_PKG_NAME                = sessreg
+XORG_PKG_VERSION             = 1.1.0
 XORG_PKG_ARCH                = $(TOOLCHAIN)
 XORG_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 XORG_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 XORG_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
-XORG_PKG_SHORT_DESCRIPTION   = X11 font utility
+XORG_PKG_SHORT_DESCRIPTION   = utmp/wtmp entries management utility
 XORG_PKG_URL                 = $(BUG_URL)
 XORG_PKG_LICENSE             = custom
 XORG_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(XORG_PKG_NAME)-pkg-description
@@ -93,18 +93,29 @@ extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var
 
+#
+# NOTE:
+# ====
+#   GCC 5.3.0 changes line numeration in the CPP output. To prevent errors during generation
+#   man/filenames.sed from man/filenames.sed.c file we have to use -P option:
+#
+extra_environment  = CPPFLAGS='-P'
+
 
 ####### Dependencies
 
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
+	@( cd $(SRC_DIR) ; \
+	   autoreconf -i ; \
+	 )
 	@touch $@
 
 $(build_target): $(src_done)
 	@mkdir -p $(build_dir)
 	@cd $(build_dir) && \
-	  $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
+	  $(BUILD_ENVIRONMENT) $(extra_environment) ../$(src_dir_name)/configure \
 	  --prefix=/usr               \
 	  --build=$(BUILD)            \
 	  --host=$(TARGET)            \
@@ -130,11 +141,11 @@ $(install_target): $(build_target)
 	  ) \
 	 fi
 	@mkdir -p $(XORG_PKG)/usr/doc/$(src_dir_name)
-	@cp -a $(SRC_DIR)/COPYING \
+	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/COPYING \
 	       $(XORG_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(XORG_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a COPYING INSTALL README \
+	   cp -a AUTHORS COPYING INSTALL README \
 	         $(XORG_PKG)/usr/share/doc/$(src_dir_name) \
 	 )
 	@( cd $(XORG_PKG)/usr/share/doc ; \
@@ -149,6 +160,10 @@ $(install_target): $(build_target)
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(XORG_PKG))
+	# ======= Strip binaries =======
+	@( cd $(XORG_PKG); \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	 )
 	@touch $@
 
 $(XORG_PKG_DESCRIPTION_FILE): $(XORG_PKG_DESCRIPTION_FILE_IN)

@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/font/font-util
 
-versions    = 1.3.0
+versions    = 1.3.0 1.3.1
 pkgname     = font-util
 suffix      = tar.bz2
 

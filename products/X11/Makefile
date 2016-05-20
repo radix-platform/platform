@@ -983,15 +983,15 @@ REQUIRES += X11/X.org/app-collection
 REQUIRES += X11/X.org/app/xdm/1.1.11
 
 
-# ■  ────────────────────────────────────────────────────────────────  ■
-
 #######
 ####### X.org fonts:
 #######
 REQUIRES += X11/X.org/font-collection
 
-REQUIRES += X11/X.org/font/font-util/1.3.0
+REQUIRES += X11/X.org/font/font-util/1.3.1
 
+
+# ■  ────────────────────────────────────────────────────────────────  ■
 
 #######
 ####### Xwayland support:

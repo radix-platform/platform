@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/app/xedit
 
-versions    = 1.2.1
+versions    = 1.2.1 1.2.2
 pkgname     = xedit
 suffix      = tar.bz2
 

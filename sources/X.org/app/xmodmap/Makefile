@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/app/xmodmap
 
-versions    = 1.0.8
+versions    = 1.0.8 1.0.9
 pkgname     = xmodmap
 suffix      = tar.bz2
 

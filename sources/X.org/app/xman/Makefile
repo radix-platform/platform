@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/app/xman
 
-versions    = 1.1.3
+versions    = 1.1.3 1.1.4
 pkgname     = xman
 suffix      = tar.bz2
 

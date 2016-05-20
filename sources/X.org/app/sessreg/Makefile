@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/app/sessreg
 
-versions    = 1.0.8
+versions    = 1.0.8 1.1.0
 pkgname     = sessreg
 suffix      = tar.bz2
 

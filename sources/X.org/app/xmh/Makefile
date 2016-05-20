@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/app/xmh
 
-versions    = 1.0.2
+versions    = 1.0.2 1.0.3
 pkgname     = xmh
 suffix      = tar.bz2
 

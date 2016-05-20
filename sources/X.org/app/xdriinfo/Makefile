@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/app/xdriinfo
 
-versions    = 1.0.4
+versions    = 1.0.4 1.0.5
 pkgname     = xdriinfo
 suffix      = tar.bz2
 

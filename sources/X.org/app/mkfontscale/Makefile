@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/app/mkfontscale
 
-versions    = 1.1.1
+versions    = 1.1.1 1.1.2
 pkgname     = mkfontscale
 suffix      = tar.bz2
 

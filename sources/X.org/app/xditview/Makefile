@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/app/xditview
 
-versions    = 1.0.3
+versions    = 1.0.3 1.0.4
 pkgname     = xditview
 suffix      = tar.bz2
 

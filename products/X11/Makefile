@@ -991,27 +991,27 @@ REQUIRES += X11/X.org/font-collection
 REQUIRES += X11/X.org/font/font-util/1.3.1
 
 
-# ■  ────────────────────────────────────────────────────────────────  ■
-
 #######
 ####### Xwayland support:
 #######
 
-# order: X11/libs/libepoxy
+# order: X11/libs/libepoxy, X11/libs/libevdev, X11/libs/mtdev
 
-#REQUIRES += X11/libs/libepoxy/1.2
+#REQUIRES += X11/libs/libepoxy/1.3.1
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
-#REQUIRES += X11/libs/libepoxy/1.2-x86_32
+#REQUIRES += X11/libs/libepoxy/1.3.1-x86_32
 #endif
 
 #######
 ####### weston support:
 #######
-REQUIRES += X11/libs/libinput/0.7.0
+REQUIRES += X11/libs/libinput/1.3.0
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += X11/libs/libinput/0.7.0-x86_32
+REQUIRES += X11/libs/libinput/1.3.0-x86_32
 endif
 
+
+# ■  ────────────────────────────────────────────────────────────────  ■
 
 #######
 ####### X.org server:

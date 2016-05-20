@@ -27,7 +27,7 @@ else
 REQUIRES           = X11/X.org/xserver/xorg-server/1.16.4
 endif
 REQUIRES          += libs/eudev/3.1.5
-REQUIRES          += X11/libs/libevdev/1.3.2
+REQUIRES          += X11/libs/libevdev/1.5.1
 REQUIRES          += X11/libs/mtdev/1.1.5
 
 # ======= __END_OF_REQUIRES__ =======

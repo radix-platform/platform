@@ -18,7 +18,7 @@ REQUIRES          += libs/libxml2/2.9.3-x86_32
 REQUIRES          += libs/eudev/3.1.5-x86_32
 REQUIRES          += libs/libomxil-bellagio/0.9.3-x86_32
 REQUIRES          += dev/llvm/3.7.1-x86_32
-REQUIRES          += net/nettle/3.2-x86_32
+REQUIRES          += net/libgcrypt/1.7.0-x86_32
 REQUIRES          += X11/libs/libdrm/2.4.68-x86_32
 REQUIRES          += X11/X.org/proto/glproto/1.4.17-x86_32
 REQUIRES          += X11/X.org/proto/dri2proto/2.8-x86_32
@@ -28,6 +28,7 @@ REQUIRES          += X11/X.org/lib/libxshmfence/1.2-x86_32
 REQUIRES          += X11/X.org/lib/libpciaccess/0.13.4-x86_32
 REQUIRES          += X11/X.org/lib/libXxf86vm/1.1.4-x86_32
 REQUIRES          += X11/X.org/lib/libXdamage/1.1.4-x86_32
+REQUIRES          += X11/X.org/lib/libXv/1.0.10-x86_32
 REQUIRES          += Wayland/wayland/1.10.0-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
@@ -110,6 +111,8 @@ extra_configure_switches += --with-dri-drivers="$(DRI_DRIVERS)"
 #
 extra_configure_switches += --with-gallium-drivers=nouveau,r300,r600,svga,swrast
 
+extra_configure_switches += --with-sha1=libgcrypt
+
 extra_configure_switches += --enable-egl
 extra_configure_switches += --enable-gles1
 extra_configure_switches += --enable-gles2
@@ -129,6 +132,7 @@ extra_configure_switches += --enable-llvm-shared-libs
 extra_configure_switches += --enable-xa
 # NVIDIA extra_configure_switches += --enable-vdpau
 extra_configure_switches += --enable-omx
+extra_configure_switches += --enable-nine
 extra_configure_switches += --with-omx-libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
 
 #
@@ -171,6 +175,9 @@ $(install_target): $(build_target)
 	@rm -rf $(MESA_32_PKG)/etc
 	@rm -rf $(MESA_32_PKG)/usr/include
 	# ======= remove toolchain path from target libtool *.la files =======
+	@( cd $(MESA_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/d3d ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" d3dadapter9.la ; \
+	 )
 	@( cd $(MESA_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libEGL.la          \
 	                                    libGL.la           \
@@ -186,6 +193,10 @@ $(install_target): $(build_target)
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(MESA_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/d3d ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   d3dadapter9.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" d3dadapter9.la ; \
+	 )
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libEGL.la          \
 	                                            libGL.la           \
@@ -210,7 +221,8 @@ $(install_target): $(build_target)
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" egl.pc          \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" d3d.pc          \
+	                                            egl.pc          \
 	                                            gbm.pc          \
 	                                            gl.pc           \
 	                                            glesv1_cm.pc    \

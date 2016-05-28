@@ -165,7 +165,6 @@ extra_configure_switches += --enable-dri2
 extra_configure_switches += --enable-dri3
 
 extra_configure_switches += --with-pic
-extra_configure_switches += --enable-suid-wrapper
 extra_configure_switches += --with-int10=x86emu
 extra_configure_switches += --with-default-font-path="$(DEF_FONTPATH)"
 extra_configure_switches += --with-module-dir=/usr/lib$(LIBSUFFIX)/xorg/modules
@@ -213,12 +212,8 @@ $(install_target): $(build_target)
 	 )
 	@mkdir -p $(XORG_PKG)/etc/X11/xorg.conf.d $(XORG_PKG)/usr/share/X11/xorg.conf.d
 	@cp -a $(kbd_layout) $(XORG_PKG)/usr/share/X11/xorg.conf.d
-	@chmod u+s $(XORG_PKG)/usr/libexec/Xorg
+	@chmod u+s $(XORG_PKG)/usr/bin/Xorg
 	# ======= Install Documentation =======
-	@( cd $(XORG_PKG)/usr/share/man/man5 ; \
-	   rm -f Xwrapper.config.5 ; \
-	   ln -sf ../man1/Xorg.wrap.1 Xwrapper.config.5 ; \
-	 )
 	@( cd $(XORG_PKG)/usr/share/man/man5 ; \
 	   for file in *.5 ; do                                \
 	     ln=`head -n 1 $$file` ;                           \
@@ -303,7 +298,7 @@ $(install_target): $(build_target)
 	 )
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target binaries =======
-	@( cd $(XORG_PKG)/usr ; \
+	@( cd $(XORG_PKG)/usr/bin ; \
 	   for file in `find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
 	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
 	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
@@ -344,5 +339,5 @@ $(pkg_archive): $(install_target) $(XORG_PKG_DESCRIPTION_FILE) $(XORG_PKG_INSTAL
 	 echo "license=$(XORG_PKG_LICENSE)"                         >> $(XORG_PKG)/.PKGINFO
 	@$(FAKEROOT) sh -c "cd $(XORG_PKG) && \
 	                    chown -R root:root     . && \
-	                    chmod 04755 usr/libexec/Xorg && \
+	                    chmod 04755 usr/bin/Xorg && \
 	                    $(MAKE_PACKAGE) --linkadd yes .."

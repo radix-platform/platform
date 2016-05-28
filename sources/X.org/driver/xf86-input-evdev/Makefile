@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/driver/xf86-input-evdev
 
-versions    = 2.9.0
+versions    = 2.9.0 2.10.2
 pkgname     = xf86-input-evdev
 suffix      = tar.bz2
 

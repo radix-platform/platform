@@ -16,7 +16,9 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/xorg-server-1.12.2-black.patch
 patches    += $(CURDIR)/patches/xorg-server-1.16.2-black.patch
+patches    += $(CURDIR)/patches/xorg-server-1.16.2-gcc5.patch
 patches    += $(CURDIR)/patches/xorg-server-1.16.4-black.patch
+patches    += $(CURDIR)/patches/xorg-server-1.16.4-gcc5.patch
 patches    += $(CURDIR)/patches/xorg-server-1.18.3-black.patch
 patches    += $(CURDIR)/patches/xorg-server-1.18.3-mouse-kbd-layout.patch
 
@@ -55,7 +57,9 @@ $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-1.12.2-black-patch            ; ./create.patch.sh ) ; \
 	 ( cd create-1.16.2-black-patch            ; ./create.patch.sh ) ; \
+	 ( cd create-1.16.2-gcc5-patch             ; ./create.patch.sh ) ; \
 	 ( cd create-1.16.4-black-patch            ; ./create.patch.sh ) ; \
+	 ( cd create-1.16.4-gcc5-patch             ; ./create.patch.sh ) ; \
 	 ( cd create-1.18.3-black-patch            ; ./create.patch.sh ) ; \
 	 ( cd create-1.18.3-mouse-kbd-layout-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"

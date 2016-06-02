@@ -59,7 +59,7 @@ REQUIRES          += X11/X.org/lib/libpciaccess/0.13.4
 
 REQUIRES          += X11/libs/libdrm/2.4.68
 REQUIRES          += X11/libs/libepoxy/1.3.1
-REQUIRES          += Wayland/wayland/1.10.0
+REQUIRES          += Wayland/wayland/1.11.0
 
 REQUIRES          += X11/libs/opengl-collection
 

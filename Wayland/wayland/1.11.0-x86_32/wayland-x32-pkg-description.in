@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+           |-----handy-ruler------------------------------------------------------|
+wayland-x32: wayland-x32 @VERSION@ (x86_32 C implementation of the Wayland protocol)
+wayland-x32:
+wayland-x32: Wayland is a project to define a protocol for a compositor to talk
+wayland-x32: to its clients as well as a library implementation of the protocol.
+wayland-x32: The compositor can be a standalone display server running on Linux
+wayland-x32: kernel modesetting and evdev input devices, an X application, or a
+wayland-x32: wayland client itself. The clients can be traditional applications,
+wayland-x32: X servers (rootless or fullscreen) or other display servers.
+wayland-x32:
+wayland-x32:
+wayland-x32:

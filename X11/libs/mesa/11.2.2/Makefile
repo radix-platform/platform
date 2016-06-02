@@ -43,7 +43,7 @@ REQUIRES          += X11/X.org/lib/libXxf86vm/1.1.4
 REQUIRES          += X11/X.org/lib/libXdamage/1.1.4
 REQUIRES          += X11/X.org/lib/libXv/1.0.10
 REQUIRES          += X11/X.org/lib/libXvMC/1.0.9
-REQUIRES          += Wayland/wayland/1.10.0
+REQUIRES          += Wayland/wayland/1.11.0
 
 # ======= __END_OF_REQUIRES__ =======
 

@@ -926,9 +926,9 @@ endif
 #REQUIRES += X11/libs/libdrm/2.4.68-x86_32
 #endif
 
-#REQUIRES += Wayland/wayland/1.10.0
+#REQUIRES += Wayland/wayland/1.11.0
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
-#REQUIRES += Wayland/wayland/1.10.0-x86_32
+#REQUIRES += Wayland/wayland/1.11.0-x86_32
 #endif
 
 # order: libs/libomxil-bellagio, X11/libs/mesa

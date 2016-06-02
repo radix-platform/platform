@@ -57,7 +57,7 @@ REQUIRES          += X11/X.org/xcb/xcb-util-wm/0.4.1
 
 REQUIRES          += X11/libs/libdrm/2.4.68
 REQUIRES          += X11/libs/libepoxy/1.3.1
-REQUIRES          += Wayland/wayland/1.10.0
+REQUIRES          += Wayland/wayland/1.11.0
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64) $(HARDWARE_PC32)),)
 REQUIRES          += X11/X.org/lib/libpciaccess/0.13.4

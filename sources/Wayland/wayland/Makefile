@@ -7,7 +7,7 @@ include ../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/Wayland/wayland
 
-versions    = 1.6.0 1.10.0
+versions    = 1.6.0 1.10.0 1.11.0
 pkgname     = wayland
 suffix      = tar.xz
 
@@ -16,6 +16,7 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/wayland-1.6.0-cross.patch
 patches    += $(CURDIR)/patches/wayland-1.10.0-cross.patch
+patches    += $(CURDIR)/patches/wayland-1.11.0-cross.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -52,6 +53,7 @@ $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-1.6.0-cross-patch  ; ./create.patch.sh ) ; \
 	 ( cd create-1.10.0-cross-patch ; ./create.patch.sh ) ; \
+	 ( cd create-1.11.0-cross-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

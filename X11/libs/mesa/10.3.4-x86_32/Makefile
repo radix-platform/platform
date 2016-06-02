@@ -27,7 +27,7 @@ REQUIRES          += X11/X.org/lib/libxshmfence/1.2-x86_32
 REQUIRES          += X11/X.org/lib/libpciaccess/0.13.4-x86_32
 REQUIRES          += X11/X.org/lib/libXxf86vm/1.1.4-x86_32
 REQUIRES          += X11/X.org/lib/libXdamage/1.1.4-x86_32
-REQUIRES          += Wayland/wayland/1.10.0-x86_32
+REQUIRES          += Wayland/wayland/1.11.0-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

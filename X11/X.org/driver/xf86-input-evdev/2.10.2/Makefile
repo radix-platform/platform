@@ -1,6 +1,15 @@
 
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
+COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -10,19 +19,29 @@ COMPONENT_IS_3PP   = true
 include ../../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/X.org/driver/xf86-input-vmmouse
+SOURCE_REQUIRES    = sources/X.org/driver/xf86-input-evdev
 
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
+REQUIRES           = X11/X.org/xserver/xorg-server/1.16.2
+else
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
+REQUIRES           = X11/X.org/xserver/xorg-server/1.16.4
+else
 REQUIRES           = X11/X.org/xserver/xorg-server/1.18.3
+endif
+endif
 REQUIRES          += libs/eudev/3.1.5
+REQUIRES          += X11/libs/libevdev/1.5.1
+REQUIRES          += X11/libs/mtdev/1.1.5
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 13.0.0
-tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/driver/xf86-input-vmmouse/xf86-input-vmmouse-$(version).tar.bz2
+version            = 2.10.2
+tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/driver/xf86-input-evdev/xf86-input-evdev-$(version).tar.bz2
 SRC_ARCHIVE        = $(tar_bz2_archive)
-SRC_DIR            = $(TARGET_BUILD_DIR)/xf86-input-vmmouse-$(version)
-src_dir_name       = xf86-input-vmmouse-$(version)
+SRC_DIR            = $(TARGET_BUILD_DIR)/xf86-input-evdev-$(version)
+src_dir_name       = xf86-input-evdev-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
@@ -39,14 +58,14 @@ PKG_GROUP = xorg
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-XORG_PKG_NAME                = xf86-input-vmmouse
-XORG_PKG_VERSION             = 13.0.0
+XORG_PKG_NAME                = xf86-input-evdev
+XORG_PKG_VERSION             = 2.10.2
 XORG_PKG_ARCH                = $(TOOLCHAIN)
 XORG_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 XORG_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 XORG_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
-XORG_PKG_SHORT_DESCRIPTION   = VMWare's VMMouse guest mouse driver
+XORG_PKG_SHORT_DESCRIPTION   = Generic Linux input driver
 XORG_PKG_URL                 = $(BUG_URL)
 XORG_PKG_LICENSE             = custom
 XORG_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(XORG_PKG_NAME)-pkg-description
@@ -84,18 +103,13 @@ extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var
 
-extra_configure_switches += --with-xorg-conf-dir=/usr/share/X11/xorg.conf.d
-extra_configure_switches += --with-udev-rules-dir=/lib/udev/rules.d
+extra_configure_switches += --with-sdkdir=/usr/include/xorg
 
 extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --enable-static=no
 
-# we use efault values:
-#
-# extra_configure_switches += --with-hal-bin-dir=$prefix/bin
-# extra_configure_switches += --with-hal-callouts-dir=$libdir/hal
-# extra_configure_switches += --with-hal-fdi-dir=$datadir/hal/fdi/policy/20thirdparty
-#
+
+TARGET_LIB_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUFFIX)
 
 
 ####### Dependencies
@@ -153,20 +167,35 @@ $(install_target): $(build_target)
 	 )
 	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(XORG_PKG)/usr/lib$(LIBSUFFIX)/xorg/modules/input ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" vmmouse_drv.la \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" evdev_drv.la \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(XORG_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/xorg/modules/input ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" vmmouse_drv.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" vmmouse_drv.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" evdev_drv.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" evdev_drv.la \
+	 )
+	# ======= tune pkg-config *.pc search path to the target destination for development =======
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" xorg-evdev.pc; \
 	 )
 	# ======= Strip binaries =======
-	@( cd $(XORG_PKG); \
+	@( cd $(XORG_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )
+ifneq ($(CHRPATH),)
+	# ======= Set RPATH/RUNPATH for target shared objects =======
+	@( cd $(XORG_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
+	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
+	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
+	       $(CHRPATH) -r $(TARGET_LIB_RPATH) $$file 1> /dev/null 2> /dev/null ; \
+	     fi ; \
+	   done ; \
+	 )
+endif
 	@touch $@
 
 $(XORG_PKG_DESCRIPTION_FILE): $(XORG_PKG_DESCRIPTION_FILE_IN)

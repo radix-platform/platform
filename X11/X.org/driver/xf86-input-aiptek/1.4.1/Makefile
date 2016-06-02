@@ -21,10 +21,14 @@ include ../../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/X.org/driver/xf86-input-aiptek
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB2X) $(HARDWARE_CB3X)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
 REQUIRES           = X11/X.org/xserver/xorg-server/1.16.2
 else
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
 REQUIRES           = X11/X.org/xserver/xorg-server/1.16.4
+else
+REQUIRES           = X11/X.org/xserver/xorg-server/1.18.3
+endif
 endif
 
 # ======= __END_OF_REQUIRES__ =======
@@ -164,7 +168,7 @@ $(install_target): $(build_target)
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" aiptek_drv.la \
 	 )
 	# ======= Strip binaries =======
-	@( cd $(XORG_PKG); \
+	@( cd $(XORG_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )

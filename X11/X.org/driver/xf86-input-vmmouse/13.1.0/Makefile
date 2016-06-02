@@ -18,7 +18,7 @@ REQUIRES          += libs/eudev/3.1.5
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 13.0.0
+version            = 13.1.0
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/driver/xf86-input-vmmouse/xf86-input-vmmouse-$(version).tar.bz2
 SRC_ARCHIVE        = $(tar_bz2_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/xf86-input-vmmouse-$(version)
@@ -40,7 +40,7 @@ PKG_GROUP = xorg
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 XORG_PKG_NAME                = xf86-input-vmmouse
-XORG_PKG_VERSION             = 13.0.0
+XORG_PKG_VERSION             = 13.1.0
 XORG_PKG_ARCH                = $(TOOLCHAIN)
 XORG_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 XORG_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -90,12 +90,15 @@ extra_configure_switches += --with-udev-rules-dir=/lib/udev/rules.d
 extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --enable-static=no
 
-# we use efault values:
+# we use default values:
 #
 # extra_configure_switches += --with-hal-bin-dir=$prefix/bin
 # extra_configure_switches += --with-hal-callouts-dir=$libdir/hal
 # extra_configure_switches += --with-hal-fdi-dir=$datadir/hal/fdi/policy/20thirdparty
 #
+
+
+TARGET_BIN_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)
 
 
 ####### Dependencies
@@ -167,6 +170,17 @@ $(install_target): $(build_target)
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )
+ifneq ($(CHRPATH),)
+	# ======= Set RPATH/RUNPATH for target binaries =======
+	@( cd $(XORG_PKG)/usr/bin ; \
+	   for file in `find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
+	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
+	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
+	       $(CHRPATH) -r $(TARGET_BIN_RPATH) $$file 1> /dev/null 2> /dev/null ; \
+	     fi ; \
+	   done ; \
+	 )
+endif
 	@touch $@
 
 $(XORG_PKG_DESCRIPTION_FILE): $(XORG_PKG_DESCRIPTION_FILE_IN)

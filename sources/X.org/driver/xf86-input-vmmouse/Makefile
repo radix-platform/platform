@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/driver/xf86-input-vmmouse
 
-versions    = 13.0.0
+versions    = 13.0.0 13.1.0
 pkgname     = xf86-input-vmmouse
 suffix      = tar.bz2
 

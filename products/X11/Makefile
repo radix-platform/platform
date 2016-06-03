@@ -1024,12 +1024,12 @@ REQUIRES += X11/X.org/xserver/xorg-server/1.18.3
 endif
 endif
 
-# ■  ────────────────────────────────────────────────────────────────  ■
 
 #######
 ####### X.org drivers:
 #######
 REQUIRES += X11/X.org/driver-input
+# ■  ────────────────────────────────────────────────────────────────  ■
 REQUIRES += X11/X.org/driver-video
 
 

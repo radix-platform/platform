@@ -30,6 +30,13 @@ REQUIRES += X11/X.org/driver/xf86-input-penmount/1.5.0
 
 REQUIRES += X11/X.org/driver/xf86-input-evdev/2.10.2
 REQUIRES += X11/X.org/driver/xf86-input-synaptics/1.8.99.1
+#
+# NOTE: xf86-input-libinput - is a replacement  of  evdev + synaptics
+#       to use this driver you have to install  60-libinput.conf from
+#       /usr/share/doc/xf86-input-libinput-0.19.0/conf directory into
+#       /usr/share/X11/xorg.conf.d/ .
+#
+REQUIRES += X11/X.org/driver/xf86-input-libinput/0.19.0
 
 REQUIRES += X11/X.org/driver/xf86-input-void/1.4.1
 

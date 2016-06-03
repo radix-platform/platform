@@ -22,10 +22,14 @@ include ../../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/X.org/doc/xorg-docs
 
 REQUIRES           = X11/X.org/doc/xorg-sgml-doctools/1.11
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB2X) $(HARDWARE_CB3X)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
 REQUIRES          += X11/X.org/xserver/xorg-server/1.16.2
 else
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
 REQUIRES          += X11/X.org/xserver/xorg-server/1.16.4
+else
+REQUIRES          += X11/X.org/xserver/xorg-server/1.18.3
+endif
 endif
 
 # ======= __END_OF_REQUIRES__ =======

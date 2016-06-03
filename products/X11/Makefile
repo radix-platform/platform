@@ -1029,19 +1029,19 @@ endif
 ####### X.org drivers:
 #######
 REQUIRES += X11/X.org/driver-input
-# ■  ────────────────────────────────────────────────────────────────  ■
 REQUIRES += X11/X.org/driver-video
 
 
 #######
 ####### X.org doc (last):
 #######
-REQUIRES += X11/X.org/doc/xorg-docs/1.7
+REQUIRES += X11/X.org/doc/xorg-docs/1.7.1
 
 #######
 ####### End of X11 X.org packages.
 #######
 
+# ■  ────────────────────────────────────────────────────────────────  ■
 
 #######
 ####### 3pp X fonts:

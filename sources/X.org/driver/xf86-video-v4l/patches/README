@@ -1,0 +1,7 @@
+
+/* begin *
+
+   xf86-video-v4l-0.2.0-build.patch     - prevent build error only ;
+   xf86-video-v4l-0.2.0-v4l2-only.patch - support V4L2 only drivers (prevent build error also included).
+
+ * end */

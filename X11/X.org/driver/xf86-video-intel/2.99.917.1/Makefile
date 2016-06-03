@@ -1,27 +1,30 @@
 
-COMPONENT_TARGETS  = $(HARDWARE_CB1X)
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
 
 
 NEED_ABS_PATH      = true
 COMPONENT_IS_3PP   = true
 
 
-include ../../../../../../build-system/constants.mk
+include ../../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/hal/Mali/xf86-video-fbturbo/r3p0-04rel0
+SOURCE_REQUIRES    = sources/X.org/driver/xf86-video-intel
 
-REQUIRES           = X11/X.org/xserver/xorg-server/1.16.2
-REQUIRES          += hal/ump/DX/3.0.4.0
+REQUIRES           = X11/X.org/xserver/xorg-server/1.18.3
+REQUIRES          += X11/X.org/lib/libXinerama/1.1.3
+REQUIRES          += X11/X.org/lib/libXtst/1.2.2
+REQUIRES          += X11/X.org/lib/libXvMC/1.0.9
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 0.5.1
-tar_bz2_archive    = $(SRC_PACKAGE_PATH)/hal/Mali/xf86-video-fbturbo/r3p0-04rel0/xf86-video-fbturbo-$(version).tar.bz2
+version            = 2.99.917.1
+tar_bz2_archive    = $(SRC_PACKAGE_PATH)/X.org/driver/xf86-video-intel/xf86-video-intel-$(version).tar.bz2
 SRC_ARCHIVE        = $(tar_bz2_archive)
-SRC_DIR            = $(TARGET_BUILD_DIR)/xf86-video-fbturbo-$(version)
-src_dir_name       = xf86-video-fbturbo-$(version)
+SRC_DIR            = $(TARGET_BUILD_DIR)/xf86-video-intel-$(version)
+src_dir_name       = xf86-video-intel-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
@@ -38,14 +41,14 @@ PKG_GROUP = xorg
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-XORG_PKG_NAME                = xf86-video-fbturbo
-XORG_PKG_VERSION             = 0.5.1
+XORG_PKG_NAME                = xf86-video-intel
+XORG_PKG_VERSION             = 2.99.917.1
 XORG_PKG_ARCH                = $(TOOLCHAIN)
 XORG_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 XORG_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 XORG_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
-XORG_PKG_SHORT_DESCRIPTION   = optimized framebuffer video driver
+XORG_PKG_SHORT_DESCRIPTION   = Intel graphics video driver
 XORG_PKG_URL                 = $(BUG_URL)
 XORG_PKG_LICENSE             = custom
 XORG_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(XORG_PKG_NAME)-pkg-description
@@ -69,7 +72,7 @@ PRODUCT_TARGETS  = $(products)
 ROOTFS_TARGETS   = $(pkg_archive)
 
 
-include ../../../../../../build-system/core.mk
+include ../../../../../build-system/core.mk
 
 
 env_sysroot = DESTDIR=$(XORG_PKG)
@@ -86,6 +89,7 @@ extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --enable-static=no
 
 
+TARGET_BIN_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)
 TARGET_LIB_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUFFIX)
 
 
@@ -125,11 +129,11 @@ $(install_target): $(build_target)
 	  ) \
 	 fi
 	@mkdir -p $(XORG_PKG)/usr/doc/$(src_dir_name)
-	@cp -a $(SRC_DIR)/COPYING \
+	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/COPYING \
 	       $(XORG_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(XORG_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a COPYING README xorg.conf \
+	   cp -a AUTHORS COPYING NEWS README \
 	         $(XORG_PKG)/usr/share/doc/$(src_dir_name) \
 	 )
 	@( cd $(XORG_PKG)/usr/share/doc ; \
@@ -144,14 +148,21 @@ $(install_target): $(build_target)
 	 )
 	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(XORG_PKG)/usr/lib$(LIBSUFFIX)/xorg/modules/drivers ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" fbturbo_drv.la \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" intel_drv.la \
+	 )
+	@( cd $(XORG_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libI810XvMC.la libIntelXvMC.la \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(XORG_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/xorg/modules/drivers ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" fbturbo_drv.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" fbturbo_drv.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" intel_drv.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" intel_drv.la \
+	 )
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libI810XvMC.la libIntelXvMC.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libI810XvMC.la libIntelXvMC.la \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(XORG_PKG); \
@@ -159,8 +170,17 @@ $(install_target): $(build_target)
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )
 ifneq ($(CHRPATH),)
+	# ======= Set RPATH/RUNPATH for target binaries =======
+	@( cd $(XORG_PKG)/usr/bin ; \
+	   for file in `find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
+	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
+	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
+	       $(CHRPATH) -r $(TARGET_BIN_RPATH) $$file 1> /dev/null 2> /dev/null ; \
+	     fi ; \
+	   done ; \
+	 )
 	# ======= Set RPATH/RUNPATH for target shared objects =======
-	@( cd $(XORG_PKG)/usr/lib$(LIBSUFFIX)/xorg/modules/drivers ; \
+	@( cd $(XORG_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
 	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
 	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \

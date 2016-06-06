@@ -1053,7 +1053,7 @@ REQUIRES += X11/font/thaixfonts/1.2.7
 #######
 ####### X applications:
 #######
-REQUIRES += X11/app/xterm/313
+REQUIRES += X11/app/xterm/324
 REQUIRES += libs/giflib/5.1.0
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/giflib/5.1.0-x86_32

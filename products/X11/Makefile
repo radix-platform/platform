@@ -1049,15 +1049,15 @@ REQUIRES += X11/font/dejavu-fonts-ttf/2.35
 REQUIRES += X11/font/thaixfonts/1.2.7
 
 
-# ■  ────────────────────────────────────────────────────────────────  ■
 #######
 ####### X applications:
 #######
 REQUIRES += X11/app/xterm/324
-REQUIRES += libs/giflib/5.1.0
+REQUIRES += libs/giflib/5.1.3
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/giflib/5.1.0-x86_32
+REQUIRES += libs/giflib/5.1.3-x86_32
 endif
+# ■  ────────────────────────────────────────────────────────────────  ■
 REQUIRES += X11/app/WindowMaker/0.95.6
 
 

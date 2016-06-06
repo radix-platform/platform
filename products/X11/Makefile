@@ -1057,10 +1057,10 @@ REQUIRES += libs/giflib/5.1.3
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/giflib/5.1.3-x86_32
 endif
+REQUIRES += X11/app/WindowMaker/0.95.7
+
+
 # ■  ────────────────────────────────────────────────────────────────  ■
-REQUIRES += X11/app/WindowMaker/0.95.6
-
-
 #######
 ####### GTK+ libs & Desktop environment:
 #######

@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/x/WindowMaker
 
-versions    = 0.95.6
+versions    = 0.95.6 0.95.7
 pkgname     = WindowMaker
 suffix      = tar.gz
 
@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/WindowMaker-0.95.6.patch
+patches    += $(CURDIR)/patches/WindowMaker-0.95.7.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,6 +51,7 @@ $(sha1s): $(tarballs)
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-0.95.6-patch && ./create.patch.sh ) ; \
+	 ( cd create-0.95.7-patch && ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

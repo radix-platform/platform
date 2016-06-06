@@ -1041,15 +1041,15 @@ REQUIRES += X11/X.org/doc/xorg-docs/1.7.1
 ####### End of X11 X.org packages.
 #######
 
-# ■  ────────────────────────────────────────────────────────────────  ■
 
 #######
 ####### 3pp X fonts:
 #######
-REQUIRES += X11/font/dejavu-fonts-ttf/2.34
-REQUIRES += X11/font/thaixfonts/1.2.6
+REQUIRES += X11/font/dejavu-fonts-ttf/2.35
+REQUIRES += X11/font/thaixfonts/1.2.7
 
 
+# ■  ────────────────────────────────────────────────────────────────  ■
 #######
 ####### X applications:
 #######

@@ -27,7 +27,7 @@ else
 REQUIRES           = app/cups/2.0.1-x86_32
 endif
 REQUIRES          += app/ghostscript-fonts-std/8.11
-REQUIRES          += X11/font/dejavu-fonts-ttf/2.34
+REQUIRES          += X11/font/dejavu-fonts-ttf/2.35
 REQUIRES          += libs/poppler/0.29.0
 REQUIRES          += app/qpdf/5.1.2
 

@@ -14,7 +14,7 @@ SOURCE_REQUIRES    = sources/GNOME/core/pango
 
 REQUIRES           = libs/pango/1.36.8
 REQUIRES          += libs/harfbuzz/1.2.7-x86_32
-REQUIRES          += libs/libthai/0.1.20-x86_32
+REQUIRES          += libs/libthai/0.1.24-x86_32
 REQUIRES          += X11/X.org/lib/libXft/2.3.2-x86_32
 
 # ======= __END_OF_REQUIRES__ =======

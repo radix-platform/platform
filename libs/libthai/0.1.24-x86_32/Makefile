@@ -12,13 +12,13 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/libthai
 
-REQUIRES           = libs/libthai/0.1.20
+REQUIRES           = libs/libthai/0.1.24
 REQUIRES          += libs/libdatrie/0.2.10-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 0.1.20
+version            = 0.1.24
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/l/libthai/libthai-$(version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/libthai-$(version)
@@ -40,7 +40,7 @@ PKG_GROUP = libs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 THAI_32_PKG_NAME                = libthai-x32
-THAI_32_PKG_VERSION             = 0.1.20
+THAI_32_PKG_VERSION             = 0.1.24
 THAI_32_PKG_ARCH                = $(TOOLCHAIN)
 THAI_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 THAI_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)

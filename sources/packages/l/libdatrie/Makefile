@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/libdatrie
 
-versions    = 0.2.8
+versions    = 0.2.8 0.2.10
 pkgname     = libdatrie
 suffix      = tar.xz
 

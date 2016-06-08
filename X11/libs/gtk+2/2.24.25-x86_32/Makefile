@@ -13,7 +13,7 @@ include ../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/GNOME/core/gtk+2
 
 REQUIRES           = X11/libs/gtk+2/2.24.25
-REQUIRES          += libs/atk/2.15.1-x86_32
+REQUIRES          += libs/atk/2.20.0-x86_32
 REQUIRES          += libs/poppler/0.29.0-x86_32
 
 # ======= __END_OF_REQUIRES__ =======

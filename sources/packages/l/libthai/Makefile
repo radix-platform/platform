@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/libthai
 
-versions    = 0.1.20
+versions    = 0.1.20 0.1.24
 pkgname     = libthai
 suffix      = tar.xz
 

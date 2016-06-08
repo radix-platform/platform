@@ -19,18 +19,18 @@ COMPONENT_IS_3PP   = true
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/packages/l/libthai
+SOURCE_REQUIRES    = sources/GNOME/core/atk
 
-REQUIRES           = libs/libdatrie/0.2.10
+REQUIRES           = libs/glib2/2.48.0
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 0.1.20
-tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/l/libthai/libthai-$(version).tar.xz
+version            = 2.20.0
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNOME/core/atk/atk-$(version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
-SRC_DIR            = $(TARGET_BUILD_DIR)/libthai-$(version)
-src_dir_name       = libthai-$(version)
+SRC_DIR            = $(TARGET_BUILD_DIR)/atk-$(version)
+src_dir_name       = atk-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
@@ -47,23 +47,23 @@ PKG_GROUP = libs
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-THAI_PKG_NAME                = libthai
-THAI_PKG_VERSION             = 0.1.20
-THAI_PKG_ARCH                = $(TOOLCHAIN)
-THAI_PKG_DISTRO_NAME         = $(DISTRO_NAME)
-THAI_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
-THAI_PKG_GROUP               = $(PKG_GROUP)
-###                           |---handy-ruler-------------------------------|
-THAI_PKG_SHORT_DESCRIPTION   = Thai language support library
-THAI_PKG_URL                 = $(BUG_URL)
-THAI_PKG_LICENSE             = LGPLv2.1
-THAI_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(THAI_PKG_NAME)-pkg-description
-THAI_PKG_DESCRIPTION_FILE_IN = $(THAI_PKG_NAME)-pkg-description.in
-THAI_PKG_INSTALL_SCRIPT      = $(THAI_PKG_NAME)-pkg-install.sh
+ATK_PKG_NAME                = atk
+ATK_PKG_VERSION             = 2.20.0
+ATK_PKG_ARCH                = $(TOOLCHAIN)
+ATK_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+ATK_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
+ATK_PKG_GROUP               = $(PKG_GROUP)
+###                          |---handy-ruler-------------------------------|
+ATK_PKG_SHORT_DESCRIPTION   = accessibility functions library
+ATK_PKG_URL                 = $(BUG_URL)
+ATK_PKG_LICENSE             = LGPLv2
+ATK_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(ATK_PKG_NAME)-pkg-description
+ATK_PKG_DESCRIPTION_FILE_IN = $(ATK_PKG_NAME)-pkg-description.in
+ATK_PKG_INSTALL_SCRIPT      = $(ATK_PKG_NAME)-pkg-install.sh
 
-THAI_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(THAI_PKG_NAME)-package
+ATK_PKG          = $(CURDIR)/$(TARGET_BUILD_DIR)/$(ATK_PKG_NAME)-package
 
-pkg_basename     = $(THAI_PKG_NAME)-$(THAI_PKG_VERSION)-$(THAI_PKG_ARCH)-$(THAI_PKG_DISTRO_NAME)-$(THAI_PKG_DISTRO_VERSION)
+pkg_basename     = $(ATK_PKG_NAME)-$(ATK_PKG_VERSION)-$(ATK_PKG_ARCH)-$(ATK_PKG_DISTRO_NAME)-$(ATK_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
 pkg_signature    = $(call sign-name,$(pkg_archive))
@@ -81,7 +81,7 @@ ROOTFS_TARGETS   = $(pkg_archive)
 include ../../../build-system/core.mk
 
 
-env_sysroot = DESTDIR=$(THAI_PKG)
+env_sysroot = DESTDIR=$(ATK_PKG)
 
 
 extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
@@ -89,8 +89,10 @@ extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --disable-dependency-tracking
+extra_configure_switches += --sysconfdir=/etc
 
-extra_configure_switches += --with-html-docdir=/usr/share/doc/$(src_dir_name)/html
+extra_configure_switches += --enable-introspection=no
+extra_configure_switches += --enable-gtk-doc=no
 
 extra_configure_switches += --enable-static=yes
 extra_configure_switches += --enable-shared=yes
@@ -118,11 +120,11 @@ $(build_target): $(src_done)
 	@touch $@
 
 $(install_target): $(build_target)
-	@mkdir -p $(THAI_PKG)
+	@mkdir -p $(ATK_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Install Documentation =======
-	@if [ -d $(THAI_PKG)/usr/share/man ]; then \
-	  ( cd $(THAI_PKG)/usr/share/man ; \
+	@if [ -d $(ATK_PKG)/usr/share/man ]; then \
+	  ( cd $(ATK_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \
 	      ( cd $$manpagedir ; \
 	        for eachpage in `find . -type l -maxdepth 1` ; do \
@@ -134,45 +136,51 @@ $(install_target): $(build_target)
 	    done \
 	  ) \
 	 fi
-	@mkdir -p $(THAI_PKG)/usr/doc/$(src_dir_name)
+	@mkdir -p $(ATK_PKG)/usr/doc/$(src_dir_name)
 	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/COPYING \
-	       $(THAI_PKG)/usr/doc/$(src_dir_name)
-	@mkdir -p $(THAI_PKG)/usr/share/doc/$(src_dir_name)
+	       $(ATK_PKG)/usr/doc/$(src_dir_name)
+	@mkdir -p $(ATK_PKG)/usr/share/gtk-doc/html/$(src_dir_name)
+	@( cd $(SRC_DIR)/docs/html ; \
+	   cp -a *.html *.css *.png \
+	         $(ATK_PKG)/usr/share/gtk-doc/html/$(src_dir_name) ; \
+	 )
+	@mkdir -p $(ATK_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
 	   cp -a AUTHORS COPYING INSTALL NEWS README \
-	         $(THAI_PKG)/usr/share/doc/$(src_dir_name) ; \
+	         $(ATK_PKG)/usr/share/doc/$(src_dir_name) ; \
+	   ln -sf ../../gtk-doc/html/$(src_dir_name) $(ATK_PKG)/usr/share/doc/$(src_dir_name)/html ; \
 	 )
 	@( cd $(SRC_DIR) ; \
 	   if [ -r ChangeLog ]; then \
-	     DOCSDIR=`echo $(THAI_PKG)/usr/share/doc/$(src_dir_name)` ; \
+	     DOCSDIR=`echo $(ATK_PKG)/usr/share/doc/$(src_dir_name)` ; \
 	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
 	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \
 	 )
 	# ======= remove toolchain path from target libtool *.la files =======
-	@( cd $(THAI_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" libthai.la  \
+	@( cd $(ATK_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libatk-?.?.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	$(call install-into-devenv, $(THAI_PKG))
+	$(call install-into-devenv, $(ATK_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libthai.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libthai.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libatk-?.?.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libatk-?.?.la ; \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libthai.pc \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" atk.pc ; \
 	 )
 	# ======= Strip binaries =======
-	@( cd $(THAI_PKG) ; \
+	@( cd $(ATK_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target shared objects =======
-	@( cd $(THAI_PKG)/usr/lib$(LIBSUFFIX) ; \
+	@( cd $(ATK_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
 	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
 	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
@@ -183,23 +191,23 @@ ifneq ($(CHRPATH),)
 endif
 	@touch $@
 
-$(THAI_PKG_DESCRIPTION_FILE): $(THAI_PKG_DESCRIPTION_FILE_IN)
+$(ATK_PKG_DESCRIPTION_FILE): $(ATK_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
 $(pkg_signature)   : $(pkg_archive) ;
 $(pkg_description) : $(pkg_archive) ;
 
-$(pkg_archive): $(install_target) $(THAI_PKG_DESCRIPTION_FILE) $(THAI_PKG_INSTALL_SCRIPT)
-	@cp $(THAI_PKG_DESCRIPTION_FILE) $(THAI_PKG)/.DESCRIPTION
-	@cp $(THAI_PKG_INSTALL_SCRIPT) $(THAI_PKG)/.INSTALL
-	@$(BUILD_PKG_REQUIRES) $(THAI_PKG)/.REQUIRES
-	@echo "pkgname=$(THAI_PKG_NAME)"                            >  $(THAI_PKG)/.PKGINFO ; \
-	 echo "pkgver=$(THAI_PKG_VERSION)"                          >> $(THAI_PKG)/.PKGINFO ; \
-	 echo "arch=$(THAI_PKG_ARCH)"                               >> $(THAI_PKG)/.PKGINFO ; \
-	 echo "distroname=$(THAI_PKG_DISTRO_NAME)"                  >> $(THAI_PKG)/.PKGINFO ; \
-	 echo "distrover=$(THAI_PKG_DISTRO_VERSION)"                >> $(THAI_PKG)/.PKGINFO ; \
-	 echo "group=$(THAI_PKG_GROUP)"                             >> $(THAI_PKG)/.PKGINFO ; \
-	 echo "short_description=\"$(THAI_PKG_SHORT_DESCRIPTION)\"" >> $(THAI_PKG)/.PKGINFO ; \
-	 echo "url=$(THAI_PKG_URL)"                                 >> $(THAI_PKG)/.PKGINFO ; \
-	 echo "license=$(THAI_PKG_LICENSE)"                         >> $(THAI_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(THAI_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+$(pkg_archive): $(install_target) $(ATK_PKG_DESCRIPTION_FILE) $(ATK_PKG_INSTALL_SCRIPT)
+	@cp $(ATK_PKG_DESCRIPTION_FILE) $(ATK_PKG)/.DESCRIPTION
+	@cp $(ATK_PKG_INSTALL_SCRIPT) $(ATK_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(ATK_PKG)/.REQUIRES
+	@echo "pkgname=$(ATK_PKG_NAME)"                            >  $(ATK_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(ATK_PKG_VERSION)"                          >> $(ATK_PKG)/.PKGINFO ; \
+	 echo "arch=$(ATK_PKG_ARCH)"                               >> $(ATK_PKG)/.PKGINFO ; \
+	 echo "distroname=$(ATK_PKG_DISTRO_NAME)"                  >> $(ATK_PKG)/.PKGINFO ; \
+	 echo "distrover=$(ATK_PKG_DISTRO_VERSION)"                >> $(ATK_PKG)/.PKGINFO ; \
+	 echo "group=$(ATK_PKG_GROUP)"                             >> $(ATK_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(ATK_PKG_SHORT_DESCRIPTION)\"" >> $(ATK_PKG)/.PKGINFO ; \
+	 echo "url=$(ATK_PKG_URL)"                                 >> $(ATK_PKG)/.PKGINFO ; \
+	 echo "license=$(ATK_PKG_LICENSE)"                         >> $(ATK_PKG)/.PKGINFO
+	@$(FAKEROOT) sh -c "cd $(ATK_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

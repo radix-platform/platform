@@ -1067,12 +1067,12 @@ REQUIRES += X11/app/WindowMaker/0.95.7
 
 #
 # order: libs/atk, libs/libdatrie, libs/libthai, libs/pango, app/cups, libs/lcms2,
-#        app/ghostscript, app/qpdf, X11/libs/gdk-pixbuf2, libs/libcroco, dev/vala,
+#        app/ghostscript, app/qpdf, X11/libs/gdk-pixbuf2, libs/libcroco,
 #        X11/libs/librsvg, libs/libspectre, X11/libs/cairo, X11/libs/harfbuzz
 #
-#REQUIRES += libs/atk/2.15.1
+#REQUIRES += libs/atk/2.20.0
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
-#REQUIRES += libs/atk/2.15.1-x86_32
+#REQUIRES += libs/atk/2.20.0-x86_32
 #endif
 #REQUIRES += libs/pango/1.36.8
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))

@@ -22,7 +22,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/GNOME/core/pango
 
 REQUIRES           = libs/harfbuzz/1.2.7
-REQUIRES          += libs/libthai/0.1.20
+REQUIRES          += libs/libthai/0.1.24
 REQUIRES          += X11/X.org/lib/libXft/2.3.2
 
 # ======= __END_OF_REQUIRES__ =======

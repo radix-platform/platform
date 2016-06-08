@@ -1074,9 +1074,9 @@ REQUIRES += X11/app/WindowMaker/0.95.7
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
 #REQUIRES += libs/atk/2.20.0-x86_32
 #endif
-#REQUIRES += libs/pango/1.36.8
+#REQUIRES += libs/pango/1.40.1
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
-#REQUIRES += libs/pango/1.36.8-x86_32
+#REQUIRES += libs/pango/1.40.1-x86_32
 #endif
 
 REQUIRES += app/ghostscript-fonts-std/8.11

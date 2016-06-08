@@ -19,7 +19,7 @@ REQUIRES          += libs/libvorbis/1.3.5-x86_32
 REQUIRES          += libs/libtheora/1.1.1-x86_32
 REQUIRES          += app/cdparanoia/10.2-x86_32
 REQUIRES          += libs/libvisual/0.4.0-x86_32
-REQUIRES          += libs/pango/1.36.8-x86_32
+REQUIRES          += libs/pango/1.40.1-x86_32
 REQUIRES          += X11/X.org/lib/libXv/1.0.10-x86_32
 REQUIRES          += X11/X.org/lib/libSM/1.2.2-x86_32
 

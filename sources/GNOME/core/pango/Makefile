@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/GNOME/core/pango
 
-versions    = 1.36.8
+versions    = 1.36.8 1.40.1
 pkgname     = pango
 suffix      = tar.xz
 
@@ -16,6 +16,7 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/pango-1.36.8.patch
 patches    += $(CURDIR)/patches/pango-1.36.8-no-eps.patch
+patches    += $(CURDIR)/patches/pango-1.40.1-no-eps.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -52,6 +53,7 @@ $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-1.36.8-patch        ; ./create.patch.sh ) ; \
 	 ( cd create-1.36.8-no-eps-patch ; ./create.patch.sh ) ; \
+	 ( cd create-1.40.1-no-eps-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

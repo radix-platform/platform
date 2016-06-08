@@ -1,5 +1,5 @@
 
-pango-1.36.8-no-eps.patch - used for building pango without cairo SVG, PDF, PS engines.
+pango-1.??.?-no-eps.patch - used for building pango without cairo SVG, PDF, PS engines.
                             This patch required when full functional cairo is installed
                             into target x86_64 rootfs and we have cairo-{svg,pdf,ps}.h
                             headers but for x86_32 platform we still have libcairo which

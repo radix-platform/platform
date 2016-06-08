@@ -28,7 +28,7 @@ REQUIRES          += libs/libvorbis/1.3.5
 REQUIRES          += libs/libtheora/1.1.1
 REQUIRES          += app/cdparanoia/10.2
 REQUIRES          += libs/libvisual/0.4.0
-REQUIRES          += libs/pango/1.36.8
+REQUIRES          += libs/pango/1.40.1
 REQUIRES          += X11/X.org/lib/libXv/1.0.10
 REQUIRES          += X11/X.org/lib/libSM/1.2.2
 

@@ -21,7 +21,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/a/ghostscript
 
-REQUIRES           = app/cups/2.0.1
+REQUIRES           = app/cups/2.1.3
 REQUIRES          += libs/lcms2/2.6
 REQUIRES          += X11/libs/fontconfig/2.11.95
 REQUIRES          += X11/X.org/lib/libXext/1.3.3

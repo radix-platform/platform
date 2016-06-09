@@ -22,9 +22,9 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/cups-filters
 
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
-REQUIRES           = app/cups/2.0.1
+REQUIRES           = app/cups/2.1.3
 else
-REQUIRES           = app/cups/2.0.1-x86_32
+REQUIRES           = app/cups/2.1.3-x86_32
 endif
 REQUIRES          += app/ghostscript-fonts-std/8.11
 REQUIRES          += X11/font/dejavu-fonts-ttf/2.35

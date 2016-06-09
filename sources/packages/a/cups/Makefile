@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/cups
 
-versions    = 2.0.1
+versions    = 2.0.1 2.1.3
 pkgname     = cups
 suffix      = tar.bz2
 

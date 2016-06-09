@@ -35,7 +35,7 @@ endif
 REQUIRES          += net/avahi-daemon/0.6.31
 REQUIRES          += net/net-snmp/5.7.3
 REQUIRES          += app/dbus/1.11.2
-REQUIRES          += app/cups/2.0.1
+REQUIRES          += app/cups/2.1.3
 
 # ======= __END_OF_REQUIRES__ =======
 

@@ -21,7 +21,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/libmng
 
-REQUIRES           = libs/lcms2/2.6
+REQUIRES           = libs/lcms2/2.7
 
 # ======= __END_OF_REQUIRES__ =======
 

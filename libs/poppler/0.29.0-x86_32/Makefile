@@ -14,7 +14,7 @@ SOURCE_REQUIRES    = sources/packages/l/poppler
 
 REQUIRES           = libs/poppler/0.29.0
 REQUIRES          += X11/libs/harfbuzz/0.9.36-x86_32
-REQUIRES          += libs/lcms2/2.6-x86_32
+REQUIRES          += libs/lcms2/2.7-x86_32
 REQUIRES          += net/curl/7.47.0-x86_32
 REQUIRES          += X11/libs/qt4/4.8.6-x86_32
 REQUIRES          += X11/libs/qt5/5.4.0-x86_32

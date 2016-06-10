@@ -1134,17 +1134,17 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/gst-plugins-base0/0.10.36-x86_32
 endif
 
+REQUIRES += libs/gstreamer/1.8.2
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/gstreamer/1.8.2-x86_32
+endif
+REQUIRES += libs/gst-plugins-base/1.8.2
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/gst-plugins-base/1.8.2-x86_32
+endif
+
+
 # ■  ────────────────────────────────────────────────────────────────  ■
-REQUIRES += libs/gstreamer/1.4.5
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/gstreamer/1.4.5-x86_32
-endif
-REQUIRES += libs/gst-plugins-base/1.4.5
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/gst-plugins-base/1.4.5-x86_32
-endif
-
-
 #######
 ####### Development:
 #######

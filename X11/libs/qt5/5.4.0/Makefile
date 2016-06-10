@@ -50,8 +50,8 @@ REQUIRES          += X11/X.org/xcb/xcb-util-cursor/0.1.3
 REQUIRES          += X11/X.org/xcb/xcb-util-keysyms/0.4.0
 REQUIRES          += X11/X.org/xcb/xcb-util-wm/0.4.1
 
-REQUIRES          += libs/gstreamer/1.4.5
-REQUIRES          += libs/gst-plugins-base/1.4.5
+REQUIRES          += libs/gstreamer/1.8.2
+REQUIRES          += libs/gst-plugins-base/1.8.2
 
 REQUIRES          += app/sqlite/3.12.2.0
 REQUIRES          += app/mariadb/5.5.41

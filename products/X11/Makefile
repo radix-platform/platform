@@ -1089,13 +1089,13 @@ endif
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
 #REQUIRES += X11/libs/gdk-pixbuf2/2.35.1-x86_32
 #endif
-#REQUIRES += libs/libcroco/0.6.8
+#REQUIRES += libs/libcroco/0.6.11
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
-#REQUIRES += libs/libcroco/0.6.8-x86_32
+#REQUIRES += libs/libcroco/0.6.11-x86_32
 #endif
-#REQUIRES += X11/libs/librsvg/2.40.5
+#REQUIRES += X11/libs/librsvg/2.40.15
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
-#REQUIRES += X11/libs/librsvg/2.40.5-x86_32
+#REQUIRES += X11/libs/librsvg/2.40.15-x86_32
 #endif
 #REQUIRES += X11/libs/cairo/1.14.0
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))

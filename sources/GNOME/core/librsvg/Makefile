@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/GNOME/core/librsvg
 
-versions    = 2.40.5
+versions    = 2.40.5 2.40.15
 pkgname     = librsvg
 suffix      = tar.xz
 
@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/librsvg-2.40.5-no-eps.patch
+patches    += $(CURDIR)/patches/librsvg-2.40.15-no-eps.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -49,7 +50,8 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-2.40.5-no-eps-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2.40.5-no-eps-patch  ; ./create.patch.sh ) ; \
+	 ( cd create-2.40.15-no-eps-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

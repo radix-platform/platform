@@ -1,5 +1,5 @@
 
-librsvg-2.40.5-no-eps.patch - used for building librsvg without cairo SVG, PDF, PS engines.
+librsvg-2.40.*-no-eps.patch - used for building librsvg without cairo SVG, PDF, PS engines.
                               This patch required when full functional cairo is installed
                               into target x86_64 rootfs and we have cairo-{svg,pdf,ps}.h
                               headers but for x86_32 platform we still have libcairo which

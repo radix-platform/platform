@@ -28,7 +28,7 @@ REQUIRES          += libs/pango/1.40.1
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 2.40.5
+version            = 2.40.15
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNOME/core/librsvg/librsvg-$(version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/librsvg-$(version)
@@ -50,7 +50,7 @@ PKG_GROUP = xlibs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 LIBRSVG_PKG_NAME                = librsvg
-LIBRSVG_PKG_VERSION             = 2.40.5
+LIBRSVG_PKG_VERSION             = 2.40.15
 LIBRSVG_PKG_ARCH                = $(TOOLCHAIN)
 LIBRSVG_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBRSVG_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -154,7 +154,7 @@ $(install_target): $(build_target)
 	 )
 	@mkdir -p $(LIBRSVG_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a AUTHORS COPYING* INSTALL NEWS README \
+	   cp -a AUTHORS COPYING* INSTALL NEWS README TODO \
 	         $(LIBRSVG_PKG)/usr/share/doc/$(src_dir_name) ; \
 	   ln -sf ../../gtk-doc/html/$(src_dir_name) $(LIBRSVG_PKG)/usr/share/doc/$(src_dir_name)/html ; \
 	 )

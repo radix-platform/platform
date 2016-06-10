@@ -12,7 +12,7 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNOME/core/librsvg
 
-REQUIRES           = X11/libs/librsvg/2.40.5
+REQUIRES           = X11/libs/librsvg/2.40.15
 REQUIRES          += X11/libs/gdk-pixbuf2/2.35.1-x86_32
 REQUIRES          += libs/libcroco/0.6.11-x86_32
 REQUIRES          += libs/pango/1.40.1-x86_32
@@ -20,7 +20,7 @@ REQUIRES          += libs/pango/1.40.1-x86_32
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 2.40.5
+version            = 2.40.15
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNOME/core/librsvg/librsvg-$(version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/librsvg-$(version)
@@ -42,7 +42,7 @@ PKG_GROUP = xlibs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 LIBRSVG_32_PKG_NAME                = librsvg-x32
-LIBRSVG_32_PKG_VERSION             = 2.40.5
+LIBRSVG_32_PKG_VERSION             = 2.40.15
 LIBRSVG_32_PKG_ARCH                = $(TOOLCHAIN)
 LIBRSVG_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBRSVG_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)

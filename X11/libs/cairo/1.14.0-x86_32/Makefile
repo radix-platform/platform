@@ -21,7 +21,7 @@ REQUIRES          += X11/X.org/lib/pixman/0.34.0-x86_32
 REQUIRES          += X11/X.org/lib/libXext/1.3.3-x86_32
 REQUIRES          += X11/X.org/lib/libXrender/0.9.9-x86_32
 REQUIRES          += libs/libspectre/0.2.7-x86_32
-REQUIRES          += X11/libs/librsvg/2.40.5-x86_32
+REQUIRES          += X11/libs/librsvg/2.40.15-x86_32
 
 REQUIRES          += X11/libs/opengl-collection
 

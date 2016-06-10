@@ -21,7 +21,7 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/x/xdg-user-dirs
 
-REQUIRES           = X11/app/xdg-utils/1.1.0
+REQUIRES           = X11/app/xdg-utils/1.1.1
 
 # ======= __END_OF_REQUIRES__ =======
 

@@ -1105,15 +1105,15 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += X11/libs/harfbuzz/1.2.7-x86_32
 endif
 
-# ■  ────────────────────────────────────────────────────────────────  ■
 #
 # order: X11/app/desktop-file-utils, X11/libs/hicolor-icon-theme,
 #        X11/app/xdg-utils, X11/app/xdg-user-dirs
 #
 REQUIRES += X11/app/desktop-file-utils/0.22
-REQUIRES += X11/libs/hicolor-icon-theme/0.14
+REQUIRES += X11/libs/hicolor-icon-theme/0.15
 REQUIRES += X11/app/xdg-user-dirs/0.15
 
+# ■  ────────────────────────────────────────────────────────────────  ■
 #
 # order: libs/gstreamer0, libs/libmng, libs/libvisual, libs/gst-plugins-base0,
 #        libs/gstreamer, libs/gst-plugins-base

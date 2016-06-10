@@ -29,7 +29,7 @@ endif
 REQUIRES          += app/ghostscript-fonts-std/8.11
 REQUIRES          += X11/font/dejavu-fonts-ttf/2.35
 REQUIRES          += libs/poppler/0.29.0
-REQUIRES          += app/qpdf/5.1.2
+REQUIRES          += app/qpdf/6.0.0
 
 # ======= __END_OF_REQUIRES__ =======
 

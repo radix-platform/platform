@@ -21,7 +21,7 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNOME/core/librsvg
 
-REQUIRES           = X11/libs/gdk-pixbuf2/2.31.1
+REQUIRES           = X11/libs/gdk-pixbuf2/2.35.1
 REQUIRES          += libs/libcroco/0.6.8
 REQUIRES          += libs/pango/1.40.1
 

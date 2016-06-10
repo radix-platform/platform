@@ -1081,13 +1081,13 @@ REQUIRES += X11/app/WindowMaker/0.95.7
 
 REQUIRES += app/ghostscript-fonts-std/8.11
 
-REQUIRES += app/qpdf/5.1.2
+REQUIRES += app/qpdf/6.0.0
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += app/qpdf/5.1.2-x86_32
+REQUIRES += app/qpdf/6.0.0-x86_32
 endif
-#REQUIRES += X11/libs/gdk-pixbuf2/2.31.1
+#REQUIRES += X11/libs/gdk-pixbuf2/2.35.1
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
-#REQUIRES += X11/libs/gdk-pixbuf2/2.31.1-x86_32
+#REQUIRES += X11/libs/gdk-pixbuf2/2.35.1-x86_32
 #endif
 #REQUIRES += libs/libcroco/0.6.8
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))

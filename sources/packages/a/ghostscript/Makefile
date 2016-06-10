@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/ghostscript
 
-versions    = 9.15
+versions    = 9.15 9.19
 pkgname     = ghostscript
 suffix      = tar.gz
 
@@ -15,6 +15,8 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/ghostscript-9.15.patch
+patches    += $(CURDIR)/patches/ghostscript-9.19.patch
+patches    += $(CURDIR)/patches/ghostscript-9.19-cross.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -49,7 +51,9 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-9.15-patch ; ./create.patch.sh ) ; \
+	 ( cd create-9.15-patch       ; ./create.patch.sh ) ; \
+	 ( cd create-9.19-patch       ; ./create.patch.sh ) ; \
+	 ( cd create-9.19-cross-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

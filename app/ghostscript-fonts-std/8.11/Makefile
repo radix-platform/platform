@@ -22,9 +22,9 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/ghostscript-fonts-std
 
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
-REQUIRES           = app/ghostscript/9.15
+REQUIRES           = app/ghostscript/9.19
 else
-REQUIRES           = app/ghostscript/9.15-x86_32
+REQUIRES           = app/ghostscript/9.19-x86_32
 endif
 REQUIRES          += X11/X.org/app/mkfontdir/1.0.7
 REQUIRES          += X11/X.org/app/mkfontscale/1.1.2

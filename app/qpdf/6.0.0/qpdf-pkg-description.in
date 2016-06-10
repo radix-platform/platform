@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+    |-----handy-ruler------------------------------------------------------|
+qpdf: qpdf @VERSION@ (Content-Preserving PDF Transformation System)
+qpdf:
+qpdf: QPDF is a command-line program that does structural,
+qpdf: content-preserving transformations on PDF files. It could have been
+qpdf: called something like pdf-to-pdf. It also provides many useful
+qpdf: capabilities to developers of PDF-producing software or for people
+qpdf: who just want to look at the innards of a PDF file to learn more
+qpdf: about how they work.
+qpdf:
+qpdf:
+qpdf:

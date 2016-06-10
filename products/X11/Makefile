@@ -1060,7 +1060,6 @@ endif
 REQUIRES += X11/app/WindowMaker/0.95.7
 
 
-# ■  ────────────────────────────────────────────────────────────────  ■
 #######
 ####### GTK+ libs & Desktop environment:
 #######
@@ -1097,6 +1096,7 @@ endif
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
 #REQUIRES += X11/libs/librsvg/2.40.15-x86_32
 #endif
+# ■  ────────────────────────────────────────────────────────────────  ■
 #REQUIRES += X11/libs/cairo/1.14.0
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
 #REQUIRES += X11/libs/cairo/1.14.0-x86_32

@@ -1113,7 +1113,6 @@ REQUIRES += X11/app/desktop-file-utils/0.22
 REQUIRES += X11/libs/hicolor-icon-theme/0.15
 REQUIRES += X11/app/xdg-user-dirs/0.15
 
-# ■  ────────────────────────────────────────────────────────────────  ■
 #
 # order: libs/gstreamer0, libs/libmng, libs/libvisual, libs/gst-plugins-base0,
 #        libs/gstreamer, libs/gst-plugins-base
@@ -1122,9 +1121,9 @@ REQUIRES += libs/gstreamer0/0.10.36
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/gstreamer0/0.10.36-x86_32
 endif
-#REQUIRES += libs/libmng/2.0.2
+#REQUIRES += libs/libmng/2.0.3
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
-#REQUIRES += libs/libmng/2.0.2-x86_32
+#REQUIRES += libs/libmng/2.0.3-x86_32
 #endif
 #REQUIRES += libs/libvisual/0.4.0
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
@@ -1135,6 +1134,7 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/gst-plugins-base0/0.10.36-x86_32
 endif
 
+# ■  ────────────────────────────────────────────────────────────────  ■
 REQUIRES += libs/gstreamer/1.4.5
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/gstreamer/1.4.5-x86_32

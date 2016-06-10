@@ -17,7 +17,7 @@ REQUIRES           = X11/libs/qt4/4.8.6
 REQUIRES          += libs/alsa-lib/1.1.1-x86_32
 REQUIRES          += X11/app/dbus-x11-launch/1.11.2-x86_32
 
-REQUIRES          += libs/libmng/2.0.2-x86_32
+REQUIRES          += libs/libmng/2.0.3-x86_32
 REQUIRES          += libs/icu4c/55.1-x86_32
 REQUIRES          += app/cups/2.1.3-x86_32
 

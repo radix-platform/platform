@@ -1096,16 +1096,16 @@ endif
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
 #REQUIRES += X11/libs/librsvg/2.40.15-x86_32
 #endif
-# ■  ────────────────────────────────────────────────────────────────  ■
-#REQUIRES += X11/libs/cairo/1.14.0
+#REQUIRES += X11/libs/cairo/1.14.6
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
-#REQUIRES += X11/libs/cairo/1.14.0-x86_32
+#REQUIRES += X11/libs/cairo/1.14.6-x86_32
 #endif
-REQUIRES += X11/libs/harfbuzz/0.9.36
+REQUIRES += X11/libs/harfbuzz/1.2.7
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += X11/libs/harfbuzz/0.9.36-x86_32
+REQUIRES += X11/libs/harfbuzz/1.2.7-x86_32
 endif
 
+# ■  ────────────────────────────────────────────────────────────────  ■
 #
 # order: X11/app/desktop-file-utils, X11/libs/hicolor-icon-theme,
 #        X11/app/xdg-utils, X11/app/xdg-user-dirs

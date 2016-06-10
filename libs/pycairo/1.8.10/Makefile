@@ -22,7 +22,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/pycairo
 
 REQUIRES           = dev/python2/2.7.11
-REQUIRES          += X11/libs/cairo/1.14.0
+REQUIRES          += X11/libs/cairo/1.14.6
 
 # ======= __END_OF_REQUIRES__ =======
 

@@ -17,7 +17,7 @@ REQUIRES          += libs/libtiff/4.0.6-x86_32
 REQUIRES          += libs/giflib/5.1.3-x86_32
 REQUIRES          += libs/libjpeg-turbo/1.4.2-x86_32
 REQUIRES          += libs/libid3tag/0.15.1b-x86_32
-REQUIRES          += X11/libs/harfbuzz/0.9.36-x86_32
+REQUIRES          += X11/libs/harfbuzz/1.2.7-x86_32
 REQUIRES          += X11/X.org/lib/libXt/1.1.5-x86_32
 REQUIRES          += X11/X.org/lib/libXext/1.3.3-x86_32
 

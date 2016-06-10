@@ -16,15 +16,29 @@ NEED_ABS_PATH      = true
 COMPONENT_IS_3PP   = true
 
 
-include ../../../build-system/constants.mk
+include ../../../../build-system/constants.mk
 
 
 SOURCE_REQUIRES    = sources/packages/l/harfbuzz
 
-REQUIRES           = libs/libpng/libpng14/1.4.19
+ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
+REQUIRES           = dev/gcc/5.3.0
+endif
+REQUIRES          += libs/glib2/2.48.0
+REQUIRES          += libs/libpng/libpng14/1.4.19
 REQUIRES          += libs/icu4c/55.1
-REQUIRES          += libs/cairo/1.14.6
-REQUIRES          += env/freetype/2.6.3
+REQUIRES          += X11/libs/cairo/1.14.6
+REQUIRES          += libs/libffi/3.2.1
+REQUIRES          += libs/zlib/1.2.8
+REQUIRES          += app/bzip2/1.0.6
+# NOTE (about 'env/freetype/2.6.3'):
+#       We should not require final freetipe to avoid a cycle
+#       in the dependency tree desctibed in package requires,
+#       also we can skip 'env/freetype' dependency because
+#       'freetype' will be installed by 'cairo' request:
+#
+#       REQUIRES          += env/freetype/2.6.3
+#
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -45,7 +59,7 @@ install_target     = $(TARGET_BUILD_DIR)/.install_done
 
 ####### Targets
 
-PKG_GROUP = libs
+PKG_GROUP = xlibs
 
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
@@ -78,10 +92,10 @@ BUILD_TARGETS   += $(install_target)
 
 PRODUCT_TARGETS  = $(products)
 
-ROOTFS_TARGETS   = $(pkg_archive)
+ROOTFS_UPDATE_TARGETS = $(pkg_archive)
 
 
-include ../../../build-system/core.mk
+include ../../../../build-system/core.mk
 
 
 env_sysroot = DESTDIR=$(HARFBUZZ_PKG)
@@ -156,7 +170,7 @@ $(install_target): $(build_target)
 	 )
 	@mkdir -p $(HARFBUZZ_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a AUTHORS COPYING INSTALL NEWS README* THANKS TODO \
+	   cp -a AUTHORS COPYING INSTALL NEWS README THANKS TODO \
 	         $(HARFBUZZ_PKG)/usr/share/doc/$(src_dir_name) ; \
 	   ln -sf ../../gtk-doc/html/$(src_dir_name) $(HARFBUZZ_PKG)/usr/share/doc/$(src_dir_name)/html ; \
 	 )

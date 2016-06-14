@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/hwloc
 
-versions    = 1.10.0
+versions    = 1.10.0 1.11.3
 pkgname     = hwloc
 suffix      = tar.bz2
 

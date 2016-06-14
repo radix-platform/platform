@@ -24,7 +24,7 @@ SOURCE_REQUIRES    = sources/packages/l/boost
 REQUIRES           = libs/icu4c/55.1
 REQUIRES          += app/bzip2/1.0.6
 REQUIRES          += libs/zlib/1.2.8
-REQUIRES          += libs/openmpi/1.8.4
+REQUIRES          += libs/openmpi/1.8.8
 
 # ======= __END_OF_REQUIRES__ =======
 

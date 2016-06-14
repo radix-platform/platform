@@ -30,7 +30,7 @@ REQUIRES          += dev/libtool/2.4.2
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 1.8.4
+version            = 1.8.8
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/l/openmpi/openmpi-$(version).tar.bz2
 SRC_ARCHIVE        = $(tar_bz2_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/openmpi-$(version)
@@ -52,7 +52,7 @@ PKG_GROUP = libs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 OMPI_PKG_NAME                = openmpi
-OMPI_PKG_VERSION             = 1.8.4
+OMPI_PKG_VERSION             = 1.8.8
 OMPI_PKG_ARCH                = $(TOOLCHAIN)
 OMPI_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 OMPI_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -119,10 +119,6 @@ TARGET_LIB_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUF
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
-	@( cd $(SRC_DIR) ; \
-	   rm -rf opal/libltdl ; \
-	 )
-	@touch -t 201401010000.00 $(SRC_DIR)/*
 	@touch $@
 
 $(build_target): $(src_done)
@@ -146,7 +142,6 @@ $(install_target): $(build_target)
 	# ======= Install Documentation =======
 	@( cd $(OMPI_PKG)/usr/share/man/man3 ; \
 	   sed -i '/nroff/d' MPI_File_f2c.3 ; \
-	   rm -f MPI_Ibarrier.3 ; \
 	 )
 	@( cd $(OMPI_PKG)/usr/share/man/man3 ; \
 	   for file in *.3 ; do                                \
@@ -186,9 +181,18 @@ $(install_target): $(build_target)
 	                                    libompitrace.la libopen-pal.la          \
 	                                    libopen-rte.la libopen-trace-format.la  \
 	                                    liboshmem.la libotfaux.la               \
-	                                    libvt-hyb.la libvt-mpi-unify.la         \
-	                                    libvt-mpi.la libvt-mt.la                \
-	                                    libvt-pomp.la libvt.la                ; \
+	                                    libvt-hyb.la libvt-java.la              \
+	                                    libvt-mpi-unify.la libvt-mpi.la         \
+	                                    libvt-mt.la libvt-pomp.la libvt.la    ; \
+	 )
+	@( cd $(OMPI_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   sed -i "s, -L$(CURDIR)/$(TARGET_BUILD_DIR).*\.libs,,g" libopen-trace-format.la libotfaux.la  \
+	                                                          libvt-hyb.la libvt-java.la            \
+	                                                          libvt-mpi-unify.la libvt-mpi.la       \
+	                                                          libvt-mt.la libvt-pomp.la libvt.la  ; \
+	 )
+	@( cd $(OMPI_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   sed -i "s,$(TOOLCHAIN_PATH)/$(TARGET),/usr,g" libvt-hyb.la libvt-mpi-unify.la libvt-mpi.la ; \
 	 )
 	@( cd $(OMPI_PKG)/usr/lib$(LIBSUFFIX)/openmpi ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libompi_dbg_msgq.la ; \
@@ -201,16 +205,16 @@ $(install_target): $(build_target)
 	                                            libompitrace.la libopen-pal.la          \
 	                                            libopen-rte.la libopen-trace-format.la  \
 	                                            liboshmem.la libotfaux.la               \
-	                                            libvt-hyb.la libvt-mpi-unify.la         \
-	                                            libvt-mpi.la libvt-mt.la                \
-	                                            libvt-pomp.la libvt.la                ; \
+	                                            libvt-hyb.la libvt-java.la              \
+	                                            libvt-mpi-unify.la libvt-mpi.la         \
+	                                            libvt-mt.la libvt-pomp.la libvt.la    ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libmpi.la libmpi_cxx.la                 \
 	                                              libompitrace.la libopen-pal.la          \
 	                                              libopen-rte.la libopen-trace-format.la  \
 	                                              liboshmem.la libotfaux.la               \
-	                                              libvt-hyb.la libvt-mpi-unify.la         \
-	                                              libvt-mpi.la libvt-mt.la                \
-	                                              libvt-pomp.la libvt.la                ; \
+	                                              libvt-hyb.la libvt-java.la              \
+	                                              libvt-mpi-unify.la libvt-mpi.la         \
+	                                              libvt-mt.la libvt-pomp.la libvt.la    ; \
 	 )
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/openmpi ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libompi_dbg_msgq.la ; \

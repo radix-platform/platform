@@ -1163,21 +1163,17 @@ endif
 #######
 
 #
-# order: libs/libaio, app/mariadb, libs/libiodbc
+# order: app/mariadb, libs/libiodbc
 #
 
-#REQUIRES += libs/libaio/0.3.110
-#ifeq ($(HARDWARE),$(HARDWARE_PC64))
-#REQUIRES += libs/libaio/0.3.110-x86_32
-#endif
 REQUIRES += app/mariadb/5.5.41
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += app/mariadb/5.5.41-x86_32
 endif
 
-REQUIRES += libs/libiodbc/3.52.9
+REQUIRES += libs/libiodbc/3.52.10
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/libiodbc/3.52.9-x86_32
+REQUIRES += libs/libiodbc/3.52.10-x86_32
 endif
 
 

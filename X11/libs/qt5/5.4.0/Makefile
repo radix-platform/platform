@@ -55,7 +55,7 @@ REQUIRES          += libs/gst-plugins-base/1.8.2
 
 REQUIRES          += app/sqlite/3.12.2.0
 REQUIRES          += app/mariadb/5.5.41
-REQUIRES          += libs/libiodbc/3.52.9
+REQUIRES          += libs/libiodbc/3.52.10
 
 REQUIRES          += X11/libs/opengl-collection
 

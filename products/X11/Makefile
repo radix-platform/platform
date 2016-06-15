@@ -1144,7 +1144,6 @@ REQUIRES += libs/gst-plugins-base/1.8.2-x86_32
 endif
 
 
-# ■  ────────────────────────────────────────────────────────────────  ■
 #######
 ####### Development:
 #######
@@ -1152,12 +1151,13 @@ endif
 #
 # order: libs/hwloc, libs/openmpi, libs/boost
 #
-#REQUIRES += libs/boost/1.57.0
+#REQUIRES += libs/boost/1.61.0
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
-#REQUIRES += libs/boost/1.57.0-x86_32
+#REQUIRES += libs/boost/1.61.0-x86_32
 #endif
 
 
+# ■  ────────────────────────────────────────────────────────────────  ■
 #######
 ####### Database:
 #######

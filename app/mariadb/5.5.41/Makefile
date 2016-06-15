@@ -30,7 +30,7 @@ REQUIRES          += libs/libxml2/2.9.3
 REQUIRES          += libs/libaio/0.3.110
 REQUIRES          += net/openssl/1.0.2f
 REQUIRES          += secure/pam_unix2/2.9.1
-REQUIRES          += libs/boost/1.57.0
+REQUIRES          += libs/boost/1.61.0
 
 # ======= __END_OF_REQUIRES__ =======
 

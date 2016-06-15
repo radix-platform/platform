@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/boost
 
-versions    = 1.57.0
+versions    = 1.57.0 1.61.0
 pkgname     = boost
 suffix      = tar.bz2
 

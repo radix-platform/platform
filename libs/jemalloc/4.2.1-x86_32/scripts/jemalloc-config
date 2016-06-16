@@ -1,0 +1,79 @@
+#!/bin/sh
+
+usage() {
+	cat <<EOF
+Usage:
+  /usr/bin/32/jemalloc-config <option>
+Options:
+  --help | -h  : Print usage.
+  --version    : Print jemalloc version.
+  --revision   : Print shared library revision number.
+  --config     : Print configure options used to build jemalloc.
+  --prefix     : Print installation directory prefix.
+  --bindir     : Print binary installation directory.
+  --datadir    : Print data installation directory.
+  --includedir : Print include installation directory.
+  --libdir     : Print library installation directory.
+  --mandir     : Print manual page installation directory.
+  --cc         : Print compiler used to build jemalloc.
+  --cflags     : Print compiler flags used to build jemalloc.
+  --cppflags   : Print preprocessor flags used to build jemalloc.
+  --ldflags    : Print library flags used to build jemalloc.
+  --libs       : Print libraries jemalloc was linked against.
+EOF
+}
+
+prefix="/usr"
+exec_prefix="/usr"
+
+case "$1" in
+--help | -h)
+	usage
+	exit 0
+	;;
+--version)
+	echo "4.2.1"
+	;;
+--revision)
+	echo "2"
+	;;
+--config)
+	echo "--prefix=/usr --libdir=/usr/lib32 --docdir=/usr/share/doc/jemalloc-4.2.1 --mandir=/usr/share/man --sysconfdir=/etc --localstatedir=/var --enable-shared=yes --enable-static=yes 'CC=/usr/bin/gcc' 'CFLAGS=-I/usr/include -g -O2' 'LDFLAGS=-L/lib32 -L/usr/lib32' CPPFLAGS="
+	;;
+--prefix)
+	echo "/usr"
+	;;
+--bindir)
+	echo "/usr/bin/32"
+	;;
+--datadir)
+	echo "/usr/share"
+	;;
+--includedir)
+	echo "/usr/include"
+	;;
+--libdir)
+	echo "/usr/lib32"
+	;;
+--mandir)
+	echo "/usr/share/man"
+	;;
+--cc)
+	echo "/usr/bin/gcc -m32"
+	;;
+--cflags)
+	echo "-I/usr/include -g -O3 -m32 -fvisibility=hidden"
+	;;
+--cppflags)
+	echo " -D_GNU_SOURCE -D_REENTRANT"
+	;;
+--ldflags)
+	echo "-L/lib32 -L/usr/lib32 "
+	;;
+--libs)
+	echo " -lpthread"
+	;;
+*)
+	usage
+	exit 1
+esac

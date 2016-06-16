@@ -535,7 +535,7 @@ REQUIRES += dev/llvm/3.7.1
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += dev/llvm/3.7.1-x86_32
 endif
-REQUIRES += dev/cmake/2.8.12.2
+REQUIRES += dev/cmake/3.5.2
 REQUIRES += dev/make/4.0
 REQUIRES += dev/autoconf-archive/2014.02.28
 REQUIRES += dev/pkg-config/0.28
@@ -1157,18 +1157,21 @@ endif
 #endif
 
 
-# ■  ────────────────────────────────────────────────────────────────  ■
 #######
 ####### Database:
 #######
 
 #
-# order: app/mariadb, libs/libiodbc
+# order: libs/jemalloc, app/mariadb, libs/libiodbc
 #
 
-REQUIRES += app/mariadb/5.5.41
+#REQUIRES += libs/jemalloc/4.2.1
+#ifeq ($(HARDWARE),$(HARDWARE_PC64))
+#REQUIRES += libs/jemalloc/4.2.1-x86_32
+#endif
+REQUIRES += app/mariadb/10.0.25
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += app/mariadb/5.5.41-x86_32
+REQUIRES += app/mariadb/10.0.25-x86_32
 endif
 
 REQUIRES += libs/libiodbc/3.52.10
@@ -1177,6 +1180,7 @@ REQUIRES += libs/libiodbc/3.52.10-x86_32
 endif
 
 
+# ■  ────────────────────────────────────────────────────────────────  ■
 #######
 ####### Perl5 modules:
 #######

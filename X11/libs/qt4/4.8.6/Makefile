@@ -50,7 +50,7 @@ REQUIRES          += libs/gstreamer0/0.10.36
 REQUIRES          += libs/gst-plugins-base0/0.10.36
 
 REQUIRES          += app/sqlite/3.12.2.0
-REQUIRES          += app/mariadb/5.5.41
+REQUIRES          += app/mariadb/10.0.25
 REQUIRES          += libs/libiodbc/3.52.10
 
 REQUIRES          += X11/libs/opengl-collection

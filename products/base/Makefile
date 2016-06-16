@@ -535,7 +535,7 @@ REQUIRES += dev/llvm/3.7.1
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += dev/llvm/3.7.1-x86_32
 endif
-REQUIRES += dev/cmake/2.8.12.2
+REQUIRES += dev/cmake/3.5.2
 REQUIRES += dev/make/4.0
 REQUIRES += dev/autoconf-archive/2014.02.28
 REQUIRES += dev/pkg-config/0.28

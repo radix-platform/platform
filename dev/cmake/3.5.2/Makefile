@@ -14,7 +14,6 @@ COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 NEED_ABS_PATH      = true
 COMPONENT_IS_3PP   = true
-#NO_CCACHE = true
 
 
 include ../../../build-system/constants.mk
@@ -33,7 +32,7 @@ REQUIRES          += net/curl/7.47.0
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 3.0.2
+version            = 3.5.2
 major_version      = $(shell echo $(version) | cut -f1,2 -d '.')
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/d/cmake/cmake-$(version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
@@ -41,14 +40,16 @@ SRC_DIR            = $(TARGET_BUILD_DIR)/cmake-$(version)
 src_dir_name       = cmake-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
+manpages           = $(CURDIR)/manpages
+
 PATCHES = PATCHES
 
 build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
 
-host_dir_name      = host
-host_dir           = $(TARGET_BUILD_DIR)/$(host_dir_name)
+devenv_dir_name    = build-machine
+devenv_dir         = $(TARGET_BUILD_DIR)/$(devenv_dir_name)
 
 
 ####### Targets
@@ -59,7 +60,7 @@ PKG_GROUP = dev
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 CMAKE_PKG_NAME                = cmake
-CMAKE_PKG_VERSION             = 3.0.2
+CMAKE_PKG_VERSION             = 3.5.2
 CMAKE_PKG_ARCH                = $(TOOLCHAIN)
 CMAKE_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 CMAKE_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -98,8 +99,15 @@ env_sysroot = DESTDIR=$(CMAKE_PKG)
 extra_configure_switches  = --docdir=share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=share/man
 extra_configure_switches += --enable-ccache
+
 extra_configure_switches += --no-qt-gui
-extra_configure_switches += --system-libs
+extra_configure_switches += --no-system-jsoncpp
+
+extra_configure_switches += --system-curl
+extra_configure_switches += --system-expat
+extra_configure_switches += --system-zlib
+extra_configure_switches += --system-bzip2
+extra_configure_switches += --system-libarchive
 
 
 ####### Dependencies
@@ -118,10 +126,10 @@ $(build_target): $(src_done)
 	@( cd $(build_dir) ; \
 	   ../$(src_dir_name)/configure --prefix=/usr $(extra_configure_switches) ; \
 	 )
-	@mkdir -p $(host_dir)
+	@mkdir -p $(devenv_dir)
 	@( cd $(build_dir) ; \
 	   $(MAKE) ; \
-	   $(MAKE) -j1 install DESTDIR=../$(host_dir_name) ; \
+	   $(MAKE) -j1 install DESTDIR=../$(devenv_dir_name) ; \
 	 )
 	@rm -rf $(build_dir)
 	@mkdir -p $(build_dir)
@@ -132,11 +140,18 @@ $(build_target): $(src_done)
 	                              -DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM="NEVER"         \
 	                              -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY="ONLY"          \
 	                              -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE="ONLY"          \
-	                              -DCMAKE_USE_SYSTEM_LIBRARIES=ON                     \
+	                              -DCMAKE_DOC_DIR="share/doc/$(src_dir_name)"         \
+	                              -DCMAKE_USE_SYSTEM_JSONCPP=OFF                      \
+	                              -DCMAKE_USE_SYSTEM_CURL=ON                          \
+	                              -DCMAKE_USE_SYSTEM_EXPAT=ON                         \
+	                              -DCMAKE_USE_SYSTEM_LIBARCHIVE=ON                    \
+	                              -DCMAKE_USE_SYSTEM_BZIP2=ON                         \
+	                              -DCMAKE_USE_SYSTEM_LIBLZMA=ON                       \
+	                              -DCMAKE_USE_SYSTEM_ZLIB=ON                          \
 	                                                           "../$(src_dir_name)" ; \
 	 )
 	@( cd $(build_dir) ; \
-	   sed -i "s,^[ \t]*bin/cmake,\t\.\./$(host_dir_name)/usr/bin/cmake,g" Makefile ; \
+	   sed -i "s,^[ \t]*bin/cmake,\t\.\./$(devenv_dir_name)/usr/bin/cmake,g" Makefile ; \
 	 )
 	@cd $(build_dir) && $(MAKE)
 	@touch $@
@@ -145,7 +160,17 @@ $(install_target): $(build_target)
 	@mkdir -p $(CMAKE_PKG)
 	@cd $(build_dir) && $(MAKE) -j1 install
 	# ======= Install Documentation =======
-	@( cd $(CMAKE_PKG)/usr ; mv doc share )
+	@mkdir -p $(CMAKE_PKG)/usr/share/man/man{1,7}
+	@for file in ccmake cmake cmake-gui cpack ctest ; do \
+	   cp -a $(manpages)/man1/$${file}.1 $(CMAKE_PKG)/usr/share/man/man1/$${file}.1 ; \
+	 done
+	@for file in cmake-buildsystem cmake-commands cmake-compile-features      \
+	             cmake-developer cmake-generator-expressions cmake-generators \
+	             cmake-language cmake-modules cmake-packages cmake-policies   \
+	             cmake-properties cmake-qt cmake-toolchains cmake-variables   ; do \
+	   cp -a $(manpages)/man7/$${file}.7 $(CMAKE_PKG)/usr/share/man/man7/$${file}.7 ; \
+	 done
+	# ======= Compress manpages =======
 	@if [ -d $(CMAKE_PKG)/usr/share/man ]; then \
 	  ( cd $(CMAKE_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \
@@ -162,7 +187,7 @@ $(install_target): $(build_target)
 	@mkdir -p $(CMAKE_PKG)/usr/doc/$(src_dir_name)
 	@cp -a $(SRC_DIR)/Copyright.txt \
 	       $(CMAKE_PKG)/usr/doc/$(src_dir_name)
-	@( cd $(CMAKE_PKG)/usr/share/doc ; mv cmake-$(major_version) $(src_dir_name) )
+	@mkdir -p $(CMAKE_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
 	   if [ -r ChangeLog.txt ]; then \
 	     DOCSDIR=`echo $(CMAKE_PKG)/usr/share/doc/$(src_dir_name)` ; \

@@ -5,11 +5,11 @@ COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 include ../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/packages/b/mariadb
+url         = $(DOWNLOAD_SERVER)/sources/packages/l/jemalloc
 
-versions    = 5.5.41 5.5.49 10.0.25
-pkgname     = mariadb
-suffix      = tar.gz
+versions    = 4.2.1
+pkgname     = jemalloc
+suffix      = tar.bz2
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
@@ -25,7 +25,7 @@ include ../../../../build-system/core.mk
 
 
 $(tarballs):
-	@echo -e "\n======= Downloading source tarballs =======" ; \
+	@echo -e "\n======= Downloading source tarballs =======\n" ; \
 	 for tarball in $(tarballs) ; do \
 	   echo "$(url)/$$tarball" | xargs -n 1 -P 100 wget $(WGET_OPTIONS) -i & \
 	 done ; wait

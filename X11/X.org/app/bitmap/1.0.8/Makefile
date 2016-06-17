@@ -21,7 +21,8 @@ include ../../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/X.org/app/bitmap
 
-REQUIRES           = X11/X.org/lib/libXaw/1.0.13
+REQUIRES           = X11/X.org/data/xbitmaps/1.1.1
+REQUIRES          += X11/X.org/lib/libXaw/1.0.13
 
 # ======= __END_OF_REQUIRES__ =======
 

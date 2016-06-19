@@ -531,9 +531,9 @@ REQUIRES += net/iptraf-ng/1.1.4
 #######
 ####### Development tools:
 #######
-REQUIRES += dev/llvm/3.7.1
+REQUIRES += dev/llvm/3.8.0
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += dev/llvm/3.7.1-x86_32
+REQUIRES += dev/llvm/3.8.0-x86_32
 endif
 REQUIRES += dev/cmake/3.5.2
 REQUIRES += dev/make/4.0

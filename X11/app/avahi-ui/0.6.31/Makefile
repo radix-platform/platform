@@ -23,7 +23,7 @@ SOURCE_REQUIRES    = sources/packages/n/avahi
 
 REQUIRES           = net/avahi-daemon/0.6.31
 REQUIRES          += X11/libs/gtk+2/2.24.25
-REQUIRES          += X11/libs/qt4/4.8.6
+REQUIRES          += X11/libs/qt4/4.8.7
 REQUIRES          += X11/app/desktop-file-utils/0.22
 REQUIRES          += libs/pygtk/2.24.0
 

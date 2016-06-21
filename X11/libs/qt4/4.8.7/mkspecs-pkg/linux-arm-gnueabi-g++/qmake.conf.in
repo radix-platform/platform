@@ -1,0 +1,45 @@
+#
+# qmake configuration for building with -xplatform linux-arm-gnueabi-g++
+#
+
+MAKEFILE_GENERATOR      = UNIX
+TARGET_PLATFORM         = unix
+TEMPLATE                = app
+CONFIG                  += qt warn_on release incremental link_prl gdb_dwarf_index
+QT                      += core gui
+QMAKE_INCREMENTAL_STYLE = sublib
+
+
+include(../common/linux.conf)
+include(../common/gcc-base-unix.conf)
+include(../common/g++-unix.conf)
+
+
+# modifications to g++.conf
+QMAKE_CC                = @TARGET_BINDIR@/gcc
+QMAKE_CXX               = @TARGET_BINDIR@/g++
+QMAKE_LINK              = @TARGET_BINDIR@/g++
+QMAKE_LINK_SHLIB        = @TARGET_BINDIR@/g++
+
+# modifications to linux.conf
+QMAKE_AR                = @TARGET_BINDIR@/ar cqs
+QMAKE_OBJCOPY           = @TARGET_BINDIR@/objcopy
+QMAKE_STRIP             = @TARGET_BINDIR@/strip
+
+QMAKE_INCDIR            = @TARGET_PREFIX@/include
+QMAKE_LIBDIR            = @TARGET_PREFIX@/lib@LIBDIRSUFFIX@
+
+QMAKE_LIBS_EGL         += -lEGL
+QMAKE_LIBS_OPENGL_ES2  += -lGLESv2
+QMAKE_LIBS_OPENVG      += -lOpenVG
+
+
+QMAKE_LFLAGS           += -L@TARGET_PREFIX@/lib@LIBDIRSUFFIX@ -Wl,--export-dynamic
+QMAKE_LFLAGS_RELEASE   += -L@TARGET_PREFIX@/lib@LIBDIRSUFFIX@ -Wl,--export-dynamic
+
+TARGET_HW_CFLAGS        = @ARCH_FLAGS@ -DLINUX=1
+
+QMAKE_CFLAGS           += $$TARGET_HW_CFLAGS
+QMAKE_CXXFLAGS         += -std=c++0x $$TARGET_HW_CFLAGS
+
+load(qt_config)

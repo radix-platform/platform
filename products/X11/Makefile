@@ -1188,7 +1188,6 @@ REQUIRES += dev/perl-modules/perl-dbd-mysql/4.032
 
 
 
-# ■  ────────────────────────────────────────────────────────────────  ■
 #######
 ####### Qt, GTK+, ...:
 #######
@@ -1199,10 +1198,11 @@ REQUIRES += dev/perl-modules/perl-dbd-mysql/4.032
 #        X11/libs/startup-notification
 #
 
-#REQUIRES += X11/libs/qt4/4.8.6
+#REQUIRES += X11/libs/qt4/4.8.7
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
-#REQUIRES += X11/libs/qt4/4.8.6-x86_32
+#REQUIRES += X11/libs/qt4/4.8.7-x86_32
 #endif
+# ■  ────────────────────────────────────────────────────────────────  ■
 REQUIRES += X11/libs/qt5/5.4.0
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += X11/libs/qt5/5.4.0-x86_32

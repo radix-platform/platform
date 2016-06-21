@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Qt4 QDbusViewer
+Comment=Debug D-Bus applications
+Exec=@QT4LINK@/bin/qdbusviewer
+Icon=qdbusviewer
+Terminal=false
+Encoding=UTF-8
+Type=Application
+Categories=Qt;Development;Debugger;

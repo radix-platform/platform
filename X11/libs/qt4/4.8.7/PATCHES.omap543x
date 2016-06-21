@@ -1,0 +1,11 @@
+
+../../../../sources/packages/x/qt4/patches/qt4-4.8.7-clipboard-delay.patch    -p0
+../../../../sources/packages/x/qt4/patches/qt4-4.8.7-cups.patch               -p0
+../../../../sources/packages/x/qt4/patches/qt4-4.8.7-disable-sslv3.patch      -p0
+../../../../sources/packages/x/qt4/patches/qt4-4.8.7-event-loop.patch         -p0
+../../../../sources/packages/x/qt4/patches/qt4-4.8.7-moc-boost.patch          -p0
+../../../../sources/packages/x/qt4/patches/qt4-4.8.7-mysql.patch              -p0
+../../../../sources/packages/x/qt4/patches/qt4-4.8.7-settings.patch           -p0
+../../../../sources/packages/x/qt4/patches/qt4-4.8.7-systemtrayicon.patch     -p0
+../../../../sources/packages/x/qt4/patches/qt4-4.8.7-webkit-werror.patch      -p0
+../../../../sources/packages/x/qt4/patches/qt4-4.8.7-webkit-NEON-Thumb2.patch -p0

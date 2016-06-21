@@ -1,0 +1,16 @@
+prefix=@PREFIX@
+bindir=${prefix}/bin
+datadir=${prefix}
+docdir=${prefix}/doc
+headerdir=${prefix}/include
+importdir=${prefix}/imports
+libdir=${prefix}/lib
+moc=${bindir}/moc
+plugindir=${prefix}/plugins
+qmake=${bindir}/qmake
+sysconfdir=${prefix}/etc/settings
+translationdir=${prefix}/translations
+
+Name: Qt
+Description: Qt Configuration
+Version: @VERSION@

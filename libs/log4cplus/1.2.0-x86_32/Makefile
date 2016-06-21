@@ -12,8 +12,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/log4cplus
 
-REQUIRES           = libs/log4cplus/1.2.0
-REQUIRES          += X11/libs/qt4/4.8.6-x86_32
+REQUIRES           = libs/log4cplus/1.2.7
+REQUIRES          += X11/libs/qt4/4.8.7-x86_32
 REQUIRES          += dev/python2/2.7.11-x86_32
 
 # ======= __END_OF_REQUIRES__ =======

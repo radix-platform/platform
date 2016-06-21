@@ -25,7 +25,7 @@ REQUIRES           = libs/poppler-data/0.4.7
 REQUIRES          += X11/libs/harfbuzz/1.2.7
 REQUIRES          += libs/lcms2/2.7
 REQUIRES          += net/curl/7.47.0
-REQUIRES          += X11/libs/qt4/4.8.6
+REQUIRES          += X11/libs/qt4/4.8.7
 REQUIRES          += X11/libs/qt5/5.4.0
 
 # ======= __END_OF_REQUIRES__ =======

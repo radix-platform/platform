@@ -70,6 +70,7 @@ pkgconfig_in       = $(CURDIR)/pkgconfig/Qt.pc.in
 profile_dir        = $(CURDIR)/profile.d
 applications_dir   = $(CURDIR)/applications
 
+config_spec        = $(CURDIR)/$(SRC_DIR)/mkspecs/qconfig.pri
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
 PATCHES = PATCHES.omap543x
@@ -162,17 +163,17 @@ configure_switches += -force-pkg-config
 configure_switches += -no-gtkstyle
 
 configure_switches += -sysconfdir     /etc/xdg
-configure_switches += -prefix         /usr/lib$(LIBSUFFIX)/qt4
-configure_switches += -bindir         /usr/lib$(LIBSUFFIX)/qt4/bin
-configure_switches += -libdir         /usr/lib$(LIBSUFFIX)/qt4/lib
-configure_switches += -docdir         /usr/lib$(LIBSUFFIX)/qt4/doc
-configure_switches += -headerdir      /usr/lib$(LIBSUFFIX)/qt4/include
-configure_switches += -plugindir      /usr/lib$(LIBSUFFIX)/qt4/plugins
-configure_switches += -importdir      /usr/lib$(LIBSUFFIX)/qt4/imports
-configure_switches += -datadir        /usr/lib$(LIBSUFFIX)/qt4
-configure_switches += -translationdir /usr/lib$(LIBSUFFIX)/qt4/translations
-configure_switches += -examplesdir    /usr/lib$(LIBSUFFIX)/qt4/examples
-configure_switches += -demosdir       /usr/lib$(LIBSUFFIX)/qt4/demos
+configure_switches += -prefix         /usr/lib$(LIBSUFFIX)/qt-$(version)
+configure_switches += -bindir         /usr/lib$(LIBSUFFIX)/qt-$(version)/bin
+configure_switches += -libdir         /usr/lib$(LIBSUFFIX)/qt-$(version)/lib
+configure_switches += -docdir         /usr/lib$(LIBSUFFIX)/qt-$(version)/doc
+configure_switches += -headerdir      /usr/lib$(LIBSUFFIX)/qt-$(version)/include
+configure_switches += -plugindir      /usr/lib$(LIBSUFFIX)/qt-$(version)/plugins
+configure_switches += -importdir      /usr/lib$(LIBSUFFIX)/qt-$(version)/imports
+configure_switches += -datadir        /usr/lib$(LIBSUFFIX)/qt-$(version)
+configure_switches += -translationdir /usr/lib$(LIBSUFFIX)/qt-$(version)/translations
+configure_switches += -examplesdir    /usr/lib$(LIBSUFFIX)/qt-$(version)/doc/examples
+configure_switches += -demosdir       /usr/lib$(LIBSUFFIX)/qt-$(version)/doc/demos
 
 configure_switches += -graphicssystem raster
 
@@ -213,7 +214,7 @@ configure_switches += -no-openvg
 configure_switches += -verbose
 
 
-TARGET_BIN_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)/qt4/lib
+TARGET_BIN_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)/qt-$(version)/lib
 
 
 ####### Dependencies
@@ -251,15 +252,15 @@ $(install_target): $(build_target)
 	@mkdir -p $(QT4_PKG)
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Rename build-machine tools =======
-	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/bin ; \
+	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/bin ; \
 	   for file in lrelease moc qmake rcc uic ; do \
 	     mv $$file $(TARGET)-$$file ; \
 	   done ; \
 	 )
 	@mkdir -p $(QT4_PKG)/usr/bin
-	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/bin ; \
+	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/bin ; \
 	   for file in lrelease moc qmake rcc uic ; do \
-	     ( cd $(QT4_PKG)/usr/bin ; ln -sf ../../usr/lib$(LIBSUFFIX)/qt4/bin/$(TARGET)-$$file . ) ; \
+	     ( cd $(QT4_PKG)/usr/bin ; ln -sf ../../usr/lib$(LIBSUFFIX)/qt-$(version)/bin/$(TARGET)-$$file . ) ; \
 	   done ; \
 	 )
 	# ======= Install Qmake =======
@@ -289,7 +290,7 @@ $(install_target): $(build_target)
 	   ( cd qmake ; $(MAKE) clean ) ; \
 	   export PKG_CONFIG_SYSROOT=$(TARGET_DEST_DIR) ; \
 	   export PKG_CONFIG_PATH=$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig:$(TARGET_DEST_DIR)/share/pkgconfig ; \
-	   ./configure -confirm-license -opensource -prefix /usr/lib$(LIBSUFFIX)/qt4 \
+	   ./configure -confirm-license -opensource -prefix /usr/lib$(LIBSUFFIX)/qt-$(version) \
 	               -arch $(ARCH) -platform $(TARGET_SPEC_DIR) \
 	               -force-pkg-config \
 	               -release \
@@ -298,12 +299,21 @@ $(install_target): $(build_target)
 	               -host-little-endian \
 	               -optimized-qmake \
 	               -v ; \
-	  cp -a bin/qmake $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/bin ; \
+	  cp -a bin/qmake $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/bin ; \
 	 )
 	# ======= Set actual target mkspecs/$(TARGET_SPEC_DIR) =======
-	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/mkspecs ; rm -rf $(TARGET_SPEC_DIR) )
-	@cp -a $(CURDIR)/mkspecs-pkg/$(TARGET_SPEC_DIR) $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/mkspecs
-	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/mkspecs/$(TARGET_SPEC_DIR) ; \
+	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/mkspecs ; \
+	   rm -rf $(TARGET_SPEC_DIR) ; \
+	   spec=`cat $(config_spec) | grep "^QT_CONFIG" | sed 's,QT_CONFIG[ \t]*+=[ \t]*\(.*\),\1,'` ; \
+	   cat $(CURDIR)/mkspecs/qconfig.pri.in      | \
+	       sed "s,@ARCH@,$(ARCH),g"              | \
+	       sed "s,@LIBDIRSUFFIX@,$(LIBSUFFIX),g" | \
+	       sed "s,@CONFIG_SPEC@,$$spec,g"          \
+	            > $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/mkspecs/qconfig.pri ; \
+	   echo -n "" > qdevice.pri ; \
+	 )
+	@cp -a $(CURDIR)/mkspecs-pkg/$(TARGET_SPEC_DIR) $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/mkspecs
+	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/mkspecs/$(TARGET_SPEC_DIR) ; \
 	   cat qmake.conf.in | \
 	     sed 's,@TARGET_PREFIX@,/usr,g'            | \
 	     sed 's,@TARGET_BINDIR@,/usr/bin,g'        | \
@@ -312,22 +322,22 @@ $(install_target): $(build_target)
 	   rm -f qmake.conf.in ; \
 	 )
 	# ======= Install Qt.pc file =======
-	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX) ; ln -sf qt4 qt-$(version) )
+	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX) ; ln -sf qt-$(version) qt4 )
 	@cat $(pkgconfig_in) | \
-	     sed "s,@PREFIX@,/usr/lib$(LIBSUFFIX)/qt4,g" | \
-	     sed "s,@VERSION@,$(version),g" > $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/lib/pkgconfig/Qt.pc
+	     sed "s,@PREFIX@,/usr/lib$(LIBSUFFIX)/qt-$(version),g" | \
+	     sed "s,@VERSION@,$(version),g" > $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib/pkgconfig/Qt.pc
 	# ======= Remove internal used dependencies of libjscore, libwebcore ======
-	sed -i "s, -ljscore,,g" $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/lib/libQtWebKit.la \
-	                        $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/lib/pkgconfig/QtWebKit.pc
-	sed -i "s,  -lwebcore,,g" $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/lib/libQtWebKit.la \
-	                          $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/lib/pkgconfig/QtWebKit.pc
-	sed -i "s, -L../../JavaScriptCore/release,,g" $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/lib/libQtWebKit.la \
-	                                              $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/lib/pkgconfig/QtWebKit.pc
-	sed -i "s, -L../../WebCore/release,,g" $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/lib/libQtWebKit.la \
-	                                       $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/lib/pkgconfig/QtWebKit.pc
+	sed -i "s, -ljscore,,g" $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib/libQtWebKit.la \
+	                        $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib/pkgconfig/QtWebKit.pc
+	sed -i "s,  -lwebcore,,g" $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib/libQtWebKit.la \
+	                          $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib/pkgconfig/QtWebKit.pc
+	sed -i "s, -L../../JavaScriptCore/release,,g" $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib/libQtWebKit.la \
+	                                              $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib/pkgconfig/QtWebKit.pc
+	sed -i "s, -L../../WebCore/release,,g" $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib/libQtWebKit.la \
+	                                       $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib/pkgconfig/QtWebKit.pc
 	# ======= Link shared libraries into /usr/lib$(LIBSUFFIX) =======
 	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   for file in qt4/lib/*.so* ; do \
+	   for file in qt-$(version)/lib/*.so* ; do \
 	     ln -sf $$file . ; \
 	   done ; \
 	 )
@@ -338,9 +348,9 @@ $(install_target): $(build_target)
 	@chmod 0755 $(QT4_PKG)/etc/profile.d/*
 	# ======= Link pkgconfig files to 'normal' place =======
 	@mkdir -p $(QT4_PKG)/usr/lib$(LIBSUFFIX)/pkgconfig
-	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/lib/pkgconfig ; \
+	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib/pkgconfig ; \
 	   for file in *.pc ; do \
-	     ( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/pkgconfig ; ln -sf ../../lib$(LIBSUFFIX)/qt4/lib/pkgconfig/$$file . ) ; \
+	     ( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/pkgconfig ; ln -sf ../../lib$(LIBSUFFIX)/qt-$(version)/lib/pkgconfig/$$file . ) ; \
 	   done ; \
 	 )
 	# ======= Install Qt private headers =======
@@ -348,7 +358,7 @@ $(install_target): $(build_target)
 	   rsync -aR \
 	         include/Qt{Core,Declarative,Gui,Script}/private \
 	         src/{corelib,declarative,gui,script}/*/*_p.h \
-	         $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/ ; \
+	         $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/ ; \
 	 )
 	# ======= Add menu entries for Qt applications =======
 	@mkdir -p $(QT4_PKG)/usr/share/icons/hicolor/{16x16,32x32,48x48,64x64,128x128}/apps
@@ -370,7 +380,7 @@ $(install_target): $(build_target)
 	@( cd $(applications_dir) ; \
 	   for file in assistant designer linguist qdbusviewer qtconfig ; do \
 	     cat $$file.desktop.in | \
-	       sed "s,@QT4LINK@,/usr/lib$(LIBSUFFIX)/qt4,g" > $(QT4_PKG)/usr/share/applications/$$file.desktop ; \
+	       sed "s,@QT4LINK@,/usr/lib$(LIBSUFFIX)/qt-$(version),g" > $(QT4_PKG)/usr/share/applications/$$file.desktop ; \
 	   done ; \
 	 )
 	# ======= Install Documentation =======
@@ -383,7 +393,7 @@ $(install_target): $(build_target)
 	         $(QT4_PKG)/usr/share/doc/$(doc_dir_name) ; \
 	 )
 	# ======= remove toolchain path from target libtool *.la files =======
-	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/lib ; \
+	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libQtCLucene.la     libQtCore.la        \
 	                                    libQtDBus.la        libQtDeclarative.la \
 	                                    libQtGui.la         libQtHelp.la        \
@@ -406,13 +416,13 @@ $(install_target): $(build_target)
 	                                    libphonon.prl                                  ; \
 	 )
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)),)
-	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/lib ; \
+	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libQtMeeGoGraphicsSystemHelper.la  ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libQtMeeGoGraphicsSystemHelper.prl ; \
 	 )
 endif
 	# ======= Change source directory to more 'normal' place =======
-	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/lib ; \
+	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib ; \
 	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/src/qt-$(version),g" \
 	           libQtCLucene.prl     libQtCore.prl               \
 	           libQtDBus.prl        libQtDeclarative.prl        \
@@ -427,13 +437,13 @@ endif
 	           libphonon.prl                                  ; \
 	 )
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)),)
-	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/lib ; \
+	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib ; \
 	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/src/qt-$(version),g" \
 	           libQtMeeGoGraphicsSystemHelper.prl             ; \
 	 )
 endif
 	# ======= remove toolchain path from target pkgconfig *.pc files =======
-	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/lib/pkgconfig ; \
+	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib/pkgconfig ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" QtCLucene.pc     QtCore.pc               \
 	                                    QtDBus.pc        QtDeclarative.pc        \
 	                                    QtDesigner.pc    QtDesignerComponents.pc \
@@ -447,21 +457,21 @@ endif
 	                                    phonon.pc                              ; \
 	 )
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)),)
-	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/lib/pkgconfig ; \
+	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib/pkgconfig ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" QtMeeGoGraphicsSystemHelper.pc ; \
 	 )
 endif
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(QT4_PKG))
 	# ======= Remove build-machine tools from target package =======
-	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/bin ; \
+	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/bin ; \
 	   for file in lrelease moc qmake rcc uic ; do \
 	     rm -f $(TARGET)-$$file ; \
 	   done ; \
 	 )
 	@rm -rf $(QT4_PKG)/usr/bin
 	# ======= tune libtool *.la search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/qt4/lib ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib ; \
 	   sed -i "s,/usr/lib,$(TARGET_DEST_DIR)/usr/lib,g" libQtCLucene.la     libQtCore.la        \
 	                                                    libQtDBus.la        libQtDeclarative.la \
 	                                                    libQtGui.la         libQtHelp.la        \
@@ -484,13 +494,13 @@ endif
 	                                                    libphonon.prl                                  ; \
 	 )
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)),)
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/qt4/lib ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib ; \
 	   sed -i "s,/usr/lib,$(TARGET_DEST_DIR)/usr/lib,g" libQtMeeGoGraphicsSystemHelper.la  ; \
 	   sed -i "s,/usr/lib,$(TARGET_DEST_DIR)/usr/lib,g" libQtMeeGoGraphicsSystemHelper.prl ; \
 	 )
 endif
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/qt4/lib/pkgconfig ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib/pkgconfig ; \
 	   sed -i "s,/usr/lib,$(TARGET_DEST_DIR)/usr/lib,g" QtCLucene.pc     QtCore.pc               \
 	                                                    QtDBus.pc        QtDeclarative.pc        \
 	                                                    QtDesigner.pc    QtDesignerComponents.pc \
@@ -504,7 +514,7 @@ endif
 	                                                    phonon.pc                              ; \
 	 )
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)),)
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/qt4/lib/pkgconfig ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib/pkgconfig ; \
 	   sed -i "s,/usr/lib,$(TARGET_DEST_DIR)/usr/lib,g" QtMeeGoGraphicsSystemHelper.pc ; \
 	 )
 endif
@@ -516,7 +526,7 @@ endif
 	 )
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target binaries =======
-	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/tests/qt4 ; \
+	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/tests/qt4 ; \
 	   for file in `find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
 	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
 	     if [ -n "$$rpath" ] ; then \

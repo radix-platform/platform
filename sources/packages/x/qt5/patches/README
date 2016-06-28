@@ -1,0 +1,25 @@
+
+/* begin *
+
+   qt5-5.7.0-mips32r5.patch        - this patch fixes the issue with providing CFLAGS to the
+                                     QtWebEngine build system. This patch is relevant to the
+                                     Imagination cores of jz47xx and Baikal T1 processors which
+                                     based on Xburst and p5600 cores. For P5600 core we have to
+                                     use -march=mips32r5 -mtune=p5600 (GCC 5.3.0) or
+                                     -march=p5600 (GCC 5.4.0). In this patch we keep GCC 5.3.0
+                                     options schema (-march=mips32r5 -mtune=p5600) which is
+                                     applicable for both versions of GCC.
+
+   qt5-5.7.0-arm-neon-thumb.patch  - Clear default value arm_thumb=1 for arm_version=7 and
+                                     check QMAKE_CFLAGS for -mthumb option.  If -mthumb is
+                                     not present in QMAKE_CFLAGS the  arm_thumb value will
+                                     be equal to 0 (zero). Also this patch responsible for
+                                     correct FPU options passed to WebEngine.
+
+   qt5-5.7.0-ffmpeg-no-thumb.patch - this patch is needed if the -mthumb option is not set
+                                     (i.e. the -mthumb option is not present in QMAKE_CFLAGS).
+
+   qt5-5.7.0-ffmpeg-no-armv6.patch - disable armv5te, armv6 inline assembler to avoid errors
+                                     related incorrect usage of thumb mode.
+
+* end */

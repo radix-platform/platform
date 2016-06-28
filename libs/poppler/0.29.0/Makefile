@@ -26,7 +26,7 @@ REQUIRES          += X11/libs/harfbuzz/1.2.7
 REQUIRES          += libs/lcms2/2.7
 REQUIRES          += net/curl/7.47.0
 REQUIRES          += X11/libs/qt4/4.8.7
-REQUIRES          += X11/libs/qt5/5.4.0
+REQUIRES          += X11/libs/qt5/5.7.0
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -117,7 +117,7 @@ extra_configure_switches += --enable-introspection=no
 extra_configure_switches += --disable-gtk-test
 
 environment  = MOCQT4=$(TARGET_DEST_DIR)/usr/bin/$(TARGET)-moc
-environment += MOCQT52=$(TARGET_DEST_DIR)/usr/bin/$(TARGET)-moc-qt5
+environment += MOCQT52=$(TARGET_DEST_DIR)/usr/bin/$(TARGET)-qt5-moc
 
 
 TARGET_BIN_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)

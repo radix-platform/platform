@@ -159,6 +159,9 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(LIBVPX_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
+	# ======= Install svc_context.h =======
+	@mkdir -p $(LIBVPX_PKG)/usr/include/vpx
+	@cp -a $(SRC_DIR)/vpx/svc_context.h $(LIBVPX_PKG)/usr/include/vpx/svc_context.h
 	# ======= Install Documentation =======
 	@if [ -d $(LIBVPX_PKG)/usr/share/man ]; then \
 	  ( cd $(LIBVPX_PKG)/usr/share/man ; \

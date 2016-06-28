@@ -54,6 +54,7 @@ src_done           = $(TARGET_BUILD_DIR)/.source_done
 pkgconfig_in       = $(CURDIR)/pkgconfig/Qt.pc.in
 profile_dir        = $(CURDIR)/profile.d
 
+config_spec        = $(CURDIR)/$(SRC_DIR)/mkspecs/qconfig.pri
 
 PATCHES = PATCHES
 
@@ -123,17 +124,17 @@ configure_switches += -force-pkg-config
 configure_switches += -no-gtkstyle
 
 configure_switches += -sysconfdir     /etc/xdg
-configure_switches += -prefix         /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4
-configure_switches += -bindir         /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/bin
-configure_switches += -libdir         /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/lib
-configure_switches += -docdir         /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/doc
-configure_switches += -headerdir      /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/include
-configure_switches += -plugindir      /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/plugins
-configure_switches += -importdir      /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/imports
-configure_switches += -datadir        /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4
-configure_switches += -translationdir /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/translations
-configure_switches += -examplesdir    /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/examples
-configure_switches += -demosdir       /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/demos
+configure_switches += -prefix         /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)
+configure_switches += -bindir         /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/bin
+configure_switches += -libdir         /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib
+configure_switches += -docdir         /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/doc
+configure_switches += -headerdir      /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/include
+configure_switches += -plugindir      /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/plugins
+configure_switches += -importdir      /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/imports
+configure_switches += -datadir        /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)
+configure_switches += -translationdir /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/translations
+configure_switches += -examplesdir    /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/doc/examples
+configure_switches += -demosdir       /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/doc/demos
 
 configure_switches += -graphicssystem raster
 
@@ -170,7 +171,7 @@ configure_switches += -no-openvg
 configure_switches += -verbose
 
 
-TARGET_BIN_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/lib
+TARGET_BIN_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib
 
 
 ####### Dependencies
@@ -208,15 +209,15 @@ $(install_target): $(build_target)
 	@mkdir -p $(QT4_32_PKG)
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Rename build-machine tools =======
-	@( cd $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/bin ; \
+	@( cd $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/bin ; \
 	   for file in lrelease moc qmake rcc uic ; do \
 	     mv $$file $(TARGET32)-$$file ; \
 	   done ; \
 	 )
 	@mkdir -p $(QT4_32_PKG)/usr/bin/32
-	@( cd $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/bin ; \
+	@( cd $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/bin ; \
 	   for file in lrelease moc qmake rcc uic ; do \
-	     ( cd $(QT4_32_PKG)/usr/bin/32 ; ln -sf ../../../usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/bin/$(TARGET32)-$$file . ) ; \
+	     ( cd $(QT4_32_PKG)/usr/bin/32 ; ln -sf ../../../usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/bin/$(TARGET32)-$$file . ) ; \
 	   done ; \
 	 )
 	# ======= Install Qmake =======
@@ -246,7 +247,7 @@ $(install_target): $(build_target)
 	   ( cd qmake ; $(MAKE) clean ) ; \
 	   export PKG_CONFIG_SYSROOT=$(TARGET_DEST_DIR) ; \
 	   export PKG_CONFIG_PATH=$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig:$(TARGET_DEST_DIR)/share/pkgconfig ; \
-	   ./configure -confirm-license -opensource -prefix /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4 \
+	   ./configure -confirm-license -opensource -prefix /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version) \
 	               -arch $(ARCH) -platform $(TARGET_SPEC_DIR) \
 	               -force-pkg-config \
 	               -release \
@@ -255,12 +256,21 @@ $(install_target): $(build_target)
 	               -host-little-endian \
 	               -optimized-qmake \
 	               -v ; \
-	  cp -a bin/qmake $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/bin ; \
+	  cp -a bin/qmake $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/bin ; \
 	 )
 	# ======= Set actual target mkspecs/$(TARGET_SPEC_DIR) =======
-	@( cd $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/mkspecs ; rm -rf $(TARGET_SPEC_DIR) )
-	@cp -a $(CURDIR)/mkspecs-pkg/$(TARGET_SPEC_DIR) $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/mkspecs
-	@( cd $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/mkspecs/$(TARGET_SPEC_DIR) ; \
+	@( cd $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/mkspecs ; \
+	   rm -rf $(TARGET_SPEC_DIR) ; \
+	   spec=`cat $(config_spec) | grep "^QT_CONFIG" | sed 's,QT_CONFIG[ \t]*+=[ \t]*\(.*\),\1,'` ; \
+	   cat $(CURDIR)/mkspecs/qconfig.pri.in      | \
+	       sed "s,@ARCH@,$(ARCH),g"              | \
+	       sed "s,@LIBDIRSUFFIX@,$(MULTILIB_X86_32_SUFFIX),g" | \
+	       sed "s,@CONFIG_SPEC@,$$spec,g"          \
+	            > $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/mkspecs/qconfig.pri ; \
+	   echo -n "" > qdevice.pri ; \
+	 )
+	@cp -a $(CURDIR)/mkspecs-pkg/$(TARGET_SPEC_DIR) $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/mkspecs
+	@( cd $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/mkspecs/$(TARGET_SPEC_DIR) ; \
 	   cat qmake.conf.in | \
 	     sed 's,@TARGET_PREFIX@,/usr,g'                     | \
 	     sed 's,@TARGET_BINDIR@,/usr/bin,g'                 | \
@@ -269,19 +279,19 @@ $(install_target): $(build_target)
 	   rm -f qmake.conf.in ; \
 	 )
 	# ======= Install Qt.pc file =======
-	@( cd $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; ln -sf qt4 qt-$(version) )
+	@( cd $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; ln -sf qt-$(version) qt4 )
 	@cat $(pkgconfig_in) | \
-	     sed "s,@PREFIX@,/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4,g" | \
-	     sed "s,@VERSION@,$(version),g" > $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/lib/pkgconfig/Qt.pc
+	     sed "s,@PREFIX@,/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version),g" | \
+	     sed "s,@VERSION@,$(version),g" > $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib/pkgconfig/Qt.pc
 	# ======= Remove internal used dependencies of libjscore, libwebcore ======
-	sed -i "s, -ljscore,,g" $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/lib/libQtWebKit.la \
-	                        $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/lib/pkgconfig/QtWebKit.pc
-	sed -i "s,  -lwebcore,,g" $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/lib/libQtWebKit.la \
-	                          $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/lib/pkgconfig/QtWebKit.pc
-	sed -i "s, -L../../JavaScriptCore/release,,g" $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/lib/libQtWebKit.la \
-	                                              $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/lib/pkgconfig/QtWebKit.pc
-	sed -i "s, -L../../WebCore/release,,g" $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/lib/libQtWebKit.la \
-	                                       $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/lib/pkgconfig/QtWebKit.pc
+	sed -i "s, -ljscore,,g" $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib/libQtWebKit.la \
+	                        $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib/pkgconfig/QtWebKit.pc
+	sed -i "s,  -lwebcore,,g" $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib/libQtWebKit.la \
+	                          $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib/pkgconfig/QtWebKit.pc
+	sed -i "s, -L../../JavaScriptCore/release,,g" $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib/libQtWebKit.la \
+	                                              $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib/pkgconfig/QtWebKit.pc
+	sed -i "s, -L../../WebCore/release,,g" $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib/libQtWebKit.la \
+	                                       $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib/pkgconfig/QtWebKit.pc
 	# ======= Link shared libraries into /usr/lib$(MULTILIB_X86_32_SUFFIX) =======
 	@( cd $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   for file in qt4/lib/*.so* ; do \
@@ -295,9 +305,9 @@ $(install_target): $(build_target)
 	@chmod 0644 $(QT4_32_PKG)/etc/profile.d/32/*
 	# ======= Link pkgconfig files to 'normal' place =======
 	@mkdir -p $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig
-	@( cd $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/lib/pkgconfig ; \
+	@( cd $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib/pkgconfig ; \
 	   for file in *.pc ; do \
-	     ( cd $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/qt4/lib/pkgconfig/$$file . ) ; \
+	     ( cd $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib/pkgconfig/$$file . ) ; \
 	   done ; \
 	 )
 	# ======= Install Qt private headers =======
@@ -305,10 +315,10 @@ $(install_target): $(build_target)
 	   rsync -aR \
 	         include/Qt{Core,Declarative,Gui,Script}/private \
 	         src/{corelib,declarative,gui,script}/*/*_p.h \
-	         $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/ ; \
+	         $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/ ; \
 	 )
 	# ======= remove toolchain path from target libtool *.la files =======
-	@( cd $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/lib ; \
+	@( cd $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libQtCLucene.la     libQtCore.la        \
 	                                    libQtDBus.la        libQtDeclarative.la \
 	                                    libQtGui.la         libQtHelp.la        \
@@ -331,7 +341,7 @@ $(install_target): $(build_target)
 	                                    libphonon.prl                                  ; \
 	 )
 	# ======= Change source directory to more 'normal' place =======
-	@( cd $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/lib ; \
+	@( cd $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib ; \
 	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/src/qt-$(version),g" \
 	           libQtCLucene.prl     libQtCore.prl               \
 	           libQtDBus.prl        libQtDeclarative.prl        \
@@ -346,7 +356,7 @@ $(install_target): $(build_target)
 	           libphonon.prl                                  ; \
 	 )
 	# ======= remove toolchain path from target pkgconfig *.pc files =======
-	@( cd $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/lib/pkgconfig ; \
+	@( cd $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib/pkgconfig ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" QtCLucene.pc     QtCore.pc               \
 	                                    QtDBus.pc        QtDeclarative.pc        \
 	                                    QtDesigner.pc    QtDesignerComponents.pc \
@@ -362,14 +372,14 @@ $(install_target): $(build_target)
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(QT4_32_PKG))
 	# ======= Remove build-machine tools from target package =======
-	@( cd $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/bin ; \
+	@( cd $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/bin ; \
 	   for file in lrelease moc qmake rcc uic ; do \
 	     rm -f $(TARGET32)-$$file ; \
 	   done ; \
 	 )
 	@rm -rf $(QT4_32_PKG)/usr/bin
 	# ======= tune libtool *.la search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/lib ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib ; \
 	   sed -i "s,/usr/lib,$(TARGET_DEST_DIR)/usr/lib,g" libQtCLucene.la     libQtCore.la        \
 	                                                    libQtDBus.la        libQtDeclarative.la \
 	                                                    libQtGui.la         libQtHelp.la        \
@@ -392,7 +402,7 @@ $(install_target): $(build_target)
 	                                                    libphonon.prl                                  ; \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/lib/pkgconfig ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib/pkgconfig ; \
 	   sed -i "s,/usr/lib,$(TARGET_DEST_DIR)/usr/lib,g" QtCLucene.pc     QtCore.pc               \
 	                                                    QtDBus.pc        QtDeclarative.pc        \
 	                                                    QtDesigner.pc    QtDesignerComponents.pc \
@@ -413,7 +423,7 @@ $(install_target): $(build_target)
 	 )
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target binaries =======
-	@( cd $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/tests/qt4 ; \
+	@( cd $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/tests/qt4 ; \
 	   for file in `find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
 	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
 	     if [ -n "$$rpath" ] ; then \

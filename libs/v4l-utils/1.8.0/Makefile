@@ -27,7 +27,7 @@ endif
 REQUIRES          += app/sysfsutils/2.1.0
 REQUIRES          += libs/eudev/3.1.5
 REQUIRES          += libs/libjpeg-turbo/1.4.2
-REQUIRES          += X11/libs/qt5/5.4.0
+REQUIRES          += X11/libs/qt5/5.7.0
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -117,9 +117,9 @@ extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --enable-static=yes
 
 
-qt5_environment  = MOC=$(TARGET_DEST_DIR)/usr/lib/qt5/bin/$(TARGET)-moc-qt5
-qt5_environment += RCC=$(TARGET_DEST_DIR)/usr/lib/qt5/bin/$(TARGET)-rcc-qt5
-qt5_environment += UIC=$(TARGET_DEST_DIR)/usr/lib/qt5/bin/$(TARGET)-uic-qt5
+qt5_environment  = MOC=$(TARGET_DEST_DIR)/usr/lib/qt5/bin/$(TARGET)-qt5-moc
+qt5_environment += RCC=$(TARGET_DEST_DIR)/usr/lib/qt5/bin/$(TARGET)-qt5-rcc
+qt5_environment += UIC=$(TARGET_DEST_DIR)/usr/lib/qt5/bin/$(TARGET)-qt5-uic
 
 
 TARGET_QT5_RPATH = /usr/lib$(LIBSUFFIX)/qt5/lib:/usr/lib$(LIBSUFFIX)

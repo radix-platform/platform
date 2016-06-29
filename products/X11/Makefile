@@ -1207,10 +1207,9 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += X11/libs/qt5/5.7.0-x86_32
 endif
 
-# ■  ────────────────────────────────────────────────────────────────  ■
-#REQUIRES += libs/poppler/0.29.0
+#REQUIRES += libs/poppler/0.45.0
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
-#REQUIRES += libs/poppler/0.29.0-x86_32
+#REQUIRES += libs/poppler/0.45.0-x86_32
 #endif
 
 REQUIRES += X11/libs/gtk+2/2.24.25
@@ -1220,8 +1219,9 @@ endif
 
 REQUIRES += X11/app/glade2/2.12.2
 REQUIRES += X11/libs/gtk-engines/2.20.2
-REQUIRES += X11/app/lxappearance/0.6.1
+REQUIRES += X11/app/lxappearance/0.6.2
 
+# ■  ────────────────────────────────────────────────────────────────  ■
 #
 # order: net/avahi-daemon, X11/libs/libglade, libs/pygobject, libs/pycairo, libs/pygtk
 #

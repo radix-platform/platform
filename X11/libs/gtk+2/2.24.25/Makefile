@@ -22,7 +22,7 @@ include ../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/GNOME/core/gtk+2
 
 REQUIRES           = libs/atk/2.20.0
-REQUIRES          += libs/poppler/0.29.0
+REQUIRES          += libs/poppler/0.45.0
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -120,6 +120,7 @@ TARGET_LIB_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUF
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
+	@touch -t 201601010000.00 $(SRC_DIR)/*
 	@touch $@
 
 $(build_target): $(src_done)

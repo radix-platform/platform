@@ -1221,7 +1221,6 @@ REQUIRES += X11/app/glade2/2.12.2
 REQUIRES += X11/libs/gtk-engines/2.20.2
 REQUIRES += X11/app/lxappearance/0.6.2
 
-# ■  ────────────────────────────────────────────────────────────────  ■
 #
 # order: net/avahi-daemon, X11/libs/libglade, libs/pygobject, libs/pycairo, libs/pygtk
 #
@@ -1230,6 +1229,7 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += X11/app/avahi-ui/0.6.31-x86_32
 endif
 
+# ■  ────────────────────────────────────────────────────────────────  ■
 #
 # order: app/cups-filters, app/foomatic-db, app/foomatic-db-engine,
 #        libs/libieee1284, libs/libexif, libs/libgphoto2, libs/v4l-utils,

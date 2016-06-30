@@ -1,0 +1,16 @@
+#!/bin/sh
+
+GPHOTO_VERSION=@GPHOTO_VERSION@
+UDEV_VERSION=@UDEV_VERSION@
+
+# Generate udev rules for udev >= 201
+LD_LIBRARY_PATH=/usr/lib@LIBDIRSUFFIX@ \
+CAMLIBS=/usr/lib@LIBDIRSUFFIX@/libgphoto2/${GPHOTO_VERSION} \
+LIBDIR=/usr/lib@LIBDIRSUFFIX@ \
+ /usr/sbin/print-camera-list hwdb > /lib/udev/hwdb.d/20-gphoto.conf  2>/dev/null
+
+# Generate udev rules for udev <= 200
+LD_LIBRARY_PATH=/usr/lib@LIBDIRSUFFIX@ \
+CAMLIBS=/usr/lib@LIBDIRSUFFIX@/libgphoto2/${GPHOTO_VERSION} \
+LIBDIR=/usr/lib@LIBDIRSUFFIX@ \
+ /usr/sbin/print-camera-list udev-rules version 175 mode 0660 owner root group plugdev > /lib/udev/rules.d/40-libgphoto2.rules  2>/dev/null

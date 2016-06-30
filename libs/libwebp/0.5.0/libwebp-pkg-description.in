@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+       |-----handy-ruler------------------------------------------------------|
+libwebp: libwebp @VERSION@ (WebP library and conversion tools)
+libwebp:
+libwebp: WebP is a modern image format that provides superior lossless
+libwebp: and lossy compression for images on the web. Using WebP, webmasters
+libwebp: and web developers can create smaller, richer images that make
+libwebp: the web faster.
+libwebp:
+libwebp: Homepage: https://developers.google.com/speed/webp
+libwebp:
+libwebp:
+libwebp:

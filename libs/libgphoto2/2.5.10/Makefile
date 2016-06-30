@@ -30,7 +30,7 @@ REQUIRES          += dev/libtool/2.4.2
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 2.5.8
+version            = 2.5.10
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/m/libgphoto2/libgphoto2-$(version).tar.bz2
 SRC_ARCHIVE        = $(tar_bz2_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/libgphoto2-$(version)
@@ -39,7 +39,7 @@ src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 port_version       = 0.12.0
 update_hwdb_in     = $(CURDIR)/scripts/update-gphoto-hwdb.in
-udev_version       = 201
+udev_version       = 220
 
 
 PATCHES = PATCHES
@@ -57,7 +57,7 @@ PKG_GROUP = libs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 GPHOTO2_PKG_NAME                = libgphoto2
-GPHOTO2_PKG_VERSION             = 2.5.8
+GPHOTO2_PKG_VERSION             = 2.5.10
 GPHOTO2_PKG_ARCH                = $(TOOLCHAIN)
 GPHOTO2_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 GPHOTO2_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -128,13 +128,13 @@ $(build_target): $(src_done)
 	  --build=$(BUILD)            \
 	  --host=$(TARGET)            \
 	  $(extra_configure_switches)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) $(gphoto_environment)
 	@touch $@
 
 $(install_target): $(build_target)
 	@mkdir -p $(GPHOTO2_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
-	@mkdir -p $(GPHOTO2_PKG)/etc/udev/hwdb.d
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 $(gphoto_environment) install $(env_sysroot)
+	@mkdir -p $(GPHOTO2_PKG)/lib/udev/hwdb.d
 	@mkdir -p $(GPHOTO2_PKG)/lib/udev/rules.d
 	@mkdir -p $(GPHOTO2_PKG)/usr/sbin
 	@cat $(update_hwdb_in) | \
@@ -177,25 +177,27 @@ $(install_target): $(build_target)
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libgphoto2.la libgphoto2_port.la \
 	 )
 	@( cd $(GPHOTO2_PKG)/usr/lib$(LIBSUFFIX)/libgphoto2/$(version) ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" adc65.la agfa_cl20.la aox.la ax203.la barbie.la                \
-	                                    canon.la casio_qv.la clicksmart310.la digigr8.la               \
-	                                    digita.la dimagev.la dimera3500.la directory.la                \
-	                                    enigma13.la fuji.la gsmart300.la hp215.la iclick.la            \
-	                                    jamcam.la jd11.la jl2005a.la jl2005c.la kodak_dc120.la         \
-	                                    kodak_dc210.la kodak_dc240.la kodak_dc3200.la                  \
-	                                    kodak_ez200.la konica.la konica_qm150.la largan.la             \
-	                                    lg_gsm.la mars.la mustek.la panasonic_coolshot.la              \
-	                                    panasonic_dc1000.la panasonic_dc1580.la panasonic_l859.la      \
-	                                    pccam300.la pccam600.la pentax.la polaroid_pdc320.la           \
-	                                    polaroid_pdc640.la polaroid_pdc700.la ptp2.la ricoh.la         \
-	                                    ricoh_g3.la samsung.la sierra.la sipix_blink2.la               \
-	                                    sipix_web2.la smal.la sonix.la sony_dscf1.la sony_dscf55.la    \
-	                                    soundvision.la spca50x.la sq905.la st2205.la stv0674.la        \
-	                                    stv0680.la sx330z.la topfield.la toshiba_pdrm11.la tp6801.la ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" adc65.la agfa_cl20.la aox.la ax203.la barbie.la        \
+	                                    canon.la casio_qv.la clicksmart310.la digigr8.la       \
+	                                    digita.la dimagev.la dimera3500.la directory.la        \
+	                                    enigma13.la fuji.la gsmart300.la hp215.la iclick.la    \
+	                                    jamcam.la jd11.la jl2005a.la jl2005c.la kodak_dc120.la \
+	                                    kodak_dc210.la kodak_dc240.la kodak_dc3200.la          \
+	                                    kodak_ez200.la konica.la konica_qm150.la largan.la     \
+	                                    lg_gsm.la mars.la mustek.la panasonic_coolshot.la      \
+	                                    panasonic_dc1000.la panasonic_dc1580.la                \
+	                                    panasonic_l859.la pccam300.la pccam600.la pentax.la    \
+	                                    polaroid_pdc320.la polaroid_pdc640.la                  \
+	                                    polaroid_pdc700.la ptp2.la ricoh.la ricoh_g3.la        \
+	                                    samsung.la sierra.la sipix_blink2.la sipix_web2.la     \
+	                                    smal.la sonix.la sony_dscf1.la sony_dscf55.la          \
+	                                    soundvision.la spca50x.la sq905.la st2205.la           \
+	                                    stv0674.la stv0680.la sx330z.la topfield.la            \
+	                                    toshiba_pdrm11.la tp6801.la                          ; \
 	 )
 	@( cd $(GPHOTO2_PKG)/usr/lib$(LIBSUFFIX)/libgphoto2_port/$(port_version) ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" disk.la ptpip.la serial.la usb1.la   \
-	                                    usbdiskdirect.la usbscsi.la        ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" disk.la ptpip.la serial.la usb1.la    \
+	                                    usbdiskdirect.la usbscsi.la vusb.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(GPHOTO2_PKG))
@@ -205,42 +207,46 @@ $(install_target): $(build_target)
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libgphoto2.la libgphoto2_port.la \
 	 )
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/libgphoto2/$(version) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" adc65.la agfa_cl20.la aox.la ax203.la barbie.la                \
-	                                            canon.la casio_qv.la clicksmart310.la digigr8.la               \
-	                                            digita.la dimagev.la dimera3500.la directory.la                \
-	                                            enigma13.la fuji.la gsmart300.la hp215.la iclick.la            \
-	                                            jamcam.la jd11.la jl2005a.la jl2005c.la kodak_dc120.la         \
-	                                            kodak_dc210.la kodak_dc240.la kodak_dc3200.la                  \
-	                                            kodak_ez200.la konica.la konica_qm150.la largan.la             \
-	                                            lg_gsm.la mars.la mustek.la panasonic_coolshot.la              \
-	                                            panasonic_dc1000.la panasonic_dc1580.la panasonic_l859.la      \
-	                                            pccam300.la pccam600.la pentax.la polaroid_pdc320.la           \
-	                                            polaroid_pdc640.la polaroid_pdc700.la ptp2.la ricoh.la         \
-	                                            ricoh_g3.la samsung.la sierra.la sipix_blink2.la               \
-	                                            sipix_web2.la smal.la sonix.la sony_dscf1.la sony_dscf55.la    \
-	                                            soundvision.la spca50x.la sq905.la st2205.la stv0674.la        \
-	                                            stv0680.la sx330z.la topfield.la toshiba_pdrm11.la tp6801.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" adc65.la agfa_cl20.la aox.la ax203.la barbie.la                \
-	                                              canon.la casio_qv.la clicksmart310.la digigr8.la               \
-	                                              digita.la dimagev.la dimera3500.la directory.la                \
-	                                              enigma13.la fuji.la gsmart300.la hp215.la iclick.la            \
-	                                              jamcam.la jd11.la jl2005a.la jl2005c.la kodak_dc120.la         \
-	                                              kodak_dc210.la kodak_dc240.la kodak_dc3200.la                  \
-	                                              kodak_ez200.la konica.la konica_qm150.la largan.la             \
-	                                              lg_gsm.la mars.la mustek.la panasonic_coolshot.la              \
-	                                              panasonic_dc1000.la panasonic_dc1580.la panasonic_l859.la      \
-	                                              pccam300.la pccam600.la pentax.la polaroid_pdc320.la           \
-	                                              polaroid_pdc640.la polaroid_pdc700.la ptp2.la ricoh.la         \
-	                                              ricoh_g3.la samsung.la sierra.la sipix_blink2.la               \
-	                                              sipix_web2.la smal.la sonix.la sony_dscf1.la sony_dscf55.la    \
-	                                              soundvision.la spca50x.la sq905.la st2205.la stv0674.la        \
-	                                              stv0680.la sx330z.la topfield.la toshiba_pdrm11.la tp6801.la ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" adc65.la agfa_cl20.la aox.la ax203.la barbie.la        \
+	                                            canon.la casio_qv.la clicksmart310.la digigr8.la       \
+	                                            digita.la dimagev.la dimera3500.la directory.la        \
+	                                            enigma13.la fuji.la gsmart300.la hp215.la iclick.la    \
+	                                            jamcam.la jd11.la jl2005a.la jl2005c.la kodak_dc120.la \
+	                                            kodak_dc210.la kodak_dc240.la kodak_dc3200.la          \
+	                                            kodak_ez200.la konica.la konica_qm150.la largan.la     \
+	                                            lg_gsm.la mars.la mustek.la panasonic_coolshot.la      \
+	                                            panasonic_dc1000.la panasonic_dc1580.la                \
+	                                            panasonic_l859.la pccam300.la pccam600.la pentax.la    \
+	                                            polaroid_pdc320.la polaroid_pdc640.la                  \
+	                                            polaroid_pdc700.la ptp2.la ricoh.la ricoh_g3.la        \
+	                                            samsung.la sierra.la sipix_blink2.la sipix_web2.la     \
+	                                            smal.la sonix.la sony_dscf1.la sony_dscf55.la          \
+	                                            soundvision.la spca50x.la sq905.la st2205.la           \
+	                                            stv0674.la stv0680.la sx330z.la topfield.la            \
+	                                            toshiba_pdrm11.la tp6801.la                          ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" adc65.la agfa_cl20.la aox.la ax203.la barbie.la        \
+	                                              canon.la casio_qv.la clicksmart310.la digigr8.la       \
+	                                              digita.la dimagev.la dimera3500.la directory.la        \
+	                                              enigma13.la fuji.la gsmart300.la hp215.la iclick.la    \
+	                                              jamcam.la jd11.la jl2005a.la jl2005c.la kodak_dc120.la \
+	                                              kodak_dc210.la kodak_dc240.la kodak_dc3200.la          \
+	                                              kodak_ez200.la konica.la konica_qm150.la largan.la     \
+	                                              lg_gsm.la mars.la mustek.la panasonic_coolshot.la      \
+	                                              panasonic_dc1000.la panasonic_dc1580.la                \
+	                                              panasonic_l859.la pccam300.la pccam600.la pentax.la    \
+	                                              polaroid_pdc320.la polaroid_pdc640.la                  \
+	                                              polaroid_pdc700.la ptp2.la ricoh.la ricoh_g3.la        \
+	                                              samsung.la sierra.la sipix_blink2.la sipix_web2.la     \
+	                                              smal.la sonix.la sony_dscf1.la sony_dscf55.la          \
+	                                              soundvision.la spca50x.la sq905.la st2205.la           \
+	                                              stv0674.la stv0680.la sx330z.la topfield.la            \
+	                                              toshiba_pdrm11.la tp6801.la                          ; \
 	 )
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/libgphoto2_port/$(port_version) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" disk.la ptpip.la serial.la usb1.la   \
-	                                            usbdiskdirect.la usbscsi.la        ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" disk.la ptpip.la serial.la usb1.la   \
-	                                              usbdiskdirect.la usbscsi.la        ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" disk.la ptpip.la serial.la usb1.la    \
+	                                            usbdiskdirect.la usbscsi.la vusb.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" disk.la ptpip.la serial.la usb1.la    \
+	                                              usbdiskdirect.la usbscsi.la vusb.la ; \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \

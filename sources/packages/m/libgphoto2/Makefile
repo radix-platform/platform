@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/m/libgphoto2
 
-versions    = 2.5.8
+versions    = 2.5.8 2.5.10
 pkgname     = libgphoto2
 suffix      = tar.bz2
 

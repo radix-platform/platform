@@ -5,23 +5,17 @@ COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 include ../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/packages/m/libgd
+url         = $(DOWNLOAD_SERVER)/sources/packages/m/libwebp
 
-versions    = 2.1.1 2.2.2
-pkgname     = libgd
-suffix      = tar.xz
+versions    = 0.5.0
+pkgname     = libwebp
+suffix      = tar.gz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/libgd-2.1.1-libvpx-1.4.0.patch
-patches    += $(CURDIR)/patches/libgd-2.1.1-extra-version.patch
-patches    += $(CURDIR)/patches/libgd-2.2.2-extra-version.patch
 
-.NOTPARALLEL: $(patches)
-
-
-BUILD_TARGETS = $(tarballs) $(sha1s) $(patches)
+BUILD_TARGETS = $(tarballs) $(sha1s)
 
 
 include ../../../../build-system/core.mk
@@ -49,12 +43,5 @@ $(sha1s): $(tarballs)
 	   fi ; \
 	 done
 
-$(patches): $(sha1s)
-	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-2.1.1-libvpx-1.4.0-patch  ; ./create.patch.sh ) ; \
-	 ( cd create-2.1.1-extra-version-patch ; ./create.patch.sh ) ; \
-	 ( cd create-2.2.2-extra-version-patch ; ./create.patch.sh ) ; \
-	 echo -e "\n"
-
 download_clean:
-	@rm -f $(tarballs) $(sha1s) $(patches)
+	@rm -f $(tarballs) $(sha1s)

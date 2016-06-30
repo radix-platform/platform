@@ -1229,14 +1229,15 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += X11/app/avahi-ui/0.6.31-x86_32
 endif
 
+#
+# order:    ┌──── app/cups-filters,
+#           │ ┌── (app/foomatic-db, app/foomatic-db-engine),
+#           │ │   libs/libieee1284, libs/libexif, libs/libwebp, libs/libgd,
+#           │ │   libs/libgphoto2, X11/libs/glu, libs/v4l-utils, app/sane/backends
+#           │ │
+#           ▼ ▼
 # ■  ────────────────────────────────────────────────────────────────  ■
-#
-# order: app/cups-filters, app/foomatic-db, app/foomatic-db-engine,
-#        libs/libieee1284, libs/libexif, libs/libgphoto2, libs/v4l-utils,
-#        app/sane/backends
-#
 REQUIRES += app/hplip/3.15.9
-
 
 REQUIRES += libs/log4cplus/1.2.0
 ifeq ($(HARDWARE),$(HARDWARE_PC64))

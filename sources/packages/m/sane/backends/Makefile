@@ -7,7 +7,7 @@ include ../../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/m/sane/backends
 
-versions    = 1.0.24
+versions    = 1.0.24 1.0.25
 pkgname     = sane-backends
 suffix      = tar.bz2
 
@@ -17,6 +17,8 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 patches     = $(CURDIR)/patches/sane-backends-1.0.24-network.patch
 patches    += $(CURDIR)/patches/sane-backends-1.0.24-kodakaio.patch
 patches    += $(CURDIR)/patches/sane-backends-1.0.24-sane-settable.patch
+patches    += $(CURDIR)/patches/sane-backends-1.0.25-network.patch
+patches    += $(CURDIR)/patches/sane-backends-1.0.25-sane-settable.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -54,6 +56,8 @@ $(patches): $(sha1s)
 	 ( cd create-1.0.24-network-patch        ; ./create.patch.sh ) ; \
 	 ( cd create-1.0.24-kodakaio-patch       ; ./create.patch.sh ) ; \
 	 ( cd create-1.0.24-sane-settable-patch  ; ./create.patch.sh ) ; \
+	 ( cd create-1.0.25-network-patch        ; ./create.patch.sh ) ; \
+	 ( cd create-1.0.25-sane-settable-patch  ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

@@ -22,7 +22,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/hplip
 
 REQUIRES           = app/foomatic-db-engine/20150616
-REQUIRES          += app/sane/backends/1.0.24
+REQUIRES          += app/sane/backends/1.0.25
 
 # ======= __END_OF_REQUIRES__ =======
 

@@ -40,7 +40,7 @@ REQUIRES          += app/cups/2.1.3
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 1.0.24
+version            = 1.0.25
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/m/sane/backends/sane-backends-$(version).tar.bz2
 SRC_ARCHIVE        = $(tar_bz2_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/sane-backends-$(version)
@@ -67,7 +67,7 @@ PKG_GROUP = app
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 SANE_PKG_NAME                = sane-backends
-SANE_PKG_VERSION             = 1.0.24
+SANE_PKG_VERSION             = 1.0.25
 SANE_PKG_ARCH                = $(TOOLCHAIN)
 SANE_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 SANE_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -137,6 +137,7 @@ extra_configure_switches += --enable-shared=yes
 
 
 environment += SNMP_CONFIG_PATH=$(TARGET_DEST_DIR)/usr/bin/net-snmp-config
+environment += ac_cv_func_mmap_fixed_mapped=yes
 
 
 TARGET_BIN_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)
@@ -219,7 +220,7 @@ $(install_target): $(build_target)
 	  ) \
 	 fi
 	@mkdir -p $(SANE_PKG)/usr/doc/$(src_dir_name)
-	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/COPYING \
+	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/COPYING $(SRC_DIR)/LICENSE \
 	       $(SANE_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(SANE_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \

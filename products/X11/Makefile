@@ -1238,12 +1238,12 @@ endif
 #           ▼ ▼
 REQUIRES += app/hplip/3.16.5
 
-# ■  ────────────────────────────────────────────────────────────────  ■
 REQUIRES += libs/log4cplus/1.2.0
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/log4cplus/1.2.0-x86_32
 endif
 
+# ■  ────────────────────────────────────────────────────────────────  ■
 REQUIRES += X11/libs/glew/1.12.0
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += X11/libs/glew/1.12.0-x86_32

@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/log4cplus
 
-versions    = 1.2.0-rc3
+versions    = 1.2.0
 pkgname     = log4cplus
 suffix      = tar.xz
 

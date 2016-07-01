@@ -1243,11 +1243,11 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/log4cplus/1.2.0-x86_32
 endif
 
-# ■  ────────────────────────────────────────────────────────────────  ■
-REQUIRES += X11/libs/glew/1.12.0
+REQUIRES += X11/libs/glew/1.13.0
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += X11/libs/glew/1.12.0-x86_32
+REQUIRES += X11/libs/glew/1.13.0-x86_32
 endif
+# ■  ────────────────────────────────────────────────────────────────  ■
 REQUIRES += X11/libs/freeglut/2.8.1
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += X11/libs/freeglut/2.8.1-x86_32

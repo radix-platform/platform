@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/x/glew
 
-versions    = 1.12.0
+versions    = 1.12.0 1.13.0
 pkgname     = glew
 suffix      = tgz
 

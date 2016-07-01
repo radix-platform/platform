@@ -21,7 +21,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/ieee1394/libavc1394
 
-REQUIRES           = libs/libraw1394/2.1.0
+REQUIRES           = libs/libraw1394/2.1.2
 
 # ======= __END_OF_REQUIRES__ =======
 

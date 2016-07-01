@@ -1247,7 +1247,6 @@ REQUIRES += X11/libs/glew/1.13.0
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += X11/libs/glew/1.13.0-x86_32
 endif
-# ■  ────────────────────────────────────────────────────────────────  ■
 REQUIRES += X11/libs/freeglut/2.8.1
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += X11/libs/freeglut/2.8.1-x86_32
@@ -1272,9 +1271,9 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/aalib/1.4.0-x86_32
 endif
 
-#REQUIRES += libs/libraw1394/2.1.0
+#REQUIRES += libs/libraw1394/2.1.2
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
-#REQUIRES += libs/libraw1394/2.1.0-x86_32
+#REQUIRES += libs/libraw1394/2.1.2-x86_32
 #endif
 REQUIRES += libs/libiec61883/1.2.0
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
@@ -1289,9 +1288,9 @@ REQUIRES += libs/imlib/1.9.15
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/imlib/1.9.15-x86_32
 endif
-REQUIRES += libs/imlib2/1.4.6
+REQUIRES += libs/imlib2/1.4.9
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/imlib2/1.4.6-x86_32
+REQUIRES += libs/imlib2/1.4.9-x86_32
 endif
 
 REQUIRES += libs/libcaca/0.99.19

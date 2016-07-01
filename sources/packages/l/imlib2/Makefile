@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/imlib2
 
-versions    = 1.4.6
+versions    = 1.4.6 1.4.9
 pkgname     = imlib2
 suffix      = tar.bz2
 

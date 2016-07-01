@@ -279,16 +279,13 @@ elif [ -x /etc/rc.d/rc.networkmanager ]; then
 fi
 
 
-# These GTK+/pango files need to be kept up to date for
+# These GTK+ files need to be kept up to date for
 # proper input method, pixbuf loaders, and font support.
 if [ -x /usr/bin/update-gtk-immodules ]; then
   /usr/bin/update-gtk-immodules --verbose
 fi
 if [ -x /usr/bin/update-gdk-pixbuf-loaders ]; then
   /usr/bin/update-gdk-pixbuf-loaders --verbose
-fi
-if [ -x /usr/bin/update-pango-querymodules ]; then
-  /usr/bin/update-pango-querymodules --verbose
 fi
 if [ -x /usr/bin/glib-compile-schemas ]; then
   /usr/bin/glib-compile-schemas /usr/share/glib-2.0/schemas >/dev/null 2>&1

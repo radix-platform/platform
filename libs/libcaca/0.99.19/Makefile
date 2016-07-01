@@ -21,7 +21,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/libcaca
 
-REQUIRES           = libs/imlib2/1.4.6
+REQUIRES           = libs/imlib2/1.4.9
 REQUIRES          += libs/slang/2.2.4
 REQUIRES          += X11/libs/freeglut/2.8.1
 

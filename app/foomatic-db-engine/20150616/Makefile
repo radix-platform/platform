@@ -21,7 +21,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/a/foomatic-db-engine
 
-REQUIRES           = app/foomatic-db/20150904
+REQUIRES           = app/foomatic-db/20160612
 REQUIRES          += dev/perl-modules/perl-clone/0.38
 REQUIRES          += dev/perl-modules/perl-dbi/1.634
 REQUIRES          += dev/perl-modules/perl-xml-libxml/2.0122

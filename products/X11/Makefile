@@ -1236,9 +1236,9 @@ endif
 #           │ │   libs/libgphoto2, X11/libs/glu, libs/v4l-utils, app/sane/backends
 #           │ │
 #           ▼ ▼
-# ■  ────────────────────────────────────────────────────────────────  ■
-REQUIRES += app/hplip/3.15.9
+REQUIRES += app/hplip/3.16.5
 
+# ■  ────────────────────────────────────────────────────────────────  ■
 REQUIRES += libs/log4cplus/1.2.0
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/log4cplus/1.2.0-x86_32

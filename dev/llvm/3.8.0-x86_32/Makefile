@@ -181,6 +181,7 @@ $(build_target): $(src_done)
 	   cmake -DCMAKE_BUILD_TYPE=Release ../llvm-$(version).src ; \
 	   $(MAKE) $(LLVM_JOBS)  llvm-tblgen ; \
 	   $(MAKE) $(LLVM_JOBS) clang-tblgen ; \
+	   $(MAKE) $(LLVM_JOBS)  llvm-config ; \
 	 )
 	@mkdir -p $(build_dir)
 	@( cd $(build_dir) ; \
@@ -203,6 +204,10 @@ $(install_target): $(build_target)
 	@( cd $(LLVM_32_PKG)/usr/bin ; \
 	   find . -type f | xargs mv -t 32 ; \
 	   find . -type l | xargs mv -t 32 ; \
+	 )
+	# ======= Install $(BUILD_MACHINE_ARCH)-llvm-config =======
+	@( cd $(TARGET_BUILD_DIR)/build-machine/bin ; \
+	   cp -a llvm-config $(LLVM_PKG)/usr/bin/32/$(BUILD_MACHINE_ARCH)-llvm-config ; \
 	 )
 	# ======= Save config.h and llvm-config.h =======
 	@for header in config ; do \
@@ -233,6 +238,8 @@ $(install_target): $(build_target)
 	@rm -f $(LLVM_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/LLVMHello*
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(LLVM_32_PKG))
+	# ======= Remove $(BUILD_MACHINE_ARCH)-llvm-config from target package =======
+	@rm -f $(LLVM_PKG)/usr/bin/32/$(BUILD_MACHINE_ARCH)-llvm-config
 	# ======= Strip Binaries =======
 	@( cd $(LLVM_32_PKG); \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \

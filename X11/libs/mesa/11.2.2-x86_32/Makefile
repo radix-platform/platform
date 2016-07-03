@@ -145,7 +145,7 @@ extra_configure_switches += --with-omx-libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
 extra_configure_switches += --with-clang-libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
 
 
-environment  = LLVM_CONFIG=$(TARGET_DEST_DIR)/usr/bin/32/llvm-config-host
+environment  = LLVM_CONFIG=$(TARGET_DEST_DIR)/usr/bin/32/$(BUILD_MACHINE_ARCH)-llvm-config
 environment += WAYLAND_SCANNER=$(TARGET_DEST_DIR)/usr/bin/$(TARGET)-wayland-scanner
 
 

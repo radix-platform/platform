@@ -201,6 +201,7 @@ $(build_target): $(src_done)
 	   cmake -DCMAKE_BUILD_TYPE=Release ../llvm-$(version).src ; \
 	   $(MAKE) $(LLVM_JOBS)  llvm-tblgen ; \
 	   $(MAKE) $(LLVM_JOBS) clang-tblgen ; \
+	   $(MAKE) $(LLVM_JOBS)  llvm-config ; \
 	 )
 	@mkdir -p $(build_dir)
 	@( cd $(build_dir) ; \
@@ -227,6 +228,10 @@ endif
 	@( cd $(LLVM_PKG)/usr/bin ; \
 	   ln -sf clang   $(TARGET)-clang   ; \
 	   ln -sf clang++ $(TARGET)-clang++ ; \
+	 )
+	# ======= Install $(BUILD_MACHINE_ARCH)-llvm-config =======
+	@( cd $(TARGET_BUILD_DIR)/build-machine/bin ; \
+	   cp -a llvm-config $(LLVM_PKG)/usr/bin/$(BUILD_MACHINE_ARCH)-llvm-config ; \
 	 )
 	# ======= Install clang-static-analyzer =======
 	@( cd $(LLVM_PKG)/usr/bin ; \
@@ -284,6 +289,8 @@ endif
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(LLVM_PKG))
+	# ======= Remove $(BUILD_MACHINE_ARCH)-llvm-config from target package =======
+	@rm -f $(LLVM_PKG)/usr/bin/$(BUILD_MACHINE_ARCH)-llvm-config
 	# ======= Strip Binaries =======
 	@( cd $(LLVM_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \

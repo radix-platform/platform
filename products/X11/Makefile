@@ -1298,6 +1298,18 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/libcaca/0.99.19-x86_32
 endif
 
+REQUIRES += libs/libart-lgpl/2.3.21
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libart-lgpl/2.3.21-x86_32
+endif
+
+
+#######
+####### Development:
+#######
+
+REQUIRES += dev/gcc-java/5.3.0
+
 
 # ======= __END_OF_REQUIRES__ =======
 

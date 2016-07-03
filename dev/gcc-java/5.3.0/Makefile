@@ -11,14 +11,6 @@ COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
 COMPONENT_TARGETS += $(HARDWARE_BT1)
 
-#
-# The rest targets links staticaly with newlib or uclibc and not requires binutils on host
-#
-# COMPONENT_TARGETS += $(HARDWARE_CB1N)
-# COMPONENT_TARGETS += $(HARDWARE_AT91S)
-# COMPONENT_TARGETS += $(HARDWARE_DM64N)
-# COMPONENT_TARGETS += $(HARDWARE_L17UC)
-#
 
 NEED_ABS_PATH      = true
 COMPONENT_IS_3PP   = true
@@ -28,47 +20,40 @@ include ../../../build-system/constants.mk
 
 
 SOURCE_REQUIRES    = sources/GNU/gcc/gcc-5.3.0
-SOURCE_REQUIRES   += sources/GNU/gmp
-SOURCE_REQUIRES   += sources/GNU/mpfr
-SOURCE_REQUIRES   += sources/GNU/mpc
-
 SOURCE_REQUIRES   += sources/packages/j/antlr-runtime
 SOURCE_REQUIRES   += sources/packages/j/ecj
 
 
-REQUIRES          += dev/binutils/2.25.1
+REQUIRES           = dev/gcc/5.3.0
+REQUIRES          += libs/libart-lgpl/2.3.21
+REQUIRES          += app/fastjar/0.98
+REQUIRES          += libs/alsa-lib/1.1.1
+REQUIRES          += X11/X.org/lib/libXtst/1.2.2
+REQUIRES          += X11/libs/gtk+2/2.24.25
 
 # ======= __END_OF_REQUIRES__ =======
 
 
 version               = 5.3.0
-gmp_version           = 6.1.0
-mpfr_version          = 3.1.3
-mpc_version           = 1.0.3
 
 antlr_version         = 3.5.2
 ecj_version           = 4.9
-
 jversion              = 16
 
 tar_bz2_archive       = $(SRC_PACKAGE_PATH)/GNU/gcc/gcc-$(version)/gcc-$(version).tar.bz2
-tar_bz2_archive_gmp   = $(SRC_PACKAGE_PATH)/GNU/gmp/gmp-$(gmp_version).tar.bz2
-tar_bz2_archive_mpfr  = $(SRC_PACKAGE_PATH)/GNU/mpfr/mpfr-$(mpfr_version).tar.bz2
-tar_gz_archive_mpc    = $(SRC_PACKAGE_PATH)/GNU/mpc/mpc-$(mpc_version).tar.gz
 jar_archive_antlr     = $(SRC_PACKAGE_PATH)/packages/j/antlr-runtime/antlr-runtime-$(antlr_version).jar
 jar_archive_ecj       = $(SRC_PACKAGE_PATH)/packages/j/ecj/ecj-$(ecj_version).jar
 SRC_ARCHIVE           = $(tar_bz2_archive)
 SRC_DIR               = $(TARGET_BUILD_DIR)/gcc-$(version)
 src_dir_name          = gcc-$(version)
+doc_dir_name          = gcc-java-$(version)
 src_done              = $(TARGET_BUILD_DIR)/.source-done
-gmp_src_done          = $(TARGET_BUILD_DIR)/.gmp-source-done
-mpfr_src_done         = $(TARGET_BUILD_DIR)/.mpfr-source-done
-mpc_src_done          = $(TARGET_BUILD_DIR)/.mpc-source-done
 antlr_src_done        = $(TARGET_BUILD_DIR)/.antlr-source-done
 ecj_src_done          = $(TARGET_BUILD_DIR)/.ecj-source-done
 
 ANTLR_RUNTIME_JAR     = $(CURDIR)/$(SRC_DIR)/antlr-runtime-$(antlr_version).jar
 ECJ_JAR               = $(CURDIR)/$(SRC_DIR)/ecj-$(ecj_version).jar
+
 
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
 PATCHES     = PATCHES.x86_64
@@ -88,23 +73,23 @@ PKG_GROUP = dev
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-GCC_DEV_PKG_NAME                = gcc
-GCC_DEV_PKG_VERSION             = 5.3.0
-GCC_DEV_PKG_ARCH                = $(TOOLCHAIN)
-GCC_DEV_PKG_DISTRO_NAME         = $(DISTRO_NAME)
-GCC_DEV_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
-GCC_DEV_PKG_GROUP               = $(PKG_GROUP)
+GCJ_DEV_PKG_NAME                = gcc-java
+GCJ_DEV_PKG_VERSION             = 5.3.0
+GCJ_DEV_PKG_ARCH                = $(TOOLCHAIN)
+GCJ_DEV_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+GCJ_DEV_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
+GCJ_DEV_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
-GCC_DEV_PKG_SHORT_DESCRIPTION   = GNU Compiler Collection
-GCC_DEV_PKG_URL                 = $(BUG_URL)
-GCC_DEV_PKG_LICENSE             = GPLv2
-GCC_DEV_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GCC_DEV_PKG_NAME)-pkg-description
-GCC_DEV_PKG_DESCRIPTION_FILE_IN = $(GCC_DEV_PKG_NAME)-pkg-description.in
-GCC_DEV_PKG_INSTALL_SCRIPT      = $(GCC_DEV_PKG_NAME)-pkg-install.sh
+GCJ_DEV_PKG_SHORT_DESCRIPTION   = GNU Compiler Collection
+GCJ_DEV_PKG_URL                 = $(BUG_URL)
+GCJ_DEV_PKG_LICENSE             = GPLv2
+GCJ_DEV_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GCJ_DEV_PKG_NAME)-pkg-description
+GCJ_DEV_PKG_DESCRIPTION_FILE_IN = $(GCJ_DEV_PKG_NAME)-pkg-description.in
+GCJ_DEV_PKG_INSTALL_SCRIPT      = $(GCJ_DEV_PKG_NAME)-pkg-install.sh
 
-GCC_DEV_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(GCC_DEV_PKG_NAME)-package
+GCJ_DEV_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(GCJ_DEV_PKG_NAME)-package
 
-pkg_basename     = $(GCC_DEV_PKG_NAME)-$(GCC_DEV_PKG_VERSION)-$(GCC_DEV_PKG_ARCH)-$(GCC_DEV_PKG_DISTRO_NAME)-$(GCC_DEV_PKG_DISTRO_VERSION)
+pkg_basename     = $(GCJ_DEV_PKG_NAME)-$(GCJ_DEV_PKG_VERSION)-$(GCJ_DEV_PKG_ARCH)-$(GCJ_DEV_PKG_DISTRO_NAME)-$(GCJ_DEV_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
 pkg_signature    = $(call sign-name,$(pkg_archive))
@@ -121,11 +106,13 @@ ROOTFS_TARGETS   = $(pkg_archive)
 
 include ../../../build-system/core.mk
 
-
+#
 # NOTE: BUILD_MULTILIB_SUFFIX related to bulld machine
 #       (slacware64 - lib; ununtu64 - lib32) see $(BUILDSYSTEM)/targets.mk
+#
 export CC_FOR_BUILD       = gcc
 export CXX_FOR_BUILD      = g++
+export GCJ_FOR_BUILD      = gcj
 export LD_FOR_BUILD       = ld
 export AR_FOR_BUILD       = ar
 export AS_FOR_BUILD       = as
@@ -144,8 +131,9 @@ export GNATMAKE           = $(TOOLCHAIN_PATH)/bin/$(TARGET)-gnatmake
 export GCC_FOR_GNAT       = $(TOOLCHAIN_PATH)/bin/$(TARGET)-gcc --sysroot=$(TARGET_DEST_DIR)
 export GCC_LINK_FOR_GNAT  = $(TOOLCHAIN_PATH)/bin/$(TARGET)-g++ --sysroot=$(TARGET_DEST_DIR)
 
+export GCJ = $(TOOLCHAIN_PATH)/bin/$(TARGET)-gcj --sysroot=$(TARGET_DEST_DIR)
 
-env_sysroot  = DESTDIR=$(GCC_DEV_PKG)
+env_sysroot  = DESTDIR=$(GCJ_DEV_PKG)
 
 
 extra_configure_switches += --libdir=/usr/lib$(LIBSUFFIX)
@@ -154,7 +142,8 @@ extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --docdir=/usr/share/doc
 
-extra_configure_switches += --enable-languages=c,c++,objc,obj-c++,java,fortran,go,lto,ada
+extra_configure_switches += --enable-languages=c,c++,java,lto
+extra_configure_switches += --enable-install-libiberty
 extra_configure_switches += --enable-__cxa_atexit
 extra_configure_switches += --enable-shared
 extra_configure_switches += --enable-threads=posix
@@ -163,12 +152,16 @@ extra_configure_switches += --enable-lto
 extra_configure_switches += --enable-c99
 extra_configure_switches += --enable-long-long
 
-# Python 2.7 (The location to install Python modules. This path should NOT include the prefix):
-extra_configure_switches += --with-python-dir=/lib$(LIBSUFFIX)/python2.7/site-packages
+extra_configure_switches += --with-system-zlib
+extra_configure_switches += --with-mpc=$(TARGET_DEST_DIR)/usr
+extra_configure_switches += --with-mpfr=$(TARGET_DEST_DIR)/usr
+extra_configure_switches += --with-gmp=$(TARGET_DEST_DIR)/usr
+extra_configure_switches += --with-isl=$(TARGET_DEST_DIR)/usr
 
-# libstdcxx:
-# extra_configure_switches += --enable-libstdcxx-dual-abi
-# extra_configure_switches += --with-default-libstdcxx-abi=gcc4-compatible
+PYTHON_VERSION = 2.7
+
+# Python 2.7 (The location to install Python modules. This path should NOT include the prefix):
+extra_configure_switches += --with-python-dir=/lib$(LIBSUFFIX)/python$(PYTHON_VERSION)/site-packages
 
 #
 # for target libgo:
@@ -181,6 +174,8 @@ extra_configure_switches += --with-gnu-as
 
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_A1X_GLIBC))
 JAVA_LIB_ARCH = armv7a
+extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
+extra_configure_switches += '--with-bugurl=$(BUG_URL)'
 extra_configure_switches += --with-arch=armv7-a
 extra_configure_switches += --with-tune=cortex-a8
 extra_configure_switches += --with-fpu=neon
@@ -190,6 +185,8 @@ endif
 
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_A2X_GLIBC))
 JAVA_LIB_ARCH = armv7ve
+extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
+extra_configure_switches += '--with-bugurl=$(BUG_URL)'
 extra_configure_switches += --with-arch=armv7ve
 extra_configure_switches += --with-tune=cortex-a7
 extra_configure_switches += --with-fpu=neon-vfpv4
@@ -208,8 +205,21 @@ extra_configure_switches += --with-float=hard
 extra_configure_switches += --with-abi=aapcs-linux
 endif
 
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_IMX6_GLIBC))
+JAVA_LIB_ARCH = armv7a
+extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
+extra_configure_switches += '--with-bugurl=$(BUG_URL)'
+extra_configure_switches += --with-arch=armv7-a
+extra_configure_switches += --with-tune=cortex-a9
+extra_configure_switches += --with-fpu=vfpv3
+extra_configure_switches += --with-float=hard
+extra_configure_switches += --with-abi=aapcs-linux
+endif
+
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_OMAP543X_GLIBC))
 JAVA_LIB_ARCH = armv7a
+extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
+extra_configure_switches += '--with-bugurl=$(BUG_URL)'
 extra_configure_switches += --with-arch=armv7-a
 extra_configure_switches += --with-tune=cortex-a15
 extra_configure_switches += --with-fpu=neon-vfpv4
@@ -218,7 +228,7 @@ extra_configure_switches += --with-abi=aapcs-linux
 endif
 
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_JZ47XX_GLIBC))
-JAVA_LIB_ARCH = mips32
+JAVA_LIB_ARCH = mips32r2
 extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
 extra_configure_switches += '--with-bugurl=$(BUG_URL)'
 extra_configure_switches += --with-arch-32=mips32r2
@@ -228,12 +238,10 @@ extra_configure_switches += --with-mips-plt
 extra_configure_switches += --enable-target-optspace
 extra_configure_switches += --enable-symvers=gnu
 extra_configure_switches += --enable-__cxa_atexit
-extra_configure_switches += --with-gnu-as
-extra_configure_switches += --with-gnu-ld
 endif
 
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_P5600_GLIBC))
-JAVA_LIB_ARCH = mips32
+JAVA_LIB_ARCH = mips32r5
 extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
 extra_configure_switches += '--with-bugurl=$(BUG_URL)'
 extra_configure_switches += --with-arch=mips32r5
@@ -243,8 +251,6 @@ extra_configure_switches += --with-mips-plt
 extra_configure_switches += --enable-target-optspace
 extra_configure_switches += --enable-symvers=gnu
 extra_configure_switches += --enable-__cxa_atexit
-extra_configure_switches += --with-gnu-as
-extra_configure_switches += --with-gnu-ld
 endif
 
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_I686_GLIBC))
@@ -259,7 +265,7 @@ ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
 JAVA_LIB_ARCH = amd64
 extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
 extra_configure_switches += '--with-bugurl=$(BUG_URL)'
-extra_configure_switches += --with-multilib-list=m64,m32
+extra_configure_switches += --enable-multilib=no
 endif
 
 #
@@ -273,8 +279,12 @@ extra_configure_switches += --with-arch-directory=$(JAVA_LIB_ARCH)
 extra_configure_switches += --with-antlr-jar=$(ANTLR_RUNTIME_JAR)
 extra_configure_switches += --with-ecj-jar=$(ECJ_JAR)
 extra_configure_switches += --enable-java-awt=gtk
-extra_configure_switches += --disable-gtktest
 
+extra_configure_switches += --x-includes=$(TARGET_DEST_DIR)/usr/include
+extra_configure_switches += --x-libraries=$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)
+
+
+extra_environment = GCJ='$(TOOLCHAIN_PATH)/bin/$(TARGET)-gcj --sysroot=$(TARGET_DEST_DIR)'
 
 
 ####### Dependencies
@@ -282,24 +292,6 @@ extra_configure_switches += --disable-gtktest
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
-	@touch $@
-
-$(gmp_src_done): $(src_done)
-	@echo "Expanding $(tar_bz2_archive_gmp)"
-	@tar xjf $(tar_bz2_archive_gmp) -C $(TARGET_BUILD_DIR)
-	@cd $(SRC_DIR) ; ln -sf ../gmp-$(gmp_version) gmp
-	@touch $@
-
-$(mpfr_src_done): $(src_done)
-	@echo "Expanding $(tar_bz2_archive_mpfr)"
-	@tar xjf $(tar_bz2_archive_mpfr) -C $(TARGET_BUILD_DIR)
-	@cd $(SRC_DIR) ; ln -sf ../mpfr-$(mpfr_version) mpfr
-	@touch $@
-
-$(mpc_src_done): $(src_done)
-	@echo "Expanding $(tar_gz_archive_mpc)"
-	@tar xzf $(tar_gz_archive_mpc) -C $(TARGET_BUILD_DIR)
-	@cd $(SRC_DIR) ; ln -sf ../mpc-$(mpc_version) mpc
 	@touch $@
 
 $(antlr_src_done): $(src_done)
@@ -312,50 +304,147 @@ $(ecj_src_done): $(src_done)
 	@cp $(jar_archive_ecj) $(SRC_DIR)
 	@touch $@
 
-$(build_target): $(gmp_src_done) $(mpfr_src_done) $(mpc_src_done) $(antlr_src_done) $(ecj_src_done)
+$(build_target): $(antlr_src_done) $(ecj_src_done)
 	@mkdir -p $(build_dir)
 	@cd $(build_dir) && \
-	  $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
+	  $(BUILD_ENVIRONMENT) $(extra_environment) ../$(src_dir_name)/configure \
 	  --prefix=/usr                             \
 	  --build=$(BUILD)                          \
 	  --host=$(TARGET)                          \
 	  --target=$(TARGET)                        \
 	  $(extra_configure_switches)
-	$(BUILD_ENVIRONMENT) $(MAKE) -C $(build_dir) all
-	$(BUILD_ENVIRONMENT) $(MAKE) -C $(build_dir) info
+	# ======= Core Makefile passes DevEnv variables to libjava/configure =======
+	# ======= script not correct and we need to configure libjava for    =======
+	# ======= target system before building GCJ.                         =======
+	@( cd $(build_dir) ; \
+	   mkdir -p $(TARGET)/libjava ; \
+	   echo "ac_cv_lib_Xtst_XTestQueryExtension=yes" \
+	         > $(TARGET)/libjava/config.cache ; \
+	 )
+	@( cd $(build_dir)/$(TARGET)/libjava; \
+	   $(BUILD_ENVIRONMENT) $(extra_environment) ../../../$(src_dir_name)/libjava/configure \
+	   --prefix=/usr                             \
+	   --build=$(BUILD)                          \
+	   --host=$(TARGET)                          \
+	   --target=$(TARGET)                        \
+	   $(extra_configure_switches) ; \
+	 )
+	$(BUILD_ENVIRONMENT) $(extra_environment) $(MAKE) -C $(build_dir) all
+	$(BUILD_ENVIRONMENT) $(extra_environment) $(MAKE) -C $(build_dir) info
 	@touch $@
 
 $(install_target): $(build_target)
-	@mkdir -p $(GCC_DEV_PKG)
-	$(BUILD_ENVIRONMENT) $(MAKE) -C $(build_dir) -j1 install $(env_sysroot)
-	$(BUILD_ENVIRONMENT) $(MAKE) -C $(build_dir) -j1 install-info $(env_sysroot)
-	exit 1
-	@chmod 755 $(GCC_DEV_PKG)/usr/lib$(LIBSUFFIX)/libgcc_s.so.1
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
-	@chmod 755 $(GCC_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/libgcc_s.so.1
-endif
-	@rm -f $(GCC_DEV_PKG)/usr/lib$(LIBSUFFIX)/*gdb.py
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
-	@rm -f $(GCC_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/*gdb.py
-endif
-	@mkdir -p $(GCC_DEV_PKG)/lib
-	# *not* LIBSUFFIX
-	@( cd $(GCC_DEV_PKG) ; \
-	   mkdir -p lib ; \
-	   cd lib ; \
-	   ln -sf ../usr/bin/cpp . \
+	@mkdir -p $(GCJ_DEV_PKG)
+	$(BUILD_ENVIRONMENT) $(extra_environment) $(MAKE) -C $(build_dir) -j1 install $(env_sysroot)
+	$(BUILD_ENVIRONMENT) $(extra_environment) $(MAKE) -C $(build_dir) -j1 install-info $(env_sysroot)
+	@cp -a $(SRC_DIR)/ecj-$(ecj_version).jar $(GCJ_DEV_PKG)/usr/share/java/ecj-$(ecj_version).jar
+	@( cd $(GCJ_DEV_PKG)/usr/share/java ; \
+	   ln -sf ecj-$(ecj_version).jar ecj.jar ; \
 	 )
-	@mkdir -p $(GCC_DEV_PKG)/usr/include
-	@cp -a $(SRC_DIR)/include/libiberty.h $(GCC_DEV_PKG)/usr/include
-	@cp -a $(build_dir)/libiberty/libiberty.info $(GCC_DEV_PKG)/usr/share/info
-	@cp -a $(build_dir)/gcc/specs $(GCC_DEV_PKG)/usr/lib$(LIBSUFFIX)/gcc/$(TARGET)/$(version)
+	# ======= remove unneeded stuff =======
+	@( cd $(GCJ_DEV_PKG)/usr/bin ; \
+	   rm -f cpp *++ *gcc *gcc-* *gcov *gcov-* ; \
+	   for file in aot-compile gappletviewer gc-analyze gcj       \
+	               gcj-dbtool gcjh gij gjar gjarsigner gjavah     \
+	               gjdoc gkeytool gnative2ascii gorbd grmic grmid \
+	               grmiregistry gserialver gtnameserv jv-convert  \
+	               rebuild-gcj-db                                 ; do \
+	     mv $(TARGET)-$$file $$file     ; \
+	     ln -sf $$file $(TARGET)-$$file ; \
+	   done ; \
+	 )
+	# ======= in usr/include =======
+	@( cd $(GCJ_DEV_PKG)/usr/include ; \
+	   rm -rf libiberty ; \
+	 )
+	@( cd $(GCJ_DEV_PKG)/usr/include/c++/$(version) ; \
+	   for dir in backward bits debug decimal experimental \
+	              ext parallel profile tr1 tr2 $(TARGET)   ; do \
+	     rm -rf $$dir ; \
+	   done ; \
+	 )
+	@( cd $(GCJ_DEV_PKG)/usr/include/c++/$(version) ; \
+	   for file in `find . -type f -maxdepth 1` ; do \
+	     rm -f $$file ; \
+	   done ; \
+	 )
+	# ======= in usr/libexec =======
+	@( cd $(GCJ_DEV_PKG)/usr/libexec/gcc/$(TARGET)/$(version) ; \
+	   for dir in install-tools plugin ; do \
+	     rm -rf $$dir ; \
+	   done ; \
+	   for file in c* l* ; do \
+	     rm -f $$file ; \
+	   done ; \
+	 )
+	# ======= in usr/lib =======
+	@( cd $(GCJ_DEV_PKG)/usr/lib/gcc/$(TARGET)/$(version) ; \
+	   for dir in finclude include-fixed install-tools plugin ; do \
+	     rm -rf $$dir ; \
+	   done ; \
+	   for file in *.{a,o} ; do \
+	     rm -f $$file ; \
+	   done ; \
+	 )
+	@( cd $(GCJ_DEV_PKG)/usr/lib/gcc/$(TARGET)/$(version)/include ; \
+	   for dir in sanitizer ssp ; do \
+     rm -rf $$dir ; \
+	   done ; \
+	   for file in `find . -type f -name "*.h" ! -name "j*.h" -maxdepth 1` ; do \
+	     rm -f $$file ; \
+	   done ; \
+	 )
+	@( cd $(GCJ_DEV_PKG)/usr/lib ; \
+	   if [ -d ./python$(PYTHON_VERSION)/site-packages/libstdcxx ] ; then \
+	     rm -rf ./python$(PYTHON_VERSION)/site-packages/libstdcxx ; \
+	   fi ; \
+	 )
+	@( cd $(GCJ_DEV_PKG)/usr/lib ; \
+	   rm -f libasan* libatomic* libcilkrts* libgcc* libgomp* libiberty* libitm* \
+	         liblsan* libquadmath* libssp* libstdc* libsupc* libtsan* libubsan* libvtv* ; \
+	 )
+	# ======= in usr/share =======
+	@( cd $(GCJ_DEV_PKG)/usr/share ; \
+	   for dir in locale man/man7 ; do \
+	     rm -rf $$dir ; \
+	   done ; \
+	 )
+	@( cd $(GCJ_DEV_PKG)/usr/share/info ; \
+	   for file in c* l* d* gcc* ; do \
+	     rm -f $$file ; \
+	   done ; \
+	 )
+	@( cd $(GCJ_DEV_PKG)/usr/share/man/man1 ; \
+	   for file in cpp* gcc* *++* ; do \
+	     rm -f $$file ; \
+	   done ; \
+	   for file in gappletviewer gcjh gjar gjarsigner gjavah gjdoc gkeytool \
+	               gnative2ascii gorbd grmid grmiregistry gserialver gtnameserv ; do \
+	     mv $(TARGET)-$${file}.1 $${file}.1     ; \
+	     ln -sf $${file}.1 $(TARGET)-$${file}.1 ; \
+	   done ; \
+	 )
+	# ======= check jvm invlude files symlinks =======
+	@( cd $(GCJ_DEV_PKG)/usr/lib$(LIBSUFFIX)/jvm/include ; \
+	   rm -f jawt.h ; ln -sf ../../gcc/$(TARGET)/$(version)/include/jawt.h jawt.h ; \
+	   rm -f jni.h  ; ln -sf ../../gcc/$(TARGET)/$(version)/include/jni.h  jni.h  ; \
+	 )
+	@( cd $(GCJ_DEV_PKG)/usr/lib$(LIBSUFFIX)/jvm/include/linux ; \
+	   rm -f jawt_md.h ; ln -sf ../../../gcc/$(TARGET)/$(version)/include/jawt_md.h jawt_md.h ; \
+	   rm -f jni_md.h  ; ln -sf ../../../gcc/$(TARGET)/$(version)/include/jni_md.h  jni_md.h  ; \
+	 )
+	# ======= Install ecj wrapper script =======
+	@cat $(CURDIR)/scripts/ecj.sh |  sed -e "s,@JAVADIR@,/usr/share/java," > $(GCJ_DEV_PKG)/usr/bin/ecj
+	@chmod 755 $(GCJ_DEV_PKG)/usr/bin/ecj
+	# ======= and add the missing javac symlink =======
+	@( cd $(GCJ_DEV_PKG)/usr/lib$(LIBSUFFIX)/jvm/bin ; \
+	   ln -sf ../../../bin/ecj javac ; \
+	 )
 	# ======= Install Documentation =======
-	@rm -f $(GCC_DEV_PKG)/usr/share/info/dir
-	# ======= Remove info for gmp, libffi, mpc, mpfr =======
-	@rm -f $(GCC_DEV_PKG)/usr/share/info/{gmp,libffi,mpc,mpfr}.*
-	@gzip -9 $(GCC_DEV_PKG)/usr/share/info/*
-	@if [ -d $(GCC_DEV_PKG)/usr/share/man ]; then \
-	  ( cd $(GCC_DEV_PKG)/usr/share/man ; \
+	@rm -f $(GCJ_DEV_PKG)/usr/share/info/dir
+	@gzip -9 $(GCJ_DEV_PKG)/usr/share/info/*
+	@if [ -d $(GCJ_DEV_PKG)/usr/share/man ]; then \
+	  ( cd $(GCJ_DEV_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \
 	      ( cd $$manpagedir ; \
 	        for eachpage in `find . -type l -maxdepth 1` ; do \
@@ -367,295 +456,123 @@ endif
 	    done \
 	  ) \
 	 fi
-	@( cd $(GCC_DEV_PKG)/usr/share/man/man1 ; \
-	   ln -sf g++.1.gz c++.1.gz ; \
-	   ln -sf gcc.1.gz cc.1.gz \
-	 )
-	@( cd $(GCC_DEV_PKG)/usr/bin ; \
-	   mv gcc gcc-$(version) ; \
-	   ln -sf gcc-$(version) gcc ; \
-	   ln -sf gcc cc ; \
-	   rm -f c++ ; \
-	   mv g++ g++-$(version) ; \
-	   ln -sf g++-$(version) g++ ; \
-	   ln -sf g++ c++ ; \
-	   mv gfortran gfortran-gcc-$(version) ; \
-	   ln -sf gfortran-gcc-$(version) gfortran ; \
-	   rm -f $(TARGET)-* ; \
-	   ln -sf gcc-$(version) $(TARGET)-gcc ; \
-	   ln -sf gcc-$(version) $(TARGET)-gcc-$(version) ; \
-	   ln -sf gcc-ar $(TARGET)-gcc-ar ; \
-	   ln -sf gcc-nm $(TARGET)-gcc-nm ; \
-	   ln -sf gcc-ranlib $(TARGET)-gcc-ranlib ; \
-	   ln -sf g++-$(version) $(TARGET)-c++ ; \
-	   ln -sf g++-$(version) $(TARGET)-g++ ; \
-	   ln -sf gfortran-gcc-$(version) $(TARGET)-gfortran ; \
-	   ln -sf gfortran-gcc-$(version) $(TARGET)-gfortran-$(version) ; \
-	   ln -sf gfortran-gcc-$(version) $(TARGET)-g77 ; \
-	   ln -sf gfortran-gcc-$(version) $(TARGET)-g95 ; \
-	   ln -sf gcj $(TARGET)-gcj ; \
-	   ln -sf gcjh $(TARGET)-gcjh ; \
-	   ln -sf gccgo $(TARGET)-gccgo ; \
-	 )
-	@chmod a+x $(GCC_DEV_PKG)/usr/lib$(LIBSUFFIX)/lib*.la
-	@mkdir -p $(GCC_DEV_PKG)/usr/doc/$(src_dir_name)
+	@mkdir -p $(GCJ_DEV_PKG)/usr/doc/$(doc_dir_name)
 	@cp -a $(SRC_DIR)/COPYING* \
-	       $(GCC_DEV_PKG)/usr/doc/$(src_dir_name)
-	@mkdir -p $(GCC_DEV_PKG)/usr/share/doc/$(src_dir_name)
+	       $(GCJ_DEV_PKG)/usr/doc/$(doc_dir_name)
+	@mkdir -p $(GCJ_DEV_PKG)/usr/share/doc/$(doc_dir_name)
 	@cp -a $(SRC_DIR)/COPYING* $(SRC_DIR)/MAI* $(SRC_DIR)/NEWS $(SRC_DIR)/README \
-	       $(GCC_DEV_PKG)/usr/share/doc/$(src_dir_name)
-	@( cd $(SRC_DIR) ; \
+	       $(GCJ_DEV_PKG)/usr/share/doc/$(doc_dir_name)
+	@mkdir -p $(GCJ_DEV_PKG)/usr/share/doc/$(doc_dir_name)/libjava
+	@( cd $(SRC_DIR)/libjava ; \
+	   cp -a COPYING ChangeLog LIBGCJ_LICENSE NEWS README \
+	         $(GCJ_DEV_PKG)/usr/share/doc/$(doc_dir_name)/libjava ; \
+	 )
+	@( cd $(SRC_DIR)/gcc/java ; \
 	   if [ -r ChangeLog ]; then \
-	     DOCSDIR=`echo $(GCC_DEV_PKG)/usr/share/doc/$(src_dir_name)` ; \
+	     DOCSDIR=`echo $(GCJ_DEV_PKG)/usr/share/doc/$(doc_dir_name)` ; \
 	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
 	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \
 	 )
-	# ======= remove target destination path from target libtool *.la files =======
-	@( cd $(GCC_DEV_PKG)/usr/libexec/gcc/$(TARGET)/$(version) ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" liblto_plugin.la \
-	 )
-	# ======= remove build & toolchain path from target java libtool *.la files =======
-ifeq ($(filter $(HARDWARE),$(HARDWARE_PC32) \
-                           $(HARDWARE_PC64) \
-                           $(HARDWARE_CI20) \
-                           $(HARDWARE_BT1)),)
-	@( cd $(GCC_DEV_PKG)/usr/lib$(LIBSUFFIX)/gcj-$(version)-$(jversion) ; \
-	   sed -i "s, '$(TOOLCHAIN_PATH)/$(TARGET)/lib$(LIBSUFFIX)'/libstdc++.la,,g" *.la ; \
-	   sed -i "s,-L[^[:space:]]*\.libs,-L/usr/lib$(LIBSUFFIX),g" *.la ; \
-	   sed -i "s,-L[^[:space:]]*libjava,-L/usr/lib$(LIBSUFFIX)/gcj-$(version)-$(jversion),g" *.la ; \
-	 )
-else
-	@( cd $(GCC_DEV_PKG)/usr/lib$(LIBSUFFIX)/gcj-$(version)-$(jversion) ; \
-	   sed -i "s,$(TOOLCHAIN_PATH)/$(TARGET),/usr,g" *.la ; \
-	   sed -i "s,-L[^[:space:]]*\.libs,-L/usr/lib$(LIBSUFFIX),g" *.la ; \
-	   sed -i "s,-L[^[:space:]]*libjava,-L/usr/lib$(LIBSUFFIX)/gcj-$(version)-$(jversion),g" *.la ; \
-	 )
-endif
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
-	# ======= remove build & toolchain path from target x32 java libtool *.la files =======
-	@( cd $(GCC_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/gcj-$(version)-$(jversion) ; \
-	   sed -i "s,$(TOOLCHAIN_PATH)/$(TARGET),/usr,g" *.la ; \
-	   sed -i "s,-L[^[:space:]]*\.libs,-L/usr/lib$(MULTILIB_X86_32_SUFFIX),g" *.la ; \
-	   sed -i "s,-L[^[:space:]]*libjava,-L/usr/lib$(MULTILIB_X86_32_SUFFIX)/gcj-$(version)-$(jversion),g" *.la ; \
-	 )
-endif
 	# ======= remove toolchain path from target libtool *.la files =======
-	@( cd $(GCC_DEV_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   for lib in asan cilkrts gcj-tools gcj gij lsan tsan ubsan vtv ; do \
-	     if [ -f lib$$lib.la ] ; then \
-	       sed -i "s,$(TOOLCHAIN_PATH)/$(TARGET),/usr,g" lib$$lib.la ; \
-	     fi ; \
-	   done \
-	 )
 ifeq ($(filter $(HARDWARE),$(HARDWARE_PC32) \
                            $(HARDWARE_PC64) \
                            $(HARDWARE_CI20) \
                            $(HARDWARE_BT1)),)
-	@( cd $(GCC_DEV_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   for lib in gcj-tools gcj ; do \
-	     if [ -f lib$$lib.la ] ; then \
-	       sed -i "s,-L[^[:space:]]*\.libs,-L/usr/lib$(LIBSUFFIX),g" lib$$lib.la ; \
-	       sed -i "s,-L[^[:space:]]*libjava,-L/usr/lib$(LIBSUFFIX)/gcj-$(version)-$(jversion),g" lib$$lib.la ; \
-	     fi ; \
-	   done \
+	@( cd $(GCJ_DEV_PKG)/usr/lib$(LIBSUFFIX)/gcj-$(version)-$(jversion) ; \
+	   sed -i "s, '$(TOOLCHAIN_PATH)/$(TARGET)/lib$(LIBSUFFIX)'/libstdc++.la,,g" *.la ; \
 	 )
-else
-	@( cd $(GCC_DEV_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   for lib in gcj-tools gcj ; do \
-	     if [ -f lib$$lib.la ] ; then \
-	       sed -i "s,-L[^[:space:]]*libjava,-L/usr/lib$(LIBSUFFIX) -L/usr/lib$(LIBSUFFIX)/gcj-$(version)-$(jversion),g" lib$$lib.la ; \
-	     fi ; \
-	   done \
+	@( cd $(GCJ_DEV_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   sed -i "s, '$(TOOLCHAIN_PATH)/$(TARGET)/lib$(LIBSUFFIX)'/libstdc++.la,,g" *.la ; \
 	 )
 endif
-	@( cd $(GCC_DEV_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   for lib in gij ; do \
-	     if [ -f lib$$lib.la ] ; then \
-	       sed -i "s,-L[^[:space:]]*\.libs,-L/usr/lib$(LIBSUFFIX),g" lib$$lib.la ; \
-	       sed -i "s,-L[^[:space:]]*libjava,-L/usr/lib$(LIBSUFFIX)/gcj-$(version)-$(jversion),g" lib$$lib.la ; \
-	     fi ; \
-	   done \
+	@( cd $(GCJ_DEV_PKG)/usr/lib$(LIBSUFFIX)/gcj-$(version)-$(jversion) ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libgjsmalsa.la libgtkpeer.la \
+	                                    libjavamath.la libjawt.la    \
+	                                    libjvm.la                  ; \
+	   sed -i "s,$(TOOLCHAIN_PATH)/$(TARGET),/usr,g" libjvm.la ; \
+	   sed -i "s,-L[^[:space:]]*\.libs,-L/usr/lib$(LIBSUFFIX),g" *.la ; \
+	   sed -i "s,-L[^[:space:]]*libjava,-L/usr/lib$(LIBSUFFIX)/gcj-$(version)-$(jversion),g" *.la ; \
 	 )
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
-	@( cd $(GCC_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   for lib in asan cilkrts gcj-tools gcj gij lsan tsan ubsan vtv ; do \
-	     if [ -f lib$$lib.la ] ; then \
-	       sed -i "s,$(TOOLCHAIN_PATH)/$(TARGET),/usr,g" lib$$lib.la ; \
-	     fi ; \
-	   done \
+	@( cd $(GCJ_DEV_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libgcj-tools.la libgcj.la libgij.la ; \
+	   sed -i "s,$(TOOLCHAIN_PATH)/$(TARGET),/usr,g" libgcj-tools.la libgcj.la libgij.la ; \
+	   sed -i "s,-L[^[:space:]]*\.libs,-L/usr/lib$(LIBSUFFIX),g" *.la ; \
+	   sed -i "s,-L[^[:space:]]*libjava,-L/usr/lib$(LIBSUFFIX)/gcj-$(version)-$(jversion),g" *.la ; \
 	 )
-	@( cd $(GCC_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   for lib in gcj-tools gcj ; do \
-	     if [ -f lib$$lib.la ] ; then \
-	       sed -i "s,-L[^[:space:]]*libjava,-L/usr/lib$(MULTILIB_X86_32_SUFFIX) -L/usr/lib$(MULTILIB_X86_32_SUFFIX)/gcj-$(version)-$(jversion),g" lib$$lib.la ; \
-	     fi ; \
-	   done \
-	 )
-	@( cd $(GCC_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   for lib in gij ; do \
-	     if [ -f lib$$lib.la ] ; then \
-	       sed -i "s,-L[^[:space:]]*\.libs,-L/usr/lib$(MULTILIB_X86_32_SUFFIX),g" lib$$lib.la ; \
-	       sed -i "s,-L[^[:space:]]*libjava,-L/usr/lib$(MULTILIB_X86_32_SUFFIX)/gcj-$(version)-$(jversion),g" lib$$lib.la ; \
-	     fi ; \
-	   done \
-	 )
-endif
-	exit 1
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	@if [ -d $(TARGET_DEST_DIR)/usr/libexec/gcc ] ; then \
-	   rm -rf $(TARGET_DEST_DIR)/usr/libexec/gcc ; \
-	 fi
-	@if [ -d $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/gcc ] ; then \
-	   rm -rf $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/gcc ; \
-	 fi
-	@if [ -d $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/go/$(version) ] ; then \
-	   rm -rf $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/go/$(version) ; \
-	 fi
-	@if [ -d $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/gcj-$(version)-$(jversion) ] ; then \
-	   rm -rf $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/gcj-$(version)-$(jversion) ; \
-	 fi
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
-	@if [ -d $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/go/$(version) ] ; then \
-	   rm -rf $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/go/$(version) ; \
-	 fi
-	@if [ -d $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/gcj-$(version)-$(jversion) ] ; then \
-	   rm -rf $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/gcj-$(version)-$(jversion) ; \
-	 fi
-endif
-	exit 1
-	$(call install-into-devenv, $(GCC_DEV_PKG))
+	$(call install-into-devenv, $(GCJ_DEV_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/libexec/gcc/$(TARGET)/$(version) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" liblto_plugin.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" liblto_plugin.la \
-	 )
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/gcj-$(version)-$(jversion) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libjvm.la ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgjsmalsa.la libgtkpeer.la \
+	                                            libjavamath.la libjawt.la    \
+	                                            libjvm.la                  ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libgjsmalsa.la libgtkpeer.la \
+	                                              libjavamath.la libjawt.la    \
+	                                              libjvm.la                  ; \
 	 )
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/gcj-$(version)-$(jversion) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libjvm.la ; \
-	 )
-endif
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/gcc/$(TARGET)/$(version) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libcaf_single.la ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgfortranbegin.la \
-	 )
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/gcc/$(TARGET)/$(version)/$(MULTILIB_X86_32_SUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libcaf_single.la ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgfortranbegin.la \
-	 )
-endif
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	   for lib in asan atomic cilkrts gcj-tools gcj gfortran gij go gomp itm lsan objc \
-	              quadmath mudflap mudflapth ssp ssp_nonshared stdc++ supc++ tsan ubsan vtv ; do \
-	     if [ -f lib$$lib.la ] ; then \
-	       sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" lib$$lib.la ; \
-	     fi ; \
-	   done \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgcj-tools.la libgcj.la libgij.la ; \
 	 )
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   for lib in asan atomic cilkrts gcj-tools gcj gfortran gij go gomp itm lsan objc \
-	              quadmath mudflap mudflapth ssp ssp_nonshared stdc++ supc++ tsan ubsan vtv ; do \
-	     if [ -f lib$$lib.la ] ; then \
-	       sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" lib$$lib.la ; \
-	     fi ; \
-	   done \
-	 )
-endif
 	# ======= tune development pkg-config *.pc files =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgcj-?.?.pc ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgcj-?.pc ; \
 	 )
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
-	   sed -i "s,^libdir=/usr/lib$$,libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX),g" libgcj-?.?.pc ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgcj-?.?.pc ; \
-	 )
-endif
 	# ======= Strip binaries =======
-	@( cd $(GCC_DEV_PKG) ; \
+	@( cd $(GCJ_DEV_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
 ifneq ($(CHRPATH),)
-	# ======= Set RPATH/RUNPATH for target binaries =======
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
-	@( cd $(GCC_DEV_PKG)/usr/bin ; \
-	   target_rpath="/lib/../lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUFFIX)" ; \
-	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
-	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
-	     if [ -n "$$rpath" ] ; then \
-	       $(CHRPATH) -r $${target_rpath} $$file 1> /dev/null 2> /dev/null ; \
-	     fi ; \
-	   done ; \
-	 )
-else
-	@( cd $(GCC_DEV_PKG)/usr/bin ; \
-	   target_rpath="/lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)" ; \
-	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
-	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
-	     if [ -n "$$rpath" ] ; then \
-	       $(CHRPATH) -r $${target_rpath} $$file 1> /dev/null 2> /dev/null ; \
-	     fi ; \
-	   done ; \
-	 )
-endif
 	# ======= Set RPATH/RUNPATH for target shared objects =======
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
-	@( cd $(GCC_DEV_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   target_rpath="/lib/../lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUFFIX)" ; \
-	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
+	@( cd $(GCJ_DEV_PKG)/usr/bin ; \
+	   for file in `find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
 	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
 	     if [ -n "$$rpath" ] ; then \
-	       $(CHRPATH) -r $${target_rpath} $$file 1> /dev/null 2> /dev/null ; \
+	       found=`echo "$$rpath" | grep "$(TOOLCHAIN_PATH)/$(TARGET)"` ; \
+	       if [ -n "$$found" ] ; then \
+	         target_rpath=`echo "$$rpath" | sed "s,\./.*PATH=,," | sed "s,$(TOOLCHAIN_PATH)/$(TARGET),,g"` ; \
+	         $(CHRPATH) -r $${target_rpath} $$file 1> /dev/null 2> /dev/null ; \
+	       fi ; \
 	     fi ; \
 	   done ; \
 	 )
-	@( cd $(GCC_DEV_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   target_rpath="/lib/../lib$(MULTILIB_X86_32_SUFFIX):/usr/lib/../lib$(MULTILIB_X86_32_SUFFIX)" ; \
+	@( cd $(GCJ_DEV_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
 	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
 	     if [ -n "$$rpath" ] ; then \
-	       $(CHRPATH) -r $${target_rpath} $$file 1> /dev/null 2> /dev/null ; \
+	       found_toolchain_path=`echo "$$rpath" | grep "$(TOOLCHAIN_PATH)/$(TARGET)"` ; \
+	       found_target_dest_dir=`echo "$$rpath" | grep "$(TARGET_DEST_DIR)"` ; \
+	       if [ -n "$${found_toolchain_path}" -o -n "$${found_target_dest_dir}" ] ; then \
+	         target_rpath=`echo "$$rpath" | sed "s,\./.*PATH=,,"                       \
+	                                      | sed "s,$(TOOLCHAIN_PATH)/$(TARGET),/usr,g" \
+	                                      | sed "s,$(TARGET_DEST_DIR),,g"`           ; \
+	         $(CHRPATH) -r $${target_rpath} $$file 1> /dev/null 2> /dev/null ; \
+	       fi ; \
 	     fi ; \
 	   done ; \
 	 )
-else
-	@( cd $(GCC_DEV_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   target_rpath="/lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)" ; \
-	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
-	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
-	     if [ -n "$$rpath" ] ; then \
-	       $(CHRPATH) -r $${target_rpath} $$file 1> /dev/null 2> /dev/null ; \
-	     fi ; \
-	   done ; \
-	 )
-endif
 endif
 	@touch $@
 
-$(GCC_DEV_PKG_DESCRIPTION_FILE): $(GCC_DEV_PKG_DESCRIPTION_FILE_IN)
+$(GCJ_DEV_PKG_DESCRIPTION_FILE): $(GCJ_DEV_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
 $(pkg_signature)   : $(pkg_archive) ;
 $(pkg_description) : $(pkg_archive) ;
 
-$(pkg_archive): $(install_target) $(GCC_DEV_PKG_DESCRIPTION_FILE) $(GCC_DEV_PKG_INSTALL_SCRIPT)
-	@cp $(GCC_DEV_PKG_DESCRIPTION_FILE) $(GCC_DEV_PKG)/.DESCRIPTION
-	@cp $(GCC_DEV_PKG_INSTALL_SCRIPT) $(GCC_DEV_PKG)/.INSTALL
-	@$(BUILD_PKG_REQUIRES) $(GCC_DEV_PKG)/.REQUIRES
-	@echo "pkgname=$(GCC_DEV_PKG_NAME)"                            >  $(GCC_DEV_PKG)/.PKGINFO ; \
-	 echo "pkgver=$(GCC_DEV_PKG_VERSION)"                          >> $(GCC_DEV_PKG)/.PKGINFO ; \
-	 echo "arch=$(GCC_DEV_PKG_ARCH)"                               >> $(GCC_DEV_PKG)/.PKGINFO ; \
-	 echo "distroname=$(GCC_DEV_PKG_DISTRO_NAME)"                  >> $(GCC_DEV_PKG)/.PKGINFO ; \
-	 echo "distrover=$(GCC_DEV_PKG_DISTRO_VERSION)"                >> $(GCC_DEV_PKG)/.PKGINFO ; \
-	 echo "group=$(GCC_DEV_PKG_GROUP)"                             >> $(GCC_DEV_PKG)/.PKGINFO ; \
-	 echo "short_description=\"$(GCC_DEV_PKG_SHORT_DESCRIPTION)\"" >> $(GCC_DEV_PKG)/.PKGINFO ; \
-	 echo "url=$(GCC_DEV_PKG_URL)"                                 >> $(GCC_DEV_PKG)/.PKGINFO ; \
-	 echo "license=$(GCC_DEV_PKG_LICENSE)"                         >> $(GCC_DEV_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GCC_DEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+$(pkg_archive): $(install_target) $(GCJ_DEV_PKG_DESCRIPTION_FILE) $(GCJ_DEV_PKG_INSTALL_SCRIPT)
+	@cp $(GCJ_DEV_PKG_DESCRIPTION_FILE) $(GCJ_DEV_PKG)/.DESCRIPTION
+	@cp $(GCJ_DEV_PKG_INSTALL_SCRIPT) $(GCJ_DEV_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(GCJ_DEV_PKG)/.REQUIRES
+	@echo "pkgname=$(GCJ_DEV_PKG_NAME)"                            >  $(GCJ_DEV_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(GCJ_DEV_PKG_VERSION)"                          >> $(GCJ_DEV_PKG)/.PKGINFO ; \
+	 echo "arch=$(GCJ_DEV_PKG_ARCH)"                               >> $(GCJ_DEV_PKG)/.PKGINFO ; \
+	 echo "distroname=$(GCJ_DEV_PKG_DISTRO_NAME)"                  >> $(GCJ_DEV_PKG)/.PKGINFO ; \
+	 echo "distrover=$(GCJ_DEV_PKG_DISTRO_VERSION)"                >> $(GCJ_DEV_PKG)/.PKGINFO ; \
+	 echo "group=$(GCJ_DEV_PKG_GROUP)"                             >> $(GCJ_DEV_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(GCJ_DEV_PKG_SHORT_DESCRIPTION)\"" >> $(GCJ_DEV_PKG)/.PKGINFO ; \
+	 echo "url=$(GCJ_DEV_PKG_URL)"                                 >> $(GCJ_DEV_PKG)/.PKGINFO ; \
+	 echo "license=$(GCJ_DEV_PKG_LICENSE)"                         >> $(GCJ_DEV_PKG)/.PKGINFO
+	@$(FAKEROOT) sh -c "cd $(GCJ_DEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

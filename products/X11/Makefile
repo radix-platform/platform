@@ -573,6 +573,10 @@ REQUIRES += libs/taglib/1.10
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/taglib/1.10-x86_32
 endif
+REQUIRES += libs/libaio/0.3.110
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libaio/0.3.110-x86_32
+endif
 REQUIRES += libs/zeromq/4.1.4
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/zeromq/4.1.4-x86_32

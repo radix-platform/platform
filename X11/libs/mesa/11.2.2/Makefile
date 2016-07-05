@@ -174,7 +174,7 @@ extra_configure_switches += --with-omx-libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --with-clang-libdir=/usr/lib$(LIBSUFFIX)
 
 
-environment  = LLVM_CONFIG=$(TARGET_DEST_DIR)/usr/bin/$(BUILD_MACHINE_ARCH)-llvm-config
+environment  = LLVM_CONFIG=$(TARGET_DEST_DIR)/usr/bin/$(TARGET)-llvm-config
 environment += WAYLAND_SCANNER=$(TARGET_DEST_DIR)/usr/bin/$(TARGET)-wayland-scanner
 
 

@@ -1197,8 +1197,9 @@ REQUIRES += dev/perl-modules/perl-dbd-mysql/4.032
 #######
 
 #
-# order: X11/libs/qt4, X11/libs/qt5, libs/poppler, X11/libs/gtk+2,
-#        libs/log4cplus, X11/libs/glu, X11/libs/glew, X11/libs/freeglut,
+# order: libs/assimp, X11/libs/qt4, X11/libs/qt5,
+#        libs/poppler, X11/libs/gtk+2, libs/log4cplus,
+#        X11/libs/glu, X11/libs/glew, X11/libs/freeglut,
 #        X11/libs/startup-notification
 #
 

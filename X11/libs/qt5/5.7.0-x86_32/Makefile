@@ -20,6 +20,7 @@ REQUIRES          += X11/app/dbus-x11-launch/1.11.2-x86_32
 REQUIRES          += libs/libmng/2.0.3-x86_32
 REQUIRES          += libs/icu4c/55.1-x86_32
 REQUIRES          += libs/libvpx/1.5.0-x86_32
+REQUIRES          += libs/assimp/3.2-x86_32
 REQUIRES          += app/cups/2.1.3-x86_32
 
 REQUIRES          += X11/libs/fontconfig/2.11.95-x86_32

@@ -23,7 +23,7 @@ include ../../build-system/constants.mk
 #######
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
-REQUIRES  = boot/kernel/nit6q/3.14.28-20160304
+REQUIRES  = boot/u-boot/nit6q/2015.07-20160305
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)

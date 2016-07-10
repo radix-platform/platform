@@ -106,6 +106,7 @@ extra_configure_switches += --with-pci-ids-path=/usr/share/hwdata
 
 extra_configure_switches += --enable-hwdb
 extra_configure_switches += --enable-rule-generator
+extra_configure_switches += --enable-split-usr
 extra_configure_switches += --enable-kmod
 extra_configure_switches += --enable-manpages
 extra_configure_switches += --disable-selinux

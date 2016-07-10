@@ -183,6 +183,8 @@ AC_SUBST([udevrulesdir],[${udevlibexecdir}/rules.d])
 AC_SUBST([pkgconfiglibdir], [${libdir}/pkgconfig])
 AC_SUBST([sharepkgconfigdir],[${datadir}/pkgconfig])
 
+AC_SUBST([rootrundir],[${with_rootrundir}])
+
 # ------------------------------------------------------------------------------
 have_blkid=no
 AC_ARG_ENABLE(blkid, AS_HELP_STRING([--disable-blkid], [Disable optional blkid support]))

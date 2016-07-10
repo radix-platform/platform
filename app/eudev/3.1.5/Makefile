@@ -110,6 +110,7 @@ extra_configure_switches += --with-pci-ids-path=/usr/share/hwdata
 
 extra_configure_switches += --enable-hwdb
 extra_configure_switches += --enable-rule-generator
+extra_configure_switches += --enable-split-usr
 extra_configure_switches += --enable-kmod
 extra_configure_switches += --enable-manpages
 extra_configure_switches += --disable-selinux
@@ -157,6 +158,9 @@ $(install_target): $(build_target)
 	# ======= change mode of script in udev libexec (--libexec=/lib) directory =======
 	@chmod a+x $(EUDEV_PKG)/lib/udev/rule_generator.functions
 	@( cd $(EUDEV_PKG)/sbin ; ln -sf ../lib/udev/scsi_id scsi_id )
+	# ======= Move system installed hwdb files under /lib =======
+	@mkdir -p $(EUDEV_PKG)/lib/udev/hwdb.d
+	@mv $(EUDEV_PKG)/etc/udev/hwdb.d/* $(EUDEV_PKG)/lib/udev/hwdb.d
 	@ln -sf ../../sbin/udevd $(EUDEV_PKG)/lib/udev/udevd
 	@mkdir -p $(EUDEV_PKG)/run \
 	          $(EUDEV_PKG)/{etc,lib}/modprobe.d \
@@ -175,6 +179,10 @@ $(install_target): $(build_target)
 	@find $(EUDEV_PKG)/etc -type d -exec chmod 755 {} \;
 	@chmod 0755 $(EUDEV_PKG)/etc/rc.d/rc.udev.new
 	@chmod 0755 $(EUDEV_PKG)/lib/udev/*
+	# ======= Add extra device directory to the package that udev doesn't make =======
+	@mkdir -p $(EUDEV_PKG)/lib/udev/devices
+	# ======= Support locally added additional devices found in this directory =======
+	@mkdir -p $(EUDEV_PKG)/etc/udev/devices
 	# ======= Gzip man pages =======
 	@if [ -d $(EUDEV_PKG)/usr/share/man ]; then \
 	  ( cd $(EUDEV_PKG)/usr/share/man ; \

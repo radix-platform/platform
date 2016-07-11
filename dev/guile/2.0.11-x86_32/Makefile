@@ -133,6 +133,8 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(GUILE_32_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
+	# ======= Remove debugging script to avoid ldconfig errors =======
+	@rm -f $(GUILE_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/libguile-*-gdb.scm
 	@mkdir -p $(GUILE_32_PKG)/usr/bin/32
 	@( cd $(GUILE_32_PKG)/usr/bin ; \
 	   find . -type f | xargs mv -t 32 ; \

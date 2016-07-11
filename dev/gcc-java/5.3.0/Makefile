@@ -143,11 +143,13 @@ extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --docdir=/usr/share/doc
 
 extra_configure_switches += --enable-languages=c,c++,java,lto
-extra_configure_switches += --enable-install-libiberty
+extra_configure_switches += --enable-libstdcxx-dual-abi
+extra_configure_switches += --with-default-libstdcxx-abi=gcc4-compatible
+extra_configure_switches += --disable-libunwind-exceptions
 extra_configure_switches += --enable-__cxa_atexit
+extra_configure_switches += --enable-install-libiberty
 extra_configure_switches += --enable-shared
 extra_configure_switches += --enable-threads=posix
-extra_configure_switches += --disable-libunwind-exceptions
 extra_configure_switches += --enable-lto
 extra_configure_switches += --enable-c99
 extra_configure_switches += --enable-long-long

@@ -22,8 +22,9 @@ patches    += $(CURDIR)/patches/gcc-5.3.0-x86_64-multilib.patch
 patches    += $(CURDIR)/patches/gcc-5.3.0-backtrace.patch
 patches    += $(CURDIR)/patches/gcc-5.3.0-ccache-ada.patch
 patches    += $(CURDIR)/patches/gcc-5.3.0-cross-gcj-dbtool.patch
+patches    += $(CURDIR)/patches/gcc-5.3.0-i386-66782.patch
+patches    += $(CURDIR)/patches/gcc-5.3.0-i386-69140.patch
 patches    += $(CURDIR)/patches/gcc-5.3.0-libgo.patch
-patches    += $(CURDIR)/patches/gcc-5.3.0-66782.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -63,8 +64,9 @@ $(patches): $(sha1s)
 	 ( cd create-5.3.0-backtrace-patch ;          ./create.patch.sh ) ; \
 	 ( cd create-5.3.0-ccache-ada-patch ;         ./create.patch.sh ) ; \
 	 ( cd create-5.3.0-cross-gcj-dbtool-patch ;   ./create.patch.sh ) ; \
+	 ( cd create-5.3.0-i386-66782-patch ;         ./create.patch.sh ) ; \
+	 ( cd create-5.3.0-i386-69140-patch ;         ./create.patch.sh ) ; \
 	 ( cd create-5.3.0-libgo-patch ;              ./create.patch.sh ) ; \
-	 ( cd create-5.3.0-66782-patch ;              ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

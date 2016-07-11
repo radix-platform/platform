@@ -148,6 +148,8 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(GUILE_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
+	# ======= Remove debugging script to avoid ldconfig errors =======
+	@rm -f $(GUILE_PKG)/usr/lib$(LIBSUFFIX)/libguile-*-gdb.scm
 	# ======= Install Documentation =======
 	@rm -f $(GUILE_PKG)/usr/share/info/dir
 	@gzip -9 $(GUILE_PKG)/usr/share/info/*

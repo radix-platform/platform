@@ -43,7 +43,7 @@ PATCHES = PATCHES
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
 
-readme_file        = $(CURDIR)/README.TXT
+readme_file        = $(CURDIR)/README
 
 
 ####### Targets

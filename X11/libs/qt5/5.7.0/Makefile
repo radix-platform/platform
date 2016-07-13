@@ -310,7 +310,7 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 $(build_target): $(src_done)
 	@cd $(SRC_DIR) && \
 	  $(QT_BUILD_ENVIRONMENT) CFG_ARCH="$(ARCH)" ./configure $(configure_switches)
-	@cd $(SRC_DIR) && $(QT_BUILD_ENVIRONMENT) $(MAKE) $(QT5_JOBS)
+	@cd $(SRC_DIR) && $(QT_BUILD_ENVIRONMENT) $(MAKE)
 	@touch $@
 
 $(install_target): $(build_target)

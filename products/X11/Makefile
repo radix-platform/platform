@@ -608,7 +608,7 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += net/avahi-daemon/0.6.31-x86_32
 endif
 
-REQUIRES += app/mc/4.8.15
+REQUIRES += app/mc/4.8.16
 REQUIRES += app/tmux/2.0
 REQUIRES += app/chrpath/0.16
 REQUIRES += app/patch/2.7

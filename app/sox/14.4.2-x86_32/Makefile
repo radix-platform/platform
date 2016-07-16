@@ -14,7 +14,7 @@ SOURCE_REQUIRES    = sources/packages/m/sox
 
 REQUIRES           = app/sox/14.4.2
 REQUIRES          += dev/libtool/2.4.2-x86_32
-REQUIRES          += app/file/5.25-x86_32
+REQUIRES          += app/file/5.28-x86_32
 REQUIRES          += libs/libpng/libpng14/1.4.19-x86_32
 REQUIRES          += libs/libao/1.2.0-x86_32
 REQUIRES          += libs/lame/3.99.5-x86_32

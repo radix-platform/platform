@@ -1,0 +1,7 @@
+
+samba_cv_have_longlong=yes
+samba_cv_HAVE_GETTIMEOFDAY_TZ=yes
+samba_cv_HAVE_BROKEN_READDIR=no
+samba_cv_HAVE_NETMASK_IFCONF=yes
+samba_cv_HAVE_NETMASK_IFREQ=no
+samba_cv_HAVE_NETMASK_AIX=no

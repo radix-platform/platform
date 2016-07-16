@@ -1,0 +1,5 @@
+
+../../../sources/packages/a/mc/patches/mc-4.8.16-geeqie.patch       -p0
+../../../sources/packages/a/mc/patches/mc-4.8.16-extfs.patch        -p0
+../../../sources/packages/a/mc/patches/mc-4.8.16-perl-ls.patch      -p0
+../../../sources/packages/a/mc/patches/mc-4.8.16-syntax-error.patch -p0

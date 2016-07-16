@@ -156,6 +156,7 @@ perl_environment  = INSTALLDIRS=vendor
 perl_environment += PERL_LIB='$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5'
 perl_environment += PERL_ARCHLIB='$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)'
 perl_environment += PERL_INC='$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)/CORE'
+perl_environment += PERL_INCDEP='$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)/CORE'
 
 perl_environment += SITELIBEXP='/usr/lib$(LIBSUFFIX)/perl5/site_perl'
 perl_environment += SITEARCHEXP='/usr/lib$(LIBSUFFIX)/perl5/site_perl/$(ARCHNAME)'
@@ -235,9 +236,6 @@ $(build_target): $(src_done)
 	   sed -i "s,-I/usr/local/include,-I$(TARGET_DEST_DIR)/usr/include,g" Makefile ; \
 	   sed -i "s,-I/usr/include,-I$(TARGET_DEST_DIR)/usr/include,g"       Makefile ; \
 	 )
-	# ======= Fix for Perl >= 5.20 missing fakethe.h perlsfio.h =======
-	@touch $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)/CORE/fakethr.h
-	@touch $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)/CORE/perlsfio.h
 	# ======= build the perl-dbi module =======
 	@( cd $(SRC_DIR) ; \
 	   $(BUILD_ENVIRONMENT) $(MAKE) $(perl_environment) ; \
@@ -249,9 +247,6 @@ $(install_target): $(build_target)
 	@( cd $(SRC_DIR) ; \
 	   $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(perl_environment) $(env_sysroot) ; \
 	 )
-	# ======= Fix for Perl >= 5.20 remove unneeded fakethe.h perlsfio.h =======
-	@rm -f $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)/CORE/fakethr.h
-	@rm -f $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)/CORE/perlsfio.h
 	# ======= install the perl-dbi module =======
 	@( cd $(PERL_PKG)/usr/bin ; \
 	   for file in `find vendor_perl -type f -executable -print` ; do \

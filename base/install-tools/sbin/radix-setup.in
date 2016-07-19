@@ -930,7 +930,14 @@ gen_parts_list() {
     # recomended values
     #
     used=
-    partid=`fdisk -l /dev/$devname | grep "^/dev/${prname}" | sed 's,\s\+, ,g' | cut -f 5 -d ' '`
+    # skip active partition sign [asterisk '*']
+    pline=`fdisk -l /dev/$devname | grep "^/dev/${prname}" | sed 's,\s\+, ,g'`
+    active=`echo "$pline" | cut -f 2 -d ' '`
+    if [ "$active" == "*" ] ; then
+      partid=`echo "$pline" | cut -f 6 -d ' '`
+    else
+      partid=`echo "$pline" | cut -f 5 -d ' '`
+    fi
     partid=`printf '%02s' "$partid"`
     if [ "$partid" == "82" -o "$partid" == "82" ] ; then
       mpoint="swap"
@@ -984,8 +991,18 @@ gen_parts_menu_items() {
 
     prname=`echo "$line" | cut -f 1 -d ':'`
 
-    prtype=`fdisk -l /dev/$devname | grep "^${prname}" | sed 's,\s\+, ,g' | cut -f 5 -d ' '`
+    #
+    # get partition type (skipping active partition sign [asterisk '*']):
+    #
+    pline=`fdisk -l /dev/$devname | grep "^/dev/${prname}" | sed 's,\s\+, ,g'`
+    active=`echo "$pline" | cut -f 2 -d ' '`
+    if [ "$active" == "*" ] ; then
+      prtype=`echo "$pline" | cut -f 6 -d ' '`
+    else
+      prtype=`echo "$pline" | cut -f 5 -d ' '`
+    fi
     prtype=`printf '%02s' "$prtype"`
+
 
     prsize=`echo "$line" | cut -f 2 -d ':'`
     let "prsize = prsize / 1048576"

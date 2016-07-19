@@ -26,11 +26,17 @@ if [ ! -f /etc/system-installer ] ; then
     mkdir -p /tmp/radix/mnt
     MNT=/tmp/radix/mnt
   fi
-  trap 'for dir in "`find $MNT -type d -mindepth 1 -maxdepth 1`" ; do \
-          umount $dir 2> /dev/null ; \
-        done ; \
-        rm -rf $TMP' EXIT INT QUIT TERM
 fi
+
+trap 'for dir in "`find $MNT -type d -mindepth 1 -maxdepth 1`" ; do \
+        umount $dir 2> /dev/null ; \
+      done ; \
+      rm -rf $TMP ; \
+      clear ; \
+      head -c 100 /dev/zero | tr "\0" "\n" ; \
+      echo "ERROR: $program - has been terminated." ; \
+      echo "" ; \
+      exit 1' INT TERM
 
 
 default_toolchain=@TOOLCHAIN@
@@ -396,7 +402,7 @@ EOF
     elif [ "$RETVAL" = "Device" ]; then
       INSTALLTYPE=dev
       cat > $TMP/device-help$$ << EOF
---colors \\
+--colors --clear \\
 --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \\
 --title " \Z0\ZbSelect the destination\ZB\Zn \Z1\ZbDEVICE:\ZB\Zn " \\
 --menu "\\n\\
@@ -424,7 +430,10 @@ EOF
       if [ $? = 1 -o $? = 255 ]; then
         rm -f $TMP/devmame$$
         rm -f $TMP/device-help$$
-        exit
+        usage
+        echo "ERROR: Destination should be specified."
+        EXITSTATUS=16
+        exit $EXITSTATUS
       fi
       result=`cat $TMP/devmame$$`
       rm -f $TMP/devmame$$
@@ -848,6 +857,13 @@ EOF
                        "$TMP/dd-output.$$"                       \
                        "$dosboot"
     fi
+    #
+    # NOTE:
+    # ====
+    #   If user chosed <No> or pressed Esc Button then next dialog
+    #   will allow him to continue ordinary setup or Exit Setup by
+    #   select corresponded menu item.
+    #
   fi
 }
 
@@ -1625,7 +1641,23 @@ ROOTFS_MPOINT=${MNT}/root
 if [ "$INSTALLTYPE" == "dev" ] ; then
   check_target_device
   prepare_target_disk
-  prepare_partitions "$TARGET_ROOT_DEVICE"
+
+  while [ 0 ] ; do
+    prepare_partitions "$TARGET_ROOT_DEVICE"
+    ret=$?
+    if [ $ret = 255 ]; then
+      # User can interrupt format partitions cycle by press Esc button
+      # on keyboard. In this case we have to exit setup because we not
+      # sure that user done all needs.  If user say Esc again, then we
+      # will return him back to the cycle until user press <Continue>.
+      exit_setup
+      continue
+    fi
+    if [ $ret = 1 ]; then
+      break
+    fi
+  done
+
   prepare_etc_fstab
 
   #

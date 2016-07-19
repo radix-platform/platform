@@ -146,6 +146,8 @@ $(install_target): $(build_target)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Create directory for global gpg.conf =======
 	@mkdir -p $(GNUPG_PKG)/etc/gnupg
+	# ======= Remove dirmngr-client manual page=======
+	@rm -f $(GNUPG_PKG)/usr/share/man/man1/dirmngr-client.1
 	# ======= Install Documentation =======
 	@cd $(build_dir)/doc && $(BUILD_ENVIRONMENT) $(MAKE) gnupg.html
 	@rm -f $(GNUPG_PKG)/usr/share/info/dir

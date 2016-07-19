@@ -73,7 +73,7 @@ pre_remove() {
 # arg 1:  the old package version
 post_remove() {
   if [ -x /usr/bin/install-info ] ; then
-    install-info --delete --info-file=usr/share/info/gcj.info.gz --dir-file=usr/share/info/dir 2>/dev/null
+    install-info --delete --info-file=usr/share/info/gcj.info.gz --dir-file=usr/share/info/dir 2>/dev/null || /bin/true
   fi
 }
 

@@ -94,11 +94,11 @@ post_update() {
 # arg 1:  the old package version
 pre_remove() {
   if [ -x /usr/bin/install-info ] ; then
-    install-info --delete --info-file=usr/share/info/as.info.gz       --dir-file=usr/share/info/dir 2> /dev/null
-    install-info --delete --info-file=usr/share/info/bfd.info.gz      --dir-file=usr/share/info/dir 2> /dev/null
-    install-info --delete --info-file=usr/share/info/binutils.info.gz --dir-file=usr/share/info/dir 2> /dev/null
-    install-info --delete --info-file=usr/share/info/gprof.info.gz    --dir-file=usr/share/info/dir 2> /dev/null
-    install-info --delete --info-file=usr/share/info/ld.info.gz       --dir-file=usr/share/info/dir 2> /dev/null
+    install-info --delete --info-file=usr/share/info/as.info.gz       --dir-file=usr/share/info/dir 2> /dev/null || /bin/true
+    install-info --delete --info-file=usr/share/info/bfd.info.gz      --dir-file=usr/share/info/dir 2> /dev/null || /bin/true
+    install-info --delete --info-file=usr/share/info/binutils.info.gz --dir-file=usr/share/info/dir 2> /dev/null || /bin/true
+    install-info --delete --info-file=usr/share/info/gprof.info.gz    --dir-file=usr/share/info/dir 2> /dev/null || /bin/true
+    install-info --delete --info-file=usr/share/info/ld.info.gz       --dir-file=usr/share/info/dir 2> /dev/null || /bin/true
   fi
 }
 

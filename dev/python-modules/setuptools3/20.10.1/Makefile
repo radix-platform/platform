@@ -33,6 +33,7 @@ tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/d/python-modules/setuptools/se
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/setuptools-$(version)
 src_dir_name       = setuptools-$(version)
+doc_dir_name       = setuptools3-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
@@ -117,18 +118,18 @@ $(install_target): $(build_target)
 	   sed -i "s,$(BUILDSYSTEM),,g" easy_install-3.5 ; \
 	 )
 	# ======= Install Documentation =======
-	@mkdir -p $(SETUPTOOLS3_PKG)/usr/doc/$(src_dir_name)
+	@mkdir -p $(SETUPTOOLS3_PKG)/usr/doc/$(doc_dir_name)
 	@cp -a $(license) \
-	       $(SETUPTOOLS3_PKG)/usr/doc/$(src_dir_name)
-	@mkdir -p $(SETUPTOOLS3_PKG)/usr/share/doc/$(src_dir_name)
+	       $(SETUPTOOLS3_PKG)/usr/doc/$(doc_dir_name)
+	@mkdir -p $(SETUPTOOLS3_PKG)/usr/share/doc/$(doc_dir_name)
 	@( cd $(SRC_DIR) ; \
 	   chmod a-x README.rst ; \
 	   cp -a $(license) README.rst docs/*.txt \
-	         $(SETUPTOOLS3_PKG)/usr/share/doc/$(src_dir_name) ; \
+	         $(SETUPTOOLS3_PKG)/usr/share/doc/$(doc_dir_name) ; \
 	 )
 	@( cd $(SRC_DIR) ; \
 	   if [ -r CHANGES.rst ]; then \
-	     DOCSDIR=`echo $(SETUPTOOLS3_PKG)/usr/share/doc/$(src_dir_name)` ; \
+	     DOCSDIR=`echo $(SETUPTOOLS3_PKG)/usr/share/doc/$(doc_dir_name)` ; \
 	     cat CHANGES.rst | head -n 1000 > $$DOCSDIR/CHANGES.rst ; \
 	     touch -r CHANGES.rst $$DOCSDIR/CHANGES.rst ; \
 	   fi \

@@ -33,6 +33,7 @@ tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/d/python-modules/pip/pip-$(ver
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/pip-$(version)
 src_dir_name       = pip-$(version)
+doc_dir_name       = pip2-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
@@ -107,17 +108,17 @@ $(install_target): $(build_target)
 	   rm -f pip ; ln -sf pip2 pip ; \
 	 )
 	# ======= Install Documentation =======
-	@mkdir -p $(PIP2_PKG)/usr/doc/$(src_dir_name)
+	@mkdir -p $(PIP2_PKG)/usr/doc/$(doc_dir_name)
 	@cp -a $(SRC_DIR)/AUTHORS.txt $(SRC_DIR)/LICENSE.txt \
-	       $(PIP2_PKG)/usr/doc/$(src_dir_name)
-	@mkdir -p $(PIP2_PKG)/usr/share/doc/$(src_dir_name)
+	       $(PIP2_PKG)/usr/doc/$(doc_dir_name)
+	@mkdir -p $(PIP2_PKG)/usr/share/doc/$(doc_dir_name)
 	@( cd $(SRC_DIR) ; \
 	   cp -a AUTHORS.txt LICENSE.txt \
-	         $(PIP2_PKG)/usr/share/doc/$(src_dir_name) ; \
+	         $(PIP2_PKG)/usr/share/doc/$(doc_dir_name) ; \
 	 )
 	@( cd $(SRC_DIR) ; \
 	   if [ -r CHANGES.txt ]; then \
-	     DOCSDIR=`echo $(PIP2_PKG)/usr/share/doc/$(src_dir_name)` ; \
+	     DOCSDIR=`echo $(PIP2_PKG)/usr/share/doc/$(doc_dir_name)` ; \
 	     cat CHANGES.txt | head -n 1000 > $$DOCSDIR/CHANGES.txt ; \
 	     touch -r CHANGES.txt $$DOCSDIR/CHANGES.txt ; \
 	   fi \

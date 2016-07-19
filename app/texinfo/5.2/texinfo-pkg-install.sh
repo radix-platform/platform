@@ -74,9 +74,9 @@ post_update() {
 # arg 1:  the old package version
 pre_remove() {
   if [ -x /usr/bin/install-info ] ; then
-    install-info --delete --info-file=usr/share/info/texinfo.info.gz --dir-file=usr/share/info/dir 2> /dev/null
-    install-info --delete --info-file=usr/share/info/info-stnd.info.gz --dir-file=usr/share/info/dir 2> /dev/null
-    install-info --delete --info-file=usr/share/info/info.info.gz --dir-file=usr/share/info/dir 2> /dev/null
+    install-info --delete --info-file=usr/share/info/texinfo.info.gz   --dir-file=usr/share/info/dir 2> /dev/null || /bin/true
+    install-info --delete --info-file=usr/share/info/info-stnd.info.gz --dir-file=usr/share/info/dir 2> /dev/null || /bin/true
+    install-info --delete --info-file=usr/share/info/info.info.gz      --dir-file=usr/share/info/dir 2> /dev/null || /bin/true
   fi
 }
 

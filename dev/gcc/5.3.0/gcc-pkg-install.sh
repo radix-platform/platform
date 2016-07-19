@@ -94,20 +94,20 @@ pre_remove() {
 # arg 1:  the old package version
 post_remove() {
   if [ -x /usr/bin/install-info ] ; then
-    install-info --delete --info-file=usr/share/info/cpp.info.gz          --dir-file=usr/share/info/dir 2>/dev/null
-    install-info --delete --info-file=usr/share/info/cppinternals.info.gz --dir-file=usr/share/info/dir 2>/dev/null
-    install-info --delete --info-file=usr/share/info/gcc.info.gz          --dir-file=usr/share/info/dir 2>/dev/null
-    install-info --delete --info-file=usr/share/info/gccgo.info.gz        --dir-file=usr/share/info/dir 2>/dev/null
-    install-info --delete --info-file=usr/share/info/gccinstall.info.gz   --dir-file=usr/share/info/dir 2>/dev/null
-    install-info --delete --info-file=usr/share/info/gccint.info.gz       --dir-file=usr/share/info/dir 2>/dev/null
-    install-info --delete --info-file=usr/share/info/gfortran.info.gz     --dir-file=usr/share/info/dir 2>/dev/null
-    install-info --delete --info-file=usr/share/info/gnat-style.info.gz   --dir-file=usr/share/info/dir 2>/dev/null
-    install-info --delete --info-file=usr/share/info/gnat_rm.info.gz      --dir-file=usr/share/info/dir 2>/dev/null
-    install-info --delete --info-file=usr/share/info/gnat_ugn.info.gz     --dir-file=usr/share/info/dir 2>/dev/null
-    install-info --delete --info-file=usr/share/info/libgomp.info.gz      --dir-file=usr/share/info/dir 2>/dev/null
-    install-info --delete --info-file=usr/share/info/libiberty.info.gz    --dir-file=usr/share/info/dir 2>/dev/null
-    install-info --delete --info-file=usr/share/info/libitm.info.gz       --dir-file=usr/share/info/dir 2>/dev/null
-    install-info --delete --info-file=usr/share/info/libquadmath.info.gz  --dir-file=usr/share/info/dir 2>/dev/null
+    install-info --delete --info-file=usr/share/info/cpp.info.gz          --dir-file=usr/share/info/dir 2>/dev/null || /bin/true
+    install-info --delete --info-file=usr/share/info/cppinternals.info.gz --dir-file=usr/share/info/dir 2>/dev/null || /bin/true
+    install-info --delete --info-file=usr/share/info/gcc.info.gz          --dir-file=usr/share/info/dir 2>/dev/null || /bin/true
+    install-info --delete --info-file=usr/share/info/gccgo.info.gz        --dir-file=usr/share/info/dir 2>/dev/null || /bin/true
+    install-info --delete --info-file=usr/share/info/gccinstall.info.gz   --dir-file=usr/share/info/dir 2>/dev/null || /bin/true
+    install-info --delete --info-file=usr/share/info/gccint.info.gz       --dir-file=usr/share/info/dir 2>/dev/null || /bin/true
+    install-info --delete --info-file=usr/share/info/gfortran.info.gz     --dir-file=usr/share/info/dir 2>/dev/null || /bin/true
+    install-info --delete --info-file=usr/share/info/gnat-style.info.gz   --dir-file=usr/share/info/dir 2>/dev/null || /bin/true
+    install-info --delete --info-file=usr/share/info/gnat_rm.info.gz      --dir-file=usr/share/info/dir 2>/dev/null || /bin/true
+    install-info --delete --info-file=usr/share/info/gnat_ugn.info.gz     --dir-file=usr/share/info/dir 2>/dev/null || /bin/true
+    install-info --delete --info-file=usr/share/info/libgomp.info.gz      --dir-file=usr/share/info/dir 2>/dev/null || /bin/true
+    install-info --delete --info-file=usr/share/info/libiberty.info.gz    --dir-file=usr/share/info/dir 2>/dev/null || /bin/true
+    install-info --delete --info-file=usr/share/info/libitm.info.gz       --dir-file=usr/share/info/dir 2>/dev/null || /bin/true
+    install-info --delete --info-file=usr/share/info/libquadmath.info.gz  --dir-file=usr/share/info/dir 2>/dev/null || /bin/true
   fi
 }
 

@@ -1419,10 +1419,11 @@ EOF
 --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \\
 --title " \Z0\ZbSelect File System for \ZB\Zn \Z1\Zb$prname\ZB\Zn " \\
 --menu "\\n\\
-Please select the type of filesystem to use for the specified device. \\
+Please select the type of filesystem to use for the specified device\\n\\
+or hit <\Z1\ZbC\ZB\Zn\Zbancel\ZB> to leave existed filesystem. \\
 \\n\\n\\
 Here are descriptions of the available filesystems:\\
-" 14 74 4 \\
+" 15 74 4 \\
 EOF
 
     if [ ! "$EXT2" = "" ]; then
@@ -1470,6 +1471,25 @@ EOF
       #
       ################################################################
 
+      ################################################################
+      # Set Mount Point:
+      #
+      if [ "$boot_image_has_been_written" == "yes" ] ; then
+        if [ "$mpoint" != "/" -a "$mpoint" != "/bootfs" ] ; then
+          set_mount_point
+        fi
+      else
+        set_mount_point
+      fi
+      #
+      ################################################################
+    else
+      ################################################################
+      # Leave existed file system:
+      #
+      set_recomended_fstype "$prname" "$fstype"
+      #
+      ################################################################
       ################################################################
       # Set Mount Point:
       #

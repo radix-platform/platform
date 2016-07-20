@@ -467,15 +467,39 @@ fi
 if [ "$INSTALLTYPE" == "path" ] ; then
   mkdir -p $TARGET_ROOT_PATH
   if [ "`find $TARGET_ROOT_PATH -maxdepth 0 -type d -empty 2> /dev/null`" == "" ] ; then
-    $DIALOG --colors --clear \
-            --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
-            --title " \Z4Setup:\Zn \Z1\ZbERROR\ZB\Zn " \
-            --msgbox "\n\Z1Target ROOT directory\n\n  '\Zb$TARGET_ROOT_PATH\ZB'\n\nis not empty.\Zn\n" 11 78
-
-    usage
-    echo "ERROR: Target ROOT directory '$TARGET_ROOT_PATH' is not empty."
-    EXITSTATUS=16
-    exit $EXITSTATUS
+    #
+    # TARGET_ROOT_PATH is not empty:
+    #
+    nd=`find $TARGET_ROOT_PATH -maxdepth 1 -type d -printf 1 | wc -m`
+    nf=`find $TARGET_ROOT_PATH -maxdepth 1 ! -type d -printf 1 | wc -m`
+    if [ "$nd" -eq 2 -a "$nf" -eq 0 ]; then
+      #
+      # TARGET_ROOT_PATH contains only one subdirectory. Check subdir name:
+      #
+      o=`find $TARGET_ROOT_PATH -maxdepth 1 -type d | tr '\n' ' ' | cut -f 2 -d ' '`
+      d=`basename $o`
+      if [ "$d" == "lost+found" ] ; then
+        echo "but TARGET_ROOT_PATH is a mounted empty Ext{2|3|4} FS. Continue ..." 1> /dev/null 2> /dev/null
+      else
+        $DIALOG --colors --clear \
+                --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+                --title " \Z4Setup:\Zn \Z1\ZbERROR\ZB\Zn " \
+                --msgbox "\n\Z1Target ROOT directory\n\n  '\Zb$TARGET_ROOT_PATH\ZB'\n\nis not empty.\Zn\n" 11 78
+        usage
+        echo "ERROR: Target ROOT directory '$TARGET_ROOT_PATH' is not empty."
+        EXITSTATUS=16
+        exit $EXITSTATUS
+      fi
+    else
+      $DIALOG --colors --clear \
+              --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+              --title " \Z4Setup:\Zn \Z1\ZbERROR\ZB\Zn " \
+              --msgbox "\n\Z1Target ROOT directory\n\n  '\Zb$TARGET_ROOT_PATH\ZB'\n\nis not empty.\Zn\n" 11 78
+      usage
+      echo "ERROR: Target ROOT directory '$TARGET_ROOT_PATH' is not empty."
+      EXITSTATUS=16
+      exit $EXITSTATUS
+    fi
   fi
 fi
 

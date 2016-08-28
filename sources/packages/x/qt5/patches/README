@@ -1,6 +1,9 @@
 
 /* begin *
 
+   qt5-5.4.0-gcc-5.0-webkit.patch  - QTBUG-44829: QTWebkit build fails with gcc 5.0
+
+
    qt5-5.7.0-mips32r5.patch        - this patch fixes the issue with providing CFLAGS to the
                                      QtWebEngine build system. This patch is relevant to the
                                      Imagination cores of jz47xx and Baikal T1 processors which

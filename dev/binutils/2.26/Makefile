@@ -5,6 +5,7 @@ COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
+COMPONENT_TARGETS += $(HARDWARE_M201)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -153,6 +154,25 @@ extra_configure_switches += --enable-multilib
 extra_configure_switches += --with-cpu=cortex-a17
 extra_configure_switches += --with-arch=armv7ve
 extra_configure_switches += --with-fpu=neon-vfpv4
+extra_configure_switches += --with-abi=aapcs-linux
+extra_configure_switches += --enable-threads
+extra_configure_switches += --enable-plugins
+extra_configure_switches += --enable-targets=$(TARGET),arm-radix-linux-gnu
+endif
+
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S805_GLIBC))
+extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
+extra_configure_switches += '--with-bugurl=$(BUG_URL)'
+# experimental gold linker( DEFAULT_LD=ld.bfd ):
+extra_configure_switches += --enable-gold=yes
+extra_configure_switches += --enable-ld=default
+extra_configure_switches += --enable-werror=no
+# standard options:
+extra_configure_switches += --enable-interwork
+extra_configure_switches += --enable-multilib
+extra_configure_switches += --with-cpu=cortex-a5
+extra_configure_switches += --with-arch=armv7-a
+extra_configure_switches += --with-fpu=neon
 extra_configure_switches += --with-abi=aapcs-linux
 extra_configure_switches += --enable-threads
 extra_configure_switches += --enable-plugins

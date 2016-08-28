@@ -1,0 +1,8 @@
+#
+# The default permissions of /dev/ump and /dev/mali make these unusable for
+# normal users. This should give a user belonging to the group video the right
+# permissions to use the mali successfully.
+#
+
+KERNEL=="mali", MODE="0660", GROUP="video"
+KERNEL=="ump", MODE="0660", GROUP="video"

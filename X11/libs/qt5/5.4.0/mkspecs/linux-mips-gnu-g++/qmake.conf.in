@@ -1,5 +1,5 @@
 #
-# qmake configuration for building with mipsel-bcm74x-linux-gnu-g++
+# qmake configuration for building with mipsel-*-linux-gnu-g++
 #
 
 MAKEFILE_GENERATOR       = UNIX

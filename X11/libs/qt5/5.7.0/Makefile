@@ -5,6 +5,7 @@ COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
+COMPONENT_TARGETS += $(HARDWARE_M201)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -83,6 +84,7 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)      \
                             $(HARDWARE_CB2X)      \
                             $(HARDWARE_CB3X)      \
                             $(HARDWARE_FFRK3288)  \
+                            $(HARDWARE_M201)      \
                             $(HARDWARE_NIT6Q)     \
                             $(HARDWARE_OMAP5UEVM) \
                             $(HARDWARE_DRA7XXEVM)),)
@@ -149,6 +151,7 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)      \
                             $(HARDWARE_CB2X)      \
                             $(HARDWARE_CB3X)      \
                             $(HARDWARE_FFRK3288)  \
+                            $(HARDWARE_M201)      \
                             $(HARDWARE_NIT6Q)     \
                             $(HARDWARE_OMAP5UEVM) \
                             $(HARDWARE_DRA7XXEVM)),)
@@ -207,7 +210,7 @@ ifeq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 configure_switches += -no-largefile
 endif
 configure_switches += -no-gtk
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201)),)
 configure_switches += -opengl es2
 else
 configure_switches += -opengl
@@ -249,7 +252,7 @@ configure_switches += -linuxfb
 ENABLE_EGLFS_SUPPORT = yes
 ENABLE_KMS_SUPPORT   = yes
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201)),)
 ENABLE_KMS_SUPPORT = no
 endif
 

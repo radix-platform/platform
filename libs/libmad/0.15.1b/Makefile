@@ -5,6 +5,7 @@ COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
+COMPONENT_TARGETS += $(HARDWARE_M201)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -117,6 +118,9 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB2X) $(HARDWARE_CB3X)),
 extra_configure_switches += --enable-fpm=arm
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_FFRK3288)),)
+extra_configure_switches += --enable-fpm=arm
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_M201)),)
 extra_configure_switches += --enable-fpm=arm
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)

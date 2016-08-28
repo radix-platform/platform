@@ -5,6 +5,7 @@ COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
+COMPONENT_TARGETS += $(HARDWARE_M201)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -28,7 +29,11 @@ else
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
 REQUIRES          += X11/X.org/xserver/xorg-server/1.16.4
 else
+ifneq ($(filter $(HARDWARE),$(HARDWARE_M201)),)
+REQUIRES          += X11/X.org/xserver/xorg-server/1.16.4
+else
 REQUIRES          += X11/X.org/xserver/xorg-server/1.18.3
+endif
 endif
 endif
 

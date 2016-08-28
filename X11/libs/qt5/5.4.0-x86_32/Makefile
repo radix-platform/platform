@@ -129,22 +129,22 @@ configure_switches += -device-option CCACHE=$(CCACHE)
 configure_switches += -device-option CROSS_COMPILE=$(CROSS_PREFIX)
 
 configure_switches += -sysroot $(TARGET_DEST_DIR)
-configure_switches += -extprefix /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5
+configure_switches += -extprefix /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)
 
 configure_switches += -sysconfdir     /etc/xdg
-configure_switches += -bindir         /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/bin
-configure_switches += -headerdir      /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/include
-configure_switches += -libdir         /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/lib
-configure_switches += -archdatadir    /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5
-configure_switches += -plugindir      /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/plugins
-configure_switches += -libexecdir     /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/libexec
-configure_switches += -importdir      /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/imports
-configure_switches += -qmldir         /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/qml
-configure_switches += -datadir        /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5
-configure_switches += -docdir         /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/doc
-configure_switches += -translationdir /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/translations
-configure_switches += -examplesdir    /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/examples
-configure_switches += -testsdir       /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/tests
+configure_switches += -bindir         /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/bin
+configure_switches += -headerdir      /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/include
+configure_switches += -libdir         /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib
+configure_switches += -archdatadir    /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)
+configure_switches += -plugindir      /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/plugins
+configure_switches += -libexecdir     /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/libexec
+configure_switches += -importdir      /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/imports
+configure_switches += -qmldir         /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/qml
+configure_switches += -datadir        /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)
+configure_switches += -docdir         /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/doc
+configure_switches += -translationdir /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/translations
+configure_switches += -examplesdir    /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/examples
+configure_switches += -testsdir       /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/tests
 
 configure_switches += -release
 configure_switches += -shared
@@ -203,7 +203,7 @@ configure_switches += -optimized-qmake
 configure_switches += -verbose
 
 
-TARGET_BIN_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/lib
+TARGET_BIN_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib
 
 
 ####### Dependencies
@@ -242,17 +242,17 @@ $(install_target): $(build_target)
 	@mkdir -p $(QT5_32_PKG)
 	@cd $(SRC_DIR) && $(QT_BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Rename build-machine tools =======
-	@( cd $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/bin ; \
+	@( cd $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/bin ; \
 	   for file in lconvert lrelease lupdate moc qdbuscpp2xml qdbusxml2cpp  \
 	               qdoc qlalr qmake qmlimportscanner qmllint qmlmin rcc uic ; do \
-	     mv $$file $(TARGET32)-$${file}-qt5 ; \
+	     mv $$file $(TARGET32)-qt5-$${file} ; \
 	   done ; \
 	 )
 	@mkdir -p $(QT5_32_PKG)/usr/bin/32
-	@( cd $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/bin ; \
+	@( cd $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/bin ; \
 	   for file in lconvert lrelease lupdate moc qdbuscpp2xml qdbusxml2cpp  \
 	               qdoc qlalr qmake qmlimportscanner qmllint qmlmin rcc uic ; do \
-	     ( cd $(QT5_32_PKG)/usr/bin/32 ; ln -sf ../../../usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/bin/$(TARGET32)-$${file}-qt5 . ) ; \
+	     ( cd $(QT5_32_PKG)/usr/bin/32 ; ln -sf ../../../usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/bin/$(TARGET32)-qt5-$${file} . ) ; \
 	   done ; \
 	 )
 	# ======= Install Qmake =======
@@ -296,48 +296,48 @@ $(install_target): $(build_target)
 	@( cd $(SRC_DIR)/qtbase ; \
 	   sed -i "/^# Verify makespec/ a\exit 0" configure ; \
 	   $(QT_BUILD_ENVIRONMENT) ./configure \
-	      -confirm-license -opensource -prefix /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5 \
+	      -confirm-license -opensource -prefix /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version) \
 	      -arch $(ARCH) -platform $(TARGET_SPEC_DIR) \
 	      -force-pkg-config -release -shared -make tools -make libs \
 	      -nomake examples -nomake tests -optimized-qmake \
-	      -sysroot $(TARGET_DEST_DIR) -extprefix /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5 \
+	      -sysroot $(TARGET_DEST_DIR) -extprefix /usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version) \
 	      -verbose ; \
-	   cp -a bin/qmake $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/bin ; \
+	   cp -a bin/qmake $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/bin ; \
 	 )
 	# ======= Remove target mkspecs/$(TARGET_SPEC_DIR) =======
-	@( cd $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/mkspecs ; \
+	@( cd $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/mkspecs ; \
 	   rm -rf $(TARGET_SPEC_DIR) ; \
 	   rm -rf devices/$(DEVICE_SPEC_DIR) ; \
 	   cat $(CURDIR)/mkspecs/qconfig.pri.in      | \
 	       sed "s,@ARCH@,$(ARCH),g"              | \
 	       sed "s,@LIBDIRSUFFIX@,$(MULTILIB_X86_32_SUFFIX),g"   \
-	            > $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/mkspecs/qconfig.pri ; \
+	            > $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/mkspecs/qconfig.pri ; \
 	   echo -n "" > qdevice.pri ; \
 	   echo -n "" > qmodule.pri ; \
 	 )
 	# ======= Install Qt.pc file =======
-	@( cd $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; ln -sf qt5 qt-$(version) )
+	@( cd $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; ln -sf qt-$(version) qt5 )
 	@cat $(pkgconfig_in) | \
-	     sed "s,@PREFIX@,/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5,g" | \
-	     sed "s,@VERSION@,$(version),g" > $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/lib/pkgconfig/Qt5.pc
+	     sed "s,@PREFIX@,/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version),g" | \
+	     sed "s,@VERSION@,$(version),g" > $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib/pkgconfig/Qt5.pc
 	# ======= Remove internal used dependencies of libjscore, libwebcore ======
 	sed -i "s# -Wl,-whole-archive -lWebKit1 -Wl,-no-whole-archive -L$(CURDIR)/$(SRC_DIR)/qtwebkit/Source/WebKit/##g" \
-	       $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/lib/pkgconfig/Qt5WebKit.pc
+	       $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib/pkgconfig/Qt5WebKit.pc
 	sed -i "s# -Wl,-whole-archive -lWebKit2 -Wl,-no-whole-archive -L$(CURDIR)/$(SRC_DIR)/qtwebkit/Source/WebKit2/##g" \
-	       $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/lib/pkgconfig/Qt5WebKit.pc
+	       $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib/pkgconfig/Qt5WebKit.pc
 	sed -i "s# -Wl,-whole-archive -lWebCore -Wl,-no-whole-archive -L$(CURDIR)/$(SRC_DIR)/qtwebkit/Source/WebCore/##g" \
-	       $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/lib/pkgconfig/Qt5WebKit.pc
+	       $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib/pkgconfig/Qt5WebKit.pc
 	sed -i "s# -Wl,-whole-archive -lANGLE -Wl,-no-whole-archive -L$(CURDIR)/$(SRC_DIR)/qtwebkit/Source/ThirdParty/ANGLE/##g" \
-	       $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/lib/pkgconfig/Qt5WebKit.pc
+	       $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib/pkgconfig/Qt5WebKit.pc
 	sed -i "s# -Wl,-whole-archive -lleveldb -Wl,-no-whole-archive -L$(CURDIR)/$(SRC_DIR)/qtwebkit/Source/ThirdParty/leveldb/##g" \
-	       $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/lib/pkgconfig/Qt5WebKit.pc
+	       $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib/pkgconfig/Qt5WebKit.pc
 	sed -i "s# -Wl,-whole-archive -lJavaScriptCore -Wl,-no-whole-archive -L$(CURDIR)/$(SRC_DIR)/qtwebkit/Source/JavaScriptCore/##g" \
-	       $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/lib/pkgconfig/Qt5WebKit.pc
+	       $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib/pkgconfig/Qt5WebKit.pc
 	sed -i "s# -Wl,-whole-archive -lWTF -Wl,-no-whole-archive -L$(CURDIR)/$(SRC_DIR)/qtwebkit/Source/WTF/##g" \
-	       $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/lib/pkgconfig/Qt5WebKit.pc
+	       $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib/pkgconfig/Qt5WebKit.pc
 	# ======= Link shared libraries into /usr/lib$(MULTILIB_X86_32_SUFFIX) =======
 	@( cd $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   for file in qt5/lib/*.so* ; do \
+	   for file in qt-$(version)/lib/*.so* ; do \
 	     ln -sf $$file . ; \
 	   done ; \
 	 )
@@ -348,13 +348,13 @@ $(install_target): $(build_target)
 	@chmod 0644 $(QT5_32_PKG)/etc/profile.d/32/*
 	# ======= Link pkgconfig files to 'normal' place =======
 	@mkdir -p $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig
-	@( cd $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/lib/pkgconfig ; \
+	@( cd $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib/pkgconfig ; \
 	   for file in *.pc ; do \
-	     ( cd $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/qt5/lib/pkgconfig/$$file . ) ; \
+	     ( cd $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib/pkgconfig/$$file . ) ; \
 	   done ; \
 	 )
 	# ======= remove toolchain path from target libtool *.la files =======
-	@( cd $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/lib ; \
+	@( cd $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libEnginio.la              libQt5Bluetooth.la           \
 	                                    libQt5Bootstrap.la         libQt5CLucene.la             \
 	                                    libQt5Concurrent.la        libQt5Core.la                \
@@ -403,7 +403,7 @@ $(install_target): $(build_target)
 	                                    libQt5XmlPatterns.prl       libqgsttools_p.prl          ; \
 	 )
 	# ======= Change source directory to more 'normal' place =======
-	@( cd $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/lib ; \
+	@( cd $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib ; \
 	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/src/qt-$(version),g" \
 	           libEnginio.prl              libQt5Bluetooth.prl           \
 	           libQt5Bootstrap.prl         libQt5CLucene.prl             \
@@ -430,7 +430,7 @@ $(install_target): $(build_target)
 	           libQt5XmlPatterns.prl       libqgsttools_p.prl          ; \
 	 )
 	# ======= remove toolchain path from target pkgconfig *.pc files =======
-	@( cd $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/lib/pkgconfig ; \
+	@( cd $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib/pkgconfig ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" Enginio.pc              Qt5Bluetooth.pc           \
 	                                    Qt5Bootstrap.pc         Qt5CLucene.pc             \
 	                                    Qt5Concurrent.pc        Qt5Core.pc                \
@@ -458,15 +458,15 @@ $(install_target): $(build_target)
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(QT5_32_PKG))
 	# ======= Remove build-machine tools from target package =======
-	@( cd $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/bin ; \
+	@( cd $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/bin ; \
 	   for file in lconvert lrelease lupdate moc qdbuscpp2xml qdbusxml2cpp  \
 	               qdoc qlalr qmake qmlimportscanner qmllint qmlmin rcc uic ; do \
-	     rm -f $(TARGET32)-$${file}-qt5 ; \
+	     rm -f $(TARGET32)-qt5-$${file} ; \
 	   done ; \
 	 )
 	@rm -rf $(QT5_32_PKG)/usr/bin
 	# ======= tune libtool *.la search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/lib ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib ; \
 	   sed -i "s,/usr/lib,$(TARGET_DEST_DIR)/usr/lib,g" libEnginio.la              libQt5Bluetooth.la           \
 	                                                    libQt5Bootstrap.la         libQt5CLucene.la             \
 	                                                    libQt5Concurrent.la        libQt5Core.la                \
@@ -515,7 +515,7 @@ $(install_target): $(build_target)
 	                                                    libQt5XmlPatterns.prl       libqgsttools_p.prl          ; \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/lib/pkgconfig ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib/pkgconfig ; \
 	   sed -i "s,/usr/lib,$(TARGET_DEST_DIR)/usr/lib,g" Enginio.pc              Qt5Bluetooth.pc           \
 	                                                    Qt5Bootstrap.pc         Qt5CLucene.pc             \
 	                                                    Qt5Concurrent.pc        Qt5Core.pc                \
@@ -548,7 +548,7 @@ $(install_target): $(build_target)
 	 )
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target binaries =======
-	@( cd $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt5/libexec ; \
+	@( cd $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/libexec ; \
 	   for file in `find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
 	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
 	     if [ -n "$$rpath" ] ; then \

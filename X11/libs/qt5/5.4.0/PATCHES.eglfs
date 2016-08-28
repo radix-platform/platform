@@ -1,4 +1,5 @@
 
-../../../../sources/packages/x/qt5/patches/qt5-5.4.0-configure.patch -p0
-../../../../sources/packages/x/qt5/patches/qt5-5.4.0-gcc-4.9.2.patch -p0
-../../../../sources/packages/x/qt5/patches/qt5-5.4.0-eglfs.patch     -p0
+../../../../sources/packages/x/qt5/patches/qt5-5.4.0-configure.patch      -p0
+../../../../sources/packages/x/qt5/patches/qt5-5.4.0-gcc-4.9.2.patch      -p0
+../../../../sources/packages/x/qt5/patches/qt5-5.4.0-gcc-5.0-webkit.patch -p0
+../../../../sources/packages/x/qt5/patches/qt5-5.4.0-eglfs.patch          -p0

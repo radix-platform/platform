@@ -1,28 +1,29 @@
 
-COMPONENT_TARGETS = $(HARDWARE_M201)
+COMPONENT_TARGETS  = $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
 
-NEED_ABS_PATH     = true
+NEED_ABS_PATH      = true
 
-COMPONENT_IS_3PP  = true
+COMPONENT_IS_3PP   = true
 
 
 include ../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES  = sources/Linux/Amlogic/M201
+SOURCE_REQUIRES    = sources/Linux/Amlogic/M201
 
-REQUIRES         = base/pkgtool
+REQUIRES           = base/pkgtool
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version          = 3.10.33-20150117
-modules_version  = 3.10.33
-full_version     = $(version)
-tar_xz_archive   = $(SRC_PACKAGE_PATH)/Linux/Amlogic/M201/linux-aml-$(version).tar.xz
-SRC_ARCHIVE      = $(tar_xz_archive)
-SRC_DIR          = $(TARGET_BUILD_DIR)/linux-aml-$(full_version)
-src_done         = $(TARGET_BUILD_DIR)/.source_done
+version            = 3.10.33-20150117
+modules_version    = 3.10.33
+full_version       = $(version)
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/Linux/Amlogic/M201/linux-aml-$(version).tar.xz
+SRC_ARCHIVE        = $(tar_xz_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/linux-aml-$(full_version)
+src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 
 build_kh_pkg = $(TARGET_BUILD_DIR)/.kernel_headers_pkg_done

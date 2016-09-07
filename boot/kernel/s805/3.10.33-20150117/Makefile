@@ -1,5 +1,6 @@
 
 COMPONENT_TARGETS  = $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
 
 NEED_ABS_PATH      = true
 
@@ -49,7 +50,7 @@ endif
 
 USE_TARGET_DEST_DIR_SYSROOT = no
 
-ifeq ($(HARDWARE),$(HARDWARE_M201))
+ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXQ)),)
 device_tree_names  = meson8b_m201_512M
 device_tree_names += meson8b_m201_1G
 device_tree_names += meson8b-mxq

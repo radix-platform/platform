@@ -6,6 +6,7 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -25,6 +26,10 @@ include ../../build-system/constants.mk
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_M201)),)
 REQUIRES  = boot/u-boot/s805/2011.03-20150117
+endif
+
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MXQ)),)
+REQUIRES  = boot/kernel/s805/3.10.103-20160830
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
@@ -1029,7 +1034,7 @@ else
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
 REQUIRES += X11/X.org/xserver/xorg-server/1.16.4
 else
-ifneq ($(filter $(HARDWARE),$(HARDWARE_M201)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXQ)),)
 REQUIRES += X11/X.org/xserver/xorg-server/1.16.4
 else
 REQUIRES += X11/X.org/xserver/xorg-server/1.18.3

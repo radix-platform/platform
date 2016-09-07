@@ -79,6 +79,7 @@ include ../../../../build-system/core.mk
 env_sysroot = DESTDIR=$(XORG_PKG)
 
 
+AML_CPU_ARCH            = eabihf
 AML_GPU_VERSION         = r4p0-01
 AML_OPENGL_MALI_DIR     = m450-X
 
@@ -95,7 +96,7 @@ $(install_target): $(src_done)
 	@mkdir -p $(XORG_PKG)/usr/lib$(LIBSUFFIX)/pkgconfig
 	@( cd $(SRC_DIR) ;                 \
 	   cp -a include $(XORG_PKG)/usr ; \
-	   cp -a lib/$(AML_GPU_VERSION)/$(AML_OPENGL_MALI_DIR)/lib* \
+	   cp -a lib/$(AML_CPU_ARCH)/$(AML_GPU_VERSION)/$(AML_OPENGL_MALI_DIR)/lib* \
 	         $(XORG_PKG)/usr/lib$(LIBSUFFIX) ; \
 	 )
 	@( cd $(XORG_PKG)/usr/lib$(LIBSUFFIX) ; \

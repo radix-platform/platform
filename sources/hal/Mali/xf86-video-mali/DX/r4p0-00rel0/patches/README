@@ -1,0 +1,8 @@
+
+/* begin *
+
+   xf86-video-mali-0.4.2-amlogic.patch - changes from Amlogic buildroot 2015-01-20
+                                         [http://openlinux.amlogic.com:8000/download/ARM/filesystem/arm-buildroot-2015-01-20-4a5990f135.tar.gz]
+                                         for Amlogic kernel 2015-01-15.
+
+ * end */

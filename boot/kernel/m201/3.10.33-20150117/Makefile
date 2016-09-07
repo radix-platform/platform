@@ -51,6 +51,8 @@ USE_TARGET_DEST_DIR_SYSROOT = no
 
 ifeq ($(HARDWARE),$(HARDWARE_M201))
 device_tree_names  = meson8b_m201_512M
+device_tree_names += meson8b_m201_1G
+device_tree_names += meson8b-mxq
 endif
 
 device_tree_dtds = $(addsuffix .dtd, $(device_tree_names))

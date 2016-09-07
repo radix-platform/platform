@@ -1,0 +1,12 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=/usr/lib
+includedir=${prefix}/include
+
+Name: glesv1_cm
+Description: Amlogic implementation of Mali OpenGL ES 1.1 CM library
+Requires.private:
+Version: 5.0.1.0
+Libs: -L${libdir} -lGLESv1_CM -lUMP
+Libs.private: -lm -lpthread -ldl
+Cflags: -I${includedir}

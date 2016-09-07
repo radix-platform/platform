@@ -24,7 +24,7 @@ include ../../build-system/constants.mk
 #######
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_M201)),)
-REQUIRES  = boot/kernel/m201/3.10.33-20150117
+REQUIRES  = boot/u-boot/m201/2011.03-20150117
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)

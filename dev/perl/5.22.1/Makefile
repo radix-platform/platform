@@ -155,7 +155,6 @@ extra_configure_switches += --set vendorarch='/usr/lib$(LIBSUFFIX)/perl5/vendor_
 
 extra_configure_switches += --set cccdlflags='-fPIC'
 extra_configure_switches += -D useshrplib
-extra_configure_switches += --set lib_ext='.so'
 extra_configure_switches += --set libperl='libperl.so'
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 extra_configure_switches += -D uselargefiles -D use64bitall
@@ -167,6 +166,9 @@ extra_configure_switches += --html1dir=/usr/share/doc/perl-$(version)/html
 extra_configure_switches += --html3dir=/usr/share/doc/perl-$(version)/html
 extra_configure_switches += --man1dir=/usr/share/man/man1
 extra_configure_switches += --man3dir=/usr/share/man/man3
+
+
+TARGET_BIN_RPATH = /usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)/CORE
 
 
 ####### Dependencies
@@ -238,10 +240,22 @@ $(install_target): $(build_target)
 	   sed -i "s,$(CROSS_PREFIX),,g"               CORE/config.h   ; \
 	 )
 	# ======= Strip binaries =======
-	@( cd $(PERL_PKG) ; \
-	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	@( cd $(PERL_PKG)/usr/bin ; \
+	   $(STRIP) --strip-unneeded perl$(version) 2> /dev/null ; \
+	 )
+	@( cd $(PERL_PKG)//usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME) ; \
+	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs chmod +w 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )
+ifneq ($(CHRPATH),)
+	# ======= Set RPATH/RUNPATH for target perl$(version) binary =======
+	@( cd $(PERL_PKG)/usr/bin ; \
+	   rpath=`$(CHRPATH) -l perl$(version) 2> /dev/null | grep "R*PATH"` ; \
+	   if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
+	     $(CHRPATH) -r $(TARGET_BIN_RPATH) perl$(version) 1> /dev/null 2> /dev/null ; \
+	   fi ; \
+	 )
+endif
 	@touch $@
 
 $(PERL_PKG_DESCRIPTION_FILE): $(PERL_PKG_DESCRIPTION_FILE_IN)

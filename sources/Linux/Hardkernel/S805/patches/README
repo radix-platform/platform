@@ -1,0 +1,9 @@
+
+/* begin *
+
+   linux-aml-3.10.103-20160830-m201-dtbs.patch   - added meson8b_m201_*.dts created from
+                                                   arch/arm/boot/dts/amlogic/meson8b_m201_*.dtd
+                                                   by fixing sysntax errors.
+ 
+ * end */
+

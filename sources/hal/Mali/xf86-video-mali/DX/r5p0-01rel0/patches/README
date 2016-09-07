@@ -1,0 +1,9 @@
+
+/* begin *
+
+   xf86-video-mali-0.4.2-amlogic.patch - changes from Amlogic buildroot 2016-08-18
+                                         [http://openlinux.amlogic.com:8000/download/ARM/filesystem/arm-buildroot-2016-08-18-5aaca1b35f.tar.gz]
+                                         for odroidc-3.10.y branch of https://github.com/hardkernel/linux.git
+                                         repository provided by Hardkernel.
+
+ * end */

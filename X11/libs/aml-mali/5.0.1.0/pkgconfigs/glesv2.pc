@@ -1,0 +1,12 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=/usr/lib
+includedir=${prefix}/include
+
+Name: glesv2
+Description: Amlogic implementation of Mali OpenGL ES 2.0 library
+Requires.private:
+Version: 5.0.1.0
+Libs: -L${libdir} -lGLESv2 -lUMP
+Libs.private: -lm -lpthread -ldl
+Cflags: -I${includedir}

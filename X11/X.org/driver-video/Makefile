@@ -40,6 +40,10 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
 REQUIRES += X11/X.org/driver/xf86-video-mali/DX/r3p0-04rel0/0.4.2
 endif
 
+ifneq ($(filter $(HARDWARE),$(HARDWARE_M201)),)
+REQUIRES += X11/X.org/driver/xf86-video-mali/DX/r4p0-00rel0/0.4.2
+endif
+
 
 # ======= __END_OF_REQUIRES__ =======
 

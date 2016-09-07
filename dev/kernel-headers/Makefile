@@ -38,7 +38,7 @@ REQUIRES           = dev/kernel/firefly/3.10-20151231-headers
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_M201)),)
-REQUIRES           = dev/kernel/m201/3.10.33-20150117-headers
+REQUIRES           = dev/kernel/s805/3.10.33-20150117-headers
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)

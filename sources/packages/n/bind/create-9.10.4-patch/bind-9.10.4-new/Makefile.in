@@ -62,11 +62,9 @@ installdirs:
 
 install:: isc-config.sh installdirs
 	${INSTALL_SCRIPT} isc-config.sh ${DESTDIR}${bindir}
-	rm -f ${DESTDIR}${bindir}/bind9-config
-	@LN_S@ ${DESTDIR}${bindir}/isc-config.sh ${DESTDIR}${bindir}/bind9-config
+	(cd ${DESTDIR}${bindir} ;  rm -f bind9-config ; @LN_S@ isc-config.sh bind9-config)
 	${INSTALL_DATA} ${top_srcdir}/isc-config.sh.1 ${DESTDIR}${mandir}/man1
-	rm -f ${DESTDIR}${mandir}/man1/bind9-config.1
-	@LN_S@ ${DESTDIR}${mandir}/man1/isc-config.sh.1 ${DESTDIR}${mandir}/man1/bind9-config.1
+	(cd ${DESTDIR}${mandir}/man1 ; rm -f bind9-config.1 ; @LN_S@ isc-config.sh.1 bind9-config.1)
 	${INSTALL_DATA} ${top_srcdir}/bind.keys ${DESTDIR}${sysconfdir}
 
 tags:

@@ -18,6 +18,7 @@ patches    += $(CURDIR)/patches/linux-aml-3.10.33-20150115-gcc5.patch
 patches    += $(CURDIR)/patches/linux-aml-3.10.33-20150117-headers-install.patch
 patches    += $(CURDIR)/patches/linux-aml-3.10.33-20150117-gcc5.patch
 patches    += $(CURDIR)/patches/linux-aml-3.10.33-20150117-m201-dtbs.patch
+patches    += $(CURDIR)/patches/linux-aml-3.10.33-20150117-osd-xrgb.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -57,6 +58,7 @@ $(patches): $(sha1s)
 	 ( cd create-3.10.33-20150117-headers-install-patch ; ./create.patch.sh ) ; \
 	 ( cd create-3.10.33-20150117-gcc5-patch            ; ./create.patch.sh ) ; \
 	 ( cd create-3.10.33-20150117-m201-dtbs-patch       ; ./create.patch.sh ) ; \
+	 ( cd create-3.10.33-20150117-osd-xrgb-patch        ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

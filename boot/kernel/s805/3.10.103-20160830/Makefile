@@ -53,7 +53,6 @@ USE_TARGET_DEST_DIR_SYSROOT = no
 ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXQ)),)
 device_tree_names  = meson8b_m201_512M.dtb
 device_tree_names += meson8b_m201_1G.dtb
-device_tree_names += meson8b_odroidc.dtb
 device_tree_names += meson8b-mxq.dtb
 endif
 

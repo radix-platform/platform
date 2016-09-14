@@ -499,11 +499,6 @@ if [ -x /etc/rc.d/rc.sysvinit ]; then
   . /etc/rc.d/rc.sysvinit
 fi
 
-# Start the framebuffer setup procedure.
-if [ -x /etc/rc.d/rc.fbset ]; then
-  . /etc/rc.d/rc.fbset
-fi
-
 # Start the local setup procedure.
 if [ -x /etc/rc.d/rc.local ]; then
   . /etc/rc.d/rc.local

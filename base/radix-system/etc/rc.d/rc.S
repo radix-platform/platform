@@ -423,6 +423,11 @@ if [ -x /etc/rc.d/rc.serial ]; then
   sh /etc/rc.d/rc.serial start
 fi
 
+# Start the framebuffer setup procedure.
+if [ -x /etc/rc.d/rc.fbset ]; then
+  . /etc/rc.d/rc.fbset
+fi
+
 # Carry an entropy pool between reboots to improve randomness.
 if [ -f /etc/random-seed ]; then
   echo "Using /etc/random-seed to initialize /dev/urandom."

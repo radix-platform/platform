@@ -25,6 +25,7 @@ include ../../build-system/constants.mk
 
 source_etc  = $(CURDIR)/etc
 modprobes   = $(CURDIR)/modprobe
+scripts     = $(CURDIR)/scripts
 
 
 PKG_GROUP = base
@@ -103,13 +104,17 @@ $(build):
 	 )
 	@chmod a+x $(SYSINIT_BIN_PKG)/etc/rc.d/rc.{local.new,local_shutdown.new,sysvinit.new}
 	# ======= Console Font config an modules config =======
-	@cp -a $(source_etc)/rc.d/rc.{font,gpm,keymap,modules} $(SYSINIT_BIN_PKG)/etc/rc.d
+	@cp -a $(source_etc)/rc.d/rc.{fbset,font,gpm,keymap,modules} $(SYSINIT_BIN_PKG)/etc/rc.d
 	@( cd $(SYSINIT_BIN_PKG)/etc/rc.d ; \
+	   mv rc.fbset    rc.fbset.new   ; \
 	   mv rc.font     rc.font.new    ; \
 	   mv rc.gpm      rc.gpm.new     ; \
 	   mv rc.keymap   rc.keymap.new  ; \
 	   mv rc.modules  rc.modules.new ; \
 	 )
+ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXQ)),)
+	@cat $(scripts)/rc.mesonfb >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.fbset.new
+endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
 	@echo "# Ethernet:"                    >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
 	@echo "/sbin/modprobe sunxi_gmac"      >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
@@ -146,7 +151,7 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
 	@cat $(modprobes)/modprobe.$(HARDWARE) >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
 endif
-	@chmod a+x $(SYSINIT_BIN_PKG)/etc/rc.d/rc.{font.new,gpm.new,keymap.new,modules.new}
+	@chmod a+x $(SYSINIT_BIN_PKG)/etc/rc.d/rc.{fbset.new,font.new,gpm.new,keymap.new,modules.new}
 	# ======= etc/inittab =======
 	@cat $(source_etc)/inittab.in | \
 	     sed 's,@NOCLEAR@,$(NOCLEAR_FIRST_TTY),'  > $(SYSINIT_BIN_PKG)/etc/inittab.new

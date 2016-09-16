@@ -29,10 +29,18 @@
 //#define CONFIG_AML_I2C      1
 
 //Enable HDMI Tx
-//#define CONFIG_VIDEO_AMLTVOUT 1
+#define CONFIG_AML_HDMI_TX  1
+#define CONFIG_VIDEO_AML 1
+//Enable TV Output
+#define CONFIG_VIDEO_AMLTVOUT 1
 //Enable LCD output
 //#define CONFIG_VIDEO_AMLLCD
-#define LCD_BPP LCD_COLOR16
+//Enable CVBS
+#define CONFIG_ENABLE_CVBS 1
+
+#define LCD_BPP LCD_COLOR32
+
+#define CONFIG_OSD_SCALE_ENABLE 1
 
 #define CONFIG_ACS
 #ifdef CONFIG_ACS
@@ -53,11 +61,7 @@
 
 //Enable storage devices
 #define CONFIG_CMD_NAND  1
-#define CONFIG_VIDEO_AML 1
 #define CONFIG_CMD_BMP 1
-#define CONFIG_VIDEO_AMLTVOUT 1
-#define CONFIG_AML_HDMI_TX  1
-#define CONFIG_OSD_SCALE_ENABLE 1
 
 //Enable storage devices
 #define CONFIG_CMD_SF    1
@@ -120,8 +124,6 @@
 	#define CONFIG_USB_DWC_OTG_294	1
 #endif //#if defined(CONFIG_CMD_USB)
 
-#define CONFIG_ENABLE_CVBS 1
-
 #define CONFIG_UCL 1
 #define CONFIG_SELF_COMPRESS 
 //#define CONFIG_PREBOOT "mw da004004 80000510;mw c81000014 4000;mw c1109900 0"
@@ -157,10 +159,10 @@
 	"video_dev=tvout\0" \
 	"display_width=1920\0" \
 	"display_height=1080\0" \
-	"display_bpp=16\0" \
-	"display_color_format_index=16\0" \
+	"display_bpp=32\0" \
+	"display_color_format_index=32\0" \
 	"display_layer=osd2\0" \
-	"display_color_fg=0xffff\0" \
+	"display_color_fg=0xffffffff\0" \
 	"display_color_bg=0\0" \
 	"fb_addr=0x7900000\0" \
 	"fb_width=1920\0"\

@@ -108,11 +108,12 @@ AML_COMLILERS += FW_TOOLCHAIN_PATH=$(AMLOGIC_S805_TOOLCHAIN_PATH)
 
 
 logos_path    = $(CURDIR)/logo
-logo_fname    = radix-2CPU-224x96-16bpp.bmp
+logo_fname    = radix-2CPU-224x96-32bpp.bmp
 
 u_boot_logos  = radix-2CPU-224x96.bmp
 u_boot_logos += radix-2CPU-224x96-16bpp.bmp
-
+u_boot_logos += radix-2CPU-224x96-24bpp.bmp
+u_boot_logos += radix-2CPU-224x96-32bpp.bmp
 
 hdmi_display_width  = 1920
 hdmi_display_height = 1080

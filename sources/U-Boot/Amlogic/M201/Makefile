@@ -14,6 +14,7 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/u-boot-aml-2011.03-20150117-gcc5.patch
 patches    += $(CURDIR)/patches/u-boot-aml-2011.03-20150117-m8b_m201.patch
+patches    += $(CURDIR)/patches/u-boot-aml-2011.03-20150117-m8b_m201-fbset.patch
 patches    += $(CURDIR)/patches/u-boot-aml-2011.03-20150117-m8b_m201-mmcboot.patch
 
 .NOTPARALLEL: $(patches)
@@ -51,6 +52,7 @@ $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-2011.03-20150117-gcc5-patch             ; ./create.patch.sh ) ; \
 	 ( cd create-2011.03-20150117-m8b_m201-patch         ; ./create.patch.sh ) ; \
+	 ( cd create-2011.03-20150117-m8b_m201-fbset-patch   ; ./create.patch.sh ) ; \
 	 ( cd create-2011.03-20150117-m8b_m201-mmcboot-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 

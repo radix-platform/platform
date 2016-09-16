@@ -131,9 +131,10 @@ video_output_mode   = hdmi
 #
 # Extra kernel boot arguments:
 #
-extra  = vdaccfg=0xa000
+extra  = vdaccfg=0xa001
 extra += cvbsmode=576cvbs
 extra += hdmimode=$(hdmi_output_mode)
+extra += hdmitx=cec0xf
 extra += vout=$(video_output_mode)
 extra += m_bpp=32
 extra += mac=$(DEFAULT_HW_ADDR)

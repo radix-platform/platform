@@ -1,0 +1,14 @@
+
+/* begin *
+
+   u-boot-aml-2011.03-20150117-gcc5.patch             - to compile by gcc 5.X.X;
+   u-boot-aml-2011.03-20150117-m8b_m201-fbset.patch   - set framebuffer size;
+   u-boot-aml-2011.03-20150117-m8b_m201-mmcboot.patch - make board bootable from SD card using boot.scr;
+   u-boot-aml-2011.03-20150117-m8b_m201.patch         - cross compiling patch.
+
+   Patch Order:
+     mmcboot patch should be applied before fbset:
+     $ patch -p0 < u-boot-aml-2011.03-20150117-m8b_m201-mmcboot.patch
+     $ patch -p0 < u-boot-aml-2011.03-20150117-m8b_m201-fbset.patch
+
+ * end */

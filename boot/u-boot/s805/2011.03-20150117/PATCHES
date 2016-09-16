@@ -2,3 +2,4 @@
 ../../../../sources/U-Boot/Amlogic/M201/patches/u-boot-aml-2011.03-20150117-gcc5.patch             -p0
 ../../../../sources/U-Boot/Amlogic/M201/patches/u-boot-aml-2011.03-20150117-m8b_m201.patch         -p0
 ../../../../sources/U-Boot/Amlogic/M201/patches/u-boot-aml-2011.03-20150117-m8b_m201-mmcboot.patch -p0
+../../../../sources/U-Boot/Amlogic/M201/patches/u-boot-aml-2011.03-20150117-m8b_m201-fbset.patch   -p0

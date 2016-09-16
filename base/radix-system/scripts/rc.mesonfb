@@ -70,7 +70,7 @@ case "$hdmimode" in
     /usr/sbin/fbset -fb /dev/fb0 -g 1280 720 1280 1440 32
     ;;
   1080*)
-    /usr/sbin/fbset -fb /dev/fb0 -g 1920 1080 1920 2160 32
+    /usr/sbin/fbset -fb /dev/fb0 -g 1920 1080 1920 3240 32
     ;;
 esac
 /usr/sbin/fbset -fb /dev/fb1 -g 32 32 32 32 32

@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/x/qt5
 
-versions    = 5.4.0 5.7.0
+versions    = 5.4.0 5.4.2 5.7.0
 pkgname     = qt-everywhere-opensource-src
 suffix      = tar.xz
 
@@ -19,6 +19,7 @@ patches    += $(CURDIR)/patches/qt5-5.4.0-gcc-4.9.2.patch
 patches    += $(CURDIR)/patches/qt5-5.4.0-gcc-5.0-webkit.patch
 patches    += $(CURDIR)/patches/qt5-5.4.0-mips-dsp.patch
 patches    += $(CURDIR)/patches/qt5-5.4.0-eglfs.patch
+patches    += $(CURDIR)/patches/qt5-5.4.2-configure.patch
 patches    += $(CURDIR)/patches/qt5-5.7.0-mips32r5.patch
 patches    += $(CURDIR)/patches/qt5-5.7.0-arm-neon-thumb.patch
 patches    += $(CURDIR)/patches/qt5-5.7.0-ffmpeg-no-armv6.patch
@@ -62,6 +63,7 @@ $(patches): $(sha1s)
 	 ( cd create-5.4.0-gcc-5.0-webkit-patch   ; ./create.patch.sh ) ; \
 	 ( cd create-5.4.0-mips-dsp-patch         ; ./create.patch.sh ) ; \
 	 ( cd create-5.4.0-eglfs-patch            ; ./create.patch.sh ) ; \
+	 ( cd create-5.4.2-configure-patch        ; ./create.patch.sh ) ; \
 	 ( cd create-5.7.0-mips32r5-patch         ; ./create.patch.sh ) ; \
 	 ( cd create-5.7.0-arm-neon-thumb-patch   ; ./create.patch.sh ) ; \
 	 ( cd create-5.7.0-ffmpeg-no-armv6-patch  ; ./create.patch.sh ) ; \

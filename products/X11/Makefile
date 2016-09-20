@@ -1221,9 +1221,9 @@ REQUIRES += dev/perl-modules/perl-dbd-mysql/4.032
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
 #REQUIRES += X11/libs/qt4/4.8.7-x86_32
 #endif
-REQUIRES += X11/libs/qt5/5.7.0
+REQUIRES += X11/libs/qt5/5.4.2
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += X11/libs/qt5/5.7.0-x86_32
+REQUIRES += X11/libs/qt5/5.4.2-x86_32
 endif
 
 #REQUIRES += libs/poppler/0.45.0

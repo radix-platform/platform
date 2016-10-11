@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
         |-----handy-ruler------------------------------------------------------|
-flac-x32: flac-x32 @VERSION@ (Free Lossless Audio Codec)
+flac-x32: flac-x32 @VERSION@ (x86_32 Free Lossless Audio Codec)
 flac-x32:
 flac-x32: FLAC stands for Free Lossless Audio Codec. Grossly oversimplified,
 flac-x32: FLAC is similar to MP3, but lossless. "Free" means that the

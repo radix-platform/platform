@@ -32,6 +32,7 @@ REQUIRES          += X11/libs/hicolor-icon-theme/0.15
 REQUIRES          += X11/app/xdg-utils/1.1.1
 
 REQUIRES          += libs/alsa-lib/1.1.1
+REQUIRES          += libs/pulseaudio/9.0
 REQUIRES          += X11/app/dbus-x11-launch/1.11.2
 
 REQUIRES          += libs/libmng/2.0.3
@@ -52,6 +53,7 @@ REQUIRES          += libs/gstreamer0/0.10.36
 REQUIRES          += libs/gst-plugins-base0/0.10.36
 
 REQUIRES          += app/sqlite/3.12.2.0
+REQUIRES          += app/postgresql/9.6.0
 REQUIRES          += app/mariadb/10.0.25
 REQUIRES          += libs/libiodbc/3.52.10
 
@@ -193,6 +195,7 @@ configure_switches += -system-libtiff
 configure_switches += -system-zlib
 configure_switches += -system-sqlite
 configure_switches += -plugin-sql-sqlite
+configure_switches += -plugin-sql-psql
 configure_switches += -plugin-sql-mysql
 configure_switches += -plugin-sql-odbc
 configure_switches += -openssl-linked
@@ -226,6 +229,10 @@ TARGET_BIN_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)/qt
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
+	@( cd $(SRC_DIR) ; \
+	   sed -i "s,^CFG_ALSA=.*,CFG_ALSA=yes,"             configure ; \
+	   sed -i "s,^CFG_PULSEAUDIO=.*,CFG_PULSEAUDIO=yes," configure ; \
+	 )
 	@( cd $(SRC_DIR) ; sed -i "s,^\(QMAKE_INCDIR_X11 *=\).*,\1," mkspecs/common/linux.conf )
 	@( cd $(SRC_DIR) ; sed -i "s,^\(QMAKE_INCDIR_OPENGL *=\).*,\1," mkspecs/common/linux.conf )
 	@( cd $(SRC_DIR) ; sed -i "s,^\(QMAKE_LIBDIR_X11 *=\).*,\1," mkspecs/common/linux.conf )
@@ -427,7 +434,7 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $
 endif
 	# ======= Change source directory to more 'normal' place =======
 	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib ; \
-	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/src/qt-$(version),g" \
+	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/lib$(LIBSUFFIX)/qt-$(version),g" \
 	           libQtCLucene.prl     libQtCore.prl               \
 	           libQtDBus.prl        libQtDeclarative.prl        \
 	           libQtDesigner.prl    libQtDesignerComponents.prl \
@@ -442,7 +449,7 @@ endif
 	 )
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXQ)),)
 	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib ; \
-	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/src/qt-$(version),g" \
+	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/lib$(LIBSUFFIX)/qt-$(version),g" \
 	           libQtMeeGoGraphicsSystemHelper.prl             ; \
 	 )
 endif
@@ -459,6 +466,11 @@ endif
 	                                    QtUiTools.pc     QtWebKit.pc             \
 	                                    QtXml.pc         QtXmlPatterns.pc        \
 	                                    phonon.pc                              ; \
+	 )
+	# ======= Change source directory to more 'normal' place =======
+	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib/pkgconfig ; \
+	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/lib$(LIBSUFFIX)/qt-$(version),g" QtDesigner.pc    \
+	                                    QtDesignerComponents.pc QtUiTools.pc   ; \
 	 )
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXQ)),)
 	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib/pkgconfig ; \

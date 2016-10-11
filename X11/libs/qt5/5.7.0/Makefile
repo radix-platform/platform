@@ -570,7 +570,7 @@ ifeq ($(ENABLE_KMS_SUPPORT),yes)
 endif
 	# ======= Change source directory to more 'normal' place =======
 	@( cd $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib ; \
-	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/src/qt-$(version),g" \
+	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/lib$(LIBSUFFIX)/qt-$(version),g" \
 	                                    libQt53DCore.prl             libQt53DExtras.prl          \
 	                                    libQt53DInput.prl            libQt53DLogic.prl           \
 	                                    libQt53DQuick.prl            libQt53DQuickExtras.prl     \
@@ -608,14 +608,14 @@ endif
 ifeq ($(ENABLE_EGLFS_SUPPORT),yes)
 	# ======= Change source directory to more 'normal' place in libQt5EglDeviceIntegration.prl file =======
 	@( cd $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib ; \
-	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/src/qt-$(version),g" \
+	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/lib$(LIBSUFFIX)/qt-$(version),g" \
 	                                    libQt5EglDeviceIntegration.prl ; \
 	 )
 endif
 ifeq ($(ENABLE_KMS_SUPPORT),yes)
 	# ======= Change source directory to more 'normal' place in libQt5EglFsKmsSupport.prl file =======
 	@( cd $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib ; \
-	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/src/qt-$(version),g" \
+	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/lib$(LIBSUFFIX)/qt-$(version),g" \
 	                                    libQt5EglFsKmsSupport.prl ; \
 	 )
 endif

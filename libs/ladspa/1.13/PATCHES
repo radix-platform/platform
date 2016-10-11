@@ -1,0 +1,3 @@
+
+../../../sources/packages/m/ladspa/patches/ladspa-1.13-ladspa-path.patch -p0
+../../../sources/packages/m/ladspa/patches/ladspa-1.13-memleak.patch     -p0

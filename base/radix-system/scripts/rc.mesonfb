@@ -57,7 +57,7 @@ case $outputmode in
 
   *)
     # outputmode = 720p
-    /bin/echo 720p > /sys/class/display/mode  
+    /bin/echo 720p > /sys/class/display/mode
     /bin/echo 0 0 1279 719 > /sys/class/graphics/fb0/free_scale_axis
     /bin/echo 0 0 1279 719 > /sys/class/graphics/fb0/window_axis
     ;;
@@ -67,10 +67,10 @@ esac
 # Set framebuffer geometry to match the resolution
 case "$hdmimode" in
   720*)
-    /usr/sbin/fbset -fb /dev/fb0 -g 1280 720 1280 1440 32
+    /usr/sbin/fbset -fb /dev/fb0 -a -g 1280 720 1280 1440 32
     ;;
   1080*)
-    /usr/sbin/fbset -fb /dev/fb0 -g 1920 1080 1920 3240 32
+    /usr/sbin/fbset -fb /dev/fb0 -a -g 1920 1080 1920 3240 32
     ;;
 esac
 /usr/sbin/fbset -fb /dev/fb1 -g 32 32 32 32 32

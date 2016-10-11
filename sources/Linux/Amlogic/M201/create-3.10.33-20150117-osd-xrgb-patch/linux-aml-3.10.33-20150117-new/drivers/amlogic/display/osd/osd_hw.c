@@ -2591,6 +2591,7 @@ static   void  osd1_update_gbl_alpha(void)
 	data32 &= ~(0x1ff << 12);
 	data32 |= osd_hw.gbl_alpha[OSD1] << 12;
 	VSYNCOSD_WR_MPEG_REG(VIU_OSD1_CTRL_STAT, data32);
+	VSYNCOSD_SET_MPEG_REG_MASK(VPP_MISC, 1<<9); /* enable OSD1 premultiplied alpha */
 	remove_from_update_list(OSD1, OSD_GBL_ALPHA);
 }
 static   void  osd2_update_gbl_alpha(void)

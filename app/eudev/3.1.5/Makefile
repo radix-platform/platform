@@ -217,9 +217,9 @@ $(install_target): $(build_target)
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(EUDEV_PKG))
 	# ======= tune pkg-config *.pc in /usr/share/pkgconfig/udev.pc file =======
+	# ======= but do not touch udevdir variable                         =======
 	@( cd $(TARGET_DEST_DIR)/usr/share/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" udev.pc ; \
-	   sed -i "s,/lib,$(TARGET_DEST_DIR)/lib,g" udev.pc ; \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(EUDEV_PKG)/sbin ; \

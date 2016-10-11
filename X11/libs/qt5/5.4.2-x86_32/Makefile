@@ -15,6 +15,7 @@ SOURCE_REQUIRES    = sources/packages/x/qt5
 REQUIRES           = X11/libs/qt5/5.4.2
 
 REQUIRES          += libs/alsa-lib/1.1.1-x86_32
+REQUIRES          += libs/pulseaudio/9.0-x86_32
 REQUIRES          += X11/app/dbus-x11-launch/1.11.2-x86_32
 
 REQUIRES          += libs/libmng/2.0.3-x86_32
@@ -41,8 +42,11 @@ REQUIRES          += libs/gstreamer/1.8.2-x86_32
 REQUIRES          += libs/gst-plugins-base/1.8.2-x86_32
 
 REQUIRES          += app/sqlite/3.12.2.0-x86_32
+REQUIRES          += app/postgresql/9.6.0-x86_32
 REQUIRES          += app/mariadb/10.0.25-x86_32
 REQUIRES          += libs/libiodbc/3.52.10-x86_32
+
+REQUIRES          += libs/botan/1.10.13-x86_32
 
 REQUIRES          += X11/libs/opengl-collection
 
@@ -163,6 +167,7 @@ configure_switches += -opengl
 configure_switches += -accessibility
 configure_switches += -system-sqlite
 configure_switches += -plugin-sql-sqlite
+configure_switches += -plugin-sql-psql
 configure_switches += -plugin-sql-mysql
 configure_switches += -plugin-sql-odbc
 configure_switches += -system-zlib
@@ -177,7 +182,7 @@ configure_switches += -system-xcb
 configure_switches += -xinput2
 configure_switches += -xcb-xlib
 configure_switches += -glib
-configure_switches += -no-pulseaudio
+configure_switches += -pulseaudio
 configure_switches += -alsa
 configure_switches += -gui
 configure_switches += -widgets
@@ -430,7 +435,7 @@ $(install_target): $(build_target)
 	 )
 	# ======= Change source directory to more 'normal' place =======
 	@( cd $(QT5_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib ; \
-	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/src/qt-$(version),g" \
+	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version),g" \
 	           libEnginio.prl              libQt5Bluetooth.prl           \
 	           libQt5Bootstrap.prl         libQt5CLucene.prl             \
 	           libQt5Concurrent.prl        libQt5Core.prl                \

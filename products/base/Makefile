@@ -29,7 +29,7 @@ REQUIRES  = boot/u-boot/s805/2011.03-20150117
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_MXQ)),)
-REQUIRES  = boot/kernel/s805/3.10.103-20160830
+REQUIRES  = boot/u-boot/s805/2011.03-20150117
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
@@ -369,6 +369,10 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += app/kbd/2.0.3-x86_32
 endif
 
+ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXQ)),)
+REQUIRES += app/remotecfg/1.0.0
+endif
+
 #######
 ####### Dictionaries for /usr/share/dict (see FHS):
 #######
@@ -453,12 +457,21 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += secure/libcgroup/0.41-x86_32
 endif
 
+REQUIRES += libs/libstrophe/0.9.1
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libstrophe/0.9.1-x86_32
+endif
+
 REQUIRES += app/sdparm/1.09
 
 
 #######
 ####### Networking:
 #######
+REQUIRES += net/libtirpc/1.0.1
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/libtirpc/1.0.1-x86_32
+endif
 REQUIRES += net/icmpinfo/1.11
 REQUIRES += net/net-tools/1.60
 REQUIRES += net/netdate/4
@@ -536,6 +549,11 @@ REQUIRES += net/dnsmasq/2.75
 REQUIRES += net/ebtables/2.0.10-4
 REQUIRES += net/iftop/1.0pre4
 REQUIRES += net/iptraf-ng/1.1.4
+
+REQUIRES += net/bluez/5.42
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/bluez/5.42-x86_32
+endif
 
 
 #######
@@ -654,6 +672,11 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += dev/vala/0.32.0-x86_32
 endif
 
+REQUIRES += dev/orc/0.4.26.1
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += dev/orc/0.4.26.1-x86_32
+endif
+
 
 #######
 ####### Python2.7 modules:
@@ -667,6 +690,17 @@ REQUIRES += libs/pyrex/0.9.9
 #######
 
 REQUIRES += dev/python-modules/pip3/8.1.1
+
+
+
+#######
+####### Database:
+#######
+
+REQUIRES += app/postgresql/9.6.0
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/postgresql/9.6.0-x86_32
+endif
 
 
 
@@ -697,10 +731,6 @@ REQUIRES += libs/opus/1.1.2
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/opus/1.1.2-x86_32
 endif
-REQUIRES += libs/portaudio/19-20140130
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/portaudio/19-20140130-x86_32
-endif
 REQUIRES += app/cdparanoia/10.2
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += app/cdparanoia/10.2-x86_32
@@ -719,6 +749,44 @@ endif
 
 REQUIRES += app/icecast/2.4.3
 REQUIRES += app/ices/2.0.2
+
+REQUIRES += app/openjpeg/1.5.2
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/openjpeg/1.5.2-x86_32
+endif
+REQUIRES += app/openjpeg2/2.1.2
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/openjpeg2/2.1.2-x86_32
+endif
+REQUIRES += libs/libsoxr/0.1.2
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libsoxr/0.1.2-x86_32
+endif
+
+REQUIRES += libs/schroedinger/1.0.11
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/schroedinger/1.0.11-x86_32
+endif
+REQUIRES += libs/ladspa/1.13
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/ladspa/1.13-x86_32
+endif
+REQUIRES += app/rtmpdump/2.4
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/rtmpdump/2.4-x86_32
+endif
+REQUIRES += app/dcadec/0.2.0
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/dcadec/0.2.0-x86_32
+endif
+REQUIRES += libs/libvidstab/1.1
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libvidstab/1.1-x86_32
+endif
+REQUIRES += libs/xvidcore/1.3.4
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/xvidcore/1.3.4-x86_32
+endif
 
 
 # ======= __END_OF_REQUIRES__ =======

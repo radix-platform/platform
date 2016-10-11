@@ -19,6 +19,7 @@ QMAKE_CC                 = @CCACHE@ @CROSS_COMPILE@gcc --sysroot=@SYSROOT@
 QMAKE_CXX                = @CCACHE@ @CROSS_COMPILE@g++ --sysroot=@SYSROOT@
 QMAKE_LINK               = @CROSS_COMPILE@g++ --sysroot=@SYSROOT@
 QMAKE_LINK_SHLIB         = @CROSS_COMPILE@g++ --sysroot=@SYSROOT@
+QMAKE_LINK_C             = @CROSS_COMPILE@gcc --sysroot=@SYSROOT@
 
 # modifications to linux.conf
 QMAKE_AR                 = @CROSS_COMPILE@ar cqs

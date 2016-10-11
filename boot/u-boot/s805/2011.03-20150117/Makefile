@@ -1,5 +1,6 @@
 
-COMPONENT_TARGETS = $(HARDWARE_M201)
+COMPONENT_TARGETS  = $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
 
 NEED_ABS_PATH     = true
 
@@ -11,14 +12,25 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES   = sources/U-Boot/Amlogic/M201
 
+ifneq ($(filter $(HARDWARE),$(HARDWARE_M201)),)
 REQUIRES          = boot/kernel/s805/3.10.33-20150117
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MXQ)),)
+REQUIRES          = boot/kernel/s805/3.10.103-20160830
+endif
 
 # ======= __END_OF_REQUIRES__ =======
 
 
 DEFAULT_NFS_ROOT_IP_ADDR = 172.16.0.3
+ifneq ($(filter $(HARDWARE),$(HARDWARE_M201)),)
 DEFAULT_NFS_ROOT_PATH    = "nfsroot-m201"
 DEFAULT_HW_ADDR          = 2a:ab:c0:c4:41:4a
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MXQ)),)
+DEFAULT_NFS_ROOT_PATH    = "nfsroot-mxq"
+DEFAULT_HW_ADDR          = 2a:ab:c0:58:b1:8d
+endif
 
 
 version         = 2011.03-20150117
@@ -29,7 +41,12 @@ src_done        = $(TARGET_BUILD_DIR)/.source_done
 
 u_boot          = $(TARGET_BUILD_DIR)/.u_boot_done
 
+ifneq ($(filter $(HARDWARE),$(HARDWARE_M201)),)
 u_boot_config   = m8b_m201_512M_config
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MXQ)),)
+u_boot_config   = m8b_m201_1G_config
+endif
 
 boot_script_sd  = $(TARGET_BUILD_DIR)/boot.script.sd
 boot_scr_sd     = $(TARGET_BUILD_DIR)/boot.scr.sd
@@ -132,7 +149,8 @@ video_output_mode   = hdmi
 #
 # Extra kernel boot arguments:
 #
-extra  = vdaccfg=0xa001
+extra  = logo=osd1,loaded,0x7900000,$(hdmi_output_mode),full
+extra += vdaccfg=0xa001
 extra += cvbsmode=576cvbs
 extra += hdmimode=$(hdmi_output_mode)
 extra += hdmitx=cec0xf
@@ -145,6 +163,9 @@ extra += mac=$(DEFAULT_HW_ADDR)
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_M201)),)
 device_dtb  = meson8b_m201_512M.dtb
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MXQ)),)
+device_dtb  = meson8b-mxq.dtb
 endif
 
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
@@ -190,7 +211,7 @@ $(build_uboot_pkg): $(boot_scr_sd)
 	@cp -a $(boot_scr_sd)   $(UBOOT_BIN_PKG)/boot
 	@cp -a $(boot_scr_sd)   $(UBOOT_BIN_PKG)/boot/boot.scr
 	@for logo in $(u_boot_logos) ; do \
-	   cp -a $(logos_path)/$$logo $(TARGET_DEST_DIR)/boot ; \
+	   cp -a $(logos_path)/$$logo $(UBOOT_BIN_PKG)/boot ; \
 	 done
 	@cd $(SRC_DIR) && \
 	  cp -a build/u-boot.bin $(TARGET_DEST_DIR)/bootfs && \

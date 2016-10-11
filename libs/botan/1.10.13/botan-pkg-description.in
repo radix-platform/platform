@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+     |-----handy-ruler------------------------------------------------------|
+botan: botan @VERSION@ (Crypto and TLS library for C++11)
+botan:
+botan: Botan is a C++ library for performing a wide variety of
+botan: cryptographic operations.
+botan:
+botan:
+botan: Homepage: https://botan.randombit.net
+botan:
+botan:
+botan:
+botan:

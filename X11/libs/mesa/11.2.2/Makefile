@@ -46,6 +46,7 @@ REQUIRES          += X11/X.org/lib/libXdamage/1.1.4
 REQUIRES          += X11/X.org/lib/libXv/1.0.10
 REQUIRES          += X11/X.org/lib/libXvMC/1.0.9
 REQUIRES          += Wayland/wayland/1.11.0
+REQUIRES          += env/libva/1.7.2
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -242,6 +243,9 @@ $(install_target): $(build_target)
 	@( cd $(MESA_PKG)/usr/lib$(LIBSUFFIX)/d3d ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" d3dadapter9.la ; \
 	 )
+	@( cd $(MESA_PKG)/usr/lib$(LIBSUFFIX)/dri ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" gallium_drv_video.la ; \
+	 )
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXQ)),)
 	@( cd $(MESA_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libGL.la           \
@@ -270,6 +274,10 @@ endif
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/d3d ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   d3dadapter9.la ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" d3dadapter9.la ; \
+	 )
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/dri ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   gallium_drv_video.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" gallium_drv_video.la ; \
 	 )
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXQ)),)
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \

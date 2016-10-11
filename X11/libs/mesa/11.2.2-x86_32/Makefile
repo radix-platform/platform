@@ -31,6 +31,7 @@ REQUIRES          += X11/X.org/lib/libXdamage/1.1.4-x86_32
 REQUIRES          += X11/X.org/lib/libXv/1.0.10-x86_32
 REQUIRES          += X11/X.org/lib/libXvMC/1.0.9-x86_32
 REQUIRES          += Wayland/wayland/1.11.0-x86_32
+REQUIRES          += env/libva/1.7.2-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -179,6 +180,9 @@ $(install_target): $(build_target)
 	@( cd $(MESA_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/d3d ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" d3dadapter9.la ; \
 	 )
+	@( cd $(MESA_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/dri ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" gallium_drv_video.la ; \
+	 )
 	@( cd $(MESA_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libEGL.la          \
 	                                    libGL.la           \
@@ -197,6 +201,10 @@ $(install_target): $(build_target)
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/d3d ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   d3dadapter9.la ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" d3dadapter9.la ; \
+	 )
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/dri ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   gallium_drv_video.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" gallium_drv_video.la ; \
 	 )
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libEGL.la          \

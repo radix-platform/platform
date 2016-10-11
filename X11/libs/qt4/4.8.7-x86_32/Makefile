@@ -15,6 +15,7 @@ SOURCE_REQUIRES    = sources/packages/x/qt4
 REQUIRES           = X11/libs/qt4/4.8.7
 
 REQUIRES          += libs/alsa-lib/1.1.1-x86_32
+REQUIRES          += libs/pulseaudio/9.0-x86_32
 REQUIRES          += X11/app/dbus-x11-launch/1.11.2-x86_32
 
 REQUIRES          += libs/libmng/2.0.3-x86_32
@@ -35,6 +36,7 @@ REQUIRES          += libs/gstreamer0/0.10.36-x86_32
 REQUIRES          += libs/gst-plugins-base0/0.10.36-x86_32
 
 REQUIRES          += app/sqlite/3.12.2.0-x86_32
+REQUIRES          += app/postgresql/9.6.0-x86_32
 REQUIRES          += app/mariadb/10.0.25-x86_32
 REQUIRES          += libs/libiodbc/3.52.10-x86_32
 
@@ -146,6 +148,7 @@ configure_switches += -system-libtiff
 configure_switches += -system-zlib
 configure_switches += -system-sqlite
 configure_switches += -plugin-sql-sqlite
+configure_switches += -plugin-sql-psql
 configure_switches += -plugin-sql-mysql
 configure_switches += -plugin-sql-odbc
 configure_switches += -openssl-linked
@@ -179,6 +182,10 @@ TARGET_BIN_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFI
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
+	@( cd $(SRC_DIR) ; \
+	   sed -i "s,^CFG_ALSA=.*,CFG_ALSA=yes,"             configure ; \
+	   sed -i "s,^CFG_PULSEAUDIO=.*,CFG_PULSEAUDIO=yes," configure ; \
+	 )
 	@( cd $(SRC_DIR) ; sed -i "s,^\(QMAKE_INCDIR_X11 *=\).*,\1," mkspecs/common/linux.conf )
 	@( cd $(SRC_DIR) ; sed -i "s,^\(QMAKE_INCDIR_OPENGL *=\).*,\1," mkspecs/common/linux.conf )
 	@( cd $(SRC_DIR) ; sed -i "s,^\(QMAKE_LIBDIR_X11 *=\).*,\1," mkspecs/common/linux.conf )
@@ -342,7 +349,7 @@ $(install_target): $(build_target)
 	 )
 	# ======= Change source directory to more 'normal' place =======
 	@( cd $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib ; \
-	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/src/qt-$(version),g" \
+	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version),g" \
 	           libQtCLucene.prl     libQtCore.prl               \
 	           libQtDBus.prl        libQtDeclarative.prl        \
 	           libQtDesigner.prl    libQtDesignerComponents.prl \
@@ -368,6 +375,11 @@ $(install_target): $(build_target)
 	                                    QtUiTools.pc     QtWebKit.pc             \
 	                                    QtXml.pc         QtXmlPatterns.pc        \
 	                                    phonon.pc                              ; \
+	 )
+	# ======= Change source directory to more 'normal' place =======
+	@( cd $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version)/lib/pkgconfig ; \
+	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version),g" QtDesigner.pc    \
+	                                    QtDesignerComponents.pc QtUiTools.pc   ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(QT4_32_PKG))

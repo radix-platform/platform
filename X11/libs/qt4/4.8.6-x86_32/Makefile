@@ -326,7 +326,7 @@ $(install_target): $(build_target)
 	 )
 	# ======= Change source directory to more 'normal' place =======
 	@( cd $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/lib ; \
-	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/src/qt-$(version),g" \
+	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version),g" \
 	           libQtCLucene.prl     libQtCore.prl               \
 	           libQtDBus.prl        libQtDeclarative.prl        \
 	           libQtDesigner.prl    libQtDesignerComponents.prl \

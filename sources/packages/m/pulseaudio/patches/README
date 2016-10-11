@@ -1,0 +1,10 @@
+
+/* begin *
+
+   Only one of the following paches can be applyed:
+
+     pulseaudio-9.0-root-autospawn.patch          - default state (autospawn commented out);
+     pulseaudio-9.0-root-autospawn-disallow.patch - autospawn allowed for non-root users;
+     pulseaudio-9.0-root-autospawn-allow.patch    - autospawn allowed for root and other users;
+
+ * end */

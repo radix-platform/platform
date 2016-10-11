@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+            |-----handy-ruler------------------------------------------------------|
+openjpeg-x32: openjpeg-x32 @VERSION@ (x86_32 JPEG 2000 codec)
+openjpeg-x32:
+openjpeg-x32: OpenJPEG is an open-source JPEG 2000 codec written in C language.
+openjpeg-x32: It has been developed in order to promote the use of JPEG 2000,
+openjpeg-x32: a still-image compression standard from the Joint Photographic
+openjpeg-x32: Experts Group (JPEG). Since may 2015, it is officially recognized
+openjpeg-x32: by ISO/IEC and ITU-T as a JPEG 2000 Reference Software.
+openjpeg-x32:
+openjpeg-x32: Homepage: http://www.openjpeg.org
+openjpeg-x32:
+openjpeg-x32:

@@ -27,6 +27,7 @@ src_dir_name       = xf86-video-mali-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 license            = $(CURDIR)/license/COPYING
+xorg_config_in     = $(CURDIR)/etc/X11/xorg.conf.mali.in
 
 PATCHES = PATCHES
 
@@ -119,6 +120,10 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(XORG_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
+	# ======= Install default xorg.conf file =======
+	@mkdir -p $(XORG_PKG)/etc/X11
+	@cat $(xorg_config_in) | \
+	     sed 's,@HARDWARE_SPEC@,$(HW_SPEC),' > $(XORG_PKG)/etc/X11/xorg.conf.mali
 	# ======= Install Documentation =======
 	@if [ -d $(XORG_PKG)/usr/share/man ]; then \
 	  ( cd $(XORG_PKG)/usr/share/man ; \

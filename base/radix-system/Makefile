@@ -151,6 +151,15 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
 	@cat $(modprobes)/modprobe.$(HARDWARE) >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
 endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_M201)),)
+	@echo "# Mali:"                        >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
+	@echo "/sbin/modprobe mali"            >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
+	@echo "/sbin/modprobe mali_drm"        >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
+	@echo "# /sbin/modprobe ump"           >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
+	@echo ""                               >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
+	@echo "# Additional stuff:"            >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
+	@echo "/sbin/modprobe udl"             >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
+endif
 	@chmod a+x $(SYSINIT_BIN_PKG)/etc/rc.d/rc.{fbset.new,font.new,gpm.new,keymap.new,modules.new}
 	# ======= etc/inittab =======
 	@cat $(source_etc)/inittab.in | \

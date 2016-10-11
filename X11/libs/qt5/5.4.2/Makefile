@@ -20,8 +20,12 @@ COMPONENT_IS_3PP   = true
 
 include ../../../../build-system/constants.mk
 
+BUILD_QT_CREATOR = yes
 
 SOURCE_REQUIRES    = sources/packages/x/qt5
+ifeq ($(BUILD_QT_CREATOR),yes)
+SOURCE_REQUIRES   += sources/packages/d/qt-creator
+endif
 
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/5.3.0
@@ -32,6 +36,7 @@ REQUIRES          += X11/libs/hicolor-icon-theme/0.15
 REQUIRES          += X11/app/xdg-utils/1.1.1
 
 REQUIRES          += libs/alsa-lib/1.1.1
+REQUIRES          += libs/pulseaudio/9.0
 REQUIRES          += X11/app/dbus-x11-launch/1.11.2
 
 REQUIRES          += libs/libmng/2.0.3
@@ -58,8 +63,11 @@ REQUIRES          += libs/gstreamer/1.8.2
 REQUIRES          += libs/gst-plugins-base/1.8.2
 
 REQUIRES          += app/sqlite/3.12.2.0
+REQUIRES          += app/postgresql/9.6.0
 REQUIRES          += app/mariadb/10.0.25
 REQUIRES          += libs/libiodbc/3.52.10
+
+REQUIRES          += libs/botan/1.10.13
 
 REQUIRES          += X11/libs/opengl-collection
 
@@ -70,6 +78,12 @@ version            = 5.4.2
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/x/qt5/qt-everywhere-opensource-src-$(version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/qt-everywhere-opensource-src-$(version)
+ifeq ($(BUILD_QT_CREATOR),yes)
+qtc_version        = 3.5.1
+qtc_gz_archive     = $(SRC_PACKAGE_PATH)/packages/d/qt-creator/qt-creator-opensource-src-$(qtc_version).tar.gz
+qtc_src_dir_name   = qt-creator-opensource-src-$(qtc_version)
+qtc_doc_dir_name   = qt5-creator-$(qtc_version)
+endif
 src_dir_name       = qt-everywhere-opensource-src-$(version)
 doc_dir_name       = qt5-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
@@ -83,7 +97,9 @@ config_summary     = $(CURDIR)/$(SRC_DIR)/qtbase/config.summary
 
 
 PATCHES = PATCHES
-
+ifeq ($(BUILD_QT_CREATOR),yes)
+OPT_PATCHES = PATCHES.qtc-$(qtc_version)
+endif
 
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
@@ -216,6 +232,7 @@ endif
 configure_switches += -accessibility
 configure_switches += -system-sqlite
 configure_switches += -plugin-sql-sqlite
+configure_switches += -plugin-sql-psql
 configure_switches += -plugin-sql-mysql
 configure_switches += -plugin-sql-odbc
 configure_switches += -system-zlib
@@ -230,7 +247,7 @@ configure_switches += -system-xcb
 configure_switches += -xinput2
 configure_switches += -xcb-xlib
 configure_switches += -glib
-configure_switches += -no-pulseaudio
+configure_switches += -pulseaudio
 configure_switches += -alsa
 configure_switches += -gui
 configure_switches += -widgets
@@ -309,6 +326,14 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	     sed 's,@ARCH_DEFS@,$(ARCH_DEFS),g'        | \
 	     sed 's,@HW_FLAGS@,$(HW_FLAGS),g'          > qmake.conf ; \
 	 )
+ifeq ($(BUILD_QT_CREATOR),yes)
+	@echo "Expanding $(qtc_gz_archive)"
+	@tar xzf $(qtc_gz_archive) -C $(SRC_DIR)
+	$(call apply-opt-patches, $(SRC_DIR)/$(qtc_src_dir_name))
+	@( cd $(SRC_DIR) ; \
+	   mv $(qtc_src_dir_name) qtcreator ; \
+	 )
+endif
 	@touch $@
 
 $(build_target): $(src_done)
@@ -321,10 +346,49 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 	 )
 endif
 	@cd $(SRC_DIR) && $(QT_BUILD_ENVIRONMENT) $(MAKE)
+ifeq ($(BUILD_QT_CREATOR),yes)
+	# ======= Build Qt Creator $(qtc_version) =======
+	@( cd $(SRC_DIR)/qtcreator ; \
+	   echo ""                     >> .qmake.conf ; \
+	   echo "USE_SYSTEM_BOTAN = 1" >> .qmake.conf ; \
+	   ../qtbase/bin/qmake -makefile \
+	                       -spec ../qtbase/mkspecs/devices/$(DEVICE_SPEC_DIR) \
+	                       -o Makefile qtcreator.pro ; \
+	   $(MAKE) ; \
+	   $(MAKE) -j1 html_docs ; \
+	 )
+endif
 	@touch $@
 
 $(install_target): $(build_target)
 	@mkdir -p $(QT5_PKG)
+ifeq ($(BUILD_QT_CREATOR),yes)
+	# ======= Install Qt Creator $(qtc_version) =======
+	@cd $(SRC_DIR)/qtcreator && $(MAKE) -j1 install INSTALL_ROOT=$(QT5_PKG)/usr
+	@( cd $(QT5_PKG)/usr/bin ; \
+	   mv qtcreator qtcreator-bin ; \
+	   echo "#!/bin/sh"                                  > qtcreator ; \
+	   echo ""                                          >> qtcreator ; \
+	   echo 'QT_LOGGING_TO_CONSOLE=1 qtcreator-bin $$@' >> qtcreator ; \
+	   chmod a+x qtcreator ; \
+	 )
+	@( cd $(QT5_PKG)/usr/share/icons/hicolor ; \
+	   for file in `find . -name "QtProject-qtcreator.png"` ; do \
+	     mv $$file `dirname $$file`/qt5-creator.png ; \
+	   done ; \
+	 )
+	@mkdir -p $(QT5_PKG)/usr/share/applications
+	@cp -a $(applications_dir)/qt5-creator.desktop $(QT5_PKG)/usr/share/applications/qt5-creator.desktop
+	# ======= Install Qt Creator $(qtc_version) Documentation =======
+	@mkdir -p $(QT5_PKG)/usr/doc/$(qtc_doc_dir_name)
+	@mkdir -p $(QT5_PKG)/usr/share/doc/$(qtc_doc_dir_name)
+	@( cd $(SRC_DIR)/qtcreator ; \
+	   cp -a LICENSE.LGPL* LGPL_EXCEPTION.TXT \
+	         $(QT5_PKG)/usr/doc/$(qtc_doc_dir_name) ; \
+	   cp -a LICENSE.LGPL* LGPL_EXCEPTION.TXT README.md doc/html \
+	         $(QT5_PKG)/usr/share/doc/$(qtc_doc_dir_name) ; \
+	 )
+endif
 	@cd $(SRC_DIR) && $(QT_BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Rename build-machine tools =======
 	@( cd $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/bin ; \
@@ -545,7 +609,7 @@ $(install_target): $(build_target)
 	 )
 	# ======= Change source directory to more 'normal' place =======
 	@( cd $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib ; \
-	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/src/qt-$(version),g" \
+	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/lib$(LIBSUFFIX)/qt-$(version),g" \
 	           libEnginio.prl              libQt5Bluetooth.prl           \
 	           libQt5Bootstrap.prl         libQt5CLucene.prl             \
 	           libQt5Concurrent.prl        libQt5Core.prl                \
@@ -609,7 +673,16 @@ $(install_target): $(build_target)
 	     rm -f $(TARGET)-qt5-$${file} ; \
 	   done ; \
 	 )
+ifeq ($(BUILD_QT_CREATOR),yes)
+	@( cd $(QT5_PKG)/usr/bin ; \
+	   for file in lconvert lrelease lupdate moc qdbuscpp2xml qdbusxml2cpp  \
+	               qdoc qlalr qmake qmlimportscanner qmllint qmlmin rcc uic ; do \
+	     rm -f $(TARGET)-qt5-$${file} ; \
+	   done ; \
+	 )
+else
 	@rm -rf $(QT5_PKG)/usr/bin
+endif
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib ; \
 	   sed -i "s,/usr/lib,$(TARGET_DEST_DIR)/usr/lib,g" libEnginio.la              libQt5Bluetooth.la           \

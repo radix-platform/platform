@@ -1,0 +1,4 @@
+qt-creator-opensource-src-3.5.1/src/plugins/cpaster/frontend/frontend.pro
+qt-creator-opensource-src-3.5.1/src/shared/qbs/src/app/app.pri
+qt-creator-opensource-src-3.5.1/src/tools/buildoutputparser/buildoutputparser.pro
+qt-creator-opensource-src-3.5.1/src/tools/sdktool/sdktool.pro

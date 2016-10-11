@@ -522,7 +522,7 @@ $(install_target): $(build_target)
 	 )
 	# ======= Change source directory to more 'normal' place =======
 	@( cd $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib ; \
-	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/src/qt-$(version),g" \
+	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/lib$(LIBSUFFIX)/qt-$(version),g" \
 	           libEnginio.prl              libQt5Bluetooth.prl           \
 	           libQt5Bootstrap.prl         libQt5CLucene.prl             \
 	           libQt5Concurrent.prl        libQt5Core.prl                \

@@ -14,34 +14,36 @@ load(device_config)
 
 
 # modifications to g++.conf
-QMAKE_CC                 = $${CCACHE} $${CROSS_COMPILE}gcc
-QMAKE_CXX                = $${CCACHE} $${CROSS_COMPILE}g++
-QMAKE_LINK               = $${CROSS_COMPILE}g++
-QMAKE_LINK_SHLIB         = $${CROSS_COMPILE}g++
+QMAKE_CC                = $${CCACHE} $${CROSS_COMPILE}gcc
+QMAKE_CXX               = $${CCACHE} $${CROSS_COMPILE}g++
+QMAKE_LINK              = $${CROSS_COMPILE}g++
+QMAKE_LINK_SHLIB        = $${CROSS_COMPILE}g++
+QMAKE_LINK_C            = $${CROSS_COMPILE}gcc
 
 # modifications to linux.conf
-QMAKE_AR                 = $${CROSS_COMPILE}ar cqs
-QMAKE_OBJCOPY            = $${CROSS_COMPILE}objcopy
-QMAKE_STRIP              = $${CROSS_COMPILE}strip
+QMAKE_AR                = $${CROSS_COMPILE}ar cqs
+QMAKE_OBJCOPY           = $${CROSS_COMPILE}objcopy
+QMAKE_STRIP             = $${CROSS_COMPILE}strip
 
 
-QMAKE_INCDIR             = $$[QT_SYSROOT]/usr/include
-QMAKE_INCDIR            += $$[QT_SYSROOT]/usr/include/gstreamer-1.0
-QMAKE_INCDIR            += $$[QT_SYSROOT]/usr/lib@LIBDIRSUFFIX@/glib-2.0/include
-QMAKE_LIBDIR             = $$[QT_SYSROOT]/usr/lib@LIBDIRSUFFIX@
+QMAKE_INCDIR            = $$[QT_SYSROOT]/usr/include
+QMAKE_INCDIR           += $$[QT_SYSROOT]/usr/include/gstreamer-1.0
+QMAKE_INCDIR           += $$[QT_SYSROOT]/usr/lib@LIBDIRSUFFIX@/glib-2.0/include
+QMAKE_INCDIR           += $$[QT_SYSROOT]/usr/include/botan-1.10
+QMAKE_LIBDIR            = $$[QT_SYSROOT]/usr/lib@LIBDIRSUFFIX@
 
 QMAKE_CFLAGS_OPTIMIZE_FULL = -O2
 
-QMAKE_LIBS_EGL          += -lEGL
-QMAKE_LIBS_OPENGL_ES2   += -lGLESv2 -lEGL
-QMAKE_LIBS_OPENVG       += -lOpenVG -lEGL
+QMAKE_LIBS_EGL         += -lEGL
+QMAKE_LIBS_OPENGL_ES2  += -lGLESv2 -lEGL
+QMAKE_LIBS_OPENVG      += -lOpenVG -lEGL
 
-QMAKE_LFLAGS            += -Wl,-rpath-link,$$[QT_SYSROOT]/usr/lib@LIBDIRSUFFIX@ -Wl,--export-dynamic
+QMAKE_LFLAGS           += -Wl,-rpath-link,$$[QT_SYSROOT]/usr/lib@LIBDIRSUFFIX@ -Wl,--export-dynamic
 
-TARGET_HW_CFLAGS         = @ARCH_FLAGS@ @ARCH_DEFS@ @HW_FLAGS@ -DLINUX=1
+TARGET_HW_CFLAGS        = @ARCH_FLAGS@ @ARCH_DEFS@ @HW_FLAGS@ -DLINUX=1
 
-QMAKE_CFLAGS            += $$TARGET_HW_CFLAGS
-QMAKE_CXXFLAGS          += $$TARGET_HW_CFLAGS -Wno-deprecated-declarations
+QMAKE_CFLAGS           += $$TARGET_HW_CFLAGS
+QMAKE_CXXFLAGS         += $$TARGET_HW_CFLAGS -Wno-deprecated-declarations
 
 
 load(qt_config)

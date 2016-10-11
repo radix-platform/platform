@@ -1,0 +1,5 @@
+#!/bin/sh
+
+PATH="/sbin:/usr/sbin"
+
+/sbin/remotecfg /etc/rcu/remote.conf 2>/dev/null 1>/dev/null

@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+       |-----handy-ruler------------------------------------------------------|
+orc-x32: orc-x32 @VERSION@ (x86_32 Optimized Inner Loop Runtime Compiler)
+orc-x32:
+orc-x32: Orc is a library and set of tools for compiling and executing
+orc-x32: very simple programs that operate on arrays of data. The "language"
+orc-x32: is a generic assembly language that represents many of the features
+orc-x32: available in SIMD architectures, including saturated addition and
+orc-x32: subtraction, and many arithmetic operations.
+orc-x32:
+orc-x32: Cgit: https://cgit.freedesktop.org/gstreamer/orc
+orc-x32:
+orc-x32:

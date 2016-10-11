@@ -409,7 +409,7 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $
 endif
 	# ======= Change source directory to more 'normal' place =======
 	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/lib ; \
-	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/src/qt-$(version),g" \
+	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/lib$(LIBSUFFIX)/qt-$(version),g" \
 	           libQtCLucene.prl     libQtCore.prl               \
 	           libQtDBus.prl        libQtDeclarative.prl        \
 	           libQtDesigner.prl    libQtDesignerComponents.prl \
@@ -424,7 +424,7 @@ endif
 	 )
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXQ)),)
 	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/lib ; \
-	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/src/qt-$(version),g" \
+	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/lib$(LIBSUFFIX)/qt-$(version),g" \
 	           libQtMeeGoGraphicsSystemHelper.prl             ; \
 	 )
 endif

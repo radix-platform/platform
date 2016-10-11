@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+                  |-----handy-ruler------------------------------------------------------|
+zita-resampler-x32: zita-resampler-x32 @VERSION@ (x86_32 sample rate conversion library)
+zita-resampler-x32:
+zita-resampler-x32: Zita-resampler is a C++ library for sample rate conversion of
+zita-resampler-x32: audio signals. Full documentation is available in HTML format,
+zita-resampler-x32: see the 'docs' directory.
+zita-resampler-x32:
+zita-resampler-x32:
+zita-resampler-x32: Homepage: http://kokkinizita.linuxaudio.org/linuxaudio
+zita-resampler-x32:
+zita-resampler-x32:
+zita-resampler-x32:

@@ -15,6 +15,8 @@ SOURCE_REQUIRES    = sources/packages/m/mpg123
 REQUIRES           = app/mpg123/1.23.3
 REQUIRES          += libs/alsa-oss/1.0.28-x86_32
 REQUIRES          += app/esound/0.2.41-x86_32
+REQUIRES          += libs/portaudio/19-20140130-x86_32
+REQUIRES          += app/jack/0.125.0-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -93,9 +95,9 @@ extra_configure_switches += --with-default-audio=alsa
 #   in this stage we have only alsa and esound.
 #   Additional available output plugins are:
 #
-#      portaudio, pulse, sdl
+#      pulse, sdl
 #
-extra_configure_switches += --with-audio=alsa,oss,esd
+extra_configure_switches += --with-audio=alsa,oss,esd,portaudio,jack
 
 extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --enable-static=yes
@@ -134,10 +136,12 @@ $(install_target): $(build_target)
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libmpg123.la libout123.la ; \
 	 )
 	@( cd $(MPG123_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/mpg123 ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" output_alsa.la  \
-	                                    output_dummy.la \
-	                                    output_esd.la   \
-	                                    output_oss.la   \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" output_alsa.la        \
+	                                    output_dummy.la       \
+	                                    output_esd.la         \
+	                                    output_jack.la        \
+	                                    output_oss.la         \
+	                                    output_portaudio.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(MPG123_32_PKG))
@@ -147,14 +151,18 @@ $(install_target): $(build_target)
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libmpg123.la libout123.la \
 	 )
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/mpg123 ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" output_alsa.la    \
-	                                            output_dummy.la   \
-	                                            output_esd.la     \
-	                                            output_oss.la   ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" output_alsa.la  \
-	                                              output_dummy.la \
-	                                              output_esd.la   \
-	                                              output_oss.la   \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" output_alsa.la        \
+	                                            output_dummy.la       \
+	                                            output_esd.la         \
+	                                            output_jack.la        \
+	                                            output_oss.la         \
+	                                            output_portaudio.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" output_alsa.la        \
+	                                              output_dummy.la       \
+	                                              output_esd.la         \
+	                                              output_jack.la        \
+	                                              output_oss.la         \
+	                                              output_portaudio.la ; \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \

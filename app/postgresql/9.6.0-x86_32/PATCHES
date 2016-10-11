@@ -1,0 +1,3 @@
+
+../../../sources/packages/b/postgresql/patches/postgresql-9.6.0-configure.patch      -p0
+../../../sources/packages/b/postgresql/patches/postgresql-9.6.0-run-socket-dir.patch -p0

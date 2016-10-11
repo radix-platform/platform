@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+           |-----handy-ruler------------------------------------------------------|
+libsoxr-x32: libsoxr-x32 @VERSION@ (x86_32 SoX Resampler library)
+libsoxr-x32:
+libsoxr-x32: The SoX Resampler library `libsoxr' performs one-dimensional
+libsoxr-x32: sample-rate conversion -- it may be used, for example, to resample
+libsoxr-x32: PCM-encoded audio. For higher-dimensional resampling, such as for
+libsoxr-x32: visual-image processing, you should look elsewhere.libsoxr:
+libsoxr-x32:
+libsoxr-x32:
+libsoxr-x32: Homepage: https://sourceforge.net/p/soxr/wiki/Home
+libsoxr-x32:
+libsoxr-x32:

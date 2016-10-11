@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+            |-----handy-ruler------------------------------------------------------|
+schroedinger: schroedinger @VERSION@ (Dirac video codec)
+schroedinger:
+schroedinger: Schroedinger (or "schro" for short) is an implementation of the
+schroedinger: Dirac and SMPTE VC-2 video compression specification. Dirac was
+schroedinger: developed by BBC Research & Development [http://www.bbc.co.uk/rd/]
+schroedinger: as an open technology with open licensing.
+schroedinger:
+schroedinger:
+schroedinger:
+schroedinger:
+schroedinger:

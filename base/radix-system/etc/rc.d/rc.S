@@ -428,6 +428,11 @@ if [ -x /etc/rc.d/rc.fbset ]; then
   . /etc/rc.d/rc.fbset
 fi
 
+# Start the remote control setup procedure.
+if [ -x /etc/rc.d/rc.remote-control ]; then
+  . /etc/rc.d/rc.remote-control
+fi
+
 # Carry an entropy pool between reboots to improve randomness.
 if [ -f /etc/random-seed ]; then
   echo "Using /etc/random-seed to initialize /dev/urandom."

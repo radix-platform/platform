@@ -14,6 +14,7 @@ SOURCE_REQUIRES    = sources/packages/s/Linux-PAM
 
 REQUIRES           = secure/pam/1.1.8
 REQUIRES          += secure/cracklib/2.9.5-x86_32
+REQUIRES          += net/libtirpc/1.0.1-x86_32
 REQUIRES          += dev/flex/2.6.0-x86_32
 
 # ======= __END_OF_REQUIRES__ =======

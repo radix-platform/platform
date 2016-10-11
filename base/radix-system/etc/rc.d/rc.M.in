@@ -278,6 +278,10 @@ elif [ -x /etc/rc.d/rc.networkmanager ]; then
   sh /etc/rc.d/rc.networkmanager start
 fi
 
+# Start system-wide PulseAudio daemon:
+if [ -x /etc/rc.d/rc.pulseaudio ]; then
+  . /etc/rc.d/rc.pulseaudio start
+fi
 
 # These GTK+ files need to be kept up to date for
 # proper input method, pixbuf loaders, and font support.

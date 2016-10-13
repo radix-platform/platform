@@ -161,6 +161,11 @@ if [ -x /etc/rc.d/rc.acpid -a -r /var/run/acpid.pid ]; then # quit
   . /etc/rc.d/rc.acpid stop
 fi
 
+# Terminate ntpd before syslog:
+if [ -x /etc/rc.d/rc.ntpd -a -r /var/run/ntpd.pid ]; then # quit
+  sh /etc/rc.d/rc.ntpd stop
+fi
+
 # Kill all processes.
 echo
 echo "Sending all processes the SIGHUP signal."

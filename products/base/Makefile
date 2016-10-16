@@ -765,6 +765,10 @@ REQUIRES += libs/libsoxr/0.1.2
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/libsoxr/0.1.2-x86_32
 endif
+REQUIRES += libs/libmikmod/3.1.20
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libmikmod/3.1.20-x86_32
+endif
 
 REQUIRES += libs/schroedinger/1.0.11
 ifeq ($(HARDWARE),$(HARDWARE_PC64))

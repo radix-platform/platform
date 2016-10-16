@@ -765,6 +765,10 @@ REQUIRES += libs/libsoxr/0.1.2
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/libsoxr/0.1.2-x86_32
 endif
+REQUIRES += libs/libmikmod/3.1.20
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libmikmod/3.1.20-x86_32
+endif
 
 REQUIRES += libs/schroedinger/1.0.11
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
@@ -1416,6 +1420,27 @@ REQUIRES += X11/libs/libva-vdpau-driver/0.7.4
 endif
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += X11/libs/libva-vdpau-driver/0.7.4-x86_32
+endif
+
+#######
+####### SDL Libraries:
+#######
+
+REQUIRES += X11/libs/sdl/sdl-image/1.2.12
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += X11/libs/sdl/sdl-image/1.2.12-x86_32
+endif
+REQUIRES += X11/libs/sdl/sdl-mixer/1.2.12
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += X11/libs/sdl/sdl-mixer/1.2.12-x86_32
+endif
+REQUIRES += X11/libs/sdl/sdl-net/1.2.8
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += X11/libs/sdl/sdl-net/1.2.8-x86_32
+endif
+REQUIRES += X11/libs/sdl/sdl-ttf/2.0.11
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += X11/libs/sdl/sdl-ttf/2.0.11-x86_32
 endif
 
 

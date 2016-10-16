@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+         |-----handy-ruler------------------------------------------------------|
+smpeg-x32: smpeg-x32 @VERSION@ (x86_32 SDL MPEG Player Library)
+smpeg-x32:
+smpeg-x32: SMPEG is a free MPEG1 video player library with sound support. Video
+smpeg-x32: playback is based on the ubiquitous Berkeley MPEG player, mpeg_play
+smpeg-x32: v2.2. Audio is played through a slightly modified mpegsound library,
+smpeg-x32: part of Splay v0.8.2. SMPEG supports MPEG audio (MP3), MPEG-1 video,
+smpeg-x32: and MPEG system streams.
+smpeg-x32:
+smpeg-x32: Homepage: http://icculus.org/smpeg
+smpeg-x32:
+smpeg-x32:

@@ -1,0 +1,8 @@
+
+/* begin *
+
+   faac-1.28-mp4v2.patch - to use external mp4v2 library this patch should be applied
+                           and also the ./configure script shoild be called without
+                           --with-mp4v2 option.
+
+ * end */

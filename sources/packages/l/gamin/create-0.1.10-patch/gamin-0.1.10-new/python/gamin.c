@@ -6,11 +6,8 @@
  * veillard@redhat.com
  */
 
-#include <limits.h>
-
 #include <Python.h>
 #include <fam.h>
-#include "config.h"
 
 #ifdef GAMIN_DEBUG_API
 int FAMDebug(FAMConnection *fc, const char *filename, FAMRequest * fr,

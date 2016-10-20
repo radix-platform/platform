@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+    |-----handy-ruler------------------------------------------------------|
+zvbi: zvbi @VERSION@ (The Zapping VBI library)
+zvbi:
+zvbi: The Zapping VBI library, in short ZVBI, provides functions to
+zvbi: capture and decode VBI data. It is written in plain ANSI C with few
+zvbi: dependencies on other tools and libraries, licensed under GPL.
+zvbi:
+zvbi:
+zvbi: Homepage: http://zapping.sourceforge.net/ZVBI
+zvbi:
+zvbi:
+zvbi:

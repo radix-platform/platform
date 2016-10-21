@@ -753,46 +753,14 @@ endif
 REQUIRES += app/icecast/2.4.3
 REQUIRES += app/ices/2.0.2
 
-REQUIRES += app/openjpeg/1.5.2
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += app/openjpeg/1.5.2-x86_32
-endif
 REQUIRES += app/openjpeg2/2.1.2
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += app/openjpeg2/2.1.2-x86_32
 endif
-REQUIRES += libs/libsoxr/0.1.2
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/libsoxr/0.1.2-x86_32
-endif
-REQUIRES += libs/libmikmod/3.1.20
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/libmikmod/3.1.20-x86_32
-endif
 
-REQUIRES += libs/schroedinger/1.0.11
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/schroedinger/1.0.11-x86_32
-endif
-REQUIRES += libs/ladspa/1.13
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/ladspa/1.13-x86_32
-endif
-REQUIRES += app/rtmpdump/2.4
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += app/rtmpdump/2.4-x86_32
-endif
 REQUIRES += app/dcadec/0.2.0
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += app/dcadec/0.2.0-x86_32
-endif
-REQUIRES += libs/libvidstab/1.1
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/libvidstab/1.1-x86_32
-endif
-REQUIRES += libs/xvidcore/1.3.4
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/xvidcore/1.3.4-x86_32
 endif
 
 

@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+         |-----handy-ruler------------------------------------------------------|
+libdc1394: libdc1394 @VERSION@ (IIDC Camera Control Library)
+libdc1394:
+libdc1394: libdc1394 is a library that provides a high level programming
+libdc1394: interface for application developers who wish to control and
+libdc1394: capture streams from IEEE 1394 based cameras that conform to
+libdc1394: the 1394-based Digital Camera Specifications (also known as
+libdc1394: the IIDC or DCAM Specifications). libdc1394 also supports
+libdc1394: some USB cameras that are IIDC compliant.
+libdc1394:
+libdc1394: Homepage: https://sourceforge.net/projects/libdc1394
+libdc1394:

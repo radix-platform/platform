@@ -1411,6 +1411,11 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += X11/libs/sdl/sdl-ttf/2.0.11-x86_32
 endif
 
+REQUIRES += app/ffmpeg/3.1.4
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/ffmpeg/3.1.4-x86_32
+endif
+
 
 #######
 ####### Development:

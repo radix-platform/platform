@@ -16,6 +16,7 @@ REQUIRES           = libs/poppler/0.45.0
 REQUIRES          += X11/libs/harfbuzz/1.2.7-x86_32
 REQUIRES          += libs/lcms2/2.7-x86_32
 REQUIRES          += net/curl/7.47.0-x86_32
+REQUIRES          += app/openjpeg2/2.1.2-x86_32
 REQUIRES          += X11/libs/qt4/4.8.7-x86_32
 REQUIRES          += X11/libs/qt5/5.4.2-x86_32
 
@@ -95,6 +96,7 @@ extra_configure_switches += --enable-libjpeg
 extra_configure_switches += --enable-zlib
 extra_configure_switches += --enable-libcurl
 extra_configure_switches += --enable-cms=lcms2
+extra_configure_switches += --enable-libopenjpeg=openjpeg2
 extra_configure_switches += --enable-poppler-glib
 extra_configure_switches += --with-font-configuration=fontconfig
 

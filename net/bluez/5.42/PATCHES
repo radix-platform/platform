@@ -1,2 +1,3 @@
 
 ../../../sources/packages/n/bluez/patches/bluez-5.42-obex-rem-systemd.patch -p0
+../../../sources/packages/n/bluez/patches/bluez-5.42-extra-headers.patch    -p0

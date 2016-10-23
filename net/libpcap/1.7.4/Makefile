@@ -26,6 +26,7 @@ SOURCE_REQUIRES    = sources/packages/n/libpcap
 REQUIRES           = libs/libusb/1.0.20
 REQUIRES          += net/libnl3/3.2.27
 REQUIRES          += app/dbus/1.11.2
+REQUIRES          += net/bluez/5.42
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -93,9 +94,16 @@ extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
+
 extra_configure_switches += --enable-ipv6
 extra_configure_switches += --with-libnl
 extra_configure_switches += --with-pcap=linux
+
+extra_configure_switches += --enable-usb
+extra_configure_switches += --enable-bluetooth
+extra_configure_switches += --enable-canusb
+extra_configure_switches += --enable-can
+extra_configure_switches += --enable-dbus
 
 
 CFLAGS  += -I$(TARGET_DEST_DIR)/usr/include/libnl3

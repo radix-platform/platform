@@ -549,6 +549,7 @@ REQUIRES += net/dnsmasq/2.75
 REQUIRES += net/ebtables/2.0.10-4
 REQUIRES += net/iftop/1.0pre4
 REQUIRES += net/iptraf-ng/1.1.4
+REQUIRES += net/iperf3/3.1.3
 
 REQUIRES += net/bluez/5.42
 ifeq ($(HARDWARE),$(HARDWARE_PC64))

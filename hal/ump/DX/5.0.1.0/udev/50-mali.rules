@@ -4,5 +4,7 @@
 # permissions to use the mali successfully.
 #
 
-KERNEL=="mali", MODE="0660", GROUP="video"
-KERNEL=="ump", MODE="0660", GROUP="video"
+KERNEL=="mali", MODE="0666", GROUP="video"
+KERNEL=="ump", MODE="0666", GROUP="video"
+
+KERNEL=="card[0-9]*", NAME="dri/%k", MODE="0666", GROUP="video"

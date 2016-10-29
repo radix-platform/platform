@@ -7,7 +7,7 @@ include ../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/GNU/automake
 
-versions    = 1.11.5 1.12.6 1.14
+versions    = 1.11.5 1.12.6 1.14 1.15
 pkgname     = automake
 suffix      = tar.xz
 
@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/automake-1.11.5.patch
+patches    += $(CURDIR)/patches/automake-1.15-perl.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -49,7 +50,8 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-1.11.5-patch ; ./create.patch.sh ) ; \
+	 ( cd create-1.11.5-patch    ; ./create.patch.sh ) ; \
+	 ( cd create-1.15-perl-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

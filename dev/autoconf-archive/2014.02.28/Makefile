@@ -25,7 +25,7 @@ SOURCE_REQUIRES    = sources/GNU/autoconf-archive
 
 REQUIRES           = app/bash/4.3
 REQUIRES          += dev/m4/1.4.17
-REQUIRES          += dev/automake/1.12.6
+REQUIRES          += dev/automake/1.15
 
 # ======= __END_OF_REQUIRES__ =======
 

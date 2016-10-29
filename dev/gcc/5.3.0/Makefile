@@ -23,7 +23,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/gcc/gcc-5.3.0
 
-REQUIRES           = dev/binutils/2.26
+REQUIRES           = dev/binutils/2.27
 REQUIRES          += libs/isl/0.16.1
 REQUIRES          += libs/mpc/1.0.3
 

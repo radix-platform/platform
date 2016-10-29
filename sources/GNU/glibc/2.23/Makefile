@@ -14,6 +14,7 @@ tarballs    = $(addsuffix .tar.xz, $(addprefix glibc-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/glibc-2.23-i18n.patch
+patches    += $(CURDIR)/patches/glibc-2.23-vfork-alias.patch
 patches    += $(CURDIR)/patches/glibc-2.23-zoneinfo.patch
 
 .NOTPARALLEL: $(patches)
@@ -49,8 +50,9 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-glibc-2.23-i18n-patch     ; ./create.patch.sh ) ; \
-	 ( cd create-glibc-2.23-zoneinfo-patch ; ./create.patch.sh ) ; \
+	 ( cd create-glibc-2.23-i18n-patch        ; ./create.patch.sh ) ; \
+	 ( cd create-glibc-2.23-vfork-alias-patch ; ./create.patch.sh ) ; \
+	 ( cd create-glibc-2.23-zoneinfo-patch    ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

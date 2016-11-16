@@ -376,24 +376,6 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -fno-delete-null-pointer-checks \
 		   -std=gnu89
 
-KBUILD_CFLAGS   += -Werror=enum-compare \
-		   -Werror=comment \
-		   -Werror=implicit-int \
-		   -Werror=missing-braces \
-		   -Werror=unused-value \
-		   -Werror=format \
-		   -Werror=switch \
-		   -Werror=strict-prototypes \
-		   -Werror=declaration-after-statement \
-		   -Werror=uninitialized \
-		   -Werror=unused-label \
-		   -Werror=undef \
-		   -Werror=unused-result \
-		   -Werror=return-type \
-		   -Werror=parentheses \
-		   -Werror=int-to-pointer-cast \
-		   -Wno-maybe-uninitialized \
-		   -Wno-error=cpp
 KBUILD_AFLAGS_KERNEL :=
 KBUILD_CFLAGS_KERNEL :=
 KBUILD_AFLAGS   := -D__ASSEMBLY__
@@ -405,11 +387,12 @@ KBUILD_LDFLAGS_MODULE := -T $(srctree)/scripts/module-common.lds
 KERNELRELEASE = $(shell head -1 include/config/kernel.release 2> /dev/null)
 KERNELRELEASE_FULL = $(shell tail -1 include/config/kernel.release 2> /dev/null)
 KERNELVERSION = $(VERSION)$(if $(PATCHLEVEL),.$(PATCHLEVEL)$(if $(SUBLEVEL),.$(SUBLEVEL)))$(EXTRAVERSION)
+CUSTOMER_DIR_NAME ?= customer
 
 
 export VERSION PATCHLEVEL SUBLEVEL KERNELRELEASE KERNELVERSION
 export ARCH SRCARCH CONFIG_SHELL HOSTCC HOSTCFLAGS CROSS_COMPILE AS LD CC
-export CPP AR NM STRIP OBJCOPY OBJDUMP
+export CPP AR NM STRIP OBJCOPY OBJDUMP CUSTOMER_DIR_NAME
 export MAKE AWK GENKSYMS INSTALLKERNEL PERL UTS_MACHINE
 export HOSTCXX HOSTCXXFLAGS LDFLAGS_MODULE CHECK CHECKFLAGS
 
@@ -1205,7 +1188,7 @@ dtd:
 	$(srctree)/scripts/amlogic/aml_dtd.sh $(srctree)
 
 %.dtd:
-	$(srctree)/scripts/amlogic/aml2dts.sh $(wildcard $(srctree)/arch/arm/boot/dts/amlogic/$@)
+	$(srctree)/scripts/amlogic/aml2dts.sh $(firstword $(wildcard $(srctree)/arch/arm/boot/dts/amlogic/$@ $(srctree)/$(CUSTOMER_DIR_NAME)/meson/dt/$@))
 
 # Documentation targets
 # ---------------------------------------------------------------------------

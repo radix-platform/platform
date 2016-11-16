@@ -1,0 +1,12 @@
+prefix=@PREFIX@
+exec_prefix=${prefix}
+libdir=${prefix}/lib@LIBDIRSUFFIX@
+includedir=${prefix}/include
+
+Name: egl
+Description: Amlogic media player library
+Requires.private:  alsa >= 1.1.1
+Version: 0.4.0
+Libs: -L${libdir} -L${libdir}/aml_libs -lamadec -lamavutils -lamcodec -lz -lrt
+Libs.private:
+Cflags: -I${includedir}

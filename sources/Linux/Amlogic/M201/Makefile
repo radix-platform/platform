@@ -7,18 +7,20 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/Linux/Amlogic/M201
 
-versions    = aml-3.10.33-20150115
-versions   += aml-3.10.33-20150117
+versions    = aml-3.10.33-20150117
+versions   += aml-3.10.33-20160716
 
 tarballs    = $(addsuffix .tar.xz, $(addprefix linux-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/linux-aml-3.10.33-20150115-headers-install.patch
-patches    += $(CURDIR)/patches/linux-aml-3.10.33-20150115-gcc5.patch
-patches    += $(CURDIR)/patches/linux-aml-3.10.33-20150117-headers-install.patch
+patches     = $(CURDIR)/patches/linux-aml-3.10.33-20150117-headers-install.patch
 patches    += $(CURDIR)/patches/linux-aml-3.10.33-20150117-gcc5.patch
 patches    += $(CURDIR)/patches/linux-aml-3.10.33-20150117-m201-dtbs.patch
 patches    += $(CURDIR)/patches/linux-aml-3.10.33-20150117-osd-xrgb.patch
+patches    += $(CURDIR)/patches/linux-aml-3.10.33-20160716-headers-install.patch
+patches    += $(CURDIR)/patches/linux-aml-3.10.33-20160716-gcc5.patch
+patches    += $(CURDIR)/patches/linux-aml-3.10.33-20160716-m201-dtbs.patch
+patches    += $(CURDIR)/patches/linux-aml-3.10.33-20160716-osd-xrgb.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -53,12 +55,14 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-3.10.33-20150115-headers-install-patch ; ./create.patch.sh ) ; \
-	 ( cd create-3.10.33-20150115-gcc5-patch            ; ./create.patch.sh ) ; \
 	 ( cd create-3.10.33-20150117-headers-install-patch ; ./create.patch.sh ) ; \
 	 ( cd create-3.10.33-20150117-gcc5-patch            ; ./create.patch.sh ) ; \
 	 ( cd create-3.10.33-20150117-m201-dtbs-patch       ; ./create.patch.sh ) ; \
 	 ( cd create-3.10.33-20150117-osd-xrgb-patch        ; ./create.patch.sh ) ; \
+	 ( cd create-3.10.33-20160716-headers-install-patch ; ./create.patch.sh ) ; \
+	 ( cd create-3.10.33-20160716-gcc5-patch            ; ./create.patch.sh ) ; \
+	 ( cd create-3.10.33-20160716-m201-dtbs-patch       ; ./create.patch.sh ) ; \
+	 ( cd create-3.10.33-20160716-osd-xrgb-patch        ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

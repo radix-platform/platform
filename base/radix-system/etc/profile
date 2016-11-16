@@ -22,7 +22,7 @@ PATH="/usr/local/bin:/usr/bin:/bin:/usr/games"
 if [ "`id -u`" = "0" ]; then
   echo $PATH | grep /usr/local/sbin 1> /dev/null 2> /dev/null
   if [ ! $? = 0 ]; then
-    PATH=/usr/local/sbin:/usr/sbin:/sbin:$PATH
+    PATH=/sbin/pkgtool:/usr/local/sbin:/usr/sbin:/sbin:$PATH
   fi
 fi
 

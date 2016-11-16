@@ -1590,9 +1590,9 @@ static Bool MaliScreenInit(SCREEN_INIT_ARGS_DECL)
 	/* mi layer */
 	miClearVisualTypes();
 
-	if (pScrn->bitsPerPixel > 8)
+	if (pScrn->bitsPerPixel > 25)
 	{
-		if (!miSetVisualTypes(pScrn->depth, TrueColorMask, pScrn->rgbBits, TrueColor))
+		if (!miSetVisualTypes(32, TrueColorMask, pScrn->rgbBits, TrueColor))
 		{
 			ERROR_MSG("visual type setup failed for %d bits per pixel [1]", pScrn->bitsPerPixel);
 			return FALSE;

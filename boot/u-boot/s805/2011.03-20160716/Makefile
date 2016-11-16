@@ -13,7 +13,7 @@ include ../../../../build-system/constants.mk
 SOURCE_REQUIRES   = sources/U-Boot/Amlogic/M201
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_M201)),)
-REQUIRES          = boot/kernel/s805/3.10.33-20150117
+REQUIRES          = boot/kernel/s805/3.10.33-20160716
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_MXQ)),)
 REQUIRES          = boot/kernel/s805/3.10.103-20160830

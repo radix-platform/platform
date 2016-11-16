@@ -5,4 +5,42 @@
                                          [http://openlinux.amlogic.com:8000/download/ARM/filesystem/arm-buildroot-2015-01-20-4a5990f135.tar.gz]
                                          for Amlogic kernel 2015-01-15.
 
+   Additionaly this pach adds solution related to XRGB mode from Hardkernel:
+
+---------------------------------------------------------------------------------
+diff -bu -Nr a/mali_exa.c b/mali_exa.c
+--- a/mali_exa.c	2015-04-04 17:00:45.000000000 +0300
++++ b/mali_exa.c	2016-11-01 20:56:55.599705462 +0300
+@@ -27,6 +27,7 @@
+ #include <sys/types.h>
+ #include <sys/stat.h>
+ #include <fcntl.h>
++#include <xorg-server.h>
+ #include <xf86.h>
+ 
+ #include "mali_def.h"
+diff -bu -Nr a/mali_fbdev.c b/mali_fbdev.c
+--- a/mali_fbdev.c	2016-11-01 20:55:11.000000000 +0300
++++ b/mali_fbdev.c	2016-11-01 20:56:55.599705462 +0300
+@@ -1590,9 +1590,9 @@
+ 	/* mi layer */
+ 	miClearVisualTypes();
+ 
+-	if (pScrn->bitsPerPixel > 8)
++	if (pScrn->bitsPerPixel > 25)
+ 	{
+-		if (!miSetVisualTypes(pScrn->depth, TrueColorMask, pScrn->rgbBits, TrueColor))
++		if (!miSetVisualTypes(32, TrueColorMask, pScrn->rgbBits, TrueColor))
+ 		{
+ 			ERROR_MSG("visual type setup failed for %d bits per pixel [1]", pScrn->bitsPerPixel);
+ 			return FALSE;
+@@ -1788,3 +1788,4 @@
+ 	}
+ 	return TRUE;
+ }
++
+---------------------------------------------------------------------------------
+
+   But this is not enough if we use SWCursor rendered by X server.
+
  * end */

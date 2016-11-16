@@ -17,7 +17,7 @@ REQUIRES           = base/pkgtool
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 3.10.33-20150117
+version            = 3.10.33-20160716
 subversion         =
 modules_version    = 3.10.33
 full_version       = $(version)

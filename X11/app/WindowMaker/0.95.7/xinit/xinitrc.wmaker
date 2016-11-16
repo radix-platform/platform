@@ -26,7 +26,7 @@ fi
 
 # start some nice programs
 
-xset -dpms &
+# xset -dpms &
 xset s noblank &
 xset s off &
 

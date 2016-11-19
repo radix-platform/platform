@@ -1540,7 +1540,7 @@ prepare_etc_fstab() {
 # /etc/fstab
 #
 # --------------+----------------+-----------+------------------------+------+------
-         device | mount point    | FS type   | options                | dump | pass
+#        device | mount point    | FS type   | options                | dump | pass
 # --------------+----------------+-----------+------------------------+------+------
 
 EOF

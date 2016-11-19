@@ -27,7 +27,7 @@ modprobes   = $(CURDIR)/modprobe
 PKG_GROUP = base
 
 SYSINIT_BIN_PKG_NAME                = radix-system
-SYSINIT_BIN_PKG_VERSION             = 1.1.6
+SYSINIT_BIN_PKG_VERSION             = 1.1.8
 SYSINIT_BIN_PKG_ARCH                = $(TOOLCHAIN)
 SYSINIT_BIN_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 SYSINIT_BIN_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)

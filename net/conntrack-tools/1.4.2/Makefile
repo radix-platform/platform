@@ -2,13 +2,16 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -21,12 +24,12 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/n/conntrack-tools
 
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
-REQUIRES           = net/libnetfilter_conntrack/1.0.4
+REQUIRES           = net/libnetfilter_conntrack/1.0.5
 REQUIRES          += net/libnetfilter_cthelper/1.0.0
 REQUIRES          += net/libnetfilter_cttimeout/1.0.0
 REQUIRES          += net/libnetfilter_queue/1.0.2
 else
-REQUIRES           = net/libnetfilter_conntrack/1.0.4-x86_32
+REQUIRES           = net/libnetfilter_conntrack/1.0.5-x86_32
 REQUIRES          += net/libnetfilter_cthelper/1.0.0-x86_32
 REQUIRES          += net/libnetfilter_cttimeout/1.0.0-x86_32
 REQUIRES          += net/libnetfilter_queue/1.0.2-x86_32

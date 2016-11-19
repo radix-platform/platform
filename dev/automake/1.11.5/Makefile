@@ -3,10 +3,7 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
 
 
 NEED_ABS_PATH      = true
@@ -19,7 +16,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/GNU/automake
 
 REQUIRES           = app/bash/4.3
-REQUIRES          += dev/perl/5.18.2
+REQUIRES          += dev/perl/5.22.1
 REQUIRES          += dev/autoconf/2.69
 
 # ======= __END_OF_REQUIRES__ =======

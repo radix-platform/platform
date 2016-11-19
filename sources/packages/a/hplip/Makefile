@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/hplip
 
-versions    = 3.15.9
+versions    = 3.15.9 3.16.5
 pkgname     = hplip
 suffix      = tar.gz
 
@@ -16,6 +16,9 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/hplip-3.15.9-configure.patch
 patches    += $(CURDIR)/patches/hplip-3.15.9-no-upgrade.patch
+patches    += $(CURDIR)/patches/hplip-3.16.5-configure.patch
+patches    += $(CURDIR)/patches/hplip-3.16.5-no-upgrade.patch
+patches    += $(CURDIR)/patches/hplip-3.16.5-lc-all-c.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -52,6 +55,9 @@ $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-3.15.9-configure-patch  ; ./create.patch.sh ) ; \
 	 ( cd create-3.15.9-no-upgrade-patch ; ./create.patch.sh ) ; \
+	 ( cd create-3.16.5-configure-patch  ; ./create.patch.sh ) ; \
+	 ( cd create-3.16.5-no-upgrade-patch ; ./create.patch.sh ) ; \
+	 ( cd create-3.16.5-lc-all-c-patch   ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

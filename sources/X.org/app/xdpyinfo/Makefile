@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/app/xdpyinfo
 
-versions    = 1.3.1
+versions    = 1.3.1 1.3.2
 pkgname     = xdpyinfo
 suffix      = tar.bz2
 

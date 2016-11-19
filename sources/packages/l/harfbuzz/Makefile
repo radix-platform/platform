@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/harfbuzz
 
-versions    = 0.9.36
+versions    = 0.9.36 1.2.7
 pkgname     = harfbuzz
 suffix      = tar.bz2
 
@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/harfbuzz-0.9.36-no-eps.patch
+patches    += $(CURDIR)/patches/harfbuzz-1.2.7-no-eps.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,6 +51,7 @@ $(sha1s): $(tarballs)
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-0.9.36-no-eps-patch ; ./create.patch.sh ) ; \
+	 ( cd create-1.2.7-no-eps-patch  ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

@@ -2,13 +2,16 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -20,12 +23,20 @@ include ../../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/X.org/driver/xf86-input-synaptics
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
 REQUIRES           = X11/X.org/xserver/xorg-server/1.16.2
 else
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
 REQUIRES           = X11/X.org/xserver/xorg-server/1.16.4
+else
+ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXQ)),)
+REQUIRES           = X11/X.org/xserver/xorg-server/1.16.4
+else
+REQUIRES           = X11/X.org/xserver/xorg-server/1.18.3
 endif
-REQUIRES          += X11/libs/libevdev/1.3.2
+endif
+endif
+REQUIRES          += X11/libs/libevdev/1.5.1
 
 # ======= __END_OF_REQUIRES__ =======
 

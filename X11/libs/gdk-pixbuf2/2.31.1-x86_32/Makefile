@@ -13,10 +13,10 @@ include ../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/GNOME/core/gdk-pixbuf
 
 REQUIRES           = X11/libs/gdk-pixbuf2/2.31.1
-REQUIRES          += libs/glib2/2.40.0-x86_32
-REQUIRES          += libs/libpng/libpng14/1.4.13-x86_32
-REQUIRES          += libs/libtiff/4.0.3-x86_32
-REQUIRES          += X11/X.org/lib/libX11/1.6.2-x86_32
+REQUIRES          += libs/glib2/2.48.0-x86_32
+REQUIRES          += libs/libpng/libpng14/1.4.19-x86_32
+REQUIRES          += libs/libtiff/4.0.6-x86_32
+REQUIRES          += X11/X.org/lib/libX11/1.6.3-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

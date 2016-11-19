@@ -1,0 +1,6 @@
+
+../../../sources/packages/m/pulseaudio/patches/pulseaudio-9.0-root-autospawn-allow.patch -p0
+../../../sources/packages/m/pulseaudio/patches/pulseaudio-9.0-autostart-x11.patch        -p0
+../../../sources/packages/m/pulseaudio/patches/pulseaudio-9.0-no-parallel.patch          -p0
+../../../sources/packages/m/pulseaudio/patches/pulseaudio-9.0-no-root-warn.patch         -p0
+../../../sources/packages/m/pulseaudio/patches/pulseaudio-9.0-posix-completion.patch     -p0

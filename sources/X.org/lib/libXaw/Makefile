@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/lib/libXaw
 
-versions    = 1.0.12
+versions    = 1.0.12 1.0.13
 pkgname     = libXaw
 suffix      = tar.bz2
 

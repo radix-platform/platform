@@ -292,12 +292,15 @@ fi
 # Add entry for / to /etc/mtab:
 /sbin/mount -f -w /
 
-# Add /proc and /sys mounts to /etc/mtab:
+# Add /proc, /sys, and /dev/shm mounts to /etc/mtab:
 if [ -d /proc/sys ]; then
-  /sbin/mount -f proc /proc -t proc
+  /sbin/mount -f -t proc proc /proc
 fi
 if [ -d /sys/bus ]; then
-  /sbin/mount -f sysfs /sys -t sysfs
+  /sbin/mount -f -t sysfs sysfs /sys
+fi
+if grep -q '^[^ ]\+ /dev/shm ' /proc/mounts 2> /dev/null ; then
+  /sbin/mount -f -t tmpfs tmpfs /dev/shm
 fi
 
 # Configure ISA Plug-and-Play devices:
@@ -359,9 +362,12 @@ fi
 echo "Mounting non-root local filesystems:"
 sleep 3
 if /bin/grep -wq devpts /proc/mounts ; then
-  /sbin/mount -a -v -t nonfs,nosmbfs,nocifs,noproc,nosysfs,nodevpts
+  # This pipe after the mount command is just to convert the new
+  # mount verbose output back to the old format that contained
+  # more useful information:
+  /sbin/mount -a -v -t nonfs,nosmbfs,nocifs,noproc,nosysfs,nodevpts | grep successfully | cut -f 1 -d : | tr -d ' ' | while read dev ; do mount | grep "${dev} " ; done
 else
-  /sbin/mount -a -v -t nonfs,nosmbfs,nocifs,noproc,nosysfs
+  /sbin/mount -a -v -t nonfs,nosmbfs,nocifs,noproc,nosysfs | grep successfully | cut -f 1 -d : | tr -d ' ' | while read dev ; do mount | grep "${dev} " ; done
 fi
 
 # Enable swapping again.  This is needed in case a swapfile is used,
@@ -415,6 +421,16 @@ fi
 # boot disk, and/or set it as non-executable:
 if [ -x /etc/rc.d/rc.serial ]; then
   sh /etc/rc.d/rc.serial start
+fi
+
+# Start the framebuffer setup procedure.
+if [ -x /etc/rc.d/rc.fbset ]; then
+  . /etc/rc.d/rc.fbset
+fi
+
+# Start the remote control setup procedure.
+if [ -x /etc/rc.d/rc.remote-control ]; then
+  . /etc/rc.d/rc.remote-control
 fi
 
 # Carry an entropy pool between reboots to improve randomness.

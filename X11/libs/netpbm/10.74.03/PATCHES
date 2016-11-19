@@ -1,0 +1,5 @@
+
+../../../../sources/packages/l/netpbm/patches/netpbm-10.74.03-security-code.patch    -p0
+../../../../sources/packages/l/netpbm/patches/netpbm-10.74.03-security-scripts.patch -p0
+../../../../sources/packages/l/netpbm/patches/netpbm-10.74.03-CAN-2005-2471.patch    -p0
+../../../../sources/packages/l/netpbm/patches/netpbm-10.74.03-make.patch             -p0

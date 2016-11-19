@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+           |-----handy-ruler------------------------------------------------------|
+fribidi-x32: fribidi-x32 @VERSION@ (x86_32 Unicode BiDirectional algorithm library)
+fribidi-x32:
+fribidi-x32: This library implements the Unicode BiDirectional algorithm, which
+fribidi-x32: is needed in order to support right-to-left languages such as Arabic
+fribidi-x32: and Hebrew. It is used in display software like KDE's SVG modules.
+fribidi-x32:
+fribidi-x32: Homepage: http://fribidi.org
+fribidi-x32:
+fribidi-x32:
+fribidi-x32:
+fribidi-x32:

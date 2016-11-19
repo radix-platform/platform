@@ -5,11 +5,11 @@ COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 include ../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/packages/a/vim-hg
+url         = $(DOWNLOAD_SERVER)/sources/packages/a/vim-github
 
-versions    = 7.4-373
+versions    = 7.4-1156
 pkgname     = vim
-suffix      = tar.bz2
+suffix      = tar.xz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))

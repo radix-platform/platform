@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/lib/libXrender
 
-versions    = 0.9.8
+versions    = 0.9.8 0.9.9
 pkgname     = libXrender
 suffix      = tar.bz2
 

@@ -1,0 +1,4 @@
+linux-aml-3.10.103-20160830/drivers/amlogic/display/osd/osd_hw.c
+linux-aml-3.10.103-20160830/drivers/amlogic/display/osd/osd_main.c
+linux-aml-3.10.103-20160830/include/linux/amlogic/osd/osd.h
+linux-aml-3.10.103-20160830/include/linux/amlogic/osd/osd_main.h

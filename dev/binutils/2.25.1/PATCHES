@@ -1,0 +1,4 @@
+
+../../../sources/GNU/binutils/patches/binutils-2.25.1-export-demangle-h.patch -p0
+../../../sources/GNU/binutils/patches/binutils-2.25.1-no-config-h-check.patch -p0
+

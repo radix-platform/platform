@@ -1,2 +1,3 @@
 
-../../../../sources/GNOME/core/gtk+2/patches/gtk+-2.24.25.patch -p0
+../../../../sources/GNOME/core/gtk+2/patches/gtk+-2.24.25.patch            -p0
+../../../../sources/GNOME/core/gtk+2/patches/gtk+-2.24.25-gdk-pixbuf.patch -p0

@@ -1,0 +1,124 @@
+#
+# rc.mesonfb - initial set up meson framebuffer
+#
+hdmimode=720p
+
+# Parse command line arguments
+for arg in $(cat /proc/cmdline); do
+  case $arg in
+    hdmimode=*)
+      hdmimode="${arg#*=}"
+      ;;
+  esac
+done
+
+outputmode=$hdmimode
+
+/bin/echo $outputmode > /sys/class/display/mode
+
+# Enable framebuffer device
+/bin/echo 0 > /sys/class/graphics/fb0/blank
+
+# Blank fb1 to prevent static noise
+/bin/echo 1 > /sys/class/graphics/fb1/blank
+
+# Disable framebuffer scaling
+/bin/echo 0 > /sys/class/graphics/fb0/free_scale
+/bin/echo 0 > /sys/class/graphics/fb1/free_scale
+
+
+/bin/echo 1 > /sys/class/graphics/fb0/freescale_mode
+
+case $outputmode in
+  480*)
+    /bin/echo 0 0 1279 719 > /sys/class/graphics/fb0/free_scale_axis
+    /bin/echo 0 0 1279 719 > /sys/class/graphics/fb0/window_axis
+    ;;
+
+  576*)
+    /bin/echo 0 0 1279 719 > /sys/class/graphics/fb0/free_scale_axis
+    /bin/echo 0 0 1279 719 > /sys/class/graphics/fb0/window_axis
+    ;;
+
+  720*)
+    /bin/echo 0 0 1279 719 > /sys/class/graphics/fb0/free_scale_axis
+    /bin/echo 0 0 1279 719 > /sys/class/graphics/fb0/window_axis
+    ;;
+
+  1080*)
+    /bin/echo 0 0 1919 1079 > /sys/class/graphics/fb0/free_scale_axis
+    /bin/echo 0 0 1919 1079 > /sys/class/graphics/fb0/window_axis
+    ;;
+
+  4k2k*)
+    /bin/echo 0 0 1919 1079 > /sys/class/graphics/fb0/free_scale_axis
+    /bin/echo 0 0 1919 1079 > /sys/class/graphics/fb0/window_axis
+    ;;
+
+  *)
+    # outputmode = 720p
+    /bin/echo 720p > /sys/class/display/mode
+    /bin/echo 0 0 1279 719 > /sys/class/graphics/fb0/free_scale_axis
+    /bin/echo 0 0 1279 719 > /sys/class/graphics/fb0/window_axis
+    ;;
+esac
+
+
+# Set framebuffer geometry to match the resolution
+case "$hdmimode" in
+  720*)
+    /usr/sbin/fbset -fb /dev/fb0 -a -g 1280 720 1280 1440 32
+    ;;
+  1080*)
+    /usr/sbin/fbset -fb /dev/fb0 -a -g 1920 1080 1920 3240 32
+    ;;
+esac
+/usr/sbin/fbset -fb /dev/fb1 -g 32 32 32 32 32
+
+# Include deinterlacer into default VFM map
+/bin/echo rm default > /sys/class/vfm/map
+/bin/echo add default decoder ppmgr deinterlace amvideo > /sys/class/vfm/map
+
+################################################################
+#
+# If HDMI cable is connected during kernel start and the new
+# outputmode is equal to current hdmimode then the screen is
+# black.
+#
+# To wake up the monitor, we must reset outputmode.
+# Only in this case, the driver will wake the display up.
+#
+# Instead we will have to reconnect hdmi cable.
+#
+outputmode=$(cat /sys/class/display/mode)
+hpdstate=$(cat /sys/class/amhdmitx/amhdmitx0/hpd_state)
+
+if [ "$hpdstate" = "1" ]; then
+  # Blank fb0 to prevent static noise
+  /bin/echo 1 > /sys/class/graphics/fb0/blank
+    case $outputmode in
+      720*)
+        /bin/echo 1080p > /sys/class/display/mode
+        /bin/echo $outputmode > /sys/class/display/mode
+        ;;
+
+      1080*)
+        /bin/echo 720p > /sys/class/display/mode
+        /bin/echo $outputmode > /sys/class/display/mode
+        ;;
+      *)
+        # probably nobody asks 480cvbs
+        /bin/echo 480cvbs > /sys/class/display/mode
+        /bin/echo $outputmode > /sys/class/display/mode
+        ;;
+    esac
+  # Enable framebuffer device
+  /bin/echo 0 > /sys/class/graphics/fb0/blank
+fi
+#
+# End of HDMI cable reconnect trick.
+#
+################################################################
+
+echo 0x10001 > /sys/class/graphics/fb0/free_scale
+echo 0 > /sys/class/graphics/fb1/free_scale

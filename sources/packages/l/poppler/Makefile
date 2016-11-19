@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/poppler
 
-versions    = 0.29.0
+versions    = 0.29.0 0.45.0
 pkgname     = poppler
 suffix      = tar.xz
 

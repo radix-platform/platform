@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/x/xdg-utils
 
-versions    = 1.1.0
+versions    = 1.1.0 1.1.1
 pkgname     = xdg-utils
 suffix      = tar.xz
 

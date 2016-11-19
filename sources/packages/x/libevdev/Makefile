@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/x/libevdev
 
-versions    = 1.3.2
+versions    = 1.3.2 1.5.1
 pkgname     = libevdev
 suffix      = tar.xz
 

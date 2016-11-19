@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/tcpdump
 
-versions    = 4.6.2
+versions    = 4.6.2 4.7.4
 pkgname     = tcpdump
 suffix      = tar.gz
 

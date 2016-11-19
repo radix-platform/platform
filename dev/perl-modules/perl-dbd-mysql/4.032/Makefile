@@ -2,13 +2,16 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -20,9 +23,9 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/d/perl-modules/CPAN/DBD-mysql
 
-REQUIRES           = dev/perl/5.18.2
+REQUIRES           = dev/perl/5.22.1
 REQUIRES          += dev/perl-modules/perl-dbi/1.634
-REQUIRES          += app/mariadb/5.5.41
+REQUIRES          += app/mariadb/10.0.25
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -92,60 +95,65 @@ include ../../../../build-system/core.mk
 #
 # Global Variables:
 # ================
-#   ARCH            - defined in dev/perl/2.18.2/Makefile
+#   ARCH            - defined in dev/perl/5.22.1/Makefile
 #   UNAME_R_VERSION - used Linux kernel
 #
 # TODO: create special global collection for filling by package Makefiles
 #
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32)),)
 ARCH            = x86_32
-UNAME_R_VERSION = 3.10.17
-GLIBC_VERSION   = 2.21
+UNAME_R_VERSION = 4.1.15
+GLIBC_VERSION   = 2.23
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 ARCH            = x86_64
-UNAME_R_VERSION = 3.10.17
-GLIBC_VERSION   = 2.21
+UNAME_R_VERSION = 4.1.15
+GLIBC_VERSION   = 2.23
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
 ARCH            = arm
 UNAME_R_VERSION = 3.4.90
-GLIBC_VERSION   = 2.21
+GLIBC_VERSION   = 2.23
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB3X)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB2X) $(HARDWARE_CB3X)),)
 ARCH            = arm
 UNAME_R_VERSION = 3.4.104
-GLIBC_VERSION   = 2.21
+GLIBC_VERSION   = 2.23
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_FFRK3288)),)
 ARCH            = arm
 UNAME_R_VERSION = 3.10.37
-GLIBC_VERSION   = 2.21
+GLIBC_VERSION   = 2.23
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_DM64X)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_M201)),)
 ARCH            = arm
-UNAME_R_VERSION = 2.6.36
-GLIBC_VERSION   = 2.21
+UNAME_R_VERSION = 3.10.33
+GLIBC_VERSION   = 2.23
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_BEAGLE)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MXQ)),)
 ARCH            = arm
-UNAME_R_VERSION = 2.6.36
-GLIBC_VERSION   = 2.21
+UNAME_R_VERSION = 3.10.103
+GLIBC_VERSION   = 2.23
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
 ARCH            = arm
-UNAME_R_VERSION = 3.8.13
-GLIBC_VERSION   = 2.21
+UNAME_R_VERSION = 3.14.28
+GLIBC_VERSION   = 2.23
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_B74)),)
-ARCH            = mipsel
-UNAME_R_VERSION = 2.6.36
-GLIBC_VERSION   = 2.21
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
+ARCH            = arm
+UNAME_R_VERSION = 3.14.57
+GLIBC_VERSION   = 2.23
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
 ARCH            = mips32r2
-UNAME_R_VERSION = 3.0.8
-GLIBC_VERSION   = 2.21
+UNAME_R_VERSION = 3.18.3
+GLIBC_VERSION   = 2.23
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_BT1)),)
+ARCH            = mips32r5
+UNAME_R_VERSION = 4.1.15
+GLIBC_VERSION   = 2.23
 endif
 
 
@@ -162,6 +170,7 @@ perl_environment  = INSTALLDIRS=vendor
 perl_environment += PERL_LIB='$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5'
 perl_environment += PERL_ARCHLIB='$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)'
 perl_environment += PERL_INC='$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)/CORE'
+perl_environment += PERL_INCDEP='$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)/CORE'
 
 perl_environment += SITELIBEXP='/usr/lib$(LIBSUFFIX)/perl5/site_perl'
 perl_environment += SITEARCHEXP='/usr/lib$(LIBSUFFIX)/perl5/site_perl/$(ARCHNAME)'
@@ -223,10 +232,6 @@ perl_src_hdrs = PERL_SRC=$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME
 # Module Specific Perl5 Environment:
 # =================================
 #
-perl_environment += DBI_INSTARCH_DIR='$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/vendor_perl/$(ARCHNAME)/auto/DBI'
-perl_environment += DBI_DRIVER_XST='$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/vendor_perl/$(ARCHNAME)/auto/DBI/Driver.xst'
-perl_environment += INC='-I$(TARGET_DEST_DIR)/usr/include -I$(TARGET_DEST_DIR)/usr/include/mysql -I$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/vendor_perl/$(ARCHNAME)/auto/DBI'
-perl_environment += LD_RUN_PATH='/usr/lib$(LIBSUFFIX)'
 
 perl_local_pod = usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)/perllocal.pod
 
@@ -244,7 +249,6 @@ $(build_target): $(src_done)
 	                        $(perl_src_hdrs) perl Makefile.PL --testuser=mysql $(perl_environment) ; \
 	   sed -i "s,-I/usr/local/include,-I$(TARGET_DEST_DIR)/usr/include,g" Makefile ; \
 	   sed -i "s,-I/usr/include,-I$(TARGET_DEST_DIR)/usr/include,g"       Makefile ; \
-	   sed -i "s,/usr/.*/DBI/Driver_xst.h,$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/vendor_perl/$(ARCHNAME)/auto/DBI/Driver_xst.h,g" Makefile ; \
 	 )
 	@( cd $(SRC_DIR) ; \
 	   $(BUILD_ENVIRONMENT) $(MAKE) $(perl_environment) ; \

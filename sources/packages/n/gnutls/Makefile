@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/gnutls
 
-versions    = 3.1.22
+versions    = 3.1.22 3.4.8
 pkgname     = gnutls
 suffix      = tar.xz
 

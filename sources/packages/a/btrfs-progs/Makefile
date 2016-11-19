@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/btrfs-progs
 
-versions    = 3.16
+versions    = 3.16 4.4
 pkgname     = btrfs-progs
 suffix      = tar.bz2
 

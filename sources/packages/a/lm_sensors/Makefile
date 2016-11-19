@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/lm_sensors
 
-versions    = 3.3.5
+versions    = 3.3.5 3.4.0
 pkgname     = lm_sensors
 suffix      = tar.bz2
 
@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/lm_sensors-3.3.5.patch
+patches    += $(CURDIR)/patches/lm_sensors-3.4.0.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,6 +51,7 @@ $(sha1s): $(tarballs)
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-3.3.5-patch ; ./create.patch.sh ) ; \
+	 ( cd create-3.4.0-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

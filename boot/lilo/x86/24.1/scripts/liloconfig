@@ -334,7 +334,7 @@ EOF
 
   result=`$DIALOG --stdout  --colors \
                   --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
-                  --title " \Z4LILO Setup: \ZbOptional appand=<kernel parameters>\ZB\Zn " \
+                  --title " \Z4LILO Setup: \ZbOptional append=<kernel parameters>\ZB\Zn " \
                   --inputbox "$(cat $TMP/append-help$$)" 14 76 ""`
   ret=$?
   if [ $ret = 0 ]; then

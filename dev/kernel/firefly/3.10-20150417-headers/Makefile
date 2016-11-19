@@ -95,7 +95,7 @@ $(KH_DEV_PKG)/usr/include/linux/autoconf.h: $(SRC_DIR)/include/generated/uapi/li
 	@$(MAKE) -C $(SRC_DIR) headers_install \
 	            ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_PREFIX) \
 	            INSTALL_HDR_PATH=$(KH_DEV_PKG)/usr
-	touch $@
+	@touch $@
 
 $(build_kh_pkg): $(KH_DEV_PKG)/usr/include/linux/autoconf.h
 	@( cd $(KH_DEV_PKG)/usr/include ; \

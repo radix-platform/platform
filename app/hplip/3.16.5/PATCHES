@@ -1,0 +1,4 @@
+
+../../../sources/packages/a/hplip/patches/hplip-3.16.5-configure.patch  -p0
+../../../sources/packages/a/hplip/patches/hplip-3.16.5-no-upgrade.patch -p0
+../../../sources/packages/a/hplip/patches/hplip-3.16.5-lc-all-c.patch   -p0

@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+           |-----handy-ruler------------------------------------------------------|
+sdl-net-x32: sdl-net-x32 @VERSION@ (x86_32 SDL portable network library)
+sdl-net-x32:
+sdl-net-x32: This is an example portable network library for use with SDL.
+sdl-net-x32: It is available under the zlib license, found in the file COPYING.
+sdl-net-x32:
+sdl-net-x32:
+sdl-net-x32:
+sdl-net-x32: Homepage: http://www.libsdl.org
+sdl-net-x32:
+sdl-net-x32:
+sdl-net-x32:

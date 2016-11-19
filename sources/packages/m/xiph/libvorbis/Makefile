@@ -7,7 +7,7 @@ include ../../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/m/xiph/libvorbis
 
-versions    = 1.3.4
+versions    = 1.3.4 1.3.5
 pkgname     = libvorbis
 suffix      = tar.xz
 

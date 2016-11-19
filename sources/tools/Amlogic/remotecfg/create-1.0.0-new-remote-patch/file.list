@@ -1,0 +1,4 @@
+remotecfg-1.0.0/config.c
+remotecfg-1.0.0/irremote.c
+remotecfg-1.0.0/parsefile.c
+remotecfg-1.0.0/remote_config.h

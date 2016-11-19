@@ -1,0 +1,12 @@
+
+/* begin *
+
+   ffmpeg-3.1.4-openjpeg.patch  - disable checking openjp2 library which has not
+                                  a static variant (not needed, just for information);
+   ffmpeg-3.1.4-pthreads.patch  - fix -pthread options passed to CC and LD (not needed);
+   ffmpeg-3.1.4-configure.patch - common patch which includes two first patches and also
+                                  adds privately used libs by external libraries;
+
+   ffmpeg-3.1.4-openh264.patch  - enable external openh264 lib.
+
+ * end */

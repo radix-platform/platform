@@ -2,13 +2,16 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -21,18 +24,18 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/m/sox
 
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/4.9.2
+REQUIRES           = dev/gcc/5.3.0
 endif
 REQUIRES          += dev/libtool/2.4.2
-REQUIRES          += app/file/5.19
-REQUIRES          += libs/libpng/libpng14/1.4.13
-REQUIRES          += libs/libao/1.1.0
+REQUIRES          += app/file/5.28
+REQUIRES          += libs/libpng/libpng14/1.4.19
+REQUIRES          += libs/libao/1.2.0
 REQUIRES          += libs/lame/3.99.5
 REQUIRES          += libs/libid3tag/0.15.1b
 REQUIRES          += libs/libmad/0.15.1b
-REQUIRES          += libs/libsndfile/1.0.25
+REQUIRES          += libs/libsndfile/1.0.26
 REQUIRES          += libs/opencore-amr/0.1.3
-REQUIRES          += libs/wavpack/4.70.0
+REQUIRES          += libs/wavpack/4.75.2
 REQUIRES          += libs/gsm/1.0.13
 
 # ======= __END_OF_REQUIRES__ =======

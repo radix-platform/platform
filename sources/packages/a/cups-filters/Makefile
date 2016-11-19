@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/cups-filters
 
-versions    = 1.0.76
+versions    = 1.0.76 1.9.0
 pkgname     = cups-filters
 suffix      = tar.xz
 

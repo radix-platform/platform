@@ -2,13 +2,16 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -21,8 +24,8 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/y/bsd-games
 
 REQUIRES           = libs/libtermcap/1.2.3
-REQUIRES          += net/openssl/1.0.2d
-REQUIRES          += dev/flex/2.5.39
+REQUIRES          += net/openssl/1.0.2f
+REQUIRES          += dev/flex/2.6.0
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -110,11 +113,14 @@ $(build_target): $(src_done)
 	   sed -i 's,@LDFLAGS@,\"$(LDFLAGS)\",g'                    config.params ; \
 	   $(BUILD_ENVIRONMENT) $(environment) ./configure ; \
 	 )
+	@( cd $(SRC_DIR) ; \
+	   $(environment) $(MAKE) fortune/strfile/strfile_build ; \
+	 )
 	@( cd $(SRC_DIR)/fortune/datfiles ;           \
-	   if [ -x /usr/bin/strfile ] ; then          \
+	   if [ -x ../strfile/strfile_build ] ; then  \
 	     cp unamerican-o.real unamerican-o.fake ; \
 	     cp unamerican-o.real unamerican-o      ; \
-	     strfile unamerican-o unamerican-o.dat  ; \
+	     ../strfile/strfile_build unamerican-o unamerican-o.dat  ; \
 	   fi ; \
 	 )
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE)

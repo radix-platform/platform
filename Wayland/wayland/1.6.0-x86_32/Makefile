@@ -13,8 +13,8 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/Wayland/wayland
 
 REQUIRES           = Wayland/wayland/1.6.0
-REQUIRES          += libs/expat/2.1.0-x86_32
-REQUIRES          += libs/libffi/3.0.13-x86_32
+REQUIRES          += libs/expat/2.1.1-x86_32
+REQUIRES          += libs/libffi/3.2.1-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -100,6 +100,9 @@ TARGET_LIB_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFI
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
+	@( cd $(SRC_DIR) ; \
+	   autoreconf -i ; \
+	 )
 	@touch $@
 
 $(build_target): $(src_done)

@@ -2,13 +2,16 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -20,12 +23,12 @@ include ../../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/X.org/lib/libX11
 
-REQUIRES           = X11/X.org/proto/xproto/7.0.26
-REQUIRES          += X11/X.org/proto/kbproto/1.0.6
-REQUIRES          += X11/X.org/proto/inputproto/2.3.1
+REQUIRES           = X11/X.org/proto/xproto/7.0.29
+REQUIRES          += X11/X.org/proto/kbproto/1.0.7
+REQUIRES          += X11/X.org/proto/inputproto/2.3.2
 REQUIRES          += X11/X.org/proto/xextproto/7.3.0
 REQUIRES          += X11/X.org/proto/xf86bigfontproto/1.2.0
-REQUIRES          += X11/X.org/xcb/libxcb/1.11
+REQUIRES          += X11/X.org/xcb/libxcb/1.11.1
 REQUIRES          += X11/X.org/lib/xtrans/1.3.5
 
 # ======= __END_OF_REQUIRES__ =======

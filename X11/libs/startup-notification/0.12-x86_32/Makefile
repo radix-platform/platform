@@ -13,7 +13,7 @@ include ../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/x/startup-notification
 
 REQUIRES           = X11/libs/startup-notification/0.12
-REQUIRES          += X11/X.org/lib/libX11/1.6.2-x86_32
+REQUIRES          += X11/X.org/lib/libX11/1.6.3-x86_32
 REQUIRES          += X11/X.org/xcb/xcb-util/0.4.0-x86_32
 
 # ======= __END_OF_REQUIRES__ =======

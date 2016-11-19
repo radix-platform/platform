@@ -7,7 +7,7 @@ include ../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/GNU/gettext
 
-versions    = 0.18.3.2 0.19.6
+versions    = 0.18.3.2 0.19.7
 pkgname     = gettext
 suffix      = tar.gz
 

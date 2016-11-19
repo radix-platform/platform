@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/dbus-python
 
-versions    = 1.2.0
+versions    = 1.2.0 1.2.4
 pkgname     = dbus-python
 suffix      = tar.gz
 

@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+       |-----handy-ruler------------------------------------------------------|
+sdl-ttf: sdl-ttf @VERSION@ (SDL TrueType fonts library)
+sdl-ttf:
+sdl-ttf: This library is a wrapper around the FreeType 2.0 library which
+sdl-ttf: allows you to use TrueType fonts to render text in SDL applications.
+sdl-ttf:
+sdl-ttf:
+sdl-ttf:
+sdl-ttf: Homepage: http://www.libsdl.org
+sdl-ttf:
+sdl-ttf:
+sdl-ttf:

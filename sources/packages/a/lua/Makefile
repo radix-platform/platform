@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/lua
 
-versions    = 5.2.2 5.2.3
+versions    = 5.2.2 5.2.3 5.3.2
 pkgname     = lua
 suffix      = tar.gz
 
@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/lua-5.2.3.patch
+patches    += $(CURDIR)/patches/lua-5.3.2.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,6 +51,7 @@ $(sha1s): $(tarballs)
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-5.2.3-patch ; ./create.patch.sh ) ; \
+	 ( cd create-5.3.2-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

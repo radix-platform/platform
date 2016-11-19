@@ -13,7 +13,7 @@ include ../../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/X.org/lib/libXcm
 
 REQUIRES           = X11/X.org/lib/libXcm/0.5.3
-REQUIRES          += X11/X.org/proto/xproto/7.0.26-x86_32
+REQUIRES          += X11/X.org/proto/xproto/7.0.29-x86_32
 REQUIRES          += X11/X.org/lib/libXmu/1.1.2-x86_32
 REQUIRES          += X11/X.org/lib/libXfixes/5.0.1-x86_32
 

@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/tmux
 
-versions    = 1.9a
+versions    = 1.9a 2.0
 pkgname     = tmux
 suffix      = tar.gz
 

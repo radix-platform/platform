@@ -7,7 +7,7 @@ include ../../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/m/xiph/libao
 
-versions    = 1.1.0
+versions    = 1.1.0 1.2.0
 pkgname     = libao
 suffix      = tar.gz
 

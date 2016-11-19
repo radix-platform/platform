@@ -7,7 +7,7 @@ include ../../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/ieee1394/libraw1394
 
-versions    = 2.1.0
+versions    = 2.1.0 2.1.2
 pkgname     = libraw1394
 suffix      = tar.xz
 

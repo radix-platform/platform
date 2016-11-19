@@ -2,13 +2,16 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -21,21 +24,21 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/x/gstreamer
 SOURCE_REQUIRES   += sources/hal/omap543x/glsdk/gstreamer0.10
 
-REQUIRES           = libs/glib2/2.40.0
-REQUIRES          += libs/libxml2/2.9.1
+REQUIRES           = libs/glib2/2.48.0
+REQUIRES          += libs/libxml2/2.9.3
 
 # ======= __END_OF_REQUIRES__ =======
 
 
 version            = 0.10.36
-ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/hal/omap543x/glsdk/gstreamer0.10/gstreamer-ti-$(version).tar.xz
 else
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/x/gstreamer/gstreamer-$(version).tar.xz
 endif
 SRC_ARCHIVE        = $(tar_xz_archive)
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
 src_dir_name       = gstreamer-ti-$(version)
 else
 src_dir_name       = gstreamer-$(version)
@@ -45,7 +48,7 @@ SRC_DIR            = $(TARGET_BUILD_DIR)/$(src_dir_name)
 doc_dir_name       = gstreamer0-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
 PATCHES = PATCHES.omap543x
 else
 PATCHES = PATCHES
@@ -129,7 +132,7 @@ TARGET_LIB_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUF
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
-ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
 	@( cd $(SRC_DIR) ; ./autogen.sh ; make distclean )
 endif
 	@touch $@
@@ -162,7 +165,7 @@ $(install_target): $(build_target)
 	    done \
 	  ) \
 	 fi
-ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
 	# ======= TI GLSDK gstreamer doesn't have HTML Documentation =======
 else
 	@mkdir -p $(GSTREAMER_PKG)/usr/share/gtk-doc/html/gstreamer{,-libs,-plugins}-0.10
@@ -187,7 +190,7 @@ endif
 	   cp -a ABOUT-NLS AUTHORS COPYING INSTALL MAINTAINERS NEWS README RELEASE \
 	         $(GSTREAMER_PKG)/usr/share/doc/$(doc_dir_name) ; \
 	 )
-ifeq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
+ifeq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
 	@mkdir -p $(GSTREAMER_PKG)/usr/share/doc/$(doc_dir_name)/html
 	@ln -sf ../../../gtk-doc/html/gstreamer-0.10 $(GSTREAMER_PKG)/usr/share/doc/$(doc_dir_name)/html/gstreamer-0.10
 	@ln -sf ../../../gtk-doc/html/gstreamer-libs-0.10 $(GSTREAMER_PKG)/usr/share/doc/$(doc_dir_name)/html/gstreamer-libs-0.10

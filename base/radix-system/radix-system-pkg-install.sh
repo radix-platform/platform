@@ -62,6 +62,7 @@ post_install() {
   install_file etc/ld.so.conf.new
 
   # not fully finished stuff - depends on app/kbd, app/gpm, and kernel modules:
+  install_file etc/rc.d/rc.fbset.new
   install_file etc/rc.d/rc.font.new
   install_file etc/rc.d/rc.gpm.new
   install_file etc/rc.d/rc.keymap.new

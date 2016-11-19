@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/app/xfsinfo
 
-versions    = 1.0.4
+versions    = 1.0.4 1.0.5
 pkgname     = xfsinfo
 suffix      = tar.bz2
 

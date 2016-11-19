@@ -1,0 +1,3 @@
+
+../../../sources/packages/m/xiph/icecast/patches/icecast-2.4.3-nobody.patch    -p0
+../../../sources/packages/m/xiph/icecast/patches/icecast-2.4.3-configure.patch -p0

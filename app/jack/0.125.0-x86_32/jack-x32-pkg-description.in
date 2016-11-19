@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+        |-----handy-ruler------------------------------------------------------|
+jack-x32: jack-x32 @VERSION@ (x86_32 Low-latency audio server)
+jack-x32:
+jack-x32: JACK is a low-latency audio server, written for any operating
+jack-x32: system that is reasonably POSIX compliant. It currently exists
+jack-x32: for Linux, OS X, Solaris, FreeBSD and Windows. It can connect
+jack-x32: several client applications to an audio device, and allow them
+jack-x32: to share audio with each other. Clients can run as separate
+jack-x32: processes like normal applications, or within the JACK server
+jack-x32: as "plugins".
+jack-x32:
+jack-x32:

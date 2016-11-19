@@ -1,0 +1,49 @@
+#
+# qmake configuration for the x86_64 boards
+#
+
+MAKEFILE_GENERATOR       = UNIX
+CONFIG                  += incremental
+QMAKE_INCREMENTAL_STYLE  = sublib
+
+QMAKE_CFLAGS             = -m64
+QMAKE_LFLAGS             = -m64
+
+include(../../common/linux.conf)
+include(../../common/gcc-base-unix.conf)
+include(../../common/g++-unix.conf)
+
+load(device_config)
+
+
+# modifications to g++.conf
+QMAKE_CC                 = @TARGET_BINDIR@/gcc
+QMAKE_CXX                = @TARGET_BINDIR@/g++
+QMAKE_LINK               = @TARGET_BINDIR@/g++
+QMAKE_LINK_SHLIB         = @TARGET_BINDIR@/g++
+
+# modifications to linux.conf
+QMAKE_AR                 = @TARGET_BINDIR@/ar cqs
+QMAKE_OBJCOPY            = @TARGET_BINDIR@/objcopy
+QMAKE_STRIP              = @TARGET_BINDIR@/strip
+
+
+QMAKE_INCDIR             = @TARGET_PREFIX@/include
+QMAKE_INCDIR            += @TARGET_PREFIX@/include/gstreamer-1.0
+QMAKE_INCDIR            += @TARGET_PREFIX@/lib@LIBDIRSUFFIX@/glib-2.0/include
+QMAKE_LIBDIR             = @TARGET_PREFIX@/lib@LIBDIRSUFFIX@
+
+QMAKE_LIBS_EGL          += -lEGL
+QMAKE_LIBS_OPENGL_ES2   += -lGLESv2 -lEGL
+QMAKE_LIBS_OPENVG       += -lOpenVG -lEGL
+
+QMAKE_LFLAGS            += -Wl,-rpath-link,@TARGET_PREFIX@/lib@LIBDIRSUFFIX@ -Wl,--export-dynamic
+
+TARGET_HW_CFLAGS         = @ARCH_FLAGS@ -DLINUX=1
+
+QMAKE_CFLAGS            += $$TARGET_HW_CFLAGS
+QMAKE_CXXFLAGS          += -std=c++11 $$TARGET_HW_CFLAGS
+
+WEBENGINE_CONFIG        += use_proprietary_codecs
+
+load(qt_config)

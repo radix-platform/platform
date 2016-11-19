@@ -1,0 +1,245 @@
+
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
+COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
+
+
+NEED_ABS_PATH      = true
+COMPONENT_IS_3PP   = true
+
+
+include ../../../build-system/constants.mk
+
+
+SOURCE_REQUIRES    = sources/packages/m/openjpeg2
+
+ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
+REQUIRES           = dev/gcc/5.3.0
+endif
+REQUIRES          += libs/lcms2/2.7
+REQUIRES          += libs/libpng/libpng14/1.4.19
+REQUIRES          += libs/libtiff/4.0.6
+
+# ======= __END_OF_REQUIRES__ =======
+
+
+version            = 2.1.2
+short_version      = $(shell echo $(version) | cut -f1,2 -d '.')
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/m/openjpeg2/openjpeg-$(version).tar.xz
+SRC_ARCHIVE        = $(tar_xz_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/openjpeg-$(version)
+src_dir_name       = openjpeg-$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source_done
+
+PATCHES = PATCHES
+
+build_dir          = $(TARGET_BUILD_DIR)/build
+build_target       = $(TARGET_BUILD_DIR)/.build_done
+install_target     = $(TARGET_BUILD_DIR)/.install_done
+
+
+####### Targets
+
+PKG_GROUP = app
+
+#
+# *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
+#
+OPENJPEG_PKG_NAME                = openjpeg2
+OPENJPEG_PKG_VERSION             = 2.1.2
+OPENJPEG_PKG_ARCH                = $(TOOLCHAIN)
+OPENJPEG_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+OPENJPEG_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
+OPENJPEG_PKG_GROUP               = $(PKG_GROUP)
+###                               |---handy-ruler-------------------------------|
+OPENJPEG_PKG_SHORT_DESCRIPTION   = JPEG 2000 codec
+OPENJPEG_PKG_URL                 = $(BUG_URL)
+OPENJPEG_PKG_LICENSE             = BSD
+OPENJPEG_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(OPENJPEG_PKG_NAME)-pkg-description
+OPENJPEG_PKG_DESCRIPTION_FILE_IN = $(OPENJPEG_PKG_NAME)-pkg-description.in
+OPENJPEG_PKG_INSTALL_SCRIPT      = $(OPENJPEG_PKG_NAME)-pkg-install.sh
+
+OPENJPEG_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(OPENJPEG_PKG_NAME)-package
+
+pkg_basename     = $(OPENJPEG_PKG_NAME)-$(OPENJPEG_PKG_VERSION)-$(OPENJPEG_PKG_ARCH)-$(OPENJPEG_PKG_DISTRO_NAME)-$(OPENJPEG_PKG_DISTRO_VERSION)
+
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
+
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
+
+PRODUCT_TARGETS  = $(products)
+
+ROOTFS_TARGETS   = $(pkg_archive)
+
+
+include ../../../build-system/core.mk
+
+
+env_sysroot = DESTDIR=$(OPENJPEG_PKG)
+
+
+TARGET_BIN_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)
+TARGET_LIB_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUFFIX)
+
+
+configure_switches  = -DCMAKE_BUILD_TYPE='Release'
+
+configure_switches += -DCMAKE_C_COMPILER='$(CROSS_PREFIX)gcc'
+configure_switches += -DCMAKE_LINKER='$(CROSS_PREFIX)ld'
+configure_switches += -DCMAKE_AR='$(CROSS_PREFIX)ar'
+configure_switches += -DCMAKE_NM='$(CROSS_PREFIX)nm'
+configure_switches += -DCMAKE_RANLIB='$(CROSS_PREFIX)ranlib'
+configure_switches += -DCMAKE_OBJCOPY='$(CROSS_PREFIX)objcopy'
+configure_switches += -DCMAKE_OBJDUMP='$(CROSS_PREFIX)objdump'
+configure_switches += -DCMAKE_STRIP='$(CROSS_PREFIX)strip'
+
+configure_switches += -DCMAKE_C_FLAGS:STRING='--sysroot=$(TARGET_DEST_DIR) $(CFLAGS) $(ARCH_FLAGS) $(ARCH_DEFS) $(HW_FLAGS)'
+
+ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32)),)
+#
+# add private required libraries (for i486 only):
+#
+configure_switches += -DCMAKE_EXE_LINKER_FLAGS='--sysroot=$(TARGET_DEST_DIR) -Wl,-rpath,$(TARGET_BIN_RPATH) -L$(TARGET_DEST_DIR)/lib$(LIBSUFFIX) -L$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) -lpthread -llzma -ljbig -ljpeg -lz -lm'
+else
+configure_switches += -DCMAKE_EXE_LINKER_FLAGS='--sysroot=$(TARGET_DEST_DIR) -Wl,-rpath,$(TARGET_BIN_RPATH) -L$(TARGET_DEST_DIR)/lib$(LIBSUFFIX) -L$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)'
+endif
+configure_switches += -DCMAKE_MODULE_LINKER_FLAGS='--sysroot=$(TARGET_DEST_DIR) -Wl,-rpath,$(TARGET_LIB_RPATH) -L$(TARGET_DEST_DIR)/lib$(LIBSUFFIX) -L$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)'
+configure_switches += -DCMAKE_SHARED_LINKER_FLAGS='--sysroot=$(TARGET_DEST_DIR) -Wl,-rpath,$(TARGET_LIB_RPATH) -L$(TARGET_DEST_DIR)/lib$(LIBSUFFIX) -L$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)'
+
+
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_JZ47XX_GLIBC))
+configure_switches += -DCMAKE_C_FLAGS_RELEASE='-O2 -DNDEBUG'
+configure_switches += -DCMAKE_CXX_FLAGS_RELEASE='-O2 -DNDEBUG'
+configure_switches += -DCMAKE_ASM_FLAGS_RELEASE='-O2 -DNDEBUG'
+endif
+
+configure_switches += -DBUILD_DOC=on
+
+configure_switches += -DCMAKE_INSTALL_PREFIX=/usr
+
+configure_switches += -DOPENJPEG_INSTALL_BIN_DIR='bin'
+configure_switches += -DOPENJPEG_INSTALL_MAN_DIR='share/man'
+configure_switches += -DOPENJPEG_INSTALL_DOC_DIR='share/doc/openjpeg-$(version)'
+configure_switches += -DOPENJPEG_INSTALL_LIB_DIR='lib$(LIBSUFFIX)'
+configure_switches += -DOPENJPEG_INSTALL_INCLUDE_DIR='include/openjpeg-$(short_version)'
+
+configure_switches += -DCMAKE_CROSSCOMPILING=True
+
+
+####### Dependencies
+
+$(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
+	$(UNPACK_SRC_ARCHIVE)
+	$(APPLY_PATCHES)
+	@touch $@
+
+$(build_target): $(src_done)
+	@mkdir -p $(build_dir)
+	@( cd $(build_dir) ; \
+	   $(BUILD_ENVIRONMENT) cmake $(configure_switches) ../$(src_dir_name) ; \
+	 )
+	@( cd $(build_dir) ; \
+	   $(BUILD_ENVIRONMENT) $(MAKE) ; \
+	 )
+	@touch $@
+
+$(install_target): $(build_target)
+	@mkdir -p $(OPENJPEG_PKG)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
+	@( cd $(OPENJPEG_PKG)/usr/share/doc ; mv html $(src_dir_name) ; )
+	# ======= Install Documentation =======
+	@if [ -d $(OPENJPEG_PKG)/usr/share/man ]; then \
+	  ( cd $(OPENJPEG_PKG)/usr/share/man ; \
+	    for manpagedir in `find . -type d -name "man*"` ; do \
+	      ( cd $$manpagedir ; \
+	        for eachpage in `find . -type l -maxdepth 1` ; do \
+	          ln -s `readlink $$eachpage`.gz $$eachpage.gz ; \
+	          rm $$eachpage ; \
+	        done ; \
+	        gzip -9 *.?  ; \
+	      ) \
+	    done \
+	  ) \
+	 fi
+	@mkdir -p $(OPENJPEG_PKG)/usr/doc/$(src_dir_name)
+	@cp -a $(SRC_DIR)/AUTHORS* $(SRC_DIR)/LICENSE \
+	       $(OPENJPEG_PKG)/usr/doc/$(src_dir_name)
+	@mkdir -p $(OPENJPEG_PKG)/usr/share/doc/$(src_dir_name)
+	@( cd $(SRC_DIR) ; \
+	   cp -a AUTHORS* INSTALL* NEWS* README* THANKS* \
+	         $(OPENJPEG_PKG)/usr/share/doc/$(src_dir_name) \
+	 )
+	@( cd $(SRC_DIR) ; \
+	   if [ -r CHANGELOG.md -a -s CHANGELOG.md ]; then \
+	     DOCSDIR=`echo $(OPENJPEG_PKG)/usr/share/doc/$(src_dir_name)` ; \
+	     cat CHANGELOG.md | head -n 1000 > $$DOCSDIR/CHANGELOG.md ; \
+	     touch -r CHANGELOG.md $$DOCSDIR/CHANGELOG.md ; \
+	   fi \
+	 )
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
+	$(call install-into-devenv, $(OPENJPEG_PKG))
+	# ======= tune pkg-config *.pc search path to the target destination for development =======
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libopenjp2.pc \
+	 )
+	# ======= Strip binaries =======
+	@( cd $(OPENJPEG_PKG) ; \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	 )
+ifneq ($(CHRPATH),)
+	# ======= Set RPATH/RUNPATH for target binaries =======
+	@( cd $(OPENJPEG_PKG)/usr/bin ; \
+	   for file in `find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
+	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
+	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
+	       $(CHRPATH) -r $(TARGET_BIN_RPATH) $$file 1> /dev/null 2> /dev/null ; \
+	     fi ; \
+	   done ; \
+	 )
+	# ======= Set RPATH/RUNPATH for target shared objects =======
+	@( cd $(OPENJPEG_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
+	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
+	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
+	       $(CHRPATH) -r $(TARGET_LIB_RPATH) $$file 1> /dev/null 2> /dev/null ; \
+	     fi ; \
+	   done ; \
+	 )
+endif
+	@touch $@
+
+$(OPENJPEG_PKG_DESCRIPTION_FILE): $(OPENJPEG_PKG_DESCRIPTION_FILE_IN)
+	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
+
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(OPENJPEG_PKG_DESCRIPTION_FILE) $(OPENJPEG_PKG_INSTALL_SCRIPT)
+	@cp $(OPENJPEG_PKG_DESCRIPTION_FILE) $(OPENJPEG_PKG)/.DESCRIPTION
+	@cp $(OPENJPEG_PKG_INSTALL_SCRIPT) $(OPENJPEG_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(OPENJPEG_PKG)/.REQUIRES
+	@echo "pkgname=$(OPENJPEG_PKG_NAME)"                            >  $(OPENJPEG_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(OPENJPEG_PKG_VERSION)"                          >> $(OPENJPEG_PKG)/.PKGINFO ; \
+	 echo "arch=$(OPENJPEG_PKG_ARCH)"                               >> $(OPENJPEG_PKG)/.PKGINFO ; \
+	 echo "distroname=$(OPENJPEG_PKG_DISTRO_NAME)"                  >> $(OPENJPEG_PKG)/.PKGINFO ; \
+	 echo "distrover=$(OPENJPEG_PKG_DISTRO_VERSION)"                >> $(OPENJPEG_PKG)/.PKGINFO ; \
+	 echo "group=$(OPENJPEG_PKG_GROUP)"                             >> $(OPENJPEG_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(OPENJPEG_PKG_SHORT_DESCRIPTION)\"" >> $(OPENJPEG_PKG)/.PKGINFO ; \
+	 echo "url=$(OPENJPEG_PKG_URL)"                                 >> $(OPENJPEG_PKG)/.PKGINFO ; \
+	 echo "license=$(OPENJPEG_PKG_LICENSE)"                         >> $(OPENJPEG_PKG)/.PKGINFO
+	@$(FAKEROOT) sh -c "cd $(OPENJPEG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

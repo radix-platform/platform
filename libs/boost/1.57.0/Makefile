@@ -2,13 +2,16 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -20,10 +23,10 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/boost
 
-REQUIRES           = libs/icu4c/54.1
+REQUIRES           = libs/icu4c/55.1
 REQUIRES          += app/bzip2/1.0.6
 REQUIRES          += libs/zlib/1.2.8
-REQUIRES          += libs/openmpi/1.8.4
+REQUIRES          += libs/openmpi/1.8.8
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -35,7 +38,7 @@ SRC_DIR            = $(TARGET_BUILD_DIR)/boost-$(version)
 src_dir_name       = boost-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_B74) $(HARDWARE_CI20)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20) $(HARDWARE_BT1)),)
 PATCHES = PATCHES.mips
 else
 PATCHES = PATCHES
@@ -89,7 +92,15 @@ include ../../../build-system/core.mk
 #
 # See: $(SRC_DIR)/libs/context/build/Jamfile.v2
 #
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X) $(HARDWARE_FFRK3288) $(HARDWARE_DM64X) $(HARDWARE_BEAGLE) $(HARDWARE_OMAP5UEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)      \
+                            $(HARDWARE_CB2X)      \
+                            $(HARDWARE_CB3X)      \
+                            $(HARDWARE_FFRK3288)  \
+                            $(HARDWARE_M201)      \
+                            $(HARDWARE_MXQ)       \
+                            $(HARDWARE_NIT6Q)     \
+                            $(HARDWARE_OMAP5UEVM) \
+                            $(HARDWARE_DRA7XXEVM)),)
 ARCH          = arm
 ABI           = aapcs
 BINARY_FORMAT = elf
@@ -107,7 +118,7 @@ ABI           = sysv
 BINARY_FORMAT = elf
 ADDRESS_MODEL = 64
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_B74) $(HARDWARE_CI20)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20) $(HARDWARE_BT1)),)
 ARCH          = mips1
 ABI           = o32
 BINARY_FORMAT = elf

@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/netpbm
 
-versions    = 10.68.01
+versions    = 10.68.01 10.74.03
 pkgname     = netpbm
 suffix      = tar.bz2
 
@@ -21,6 +21,11 @@ patches    += $(CURDIR)/patches/netpbm-10.68.01-common.patch
 patches    += $(CURDIR)/patches/netpbm-10.68.01-CVE-2005-2471.patch
 patches    += $(CURDIR)/patches/netpbm-10.68.01-make.patch
 patches    += $(CURDIR)/patches/netpbm-10.68.01-no-x11.patch
+patches    += $(CURDIR)/patches/netpbm-10.74.03-security-code.patch
+patches    += $(CURDIR)/patches/netpbm-10.74.03-security-scripts.patch
+patches    += $(CURDIR)/patches/netpbm-10.74.03-CAN-2005-2471.patch
+patches    += $(CURDIR)/patches/netpbm-10.74.03-make.patch
+patches    += $(CURDIR)/patches/netpbm-10.74.03-no-x11.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -62,6 +67,11 @@ $(patches): $(sha1s)
 	 ( cd create-10.68.01-CVE-2005-2471-patch    ; ./create.patch.sh ) ; \
 	 ( cd create-10.68.01-make-patch             ; ./create.patch.sh ) ; \
 	 ( cd create-10.68.01-no-x11-patch           ; ./create.patch.sh ) ; \
+	 ( cd create-10.74.03-security-code-patch    ; ./create.patch.sh ) ; \
+	 ( cd create-10.74.03-security-scripts-patch ; ./create.patch.sh ) ; \
+	 ( cd create-10.74.03-CAN-2005-2471-patch    ; ./create.patch.sh ) ; \
+	 ( cd create-10.74.03-make-patch             ; ./create.patch.sh ) ; \
+	 ( cd create-10.74.03-no-x11-patch           ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

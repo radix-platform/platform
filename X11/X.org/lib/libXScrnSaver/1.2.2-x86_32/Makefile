@@ -13,10 +13,10 @@ include ../../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/X.org/lib/libXScrnSaver
 
 REQUIRES           = X11/X.org/lib/libXScrnSaver/1.2.2
-REQUIRES          += X11/X.org/proto/xproto/7.0.26-x86_32
+REQUIRES          += X11/X.org/proto/xproto/7.0.29-x86_32
 REQUIRES          += X11/X.org/proto/scrnsaverproto/1.2.2-x86_32
 REQUIRES          += X11/X.org/lib/xtrans/1.3.5-x86_32
-REQUIRES          += X11/X.org/lib/libX11/1.6.2-x86_32
+REQUIRES          += X11/X.org/lib/libX11/1.6.3-x86_32
 REQUIRES          += X11/X.org/lib/libXext/1.3.3-x86_32
 
 # ======= __END_OF_REQUIRES__ =======

@@ -1,0 +1,4 @@
+
+../../../../sources/packages/m/vaapi/libva-vdpau-driver/patches/libva-vdpau-driver-0.7.4-glext.patch      -p0
+../../../../sources/packages/m/vaapi/libva-vdpau-driver/patches/libva-vdpau-driver-0.7.4-pix-info.patch   -p0
+../../../../sources/packages/m/vaapi/libva-vdpau-driver/patches/libva-vdpau-driver-0.7.4-vaenc-H264.patch -p0

@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/lib/libpciaccess
 
-versions    = 0.13.2
+versions    = 0.13.2 0.13.4
 pkgname     = libpciaccess
 suffix      = tar.bz2
 

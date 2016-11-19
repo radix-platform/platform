@@ -1,0 +1,8 @@
+Metadata-Version: 1.1
+Name: setuptools
+Version: 20.10.1
+Summary: Easily download, build, install, upgrade, and uninstall Python packages
+Home-page: https://github.com/pypa/setuptools
+Author: Python Packaging Authority
+Author-email: distutils-sig@python.org
+License: MIT

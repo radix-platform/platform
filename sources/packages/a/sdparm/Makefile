@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/sdparm
 
-versions    = 1.08
+versions    = 1.08 1.09
 pkgname     = sdparm
 suffix      = tar.xz
 

@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/b/mariadb
 
-versions    = 5.5.41 10.0.15
+versions    = 5.5.41 5.5.49 10.0.25
 pkgname     = mariadb
 suffix      = tar.gz
 

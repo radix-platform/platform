@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/lib/libXdmcp
 
-versions    = 1.1.1
+versions    = 1.1.1 1.1.2
 pkgname     = libXdmcp
 suffix      = tar.bz2
 

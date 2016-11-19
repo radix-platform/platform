@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+         |-----handy-ruler------------------------------------------------------|
+bluez-x32: bluez-x32 @VERSION@ (x86_32 Bluetooth libraries and utilities)
+bluez-x32:
+bluez-x32: Bluez is the Bluetooth stack for Linux, allowing Bluetooth adaptors
+bluez-x32: and devices to be used with Linux.  This package contains the Bluez
+bluez-x32: libraries, utilities, and other support files.
+bluez-x32:
+bluez-x32:
+bluez-x32: Homepage: http://www.bluez.org
+bluez-x32:
+bluez-x32:
+bluez-x32:

@@ -2,13 +2,16 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -20,7 +23,7 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/d/python-modules/pip
 
-REQUIRES           = dev/python2/2.7.6
+REQUIRES           = dev/python2/2.7.11
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -101,6 +104,9 @@ $(install_target): $(build_target)
 	   python2 setup.py install \
 	     --install-lib=/usr/lib$(LIBSUFFIX)/python$(PYTHON_VERSION)/site-packages \
 	     --root=$(PIP2_PKG) ; \
+	 )
+	@( cd $(PIP2_PKG)/usr/bin ; \
+	   rm -f pip ; ln -sf pip2 pip ; \
 	 )
 	# ======= Install Documentation =======
 	@mkdir -p $(PIP2_PKG)/usr/doc/$(src_dir_name)

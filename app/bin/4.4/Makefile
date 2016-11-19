@@ -1,72 +1,75 @@
 
-COMPONENT_TARGETS   = $(HARDWARE_PC32)
-COMPONENT_TARGETS  += $(HARDWARE_PC64)
-COMPONENT_TARGETS  += $(HARDWARE_CB1X)
-COMPONENT_TARGETS  += $(HARDWARE_CB3X)
-COMPONENT_TARGETS  += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS  += $(HARDWARE_DM64X)
-COMPONENT_TARGETS  += $(HARDWARE_BEAGLE)
-COMPONENT_TARGETS  += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS  += $(HARDWARE_B74)
-COMPONENT_TARGETS  += $(HARDWARE_CI20)
+COMPONENT_TARGETS  = $(HARDWARE_PC32)
+COMPONENT_TARGETS += $(HARDWARE_PC64)
+COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
+COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
+COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
-NEED_ABS_PATH       = true
-COMPONENT_IS_3PP    = true
+NEED_ABS_PATH      = true
+COMPONENT_IS_3PP   = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES     = sources/packages/a/debianutils
-SOURCE_REQUIRES    += sources/packages/a/mktemp
-SOURCE_REQUIRES    += sources/packages/a/banners
-SOURCE_REQUIRES    += sources/packages/a/todos
-SOURCE_REQUIRES    += sources/packages/m/fb/fbset
+SOURCE_REQUIRES    = sources/packages/a/debianutils
+SOURCE_REQUIRES   += sources/packages/a/mktemp
+SOURCE_REQUIRES   += sources/packages/a/banners
+SOURCE_REQUIRES   += sources/packages/a/todos
+SOURCE_REQUIRES   += sources/packages/m/fb/fbset
 
 
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/4.9.2
+REQUIRES           = dev/gcc/5.3.0
 else
-REQUIRES           = libs/glibc/2.21
+REQUIRES           = libs/glibc/2.23
 endif
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version             = 4.4
-tar_gz_archive      = $(SRC_PACKAGE_PATH)/packages/a/debianutils/debianutils_$(version).tar.gz
-SRC_ARCHIVE         = $(tar_gz_archive)
-SRC_DIR             = $(TARGET_BUILD_DIR)/debianutils-$(version)
-src_dir_name        = debianutils-$(version)
-src_done            = $(TARGET_BUILD_DIR)/.source-done
+version            = 4.4
+tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/a/debianutils/debianutils_$(version).tar.gz
+SRC_ARCHIVE        = $(tar_gz_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/debianutils-$(version)
+src_dir_name       = debianutils-$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source-done
 
-mktemp_version      = 2.7
-mktemp_archive      = $(SRC_PACKAGE_PATH)/packages/a/mktemp/mktemp-$(mktemp_version).tar.bz2
-MKTEMP_SRC_DIR      = $(TARGET_BUILD_DIR)/mktemp-$(mktemp_version)
-mktemp_src_done     = $(TARGET_BUILD_DIR)/.mktemp-source-done
+mktemp_version     = 2.7
+mktemp_archive     = $(SRC_PACKAGE_PATH)/packages/a/mktemp/mktemp-$(mktemp_version).tar.bz2
+MKTEMP_SRC_DIR     = $(TARGET_BUILD_DIR)/mktemp-$(mktemp_version)
+mktemp_src_done    = $(TARGET_BUILD_DIR)/.mktemp-source-done
 
-banners_archive     = $(SRC_PACKAGE_PATH)/packages/a/banners/banners.tar.gz
-BANNERS_SRC_DIR     = $(TARGET_BUILD_DIR)/banners
-banners_src_done    = $(TARGET_BUILD_DIR)/.banners-source-done
+banners_archive    = $(SRC_PACKAGE_PATH)/packages/a/banners/banners.tar.gz
+BANNERS_SRC_DIR    = $(TARGET_BUILD_DIR)/banners
+banners_src_done   = $(TARGET_BUILD_DIR)/.banners-source-done
 
-todos_archive       = $(SRC_PACKAGE_PATH)/packages/a/todos/todos.tar.gz
-TODOS_SRC_DIR       = $(TARGET_BUILD_DIR)/todos
-todos_src_done      = $(TARGET_BUILD_DIR)/.todos-source-done
+todos_archive      = $(SRC_PACKAGE_PATH)/packages/a/todos/todos.tar.gz
+TODOS_SRC_DIR      = $(TARGET_BUILD_DIR)/todos
+todos_src_done     = $(TARGET_BUILD_DIR)/.todos-source-done
 
-fbset_version       = 2.1
-fbset_archive       = $(SRC_PACKAGE_PATH)/packages/m/fb/fbset/fbset-$(fbset_version).tar.gz
-FBSET_SRC_DIR       = $(TARGET_BUILD_DIR)/fbset-$(fbset_version)
-fbset_src_done      = $(TARGET_BUILD_DIR)/.fbset-source-done
+fbset_version      = 2.1
+fbset_archive      = $(SRC_PACKAGE_PATH)/packages/m/fb/fbset/fbset-$(fbset_version).tar.gz
+FBSET_SRC_DIR      = $(TARGET_BUILD_DIR)/fbset-$(fbset_version)
+fbset_src_done     = $(TARGET_BUILD_DIR)/.fbset-source-done
 
 
 PATCHES = PATCHES
 
-build_target        = $(TARGET_BUILD_DIR)/.build_done
-install_target      = $(TARGET_BUILD_DIR)/.install_done
+build_target       = $(TARGET_BUILD_DIR)/.build_done
+install_target     = $(TARGET_BUILD_DIR)/.install_done
 
-licenses_dir        = $(CURDIR)/licenses
-scripts_dir         = $(CURDIR)/scripts
+licenses_dir       = $(CURDIR)/licenses
+scripts_dir        = $(CURDIR)/scripts
 
 ####### Targets
 

@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/mozilla-nspr
 
-versions    = 4.10.8 4.10.9
+versions    = 4.10.8 4.10.9 4.12
 pkgname     = nspr
 suffix      = tar.xz
 
@@ -16,6 +16,7 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/nspr-4.10.8-cross.patch
 patches    += $(CURDIR)/patches/nspr-4.10.9-cross.patch
+patches    += $(CURDIR)/patches/nspr-4.12-cross.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -52,6 +53,7 @@ $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-4.10.8-cross-patch ; ./create.patch.sh ) ; \
 	 ( cd create-4.10.9-cross-patch ; ./create.patch.sh ) ; \
+	 ( cd create-4.12-cross-patch   ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

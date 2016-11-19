@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/xcb/libxcb
 
-versions    = 1.11
+versions    = 1.11 1.11.1
 pkgname     = libxcb
 suffix      = tar.bz2
 

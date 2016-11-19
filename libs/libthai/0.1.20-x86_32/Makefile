@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/libthai
 
 REQUIRES           = libs/libthai/0.1.20
-REQUIRES          += libs/libdatrie/0.2.8-x86_32
+REQUIRES          += libs/libdatrie/0.2.10-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

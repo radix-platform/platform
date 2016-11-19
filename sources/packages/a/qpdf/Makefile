@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/qpdf
 
-versions    = 5.1.2
+versions    = 5.1.2 6.0.0
 pkgname     = qpdf
 suffix      = tar.gz
 

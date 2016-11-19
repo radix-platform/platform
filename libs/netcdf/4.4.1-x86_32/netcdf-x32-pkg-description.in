@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+          |-----handy-ruler------------------------------------------------------|
+netcdf-x32: netcdf-x32 @VERSION@ (x86_32 network Common Data Form)
+netcdf-x32:
+netcdf-x32: NetCDF (network Common Data Form) is a set of software libraries
+netcdf-x32: and machine-independent data formats that support the creation,
+netcdf-x32: access, and sharing of array-oriented scientific data.
+netcdf-x32: This package is provided for C.
+netcdf-x32:
+netcdf-x32:
+netcdf-x32: Homepage: http://www.unidata.ucar.edu/software/netcdf
+netcdf-x32:
+netcdf-x32:

@@ -14,29 +14,29 @@ SOURCE_REQUIRES    = sources/packages/x/qt4
 
 REQUIRES           = X11/libs/qt4/4.8.6
 
-REQUIRES          += libs/alsa-lib/1.0.28-x86_32
-REQUIRES          += X11/app/dbus-x11-launch/1.8.10-x86_32
+REQUIRES          += libs/alsa-lib/1.1.1-x86_32
+REQUIRES          += X11/app/dbus-x11-launch/1.11.2-x86_32
 
-REQUIRES          += libs/libmng/2.0.2-x86_32
-REQUIRES          += libs/icu4c/54.1-x86_32
-REQUIRES          += app/cups/2.0.1-x86_32
+REQUIRES          += libs/libmng/2.0.3-x86_32
+REQUIRES          += libs/icu4c/55.1-x86_32
+REQUIRES          += app/cups/2.1.3-x86_32
 
-REQUIRES          += X11/libs/fontconfig/2.11.1-x86_32
+REQUIRES          += X11/libs/fontconfig/2.11.95-x86_32
 
-REQUIRES          += X11/X.org/lib/libXaw/1.0.12-x86_32
+REQUIRES          += X11/X.org/lib/libXaw/1.0.13-x86_32
 REQUIRES          += X11/X.org/lib/libXcursor/1.1.14-x86_32
-REQUIRES          += X11/X.org/lib/libXi/1.7.4-x86_32
+REQUIRES          += X11/X.org/lib/libXi/1.7.6-x86_32
 REQUIRES          += X11/X.org/lib/libXinerama/1.1.3-x86_32
-REQUIRES          += X11/X.org/lib/libXrandr/1.4.2-x86_32
+REQUIRES          += X11/X.org/lib/libXrandr/1.5.0-x86_32
 REQUIRES          += X11/X.org/lib/libXv/1.0.10-x86_32
-REQUIRES          += X11/X.org/lib/libxkbfile/1.0.8-x86_32
+REQUIRES          += X11/X.org/lib/libxkbfile/1.0.9-x86_32
 
 REQUIRES          += libs/gstreamer0/0.10.36-x86_32
 REQUIRES          += libs/gst-plugins-base0/0.10.36-x86_32
 
-REQUIRES          += app/sqlite/3.8.7.1-x86_32
-REQUIRES          += app/mariadb/5.5.41-x86_32
-REQUIRES          += libs/libiodbc/3.52.9-x86_32
+REQUIRES          += app/sqlite/3.12.2.0-x86_32
+REQUIRES          += app/mariadb/10.0.25-x86_32
+REQUIRES          += libs/libiodbc/3.52.10-x86_32
 
 REQUIRES          += X11/libs/opengl-collection
 
@@ -326,7 +326,7 @@ $(install_target): $(build_target)
 	 )
 	# ======= Change source directory to more 'normal' place =======
 	@( cd $(QT4_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt4/lib ; \
-	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/src/qt-$(version),g" \
+	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/lib$(MULTILIB_X86_32_SUFFIX)/qt-$(version),g" \
 	           libQtCLucene.prl     libQtCore.prl               \
 	           libQtDBus.prl        libQtDeclarative.prl        \
 	           libQtDesigner.prl    libQtDesignerComponents.prl \

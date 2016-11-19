@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/proto/randrproto
 
-versions    = 1.4.0
+versions    = 1.4.0 1.5.0
 pkgname     = randrproto
 suffix      = tar.bz2
 

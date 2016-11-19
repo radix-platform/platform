@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+       |-----handy-ruler------------------------------------------------------|
+sox-x32: sox-x32 @VERSION@ (universal sound sample translator)
+sox-x32:
+sox-x32: Sox is a universal sound converter, player, and recorder. It can
+sox-x32: play, record, and convert between several sound file formats such
+sox-x32: as .au, .snd, .voc and .wav.
+sox-x32:
+sox-x32: Homepage:  http://sox.sourceforge.net
+sox-x32:
+sox-x32:
+sox-x32:
+sox-x32:

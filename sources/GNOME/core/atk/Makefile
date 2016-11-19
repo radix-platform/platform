@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/GNOME/core/atk
 
-versions    = 2.15.1
+versions    = 2.15.1 2.20.0
 pkgname     = atk
 suffix      = tar.xz
 

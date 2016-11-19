@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/giflib
 
-versions    = 5.1.0
+versions    = 5.1.0 5.1.3
 pkgname     = giflib
 suffix      = tar.bz2
 

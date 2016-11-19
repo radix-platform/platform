@@ -1,0 +1,3 @@
+#!/bin/sh
+/usr/sbin/update-cracklib \
+ || { /usr/bin/logger -t cracklib "ALERT - update-cracklib exited abnormally." && false ; }

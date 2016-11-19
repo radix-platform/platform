@@ -13,8 +13,8 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/x/gstreamer
 
 REQUIRES           = libs/gstreamer/1.4.5
-REQUIRES          += libs/glib2/2.40.0-x86_32
-REQUIRES          += libs/libxml2/2.9.1-x86_32
+REQUIRES          += libs/glib2/2.48.0-x86_32
+REQUIRES          += libs/libxml2/2.9.3-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

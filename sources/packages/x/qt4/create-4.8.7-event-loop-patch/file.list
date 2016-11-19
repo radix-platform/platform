@@ -1,0 +1,2 @@
+qt-everywhere-opensource-src-4.8.7/src/corelib/kernel/qeventdispatcher_glib.cpp
+qt-everywhere-opensource-src-4.8.7/src/corelib/kernel/qeventdispatcher_unix.cpp

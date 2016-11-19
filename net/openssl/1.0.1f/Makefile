@@ -3,10 +3,7 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
 
 
 NEED_ABS_PATH      = true
@@ -92,29 +89,20 @@ extra_configure_switches += zlib-dynamic
 extra_configure_switches += shared
 
 
-ifeq ($(HARDWARE),$(HARDWARE_PC32))
+ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32)),)
 arch = i486
 endif
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
+ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 arch = x86_64
 endif
-ifeq ($(HARDWARE),$(HARDWARE_CB1X))
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
 arch = arm
 endif
-ifeq ($(HARDWARE),$(HARDWARE_CB3X))
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB3X)),)
 arch = arm
 endif
-ifeq ($(HARDWARE),$(HARDWARE_DM64X))
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
 arch = arm
-endif
-ifeq ($(HARDWARE),$(HARDWARE_BEAGLE))
-arch = arm
-endif
-ifeq ($(HARDWARE),$(HARDWARE_OMAP5UEVM))
-arch = arm
-endif
-ifeq ($(HARDWARE),$(HARDWARE_B74))
-arch = mips32
 endif
 
 openssl_environment = MACHINE=$(arch) SYSTEM=Linux

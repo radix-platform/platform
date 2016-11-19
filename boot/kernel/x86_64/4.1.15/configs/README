@@ -1,0 +1,8 @@
+
+For both x86_64/x86_32 configurations we use following arch name:
+
+$ ARCH=x86 make oldconfig
+
+NOTE:
+----
+  For generic pc64 hardware we choose generic x86_64 CPU.

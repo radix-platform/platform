@@ -2,13 +2,16 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -21,25 +24,25 @@ include ../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/x/MesaLib/10.x
 
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/4.9.2
+REQUIRES           = dev/gcc/5.3.0
 endif
-REQUIRES          += libs/expat/2.1.0
-REQUIRES          += libs/libxml2/2.9.1
-REQUIRES          += libs/eudev/1.9
+REQUIRES          += libs/expat/2.1.1
+REQUIRES          += libs/libxml2/2.9.3
+REQUIRES          += libs/eudev/3.1.5
 REQUIRES          += libs/libomxil-bellagio/0.9.3
-REQUIRES          += dev/llvm/3.5.0
-REQUIRES          += X11/libs/libdrm/2.4.64
+REQUIRES          += dev/llvm/3.7.1
+REQUIRES          += X11/libs/libdrm/2.4.68
 REQUIRES          += X11/X.org/proto/glproto/1.4.17
 REQUIRES          += X11/X.org/proto/dri2proto/2.8
 REQUIRES          += X11/X.org/proto/dri3proto/1.0
 REQUIRES          += X11/X.org/proto/presentproto/1.0
-REQUIRES          += X11/X.org/lib/libxshmfence/1.1
+REQUIRES          += X11/X.org/lib/libxshmfence/1.2
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64) $(HARDWARE_PC32)),)
-REQUIRES          += X11/X.org/lib/libpciaccess/0.13.2
+REQUIRES          += X11/X.org/lib/libpciaccess/0.13.4
 endif
-REQUIRES          += X11/X.org/lib/libXxf86vm/1.1.3
+REQUIRES          += X11/X.org/lib/libXxf86vm/1.1.4
 REQUIRES          += X11/X.org/lib/libXdamage/1.1.4
-REQUIRES          += Wayland/wayland/1.6.0
+REQUIRES          += Wayland/wayland/1.11.0
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -130,7 +133,7 @@ extra_configure_switches += --with-dri-drivers="$(DRI_DRIVERS)"
 #
 extra_configure_switches += --with-gallium-drivers=nouveau,r300,r600,svga,swrast
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXQ)),)
 extra_configure_switches += --disable-egl
 extra_configure_switches += --disable-gles1
 extra_configure_switches += --disable-gles2
@@ -236,7 +239,7 @@ $(install_target): $(build_target)
 	   fi \
 	 )
 	# ======= remove toolchain path from target libtool *.la files =======
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXQ)),)
 	@( cd $(MESA_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libGL.la           \
 	                                    libOSMesa.la       \
@@ -261,7 +264,7 @@ endif
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(MESA_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXQ)),)
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libGL.la           \
 	                                            libOSMesa.la       \
@@ -299,7 +302,7 @@ else
 	 )
 endif
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXQ)),)
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" gl.pc           \
 	                                            osmesa.pc       \

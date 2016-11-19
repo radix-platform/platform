@@ -2,13 +2,16 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -22,16 +25,16 @@ SOURCE_REQUIRES    = sources/packages/n/net-snmp
 
 REQUIRES           = net/tcp_wrappers/7.6
 REQUIRES          += net/libnl/1.1.4
-REQUIRES          += net/libnl3/3.2.25
+REQUIRES          += net/libnl3/3.2.27
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
-REQUIRES          += app/lm_sensors/3.3.5
+REQUIRES          += app/lm_sensors/3.4.0
 else
-REQUIRES          += app/lm_sensors/3.3.5-x86_32
+REQUIRES          += app/lm_sensors/3.4.0-x86_32
 endif
-REQUIRES          += net/openssl/1.0.2d
-REQUIRES          += app/pciutils/3.2.1
-REQUIRES          += dev/perl/5.18.2
-REQUIRES          += dev/python2/2.7.6
+REQUIRES          += net/openssl/1.0.2f
+REQUIRES          += app/pciutils/3.4.1
+REQUIRES          += dev/perl/5.22.1
+REQUIRES          += dev/python2/2.7.11
 
 # ======= __END_OF_REQUIRES__ =======
 

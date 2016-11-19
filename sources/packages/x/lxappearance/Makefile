@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/x/lxappearance
 
-versions    = 0.6.1
+versions    = 0.6.1 0.6.2
 pkgname     = lxappearance
 suffix      = tar.xz
 

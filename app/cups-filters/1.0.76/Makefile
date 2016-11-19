@@ -2,13 +2,16 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -21,14 +24,14 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/cups-filters
 
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
-REQUIRES           = app/cups/2.0.1
+REQUIRES           = app/cups/2.1.3
 else
-REQUIRES           = app/cups/2.0.1-x86_32
+REQUIRES           = app/cups/2.1.3-x86_32
 endif
 REQUIRES          += app/ghostscript-fonts-std/8.11
-REQUIRES          += X11/font/dejavu-fonts-ttf/2.34
-REQUIRES          += libs/poppler/0.29.0
-REQUIRES          += app/qpdf/5.1.2
+REQUIRES          += X11/font/dejavu-fonts-ttf/2.35
+REQUIRES          += libs/poppler/0.45.0
+REQUIRES          += app/qpdf/6.0.0
 
 # ======= __END_OF_REQUIRES__ =======
 

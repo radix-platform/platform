@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+            |-----handy-ruler------------------------------------------------------|
+cups-filters: cups-filters @VERSION@ (OpenPrinting CUPS Filters)
+cups-filters:
+cups-filters: This distribution contains backends, filters, and other software
+cups-filters: that was once part of the core CUPS distribution but is no longer
+cups-filters: maintained by Apple Inc. In addition it contains additional
+cups-filters: filters and software developed independently of Apple, especially
+cups-filters: filters for the PDF-centric printing workflow introduced by
+cups-filters: OpenPrinting and a daemon to browse Bonjour broadcasts of remote
+cups-filters: CUPS printers and makes these printers available locally.
+cups-filters:
+cups-filters:

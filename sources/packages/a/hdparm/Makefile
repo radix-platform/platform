@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/hdparm
 
-versions    = 9.42 9.43
+versions    = 9.42 9.43 9.48
 pkgname     = hdparm
 suffix      = tar.gz
 

@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/driver/xf86-video-vesa
 
-versions    = 2.3.3
+versions    = 2.3.3 2.3.4
 pkgname     = xf86-video-vesa
 suffix      = tar.bz2
 

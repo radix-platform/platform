@@ -1,0 +1,2 @@
+
+../../../sources/Wayland/wayland/patches/wayland-1.11.0-cross.patch -p0

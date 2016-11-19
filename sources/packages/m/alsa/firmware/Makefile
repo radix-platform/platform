@@ -7,7 +7,7 @@ include ../../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/m/alsa/firmware
 
-versions    = 1.0.28
+versions    = 1.0.28 1.0.29
 pkgname     = alsa-firmware
 suffix      = tar.bz2
 

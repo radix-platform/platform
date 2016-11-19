@@ -2,13 +2,16 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -21,40 +24,40 @@ include ../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/x/qt5
 
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/4.9.2
+REQUIRES           = dev/gcc/5.3.0
 endif
-REQUIRES          += net/ca-certificates/40.0.2
+REQUIRES          += net/ca-certificates/45.0.2
 REQUIRES          += X11/app/desktop-file-utils/0.22
-REQUIRES          += X11/libs/hicolor-icon-theme/0.14
-REQUIRES          += X11/app/xdg-utils/1.1.0
+REQUIRES          += X11/libs/hicolor-icon-theme/0.15
+REQUIRES          += X11/app/xdg-utils/1.1.1
 
-REQUIRES          += libs/alsa-lib/1.0.28
-REQUIRES          += X11/app/dbus-x11-launch/1.8.10
+REQUIRES          += libs/alsa-lib/1.1.1
+REQUIRES          += X11/app/dbus-x11-launch/1.11.2
 
-REQUIRES          += libs/libmng/2.0.2
-REQUIRES          += libs/icu4c/54.1
-REQUIRES          += app/cups/2.0.1
+REQUIRES          += libs/libmng/2.0.3
+REQUIRES          += libs/icu4c/55.1
+REQUIRES          += app/cups/2.1.3
 
-REQUIRES          += X11/libs/fontconfig/2.11.1
+REQUIRES          += X11/libs/fontconfig/2.11.95
 
 REQUIRES          += X11/X.org/lib/libXaw/1.0.12
 REQUIRES          += X11/X.org/lib/libXcursor/1.1.14
-REQUIRES          += X11/X.org/lib/libXi/1.7.4
+REQUIRES          += X11/X.org/lib/libXi/1.7.6
 REQUIRES          += X11/X.org/lib/libXinerama/1.1.3
-REQUIRES          += X11/X.org/lib/libXrandr/1.4.2
+REQUIRES          += X11/X.org/lib/libXrandr/1.5.0
 REQUIRES          += X11/X.org/lib/libXv/1.0.10
-REQUIRES          += X11/X.org/lib/libxkbfile/1.0.8
+REQUIRES          += X11/X.org/lib/libxkbfile/1.0.9
 
-REQUIRES          += X11/X.org/xcb/xcb-util-cursor/0.1.1
+REQUIRES          += X11/X.org/xcb/xcb-util-cursor/0.1.3
 REQUIRES          += X11/X.org/xcb/xcb-util-keysyms/0.4.0
 REQUIRES          += X11/X.org/xcb/xcb-util-wm/0.4.1
 
-REQUIRES          += libs/gstreamer/1.4.5
-REQUIRES          += libs/gst-plugins-base/1.4.5
+REQUIRES          += libs/gstreamer/1.8.2
+REQUIRES          += libs/gst-plugins-base/1.8.2
 
-REQUIRES          += app/sqlite/3.8.7.1
-REQUIRES          += app/mariadb/5.5.41
-REQUIRES          += libs/libiodbc/3.52.9
+REQUIRES          += app/sqlite/3.12.2.0
+REQUIRES          += app/mariadb/10.0.25
+REQUIRES          += libs/libiodbc/3.52.10
 
 REQUIRES          += X11/libs/opengl-collection
 
@@ -77,7 +80,7 @@ applications_dir   = $(CURDIR)/applications
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
 PATCHES = PATCHES.eglfs
 else
-ifneq ($(filter $(HARDWARE),$(HARDWARE_B74) $(HARDWARE_CI20)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20) $(HARDWARE_BT1)),)
 PATCHES = PATCHES.mips
 else
 PATCHES = PATCHES
@@ -134,15 +137,18 @@ env_sysroot = INSTALL_ROOT=$(QT5_PKG)
 QT5_JOBS = -j$(NUMPROCS)
 
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X) $(HARDWARE_FFRK3288) $(HARDWARE_BEAGLE) $(HARDWARE_OMAP5UEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)      \
+                            $(HARDWARE_CB2X)      \
+                            $(HARDWARE_CB3X)      \
+                            $(HARDWARE_FFRK3288)  \
+                            $(HARDWARE_M201)      \
+                            $(HARDWARE_MXQ)       \
+                            $(HARDWARE_NIT6Q)     \
+                            $(HARDWARE_OMAP5UEVM) \
+                            $(HARDWARE_DRA7XXEVM)),)
 ARCH   = arm
 ABI    = gnueabihf
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_DM64X)),)
-ARCH   = arm
-ABI    = gnueabi
-endif
-
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32)),)
 ARCH   = i386
 ABI    = gnu
@@ -151,7 +157,7 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 ARCH   = x86_64
 ABI    = gnu
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_B74) $(HARDWARE_CI20)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20) $(HARDWARE_BT1)),)
 ARCH   = mips
 ABI    = gnu
 endif
@@ -172,28 +178,28 @@ configure_switches += -device-option CCACHE=$(CCACHE)
 configure_switches += -device-option CROSS_COMPILE=$(CROSS_PREFIX)
 
 # ======= Target compiler doesn't support MIPS DSP/DSPr2 =======
-ifneq ($(filter $(HARDWARE),$(HARDWARE_B74) $(HARDWARE_CI20)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20) $(HARDWARE_BT1)),)
 configure_switches += -no-mips_dsp
 configure_switches += -no-mips_dspr2
 endif
 
 configure_switches += -sysroot $(TARGET_DEST_DIR)
-configure_switches += -extprefix /usr/lib$(LIBSUFFIX)/qt5
+configure_switches += -extprefix /usr/lib$(LIBSUFFIX)/qt-$(version)
 
 configure_switches += -sysconfdir     /etc/xdg
-configure_switches += -bindir         /usr/lib$(LIBSUFFIX)/qt5/bin
-configure_switches += -headerdir      /usr/lib$(LIBSUFFIX)/qt5/include
-configure_switches += -libdir         /usr/lib$(LIBSUFFIX)/qt5/lib
-configure_switches += -archdatadir    /usr/lib$(LIBSUFFIX)/qt5
-configure_switches += -plugindir      /usr/lib$(LIBSUFFIX)/qt5/plugins
-configure_switches += -libexecdir     /usr/lib$(LIBSUFFIX)/qt5/libexec
-configure_switches += -importdir      /usr/lib$(LIBSUFFIX)/qt5/imports
-configure_switches += -qmldir         /usr/lib$(LIBSUFFIX)/qt5/qml
-configure_switches += -datadir        /usr/lib$(LIBSUFFIX)/qt5
-configure_switches += -docdir         /usr/lib$(LIBSUFFIX)/qt5/doc
-configure_switches += -translationdir /usr/lib$(LIBSUFFIX)/qt5/translations
-configure_switches += -examplesdir    /usr/lib$(LIBSUFFIX)/qt5/examples
-configure_switches += -testsdir       /usr/lib$(LIBSUFFIX)/qt5/tests
+configure_switches += -bindir         /usr/lib$(LIBSUFFIX)/qt-$(version)/bin
+configure_switches += -headerdir      /usr/lib$(LIBSUFFIX)/qt-$(version)/include
+configure_switches += -libdir         /usr/lib$(LIBSUFFIX)/qt-$(version)/lib
+configure_switches += -archdatadir    /usr/lib$(LIBSUFFIX)/qt-$(version)
+configure_switches += -plugindir      /usr/lib$(LIBSUFFIX)/qt-$(version)/plugins
+configure_switches += -libexecdir     /usr/lib$(LIBSUFFIX)/qt-$(version)/libexec
+configure_switches += -importdir      /usr/lib$(LIBSUFFIX)/qt-$(version)/imports
+configure_switches += -qmldir         /usr/lib$(LIBSUFFIX)/qt-$(version)/qml
+configure_switches += -datadir        /usr/lib$(LIBSUFFIX)/qt-$(version)
+configure_switches += -docdir         /usr/lib$(LIBSUFFIX)/qt-$(version)/doc
+configure_switches += -translationdir /usr/lib$(LIBSUFFIX)/qt-$(version)/translations
+configure_switches += -examplesdir    /usr/lib$(LIBSUFFIX)/qt-$(version)/examples
+configure_switches += -testsdir       /usr/lib$(LIBSUFFIX)/qt-$(version)/tests
 
 configure_switches += -release
 configure_switches += -shared
@@ -203,7 +209,7 @@ ifeq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 configure_switches += -no-largefile
 endif
 configure_switches += -no-gtkstyle
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXQ)),)
 configure_switches += -opengl es2
 else
 configure_switches += -opengl
@@ -240,17 +246,27 @@ configure_switches += -xcb
 configure_switches += -no-directfb
 configure_switches += -linuxfb
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
+
+ENABLE_EGLFS_SUPPORT = yes
+ENABLE_KMS_SUPPORT   = yes
+
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXQ)),)
+ENABLE_KMS_SUPPORT = no
+endif
+
+ifeq ($(ENABLE_EGLFS_SUPPORT),yes)
+configure_switches += -eglfs
+ifeq ($(ENABLE_KMS_SUPPORT),yes)
+configure_switches += -kms
+else
+configure_switches += -no-kms
+endif
+else
 configure_switches += -no-eglfs
 configure_switches += -no-kms
-else
-configure_switches += -eglfs
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
-configure_switches += -no-kms
-else
-configure_switches += -kms
+ENABLE_KMS_SUPPORT  =  no
 endif
-endif
+
 
 configure_switches += -qpa xcb
 
@@ -267,7 +283,7 @@ configure_switches += -optimized-qmake
 configure_switches += -verbose
 
 
-TARGET_BIN_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)/qt5/lib
+TARGET_BIN_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)/qt-$(version)/lib
 
 
 ####### Dependencies
@@ -275,12 +291,6 @@ TARGET_BIN_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)/qt
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
-ifneq ($(filter $(HARDWARE),$(HARDWARE_BEAGLE)),)
-	# ======= Remove not needed 'beagleboard' device specification =======
-	@( cd $(SRC_DIR)/qtbase/mkspecs/devices ; \
-	   rm -rf linux-beagleboard-g++ ; \
-	 )
-endif
 	@cp -a $(CURDIR)/mkspecs/devices/$(DEVICE_SPEC_DIR) $(SRC_DIR)/qtbase/mkspecs/devices
 	@cp -a $(CURDIR)/mkspecs/$(TARGET_SPEC_DIR) $(SRC_DIR)/qtbase/mkspecs
 	@( cd $(SRC_DIR)/qtbase/mkspecs/devices/$(DEVICE_SPEC_DIR) ; \
@@ -318,17 +328,17 @@ $(install_target): $(build_target)
 	@mkdir -p $(QT5_PKG)
 	@cd $(SRC_DIR) && $(QT_BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Rename build-machine tools =======
-	@( cd $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt5/bin ; \
+	@( cd $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/bin ; \
 	   for file in lconvert lrelease lupdate moc qdbuscpp2xml qdbusxml2cpp  \
 	               qdoc qlalr qmake qmlimportscanner qmllint qmlmin rcc uic ; do \
-	     mv $$file $(TARGET)-$${file}-qt5 ; \
+	     mv $$file $(TARGET)-qt5-$${file} ; \
 	   done ; \
 	 )
 	@mkdir -p $(QT5_PKG)/usr/bin
-	@( cd $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt5/bin ; \
+	@( cd $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/bin ; \
 	   for file in lconvert lrelease lupdate moc qdbuscpp2xml qdbusxml2cpp  \
 	               qdoc qlalr qmake qmlimportscanner qmllint qmlmin rcc uic ; do \
-	     ( cd $(QT5_PKG)/usr/bin ; ln -sf ../../usr/lib$(LIBSUFFIX)/qt5/bin/$(TARGET)-$${file}-qt5 . ) ; \
+	     ( cd $(QT5_PKG)/usr/bin ; ln -sf ../../usr/lib$(LIBSUFFIX)/qt-$(version)/bin/$(TARGET)-qt5-$${file} . ) ; \
 	   done ; \
 	 )
 	# ======= Install Qmake =======
@@ -372,48 +382,48 @@ $(install_target): $(build_target)
 	@( cd $(SRC_DIR)/qtbase ; \
 	   sed -i "/^# Verify makespec/ a\exit 0" configure ; \
 	   $(QT_BUILD_ENVIRONMENT) ./configure \
-	      -confirm-license -opensource -prefix /usr/lib$(LIBSUFFIX)/qt5 \
+	      -confirm-license -opensource -prefix /usr/lib$(LIBSUFFIX)/qt-$(version) \
 	      -arch $(ARCH) -platform $(TARGET_SPEC_DIR) \
 	      -force-pkg-config -release -shared -make tools -make libs \
 	      -nomake examples -nomake tests -optimized-qmake \
-	      -sysroot $(TARGET_DEST_DIR) -extprefix /usr/lib$(LIBSUFFIX)/qt5 \
+	      -sysroot $(TARGET_DEST_DIR) -extprefix /usr/lib$(LIBSUFFIX)/qt-$(version) \
 	      -verbose ; \
-	   cp -a bin/qmake $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt5/bin ; \
+	   cp -a bin/qmake $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/bin ; \
 	 )
 	# ======= Remove target mkspecs/$(TARGET_SPEC_DIR) =======
-	@( cd $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt5/mkspecs ; \
+	@( cd $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/mkspecs ; \
 	   rm -rf $(TARGET_SPEC_DIR) ; \
 	   rm -rf devices/$(DEVICE_SPEC_DIR) ; \
 	   cat $(CURDIR)/mkspecs/qconfig.pri.in      | \
 	       sed "s,@ARCH@,$(ARCH),g"              | \
 	       sed "s,@LIBDIRSUFFIX@,$(LIBSUFFIX),g"   \
-	            > $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt5/mkspecs/qconfig.pri ; \
+	            > $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/mkspecs/qconfig.pri ; \
 	   echo -n "" > qdevice.pri ; \
 	   echo -n "" > qmodule.pri ; \
 	 )
 	# ======= Install Qt.pc file =======
-	@( cd $(QT5_PKG)/usr/lib$(LIBSUFFIX) ; ln -sf qt5 qt-$(version) )
+	@( cd $(QT5_PKG)/usr/lib$(LIBSUFFIX) ; ln -sf qt-$(version) qt5 )
 	@cat $(pkgconfig_in) | \
-	     sed "s,@PREFIX@,/usr/lib$(LIBSUFFIX)/qt5,g" | \
-	     sed "s,@VERSION@,$(version),g" > $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt5/lib/pkgconfig/Qt5.pc
+	     sed "s,@PREFIX@,/usr/lib$(LIBSUFFIX)/qt-$(version),g" | \
+	     sed "s,@VERSION@,$(version),g" > $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib/pkgconfig/Qt5.pc
 	# ======= Remove internal used dependencies of libjscore, libwebcore ======
 	@sed -i "s# -Wl,-whole-archive -lWebKit1 -Wl,-no-whole-archive -L$(CURDIR)/$(SRC_DIR)/qtwebkit/Source/WebKit/##g" \
-	       $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt5/lib/pkgconfig/Qt5WebKit.pc
+	       $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib/pkgconfig/Qt5WebKit.pc
 	@sed -i "s# -Wl,-whole-archive -lWebKit2 -Wl,-no-whole-archive -L$(CURDIR)/$(SRC_DIR)/qtwebkit/Source/WebKit2/##g" \
-	       $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt5/lib/pkgconfig/Qt5WebKit.pc
+	       $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib/pkgconfig/Qt5WebKit.pc
 	@sed -i "s# -Wl,-whole-archive -lWebCore -Wl,-no-whole-archive -L$(CURDIR)/$(SRC_DIR)/qtwebkit/Source/WebCore/##g" \
-	       $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt5/lib/pkgconfig/Qt5WebKit.pc
+	       $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib/pkgconfig/Qt5WebKit.pc
 	@sed -i "s# -Wl,-whole-archive -lANGLE -Wl,-no-whole-archive -L$(CURDIR)/$(SRC_DIR)/qtwebkit/Source/ThirdParty/ANGLE/##g" \
-	       $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt5/lib/pkgconfig/Qt5WebKit.pc
+	       $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib/pkgconfig/Qt5WebKit.pc
 	@sed -i "s# -Wl,-whole-archive -lleveldb -Wl,-no-whole-archive -L$(CURDIR)/$(SRC_DIR)/qtwebkit/Source/ThirdParty/leveldb/##g" \
-	       $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt5/lib/pkgconfig/Qt5WebKit.pc
+	       $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib/pkgconfig/Qt5WebKit.pc
 	@sed -i "s# -Wl,-whole-archive -lJavaScriptCore -Wl,-no-whole-archive -L$(CURDIR)/$(SRC_DIR)/qtwebkit/Source/JavaScriptCore/##g" \
-	       $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt5/lib/pkgconfig/Qt5WebKit.pc
+	       $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib/pkgconfig/Qt5WebKit.pc
 	@sed -i "s# -Wl,-whole-archive -lWTF -Wl,-no-whole-archive -L$(CURDIR)/$(SRC_DIR)/qtwebkit/Source/WTF/##g" \
-	       $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt5/lib/pkgconfig/Qt5WebKit.pc
+	       $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib/pkgconfig/Qt5WebKit.pc
 	# ======= Link shared libraries into /usr/lib$(LIBSUFFIX) =======
 	@( cd $(QT5_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   for file in qt5/lib/*.so* ; do \
+	   for file in qt-$(version)/lib/*.so* ; do \
 	     ln -sf $$file . ; \
 	   done ; \
 	 )
@@ -424,9 +434,9 @@ $(install_target): $(build_target)
 	@chmod 0755 $(QT5_PKG)/etc/profile.d/*
 	# ======= Link pkgconfig files to 'normal' place =======
 	@mkdir -p $(QT5_PKG)/usr/lib$(LIBSUFFIX)/pkgconfig
-	@( cd $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt5/lib/pkgconfig ; \
+	@( cd $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib/pkgconfig ; \
 	   for file in *.pc ; do \
-	     ( cd $(QT5_PKG)/usr/lib$(LIBSUFFIX)/pkgconfig ; ln -sf ../../lib$(LIBSUFFIX)/qt5/lib/pkgconfig/$$file . ) ; \
+	     ( cd $(QT5_PKG)/usr/lib$(LIBSUFFIX)/pkgconfig ; ln -sf ../../lib$(LIBSUFFIX)/qt-$(version)/lib/pkgconfig/$$file . ) ; \
 	   done ; \
 	 )
 	# ======= Add menu entries for Qt applications =======
@@ -434,22 +444,22 @@ $(install_target): $(build_target)
 	@( cd $(SRC_DIR) ; \
 	   convert qtdoc/doc/src/images/qt-logo.png -resize 32x32 $(QT5_PKG)/usr/share/icons/hicolor/32x32/apps/qt5-logo.png ; \
 	   convert qtdoc/doc/src/images/qt-logo.png -resize 48x48 $(QT5_PKG)/usr/share/icons/hicolor/48x48/apps/qt5-logo.png ; \
-	   install -p -m644 -D qttools/src/assistant/assistant/images/assistant.png $(QT5_PKG)/usr/share/icons/hicolor/32x32/apps/assistant-qt5.png ; \
-	   install -p -m644 -D qttools/src/assistant/assistant/images/assistant-128.png $(QT5_PKG)/usr/share/icons/hicolor/128x128/apps/assistant-qt5.png ; \
-	   install -p -m644 -D qttools/src/designer/src/designer/images/designer.png $(QT5_PKG)/usr/share/icons/hicolor/128x128/apps/designer-qt5.png ; \
+	   install -p -m644 -D qttools/src/assistant/assistant/images/assistant.png $(QT5_PKG)/usr/share/icons/hicolor/32x32/apps/qt5-assistant.png ; \
+	   install -p -m644 -D qttools/src/assistant/assistant/images/assistant-128.png $(QT5_PKG)/usr/share/icons/hicolor/128x128/apps/qt5-assistant.png ; \
+	   install -p -m644 -D qttools/src/designer/src/designer/images/designer.png $(QT5_PKG)/usr/share/icons/hicolor/128x128/apps/qt5-designer.png ; \
 	   for icon in qttools/src/linguist/linguist/images/icons/linguist-*-32.png ; do \
 	     file=`basename $${icon}` ; \
 	     size=`echo $${file} | cut -d- -f2` ; \
-	     install -p -m644 -D $${icon} $(QT5_PKG)/usr/share/icons/hicolor/$${size}x$${size}/apps/linguist-qt5.png ; \
+	     install -p -m644 -D $${icon} $(QT5_PKG)/usr/share/icons/hicolor/$${size}x$${size}/apps/qt5-linguist.png ; \
 	   done ; \
-	   install -p -m644 -D qttools/src/qdbus/qdbusviewer/images/qdbusviewer.png $(QT5_PKG)/usr/share/icons/hicolor/32x32/apps/qdbusviewer-qt5.png ; \
-	   install -p -m644 -D qttools/src/qdbus/qdbusviewer/images/qdbusviewer-128.png $(QT5_PKG)/usr/share/icons/hicolor/128x128/apps/qdbusviewer-qt5.png ; \
+	   install -p -m644 -D qttools/src/qdbus/qdbusviewer/images/qdbusviewer.png $(QT5_PKG)/usr/share/icons/hicolor/32x32/apps/qt5-qdbusviewer.png ; \
+	   install -p -m644 -D qttools/src/qdbus/qdbusviewer/images/qdbusviewer-128.png $(QT5_PKG)/usr/share/icons/hicolor/128x128/apps/qt5-qdbusviewer.png ; \
 	 )
 	@mkdir -p $(QT5_PKG)/usr/share/applications
 	@( cd $(applications_dir) ; \
 	   for file in assistant designer linguist qdbusviewer ; do \
-	     cat $${file}-qt5.desktop.in | \
-	       sed "s,@QT5LINK@,/usr/lib$(LIBSUFFIX)/qt5,g" > $(QT5_PKG)/usr/share/applications/$${file}-qt5.desktop ; \
+	     cat qt5-$${file}.desktop.in | \
+	       sed "s,@QT5LINK@,/usr/lib$(LIBSUFFIX)/qt-$(version),g" > $(QT5_PKG)/usr/share/applications/qt5-$${file}.desktop ; \
 	   done ; \
 	 )
 	# ======= Install Documentation =======
@@ -462,7 +472,7 @@ $(install_target): $(build_target)
 	         $(QT5_PKG)/usr/share/doc/$(doc_dir_name) ; \
 	 )
 	# ======= remove toolchain path from target libtool *.la files =======
-	@( cd $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt5/lib ; \
+	@( cd $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libEnginio.la              libQt5Bluetooth.la           \
 	                                    libQt5Bootstrap.la         libQt5CLucene.la             \
 	                                    libQt5Concurrent.la        libQt5Core.la                \
@@ -511,8 +521,8 @@ $(install_target): $(build_target)
 	                                    libQt5XmlPatterns.prl       libqgsttools_p.prl          ; \
 	 )
 	# ======= Change source directory to more 'normal' place =======
-	@( cd $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt5/lib ; \
-	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/src/qt-$(version),g" \
+	@( cd $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib ; \
+	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/lib$(LIBSUFFIX)/qt-$(version),g" \
 	           libEnginio.prl              libQt5Bluetooth.prl           \
 	           libQt5Bootstrap.prl         libQt5CLucene.prl             \
 	           libQt5Concurrent.prl        libQt5Core.prl                \
@@ -538,7 +548,7 @@ $(install_target): $(build_target)
 	           libQt5XmlPatterns.prl       libqgsttools_p.prl          ; \
 	 )
 	# ======= remove toolchain path from target pkgconfig *.pc files =======
-	@( cd $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt5/lib/pkgconfig ; \
+	@( cd $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib/pkgconfig ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" Enginio.pc              Qt5Bluetooth.pc           \
 	                                    Qt5Bootstrap.pc         Qt5CLucene.pc             \
 	                                    Qt5Concurrent.pc        Qt5Core.pc                \
@@ -566,15 +576,15 @@ $(install_target): $(build_target)
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(QT5_PKG))
 	# ======= Remove build-machine tools from target package =======
-	@( cd $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt5/bin ; \
+	@( cd $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/bin ; \
 	   for file in lconvert lrelease lupdate moc qdbuscpp2xml qdbusxml2cpp  \
 	               qdoc qlalr qmake qmlimportscanner qmllint qmlmin rcc uic ; do \
-	     rm -f $(TARGET)-$${file}-qt5 ; \
+	     rm -f $(TARGET)-qt5-$${file} ; \
 	   done ; \
 	 )
 	@rm -rf $(QT5_PKG)/usr/bin
 	# ======= tune libtool *.la search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/qt5/lib ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib ; \
 	   sed -i "s,/usr/lib,$(TARGET_DEST_DIR)/usr/lib,g" libEnginio.la              libQt5Bluetooth.la           \
 	                                                    libQt5Bootstrap.la         libQt5CLucene.la             \
 	                                                    libQt5Concurrent.la        libQt5Core.la                \
@@ -623,7 +633,7 @@ $(install_target): $(build_target)
 	                                                    libQt5XmlPatterns.prl       libqgsttools_p.prl          ; \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/qt5/lib/pkgconfig ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/qt-$(version)/lib/pkgconfig ; \
 	   sed -i "s,/usr/lib,$(TARGET_DEST_DIR)/usr/lib,g" Enginio.pc              Qt5Bluetooth.pc           \
 	                                                    Qt5Bootstrap.pc         Qt5CLucene.pc             \
 	                                                    Qt5Concurrent.pc        Qt5Core.pc                \
@@ -656,7 +666,7 @@ $(install_target): $(build_target)
 	 )
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target binaries =======
-	@( cd $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt5/libexec ; \
+	@( cd $(QT5_PKG)/usr/lib$(LIBSUFFIX)/qt-$(version)/libexec ; \
 	   for file in `find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
 	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
 	     if [ -n "$$rpath" ] ; then \

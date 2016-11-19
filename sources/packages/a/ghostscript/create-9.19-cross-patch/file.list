@@ -1,0 +1,9 @@
+ghostscript-9.19/base/gs.mak
+ghostscript-9.19/base/ijs.mak
+ghostscript-9.19/base/jpeg.mak
+ghostscript-9.19/base/lib.mak
+ghostscript-9.19/base/openvms.mak
+ghostscript-9.19/base/ugcclib.mak
+ghostscript-9.19/base/unix-aux.mak
+ghostscript-9.19/base/unixlink.mak
+ghostscript-9.19/base/winlib.mak

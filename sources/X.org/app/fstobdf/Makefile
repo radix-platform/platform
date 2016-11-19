@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/app/fstobdf
 
-versions    = 1.0.5
+versions    = 1.0.5 1.0.6
 pkgname     = fstobdf
 suffix      = tar.bz2
 

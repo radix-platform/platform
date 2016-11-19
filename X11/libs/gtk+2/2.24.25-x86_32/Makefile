@@ -13,8 +13,8 @@ include ../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/GNOME/core/gtk+2
 
 REQUIRES           = X11/libs/gtk+2/2.24.25
-REQUIRES          += libs/atk/2.15.1-x86_32
-REQUIRES          += libs/poppler/0.29.0-x86_32
+REQUIRES          += libs/atk/2.20.0-x86_32
+REQUIRES          += libs/poppler/0.45.0-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -109,6 +109,7 @@ TARGET_LIB_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFI
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
+	@touch -t 201601010000.00 $(SRC_DIR)/*
 	@touch $@
 
 $(build_target): $(src_done)

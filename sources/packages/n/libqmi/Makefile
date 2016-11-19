@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/libqmi
 
-versions    = 1.10.4
+versions    = 1.10.4 1.14.2
 pkgname     = libqmi
 suffix      = tar.xz
 

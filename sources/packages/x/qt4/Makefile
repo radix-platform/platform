@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/x/qt4
 
-versions    = 4.8.6
+versions    = 4.8.6 4.8.7
 pkgname     = qt-everywhere-opensource-src
 suffix      = tar.gz
 
@@ -18,6 +18,18 @@ patches     = $(CURDIR)/patches/qt4-4.8.6.patch
 patches    += $(CURDIR)/patches/qt4-4.8.6-CVE-2014-0190.patch
 patches    += $(CURDIR)/patches/qt4-4.8.6-systemtrayicon.patch
 patches    += $(CURDIR)/patches/qt4-4.8.6-webkit-NEON-Thumb2.patch
+
+patches    += $(CURDIR)/patches/qt4-4.8.7-clipboard-delay.patch
+patches    += $(CURDIR)/patches/qt4-4.8.7-cups.patch
+patches    += $(CURDIR)/patches/qt4-4.8.7-disable-sslv3.patch
+patches    += $(CURDIR)/patches/qt4-4.8.7-event-loop.patch
+patches    += $(CURDIR)/patches/qt4-4.8.7-moc-boost.patch
+patches    += $(CURDIR)/patches/qt4-4.8.7-mysql.patch
+patches    += $(CURDIR)/patches/qt4-4.8.7-settings.patch
+patches    += $(CURDIR)/patches/qt4-4.8.7-systemtrayicon.patch
+patches    += $(CURDIR)/patches/qt4-4.8.7-webkit-NEON-Thumb2.patch
+patches    += $(CURDIR)/patches/qt4-4.8.7-webkit-werror.patch
+
 
 .NOTPARALLEL: $(patches)
 
@@ -56,6 +68,17 @@ $(patches): $(sha1s)
 	 ( cd create-4.8.6-CVE-2014-0190-patch      ; ./create.patch.sh ) ; \
 	 ( cd create-4.8.6-systemtrayicon-patch     ; ./create.patch.sh ) ; \
 	 ( cd create-4.8.6-webkit-NEON-Thumb2-patch ; ./create.patch.sh ) ; \
+	 \
+	 ( cd create-4.8.7-clipboard-delay-patch    ; ./create.patch.sh ) ; \
+	 ( cd create-4.8.7-cups-patch               ; ./create.patch.sh ) ; \
+	 ( cd create-4.8.7-disable-sslv3-patch      ; ./create.patch.sh ) ; \
+	 ( cd create-4.8.7-event-loop-patch         ; ./create.patch.sh ) ; \
+	 ( cd create-4.8.7-moc-boost-patch          ; ./create.patch.sh ) ; \
+	 ( cd create-4.8.7-mysql-patch              ; ./create.patch.sh ) ; \
+	 ( cd create-4.8.7-settings-patch           ; ./create.patch.sh ) ; \
+	 ( cd create-4.8.7-systemtrayicon-patch     ; ./create.patch.sh ) ; \
+	 ( cd create-4.8.7-webkit-NEON-Thumb2-patch ; ./create.patch.sh ) ; \
+	 ( cd create-4.8.7-webkit-werror-patch      ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

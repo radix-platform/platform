@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/x/gst-plugins-base
 
-versions    = 0.10.36 1.4.5
+versions    = 0.10.36 1.4.5 1.8.2
 pkgname     = gst-plugins-base
 suffix      = tar.xz
 

@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/x/dejavu-fonts-ttf
 
-versions    = 2.34
+versions    = 2.34 2.35
 pkgname     = dejavu-fonts-ttf
 suffix      = tar.bz2
 

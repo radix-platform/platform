@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/x/xterm
 
-versions    = 313
+versions    = 313 324
 pkgname     = xterm
 suffix      = tgz
 

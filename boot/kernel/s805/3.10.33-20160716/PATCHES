@@ -1,0 +1,5 @@
+
+../../../../sources/Linux/Amlogic/M201/patches/linux-aml-3.10.33-20160716-headers-install.patch -p0
+../../../../sources/Linux/Amlogic/M201/patches/linux-aml-3.10.33-20160716-gcc5.patch            -p0
+../../../../sources/Linux/Amlogic/M201/patches/linux-aml-3.10.33-20160716-m201-dtbs.patch       -p0
+../../../../sources/Linux/Amlogic/M201/patches/linux-aml-3.10.33-20160716-osd-xrgb.patch        -p0

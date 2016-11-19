@@ -1,0 +1,4 @@
+u-boot-2016.01/include/configs/dra7xx_evm.h
+u-boot-2016.01/include/configs/omap5_uevm.h
+u-boot-2016.01/include/configs/ti_armv7_common.h
+u-boot-2016.01/include/configs/ti_omap5_common.h

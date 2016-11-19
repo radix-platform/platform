@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/lib/pixman
 
-versions    = 0.32.6
+versions    = 0.32.6 0.34.0
 pkgname     = pixman
 suffix      = tar.bz2
 

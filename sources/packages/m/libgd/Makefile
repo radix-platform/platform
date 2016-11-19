@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/m/libgd
 
-versions    = 2.1.1
+versions    = 2.1.1 2.2.2
 pkgname     = libgd
 suffix      = tar.xz
 
@@ -16,6 +16,7 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/libgd-2.1.1-libvpx-1.4.0.patch
 patches    += $(CURDIR)/patches/libgd-2.1.1-extra-version.patch
+patches    += $(CURDIR)/patches/libgd-2.2.2-extra-version.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -52,6 +53,7 @@ $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-2.1.1-libvpx-1.4.0-patch  ; ./create.patch.sh ) ; \
 	 ( cd create-2.1.1-extra-version-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2.2.2-extra-version-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

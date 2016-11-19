@@ -14,7 +14,7 @@ SOURCE_REQUIRES    = sources/X.org/lib/libXfixes
 
 REQUIRES           = X11/X.org/lib/libXfixes/5.0.1
 REQUIRES          += X11/X.org/proto/fixesproto/5.0-x86_32
-REQUIRES          += X11/X.org/lib/libX11/1.6.2-x86_32
+REQUIRES          += X11/X.org/lib/libX11/1.6.3-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

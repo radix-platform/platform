@@ -5,6 +5,7 @@ dist/
 # local config & object files
 build-system/build-config.mk
 build-system/sbin/
+build-system/usr/
 build-system/progs/autom4te.cache/
 build-system/progs/.config
 build-system/progs/config.log
@@ -16,7 +17,9 @@ build-system/pkgtool/check-db-integrity
 build-system/pkgtool/check-package
 build-system/pkgtool/check-requires
 build-system/pkgtool/install-package
+build-system/pkgtool/make-package
 build-system/pkgtool/remove-package
+build-system/pkgtool/update-package
 
 # Target build dirs
 .a1x-newlib/
@@ -25,7 +28,7 @@ build-system/pkgtool/remove-package
 .at91sam7s-newlib/
 .lpc17xx-uclibc/
 
-.build/
+.build-machine/
 
 .i686-eglibc/
 .x86_64-eglibc/
@@ -36,78 +39,29 @@ build-system/pkgtool/remove-package
 .omap543x-eglibc/
 .bcm74x-eglibc/
 
-.i686-glibc/
-.x86_64-glibc/
 .a1x-glibc/
 .a2x-glibc/
+.bcm74x-glibc/
 .dm644x-glibc/
+.i686-glibc/
+.jz47xx-glibc/
 .omap35x-glibc/
 .omap543x-glibc/
-.bcm74x-glibc/
+.p5600-glibc/
+.rk328x-glibc/
+.x86_64-glibc/
 
 
 # Hidden files (each file)
 .makefile
-.b74.dist
-.b74.rootfs
-.beagle.dist
-.beagle.rootfs
-.cb1n.dist
-.cb1n.rootfs
-.cb1x.dist
-.cb1x.rootfs
-.cb2x.dist
-.cb2x.rootfs
-.cb3x.dist
-.cb3x.rootfs
-.at91sam7s.dist
-.at91sam7s.rootfs
-.host.dist
-.host.rootfs
-.l17uc.dist
-.l17uc.rootfs
-.omap5uevm.dist
-.omap5uevm.rootfs
-.pc32.dist
-.pc32.rootfs
-.pc64.dist
-.pc64.rootfs
-.vip1830.dist
-.vip1830.rootfs
-.vip1830n.dist
-.vip1830n.rootfs
+.dist
+.rootfs
 
 # src & hw requires
 .src_requires
-.src_requires_done
-.b74_requires
-.b74_requires_done
-.beagle_requires
-.beagle_requires_done
-.cb1n_requires
-.cb1n_requires_done
-.cb1x_requires
-.cb1x_requires_done
-.cb2x_requires
-.cb2x_requires_done
-.cb3x_requires
-.cb3x_requires_done
-.at91sam7s_requires
-.at91sam7s_requires_done
-.host_requires
-.host_requires_done
-.l17uc_requires
-.l17uc_requires_done
-.omap5uevm_requires
-.omap5uevm_requires_done
-.pc32_requires
-.pc32_requires_done
-.pc64_requires
-.pc64_requires_done
-.vip1830_requires
-.vip1830_requires_done
-.vip1830n_requires
-.vip1830n_requires_done
+.src_requires_depend
+.requires
+.requires_depend
 
 # Tarballs
 *.gz

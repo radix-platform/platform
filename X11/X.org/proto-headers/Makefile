@@ -2,13 +2,16 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -21,9 +24,9 @@ include ../../../build-system/constants.mk
 
 
 
-REQUIRES += X11/X.org/proto/xproto/7.0.26
+REQUIRES += X11/X.org/proto/xproto/7.0.29
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += X11/X.org/proto/xproto/7.0.26-x86_32
+REQUIRES += X11/X.org/proto/xproto/7.0.29-x86_32
 endif
 
 REQUIRES += X11/X.org/proto/dri2proto/2.8
@@ -36,14 +39,14 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += X11/X.org/proto/dri3proto/1.0-x86_32
 endif
 
-REQUIRES += X11/X.org/proto/randrproto/1.4.0
+REQUIRES += X11/X.org/proto/randrproto/1.5.0
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += X11/X.org/proto/randrproto/1.4.0-x86_32
+REQUIRES += X11/X.org/proto/randrproto/1.5.0-x86_32
 endif
 
-REQUIRES += X11/X.org/proto/videoproto/2.3.2
+REQUIRES += X11/X.org/proto/videoproto/2.3.3
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += X11/X.org/proto/videoproto/2.3.2-x86_32
+REQUIRES += X11/X.org/proto/videoproto/2.3.3-x86_32
 endif
 
 REQUIRES += X11/X.org/proto/xineramaproto/1.2.1
@@ -81,9 +84,9 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += X11/X.org/proto/applewmproto/1.4.2-x86_32
 endif
 
-REQUIRES += X11/X.org/proto/inputproto/2.3.1
+REQUIRES += X11/X.org/proto/inputproto/2.3.2
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += X11/X.org/proto/inputproto/2.3.1-x86_32
+REQUIRES += X11/X.org/proto/inputproto/2.3.2-x86_32
 endif
 
 REQUIRES += X11/X.org/proto/evieext/1.1.1
@@ -156,9 +159,9 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += X11/X.org/proto/fixesproto/5.0-x86_32
 endif
 
-REQUIRES += X11/X.org/proto/kbproto/1.0.6
+REQUIRES += X11/X.org/proto/kbproto/1.0.7
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += X11/X.org/proto/kbproto/1.0.6-x86_32
+REQUIRES += X11/X.org/proto/kbproto/1.0.7-x86_32
 endif
 
 REQUIRES += X11/X.org/proto/fontsproto/2.1.3

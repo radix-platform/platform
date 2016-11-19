@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/openmpi
 
-versions    = 1.8.4
+versions    = 1.8.4 1.8.8
 pkgname     = openmpi
 suffix      = tar.bz2
 

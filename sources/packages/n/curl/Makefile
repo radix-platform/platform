@@ -9,7 +9,7 @@ url         = $(DOWNLOAD_SERVER)/sources/packages/n/curl
 
 cacert_url  = http://curl.haxx.se/ca
 
-versions    = 7.38.0
+versions    = 7.38.0 7.47.0
 pkgname     = curl
 suffix      = tar.bz2
 cacert      = cacert.pem.bz2

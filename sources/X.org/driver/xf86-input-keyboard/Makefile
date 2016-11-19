@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/driver/xf86-input-keyboard
 
-versions    = 1.8.0
+versions    = 1.8.0 1.8.1
 pkgname     = xf86-input-keyboard
 suffix      = tar.bz2
 

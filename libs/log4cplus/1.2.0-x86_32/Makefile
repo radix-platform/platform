@@ -13,8 +13,8 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/log4cplus
 
 REQUIRES           = libs/log4cplus/1.2.0
-REQUIRES          += X11/libs/qt4/4.8.6-x86_32
-REQUIRES          += dev/python2/2.7.6-x86_32
+REQUIRES          += X11/libs/qt4/4.8.7-x86_32
+REQUIRES          += dev/python2/2.7.11-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -22,11 +22,10 @@ PYTHON_VERSION = 2.7
 
 
 version            = 1.2.0
-candidate          = rc3
-tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/l/log4cplus/log4cplus-$(version)-$(candidate).tar.xz
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/l/log4cplus/log4cplus-$(version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
-SRC_DIR            = $(TARGET_BUILD_DIR)/log4cplus-$(version)-$(candidate)
-src_dir_name       = log4cplus-$(version)-$(candidate)
+SRC_DIR            = $(TARGET_BUILD_DIR)/log4cplus-$(version)
+src_dir_name       = log4cplus-$(version)
 doc_dir_name       = log4cplus-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 

@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/pcre
 
-versions    = 8.33 8.34
+versions    = 8.34 8.38
 pkgname     = pcre
 suffix      = tar.bz2
 

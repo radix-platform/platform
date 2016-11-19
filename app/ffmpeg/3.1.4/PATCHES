@@ -1,0 +1,3 @@
+
+../../../sources/packages/m/ffmpeg/patches/ffmpeg-3.1.4-openh264.patch  -p0
+../../../sources/packages/m/ffmpeg/patches/ffmpeg-3.1.4-configure.patch -p0

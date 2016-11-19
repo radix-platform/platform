@@ -3,10 +3,7 @@ COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
 
 
 NEED_ABS_PATH      = true
@@ -19,9 +16,9 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/GNOME/core/glib2
 
 REQUIRES           = libs/zlib/1.2.8
-REQUIRES          += libs/libffi/3.0.13
+REQUIRES          += libs/libffi/3.2.1
 REQUIRES          += libs/libelf/0.8.13
-REQUIRES          += libs/pcre/8.34
+REQUIRES          += libs/pcre/8.38
 REQUIRES          += app/attr/2.4.47
 REQUIRES          += libs/libgamin/0.1.10
 

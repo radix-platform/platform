@@ -1,0 +1,7 @@
+xf86-video-mali-0.4.2/src/mali_def.h
+xf86-video-mali-0.4.2/src/mali_dri.c
+xf86-video-mali-0.4.2/src/mali_exa.c
+xf86-video-mali-0.4.2/src/mali_fbdev.c
+xf86-video-mali-0.4.2/src/mali_fbdev.h
+xf86-video-mali-0.4.2/src/mali_lcd.c
+xf86-video-mali-0.4.2/xorg.conf

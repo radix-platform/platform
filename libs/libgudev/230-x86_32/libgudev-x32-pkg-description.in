@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+            |-----handy-ruler------------------------------------------------------|
+libgudev-x32: libgudev-x32 @VERSION@ (x86_32 library of GObject bindings for libudev)
+libgudev-x32:
+libgudev-x32: Libcroco is a library providing GObject bindings for libudev.
+libgudev-x32: It used to be part of udev, then merged into systemd. It's now
+libgudev-x32: a project on its own.
+libgudev-x32:
+libgudev-x32: Download: http://download.gnome.org/sources/libgudev
+libgudev-x32: Web site: http://wiki.gnome.org/Projects/libgudev
+libgudev-x32:
+libgudev-x32:
+libgudev-x32:

@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/proto/xproto
 
-versions    = 7.0.26
+versions    = 7.0.26 7.0.29
 pkgname     = xproto
 suffix      = tar.bz2
 

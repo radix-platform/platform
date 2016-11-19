@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/driver/xf86-video-vmware
 
-versions    = 13.0.2
+versions    = 13.0.2 13.1.0
 pkgname     = xf86-video-vmware
 suffix      = tar.bz2
 

@@ -2,13 +2,16 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -20,12 +23,12 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/m/libgd
 
-REQUIRES           = libs/libtiff/4.0.3
-REQUIRES          += libs/libvpx/1.4.0
-REQUIRES          += libs/libpng/libpng14/1.4.13
-REQUIRES          += libs/libjpeg-turbo/1.3.1
-REQUIRES          += libs/freetype/2.5.3
-REQUIRES          += X11/libs/fontconfig/2.11.1
+REQUIRES           = libs/libtiff/4.0.6
+REQUIRES          += libs/libvpx/1.5.0
+REQUIRES          += libs/libpng/libpng14/1.4.19
+REQUIRES          += libs/libjpeg-turbo/1.4.2
+REQUIRES          += libs/freetype/2.6.3
+REQUIRES          += X11/libs/fontconfig/2.11.95
 REQUIRES          += X11/X.org/lib/libXpm/3.5.11
 
 # ======= __END_OF_REQUIRES__ =======

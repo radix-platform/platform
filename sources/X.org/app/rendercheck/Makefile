@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/app/rendercheck
 
-versions    = 1.4
+versions    = 1.4 1.5
 pkgname     = rendercheck
 suffix      = tar.bz2
 

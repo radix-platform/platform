@@ -1,4 +1,5 @@
 
+COMPONENT_TARGETS  = $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 
 
@@ -12,9 +13,9 @@ include ../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/hal/ump/DX/r3p2-01rel2
 
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/4.9.2
+REQUIRES           = dev/gcc/5.3.0
 else
-REQUIRES           = libs/glibc/2.21
+REQUIRES           = libs/glibc/2.23
 endif
 
 # ======= __END_OF_REQUIRES__ =======

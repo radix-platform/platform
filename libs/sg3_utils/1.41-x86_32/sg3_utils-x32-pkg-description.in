@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+             |-----handy-ruler------------------------------------------------------|
+sg3_utils-x32: sg3_utils-x32 @VERSION@ (utilities for the linux sg driver)
+sg3_utils-x32:
+sg3_utils-x32: This package contains low level utilities for devices that use a
+sg3_utils-x32: SCSI command set. Apart from SCSI parallel interface (SPI) devices,
+sg3_utils-x32: the SCSI command set is used by ATAPI devices (CD/DVDs and tapes),
+sg3_utils-x32: USB mass storage devices, Fibre Channel disks, IEEE 1394 storage
+sg3_utils-x32: devices (that use the "SBP" protocol), SAS, iSCSI and FCoE devices
+sg3_utils-x32: (among others).
+sg3_utils-x32:
+sg3_utils-x32: Homepage: http://sg.danny.cz/sg/sg3_utils.html
+sg3_utils-x32:

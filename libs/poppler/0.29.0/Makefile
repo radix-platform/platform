@@ -2,13 +2,16 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -21,11 +24,11 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/poppler
 
 REQUIRES           = libs/poppler-data/0.4.7
-REQUIRES          += X11/libs/harfbuzz/0.9.36
-REQUIRES          += libs/lcms2/2.6
-REQUIRES          += net/curl/7.38.0
-REQUIRES          += X11/libs/qt4/4.8.6
-REQUIRES          += X11/libs/qt5/5.4.0
+REQUIRES          += X11/libs/harfbuzz/1.2.7
+REQUIRES          += libs/lcms2/2.7
+REQUIRES          += net/curl/7.47.0
+REQUIRES          += X11/libs/qt4/4.8.7
+REQUIRES          += X11/libs/qt5/5.4.2
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -116,7 +119,7 @@ extra_configure_switches += --enable-introspection=no
 extra_configure_switches += --disable-gtk-test
 
 environment  = MOCQT4=$(TARGET_DEST_DIR)/usr/bin/$(TARGET)-moc
-environment += MOCQT52=$(TARGET_DEST_DIR)/usr/bin/$(TARGET)-moc-qt5
+environment += MOCQT52=$(TARGET_DEST_DIR)/usr/bin/$(TARGET)-qt5-moc
 
 
 TARGET_BIN_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)

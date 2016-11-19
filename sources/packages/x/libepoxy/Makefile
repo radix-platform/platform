@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/x/libepoxy
 
-versions    = 1.2
+versions    = 1.2 1.3.1
 pkgname     = libepoxy
 suffix      = tar.bz2
 

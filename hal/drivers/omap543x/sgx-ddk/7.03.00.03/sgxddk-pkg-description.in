@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+      |-----handy-ruler------------------------------------------------------|
+sgxddk: SGX Embedded Systems DDK @VERSION@ for Linux kernel
+sgxddk:
+sgxddk: This is the Imagination Technologies SGX DDK for the Linux
+sgxddk: kernel for Linux OMAP/Jacinto6 platforms.
+sgxddk:
+sgxddk: This is version 1.9.11 of the TI DDK. It is based on IMG's
+sgxddk: 1.9 DDK post-beta engineering drop (ED2253347) delivery to TI.
+sgxddk:
+sgxddk: Source Git Repository:
+sgxddk:    $ git clone git://git.ti.com/graphics/omap5-sgx-ddk-linux
+sgxddk:

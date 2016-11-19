@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/openmpi
 
 REQUIRES           = libs/openmpi/1.8.4
-REQUIRES          += libs/hwloc/1.10.0-x86_32
+REQUIRES          += libs/hwloc/1.11.3-x86_32
 REQUIRES          += dev/libtool/2.4.2-x86_32
 
 # ======= __END_OF_REQUIRES__ =======

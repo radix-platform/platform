@@ -7,7 +7,7 @@ include ../../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/m/xiph/opus
 
-versions    = 1.1
+versions    = 1.1 1.1.2
 pkgname     = opus
 suffix      = tar.gz
 

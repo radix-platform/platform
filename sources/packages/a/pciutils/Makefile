@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/pciutils
 
-versions    = 3.2.0 3.2.1
+versions    = 3.2.0 3.2.1 3.4.1
 pkgname     = pciutils
 suffix      = tar.xz
 
@@ -17,6 +17,8 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 patches     = $(CURDIR)/patches/pciutils-3.2.0.patch
 patches    += $(CURDIR)/patches/pciutils-3.2.1.patch
 patches    += $(CURDIR)/patches/pciutils-3.2.1-cross.patch
+patches    += $(CURDIR)/patches/pciutils-3.4.1.patch
+patches    += $(CURDIR)/patches/pciutils-3.4.1-cross.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -54,6 +56,8 @@ $(patches): $(sha1s)
 	 ( cd create-3.2.0-patch ;       ./create.patch.sh ) ; \
 	 ( cd create-3.2.1-patch ;       ./create.patch.sh ) ; \
 	 ( cd create-3.2.1-cross-patch ; ./create.patch.sh ) ; \
+	 ( cd create-3.4.1-patch ;       ./create.patch.sh ) ; \
+	 ( cd create-3.4.1-cross-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

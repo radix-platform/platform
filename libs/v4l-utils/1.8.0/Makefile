@@ -2,13 +2,16 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -21,13 +24,12 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/m/linuxtv/v4l-utils
 
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/4.9.2
+REQUIRES           = dev/gcc/5.3.0
 endif
 REQUIRES          += app/sysfsutils/2.1.0
-REQUIRES          += libs/eudev/1.9
-REQUIRES          += libs/libjpeg-turbo/1.3.1
-REQUIRES          += X11/libs/qt5/5.4.0
-REQUIRES          += libs/alsa-lib/1.0.28
+REQUIRES          += libs/eudev/3.1.5
+REQUIRES          += libs/libjpeg-turbo/1.4.2
+REQUIRES          += X11/libs/qt5/5.4.2
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -99,7 +101,7 @@ extra_configure_switches += --disable-rpath
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --with-udevdir=/lib/udev
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXQ)),)
 #
 # Graphical Qt v4l2 control panel:
 # ===============================
@@ -117,9 +119,9 @@ extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --enable-static=yes
 
 
-qt5_environment  = MOC=$(TARGET_DEST_DIR)/usr/lib/qt5/bin/$(TARGET)-moc-qt5
-qt5_environment += RCC=$(TARGET_DEST_DIR)/usr/lib/qt5/bin/$(TARGET)-rcc-qt5
-qt5_environment += UIC=$(TARGET_DEST_DIR)/usr/lib/qt5/bin/$(TARGET)-uic-qt5
+qt5_environment  = MOC=$(TARGET_DEST_DIR)/usr/lib/qt5/bin/$(TARGET)-qt5-moc
+qt5_environment += RCC=$(TARGET_DEST_DIR)/usr/lib/qt5/bin/$(TARGET)-qt5-rcc
+qt5_environment += UIC=$(TARGET_DEST_DIR)/usr/lib/qt5/bin/$(TARGET)-qt5-uic
 
 
 TARGET_QT5_RPATH = /usr/lib$(LIBSUFFIX)/qt5/lib:/usr/lib$(LIBSUFFIX)

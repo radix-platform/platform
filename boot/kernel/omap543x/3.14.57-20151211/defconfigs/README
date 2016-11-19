@@ -1,0 +1,55 @@
+
+Kernel Configuration:
+====================
+
+According to glsdk 7.03.00.03 , the kernel .config created by following commands:
+
+$ cd KERNEL_SRC_DIR
+
+$ make ARCH=arm omap2plus_defconfig
+
+$ ./scripts/kconfig/merge_config.sh -m .config ti_config_fragments/audio_display.cfg \
+                                               ti_config_fragments/baseport.cfg      \
+                                               ti_config_fragments/connectivity.cfg  \
+                                               ti_config_fragments/ipc.cfg           \
+                                               ti_config_fragments/power.cfg         \
+                                               ti_config_fragments/wlan.cfg          \
+                                               ti_config_fragments/system_test.cfg   \
+                                               ti_config_fragments/auto.cfg          \
+                                               ti_config_fragments/radio.cfg
+
+$ make olddefconfig ARCH=arm
+
+
+NOTE:
+====
+ - In the CONFIG_CMDLINE the ttyO2 has been chaged to ttyO0 .
+ - OMAP5 uEVM:
+   $ ARCH=arm make menuconfig
+      and remove: System Type -> TI DRA7XX
+
+NOTE:
+====
+  - WLAN is disabled by default. To enable WiLink8 WLAN we have to set following options:
+
+      CONFIG_CFG80211=m
+      CONFIG_CFG80211_DEFAULT_PS=y
+      CONFIG_CFG80211_DEBUGFS=y
+      CONFIG_MAC80211=m
+      CONFIG_MAC80211_DEBUGFS=y
+      CONFIG_MAC80211_MESSAGE_TRACING=y
+      CONFIG_NL80211_TESTMODE=y
+      CONFIG_WLAN=y
+      CONFIG_WL_TI=y
+      CONFIG_WL12XX=m
+      CONFIG_WL18XX=m
+      CONFIG_WLCORE=m
+      CONFIG_WLCORE_SDIO=m
+
+      CONFIG_NL80211_TESTMODE=y
+      CONFIG_RFKILL=y
+      CONFIG_CRYPTO_TEST=m
+      CONFIG_CRYPTO_ECB=y
+      CONFIG_CRYPTO_ARC4=y
+      CONFIG_CRYPTO_CCM=y
+      CONFIG_CRYPTO_GCM=y

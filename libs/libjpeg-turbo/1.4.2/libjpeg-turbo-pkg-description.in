@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+             |-----handy-ruler------------------------------------------------------|
+libjpeg-turbo: libjpeg-turbo @VERSION@ (JPEG image codec)
+libjpeg-turbo:
+libjpeg-turbo: libjpeg-turbo is a JPEG image codec that uses SIMD instructions
+libjpeg-turbo: (MMX, SSE2, NEON) to accelerate baseline JPEG compression and
+libjpeg-turbo: decompression on x86, x86-64, and ARM systems. On such systems,
+libjpeg-turbo: libjpeg-turbo is generally 2-4x as fast as libjpeg, all else being
+libjpeg-turbo: equal. On other types of systems, libjpeg-turbo can still outperform
+libjpeg-turbo: libjpeg by a significant amount.
+libjpeg-turbo:
+libjpeg-turbo: Homepage: http://libjpeg-turbo.virtualgl.org
+libjpeg-turbo:

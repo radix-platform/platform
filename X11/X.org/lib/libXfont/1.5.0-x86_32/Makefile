@@ -13,9 +13,9 @@ include ../../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/X.org/lib/libXfont
 
 REQUIRES           = X11/X.org/lib/libXfont/1.5.0
-REQUIRES          += libs/freetype/2.5.3-x86_32
+REQUIRES          += libs/freetype/2.6.3-x86_32
 REQUIRES          += X11/X.org/lib/xtrans/1.3.5-x86_32
-REQUIRES          += X11/X.org/lib/libfontenc/1.1.2-x86_32
+REQUIRES          += X11/X.org/lib/libfontenc/1.1.3-x86_32
 REQUIRES          += X11/X.org/proto/fontsproto/2.1.3-x86_32
 
 # ======= __END_OF_REQUIRES__ =======

@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/icu4c
 
-versions    = 54.1
+versions    = 54.1 55.1
 pkgname     = icu4c
 suffix      = tar.bz2
 
@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/icu4c-54.1.patch
+patches    += $(CURDIR)/patches/icu4c-55.1.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,6 +51,7 @@ $(sha1s): $(tarballs)
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-54.1-patch ; ./create.patch.sh ) ; \
+	 ( cd create-55.1-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

@@ -7,7 +7,7 @@ include ../../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/m/xiph/libshout
 
-versions    = 2.3.1
+versions    = 2.3.1 2.4.1
 pkgname     = libshout
 suffix      = tar.gz
 

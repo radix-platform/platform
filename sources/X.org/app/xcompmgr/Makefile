@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/app/xcompmgr
 
-versions    = 1.1.6
+versions    = 1.1.6 1.1.7
 pkgname     = xcompmgr
 suffix      = tar.bz2
 
@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/xcompmgr-1.1.6.patch
+patches    += $(CURDIR)/patches/xcompmgr-1.1.7.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,6 +51,7 @@ $(sha1s): $(tarballs)
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-1.1.6-patch ; ./create.patch.sh ) ; \
+	 ( cd create-1.1.7-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

@@ -15,7 +15,7 @@ news:x:13:news
 uucp:x:14:uucp
 man:x:15:
 dialout:x:16:uucp
-audio:x:17:root
+audio:x:17:root,pulse
 video:x:18:root
 cdrom:x:19:root
 games:x:20:

@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/x/hicolor-icon-theme
 
-versions    = 0.14
+versions    = 0.14 0.15
 pkgname     = hicolor-icon-theme
 suffix      = tar.xz
 

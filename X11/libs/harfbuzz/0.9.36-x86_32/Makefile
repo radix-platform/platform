@@ -13,11 +13,11 @@ include ../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/harfbuzz
 
 REQUIRES           = libs/harfbuzz/0.9.36
-REQUIRES          += libs/glib2/2.40.0-x86_32
-REQUIRES          += libs/libpng/libpng14/1.4.13-x86_32
-REQUIRES          += libs/icu4c/54.1-x86_32
+REQUIRES          += libs/glib2/2.48.0-x86_32
+REQUIRES          += libs/libpng/libpng14/1.4.19-x86_32
+REQUIRES          += libs/icu4c/55.1-x86_32
 REQUIRES          += X11/libs/cairo/1.14.0-x86_32
-REQUIRES          += libs/libffi/3.0.13-x86_32
+REQUIRES          += libs/libffi/3.2.1-x86_32
 REQUIRES          += libs/zlib/1.2.8-x86_32
 REQUIRES          += app/bzip2/1.0.6-x86_32
 # NOTE (about 'env/freetype/2.5.3-x86_32'):

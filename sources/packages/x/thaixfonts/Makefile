@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/x/thaixfonts
 
-versions    = 1.2.6
+versions    = 1.2.6 1.2.7
 pkgname     = thaixfonts
 suffix      = tar.xz
 

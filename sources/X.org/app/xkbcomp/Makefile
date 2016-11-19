@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/app/xkbcomp
 
-versions    = 1.3.0
+versions    = 1.3.0 1.3.1
 pkgname     = xkbcomp
 suffix      = tar.bz2
 

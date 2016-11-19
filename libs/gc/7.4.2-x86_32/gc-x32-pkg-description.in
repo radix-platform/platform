@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+      |-----handy-ruler------------------------------------------------------|
+gc-x32: gc-x32 @VERSION@ (x86_32 garbage collector library)
+gc-x32:
+gc-x32: The Boehm-Demers-Weiser conservative garbage collector can be used
+gc-x32: as a garbage collecting replacement for C malloc or C++ new.
+gc-x32:
+gc-x32: Homepage:  http://www.hboehm.info/gc
+gc-x32:
+gc-x32:
+gc-x32:
+gc-x32:
+gc-x32:

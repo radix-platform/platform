@@ -2,13 +2,16 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -22,12 +25,12 @@ SOURCE_REQUIRES    = sources/packages/a/cups
 
 REQUIRES           = app/acl/2.2.52
 REQUIRES          += secure/pam_unix2/2.9.1
-REQUIRES          += app/dbus/1.8.10
-REQUIRES          += libs/libtiff/4.0.3
-REQUIRES          += libs/libpng/libpng14/1.4.13
-REQUIRES          += net/gnutls/3.1.22
-REQUIRES          += net/openssl/1.0.2d
-REQUIRES          += libs/libusb/1.0.19
+REQUIRES          += app/dbus/1.11.2
+REQUIRES          += libs/libtiff/4.0.6
+REQUIRES          += libs/libpng/libpng14/1.4.19
+REQUIRES          += net/gnutls/3.4.8
+REQUIRES          += net/openssl/1.0.2f
+REQUIRES          += libs/libusb/1.0.20
 REQUIRES          += net/avahi-daemon/0.6.31
 
 # ======= __END_OF_REQUIRES__ =======

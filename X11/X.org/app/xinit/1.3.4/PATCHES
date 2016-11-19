@@ -1,0 +1,2 @@
+
+../../../../../sources/X.org/app/xinit/patches/xinit-1.3.4-remove-systemd-kludge.patch -p0

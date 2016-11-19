@@ -1,0 +1,44 @@
+#
+# qmake configuration for building with x86_64-radix-linux-gnu-g++
+#
+
+MAKEFILE_GENERATOR       = UNIX
+CONFIG                  += incremental
+QMAKE_INCREMENTAL_STYLE  = sublib
+
+QMAKE_CFLAGS             = -m64
+QMAKE_LFLAGS             = -m64
+
+include(../common/linux.conf)
+include(../common/gcc-base-unix.conf)
+include(../common/g++-unix.conf)
+
+
+# modifications to g++.conf
+QMAKE_CC                 = @CCACHE@ @CROSS_COMPILE@gcc --sysroot=@SYSROOT@
+QMAKE_CXX                = @CCACHE@ @CROSS_COMPILE@g++ --sysroot=@SYSROOT@
+QMAKE_LINK               = @CROSS_COMPILE@g++ --sysroot=@SYSROOT@
+QMAKE_LINK_SHLIB         = @CROSS_COMPILE@g++ --sysroot=@SYSROOT@
+QMAKE_LINK_C             = @CROSS_COMPILE@gcc --sysroot=@SYSROOT@
+
+# modifications to linux.conf
+QMAKE_AR                 = @CROSS_COMPILE@ar cqs
+QMAKE_OBJCOPY            = @CROSS_COMPILE@objcopy
+QMAKE_NM                 = @CROSS_COMPILE@nm -P
+QMAKE_STRIP              = @CROSS_COMPILE@strip
+
+QMAKE_INCDIR             = @SYSROOT@/usr/include
+QMAKE_LIBDIR             = @SYSROOT@/usr/lib@LIBDIRSUFFIX@
+
+QMAKE_LIBS_EGL          += -lEGL
+QMAKE_LIBS_OPENGL_ES2   += -lGLESv2
+QMAKE_LIBS_OPENVG       += -lOpenVG
+
+QMAKE_LFLAGS            += -Wl,-rpath-link,@SYSROOT@/usr/lib@LIBDIRSUFFIX@ -Wl,--export-dynamic
+
+TARGET_HW_CFLAGS         = @ARCH_FLAGS@ @ARCH_DEFS@ @HW_FLAGS@ -DLINUX=1
+
+QMAKE_CFLAGS            += $$TARGET_HW_CFLAGS
+QMAKE_CXXFLAGS          += $$TARGET_HW_CFLAGS
+
+load(qt_config)

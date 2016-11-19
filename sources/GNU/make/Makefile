@@ -7,7 +7,7 @@ include ../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/GNU/make
 
-versions    = 3.82 4.0
+versions    = 3.82 4.0 4.1 4.2.1
 pkgname     = make
 suffix      = tar.bz2
 

@@ -1,35 +1,35 @@
 
-COMPONENT_TARGETS = $(HARDWARE_CI20)
+COMPONENT_TARGETS  = $(HARDWARE_CI20)
 
-NEED_ABS_PATH     = true
+NEED_ABS_PATH      = true
 
-COMPONENT_IS_3PP  = true
+COMPONENT_IS_3PP   = true
 
 NO_CCACHE = true
 
 include ../../../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES   = sources/hal/drivers/ci20/sgx-ddk/3.0.8
+SOURCE_REQUIRES    = sources/hal/drivers/ci20/sgx-ddk/3.0.8
 
-REQUIRES          = boot/kernel/ci20/3.0.8-20150728
+REQUIRES           = boot/kernel/ci20/3.0.8-20150728
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version           = 1.13.3341330
-kernel_version    = 3.0.8-20150728
-modules_version   = 3.0.8
-tar_xz_archive   = $(SRC_PACKAGE_PATH)/hal/drivers/ci20/sgx-ddk/3.0.8/ci20-sgx-km-$(version).tar.xz
-SRC_ARCHIVE       = $(tar_xz_archive)
-SRC_DIR           = $(TARGET_BUILD_DIR)/ci20-sgx-km-$(version)
-src_done          = $(TARGET_BUILD_DIR)/.source_done
+version            = 1.13.3341330
+kernel_version     = 3.0.8-20150728
+modules_version    = 3.0.8
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/hal/drivers/ci20/sgx-ddk/3.0.8/ci20-sgx-km-$(version).tar.xz
+SRC_ARCHIVE        = $(tar_xz_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/ci20-sgx-km-$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source_done
 
-kernel_sources    = $(TARGET_DEST_DIR)/usr/src/linux-ci20-$(kernel_version)
+kernel_sources     = $(TARGET_DEST_DIR)/usr/src/linux-ci20-$(kernel_version)
 
-build_sgxddk_pkg  = $(TARGET_BUILD_DIR)/.sgxddk_pkg_done
+build_sgxddk_pkg   = $(TARGET_BUILD_DIR)/.sgxddk_pkg_done
 
-modules_done      = $(TARGET_BUILD_DIR)/.modules_done
+modules_done       = $(TARGET_BUILD_DIR)/.modules_done
 
 
 PATCHES = PATCHES

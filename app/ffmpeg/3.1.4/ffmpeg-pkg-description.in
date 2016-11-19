@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+      |-----handy-ruler------------------------------------------------------|
+ffmpeg: ffmpeg @VERSION@ (FFmpeg collection)
+ffmpeg:
+ffmpeg: FFmpeg is a collection of libraries and tools to process
+ffmpeg: multimedia content such as audio, video, subtitles and
+ffmpeg: related metadata.
+ffmpeg:
+ffmpeg:
+ffmpeg:
+ffmpeg: Homepage: http://ffmpeg.org
+ffmpeg:
+ffmpeg:

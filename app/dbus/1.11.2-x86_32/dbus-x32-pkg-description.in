@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+        |-----handy-ruler------------------------------------------------------|
+dbus-x32: dbus-x32 @VERSION@ (x86_32 D-Bus message bus system)
+dbus-x32:
+dbus-x32: D-Bus supplies both a system daemon (for events such as "new
+dbus-x32: hardware device added" or "printer queue changed") and a per user
+dbus-x32: login session daemon (for general IPC needs among user applications).
+dbus-x32: Also, the message bus is built on top of a general one-to-one message
+dbus-x32: passing framework, which can be used by any two apps to communicate
+dbus-x32: directly (without going through the message bus daemon).
+dbus-x32:
+dbus-x32:
+dbus-x32:

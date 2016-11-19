@@ -1,0 +1,73 @@
+#!/bin/sh
+
+# Preserve new files
+install_file() {
+  NEW="$1"
+  OLD="`dirname $NEW`/`basename $NEW .new`"
+  # If there's no file by that name, mv it over:
+  if [ ! -r $OLD ]; then
+    mv $NEW $OLD
+  elif [ "`cat $OLD | md5sum`" = "`cat $NEW | md5sum`" ]; then # toss the redundant copy
+    rm $NEW
+  fi
+  # Otherwise, we leave the .new copy for the admin to consider...
+}
+
+
+# arg 1:  the new package version
+pre_install() {
+  /bin/true
+}
+
+# arg 1:  the new package version
+post_install() {
+  # Prepare the new configuration files
+  for file in etc/profile.d/libglib2.csh.new etc/profile.d/libglib2.sh.new ; do
+    if test -e $(dirname $file)/$(basename $file .new) ; then
+      if [ ! -x $(dirname $file)/$(basename $file .new) ]; then
+        chmod 644 $file
+       else
+        chmod 755 $file
+      fi
+    fi
+    install_file $file
+  done
+
+  # Try to run these.  If they fail, no biggie.
+  # Also we have to be sure that we are on the working system
+  # on the target hardware ("proc/sys/kernel/osrelease" - relative path).
+   if [ -r proc/sys/kernel/osrelease -a -x usr/bin/glib-compile-schemas ] ; then
+    chroot . /usr/bin/glib-compile-schemas /usr/share/glib-2.0/schemas/ 1> /dev/null 2> /dev/null
+  fi
+  if [ -r proc/sys/kernel/osrelease -a -x usr/bin/gio-querymodules ] ; then
+    chroot . /usr/bin/gio-querymodules @LIBDIR@/gio/modules/ 1> /dev/null 2> /dev/null
+  fi
+}
+
+# arg 1:  the new package version
+# arg 2:  the old package version
+pre_update() {
+  /bin/true
+}
+
+# arg 1:  the new package version
+# arg 2:  the old package version
+post_update() {
+  post_install
+}
+
+# arg 1:  the old package version
+pre_remove() {
+  /bin/true
+}
+
+# arg 1:  the old package version
+post_remove() {
+  /bin/true
+}
+
+
+operation=$1
+shift
+
+$operation $*

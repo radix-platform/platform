@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/m/lame/lame
 
 REQUIRES           = libs/lame/3.99.5
-REQUIRES          += libs/ncurses/5.9-x86_32
+REQUIRES          += libs/ncurses/6.0-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

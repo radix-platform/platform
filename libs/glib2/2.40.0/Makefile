@@ -2,13 +2,16 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -20,9 +23,9 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNOME/core/glib2
 
-REQUIRES           = libs/libffi/3.0.13
+REQUIRES           = libs/libffi/3.2.1
 REQUIRES          += libs/libelf/0.8.13
-REQUIRES          += libs/pcre/8.34
+REQUIRES          += libs/pcre/8.38
 REQUIRES          += app/attr/2.4.47
 REQUIRES          += libs/libgamin/0.1.10
 
@@ -43,25 +46,25 @@ build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
 
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB2X) $(HARDWARE_CB3X)),)
 hw_cache_in        = $(CURDIR)/cross/hw.cache.arm
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_FFRK3288)),)
 hw_cache_in        = $(CURDIR)/cross/hw.cache.arm
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_DM64X)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXQ)),)
 hw_cache_in        = $(CURDIR)/cross/hw.cache.arm
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_BEAGLE)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
 hw_cache_in        = $(CURDIR)/cross/hw.cache.arm
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
 hw_cache_in        = $(CURDIR)/cross/hw.cache.arm
-endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_B74)),)
-hw_cache_in        = $(CURDIR)/cross/hw.cache.mips
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
+hw_cache_in        = $(CURDIR)/cross/hw.cache.mips
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_BT1)),)
 hw_cache_in        = $(CURDIR)/cross/hw.cache.mips
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32) $(HARDWARE_PC64)),)

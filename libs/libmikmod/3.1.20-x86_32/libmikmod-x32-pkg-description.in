@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+             |-----handy-ruler------------------------------------------------------|
+libmikmod-x32: libmikmod-x32 @VERSION@ (x86_32 A portable sound library)
+libmikmod-x32:
+libmikmod-x32: The MikMod sound library is an excellent way for a programmer
+libmikmod-x32: to add music and sound effects to an application. It is a powerful
+libmikmod-x32: and flexible library, with a simple and easy-to-learn API.
+libmikmod-x32:
+libmikmod-x32:
+libmikmod-x32: Homepage: http://mikmod.sourceforge.net
+libmikmod-x32:
+libmikmod-x32:
+libmikmod-x32:

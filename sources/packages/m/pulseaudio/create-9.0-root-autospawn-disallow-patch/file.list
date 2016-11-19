@@ -1,0 +1,5 @@
+pulseaudio-9.0/man/pulse-client.conf.5.xml.in
+pulseaudio-9.0/src/pulse/client-conf.c
+pulseaudio-9.0/src/pulse/client-conf.h
+pulseaudio-9.0/src/pulse/client.conf.in
+pulseaudio-9.0/src/pulse/context.c

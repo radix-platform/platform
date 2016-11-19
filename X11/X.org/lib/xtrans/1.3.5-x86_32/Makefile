@@ -13,7 +13,7 @@ include ../../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/X.org/lib/xtrans
 
 REQUIRES           = X11/X.org/lib/xtrans/1.3.5
-REQUIRES          += X11/X.org/proto/xproto/7.0.26-x86_32
+REQUIRES          += X11/X.org/proto/xproto/7.0.29-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

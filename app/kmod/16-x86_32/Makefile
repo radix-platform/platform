@@ -12,16 +12,16 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/a/kmod
 
-REQUIRES           = app/kmod/16
+REQUIRES           = app/kmod/22
 REQUIRES          += libs/zlib/1.2.8-x86_32
-REQUIRES          += app/xz/5.0.5-x86_32
+REQUIRES          += app/xz/5.2.2-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
 
 version            = 16
-tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/a/kmod/kmod-$(version).tar.bz2
-SRC_ARCHIVE        = $(tar_bz2_archive)
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/a/kmod/kmod-$(version).tar.xz
+SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/kmod-$(version)
 src_dir_name       = kmod-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done

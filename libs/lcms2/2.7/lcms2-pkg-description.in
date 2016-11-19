@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+     |-----handy-ruler------------------------------------------------------|
+lcms2: lcms2 @VERSION@ (LCMS Color Management Library)
+lcms2:
+lcms2: Little CMS intends to be an OPEN SOURCE small-footprint color
+lcms2: management engine, with special focus on accuracy and performance.
+lcms2: It uses the International Color Consortium standard (ICC), which is
+lcms2: the modern standard when regarding to color management. The ICC
+lcms2: specification is widely used and is referred to in many International
+lcms2: and other de-facto standards. It was approved as an International
+lcms2: Standard, ISO 15076-1, in 2005.
+lcms2:
+lcms2:

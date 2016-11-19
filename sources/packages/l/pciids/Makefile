@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/pciids
 
-versions    = 20150210
+versions    = 20150210 20160209
 pkgname     = pciids
 suffix      = tar.xz
 

@@ -2,13 +2,16 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -20,15 +23,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/gamin
 
-ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/4.9.2
-else
-ifneq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES           = libs/glibc/2.21
-else
-REQUIRES           = libs/glibc/2.21-x86_32
-endif
-endif
+REQUIRES           = dev/python2/2.7.11
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -110,6 +105,33 @@ extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --cache-file=$(hw_cache)
 
 
+#
+# Python Configuration:
+#
+PYTHON_MAJOR_VERSION = 2
+
+ifeq ($(PYTHON_MAJOR_VERSION),3)
+PYTHON_VERSION = 3.5
+extra_configure_switches += --with-python=$(PYTHON3)
+
+python_environment  = PYTHON_VERSION=$(PYTHON_VERSION)
+python_environment += PYTHON_INCLUDES=$(TARGET_DEST_DIR)/usr/include/python$(PYTHON_VERSION)m
+python_environment += PYTHON_SITE_PACKAGES=/usr/lib$(LIBSUFFIX)/python$(PYTHON_VERSION)/site-packages
+endif
+
+ifeq ($(PYTHON_MAJOR_VERSION),2)
+PYTHON_VERSION = 2.7
+extra_configure_switches += --with-python=$(PYTHON2)
+
+python_environment  = PYTHON_VERSION=$(PYTHON_VERSION)
+python_environment += PYTHON_INCLUDES=$(TARGET_DEST_DIR)/usr/include/python$(PYTHON_VERSION)
+python_environment += PYTHON_SITE_PACKAGES=/usr/lib$(LIBSUFFIX)/python$(PYTHON_VERSION)/site-packages
+endif
+
+
+CFLAGS += -Wno-address -Wno-unused-variable
+
+
 ####### Dependencies
 
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
@@ -121,7 +143,7 @@ $(build_target): $(src_done)
 	@mkdir -p $(build_dir)
 	@cp -a $(hw_cache_in) $(hw_cache)
 	@cd $(build_dir) && \
-	  $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
+	  $(BUILD_ENVIRONMENT) $(python_environment) ../$(src_dir_name)/configure \
 	  --prefix=/usr               \
 	  --build=$(BUILD)            \
 	  --host=$(TARGET)            \

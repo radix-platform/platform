@@ -13,7 +13,7 @@ include ../../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/X.org/xcb/xcb-util
 
 REQUIRES           = X11/X.org/xcb/xcb-util/0.4.0
-REQUIRES          += X11/X.org/xcb/libxcb/1.11-x86_32
+REQUIRES          += X11/X.org/xcb/libxcb/1.11.1-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

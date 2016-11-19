@@ -7,9 +7,9 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/expat
 
-versions    = 2.1.0
+versions    = 2.1.1
 pkgname     = expat
-suffix      = tar.gz
+suffix      = tar.bz2
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))

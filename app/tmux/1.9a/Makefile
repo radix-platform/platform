@@ -2,13 +2,16 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -21,13 +24,13 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/tmux
 
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
-REQUIRES           = libs/ncurses/5.9
-REQUIRES          += app/util-linux/2.24.1
-REQUIRES          += libs/libevent/2.0.21
+REQUIRES           = libs/ncurses/6.0
+REQUIRES          += app/util-linux/2.27.1
+REQUIRES          += libs/libevent/2.0.22
 else
-REQUIRES           = libs/ncurses/5.9-x86_32
-REQUIRES          += app/util-linux/2.24.1-x86_32
-REQUIRES          += libs/libevent/2.0.21-x86_32
+REQUIRES           = libs/ncurses/6.0-x86_32
+REQUIRES          += app/util-linux/2.27.1-x86_32
+REQUIRES          += libs/libevent/2.0.22-x86_32
 endif
 
 # ======= __END_OF_REQUIRES__ =======

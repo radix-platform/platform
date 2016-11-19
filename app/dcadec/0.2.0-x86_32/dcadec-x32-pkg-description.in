@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+          |-----handy-ruler------------------------------------------------------|
+dcadec-x32: dcadec-x32 @VERSION@ (x86_32 DTS Coherent Acoustics decoder)
+dcadec-x32:
+dcadec-x32: dcadec is a free DTS Coherent Acoustics decoder with support
+dcadec-x32: for HD extensions.
+dcadec-x32:
+dcadec-x32:
+dcadec-x32: GitHub: https://github.com/foo86/dcadec
+dcadec-x32:
+dcadec-x32:
+dcadec-x32:
+dcadec-x32:

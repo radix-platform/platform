@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/app/xrandr
 
-versions    = 1.4.3
+versions    = 1.4.3 1.5.0
 pkgname     = xrandr
 suffix      = tar.bz2
 

@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+        |-----handy-ruler------------------------------------------------------|
+faac-x32: faac-x32 @VERSION@ (x86_32 MPEG-4 and MPEG-2 AAC encoder)
+faac-x32:
+faac-x32: This package contains the ISO/MPEG 2/4 AAC Encoder and Library.
+faac-x32:
+faac-x32: The ISO/MPEG 2/4 AAC Encoder Library provides a high-level interface
+faac-x32: for encoding MPEG2 and MPEG4 ISO AAC files. The faac.h header file
+faac-x32: is provided for usage in C/C++ programs.
+faac-x32:
+faac-x32: Homepage: http://audiocoding.com/index.html
+faac-x32:
+faac-x32:

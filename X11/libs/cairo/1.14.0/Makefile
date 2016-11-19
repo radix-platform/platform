@@ -2,13 +2,16 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -20,15 +23,15 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/cairo
 
-REQUIRES           = libs/lzo/2.08
-REQUIRES          += libs/pcre/8.34
-REQUIRES          += libs/glib2/2.40.0
-REQUIRES          += X11/libs/fontconfig/2.11.1
-REQUIRES          += X11/X.org/lib/pixman/0.32.6
+REQUIRES           = libs/lzo/2.09
+REQUIRES          += libs/pcre/8.38
+REQUIRES          += libs/glib2/2.48.0
+REQUIRES          += X11/libs/fontconfig/2.11.95
+REQUIRES          += X11/X.org/lib/pixman/0.34.0
 REQUIRES          += X11/X.org/lib/libXext/1.3.3
-REQUIRES          += X11/X.org/lib/libXrender/0.9.8
+REQUIRES          += X11/X.org/lib/libXrender/0.9.9
 REQUIRES          += libs/libspectre/0.2.7
-REQUIRES          += X11/libs/librsvg/2.40.5
+REQUIRES          += X11/libs/librsvg/2.40.15
 
 REQUIRES          += X11/libs/opengl-collection
 
@@ -110,7 +113,7 @@ extra_configure_switches += --enable-xlib
 extra_configure_switches += --enable-xcb
 extra_configure_switches += --enable-xcb-shm
 extra_configure_switches += --enable-xlib-xcb
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXQ)),)
 extra_configure_switches += --disable-gl
 endif
 extra_configure_switches += --enable-egl

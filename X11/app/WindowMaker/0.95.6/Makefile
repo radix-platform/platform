@@ -2,13 +2,16 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -20,14 +23,14 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/x/WindowMaker
 
-REQUIRES           = app/gettext/0.18.3.2
-REQUIRES          += X11/X.org/lib/libXaw/1.0.12
+REQUIRES           = app/gettext/0.19.7
+REQUIRES          += X11/X.org/lib/libXaw/1.0.13
 REQUIRES          += X11/X.org/lib/libXft/2.3.2
 REQUIRES          += X11/X.org/lib/libXinerama/1.1.3
-REQUIRES          += X11/X.org/lib/libXrandr/1.4.2
-REQUIRES          += X11/X.org/lib/libxshmfence/1.1
-REQUIRES          += libs/libtiff/4.0.3
-REQUIRES          += libs/giflib/5.1.0
+REQUIRES          += X11/X.org/lib/libXrandr/1.5.0
+REQUIRES          += X11/X.org/lib/libxshmfence/1.2
+REQUIRES          += libs/libtiff/4.0.6
+REQUIRES          += libs/giflib/5.1.3
 
 # ======= __END_OF_REQUIRES__ =======
 

@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/libiodbc
 
-versions    = 3.52.9
+versions    = 3.52.9 3.52.10
 pkgname     = libiodbc
 suffix      = tar.gz
 

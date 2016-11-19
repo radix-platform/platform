@@ -2,13 +2,16 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -21,13 +24,13 @@ include ../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/harfbuzz
 
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/4.9.2
+REQUIRES           = dev/gcc/5.3.0
 endif
-REQUIRES          += libs/glib2/2.40.0
-REQUIRES          += libs/libpng/libpng14/1.4.13
-REQUIRES          += libs/icu4c/54.1
+REQUIRES          += libs/glib2/2.48.0
+REQUIRES          += libs/libpng/libpng14/1.4.19
+REQUIRES          += libs/icu4c/55.1
 REQUIRES          += X11/libs/cairo/1.14.0
-REQUIRES          += libs/libffi/3.0.13
+REQUIRES          += libs/libffi/3.2.1
 REQUIRES          += libs/zlib/1.2.8
 REQUIRES          += app/bzip2/1.0.6
 # NOTE (about 'env/freetype/2.5.3'):

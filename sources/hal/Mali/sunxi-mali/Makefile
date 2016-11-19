@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/sunxi-mali-20140326-no_x11.patch
+patches    += $(CURDIR)/patches/sunxi-mali-20140326-egl-khr.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -49,7 +50,8 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-20140326-no_x11-patch ; ./create.patch.sh ) ; \
+	 ( cd create-20140326-no_x11-patch  ; ./create.patch.sh ) ; \
+	 ( cd create-20140326-egl-khr-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

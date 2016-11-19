@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+      |-----handy-ruler------------------------------------------------------|
+assimp: assimp @VERSION@ (Open Asset Import Library)
+assimp:
+assimp: Open Asset Import Library is a portable Open Source library to
+assimp: import various well-known 3D model formats in a uniform manner.
+assimp: The most recent version also knows how to export 3d files and
+assimp: is therefore suitable as a general-purpose 3D model converter.
+assimp:
+assimp: homepage: http://www.assimp.org
+assimp:
+assimp:
+assimp:

@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/GNOME/core/vala
 
-versions    = 0.26.1
+versions    = 0.26.1 0.32.0
 pkgname     = vala
 suffix      = tar.xz
 
@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/vala-0.26.1.patch
+patches    += $(CURDIR)/patches/vala-0.32.0.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,6 +51,7 @@ $(sha1s): $(tarballs)
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-0.26.1-patch ; ./create.patch.sh ) ; \
+	 ( cd create-0.32.0-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

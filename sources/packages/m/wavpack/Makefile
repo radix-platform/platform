@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/m/wavpack
 
-versions    = 4.70.0
+versions    = 4.70.0 4.75.2
 pkgname     = wavpack
 suffix      = tar.bz2
 

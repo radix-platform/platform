@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+          |-----handy-ruler------------------------------------------------------|
+giflib-x32: giflib-x32 @VERSION@ (x86_32 library for reading and writing gif images)
+giflib-x32:
+giflib-x32: giflib is a library for reading and writing gif images. It is API
+giflib-x32: and ABI compatible with libungif which was in wide use while the
+giflib-x32: LZW compression algorithm was patented.
+giflib-x32:
+giflib-x32: This package has been released under an X Consortium-like
+giflib-x32: open-source license. Use and copy as you see fit. If you make
+giflib-x32: useful changes, add new tools, or find and fix bugs, please send
+giflib-x32: your mods to the maintainers for general distribution.
+giflib-x32:

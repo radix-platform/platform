@@ -1,0 +1,7 @@
+qt-everywhere-opensource-src-4.8.7/src/3rdparty/webkit/Source/WebCore/ChangeLog
+qt-everywhere-opensource-src-4.8.7/src/3rdparty/webkit/Source/WebCore/platform/graphics/filters/FEGaussianBlur.cpp
+qt-everywhere-opensource-src-4.8.7/src/3rdparty/webkit/Source/WebCore/platform/graphics/filters/FELighting.cpp
+qt-everywhere-opensource-src-4.8.7/src/3rdparty/webkit/Source/WebCore/platform/graphics/filters/arm/FEGaussianBlurNEON.cpp
+qt-everywhere-opensource-src-4.8.7/src/3rdparty/webkit/Source/WebCore/platform/graphics/filters/arm/FEGaussianBlurNEON.h
+qt-everywhere-opensource-src-4.8.7/src/3rdparty/webkit/Source/WebCore/platform/graphics/filters/arm/FELightingNEON.cpp
+qt-everywhere-opensource-src-4.8.7/src/3rdparty/webkit/Source/WebCore/platform/graphics/filters/arm/FELightingNEON.h

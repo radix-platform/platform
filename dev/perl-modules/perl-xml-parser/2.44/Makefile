@@ -2,13 +2,16 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -20,8 +23,8 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/d/perl-modules/CPAN/XML-Parser
 
-REQUIRES           = dev/perl/5.18.2
-REQUIRES          += libs/expat/2.1.0
+REQUIRES           = dev/perl/5.22.1
+REQUIRES          += libs/expat/2.1.1
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -91,60 +94,65 @@ include ../../../../build-system/core.mk
 #
 # Global Variables:
 # ================
-#   ARCH            - defined in dev/perl/2.18.2/Makefile
+#   ARCH            - defined in dev/perl/5.22.1/Makefile
 #   UNAME_R_VERSION - used Linux kernel
 #
 # TODO: create special global collection for filling by package Makefiles
 #
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32)),)
 ARCH            = x86_32
-UNAME_R_VERSION = 3.10.17
-GLIBC_VERSION   = 2.21
+UNAME_R_VERSION = 4.1.15
+GLIBC_VERSION   = 2.23
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 ARCH            = x86_64
-UNAME_R_VERSION = 3.10.17
-GLIBC_VERSION   = 2.21
+UNAME_R_VERSION = 4.1.15
+GLIBC_VERSION   = 2.23
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
 ARCH            = arm
 UNAME_R_VERSION = 3.4.90
-GLIBC_VERSION   = 2.21
+GLIBC_VERSION   = 2.23
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB3X)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB2X) $(HARDWARE_CB3X)),)
 ARCH            = arm
 UNAME_R_VERSION = 3.4.104
-GLIBC_VERSION   = 2.21
+GLIBC_VERSION   = 2.23
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_FFRK3288)),)
 ARCH            = arm
 UNAME_R_VERSION = 3.10.37
-GLIBC_VERSION   = 2.21
+GLIBC_VERSION   = 2.23
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_DM64X)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_M201)),)
 ARCH            = arm
-UNAME_R_VERSION = 2.6.36
-GLIBC_VERSION   = 2.21
+UNAME_R_VERSION = 3.10.33
+GLIBC_VERSION   = 2.23
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_BEAGLE)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MXQ)),)
 ARCH            = arm
-UNAME_R_VERSION = 2.6.36
-GLIBC_VERSION   = 2.21
+UNAME_R_VERSION = 3.10.103
+GLIBC_VERSION   = 2.23
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
 ARCH            = arm
-UNAME_R_VERSION = 3.8.13
-GLIBC_VERSION   = 2.21
+UNAME_R_VERSION = 3.14.28
+GLIBC_VERSION   = 2.23
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_B74)),)
-ARCH            = mipsel
-UNAME_R_VERSION = 2.6.36
-GLIBC_VERSION   = 2.21
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
+ARCH            = arm
+UNAME_R_VERSION = 3.14.57
+GLIBC_VERSION   = 2.23
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
 ARCH            = mips32r2
-UNAME_R_VERSION = 3.0.8
-GLIBC_VERSION   = 2.21
+UNAME_R_VERSION = 3.18.3
+GLIBC_VERSION   = 2.23
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_BT1)),)
+ARCH            = mips32r5
+UNAME_R_VERSION = 4.1.15
+GLIBC_VERSION   = 2.23
 endif
 
 
@@ -161,6 +169,7 @@ perl_environment  = INSTALLDIRS=vendor
 perl_environment += PERL_LIB='$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5'
 perl_environment += PERL_ARCHLIB='$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)'
 perl_environment += PERL_INC='$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)/CORE'
+perl_environment += PERL_INCDEP='$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/perl5/$(ARCHNAME)/CORE'
 
 perl_environment += SITELIBEXP='/usr/lib$(LIBSUFFIX)/perl5/site_perl'
 perl_environment += SITEARCHEXP='/usr/lib$(LIBSUFFIX)/perl5/site_perl/$(ARCHNAME)'
@@ -245,6 +254,7 @@ $(build_target): $(src_done)
 	   sed -i "s,-I/usr/include,-I$(TARGET_DEST_DIR)/usr/include,g"       Makefile ; \
 	   sed -i 's,Expat \&\& $$(MAKE),Expat \&\& $$(MAKE) PERL_INCDEP=$$(PERL_INCDEP),' Makefile ; \
 	 )
+	# ======= build the perl-xml-parser module =======
 	@( cd $(SRC_DIR) ; \
 	   $(BUILD_ENVIRONMENT) $(MAKE) $(perl_environment) ; \
 	 )
@@ -255,6 +265,7 @@ $(install_target): $(build_target)
 	@( cd $(SRC_DIR) ; \
 	    $(BUILD_ENVIRONMENT) $(MAKE) $(perl_environment) $(env_sysroot) pure_install doc_install ; \
 	 )
+	# ======= install the perl-xml-parser module =======
 	@find $(PERL_PKG) -name '.packlist' -delete
 	@rm -f $(PERL_PKG)/$(perl_local_pod)
 	@chmod 755 $(PERL_PKG)/usr/lib$(LIBSUFFIX)/perl5/vendor_perl/$(ARCHNAME)/auto/XML/Parser/Expat/Expat.so

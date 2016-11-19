@@ -14,7 +14,7 @@ SOURCE_REQUIRES      = sources/packages/n/curl
 
 REQUIRES             = net/curl/7.38.0
 REQUIRES            += net/openssh/6.6p1
-REQUIRES            += net/gnutls/3.1.22-x86_32
+REQUIRES            += net/gnutls/3.4.8-x86_32
 REQUIRES            += net/openldap-client/2.4.39-x86_32
 
 # ======= __END_OF_REQUIRES__ =======

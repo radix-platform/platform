@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+    |-----handy-ruler------------------------------------------------------|
+x265: x265 @VERSION@ (Open Source H265/HEVC video encoder)
+x265:
+x265: The High Efficiency Video Coding (HEVC) was developed by the ISO/IEC
+x265: Moving Picture Experts Group (MPEG) and ITU-T Video Coding Experts
+x265: Group (VCEG). HEVC is also known as ISO/IEC 23008-2 MPEG-H Part 2
+x265: and ITU-T H.265. HEVC provides up to twice the data compression as
+x265: the previous standard (H.264/MPEG-4 AVC). HEVC can support 8K Ultra
+x265: High Definition video, with a picture size up to 8192x4320 pixels.
+x265:
+x265: Homepage: https://bitbucket.org/multicoreware/x265/wiki/Home
+x265:

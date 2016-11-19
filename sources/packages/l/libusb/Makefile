@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/libusb
 
-versions    = 1.0.9 1.0.19
+versions    = 1.0.9 1.0.19 1.0.20
 pkgname     = libusb
 suffix      = tar.bz2
 

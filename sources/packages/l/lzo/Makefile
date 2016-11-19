@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/lzo
 
-versions    = 2.08
+versions    = 2.08 2.09
 pkgname     = lzo
 suffix      = tar.gz
 

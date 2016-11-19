@@ -2,13 +2,16 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -25,7 +28,7 @@ SOURCE_REQUIRES   += sources/packages/n/wireless-regdb
 
 REQUIRES           = net/iw/3.17
 ifeq ($(ENABLE_DYNAMIC_PUBKEYS),yes)
-REQUIRES          += net/openssl/1.0.2d
+REQUIRES          += net/openssl/1.0.2f
 else
 REQUIRES          += net/libgcrypt/1.6.2
 endif
@@ -40,7 +43,7 @@ SRC_DIR            = $(TARGET_BUILD_DIR)/crda-$(version)
 src_dir_name       = crda-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
-wireless_regdb_version = 20141107
+wireless_regdb_version = 2014.11.07
 wireless_regdb_tarball = $(SRC_PACKAGE_PATH)/packages/n/wireless-regdb/wireless-regdb-$(wireless_regdb_version).tar.xz
 
 PATCHES = PATCHES

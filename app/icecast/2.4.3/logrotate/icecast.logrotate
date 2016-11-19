@@ -1,0 +1,7 @@
+/var/log/icecast/*_log {
+    missingok
+    notifempty
+    sharedscripts
+    postrotate
+    endscript
+}

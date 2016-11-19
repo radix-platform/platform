@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/gtk+-2.24.25.patch
+patches    += $(CURDIR)/patches/gtk+-2.24.25-gdk-pixbuf.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -49,7 +50,8 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-2.24.25-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2.24.25-patch            ; ./create.patch.sh ) ; \
+	 ( cd create-2.24.25-gdk-pixbuf-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

@@ -2,13 +2,16 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -23,7 +26,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/n/mozilla-nss
 
 REQUIRES           = net/nspr/4.10.8
-REQUIRES          += app/sqlite/3.8.7.1
+REQUIRES          += app/sqlite/3.12.2.0
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -152,7 +155,7 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
 nss_environment    += CPU_ARCH=armv7a
 NSS_TARGET_OBJ_DIR  = Linux_armv7a_$(TARGET)-gcc_glibc_PTH_OPT.OBJ
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB3X)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB2X) $(HARDWARE_CB3X)),)
 nss_environment    += CPU_ARCH=armv7ve
 NSS_TARGET_OBJ_DIR  = Linux_armv7ve_$(TARGET)-gcc_glibc_PTH_OPT.OBJ
 endif
@@ -160,25 +163,25 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_FFRK3288)),)
 nss_environment    += CPU_ARCH=armv7ve
 NSS_TARGET_OBJ_DIR  = Linux_armv7ve_$(TARGET)-gcc_glibc_PTH_OPT.OBJ
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_DM64X)),)
-nss_environment    += CPU_ARCH=armv5te
-NSS_TARGET_OBJ_DIR  = Linux_armv5te_$(TARGET)-gcc_glibc_PTH_OPT.OBJ
-endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_BEAGLE)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXQ)),)
 nss_environment    += CPU_ARCH=armv7a
 NSS_TARGET_OBJ_DIR  = Linux_armv7a_$(TARGET)-gcc_glibc_PTH_OPT.OBJ
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
 nss_environment    += CPU_ARCH=armv7a
 NSS_TARGET_OBJ_DIR  = Linux_armv7a_$(TARGET)-gcc_glibc_PTH_OPT.OBJ
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_B74)),)
-nss_environment    += CPU_ARCH=mipsel
-NSS_TARGET_OBJ_DIR  = Linux_mipsel_$(TARGET)-gcc_glibc_PTH_OPT.OBJ
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
+nss_environment    += CPU_ARCH=armv7a
+NSS_TARGET_OBJ_DIR  = Linux_armv7a_$(TARGET)-gcc_glibc_PTH_OPT.OBJ
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
 nss_environment    += CPU_ARCH=mips32r2
 NSS_TARGET_OBJ_DIR  = Linux_mips32r2_$(TARGET)-gcc_glibc_PTH_OPT.OBJ
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_BT1)),)
+nss_environment    += CPU_ARCH=mips32r5
+NSS_TARGET_OBJ_DIR  = Linux_mips32r5_$(TARGET)-gcc_glibc_PTH_OPT.OBJ
 endif
 
 

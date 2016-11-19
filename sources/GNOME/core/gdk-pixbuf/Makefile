@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/GNOME/core/gdk-pixbuf
 
-versions    = 2.31.1
+versions    = 2.31.1 2.35.1
 pkgname     = gdk-pixbuf
 suffix      = tar.xz
 

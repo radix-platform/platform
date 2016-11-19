@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/xfs/xfsdump
 
-versions    = 3.1.2 3.1.3
+versions    = 3.1.2 3.1.3 3.1.6
 pkgname     = xfsdump
 suffix      = tar.gz
 
@@ -16,6 +16,7 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/xfsdump-3.1.2.patch
 patches    += $(CURDIR)/patches/xfsdump-3.1.3.patch
+patches    += $(CURDIR)/patches/xfsdump-3.1.6.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -52,6 +53,7 @@ $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-3.1.2-patch ; ./create.patch.sh ) ; \
 	 ( cd create-3.1.3-patch ; ./create.patch.sh ) ; \
+	 ( cd create-3.1.6-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

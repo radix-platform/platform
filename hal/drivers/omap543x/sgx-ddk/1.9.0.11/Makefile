@@ -1,36 +1,36 @@
 
-COMPONENT_TARGETS = $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS  = $(HARDWARE_OMAP5UEVM)
 
-NEED_ABS_PATH     = true
+NEED_ABS_PATH      = true
 
-COMPONENT_IS_3PP  = true
+COMPONENT_IS_3PP   = true
 
 
 include ../../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES   = sources/hal/drivers/omap543x/PowerVR/sgx-ddk
+SOURCE_REQUIRES    = sources/hal/drivers/omap543x/PowerVR/sgx-ddk
 
-REQUIRES          = boot/kernel/omap543x/3.8.13-20140222
+REQUIRES           = boot/kernel/omap543x/3.8.13-20140222
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version           = 1.9.0.11
-kernel_version    = 3.8.13-20140222
-modules_version   = 3.8.13
-tar_bz2_archive   = $(SRC_PACKAGE_PATH)/hal/drivers/omap543x/PowerVR/sgx-ddk/ti_imgddk_$(version).tar.bz2
-SRC_ARCHIVE       = $(tar_bz2_archive)
-SRC_DIR           = $(TARGET_BUILD_DIR)/ti_imgddk_$(version)
-src_done          = $(TARGET_BUILD_DIR)/.source_done
+version            = 1.9.0.11
+kernel_version     = 3.8.13-20140222
+modules_version    = 3.8.13
+tar_bz2_archive    = $(SRC_PACKAGE_PATH)/hal/drivers/omap543x/PowerVR/sgx-ddk/ti_imgddk_$(version).tar.bz2
+SRC_ARCHIVE        = $(tar_bz2_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/ti_imgddk_$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source_done
 
-build_dir         = $(TARGET_BUILD_DIR)/build
+build_dir          = $(TARGET_BUILD_DIR)/build
 
-kernel_sources    = $(TARGET_DEST_DIR)/usr/src/linux-glsdk-$(kernel_version)
+kernel_sources     = $(TARGET_DEST_DIR)/usr/src/linux-glsdk-$(kernel_version)
 
-build_sgxddk_pkg  = $(TARGET_BUILD_DIR)/.sgxddk_pkg_done
+build_sgxddk_pkg   = $(TARGET_BUILD_DIR)/.sgxddk_pkg_done
 
-modules_done      = $(build_dir)/.modules_done
+modules_done       = $(build_dir)/.modules_done
 
 
 PATCHES = PATCHES

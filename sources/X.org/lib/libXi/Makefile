@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/lib/libXi
 
-versions    = 1.7.4
+versions    = 1.7.4 1.7.6
 pkgname     = libXi
 suffix      = tar.bz2
 

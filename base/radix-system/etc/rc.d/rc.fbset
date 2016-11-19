@@ -1,0 +1,6 @@
+#!/bin/sh
+#
+# This setup default framebuffer mode.
+#
+# fbset(8)
+

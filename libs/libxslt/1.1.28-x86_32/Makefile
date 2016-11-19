@@ -14,8 +14,8 @@ SOURCE_REQUIRES    = sources/packages/l/libxslt
 
 REQUIRES           = libs/libxslt/1.1.28
 REQUIRES          += libs/pth/2.0.7-x86_32
-REQUIRES          += libs/libxml2/2.9.1-x86_32
-REQUIRES          += net/libgcrypt/1.6.2-x86_32
+REQUIRES          += libs/libxml2/2.9.3-x86_32
+REQUIRES          += net/libgcrypt/1.7.0-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

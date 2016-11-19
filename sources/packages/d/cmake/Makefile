@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/d/cmake
 
-versions    = 2.8.12.2 3.0.2
+versions    = 2.8.12.2 3.5.2
 pkgname     = cmake
 suffix      = tar.gz
 

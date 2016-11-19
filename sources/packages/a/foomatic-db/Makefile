@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/foomatic-db
 
-versions    = 20150904
+versions    = 20150904 20160612
 pkgname     = foomatic-db
 suffix      = tar.xz
 

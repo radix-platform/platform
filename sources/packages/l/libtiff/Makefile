@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/libtiff
 
-versions    = 4.0.3
+versions    = 4.0.3 4.0.6
 pkgname     = tiff
 suffix      = tar.gz
 
@@ -16,6 +16,9 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/libtiff-4.0.3.patch
 patches    += $(CURDIR)/patches/libtiff-4.0.3-jpeg-turbo.patch
+patches    += $(CURDIR)/patches/libtiff-4.0.6.patch
+patches    += $(CURDIR)/patches/libtiff-4.0.6-am-version.patch
+patches    += $(CURDIR)/patches/libtiff-4.0.6-make-check.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -52,6 +55,9 @@ $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-4.0.3-patch            ; ./create.patch.sh ) ; \
 	 ( cd create-4.0.3-jpeg-turbo-patch ; ./create.patch.sh ) ; \
+	 ( cd create-4.0.6-patch            ; ./create.patch.sh ) ; \
+	 ( cd create-4.0.6-am-version-patch ; ./create.patch.sh ) ; \
+	 ( cd create-4.0.6-make-check-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

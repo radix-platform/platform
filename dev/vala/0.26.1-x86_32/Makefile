@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/GNOME/core/vala
 
 REQUIRES           = dev/vala/0.26.1
-REQUIRES          += libs/glib2/2.40.0-x86_32
+REQUIRES          += libs/glib2/2.48.0-x86_32
 REQUIRES          += libs/libxslt/1.1.28-x86_32
 
 # ======= __END_OF_REQUIRES__ =======

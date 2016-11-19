@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/dbus-glib
 
-versions    = 0.102
+versions    = 0.102 0.106
 pkgname     = dbus-glib
 suffix      = tar.gz
 

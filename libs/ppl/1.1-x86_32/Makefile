@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/ppl
 
 REQUIRES           = libs/ppl/1.1
-REQUIRES          += libs/gmp/6.0.0-x86_32
+REQUIRES          += libs/gmp/6.1.0-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

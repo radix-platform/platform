@@ -26,11 +26,17 @@ if [ ! -f /etc/system-installer ] ; then
     mkdir -p /tmp/radix/mnt
     MNT=/tmp/radix/mnt
   fi
-  trap 'for dir in "`find $MNT -type d -mindepth 1 -maxdepth 1`" ; do \
-          umount $dir 2> /dev/null ; \
-        done ; \
-        rm -rf $TMP' EXIT INT QUIT TERM
 fi
+
+trap 'for dir in "`find $MNT -type d -mindepth 1 -maxdepth 1`" ; do \
+        umount $dir 2> /dev/null ; \
+      done ; \
+      rm -rf $TMP ; \
+      clear ; \
+      head -c 100 /dev/zero | tr "\0" "\n" ; \
+      echo "ERROR: $program - has been terminated." ; \
+      echo "" ; \
+      exit 1' INT TERM
 
 
 default_toolchain=@TOOLCHAIN@
@@ -396,7 +402,7 @@ EOF
     elif [ "$RETVAL" = "Device" ]; then
       INSTALLTYPE=dev
       cat > $TMP/device-help$$ << EOF
---colors \\
+--colors --clear \\
 --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \\
 --title " \Z0\ZbSelect the destination\ZB\Zn \Z1\ZbDEVICE:\ZB\Zn " \\
 --menu "\\n\\
@@ -424,7 +430,10 @@ EOF
       if [ $? = 1 -o $? = 255 ]; then
         rm -f $TMP/devmame$$
         rm -f $TMP/device-help$$
-        exit
+        usage
+        echo "ERROR: Destination should be specified."
+        EXITSTATUS=16
+        exit $EXITSTATUS
       fi
       result=`cat $TMP/devmame$$`
       rm -f $TMP/devmame$$
@@ -458,15 +467,39 @@ fi
 if [ "$INSTALLTYPE" == "path" ] ; then
   mkdir -p $TARGET_ROOT_PATH
   if [ "`find $TARGET_ROOT_PATH -maxdepth 0 -type d -empty 2> /dev/null`" == "" ] ; then
-    $DIALOG --colors --clear \
-            --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
-            --title " \Z4Setup:\Zn \Z1\ZbERROR\ZB\Zn " \
-            --msgbox "\n\Z1Target ROOT directory\n\n  '\Zb$TARGET_ROOT_PATH\ZB'\n\nis not empty.\Zn\n" 11 78
-
-    usage
-    echo "ERROR: Target ROOT directory '$TARGET_ROOT_PATH' is not empty."
-    EXITSTATUS=16
-    exit $EXITSTATUS
+    #
+    # TARGET_ROOT_PATH is not empty:
+    #
+    nd=`find $TARGET_ROOT_PATH -maxdepth 1 -type d -printf 1 | wc -m`
+    nf=`find $TARGET_ROOT_PATH -maxdepth 1 ! -type d -printf 1 | wc -m`
+    if [ "$nd" -eq 2 -a "$nf" -eq 0 ]; then
+      #
+      # TARGET_ROOT_PATH contains only one subdirectory. Check subdir name:
+      #
+      o=`find $TARGET_ROOT_PATH -maxdepth 1 -type d | tr '\n' ' ' | cut -f 2 -d ' '`
+      d=`basename $o`
+      if [ "$d" == "lost+found" ] ; then
+        echo "but TARGET_ROOT_PATH is a mounted empty Ext{2|3|4} FS. Continue ..." 1> /dev/null 2> /dev/null
+      else
+        $DIALOG --colors --clear \
+                --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+                --title " \Z4Setup:\Zn \Z1\ZbERROR\ZB\Zn " \
+                --msgbox "\n\Z1Target ROOT directory\n\n  '\Zb$TARGET_ROOT_PATH\ZB'\n\nis not empty.\Zn\n" 11 78
+        usage
+        echo "ERROR: Target ROOT directory '$TARGET_ROOT_PATH' is not empty."
+        EXITSTATUS=16
+        exit $EXITSTATUS
+      fi
+    else
+      $DIALOG --colors --clear \
+              --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \
+              --title " \Z4Setup:\Zn \Z1\ZbERROR\ZB\Zn " \
+              --msgbox "\n\Z1Target ROOT directory\n\n  '\Zb$TARGET_ROOT_PATH\ZB'\n\nis not empty.\Zn\n" 11 78
+      usage
+      echo "ERROR: Target ROOT directory '$TARGET_ROOT_PATH' is not empty."
+      EXITSTATUS=16
+      exit $EXITSTATUS
+    fi
   fi
 fi
 
@@ -848,6 +881,13 @@ EOF
                        "$TMP/dd-output.$$"                       \
                        "$dosboot"
     fi
+    #
+    # NOTE:
+    # ====
+    #   If user chosed <No> or pressed Esc Button then next dialog
+    #   will allow him to continue ordinary setup or Exit Setup by
+    #   select corresponded menu item.
+    #
   fi
 }
 
@@ -930,7 +970,14 @@ gen_parts_list() {
     # recomended values
     #
     used=
-    partid=`fdisk -l /dev/$devname | grep "^/dev/${prname}" | sed 's,\s\+, ,g' | cut -f 5 -d ' '`
+    # skip active partition sign [asterisk '*']
+    pline=`fdisk -l /dev/$devname | grep "^/dev/${prname}" | sed 's,\s\+, ,g'`
+    active=`echo "$pline" | cut -f 2 -d ' '`
+    if [ "$active" == "*" ] ; then
+      partid=`echo "$pline" | cut -f 6 -d ' '`
+    else
+      partid=`echo "$pline" | cut -f 5 -d ' '`
+    fi
     partid=`printf '%02s' "$partid"`
     if [ "$partid" == "82" -o "$partid" == "82" ] ; then
       mpoint="swap"
@@ -984,8 +1031,18 @@ gen_parts_menu_items() {
 
     prname=`echo "$line" | cut -f 1 -d ':'`
 
-    prtype=`fdisk -l /dev/$devname | grep "^${prname}" | sed 's,\s\+, ,g' | cut -f 5 -d ' '`
+    #
+    # get partition type (skipping active partition sign [asterisk '*']):
+    #
+    pline=`fdisk -l /dev/$devname | grep "^/dev/${prname}" | sed 's,\s\+, ,g'`
+    active=`echo "$pline" | cut -f 2 -d ' '`
+    if [ "$active" == "*" ] ; then
+      prtype=`echo "$pline" | cut -f 6 -d ' '`
+    else
+      prtype=`echo "$pline" | cut -f 5 -d ' '`
+    fi
     prtype=`printf '%02s' "$prtype"`
+
 
     prsize=`echo "$line" | cut -f 2 -d ':'`
     let "prsize = prsize / 1048576"
@@ -1402,10 +1459,11 @@ EOF
 --backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \\
 --title " \Z0\ZbSelect File System for \ZB\Zn \Z1\Zb$prname\ZB\Zn " \\
 --menu "\\n\\
-Please select the type of filesystem to use for the specified device. \\
+Please select the type of filesystem to use for the specified device\\n\\
+or hit <\Z1\ZbC\ZB\Zn\Zbancel\ZB> to leave existed filesystem. \\
 \\n\\n\\
 Here are descriptions of the available filesystems:\\
-" 14 74 4 \\
+" 15 74 4 \\
 EOF
 
     if [ ! "$EXT2" = "" ]; then
@@ -1453,6 +1511,25 @@ EOF
       #
       ################################################################
 
+      ################################################################
+      # Set Mount Point:
+      #
+      if [ "$boot_image_has_been_written" == "yes" ] ; then
+        if [ "$mpoint" != "/" -a "$mpoint" != "/bootfs" ] ; then
+          set_mount_point
+        fi
+      else
+        set_mount_point
+      fi
+      #
+      ################################################################
+    else
+      ################################################################
+      # Leave existed file system:
+      #
+      set_recomended_fstype "$prname" "$fstype"
+      #
+      ################################################################
       ################################################################
       # Set Mount Point:
       #
@@ -1588,7 +1665,23 @@ ROOTFS_MPOINT=${MNT}/root
 if [ "$INSTALLTYPE" == "dev" ] ; then
   check_target_device
   prepare_target_disk
-  prepare_partitions "$TARGET_ROOT_DEVICE"
+
+  while [ 0 ] ; do
+    prepare_partitions "$TARGET_ROOT_DEVICE"
+    ret=$?
+    if [ $ret = 255 ]; then
+      # User can interrupt format partitions cycle by press Esc button
+      # on keyboard. In this case we have to exit setup because we not
+      # sure that user done all needs.  If user say Esc again, then we
+      # will return him back to the cycle until user press <Continue>.
+      exit_setup
+      continue
+    fi
+    if [ $ret = 1 ]; then
+      break
+    fi
+  done
+
   prepare_etc_fstab
 
   #

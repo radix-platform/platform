@@ -1,0 +1,5 @@
+llvm-3.7.1.src/Makefile
+llvm-3.7.1.src/Makefile.config.in
+llvm-3.7.1.src/configure
+llvm-3.7.1.src/tools/bugpoint/Makefile
+llvm-3.7.1.src/tools/opt/Makefile

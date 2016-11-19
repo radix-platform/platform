@@ -13,21 +13,21 @@ include ../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/x/MesaLib/10.x
 
 REQUIRES           = X11/libs/mesa/10.3.4
-REQUIRES          += libs/expat/2.1.0-x86_32
-REQUIRES          += libs/libxml2/2.9.1-x86_32
-REQUIRES          += libs/eudev/1.9-x86_32
+REQUIRES          += libs/expat/2.1.1-x86_32
+REQUIRES          += libs/libxml2/2.9.3-x86_32
+REQUIRES          += libs/eudev/3.1.5-x86_32
 REQUIRES          += libs/libomxil-bellagio/0.9.3-x86_32
-REQUIRES          += dev/llvm/3.5.0-x86_32
-REQUIRES          += X11/libs/libdrm/2.4.64-x86_32
+REQUIRES          += dev/llvm/3.7.1-x86_32
+REQUIRES          += X11/libs/libdrm/2.4.68-x86_32
 REQUIRES          += X11/X.org/proto/glproto/1.4.17-x86_32
 REQUIRES          += X11/X.org/proto/dri2proto/2.8-x86_32
 REQUIRES          += X11/X.org/proto/dri3proto/1.0-x86_32
 REQUIRES          += X11/X.org/proto/presentproto/1.0-x86_32
-REQUIRES          += X11/X.org/lib/libxshmfence/1.1-x86_32
-REQUIRES          += X11/X.org/lib/libpciaccess/0.13.2-x86_32
-REQUIRES          += X11/X.org/lib/libXxf86vm/1.1.3-x86_32
+REQUIRES          += X11/X.org/lib/libxshmfence/1.2-x86_32
+REQUIRES          += X11/X.org/lib/libpciaccess/0.13.4-x86_32
+REQUIRES          += X11/X.org/lib/libXxf86vm/1.1.4-x86_32
 REQUIRES          += X11/X.org/lib/libXdamage/1.1.4-x86_32
-REQUIRES          += Wayland/wayland/1.6.0-x86_32
+REQUIRES          += Wayland/wayland/1.11.0-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

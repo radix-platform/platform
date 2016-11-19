@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/GNOME/core/pygtk
 
 REQUIRES           = libs/pygtk/2.24.0
-REQUIRES          += dev/python2/2.7.6-x86_32
+REQUIRES          += dev/python2/2.7.11-x86_32
 REQUIRES          += X11/libs/gtk+2/2.24.25-x86_32
 REQUIRES          += X11/libs/libglade/2.6.4-x86_32
 REQUIRES          += libs/pygobject/2.28.6-x86_32

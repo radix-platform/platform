@@ -1,0 +1,3 @@
+
+../../../../sources/Linux/Hardkernel/S805/patches/linux-aml-3.10.103-20160830-m201-dtbs.patch -p0
+../../../../sources/Linux/Hardkernel/S805/patches/linux-aml-3.10.103-20160830-osd-xrgb.patch  -p0

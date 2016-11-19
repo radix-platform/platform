@@ -1,0 +1,3 @@
+
+../../../sources/packages/a/file/patches/file-5.25.patch       -p0
+../../../sources/packages/a/file/patches/file-5.25-cross.patch -p0

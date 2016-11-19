@@ -2,13 +2,16 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -20,12 +23,12 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/imlib2
 
-REQUIRES           = libs/libtiff/4.0.3
-REQUIRES          += libs/giflib/5.1.0
-REQUIRES          += libs/libjpeg-turbo/1.3.1
+REQUIRES           = libs/libtiff/4.0.6
+REQUIRES          += libs/giflib/5.1.3
+REQUIRES          += libs/libjpeg-turbo/1.4.2
 REQUIRES          += libs/libid3tag/0.15.1b
-REQUIRES          += X11/libs/harfbuzz/0.9.36
-REQUIRES          += X11/X.org/lib/libXt/1.1.4
+REQUIRES          += X11/libs/harfbuzz/1.2.7
+REQUIRES          += X11/X.org/lib/libXt/1.1.5
 REQUIRES          += X11/X.org/lib/libXext/1.3.3
 
 # ======= __END_OF_REQUIRES__ =======

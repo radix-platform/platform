@@ -2,13 +2,16 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -20,21 +23,21 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/m/sane/backends
 
-REQUIRES           = libs/eudev/1.9
-REQUIRES          += libs/libusb/1.0.19
+REQUIRES           = libs/eudev/3.1.5
+REQUIRES          += libs/libusb/1.0.20
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES          += libs/libieee1284/0.2.11
-REQUIRES          += libs/libgphoto2/2.5.8
-REQUIRES          += libs/v4l-utils/1.8.0
+REQUIRES          += libs/libgphoto2/2.5.10
+REQUIRES          += libs/v4l-utils/1.10.1
 else
 REQUIRES          += libs/libieee1284/0.2.11-x86_32
-REQUIRES          += libs/libgphoto2/2.5.8-x86_32
-REQUIRES          += libs/v4l-utils/1.8.0-x86_32
+REQUIRES          += libs/libgphoto2/2.5.10-x86_32
+REQUIRES          += libs/v4l-utils/1.10.1-x86_32
 endif
 REQUIRES          += net/avahi-daemon/0.6.31
 REQUIRES          += net/net-snmp/5.7.3
-REQUIRES          += app/dbus/1.8.10
-REQUIRES          += app/cups/2.0.1
+REQUIRES          += app/dbus/1.11.2
+REQUIRES          += app/cups/2.1.3
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -102,7 +105,8 @@ include ../../../../build-system/core.mk
 env_sysroot = DESTDIR=$(SANE_PKG)
 
 
-ifeq ($(HARDWARE),$(HARDWARE_OMAP5UEVM))
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) \
+                            $(HARDWARE_DRA7XXEVM)),)
 OPTIMIZATION_FLAGS = -O2
 endif
 

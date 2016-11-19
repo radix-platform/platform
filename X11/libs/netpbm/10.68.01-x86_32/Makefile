@@ -15,17 +15,17 @@ SOURCE_REQUIRES   += sources/packages/l/netpbm-doc
 
 REQUIRES           = X11/libs/netpbm/10.68.01
 REQUIRES          += libs/zlib/1.2.8-x86_32
-REQUIRES          += app/xz/5.0.5-x86_32
-REQUIRES          += libs/libxml2/2.9.1-x86_32
+REQUIRES          += app/xz/5.2.2-x86_32
+REQUIRES          += libs/libxml2/2.9.3-x86_32
 REQUIRES          += app/jbigkit/2.1-x86_32
-REQUIRES          += libs/libpng/libpng14/1.4.13-x86_32
-REQUIRES          += libs/libtiff/4.0.3-x86_32
-REQUIRES          += libs/libjpeg-turbo/1.3.1-x86_32
-REQUIRES          += X11/X.org/lib/libX11/1.6.2-x86_32
+REQUIRES          += libs/libpng/libpng14/1.4.19-x86_32
+REQUIRES          += libs/libtiff/4.0.6-x86_32
+REQUIRES          += libs/libjpeg-turbo/1.4.2-x86_32
+REQUIRES          += X11/X.org/lib/libX11/1.6.3-x86_32
 #
 # Runtime required packages:
 #
-REQUIRES          += dev/perl/5.18.2
+REQUIRES          += dev/perl/5.22.1
 
 # ======= __END_OF_REQUIRES__ =======
 

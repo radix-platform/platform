@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/iproute2
 
-versions    = 3.16.0
+versions    = 3.16.0 4.5.0
 pkgname     = iproute2
 suffix      = tar.xz
 
@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/iproute2-3.16.0.patch
+patches    += $(CURDIR)/patches/iproute2-4.5.0.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,6 +51,7 @@ $(sha1s): $(tarballs)
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-3.16.0-patch ; ./create.patch.sh ) ; \
+	 ( cd create-4.5.0-patch  ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

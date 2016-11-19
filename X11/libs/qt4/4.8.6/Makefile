@@ -2,13 +2,16 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -21,36 +24,36 @@ include ../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/x/qt4
 
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/4.9.2
+REQUIRES           = dev/gcc/5.3.0
 endif
-REQUIRES          += net/ca-certificates/40.0.2
+REQUIRES          += net/ca-certificates/45.0.2
 REQUIRES          += X11/app/desktop-file-utils/0.22
-REQUIRES          += X11/libs/hicolor-icon-theme/0.14
-REQUIRES          += X11/app/xdg-utils/1.1.0
+REQUIRES          += X11/libs/hicolor-icon-theme/0.15
+REQUIRES          += X11/app/xdg-utils/1.1.1
 
-REQUIRES          += libs/alsa-lib/1.0.28
-REQUIRES          += X11/app/dbus-x11-launch/1.8.10
+REQUIRES          += libs/alsa-lib/1.1.1
+REQUIRES          += X11/app/dbus-x11-launch/1.11.2
 
-REQUIRES          += libs/libmng/2.0.2
-REQUIRES          += libs/icu4c/54.1
-REQUIRES          += app/cups/2.0.1
+REQUIRES          += libs/libmng/2.0.3
+REQUIRES          += libs/icu4c/55.1
+REQUIRES          += app/cups/2.1.3
 
-REQUIRES          += X11/libs/fontconfig/2.11.1
+REQUIRES          += X11/libs/fontconfig/2.11.95
 
-REQUIRES          += X11/X.org/lib/libXaw/1.0.12
+REQUIRES          += X11/X.org/lib/libXaw/1.0.13
 REQUIRES          += X11/X.org/lib/libXcursor/1.1.14
-REQUIRES          += X11/X.org/lib/libXi/1.7.4
+REQUIRES          += X11/X.org/lib/libXi/1.7.6
 REQUIRES          += X11/X.org/lib/libXinerama/1.1.3
-REQUIRES          += X11/X.org/lib/libXrandr/1.4.2
+REQUIRES          += X11/X.org/lib/libXrandr/1.5.0
 REQUIRES          += X11/X.org/lib/libXv/1.0.10
-REQUIRES          += X11/X.org/lib/libxkbfile/1.0.8
+REQUIRES          += X11/X.org/lib/libxkbfile/1.0.9
 
 REQUIRES          += libs/gstreamer0/0.10.36
 REQUIRES          += libs/gst-plugins-base0/0.10.36
 
-REQUIRES          += app/sqlite/3.8.7.1
-REQUIRES          += app/mariadb/5.5.41
-REQUIRES          += libs/libiodbc/3.52.9
+REQUIRES          += app/sqlite/3.12.2.0
+REQUIRES          += app/mariadb/10.0.25
+REQUIRES          += libs/libiodbc/3.52.10
 
 REQUIRES          += X11/libs/opengl-collection
 
@@ -70,7 +73,7 @@ profile_dir        = $(CURDIR)/profile.d
 applications_dir   = $(CURDIR)/applications
 
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
 PATCHES = PATCHES.omap543x
 else
 PATCHES = PATCHES
@@ -124,15 +127,18 @@ include ../../../../build-system/core.mk
 env_sysroot = INSTALL_ROOT=$(QT4_PKG)
 
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X) $(HARDWARE_FFRK3288) $(HARDWARE_BEAGLE) $(HARDWARE_OMAP5UEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)      \
+                            $(HARDWARE_CB2X)      \
+                            $(HARDWARE_CB3X)      \
+                            $(HARDWARE_FFRK3288)  \
+                            $(HARDWARE_M201)      \
+                            $(HARDWARE_MXQ)       \
+                            $(HARDWARE_NIT6Q)     \
+                            $(HARDWARE_OMAP5UEVM) \
+                            $(HARDWARE_DRA7XXEVM)),)
 ARCH   = arm
 ABI    = gnueabihf
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_DM64X)),)
-ARCH   = arm
-ABI    = gnueabi
-endif
-
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32)),)
 ARCH   = i386
 ABI    = gnu
@@ -141,7 +147,7 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 ARCH   = x86_64
 ABI    = gnu
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_B74) $(HARDWARE_CI20)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20) $(HARDWARE_BT1)),)
 ARCH   = mips
 ABI    = gnu
 endif
@@ -174,7 +180,7 @@ configure_switches += -demosdir       /usr/lib$(LIBSUFFIX)/qt4/demos
 
 configure_switches += -graphicssystem raster
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXQ)),)
 configure_switches += -opengl es2
 else
 configure_switches += -opengl
@@ -395,7 +401,7 @@ $(install_target): $(build_target)
 	                                    libQtXml.prl         libQtXmlPatterns.prl        \
 	                                    libphonon.prl                                  ; \
 	 )
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXQ)),)
 	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/lib ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libQtMeeGoGraphicsSystemHelper.la  ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libQtMeeGoGraphicsSystemHelper.prl ; \
@@ -403,7 +409,7 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)),)
 endif
 	# ======= Change source directory to more 'normal' place =======
 	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/lib ; \
-	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/src/qt-$(version),g" \
+	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/lib$(LIBSUFFIX)/qt-$(version),g" \
 	           libQtCLucene.prl     libQtCore.prl               \
 	           libQtDBus.prl        libQtDeclarative.prl        \
 	           libQtDesigner.prl    libQtDesignerComponents.prl \
@@ -416,9 +422,9 @@ endif
 	           libQtXml.prl         libQtXmlPatterns.prl        \
 	           libphonon.prl                                  ; \
 	 )
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXQ)),)
 	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/lib ; \
-	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/src/qt-$(version),g" \
+	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/lib$(LIBSUFFIX)/qt-$(version),g" \
 	           libQtMeeGoGraphicsSystemHelper.prl             ; \
 	 )
 endif
@@ -436,7 +442,7 @@ endif
 	                                    QtXml.pc         QtXmlPatterns.pc        \
 	                                    phonon.pc                              ; \
 	 )
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXQ)),)
 	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/lib/pkgconfig ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" QtMeeGoGraphicsSystemHelper.pc ; \
 	 )
@@ -473,7 +479,7 @@ endif
 	                                                    libQtXml.prl         libQtXmlPatterns.prl        \
 	                                                    libphonon.prl                                  ; \
 	 )
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXQ)),)
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/qt4/lib ; \
 	   sed -i "s,/usr/lib,$(TARGET_DEST_DIR)/usr/lib,g" libQtMeeGoGraphicsSystemHelper.la  ; \
 	   sed -i "s,/usr/lib,$(TARGET_DEST_DIR)/usr/lib,g" libQtMeeGoGraphicsSystemHelper.prl ; \
@@ -493,7 +499,7 @@ endif
 	                                                    QtXml.pc         QtXmlPatterns.pc        \
 	                                                    phonon.pc                              ; \
 	 )
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXQ)),)
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/qt4/lib/pkgconfig ; \
 	   sed -i "s,/usr/lib,$(TARGET_DEST_DIR)/usr/lib,g" QtMeeGoGraphicsSystemHelper.pc ; \
 	 )

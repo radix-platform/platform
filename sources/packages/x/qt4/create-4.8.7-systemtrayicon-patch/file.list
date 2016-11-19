@@ -1,0 +1,6 @@
+qt-everywhere-opensource-src-4.8.7/examples/desktop/systray/window.cpp
+qt-everywhere-opensource-src-4.8.7/examples/desktop/systray/window.h
+qt-everywhere-opensource-src-4.8.7/src/gui/util/qsystemtrayicon.cpp
+qt-everywhere-opensource-src-4.8.7/src/gui/util/qsystemtrayicon_p.h
+qt-everywhere-opensource-src-4.8.7/src/gui/util/qsystemtrayicon_x11.cpp
+qt-everywhere-opensource-src-4.8.7/src/gui/util/util.pri

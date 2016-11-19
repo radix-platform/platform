@@ -2,13 +2,16 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -21,12 +24,12 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/n/libgpg-error
 
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/4.9.2
+REQUIRES           = dev/gcc/5.3.0
 else
 ifneq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES           = libs/glibc/2.21
+REQUIRES           = libs/glibc/2.23
 else
-REQUIRES           = libs/glibc/2.21-x86_32
+REQUIRES           = libs/glibc/2.23-x86_32
 endif
 endif
 
@@ -106,25 +109,25 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 gpgrt_lock_t_name = x86_64-pc-linux-gnu
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB3X)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB2X) $(HARDWARE_CB3X)),)
 gpgrt_lock_t_name = arm-unknown-linux-gnueabihf
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_FFRK3288)),)
-gpgrt_lock_t_name = arm-unknown-linux-gnueabi
-endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_DM64X)),)
-gpgrt_lock_t_name = arm-unknown-linux-gnueabi
-endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_BEAGLE)),)
 gpgrt_lock_t_name = arm-unknown-linux-gnueabihf
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXQ)),)
 gpgrt_lock_t_name = arm-unknown-linux-gnueabihf
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_B74)),)
-gpgrt_lock_t_name = mipsel-unknown-linux-gnu
+ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
+gpgrt_lock_t_name = arm-unknown-linux-gnueabihf
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
+gpgrt_lock_t_name = arm-unknown-linux-gnueabihf
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
+gpgrt_lock_t_name = mipsel-unknown-linux-gnu
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_BT1)),)
 gpgrt_lock_t_name = mipsel-unknown-linux-gnu
 endif
 

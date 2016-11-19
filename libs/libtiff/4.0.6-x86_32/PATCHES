@@ -1,0 +1,4 @@
+
+../../../sources/packages/l/libtiff/patches/libtiff-4.0.6.patch            -p0
+../../../sources/packages/l/libtiff/patches/libtiff-4.0.6-am-version.patch -p0
+../../../sources/packages/l/libtiff/patches/libtiff-4.0.6-make-check.patch -p0

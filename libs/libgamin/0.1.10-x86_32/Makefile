@@ -13,6 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/gamin
 
 REQUIRES           = libs/libgamin/0.1.10
+REQUIRES          += dev/python2/2.7.11-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -93,6 +94,33 @@ extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --cache-file=$(hw_cache)
 
 
+#
+# Python Configuration:
+#
+PYTHON_MAJOR_VERSION = 2
+
+ifeq ($(PYTHON_MAJOR_VERSION),3)
+PYTHON_VERSION = 3.5
+extra_configure_switches += --with-python=$(PYTHON3)
+
+python_environment  = PYTHON_VERSION=$(PYTHON_VERSION)
+python_environment += PYTHON_INCLUDES=$(TARGET_DEST_DIR)/usr/include/python$(PYTHON_VERSION)m
+python_environment += PYTHON_SITE_PACKAGES=/usr/lib$(MULTILIB_X86_32_SUFFIX)/python$(PYTHON_VERSION)/site-packages
+endif
+
+ifeq ($(PYTHON_MAJOR_VERSION),2)
+PYTHON_VERSION = 2.7
+extra_configure_switches += --with-python=$(PYTHON2)
+
+python_environment  = PYTHON_VERSION=$(PYTHON_VERSION)
+python_environment += PYTHON_INCLUDES=$(TARGET_DEST_DIR)/usr/include/python$(PYTHON_VERSION)
+python_environment += PYTHON_SITE_PACKAGES=/usr/lib$(MULTILIB_X86_32_SUFFIX)/python$(PYTHON_VERSION)/site-packages
+endif
+
+
+CFLAGS += -Wno-address -Wno-unused-variable
+
+
 ####### Dependencies
 
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
@@ -103,7 +131,8 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 $(build_target): $(src_done)
 	@mkdir -p $(build_dir)
 	@cp -a $(hw_cache_in) $(hw_cache)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
+	@cd $(build_dir) && \
+	  $(BUILD_ENVIRONMENT) $(python_environment) ../$(src_dir_name)/configure \
 	  --prefix=/usr               \
 	  --build=$(BUILD)            \
 	  --host=$(TARGET32)          \

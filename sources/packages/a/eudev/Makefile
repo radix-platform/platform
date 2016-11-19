@@ -5,17 +5,18 @@ COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 include ../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/packages/a/eudev-tarballs
+url         = $(DOWNLOAD_SERVER)/sources/packages/a/eudev
 
-versions    = 1.9
+versions    = 3.1.5
 pkgname     = eudev
-suffix      = tar.gz
+suffix      = tar.xz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/eudev-1.9.patch
-patches    += $(CURDIR)/patches/eudev-1.9-mips.patch
+patches     = $(CURDIR)/patches/eudev-3.1.5-ids-pl.patch
+patches    += $(CURDIR)/patches/eudev-3.1.5-cdrom-id.patch
+patches    += $(CURDIR)/patches/eudev-3.1.5-mips.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,8 +51,9 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-1.9-patch      ; ./create.patch.sh ) ; \
-	 ( cd create-1.9-mips-patch ; ./create.patch.sh ) ; \
+	 ( cd create-3.1.5-ids-pl-patch   ; ./create.patch.sh ) ; \
+	 ( cd create-3.1.5-cdrom-id-patch ; ./create.patch.sh ) ; \
+	 ( cd create-3.1.5-mips-patch     ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

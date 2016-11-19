@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/lib/libXt
 
-versions    = 1.1.4
+versions    = 1.1.4 1.1.5
 pkgname     = libXt
 suffix      = tar.bz2
 

@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/app/bitmap
 
-versions    = 1.0.7
+versions    = 1.0.7 1.0.8
 pkgname     = bitmap
 suffix      = tar.bz2
 

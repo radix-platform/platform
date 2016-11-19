@@ -1,0 +1,4 @@
+pulseaudio-9.0/Makefile.am
+pulseaudio-9.0/Makefile.in
+pulseaudio-9.0/src/Makefile.am
+pulseaudio-9.0/src/Makefile.in

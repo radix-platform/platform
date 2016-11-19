@@ -2,13 +2,16 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH = true
@@ -22,12 +25,13 @@ include ../../build-system/constants.mk
 
 source_etc  = $(CURDIR)/etc
 modprobes   = $(CURDIR)/modprobe
+scripts     = $(CURDIR)/scripts
 
 
 PKG_GROUP = base
 
 SYSINIT_BIN_PKG_NAME                = radix-system
-SYSINIT_BIN_PKG_VERSION             = 1.1.7
+SYSINIT_BIN_PKG_VERSION             = 1.2.1
 SYSINIT_BIN_PKG_ARCH                = $(TOOLCHAIN)
 SYSINIT_BIN_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 SYSINIT_BIN_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -100,13 +104,17 @@ $(build):
 	 )
 	@chmod a+x $(SYSINIT_BIN_PKG)/etc/rc.d/rc.{local.new,local_shutdown.new,sysvinit.new}
 	# ======= Console Font config an modules config =======
-	@cp -a $(source_etc)/rc.d/rc.{font,gpm,keymap,modules} $(SYSINIT_BIN_PKG)/etc/rc.d
+	@cp -a $(source_etc)/rc.d/rc.{fbset,font,gpm,keymap,modules} $(SYSINIT_BIN_PKG)/etc/rc.d
 	@( cd $(SYSINIT_BIN_PKG)/etc/rc.d ; \
+	   mv rc.fbset    rc.fbset.new   ; \
 	   mv rc.font     rc.font.new    ; \
 	   mv rc.gpm      rc.gpm.new     ; \
 	   mv rc.keymap   rc.keymap.new  ; \
 	   mv rc.modules  rc.modules.new ; \
 	 )
+ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXQ)),)
+	@cat $(scripts)/rc.mesonfb >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.fbset.new
+endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
 	@echo "# Ethernet:"                    >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
 	@echo "/sbin/modprobe sunxi_gmac"      >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
@@ -143,21 +151,45 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
 	@cat $(modprobes)/modprobe.$(HARDWARE) >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
 endif
-	@chmod a+x $(SYSINIT_BIN_PKG)/etc/rc.d/rc.{font.new,gpm.new,keymap.new,modules.new}
+ifneq ($(filter $(HARDWARE),$(HARDWARE_M201)),)
+	@echo "# Mali:"                        >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
+	@echo "/sbin/modprobe mali"            >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
+	@echo "/sbin/modprobe mali_drm"        >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
+	@echo "# /sbin/modprobe ump"           >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
+	@echo ""                               >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
+	@echo "# Additional stuff:"            >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
+	@echo "/sbin/modprobe udl"             >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
+endif
+	@chmod a+x $(SYSINIT_BIN_PKG)/etc/rc.d/rc.{fbset.new,font.new,gpm.new,keymap.new,modules.new}
 	# ======= etc/inittab =======
 	@cat $(source_etc)/inittab.in | \
 	     sed 's,@NOCLEAR@,$(NOCLEAR_FIRST_TTY),'  > $(SYSINIT_BIN_PKG)/etc/inittab.new
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
 	@echo "s1:12345:respawn:/sbin/agetty -L ttyS0 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
 endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB2X)),)
+	@echo "s1:12345:respawn:/sbin/agetty -L ttyS0 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
+endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB3X)),)
+	@echo "s1:12345:respawn:/sbin/agetty -L ttyS0 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_M201)),)
+	@echo "s1:12345:respawn:/sbin/agetty -L ttyS0 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MXQ)),)
 	@echo "s1:12345:respawn:/sbin/agetty -L ttyS0 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
 	@echo "s1:12345:respawn:/sbin/agetty -L ttyS4 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
 endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
+	@echo "mxc1:12345:respawn:/sbin/agetty -L ttymxc1 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
+endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
-	@echo "s1:12345:respawn:/sbin/agetty -L ttyO2 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
+	@echo "s1:12345:respawn:/sbin/agetty -L ttyS2 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_DRA7XXEVM)),)
+	@echo "s1:12345:respawn:/sbin/agetty -L ttyS0 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
 endif
 	@echo ""                                                    >> $(SYSINIT_BIN_PKG)/etc/inittab.new
 	@echo "# End of /etc/inittab"                               >> $(SYSINIT_BIN_PKG)/etc/inittab.new

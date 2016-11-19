@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+         |-----handy-ruler------------------------------------------------------|
+sdl-mixer: sdl-mixer @VERSION@ (Simple multi-channel audio mixer)
+sdl-mixer:
+sdl-mixer: SDL_mixer is a simple multi-channel audio mixer. It supports
+sdl-mixer: 8 channels of 16 bit stereo audio, plus a single channel of music,
+sdl-mixer: mixed by the popular MikMod MOD, Timidity MIDI and SMPEG MP3
+sdl-mixer: libraries.
+sdl-mixer:
+sdl-mixer:
+sdl-mixer: Homepage: http://www.libsdl.org
+sdl-mixer:
+sdl-mixer:

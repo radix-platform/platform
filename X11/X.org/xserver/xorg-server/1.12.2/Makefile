@@ -2,13 +2,16 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -20,46 +23,46 @@ include ../../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/X.org/xserver/xorg-server
 
-REQUIRES           = libs/eudev/1.9
-REQUIRES          += net/nettle/2.7.1
-REQUIRES          += X11/app/dbus-x11-launch/1.8.10
+REQUIRES           = libs/eudev/3.1.5
+REQUIRES          += net/nettle/3.2
+REQUIRES          += X11/app/dbus-x11-launch/1.11.2
 
-REQUIRES          += X11/X.org/proto/xproto/7.0.26
+REQUIRES          += X11/X.org/proto/xproto/7.0.29
 REQUIRES          += X11/X.org/proto/dri2proto/2.8
 REQUIRES          += X11/X.org/proto/dri3proto/1.0
 REQUIRES          += X11/X.org/proto/xf86driproto/2.1.1
-REQUIRES          += X11/X.org/proto/randrproto/1.4.0
+REQUIRES          += X11/X.org/proto/randrproto/1.5.0
 REQUIRES          += X11/X.org/proto/renderproto/0.11.1
-REQUIRES          += X11/X.org/proto/videoproto/2.3.2
+REQUIRES          += X11/X.org/proto/videoproto/2.3.3
 REQUIRES          += X11/X.org/proto/xineramaproto/1.2.1
 REQUIRES          += X11/X.org/proto/presentproto/1.0
-REQUIRES          += X11/X.org/proto/inputproto/2.3.1
-REQUIRES          += X11/X.org/proto/kbproto/1.0.6
+REQUIRES          += X11/X.org/proto/inputproto/2.3.2
+REQUIRES          += X11/X.org/proto/kbproto/1.0.7
 REQUIRES          += X11/X.org/proto/scrnsaverproto/1.2.2
 REQUIRES          += X11/X.org/proto/xextproto/7.3.0
 REQUIRES          += X11/X.org/proto/fontsproto/2.1.3
 REQUIRES          += X11/X.org/proto/glproto/1.4.17
 REQUIRES          += X11/X.org/proto/resourceproto/1.2.0
 
-REQUIRES          += X11/X.org/lib/libXaw/1.0.12
+REQUIRES          += X11/X.org/lib/libXaw/1.0.13
 REQUIRES          += X11/X.org/lib/libXft/2.3.2
-REQUIRES          += X11/X.org/lib/libXfont/1.5.0
-REQUIRES          += X11/X.org/lib/libXi/1.7.4
+REQUIRES          += X11/X.org/lib/libXfont/1.5.1
+REQUIRES          += X11/X.org/lib/libXi/1.7.6
 REQUIRES          += X11/X.org/lib/libXdamage/1.1.4
-REQUIRES          += X11/X.org/lib/libXxf86vm/1.1.3
-REQUIRES          += X11/X.org/lib/pixman/0.32.6
-REQUIRES          += X11/X.org/lib/libxshmfence/1.1
+REQUIRES          += X11/X.org/lib/libXxf86vm/1.1.4
+REQUIRES          += X11/X.org/lib/pixman/0.34.0
+REQUIRES          += X11/X.org/lib/libxshmfence/1.2
 
-REQUIRES          += X11/X.org/xcb/xcb-util-cursor/0.1.1
+REQUIRES          += X11/X.org/xcb/xcb-util-cursor/0.1.3
 REQUIRES          += X11/X.org/xcb/xcb-util-keysyms/0.4.0
 REQUIRES          += X11/X.org/xcb/xcb-util-wm/0.4.1
 
-REQUIRES          += X11/libs/libdrm/2.4.64
-REQUIRES          += X11/libs/libepoxy/1.2
-REQUIRES          += Wayland/wayland/1.6.0
+REQUIRES          += X11/libs/libdrm/2.4.68
+REQUIRES          += X11/libs/libepoxy/1.3.1
+REQUIRES          += Wayland/wayland/1.11.0
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64) $(HARDWARE_PC32)),)
-REQUIRES          += X11/X.org/lib/libpciaccess/0.13.2
+REQUIRES          += X11/X.org/lib/libpciaccess/0.13.4
 endif
 
 REQUIRES          += X11/libs/opengl-collection

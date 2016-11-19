@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+       |-----handy-ruler------------------------------------------------------|
+openmpi: openmpi @VERSION@ (Message Passing Interface)
+openmpi:
+openmpi: The Open MPI Project is an open source Message Passing Interface
+openmpi: implementation that is developed and maintained by a consortium of
+openmpi: academic, research, and industry partners. Open MPI is therefore
+openmpi: able to combine the expertise, technologies, and resources from all
+openmpi: across the High Performance Computing community in order to build
+openmpi: the best MPI library available. Open MPI offers advantages for
+openmpi: system and software vendors, application developers and computer
+openmpi: science researchers.
+openmpi:

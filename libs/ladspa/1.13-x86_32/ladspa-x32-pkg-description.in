@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+          |-----handy-ruler------------------------------------------------------|
+ladspa-x32: ladspa-x32 @VERSION@ (x86_32 Simple Plugin API)
+ladspa-x32:
+ladspa-x32: LADSPA - Linux Audio Developer's Simple Plugin API.
+ladspa-x32:
+ladspa-x32: The API itself can be be found in /usr/include/ladspa.h. The rest
+ladspa-x32: of this package is a software development kit to make the API even
+ladspa-x32: easier to work with.
+ladspa-x32:
+ladspa-x32: GitHub: https://github.com/OpenMandrivaAssociation/ladspa
+ladspa-x32:
+ladspa-x32:

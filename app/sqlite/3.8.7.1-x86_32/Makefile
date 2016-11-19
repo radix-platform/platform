@@ -10,7 +10,7 @@ CREATE_X86_32_PACKAGE = true
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/packages/b/sqlite
+SOURCE_REQUIRES    = sources/packages/b/sqlite/2014
 
 REQUIRES           = app/sqlite/3.8.7.1
 REQUIRES          += libs/readline/6.3-x86_32
@@ -19,7 +19,7 @@ REQUIRES          += libs/readline/6.3-x86_32
 
 
 version            = 3.8.7.1
-tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/b/sqlite/sqlite-$(version).tar.gz
+tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/b/sqlite/2014/sqlite-$(version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/sqlite-$(version)
 src_dir_name       = sqlite-$(version)

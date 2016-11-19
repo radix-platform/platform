@@ -2,13 +2,16 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_DM64X)
-COMPONENT_TARGETS += $(HARDWARE_BEAGLE)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
-COMPONENT_TARGETS += $(HARDWARE_B74)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BT1)
 
 
 NEED_ABS_PATH      = true
@@ -22,14 +25,14 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/b/mariadb
 
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/4.9.2
+REQUIRES           = dev/gcc/5.3.0
 endif
-REQUIRES          += libs/pcre/8.34
-REQUIRES          += libs/libxml2/2.9.1
+REQUIRES          += libs/pcre/8.38
+REQUIRES          += libs/libxml2/2.9.3
 REQUIRES          += libs/libaio/0.3.110
-REQUIRES          += net/openssl/1.0.2d
+REQUIRES          += net/openssl/1.0.2f
 REQUIRES          += secure/pam_unix2/2.9.1
-REQUIRES          += libs/boost/1.57.0
+REQUIRES          += libs/boost/1.61.0
 
 # ======= __END_OF_REQUIRES__ =======
 

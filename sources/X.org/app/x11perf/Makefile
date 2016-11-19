@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/app/x11perf
 
-versions    = 1.5.4
+versions    = 1.5.4 1.6.0
 pkgname     = x11perf
 suffix      = tar.bz2
 

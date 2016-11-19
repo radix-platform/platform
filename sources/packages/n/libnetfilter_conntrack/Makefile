@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/libnetfilter_conntrack
 
-versions    = 1.0.4
+versions    = 1.0.4 1.0.5
 pkgname     = libnetfilter_conntrack
 suffix      = tar.bz2
 

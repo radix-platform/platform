@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/driver/xf86-input-synaptics
 
-versions    = 1.8.1
+versions    = 1.8.1 1.8.99.1
 pkgname     = xf86-input-synaptics
 suffix      = tar.bz2
 

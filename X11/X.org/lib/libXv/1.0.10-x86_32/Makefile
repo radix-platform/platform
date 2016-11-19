@@ -13,7 +13,7 @@ include ../../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/X.org/lib/libXv
 
 REQUIRES           = X11/X.org/lib/libXv/1.0.10
-REQUIRES          += X11/X.org/proto/videoproto/2.3.2-x86_32
+REQUIRES          += X11/X.org/proto/videoproto/2.3.3-x86_32
 REQUIRES          += X11/X.org/lib/libXext/1.3.3-x86_32
 
 # ======= __END_OF_REQUIRES__ =======

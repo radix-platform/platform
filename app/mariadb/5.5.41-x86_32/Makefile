@@ -14,12 +14,12 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/b/mariadb
 
 REQUIRES           = app/mariadb/5.5.41
-REQUIRES          += libs/pcre/8.34-x86_32
-REQUIRES          += libs/libxml2/2.9.1-x86_32
+REQUIRES          += libs/pcre/8.38-x86_32
+REQUIRES          += libs/libxml2/2.9.3-x86_32
 REQUIRES          += libs/libaio/0.3.110-x86_32
-REQUIRES          += net/openssl/1.0.2d-x86_32
+REQUIRES          += net/openssl/1.0.2f-x86_32
 REQUIRES          += secure/pam_unix2/2.9.1-x86_32
-REQUIRES          += libs/boost/1.57.0-x86_32
+REQUIRES          += libs/boost/1.61.0-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

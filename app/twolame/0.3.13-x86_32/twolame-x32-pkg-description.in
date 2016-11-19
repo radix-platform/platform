@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+           |-----handy-ruler------------------------------------------------------|
+twolame-x32: twolame-x32 @VERSION@ (x86_32 optimized MPEG Audio Layer 2 encoder)
+twolame-x32:
+twolame-x32: TwoLAME should be able to be used as a drop-in replacement for
+twolame-x32: LAME (a MPEG Layer 3 encoder). The frontend takes very similar
+twolame-x32: command line options to LAME, and the backend library has
+twolame-x32: a very similar API to LAME.
+twolame-x32:
+twolame-x32:
+twolame-x32: Homepage: http://www.twolame.org
+twolame-x32:
+twolame-x32:

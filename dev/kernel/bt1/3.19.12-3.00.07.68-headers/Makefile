@@ -8,19 +8,19 @@ COMPONENT_IS_3PP  = true
 include ../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES  = sources/Linux/v4.x
+SOURCE_REQUIRES  = sources/Linux/Baikal/BFK
 
 REQUIRES         = base/pkgtool
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version          = 4.1.18
-modules_version  = 4.1.18
+version          = 3.19.12-3.00.07.68
+modules_version  = 3.19.12
 full_version     = $(version)
-tar_xz_archive   = $(SRC_PACKAGE_PATH)/Linux/v4.x/linux-$(version).tar.xz
+tar_xz_archive   = $(SRC_PACKAGE_PATH)/Linux/Baikal/BFK/linux-baikal-$(version).tar.xz
 SRC_ARCHIVE      = $(tar_xz_archive)
-SRC_DIR          = $(TARGET_BUILD_DIR)/linux-$(full_version)
+SRC_DIR          = $(TARGET_BUILD_DIR)/linux-baikal-$(full_version)
 src_done         = $(TARGET_BUILD_DIR)/.source_done
 
 
@@ -43,7 +43,7 @@ PKG_GROUP = dev
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 KH_DEV_PKG_NAME                = kernel-headers
-KH_DEV_PKG_VERSION             = 4.1.18
+KH_DEV_PKG_VERSION             = 3.19.12
 KH_DEV_PKG_ARCH                = $(TOOLCHAIN)
 KH_DEV_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 KH_DEV_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)

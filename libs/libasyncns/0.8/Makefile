@@ -6,7 +6,7 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -24,9 +24,9 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/libasyncns
 
 ifneq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES           = libs/glibc/2.23
+REQUIRES           = libs/glibc/2.24
 else
-REQUIRES           = libs/glibc/2.23-x86_32
+REQUIRES           = libs/glibc/2.24-x86_32
 endif
 
 # ======= __END_OF_REQUIRES__ =======

@@ -6,7 +6,7 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -25,11 +25,11 @@ include ../../build-system/constants.mk
 #######
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_M201)),)
-REQUIRES  = boot/u-boot/s805/2011.03-20160716
+REQUIRES  = boot/u-boot/s8xx/2011.03-20160716
 endif
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_MXQ)),)
-REQUIRES  = boot/u-boot/s805/2011.03-20160716
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MXV)),)
+REQUIRES  = boot/u-boot/s8xx/2011.03-20160716
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
@@ -69,18 +69,18 @@ endif
 # └── base/pkgtool
 #     └── dev/kernel-headers
 #         └── dev/gcc-runtime
-#             ├── libs/glibc/2.23
-#             │   ├── libs/glibc/2.23-i18n
-#             │   │   └── libs/glibc-zoneinfo/2016a ■
+#             ├── libs/glibc/2.24
+#             │   ├── libs/glibc/2.24-i18n
+#             │   │   └── libs/glibc-zoneinfo/2016i ■
 #             │   │
-#             │   └── libs/glibc/2.23-x86_32
+#             │   └── libs/glibc/2.24-x86_32
 #             │
 #            ...
 #
 
-REQUIRES += libs/glibc/2.23-zoneinfo/2016a
+REQUIRES += libs/glibc/2.24-zoneinfo/2016i
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/glibc/2.23-x86_32
+REQUIRES += libs/glibc/2.24-x86_32
 endif
 
 #            ...
@@ -369,7 +369,7 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += app/kbd/2.0.3-x86_32
 endif
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXQ)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXV)),)
 REQUIRES += app/remotecfg/1.0.0
 endif
 
@@ -1078,7 +1078,7 @@ else
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
 REQUIRES += X11/X.org/xserver/xorg-server/1.16.4
 else
-ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXQ)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXV)),)
 REQUIRES += X11/X.org/xserver/xorg-server/1.16.4
 else
 REQUIRES += X11/X.org/xserver/xorg-server/1.18.3

@@ -6,7 +6,7 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -31,7 +31,7 @@ scripts     = $(CURDIR)/scripts
 PKG_GROUP = base
 
 SYSINIT_BIN_PKG_NAME                = radix-system
-SYSINIT_BIN_PKG_VERSION             = 1.2.1
+SYSINIT_BIN_PKG_VERSION             = 1.2.2
 SYSINIT_BIN_PKG_ARCH                = $(TOOLCHAIN)
 SYSINIT_BIN_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 SYSINIT_BIN_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -112,7 +112,7 @@ $(build):
 	   mv rc.keymap   rc.keymap.new  ; \
 	   mv rc.modules  rc.modules.new ; \
 	 )
-ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXQ)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXV)),)
 	@cat $(scripts)/rc.mesonfb >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.fbset.new
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
@@ -176,7 +176,7 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_M201)),)
 	@echo "s1:12345:respawn:/sbin/agetty -L ttyS0 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_MXQ)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MXV)),)
 	@echo "s1:12345:respawn:/sbin/agetty -L ttyS0 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)

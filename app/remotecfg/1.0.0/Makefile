@@ -1,6 +1,6 @@
 
 COMPONENT_TARGETS  = $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
 
 
 NEED_ABS_PATH      = true
@@ -16,7 +16,7 @@ SOURCE_REQUIRES    = sources/tools/Amlogic/remotecfg
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/5.3.0
 else
-REQUIRES           = libs/glibc/2.23
+REQUIRES           = libs/glibc/2.24
 endif
 
 # ======= __END_OF_REQUIRES__ =======

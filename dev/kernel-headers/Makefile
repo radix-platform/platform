@@ -52,6 +52,17 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_MXV)),)
 REQUIRES           = dev/kernel/s8xx/3.10.103-20160830-headers
 endif
 
+ifneq ($(filter $(HARDWARE),$(HARDWARE_P201)        \
+                            $(HARDWARE_NEXBOX_A95X) \
+                            $(HARDWARE_P212)        \
+                            $(HARDWARE_ENYBOX_X2)),)
+REQUIRES           = dev/kernel/s9xx/3.14.29-20160818-headers
+endif
+
+ifneq ($(filter $(HARDWARE),$(HARDWARE_KHADAS_VIM)),)
+REQUIRES           = dev/kernel/kvim/3.14.29-20160919-headers
+endif
+
 ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
 REQUIRES           = dev/kernel/nit6q/3.14.28-20160304-headers
 endif

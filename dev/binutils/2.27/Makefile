@@ -186,6 +186,23 @@ extra_configure_switches += --enable-plugins
 extra_configure_switches += --enable-targets=$(TARGET),arm-radix-linux-gnu
 endif
 
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC))
+extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
+extra_configure_switches += '--with-bugurl=$(BUG_URL)'
+# experimental gold linker( DEFAULT_LD=ld.bfd ):
+extra_configure_switches += --enable-gold=yes
+extra_configure_switches += --enable-ld=default
+extra_configure_switches += --enable-werror=no
+# standard options:
+extra_configure_switches += --disable-multilib
+extra_configure_switches += --with-cpu=cortex-a53
+extra_configure_switches += --with-arch=armv8-a
+extra_configure_switches += --with-fpu=neon-fp-armv8
+extra_configure_switches += --enable-threads
+extra_configure_switches += --enable-plugins
+extra_configure_switches += --enable-targets=$(TARGET),aarch64-radix-linux-gnu
+endif
+
 ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_IMX6_GLIBC)),)
 extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
 extra_configure_switches += '--with-bugurl=$(BUG_URL)'
@@ -385,9 +402,12 @@ $(install_target): $(build_target)
 	   done \
 	 )
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
-	@mkdir -p $(BINUTILS_DEV_PKG)/usr/lib{32,64}
+	@mkdir -p $(BINUTILS_DEV_PKG)/usr/lib{$(MULTILIB_X86_32_SUFFIX),$(LIBSUFFIX)}
 	@ln -sf ../lib$(LIBSUFFIX) $(BINUTILS_DEV_PKG)/usr/$(TARGET)/lib64
 	@ln -sf ../lib$(MULTILIB_X86_32_SUFFIX) $(BINUTILS_DEV_PKG)/usr/$(TARGET)/lib32
+endif
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC))
+	@ln -sf ../lib$(LIBSUFFIX) $(BINUTILS_DEV_PKG)/usr/$(TARGET)/lib64
 endif
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(BINUTILS_DEV_PKG))

@@ -173,6 +173,12 @@ $(build_glibc_pkg): $(install_target)
 	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \
 	 )
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC))
+	@mkdir -p $(GLIBC_PKG)/lib64
+	@( cd $(GLIBC_PKG)/lib64 ; \
+	   ln -sf ../lib$(LIBSUFFIX)/ld-$(version).so ld-linux-aarch64.so.1 ; \
+	 )
+endif
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(GLIBC_PKG))
 	# ======= Strip binaries =======

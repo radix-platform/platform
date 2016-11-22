@@ -48,7 +48,11 @@ src_done              = $(TARGET_BUILD_DIR)/.source-done
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
 PATCHES     = PATCHES.x86_64
 else
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC))
+PATCHES     = PATCHES.aarch64
+else
 PATCHES     = PATCHES
+endif
 endif
 
 build_dir          = $(TARGET_BUILD_DIR)/build
@@ -197,6 +201,16 @@ extra_configure_switches += --with-tune=cortex-a5
 extra_configure_switches += --with-fpu=neon
 extra_configure_switches += --with-float=hard
 extra_configure_switches += --with-abi=aapcs-linux
+endif
+
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC))
+extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
+extra_configure_switches += '--with-bugurl=$(BUG_URL)'
+extra_configure_switches += --with-arch=armv8-a
+extra_configure_switches += --with-cpu=cortex-a53
+extra_configure_switches += --with-abi=lp64
+extra_configure_switches += --enable-fix-cortex-a53-835769
+extra_configure_switches += --enable-fix-cortex-a53-843419
 endif
 
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_IMX6_GLIBC))

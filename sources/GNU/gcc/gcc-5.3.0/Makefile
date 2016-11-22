@@ -19,6 +19,7 @@ patches    += $(CURDIR)/patches/gcc-5.3.0-build-libcpp.patch
 patches    += $(CURDIR)/patches/gcc-5.3.0-fixinc-gmp-inside.patch
 patches    += $(CURDIR)/patches/gcc-5.3.0-fixinc-gmp-outside.patch
 patches    += $(CURDIR)/patches/gcc-5.3.0-x86_64-multilib.patch
+patches    += $(CURDIR)/patches/gcc-5.3.0-aarch64-multilib.patch
 patches    += $(CURDIR)/patches/gcc-5.3.0-backtrace.patch
 patches    += $(CURDIR)/patches/gcc-5.3.0-ccache-ada.patch
 patches    += $(CURDIR)/patches/gcc-5.3.0-cross-gcj-dbtool.patch
@@ -61,6 +62,7 @@ $(patches): $(sha1s)
 	 ( cd create-5.3.0-fixinc-gmp-inside-patch ;  ./create.patch.sh ) ; \
 	 ( cd create-5.3.0-fixinc-gmp-outside-patch ; ./create.patch.sh ) ; \
 	 ( cd create-5.3.0-x86_64-multilib-patch ;    ./create.patch.sh ) ; \
+	 ( cd create-5.3.0-aarch64-multilib-patch ;   ./create.patch.sh ) ; \
 	 ( cd create-5.3.0-backtrace-patch ;          ./create.patch.sh ) ; \
 	 ( cd create-5.3.0-ccache-ada-patch ;         ./create.patch.sh ) ; \
 	 ( cd create-5.3.0-cross-gcj-dbtool-patch ;   ./create.patch.sh ) ; \

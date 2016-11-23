@@ -100,8 +100,6 @@ include ../../../build-system/core.mk
 extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --includedir=/usr/include/cdda
-extra_configure_switches += --enable-shared=yes
-extra_configure_switches += --enable-static=yes
 
 environment  = FLAGS="-g -O2"
 environment += OPT="-O2 -fsigned-char $(FLAGS) -I$(TARGET_DEST_DIR)/usr/include $(ARCH_FLAGS) $(ARCH_DEFS) $(HW_FLAGS)"

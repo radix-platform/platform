@@ -1,2 +1,3 @@
 
-../../../sources/packages/m/xiph/cdparanoia/patches/cdparanoia-10.2.patch -p0
+../../../sources/packages/m/xiph/cdparanoia/patches/cdparanoia-10.2.patch          -p0
+../../../sources/packages/m/xiph/cdparanoia/patches/cdparanoia-10.2-automake.patch -p0

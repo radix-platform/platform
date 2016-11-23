@@ -61,6 +61,11 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXV)),)
 hw_cache_in        = $(CURDIR)/cross/hw.cache.arm
 endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
+hw_cache_in        = $(CURDIR)/cross/hw.cache.arm
+endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
 hw_cache_in        = $(CURDIR)/cross/hw.cache.arm
 endif

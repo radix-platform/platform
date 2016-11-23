@@ -108,57 +108,64 @@ include ../../../../build-system/core.mk
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32)),)
 ARCH            = x86_32
 UNAME_R_VERSION = 4.1.15
-GLIBC_VERSION   = 2.23
+GLIBC_VERSION   = 2.24
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 ARCH            = x86_64
 UNAME_R_VERSION = 4.1.15
-GLIBC_VERSION   = 2.23
+GLIBC_VERSION   = 2.24
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
 ARCH            = arm
 UNAME_R_VERSION = 3.4.90
-GLIBC_VERSION   = 2.23
+GLIBC_VERSION   = 2.24
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB2X) $(HARDWARE_CB3X)),)
 ARCH            = arm
 UNAME_R_VERSION = 3.4.104
-GLIBC_VERSION   = 2.23
+GLIBC_VERSION   = 2.24
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_FFRK3288)),)
 ARCH            = arm
 UNAME_R_VERSION = 3.10.37
-GLIBC_VERSION   = 2.23
+GLIBC_VERSION   = 2.24
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_M201)),)
 ARCH            = arm
 UNAME_R_VERSION = 3.10.33
-GLIBC_VERSION   = 2.23
+GLIBC_VERSION   = 2.24
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_MXV)),)
 ARCH            = arm
 UNAME_R_VERSION = 3.10.103
-GLIBC_VERSION   = 2.23
+GLIBC_VERSION   = 2.24
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
+ARCH            = aarch64
+UNAME_R_VERSION = 3.14.29
+GLIBC_VERSION   = 2.24
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
 ARCH            = arm
 UNAME_R_VERSION = 3.14.28
-GLIBC_VERSION   = 2.23
+GLIBC_VERSION   = 2.24
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
 ARCH            = arm
 UNAME_R_VERSION = 3.14.57
-GLIBC_VERSION   = 2.23
+GLIBC_VERSION   = 2.24
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
 ARCH            = mips32r2
 UNAME_R_VERSION = 3.18.3
-GLIBC_VERSION   = 2.23
+GLIBC_VERSION   = 2.24
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_BT1)),)
 ARCH            = mips32r5
-UNAME_R_VERSION = 4.1.15
-GLIBC_VERSION   = 2.23
+UNAME_R_VERSION = 3.19.12
+GLIBC_VERSION   = 2.24
 endif
 
 

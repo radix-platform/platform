@@ -114,6 +114,11 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXV)),)
 ARCH = arm
 endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
+ARCH = aarch64
+endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
 ARCH = arm
 endif

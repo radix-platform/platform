@@ -130,6 +130,11 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXV)),)
 extra_configure_switches += --enable-fpm=arm
 endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
+extra_configure_switches += --enable-fpm=64bit
+endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
 extra_configure_switches += --enable-fpm=arm
 endif

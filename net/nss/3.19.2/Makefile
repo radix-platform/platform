@@ -173,6 +173,13 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXV)),)
 nss_environment    += CPU_ARCH=armv7a
 NSS_TARGET_OBJ_DIR  = Linux_armv7a_$(TARGET)-gcc_glibc_PTH_OPT.OBJ
 endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
+nss_environment    += USE_64=1
+nss_environment    += CPU_ARCH=aarch64
+NSS_TARGET_OBJ_DIR  = Linux_aarch64_$(TARGET)-gcc_glibc_PTH_OPT.OBJ
+endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
 nss_environment    += CPU_ARCH=armv7a
 NSS_TARGET_OBJ_DIR  = Linux_armv7a_$(TARGET)-gcc_glibc_PTH_OPT.OBJ

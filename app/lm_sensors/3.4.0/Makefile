@@ -123,6 +123,11 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXV)),)
 lmsens_environment    += MACHINE="arm"
 endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
+lmsens_environment    += MACHINE="aarch64"
+endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
 lmsens_environment    += MACHINE="arm"
 endif

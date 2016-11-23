@@ -124,6 +124,11 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXV)),)
 gpgrt_lock_t_name = arm-unknown-linux-gnueabihf
 endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
+gpgrt_lock_t_name = aarch64-unknown-linux-gnu
+endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
 gpgrt_lock_t_name = arm-unknown-linux-gnueabihf
 endif

@@ -203,8 +203,8 @@ endif
 #             ├── libs/lzo/2.09
 #             │   └── libs/lzo/2.09-x86_32
 #             │
-#             ├── dev/libtool/2.4.2
-#             │   └── dev/libtool/2.4.2-x86_32
+#             ├── dev/libtool/2.4.6
+#             │   └── dev/libtool/2.4.6-x86_32
 #             │
 #             ├── libs/gc/7.4.2
 #             │   └── libs/gc/7.4.2-x86_32
@@ -313,7 +313,7 @@ endif
 #             │                  ...
 #             │      ...
 #             │       ├────────────────────────────────────────────────┬── libs/ncurses/6.0
-#             │       │                                                ├── dev/libtool/2.4.2
+#             │       │                                                ├── dev/libtool/2.4.6
 #             │       ├── app/dialog/1.2-20140112 ■                    └── app/ctags/5.8
 #             │       │   └── app/dialog/1.2-20140112-x86_32
 #             │      ...

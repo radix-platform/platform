@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/m/sox
 
 REQUIRES           = app/sox/14.4.1
-REQUIRES          += dev/libtool/2.4.2-x86_32
+REQUIRES          += dev/libtool/2.4.6-x86_32
 REQUIRES          += app/file/5.28-x86_32
 REQUIRES          += libs/libpng/libpng14/1.4.19-x86_32
 REQUIRES          += libs/libao/1.2.0-x86_32

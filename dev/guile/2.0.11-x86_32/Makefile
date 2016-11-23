@@ -16,7 +16,7 @@ REQUIRES           = dev/guile/2.0.11
 REQUIRES          += libs/libffi/3.2.1-x86_32
 REQUIRES          += libs/gmp/6.1.0-x86_32
 REQUIRES          += libs/readline/6.3-x86_32
-REQUIRES          += dev/libtool/2.4.2-x86_32
+REQUIRES          += dev/libtool/2.4.6-x86_32
 REQUIRES          += libs/libunistring/0.9.3-x86_32
 REQUIRES          += libs/gc/7.4.2-x86_32
 

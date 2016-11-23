@@ -33,7 +33,7 @@ REQUIRES           = libs/libexif/0.6.21
 REQUIRES          += libs/libgd/2.2.2
 REQUIRES          += libs/libusb/1.0.20
 REQUIRES          += libs/libxml2/2.9.3
-REQUIRES          += dev/libtool/2.4.2
+REQUIRES          += dev/libtool/2.4.6
 
 # ======= __END_OF_REQUIRES__ =======
 

@@ -33,7 +33,7 @@ ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/5.3.0
 endif
 REQUIRES          += libs/hwloc/1.11.3
-REQUIRES          += dev/libtool/2.4.2
+REQUIRES          += dev/libtool/2.4.6
 
 # ======= __END_OF_REQUIRES__ =======
 

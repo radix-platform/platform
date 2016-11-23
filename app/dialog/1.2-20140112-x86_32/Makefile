@@ -14,7 +14,7 @@ SOURCE_REQUIRES    = sources/packages/a/dialog
 
 REQUIRES           = app/dialog/1.2-20140112
 REQUIRES          += libs/ncurses/6.0-x86_32
-REQUIRES          += dev/libtool/2.4.2-x86_32
+REQUIRES          += dev/libtool/2.4.6-x86_32
 REQUIRES          += app/ctags/5.8-x86_32
 
 # ======= __END_OF_REQUIRES__ =======

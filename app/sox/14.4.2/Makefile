@@ -32,7 +32,7 @@ SOURCE_REQUIRES    = sources/packages/m/sox
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/5.3.0
 endif
-REQUIRES          += dev/libtool/2.4.2
+REQUIRES          += dev/libtool/2.4.6
 REQUIRES          += app/file/5.28
 REQUIRES          += libs/libpng/libpng14/1.4.19
 REQUIRES          += libs/libao/1.2.0

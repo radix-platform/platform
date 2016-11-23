@@ -1,3 +1,5 @@
 libelf-0.8.13/aclocal.m4
+libelf-0.8.13/config.guess
 libelf-0.8.13/config.h.in
+libelf-0.8.13/config.sub
 libelf-0.8.13/configure

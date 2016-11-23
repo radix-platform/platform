@@ -197,8 +197,8 @@ endif
 #             ├── libs/libidn/1.28
 #             │   └── libs/libidn/1.28-x86_32
 #             │
-#             ├── libs/libunistring/0.9.3
-#             │   └── libs/libunistring/0.9.3-x86_32
+#             ├── libs/libunistring/0.9.6
+#             │   └── libs/libunistring/0.9.6-x86_32
 #             │
 #             ├── libs/lzo/2.09
 #             │   └── libs/lzo/2.09-x86_32

@@ -108,6 +108,12 @@ extra_configure_switches += --disable-dependency-tracking
 
 extra_configure_switches += --sysconfdir=/etc
 
+ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
+extra_configure_switches += --enable-neon=no
+endif
+
 extra_configure_switches += --enable-static=yes
 extra_configure_switches += --enable-shared=yes
 

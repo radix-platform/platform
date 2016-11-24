@@ -154,7 +154,7 @@ GLIBC_VERSION   = 2.24
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_BT1)),)
 ARCH            = mips32r5
-UNAME_R_VERSION = 3.19.12
+UNAME_R_VERSION = 4.4.24
 GLIBC_VERSION   = 2.24
 endif
 

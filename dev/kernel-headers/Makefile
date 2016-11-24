@@ -76,7 +76,7 @@ REQUIRES           = dev/kernel/ci20/3.18-20160210-headers
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_BT1)),)
-REQUIRES           = dev/kernel/bt1/3.19.12-3.00.07.68-headers
+REQUIRES           = dev/kernel/bt1/4.4.24-4.08.84-headers
 endif
 
 

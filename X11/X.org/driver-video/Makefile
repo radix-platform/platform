@@ -55,6 +55,10 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_MXV)),)
 REQUIRES += X11/X.org/driver/xf86-video-mali/DX/r5p0-01rel0/0.4.2
 endif
 
+ifneq ($(filter $(HARDWARE),$(HARDWARE_BT1)),)
+REQUIRES += X11/X.org/driver/xf86-video-siliconmotion/1.7.8.1
+endif
+
 
 # ======= __END_OF_REQUIRES__ =======
 

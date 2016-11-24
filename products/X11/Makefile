@@ -61,6 +61,10 @@ REQUIRES += hal/firmware/ci20/brcm4330/0.0.0
 REQUIRES += boot/u-boot/ci20/2013.10-20150915
 endif
 
+ifneq ($(filter $(HARDWARE),$(HARDWARE_BT1)),)
+REQUIRES  = boot/kernel/bt1/4.4.24-4.08.84
+endif
+
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32) $(HARDWARE_PC64)),)
 REQUIRES  = boot/lilo/x86/24.1
 endif

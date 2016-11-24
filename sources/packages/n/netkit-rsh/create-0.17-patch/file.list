@@ -1,4 +1,5 @@
 netkit-rsh-0.17/configure
 netkit-rsh-0.17/rexecd/rexecd.c
+netkit-rsh-0.17/rlogin/rlogin.c
 netkit-rsh-0.17/rlogind/auth.c
 netkit-rsh-0.17/rshd/rshd.c

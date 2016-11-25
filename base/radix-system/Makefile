@@ -154,6 +154,10 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
 	@echo "# PowerVR:"                     >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
 	@echo "/sbin/modprobe bc_example"      >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
 endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_BT1)),)
+	@echo "# HW Random:"                   >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
+	@echo "/sbin/modprobe rng-core"        >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
+endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
 	@cat $(modprobes)/modprobe.$(HARDWARE) >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
 endif

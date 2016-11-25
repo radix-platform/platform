@@ -57,12 +57,14 @@ endif
 
 ####### Targets
 
-linux_kernel      = $(TARGET_BUILD_DIR)/vmlinux.bin-$(full_version)
-linux_kernel_gz   = $(TARGET_BUILD_DIR)/vmlinux.bin.gz-$(full_version)
-linux_uImage      = $(TARGET_BUILD_DIR)/uImage-$(full_version)
-linux_config      = $(TARGET_BUILD_DIR)/config-$(full_version)
-linux_systemmap   = $(TARGET_BUILD_DIR)/System.map-$(full_version)
-board_dtbs_path   = $(CURDIR)/$(TARGET_BUILD_DIR)
+linux_kernel         = $(TARGET_BUILD_DIR)/vmlinux.bin-$(full_version)
+linux_kernel_gz      = $(TARGET_BUILD_DIR)/vmlinux.bin.gz-$(full_version)
+linux_uImage         = $(TARGET_BUILD_DIR)/uImage-$(full_version)
+linux_config         = $(TARGET_BUILD_DIR)/config-$(full_version)
+linux_systemmap      = $(TARGET_BUILD_DIR)/System.map-$(full_version)
+device_tree_compiler = $(TARGET_BUILD_DIR)/$(TARGET)-dtc
+board_dtbs_path      = $(CURDIR)/$(TARGET_BUILD_DIR)
+
 
 #
 # gen_init_cpio - is built with kernel for HOST machine (not used here now)
@@ -112,6 +114,7 @@ BUILD_TARGETS     += $(linux_kernel)
 BUILD_TARGETS     += $(linux_kernel_gz)
 BUILD_TARGETS     += $(linux_systemmap)
 BUILD_TARGETS     += $(linux_config)
+BUILD_TARGETS     += $(device_tree_compiler)
 BUILD_TARGETS     += $(modules_done)
 BUILD_TARGETS     += $(device_dtbs_done)
 BUILD_TARGETS     += $(devel_sources_done)
@@ -163,7 +166,10 @@ $(linux_systemmap): $(linux_kernel)
 $(linux_config): $(linux_kernel)
 	cp $(build_dir)/.config $@
 
-$(modules_done): $(linux_kernel) $(linux_kernel_gz) $(linux_systemmap) $(linux_config)
+$(device_tree_compiler): $(linux_kernel)
+	cp $(build_dir)/scripts/dtc/dtc $@
+
+$(modules_done): $(linux_kernel) $(linux_kernel_gz) $(linux_systemmap) $(linux_config) $(device_tree_compiler)
 	$(LMAKE) modules
 	@rm -rf $(TARGET_BUILD_DIR)/lib
 	$(LMAKE) modules_install DEPMOD=true INSTALL_MOD_PATH=$(modules_dir)
@@ -199,6 +205,9 @@ $(devel_sources_done): $(device_dtbs_done)
 	   ln -sf ../../../usr/src/linux-baikal-$(full_version) build  ; \
 	   ln -sf ../../../usr/src/linux-baikal-$(full_version) source ; \
 	 )
+	@mkdir -p $(TARGET_DEST_DIR)/usr/bin
+	# ======= Install Device Tree Compiler =======
+	@cp -a $(device_tree_compiler) $(TARGET_DEST_DIR)/usr/bin
 	@touch $@
 
 $(boot_fs_dir_done): $(devel_sources_done)

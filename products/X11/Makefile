@@ -453,7 +453,7 @@ REQUIRES += app/lvm2/2.02.141
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += app/lvm2/2.02.141-x86_32
 endif
-REQUIRES += app/cpio/2.11
+REQUIRES += app/cpio/2.12
 REQUIRES += app/ed/1.9
 REQUIRES += app/getty-ps/2.1.1
 REQUIRES += app/hdparm/9.48

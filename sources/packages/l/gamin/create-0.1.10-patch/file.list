@@ -1,3 +1,5 @@
+gamin-0.1.10/config.guess
+gamin-0.1.10/config.sub
 gamin-0.1.10/configure
 gamin-0.1.10/python/gamin.c
 gamin-0.1.10/server/gam_node.c

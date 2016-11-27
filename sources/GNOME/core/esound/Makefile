@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/esound-0.2.41-book1.patch
+patches    += $(CURDIR)/patches/esound-0.2.41-automake.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -49,7 +50,8 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-0.2.41-book1-patch ; ./create.patch.sh ) ; \
+	 ( cd create-0.2.41-book1-patch    ; ./create.patch.sh ) ; \
+	 ( cd create-0.2.41-automake-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

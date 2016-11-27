@@ -7,7 +7,7 @@ include ../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/GNU/findutils
 
-versions    = 4.4.1 4.4.2
+versions    = 4.4.2 4.6.0
 pkgname     = findutils
 suffix      = tar.gz
 
@@ -16,6 +16,8 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/findutils-4.4.2-no-defopt-warn.patch
 patches    += $(CURDIR)/patches/findutils-4.4.2-no-locate.patch
+patches    += $(CURDIR)/patches/findutils-4.6.0-no-defopt-warn.patch
+patches    += $(CURDIR)/patches/findutils-4.6.0-no-locate.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -52,6 +54,8 @@ $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-4.4.2-no-defopt-warn-patch ; ./create.patch.sh ) ; \
 	 ( cd create-4.4.2-no-locate-patch ;      ./create.patch.sh ) ; \
+	 ( cd create-4.6.0-no-defopt-warn-patch ; ./create.patch.sh ) ; \
+	 ( cd create-4.6.0-no-locate-patch ;      ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/pam_unix2-2.9.1-glibc216.patch
+patches    += $(CURDIR)/patches/pam_unix2-2.9.1-automake.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,6 +51,7 @@ $(sha1s): $(tarballs)
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-2.9.1-glibc216-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2.9.1-automake-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

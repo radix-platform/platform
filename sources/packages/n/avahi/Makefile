@@ -16,6 +16,7 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/avahi-0.6.31-browser-icons.patch
 patches    += $(CURDIR)/patches/avahi-0.6.31-dnsconfd.patch
+patches    += $(CURDIR)/patches/avahi-0.6.31-automake.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -52,6 +53,7 @@ $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-0.6.31-browser-icons-patch ; ./create.patch.sh ) ; \
 	 ( cd create-0.6.31-dnsconfd-patch      ; ./create.patch.sh ) ; \
+	 ( cd create-0.6.31-automake-patch      ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

@@ -91,7 +91,7 @@ $(pkg_archive): $(build) $(INIT_DEV_PKG_DESCRIPTION_FILE) $(INIT_DEV_PKG_INSTALL
 	 echo "license=$(INIT_DEV_PKG_LICENSE)"                         >> $(INIT_DEV_PKG)/.PKGINFO
 	@$(PSEUDO) sh -c "cd $(INIT_DEV_PKG)   && \
 	                  chown -R root:root . && \
-	                  ( cd dev              ; \
+	                  ( cd dev              ; \
 	                    mknod --mode=600 console       c    5 1   ; \
 	                    \
 	                    mknod --mode=660 ppp           c  108 0   ; \

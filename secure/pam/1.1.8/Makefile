@@ -326,4 +326,4 @@ $(pkg_archive): $(install_target) $(PAM_PKG_DESCRIPTION_FILE) $(PAM_PKG_INSTALL_
 	 echo "short_description=\"$(PAM_PKG_SHORT_DESCRIPTION)\"" >> $(PAM_PKG)/.PKGINFO ; \
 	 echo "url=$(PAM_PKG_URL)"                                 >> $(PAM_PKG)/.PKGINFO ; \
 	 echo "license=$(PAM_PKG_LICENSE)"                         >> $(PAM_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(PAM_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PAM_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -193,4 +193,4 @@ $(pkg_archive): $(install_target) $(INTEL_DRV_PKG_DESCRIPTION_FILE) $(INTEL_DRV_
 	 echo "short_description=\"$(INTEL_DRV_PKG_SHORT_DESCRIPTION)\"" >> $(INTEL_DRV_PKG)/.PKGINFO ; \
 	 echo "url=$(INTEL_DRV_PKG_URL)"                                 >> $(INTEL_DRV_PKG)/.PKGINFO ; \
 	 echo "license=$(INTEL_DRV_PKG_LICENSE)"                         >> $(INTEL_DRV_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(INTEL_DRV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(INTEL_DRV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

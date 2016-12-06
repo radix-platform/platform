@@ -172,4 +172,4 @@ $(pkg_archive): $(install_target) $(LESS_PKG_DESCRIPTION_FILE) $(LESS_PKG_INSTAL
 	 echo "short_description=\"$(LESS_PKG_SHORT_DESCRIPTION)\"" >> $(LESS_PKG)/.PKGINFO ; \
 	 echo "url=$(LESS_PKG_URL)"                                 >> $(LESS_PKG)/.PKGINFO ; \
 	 echo "license=$(LESS_PKG_LICENSE)"                         >> $(LESS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LESS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LESS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

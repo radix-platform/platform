@@ -129,4 +129,4 @@ $(pkg_archive): $(build_kh_pkg) $(KH_DEV_PKG_DESCRIPTION_FILE) $(KH_DEV_PKG_INST
 	 echo "short_description=\"$(KH_DEV_PKG_SHORT_DESCRIPTION)\"" >> $(KH_DEV_PKG)/.PKGINFO ; \
 	 echo "url=$(KH_DEV_PKG_URL)"                                 >> $(KH_DEV_PKG)/.PKGINFO ; \
 	 echo "license=$(KH_DEV_PKG_LICENSE)"                         >> $(KH_DEV_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(KH_DEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(KH_DEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

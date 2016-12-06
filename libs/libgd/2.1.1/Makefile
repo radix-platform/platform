@@ -247,4 +247,4 @@ $(pkg_archive): $(install_target) $(LIBGD_PKG_DESCRIPTION_FILE) $(LIBGD_PKG_INST
 	 echo "short_description=\"$(LIBGD_PKG_SHORT_DESCRIPTION)\"" >> $(LIBGD_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBGD_PKG_URL)"                                 >> $(LIBGD_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBGD_PKG_LICENSE)"                         >> $(LIBGD_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBGD_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBGD_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

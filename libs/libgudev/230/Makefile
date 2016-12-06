@@ -234,4 +234,4 @@ $(pkg_archive): $(install_target) $(GUDEV_PKG_DESCRIPTION_FILE) $(GUDEV_PKG_INST
 	 echo "short_description=\"$(GUDEV_PKG_SHORT_DESCRIPTION)\"" >> $(GUDEV_PKG)/.PKGINFO ; \
 	 echo "url=$(GUDEV_PKG_URL)"                                 >> $(GUDEV_PKG)/.PKGINFO ; \
 	 echo "license=$(GUDEV_PKG_LICENSE)"                         >> $(GUDEV_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GUDEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GUDEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

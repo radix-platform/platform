@@ -212,4 +212,4 @@ $(pkg_archive): $(install_target) $(AML_LIBS_PKG_DESCRIPTION_FILE) $(AML_LIBS_PK
 	 echo "short_description=\"$(AML_LIBS_PKG_SHORT_DESCRIPTION)\"" >> $(AML_LIBS_PKG)/.PKGINFO ; \
 	 echo "url=$(AML_LIBS_PKG_URL)"                                 >> $(AML_LIBS_PKG)/.PKGINFO ; \
 	 echo "license=$(AML_LIBS_PKG_LICENSE)"                         >> $(AML_LIBS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(AML_LIBS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(AML_LIBS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

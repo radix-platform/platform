@@ -211,4 +211,4 @@ $(pkg_archive): $(install_target) $(USBUTILS_PKG_DESCRIPTION_FILE) $(USBUTILS_PK
 	 echo "short_description=\"$(USBUTILS_PKG_SHORT_DESCRIPTION)\"" >> $(USBUTILS_PKG)/.PKGINFO ; \
 	 echo "url=$(USBUTILS_PKG_URL)"                                 >> $(USBUTILS_PKG)/.PKGINFO ; \
 	 echo "license=$(USBUTILS_PKG_LICENSE)"                         >> $(USBUTILS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(USBUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(USBUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -205,4 +205,4 @@ $(pkg_archive): $(install_target) $(NPTH_PKG_DESCRIPTION_FILE) $(NPTH_PKG_INSTAL
 	 echo "short_description=\"$(NPTH_PKG_SHORT_DESCRIPTION)\"" >> $(NPTH_PKG)/.PKGINFO ; \
 	 echo "url=$(NPTH_PKG_URL)"                                 >> $(NPTH_PKG)/.PKGINFO ; \
 	 echo "license=$(NPTH_PKG_LICENSE)"                         >> $(NPTH_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(NPTH_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(NPTH_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

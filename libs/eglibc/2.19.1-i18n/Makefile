@@ -187,4 +187,4 @@ $(pkg_archive): $(install_target) $(EGLIBC_I18N_PKG_DESCRIPTION_FILE) $(EGLIBC_I
 	 echo "short_description=\"$(EGLIBC_I18N_PKG_SHORT_DESCRIPTION)\"" >> $(EGLIBC_I18N_PKG)/.PKGINFO ; \
 	 echo "url=$(EGLIBC_I18N_PKG_URL)"                                 >> $(EGLIBC_I18N_PKG)/.PKGINFO ; \
 	 echo "license=$(EGLIBC_I18N_PKG_LICENSE)"                         >> $(EGLIBC_I18N_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(EGLIBC_I18N_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(EGLIBC_I18N_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

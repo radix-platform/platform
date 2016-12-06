@@ -182,4 +182,4 @@ $(pkg_archive): $(install_target) $(DBUS_PYTHON_32_PKG_DESCRIPTION_FILE) $(DBUS_
 	 echo "short_description=\"$(DBUS_PYTHON_32_PKG_SHORT_DESCRIPTION)\"" >> $(DBUS_PYTHON_32_PKG)/.PKGINFO ; \
 	 echo "url=$(DBUS_PYTHON_32_PKG_URL)"                                 >> $(DBUS_PYTHON_32_PKG)/.PKGINFO ; \
 	 echo "license=$(DBUS_PYTHON_32_PKG_LICENSE)"                         >> $(DBUS_PYTHON_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(DBUS_PYTHON_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(DBUS_PYTHON_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

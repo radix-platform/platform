@@ -151,4 +151,4 @@ $(pkg_archive): $(install_target) $(LHA_PKG_DESCRIPTION_FILE) $(LHA_PKG_INSTALL_
 	 echo "short_description=\"$(LHA_PKG_SHORT_DESCRIPTION)\"" >> $(LHA_PKG)/.PKGINFO ; \
 	 echo "url=$(LHA_PKG_URL)"                                 >> $(LHA_PKG)/.PKGINFO ; \
 	 echo "license=$(LHA_PKG_LICENSE)"                         >> $(LHA_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LHA_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LHA_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

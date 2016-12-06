@@ -201,4 +201,4 @@ $(pkg_archive): $(install_target) $(LIBDAEMON_PKG_DESCRIPTION_FILE) $(LIBDAEMON_
 	 echo "short_description=\"$(LIBDAEMON_PKG_SHORT_DESCRIPTION)\"" >> $(LIBDAEMON_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBDAEMON_PKG_URL)"                                 >> $(LIBDAEMON_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBDAEMON_PKG_LICENSE)"                         >> $(LIBDAEMON_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBDAEMON_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBDAEMON_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

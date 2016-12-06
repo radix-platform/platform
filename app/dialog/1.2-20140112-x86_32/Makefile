@@ -164,4 +164,4 @@ $(pkg_archive): $(install_target) $(DIALOG_32_PKG_DESCRIPTION_FILE) $(DIALOG_32_
 	 echo "short_description=\"$(DIALOG_32_PKG_SHORT_DESCRIPTION)\"" >> $(DIALOG_32_PKG)/.PKGINFO ; \
 	 echo "url=$(DIALOG_32_PKG_URL)"                                 >> $(DIALOG_32_PKG)/.PKGINFO ; \
 	 echo "license=$(DIALOG_32_PKG_LICENSE)"                         >> $(DIALOG_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(DIALOG_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(DIALOG_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

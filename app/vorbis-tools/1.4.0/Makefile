@@ -198,4 +198,4 @@ $(pkg_archive): $(install_target) $(VORBIS_TOOLS_PKG_DESCRIPTION_FILE) $(VORBIS_
 	 echo "short_description=\"$(VORBIS_TOOLS_PKG_SHORT_DESCRIPTION)\"" >> $(VORBIS_TOOLS_PKG)/.PKGINFO ; \
 	 echo "url=$(VORBIS_TOOLS_PKG_URL)"                                 >> $(VORBIS_TOOLS_PKG)/.PKGINFO ; \
 	 echo "license=$(VORBIS_TOOLS_PKG_LICENSE)"                         >> $(VORBIS_TOOLS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(VORBIS_TOOLS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(VORBIS_TOOLS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

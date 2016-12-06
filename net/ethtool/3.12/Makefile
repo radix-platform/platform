@@ -177,4 +177,4 @@ $(pkg_archive): $(install_target) $(ETHTOOL_PKG_DESCRIPTION_FILE) $(ETHTOOL_PKG_
 	 echo "short_description=\"$(ETHTOOL_PKG_SHORT_DESCRIPTION)\"" >> $(ETHTOOL_PKG)/.PKGINFO ; \
 	 echo "url=$(ETHTOOL_PKG_URL)"                                 >> $(ETHTOOL_PKG)/.PKGINFO ; \
 	 echo "license=$(ETHTOOL_PKG_LICENSE)"                         >> $(ETHTOOL_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(ETHTOOL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ETHTOOL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

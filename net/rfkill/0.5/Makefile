@@ -155,4 +155,4 @@ $(pkg_archive): $(install_target) $(RFKILL_PKG_DESCRIPTION_FILE) $(RFKILL_PKG_IN
 	 echo "short_description=\"$(RFKILL_PKG_SHORT_DESCRIPTION)\"" >> $(RFKILL_PKG)/.PKGINFO ; \
 	 echo "url=$(RFKILL_PKG_URL)"                                 >> $(RFKILL_PKG)/.PKGINFO ; \
 	 echo "license=$(RFKILL_PKG_LICENSE)"                         >> $(RFKILL_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(RFKILL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(RFKILL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

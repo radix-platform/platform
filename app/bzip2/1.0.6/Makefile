@@ -197,4 +197,4 @@ $(pkg_archive): $(install_target) $(BZIP2_PKG_DESCRIPTION_FILE) $(BZIP2_PKG_INST
 	 echo "short_description=\"$(BZIP2_PKG_SHORT_DESCRIPTION)\"" >> $(BZIP2_PKG)/.PKGINFO ; \
 	 echo "url=$(BZIP2_PKG_URL)"                                 >> $(BZIP2_PKG)/.PKGINFO ; \
 	 echo "license=$(BZIP2_PKG_LICENSE)"                         >> $(BZIP2_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(BZIP2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(BZIP2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

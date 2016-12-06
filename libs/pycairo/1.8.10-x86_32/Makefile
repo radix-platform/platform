@@ -182,4 +182,4 @@ $(pkg_archive): $(install_target) $(PYCAIRO_32_PKG_DESCRIPTION_FILE) $(PYCAIRO_3
 	 echo "short_description=\"$(PYCAIRO_32_PKG_SHORT_DESCRIPTION)\"" >> $(PYCAIRO_32_PKG)/.PKGINFO ; \
 	 echo "url=$(PYCAIRO_32_PKG_URL)"                                 >> $(PYCAIRO_32_PKG)/.PKGINFO ; \
 	 echo "license=$(PYCAIRO_32_PKG_LICENSE)"                         >> $(PYCAIRO_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(PYCAIRO_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PYCAIRO_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

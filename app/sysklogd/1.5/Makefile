@@ -172,4 +172,4 @@ $(pkg_archive): $(install_target) $(SYSKLOGD_PKG_DESCRIPTION_FILE) $(SYSKLOGD_PK
 	 echo "short_description=\"$(SYSKLOGD_PKG_SHORT_DESCRIPTION)\"" >> $(SYSKLOGD_PKG)/.PKGINFO ; \
 	 echo "url=$(SYSKLOGD_PKG_URL)"                                 >> $(SYSKLOGD_PKG)/.PKGINFO ; \
 	 echo "license=$(SYSKLOGD_PKG_LICENSE)"                         >> $(SYSKLOGD_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(SYSKLOGD_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SYSKLOGD_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

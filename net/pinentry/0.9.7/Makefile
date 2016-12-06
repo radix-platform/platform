@@ -197,4 +197,4 @@ $(pkg_archive): $(install_target) $(PINENTRY_PKG_DESCRIPTION_FILE) $(PINENTRY_PK
 	 echo "short_description=\"$(PINENTRY_PKG_SHORT_DESCRIPTION)\"" >> $(PINENTRY_PKG)/.PKGINFO ; \
 	 echo "url=$(PINENTRY_PKG_URL)"                                 >> $(PINENTRY_PKG)/.PKGINFO ; \
 	 echo "license=$(PINENTRY_PKG_LICENSE)"                         >> $(PINENTRY_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(PINENTRY_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PINENTRY_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

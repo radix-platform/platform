@@ -198,4 +198,4 @@ $(pkg_archive): $(install_target) $(CACERTS_PKG_DESCRIPTION_FILE) $(CACERTS_PKG_
 	 echo "short_description=\"$(CACERTS_PKG_SHORT_DESCRIPTION)\"" >> $(CACERTS_PKG)/.PKGINFO ; \
 	 echo "url=$(CACERTS_PKG_URL)"                                 >> $(CACERTS_PKG)/.PKGINFO ; \
 	 echo "license=$(CACERTS_PKG_LICENSE)"                         >> $(CACERTS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(CACERTS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(CACERTS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -190,4 +190,4 @@ $(pkg_archive): $(install_target) $(SLANG_PKG_DESCRIPTION_FILE) $(SLANG_PKG_INST
 	 echo "short_description=\"$(SLANG_PKG_SHORT_DESCRIPTION)\"" >> $(SLANG_PKG)/.PKGINFO ; \
 	 echo "url=$(SLANG_PKG_URL)"                                 >> $(SLANG_PKG)/.PKGINFO ; \
 	 echo "license=$(SLANG_PKG_LICENSE)"                         >> $(SLANG_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(SLANG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SLANG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

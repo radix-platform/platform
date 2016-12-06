@@ -212,4 +212,4 @@ $(pkg_archive): $(install_target) $(CMAKE_PKG_DESCRIPTION_FILE) $(CMAKE_PKG_INST
 	 echo "short_description=\"$(CMAKE_PKG_SHORT_DESCRIPTION)\"" >> $(CMAKE_PKG)/.PKGINFO ; \
 	 echo "url=$(CMAKE_PKG_URL)"                                 >> $(CMAKE_PKG)/.PKGINFO ; \
 	 echo "license=$(CMAKE_PKG_LICENSE)"                         >> $(CMAKE_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(CMAKE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(CMAKE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

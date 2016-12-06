@@ -229,4 +229,4 @@ $(pkg_archive): $(install_target) $(CAIRO_32_PKG_DESCRIPTION_FILE) $(CAIRO_32_PK
 	 echo "short_description=\"$(CAIRO_32_PKG_SHORT_DESCRIPTION)\"" >> $(CAIRO_32_PKG)/.PKGINFO ; \
 	 echo "url=$(CAIRO_32_PKG_URL)"                                 >> $(CAIRO_32_PKG)/.PKGINFO ; \
 	 echo "license=$(CAIRO_32_PKG_LICENSE)"                         >> $(CAIRO_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(CAIRO_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(CAIRO_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

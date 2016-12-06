@@ -138,4 +138,4 @@ $(pkg_archive): $(install_target) $(PPDATA_PKG_DESCRIPTION_FILE) $(PPDATA_PKG_IN
 	 echo "short_description=\"$(PPDATA_PKG_SHORT_DESCRIPTION)\"" >> $(PPDATA_PKG)/.PKGINFO ; \
 	 echo "url=$(PPDATA_PKG_URL)"                                 >> $(PPDATA_PKG)/.PKGINFO ; \
 	 echo "license=$(PPDATA_PKG_LICENSE)"                         >> $(PPDATA_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(PPDATA_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PPDATA_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -173,4 +173,4 @@ $(pkg_archive): $(install_target) $(IEEE1284_32_PKG_DESCRIPTION_FILE) $(IEEE1284
 	 echo "short_description=\"$(IEEE1284_32_PKG_SHORT_DESCRIPTION)\"" >> $(IEEE1284_32_PKG)/.PKGINFO ; \
 	 echo "url=$(IEEE1284_32_PKG_URL)"                                 >> $(IEEE1284_32_PKG)/.PKGINFO ; \
 	 echo "license=$(IEEE1284_32_PKG_LICENSE)"                         >> $(IEEE1284_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(IEEE1284_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(IEEE1284_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

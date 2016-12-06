@@ -202,4 +202,4 @@ $(pkg_archive): $(install_target) $(JSONC_PKG_DESCRIPTION_FILE) $(JSONC_PKG_INST
 	 echo "short_description=\"$(JSONC_PKG_SHORT_DESCRIPTION)\"" >> $(JSONC_PKG)/.PKGINFO ; \
 	 echo "url=$(JSONC_PKG_URL)"                                 >> $(JSONC_PKG)/.PKGINFO ; \
 	 echo "license=$(JSONC_PKG_LICENSE)"                         >> $(JSONC_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(JSONC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(JSONC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

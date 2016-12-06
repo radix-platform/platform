@@ -189,4 +189,4 @@ $(pkg_archive): $(install_boot_records) $(LILO_PKG_DESCRIPTION_FILE) $(LILO_PKG_
 	 echo "short_description=\"$(LILO_PKG_SHORT_DESCRIPTION)\"" >> $(LILO_PKG)/.PKGINFO ; \
 	 echo "url=$(LILO_PKG_URL)"                                 >> $(LILO_PKG)/.PKGINFO ; \
 	 echo "license=$(LILO_PKG_LICENSE)"                         >> $(LILO_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LILO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LILO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

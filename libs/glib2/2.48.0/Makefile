@@ -294,4 +294,4 @@ $(pkg_archive): $(install_target) $(GLIB2_PKG_DESCRIPTION_FILE) $(GLIB2_PKG_INST
 	 echo "short_description=\"$(GLIB2_PKG_SHORT_DESCRIPTION)\"" >> $(GLIB2_PKG)/.PKGINFO ; \
 	 echo "url=$(GLIB2_PKG_URL)"                                 >> $(GLIB2_PKG)/.PKGINFO ; \
 	 echo "license=$(GLIB2_PKG_LICENSE)"                         >> $(GLIB2_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GLIB2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GLIB2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

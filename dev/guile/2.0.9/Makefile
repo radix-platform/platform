@@ -244,4 +244,4 @@ $(pkg_archive): $(install_target) $(GUILE_PKG_DESCRIPTION_FILE) $(GUILE_PKG_INST
 	 echo "short_description=\"$(GUILE_PKG_SHORT_DESCRIPTION)\"" >> $(GUILE_PKG)/.PKGINFO ; \
 	 echo "url=$(GUILE_PKG_URL)"                                 >> $(GUILE_PKG)/.PKGINFO ; \
 	 echo "license=$(GUILE_PKG_LICENSE)"                         >> $(GUILE_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GUILE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GUILE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

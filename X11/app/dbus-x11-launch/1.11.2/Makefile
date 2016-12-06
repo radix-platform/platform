@@ -197,4 +197,4 @@ $(pkg_archive): $(install_target) $(DBUS_PKG_DESCRIPTION_FILE) $(DBUS_PKG_INSTAL
 	 echo "short_description=\"$(DBUS_PKG_SHORT_DESCRIPTION)\"" >> $(DBUS_PKG)/.PKGINFO ; \
 	 echo "url=$(DBUS_PKG_URL)"                                 >> $(DBUS_PKG)/.PKGINFO ; \
 	 echo "license=$(DBUS_PKG_LICENSE)"                         >> $(DBUS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(DBUS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(DBUS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

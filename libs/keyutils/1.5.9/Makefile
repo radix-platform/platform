@@ -174,4 +174,4 @@ $(pkg_archive): $(install_target) $(KEYUTILS_PKG_DESCRIPTION_FILE) $(KEYUTILS_PK
 	 echo "short_description=\"$(KEYUTILS_PKG_SHORT_DESCRIPTION)\"" >> $(KEYUTILS_PKG)/.PKGINFO ; \
 	 echo "url=$(KEYUTILS_PKG_URL)"                                 >> $(KEYUTILS_PKG)/.PKGINFO ; \
 	 echo "license=$(KEYUTILS_PKG_LICENSE)"                         >> $(KEYUTILS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(KEYUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(KEYUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -215,4 +215,4 @@ $(pkg_archive): $(install_target) $(GMP_PKG_DESCRIPTION_FILE) $(GMP_PKG_INSTALL_
 	 echo "short_description=\"$(GMP_PKG_SHORT_DESCRIPTION)\"" >> $(GMP_PKG)/.PKGINFO ; \
 	 echo "url=$(GMP_PKG_URL)"                                 >> $(GMP_PKG)/.PKGINFO ; \
 	 echo "license=$(GMP_PKG_LICENSE)"                         >> $(GMP_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GMP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GMP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -610,4 +610,4 @@ $(pkg_archive): $(install_target) $(GCJ_DEV_PKG_DESCRIPTION_FILE) $(GCJ_DEV_PKG_
 	 echo "short_description=\"$(GCJ_DEV_PKG_SHORT_DESCRIPTION)\"" >> $(GCJ_DEV_PKG)/.PKGINFO ; \
 	 echo "url=$(GCJ_DEV_PKG_URL)"                                 >> $(GCJ_DEV_PKG)/.PKGINFO ; \
 	 echo "license=$(GCJ_DEV_PKG_LICENSE)"                         >> $(GCJ_DEV_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GCJ_DEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GCJ_DEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

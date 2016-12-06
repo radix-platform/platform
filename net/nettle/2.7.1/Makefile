@@ -176,4 +176,4 @@ $(pkg_archive): $(install_target) $(NETTLE_PKG_DESCRIPTION_FILE) $(NETTLE_PKG_IN
 	 echo "short_description=\"$(NETTLE_PKG_SHORT_DESCRIPTION)\"" >> $(NETTLE_PKG)/.PKGINFO ; \
 	 echo "url=$(NETTLE_PKG_URL)"                                 >> $(NETTLE_PKG)/.PKGINFO ; \
 	 echo "license=$(NETTLE_PKG_LICENSE)"                         >> $(NETTLE_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(NETTLE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(NETTLE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

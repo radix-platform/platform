@@ -204,4 +204,4 @@ $(pkg_archive): $(install_target) $(LIBNF_CTTIMEOUT_PKG_DESCRIPTION_FILE) $(LIBN
 	 echo "short_description=\"$(LIBNF_CTTIMEOUT_PKG_SHORT_DESCRIPTION)\"" >> $(LIBNF_CTTIMEOUT_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBNF_CTTIMEOUT_PKG_URL)"                                 >> $(LIBNF_CTTIMEOUT_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBNF_CTTIMEOUT_PKG_LICENSE)"                         >> $(LIBNF_CTTIMEOUT_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBNF_CTTIMEOUT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBNF_CTTIMEOUT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

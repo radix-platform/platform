@@ -276,4 +276,4 @@ $(pkg_archive): $(install_target) $(PROCPS_PKG_DESCRIPTION_FILE) $(PROCPS_PKG_IN
 	 echo "short_description=\"$(PROCPS_PKG_SHORT_DESCRIPTION)\"" >> $(PROCPS_PKG)/.PKGINFO ; \
 	 echo "url=$(PROCPS_PKG_URL)"                                 >> $(PROCPS_PKG)/.PKGINFO ; \
 	 echo "license=$(PROCPS_PKG_LICENSE)"                         >> $(PROCPS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(PROCPS_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PROCPS_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

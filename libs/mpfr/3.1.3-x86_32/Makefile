@@ -158,4 +158,4 @@ $(pkg_archive): $(install_target) $(MPFR_32_PKG_DESCRIPTION_FILE) $(MPFR_32_PKG_
 	 echo "short_description=\"$(MPFR_32_PKG_SHORT_DESCRIPTION)\"" >> $(MPFR_32_PKG)/.PKGINFO ; \
 	 echo "url=$(MPFR_32_PKG_URL)"                                 >> $(MPFR_32_PKG)/.PKGINFO ; \
 	 echo "license=$(MPFR_32_PKG_LICENSE)"                         >> $(MPFR_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(MPFR_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(MPFR_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

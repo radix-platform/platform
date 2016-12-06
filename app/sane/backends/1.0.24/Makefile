@@ -322,9 +322,9 @@ $(pkg_archive): $(install_target) $(SANE_PKG_DESCRIPTION_FILE) $(SANE_PKG_INSTAL
 	 echo "short_description=\"$(SANE_PKG_SHORT_DESCRIPTION)\"" >> $(SANE_PKG)/.PKGINFO ; \
 	 echo "url=$(SANE_PKG_URL)"                                 >> $(SANE_PKG)/.PKGINFO ; \
 	 echo "license=$(SANE_PKG_LICENSE)"                         >> $(SANE_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(SANE_PKG) && \
-	                       chown   -R root:root .   && \
-	                       chmod  755 var           && \
-	                       chmod 1777 var/lock      && \
-	                       chown 0:93 var/lock/sane && \
-	                       chmod  755 var/lock/sane && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SANE_PKG) && \
+	                  chown   -R root:root .   && \
+	                  chmod  755 var           && \
+	                  chmod 1777 var/lock      && \
+	                  chown 0:93 var/lock/sane && \
+	                  chmod  755 var/lock/sane && $(MAKE_PACKAGE) --linkadd yes .."

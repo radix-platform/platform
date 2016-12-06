@@ -148,4 +148,4 @@ $(pkg_archive): $(install_target) $(CHECK_32_PKG_DESCRIPTION_FILE) $(CHECK_32_PK
 	 echo "short_description=\"$(CHECK_32_PKG_SHORT_DESCRIPTION)\"" >> $(CHECK_32_PKG)/.PKGINFO ; \
 	 echo "url=$(CHECK_32_PKG_URL)"                                 >> $(CHECK_32_PKG)/.PKGINFO ; \
 	 echo "license=$(CHECK_32_PKG_LICENSE)"                         >> $(CHECK_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(CHECK_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(CHECK_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

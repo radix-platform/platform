@@ -183,4 +183,4 @@ $(pkg_archive): $(install_target) $(LADSPA_PKG_DESCRIPTION_FILE) $(LADSPA_PKG_IN
 	 echo "short_description=\"$(LADSPA_PKG_SHORT_DESCRIPTION)\"" >> $(LADSPA_PKG)/.PKGINFO ; \
 	 echo "url=$(LADSPA_PKG_URL)"                                 >> $(LADSPA_PKG)/.PKGINFO ; \
 	 echo "license=$(LADSPA_PKG_LICENSE)"                         >> $(LADSPA_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LADSPA_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LADSPA_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

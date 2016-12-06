@@ -216,4 +216,4 @@ $(pkg_archive): $(install_target) $(LIBVORBIS_PKG_DESCRIPTION_FILE) $(LIBVORBIS_
 	 echo "short_description=\"$(LIBVORBIS_PKG_SHORT_DESCRIPTION)\"" >> $(LIBVORBIS_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBVORBIS_PKG_URL)"                                 >> $(LIBVORBIS_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBVORBIS_PKG_LICENSE)"                         >> $(LIBVORBIS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBVORBIS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBVORBIS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

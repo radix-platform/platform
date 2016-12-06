@@ -332,4 +332,4 @@ $(pkg_archive): $(install_target) $(X265_PKG_DESCRIPTION_FILE) $(X265_PKG_INSTAL
 	 echo "short_description=\"$(X265_PKG_SHORT_DESCRIPTION)\"" >> $(X265_PKG)/.PKGINFO ; \
 	 echo "url=$(X265_PKG_URL)"                                 >> $(X265_PKG)/.PKGINFO ; \
 	 echo "license=$(X265_PKG_LICENSE)"                         >> $(X265_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(X265_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(X265_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

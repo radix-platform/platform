@@ -259,4 +259,4 @@ $(pkg_archive): $(install_target) $(HARFBUZZ_PKG_DESCRIPTION_FILE) $(HARFBUZZ_PK
 	 echo "short_description=\"$(HARFBUZZ_PKG_SHORT_DESCRIPTION)\"" >> $(HARFBUZZ_PKG)/.PKGINFO ; \
 	 echo "url=$(HARFBUZZ_PKG_URL)"                                 >> $(HARFBUZZ_PKG)/.PKGINFO ; \
 	 echo "license=$(HARFBUZZ_PKG_LICENSE)"                         >> $(HARFBUZZ_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(HARFBUZZ_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(HARFBUZZ_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

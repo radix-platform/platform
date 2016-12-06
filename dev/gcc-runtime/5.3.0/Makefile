@@ -182,4 +182,4 @@ $(pkg_archive): $(build_gcc_rt_pkg) $(GCC_RT_DEV_PKG_DESCRIPTION_FILE) $(GCC_RT_
 	 echo "short_description=\"$(GCC_RT_DEV_PKG_SHORT_DESCRIPTION)\"" >> $(GCC_RT_DEV_PKG)/.PKGINFO ; \
 	 echo "url=$(GCC_RT_DEV_PKG_URL)"                                 >> $(GCC_RT_DEV_PKG)/.PKGINFO ; \
 	 echo "license=$(GCC_RT_DEV_PKG_LICENSE)"                         >> $(GCC_RT_DEV_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GCC_RT_DEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GCC_RT_DEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

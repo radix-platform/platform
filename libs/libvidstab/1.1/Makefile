@@ -228,4 +228,4 @@ $(pkg_archive): $(install_target) $(VIDSTAB_PKG_DESCRIPTION_FILE) $(VIDSTAB_PKG_
 	 echo "short_description=\"$(VIDSTAB_PKG_SHORT_DESCRIPTION)\"" >> $(VIDSTAB_PKG)/.PKGINFO ; \
 	 echo "url=$(VIDSTAB_PKG_URL)"                                 >> $(VIDSTAB_PKG)/.PKGINFO ; \
 	 echo "license=$(VIDSTAB_PKG_LICENSE)"                         >> $(VIDSTAB_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(VIDSTAB_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(VIDSTAB_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

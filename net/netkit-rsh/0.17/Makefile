@@ -178,4 +178,4 @@ $(pkg_archive): $(install_target) $(RSH_PKG_DESCRIPTION_FILE) $(RSH_PKG_INSTALL_
 	 echo "short_description=\"$(RSH_PKG_SHORT_DESCRIPTION)\"" >> $(RSH_PKG)/.PKGINFO ; \
 	 echo "url=$(RSH_PKG_URL)"                                 >> $(RSH_PKG)/.PKGINFO ; \
 	 echo "license=$(RSH_PKG_LICENSE)"                         >> $(RSH_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(RSH_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(RSH_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

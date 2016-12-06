@@ -155,4 +155,4 @@ $(pkg_archive): $(install_target) $(ASPELL6_PKG_DESCRIPTION_FILE) $(ASPELL6_PKG_
 	 echo "short_description=\"$(ASPELL6_PKG_SHORT_DESCRIPTION)\"" >> $(ASPELL6_PKG)/.PKGINFO ; \
 	 echo "url=$(ASPELL6_PKG_URL)"                                 >> $(ASPELL6_PKG)/.PKGINFO ; \
 	 echo "license=$(ASPELL6_PKG_LICENSE)"                         >> $(ASPELL6_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(ASPELL6_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ASPELL6_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

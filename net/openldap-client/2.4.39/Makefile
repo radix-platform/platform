@@ -240,4 +240,4 @@ $(pkg_archive): $(install_target) $(OPENLDAP_PKG_DESCRIPTION_FILE) $(OPENLDAP_PK
 	 echo "short_description=\"$(OPENLDAP_PKG_SHORT_DESCRIPTION)\"" >> $(OPENLDAP_PKG)/.PKGINFO ; \
 	 echo "url=$(OPENLDAP_PKG_URL)"                                 >> $(OPENLDAP_PKG)/.PKGINFO ; \
 	 echo "license=$(OPENLDAP_PKG_LICENSE)"                         >> $(OPENLDAP_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(OPENLDAP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(OPENLDAP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

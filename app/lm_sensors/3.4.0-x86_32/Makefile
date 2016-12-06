@@ -145,4 +145,4 @@ $(pkg_archive): $(install_target) $(LMSENS_32_PKG_DESCRIPTION_FILE) $(LMSENS_32_
 	 echo "short_description=\"$(LMSENS_32_PKG_SHORT_DESCRIPTION)\"" >> $(LMSENS_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LMSENS_32_PKG_URL)"                                 >> $(LMSENS_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LMSENS_32_PKG_LICENSE)"                         >> $(LMSENS_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LMSENS_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LMSENS_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -200,4 +200,4 @@ $(pkg_archive): $(install_target) $(GAWK_PKG_DESCRIPTION_FILE) $(GAWK_PKG_INSTAL
 	 echo "short_description=\"$(GAWK_PKG_SHORT_DESCRIPTION)\"" >> $(GAWK_PKG)/.PKGINFO ; \
 	 echo "url=$(GAWK_PKG_URL)"                                 >> $(GAWK_PKG)/.PKGINFO ; \
 	 echo "license=$(GAWK_PKG_LICENSE)"                         >> $(GAWK_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GAWK_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GAWK_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

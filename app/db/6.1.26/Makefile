@@ -238,4 +238,4 @@ $(pkg_archive): $(install_target) $(DB_PKG_DESCRIPTION_FILE) $(DB_PKG_INSTALL_SC
 	 echo "short_description=\"$(DB_PKG_SHORT_DESCRIPTION)\"" >> $(DB_PKG)/.PKGINFO ; \
 	 echo "url=$(DB_PKG_URL)"                                 >> $(DB_PKG)/.PKGINFO ; \
 	 echo "license=$(DB_PKG_LICENSE)"                         >> $(DB_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(DB_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(DB_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

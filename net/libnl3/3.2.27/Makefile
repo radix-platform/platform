@@ -241,4 +241,4 @@ $(pkg_archive): $(install_target) $(LIBNL3_PKG_DESCRIPTION_FILE) $(LIBNL3_PKG_IN
 	 echo "short_description=\"$(LIBNL3_PKG_SHORT_DESCRIPTION)\"" >> $(LIBNL3_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBNL3_PKG_URL)"                                 >> $(LIBNL3_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBNL3_PKG_LICENSE)"                         >> $(LIBNL3_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBNL3_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBNL3_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

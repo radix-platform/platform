@@ -163,4 +163,4 @@ $(pkg_archive): $(install_target) $(GLUT_32_PKG_DESCRIPTION_FILE) $(GLUT_32_PKG_
 	 echo "short_description=\"$(GLUT_32_PKG_SHORT_DESCRIPTION)\"" >> $(GLUT_32_PKG)/.PKGINFO ; \
 	 echo "url=$(GLUT_32_PKG_URL)"                                 >> $(GLUT_32_PKG)/.PKGINFO ; \
 	 echo "license=$(GLUT_32_PKG_LICENSE)"                         >> $(GLUT_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GLUT_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GLUT_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

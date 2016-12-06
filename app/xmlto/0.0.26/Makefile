@@ -178,4 +178,4 @@ $(pkg_archive): $(install_target) $(XMLTO_PKG_DESCRIPTION_FILE) $(XMLTO_PKG_INST
 	 echo "short_description=\"$(XMLTO_PKG_SHORT_DESCRIPTION)\"" >> $(XMLTO_PKG)/.PKGINFO ; \
 	 echo "url=$(XMLTO_PKG_URL)"                                 >> $(XMLTO_PKG)/.PKGINFO ; \
 	 echo "license=$(XMLTO_PKG_LICENSE)"                         >> $(XMLTO_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(XMLTO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(XMLTO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

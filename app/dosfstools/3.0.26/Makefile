@@ -162,4 +162,4 @@ $(pkg_archive): $(install_target) $(DOSFS_PKG_DESCRIPTION_FILE) $(DOSFS_PKG_INST
 	 echo "short_description=\"$(DOSFS_PKG_SHORT_DESCRIPTION)\"" >> $(DOSFS_PKG)/.PKGINFO ; \
 	 echo "url=$(DOSFS_PKG_URL)"                                 >> $(DOSFS_PKG)/.PKGINFO ; \
 	 echo "license=$(DOSFS_PKG_LICENSE)"                         >> $(DOSFS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(DOSFS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(DOSFS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -223,4 +223,4 @@ $(pkg_archive): $(install_target) $(TWOLAME_PKG_DESCRIPTION_FILE) $(TWOLAME_PKG_
 	 echo "short_description=\"$(TWOLAME_PKG_SHORT_DESCRIPTION)\"" >> $(TWOLAME_PKG)/.PKGINFO ; \
 	 echo "url=$(TWOLAME_PKG_URL)"                                 >> $(TWOLAME_PKG)/.PKGINFO ; \
 	 echo "license=$(TWOLAME_PKG_LICENSE)"                         >> $(TWOLAME_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(TWOLAME_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(TWOLAME_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

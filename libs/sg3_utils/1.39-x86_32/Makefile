@@ -148,4 +148,4 @@ $(pkg_archive): $(install_target) $(SG3_UTILS32_PKG_DESCRIPTION_FILE) $(SG3_UTIL
 	 echo "short_description=\"$(SG3_UTILS32_PKG_SHORT_DESCRIPTION)\"" >> $(SG3_UTILS32_PKG)/.PKGINFO ; \
 	 echo "url=$(SG3_UTILS32_PKG_URL)"                                 >> $(SG3_UTILS32_PKG)/.PKGINFO ; \
 	 echo "license=$(SG3_UTILS32_PKG_LICENSE)"                         >> $(SG3_UTILS32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(SG3_UTILS32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SG3_UTILS32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

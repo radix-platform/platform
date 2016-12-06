@@ -161,4 +161,4 @@ $(pkg_archive): $(install_target) $(XMLTOMAN_PKG_DESCRIPTION_FILE) $(XMLTOMAN_PK
 	 echo "short_description=\"$(XMLTOMAN_PKG_SHORT_DESCRIPTION)\"" >> $(XMLTOMAN_PKG)/.PKGINFO ; \
 	 echo "url=$(XMLTOMAN_PKG_URL)"                                 >> $(XMLTOMAN_PKG)/.PKGINFO ; \
 	 echo "license=$(XMLTOMAN_PKG_LICENSE)"                         >> $(XMLTOMAN_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(XMLTOMAN_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(XMLTOMAN_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

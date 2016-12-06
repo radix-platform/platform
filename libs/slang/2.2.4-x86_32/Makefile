@@ -143,4 +143,4 @@ $(pkg_archive): $(install_target) $(SLANG_32_PKG_DESCRIPTION_FILE) $(SLANG_32_PK
 	 echo "short_description=\"$(SLANG_32_PKG_SHORT_DESCRIPTION)\"" >> $(SLANG_32_PKG)/.PKGINFO ; \
 	 echo "url=$(SLANG_32_PKG_URL)"                                 >> $(SLANG_32_PKG)/.PKGINFO ; \
 	 echo "license=$(SLANG_32_PKG_LICENSE)"                         >> $(SLANG_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(SLANG_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SLANG_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

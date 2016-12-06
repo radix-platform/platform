@@ -214,4 +214,4 @@ $(pkg_archive): $(install_target) $(SDL_NET_PKG_DESCRIPTION_FILE) $(SDL_NET_PKG_
 	 echo "short_description=\"$(SDL_NET_PKG_SHORT_DESCRIPTION)\"" >> $(SDL_NET_PKG)/.PKGINFO ; \
 	 echo "url=$(SDL_NET_PKG_URL)"                                 >> $(SDL_NET_PKG)/.PKGINFO ; \
 	 echo "license=$(SDL_NET_PKG_LICENSE)"                         >> $(SDL_NET_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(SDL_NET_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SDL_NET_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

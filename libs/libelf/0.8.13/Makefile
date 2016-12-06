@@ -180,4 +180,4 @@ $(pkg_archive): $(install_target) $(LIBELF_PKG_DESCRIPTION_FILE) $(LIBELF_PKG_IN
 	 echo "short_description=\"$(LIBELF_PKG_SHORT_DESCRIPTION)\"" >> $(LIBELF_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBELF_PKG_URL)"                                 >> $(LIBELF_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBELF_PKG_LICENSE)"                         >> $(LIBELF_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBELF_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBELF_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

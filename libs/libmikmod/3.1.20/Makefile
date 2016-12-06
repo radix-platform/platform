@@ -217,4 +217,4 @@ $(pkg_archive): $(install_target) $(LIBMIKMOD_PKG_DESCRIPTION_FILE) $(LIBMIKMOD_
 	 echo "short_description=\"$(LIBMIKMOD_PKG_SHORT_DESCRIPTION)\"" >> $(LIBMIKMOD_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBMIKMOD_PKG_URL)"                                 >> $(LIBMIKMOD_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBMIKMOD_PKG_LICENSE)"                         >> $(LIBMIKMOD_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBMIKMOD_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBMIKMOD_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

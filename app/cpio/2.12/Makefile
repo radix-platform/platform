@@ -186,4 +186,4 @@ $(pkg_archive): $(install_target) $(CPIO_PKG_DESCRIPTION_FILE) $(CPIO_PKG_INSTAL
 	 echo "short_description=\"$(CPIO_PKG_SHORT_DESCRIPTION)\"" >> $(CPIO_PKG)/.PKGINFO ; \
 	 echo "url=$(CPIO_PKG_URL)"                                 >> $(CPIO_PKG)/.PKGINFO ; \
 	 echo "license=$(CPIO_PKG_LICENSE)"                         >> $(CPIO_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(CPIO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(CPIO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

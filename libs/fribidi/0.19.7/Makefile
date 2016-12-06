@@ -245,4 +245,4 @@ $(pkg_archive): $(install_target) $(FRIBIDI_PKG_DESCRIPTION_FILE) $(FRIBIDI_PKG_
 	 echo "short_description=\"$(FRIBIDI_PKG_SHORT_DESCRIPTION)\"" >> $(FRIBIDI_PKG)/.PKGINFO ; \
 	 echo "url=$(FRIBIDI_PKG_URL)"                                 >> $(FRIBIDI_PKG)/.PKGINFO ; \
 	 echo "license=$(FRIBIDI_PKG_LICENSE)"                         >> $(FRIBIDI_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(FRIBIDI_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(FRIBIDI_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

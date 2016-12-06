@@ -240,4 +240,4 @@ $(pkg_archive): $(install_target) $(IPTABLES_PKG_DESCRIPTION_FILE) $(IPTABLES_PK
 	 echo "short_description=\"$(IPTABLES_PKG_SHORT_DESCRIPTION)\"" >> $(IPTABLES_PKG)/.PKGINFO ; \
 	 echo "url=$(IPTABLES_PKG_URL)"                                 >> $(IPTABLES_PKG)/.PKGINFO ; \
 	 echo "license=$(IPTABLES_PKG_LICENSE)"                         >> $(IPTABLES_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(IPTABLES_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(IPTABLES_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -237,4 +237,4 @@ $(pkg_archive): $(install_target) $(IMLIB_PKG_DESCRIPTION_FILE) $(IMLIB_PKG_INST
 	 echo "short_description=\"$(IMLIB_PKG_SHORT_DESCRIPTION)\"" >> $(IMLIB_PKG)/.PKGINFO ; \
 	 echo "url=$(IMLIB_PKG_URL)"                                 >> $(IMLIB_PKG)/.PKGINFO ; \
 	 echo "license=$(IMLIB_PKG_LICENSE)"                         >> $(IMLIB_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(IMLIB_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(IMLIB_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

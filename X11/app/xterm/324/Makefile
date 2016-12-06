@@ -212,4 +212,4 @@ $(pkg_archive): $(install_target) $(XTERM_PKG_DESCRIPTION_FILE) $(XTERM_PKG_INST
 	 echo "short_description=\"$(XTERM_PKG_SHORT_DESCRIPTION)\"" >> $(XTERM_PKG)/.PKGINFO ; \
 	 echo "url=$(XTERM_PKG_URL)"                                 >> $(XTERM_PKG)/.PKGINFO ; \
 	 echo "license=$(XTERM_PKG_LICENSE)"                         >> $(XTERM_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(XTERM_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(XTERM_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

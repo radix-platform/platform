@@ -171,7 +171,7 @@ $(pkg_archive): $(install_target) $(UTEMPTER_PKG_DESCRIPTION_FILE) $(UTEMPTER_PK
 	 echo "short_description=\"$(UTEMPTER_PKG_SHORT_DESCRIPTION)\"" >> $(UTEMPTER_PKG)/.PKGINFO ; \
 	 echo "url=$(UTEMPTER_PKG_URL)"                                 >> $(UTEMPTER_PKG)/.PKGINFO ; \
 	 echo "license=$(UTEMPTER_PKG_LICENSE)"                         >> $(UTEMPTER_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(UTEMPTER_PKG)   && \
-	                    chown -R root:root . && \
-	                    chown    root:22 usr/lib$(LIBSUFFIX)/utempter/utempter && \
-	                    $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(UTEMPTER_PKG)   && \
+	                  chown -R root:root . && \
+	                  chown    root:22 usr/lib$(LIBSUFFIX)/utempter/utempter && \
+	                  $(MAKE_PACKAGE) --linkadd yes .."

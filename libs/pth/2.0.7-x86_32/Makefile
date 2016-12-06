@@ -151,4 +151,4 @@ $(pkg_archive): $(install_target) $(PTH32_PKG_DESCRIPTION_FILE) $(PTH32_PKG_INST
 	 echo "short_description=\"$(PTH32_PKG_SHORT_DESCRIPTION)\"" >> $(PTH32_PKG)/.PKGINFO ; \
 	 echo "url=$(PTH32_PKG_URL)"                                 >> $(PTH32_PKG)/.PKGINFO ; \
 	 echo "license=$(PTH32_PKG_LICENSE)"                         >> $(PTH32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(PTH32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PTH32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

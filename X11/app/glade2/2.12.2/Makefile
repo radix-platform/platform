@@ -196,4 +196,4 @@ $(pkg_archive): $(install_target) $(GLADE2_PKG_DESCRIPTION_FILE) $(GLADE2_PKG_IN
 	 echo "short_description=\"$(GLADE2_PKG_SHORT_DESCRIPTION)\"" >> $(GLADE2_PKG)/.PKGINFO ; \
 	 echo "url=$(GLADE2_PKG_URL)"                                 >> $(GLADE2_PKG)/.PKGINFO ; \
 	 echo "license=$(GLADE2_PKG_LICENSE)"                         >> $(GLADE2_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GLADE2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GLADE2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

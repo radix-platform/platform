@@ -210,4 +210,4 @@ $(pkg_archive): $(install_target) $(PORTAUDIO_PKG_DESCRIPTION_FILE) $(PORTAUDIO_
 	 echo "short_description=\"$(PORTAUDIO_PKG_SHORT_DESCRIPTION)\"" >> $(PORTAUDIO_PKG)/.PKGINFO ; \
 	 echo "url=$(PORTAUDIO_PKG_URL)"                                 >> $(PORTAUDIO_PKG)/.PKGINFO ; \
 	 echo "license=$(PORTAUDIO_PKG_LICENSE)"                         >> $(PORTAUDIO_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(PORTAUDIO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PORTAUDIO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -186,4 +186,4 @@ $(pkg_archive): $(install_target) $(TMUX_PKG_DESCRIPTION_FILE) $(TMUX_PKG_INSTAL
 	 echo "short_description=\"$(TMUX_PKG_SHORT_DESCRIPTION)\"" >> $(TMUX_PKG)/.PKGINFO ; \
 	 echo "url=$(TMUX_PKG_URL)"                                 >> $(TMUX_PKG)/.PKGINFO ; \
 	 echo "license=$(TMUX_PKG_LICENSE)"                         >> $(TMUX_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(TMUX_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(TMUX_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

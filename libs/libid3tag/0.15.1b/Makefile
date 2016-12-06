@@ -209,4 +209,4 @@ $(pkg_archive): $(install_target) $(LIBID3TAG_PKG_DESCRIPTION_FILE) $(LIBID3TAG_
 	 echo "short_description=\"$(LIBID3TAG_PKG_SHORT_DESCRIPTION)\"" >> $(LIBID3TAG_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBID3TAG_PKG_URL)"                                 >> $(LIBID3TAG_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBID3TAG_PKG_LICENSE)"                         >> $(LIBID3TAG_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBID3TAG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBID3TAG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

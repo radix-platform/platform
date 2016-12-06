@@ -200,4 +200,4 @@ $(pkg_archive): $(install_target) $(LIBMNL_PKG_DESCRIPTION_FILE) $(LIBMNL_PKG_IN
 	 echo "short_description=\"$(LIBMNL_PKG_SHORT_DESCRIPTION)\"" >> $(LIBMNL_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBMNL_PKG_URL)"                                 >> $(LIBMNL_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBMNL_PKG_LICENSE)"                         >> $(LIBMNL_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBMNL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBMNL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

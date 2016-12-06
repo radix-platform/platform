@@ -215,4 +215,4 @@ $(pkg_archive): $(install_target) $(JACK_32_PKG_DESCRIPTION_FILE) $(JACK_32_PKG_
 	 echo "short_description=\"$(JACK_32_PKG_SHORT_DESCRIPTION)\"" >> $(JACK_32_PKG)/.PKGINFO ; \
 	 echo "url=$(JACK_32_PKG_URL)"                                 >> $(JACK_32_PKG)/.PKGINFO ; \
 	 echo "license=$(JACK_32_PKG_LICENSE)"                         >> $(JACK_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(JACK_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(JACK_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -172,4 +172,4 @@ $(pkg_archive): $(install_target) $(CTAGS_PKG_DESCRIPTION_FILE) $(CTAGS_PKG_INST
 	 echo "short_description=\"$(CTAGS_PKG_SHORT_DESCRIPTION)\"" >> $(CTAGS_PKG)/.PKGINFO ; \
 	 echo "url=$(CTAGS_PKG_URL)"                                 >> $(CTAGS_PKG)/.PKGINFO ; \
 	 echo "license=$(CTAGS_PKG_LICENSE)"                         >> $(CTAGS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(CTAGS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(CTAGS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

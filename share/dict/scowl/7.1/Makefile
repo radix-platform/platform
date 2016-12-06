@@ -136,4 +136,4 @@ $(pkg_archive): $(install_target) $(SCOWL_PKG_DESCRIPTION_FILE) $(SCOWL_PKG_INST
 	 echo "short_description=\"$(SCOWL_PKG_SHORT_DESCRIPTION)\"" >> $(SCOWL_PKG)/.PKGINFO ; \
 	 echo "url=$(SCOWL_PKG_URL)"                                 >> $(SCOWL_PKG)/.PKGINFO ; \
 	 echo "license=$(SCOWL_PKG_LICENSE)"                         >> $(SCOWL_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(SCOWL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SCOWL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

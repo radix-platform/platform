@@ -152,4 +152,4 @@ $(pkg_archive): $(build) $(SETUP_DEV_PKG_DESCRIPTION_FILE) $(SETUP_DEV_PKG_INSTA
 	 echo "short_description=\"$(SETUP_DEV_PKG_SHORT_DESCRIPTION)\"" >> $(SETUP_DEV_PKG)/.PKGINFO ; \
 	 echo "url=$(SETUP_DEV_PKG_URL)"                                 >> $(SETUP_DEV_PKG)/.PKGINFO ; \
 	 echo "license=$(SETUP_DEV_PKG_LICENSE)"                         >> $(SETUP_DEV_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(SETUP_DEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SETUP_DEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

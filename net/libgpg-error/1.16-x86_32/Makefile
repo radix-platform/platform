@@ -165,4 +165,4 @@ $(pkg_archive): $(install_target) $(GPGERROR32_PKG_DESCRIPTION_FILE) $(GPGERROR3
 	 echo "short_description=\"$(GPGERROR32_PKG_SHORT_DESCRIPTION)\"" >> $(GPGERROR32_PKG)/.PKGINFO ; \
 	 echo "url=$(GPGERROR32_PKG_URL)"                                 >> $(GPGERROR32_PKG)/.PKGINFO ; \
 	 echo "license=$(GPGERROR32_PKG_LICENSE)"                         >> $(GPGERROR32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GPGERROR32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GPGERROR32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

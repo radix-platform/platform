@@ -149,4 +149,4 @@ $(pkg_archive): $(install_target) $(NETTLE32_PKG_DESCRIPTION_FILE) $(NETTLE32_PK
 	 echo "short_description=\"$(NETTLE32_PKG_SHORT_DESCRIPTION)\"" >> $(NETTLE32_PKG)/.PKGINFO ; \
 	 echo "url=$(NETTLE32_PKG_URL)"                                 >> $(NETTLE32_PKG)/.PKGINFO ; \
 	 echo "license=$(NETTLE32_PKG_LICENSE)"                         >> $(NETTLE32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(NETTLE32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(NETTLE32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

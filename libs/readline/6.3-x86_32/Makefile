@@ -139,4 +139,4 @@ $(pkg_archive): $(install_target) $(READLINE32_PKG_DESCRIPTION_FILE) $(READLINE3
 	 echo "short_description=\"$(READLINE32_PKG_SHORT_DESCRIPTION)\"" >> $(READLINE32_PKG)/.PKGINFO ; \
 	 echo "url=$(READLINE32_PKG_URL)"                                 >> $(READLINE32_PKG)/.PKGINFO ; \
 	 echo "license=$(READLINE32_PKG_LICENSE)"                         >> $(READLINE32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(READLINE32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(READLINE32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

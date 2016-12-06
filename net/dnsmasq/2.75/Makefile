@@ -187,4 +187,4 @@ $(pkg_archive): $(install_target) $(DNSMASQ_PKG_DESCRIPTION_FILE) $(DNSMASQ_PKG_
 	 echo "short_description=\"$(DNSMASQ_PKG_SHORT_DESCRIPTION)\"" >> $(DNSMASQ_PKG)/.PKGINFO ; \
 	 echo "url=$(DNSMASQ_PKG_URL)"                                 >> $(DNSMASQ_PKG)/.PKGINFO ; \
 	 echo "license=$(DNSMASQ_PKG_LICENSE)"                         >> $(DNSMASQ_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(DNSMASQ_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(DNSMASQ_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -161,4 +161,4 @@ $(pkg_archive): $(install_target) $(HDPARM_PKG_DESCRIPTION_FILE) $(HDPARM_PKG_IN
 	 echo "short_description=\"$(HDPARM_PKG_SHORT_DESCRIPTION)\"" >> $(HDPARM_PKG)/.PKGINFO ; \
 	 echo "url=$(HDPARM_PKG_URL)"                                 >> $(HDPARM_PKG)/.PKGINFO ; \
 	 echo "license=$(HDPARM_PKG_LICENSE)"                         >> $(HDPARM_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(HDPARM_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(HDPARM_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

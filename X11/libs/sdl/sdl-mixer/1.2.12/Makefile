@@ -230,4 +230,4 @@ $(pkg_archive): $(install_target) $(SDL_MIXER_PKG_DESCRIPTION_FILE) $(SDL_MIXER_
 	 echo "short_description=\"$(SDL_MIXER_PKG_SHORT_DESCRIPTION)\"" >> $(SDL_MIXER_PKG)/.PKGINFO ; \
 	 echo "url=$(SDL_MIXER_PKG_URL)"                                 >> $(SDL_MIXER_PKG)/.PKGINFO ; \
 	 echo "license=$(SDL_MIXER_PKG_LICENSE)"                         >> $(SDL_MIXER_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(SDL_MIXER_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SDL_MIXER_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

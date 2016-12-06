@@ -174,4 +174,4 @@ $(pkg_archive): $(install_target) $(PATCH_PKG_DESCRIPTION_FILE) $(PATCH_PKG_INST
 	 echo "short_description=\"$(PATCH_PKG_SHORT_DESCRIPTION)\"" >> $(PATCH_PKG)/.PKGINFO ; \
 	 echo "url=$(PATCH_PKG_URL)"                                 >> $(PATCH_PKG)/.PKGINFO ; \
 	 echo "license=$(PATCH_PKG_LICENSE)"                         >> $(PATCH_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(PATCH_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PATCH_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

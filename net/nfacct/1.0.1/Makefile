@@ -195,4 +195,4 @@ $(pkg_archive): $(install_target) $(NFACCT_PKG_DESCRIPTION_FILE) $(NFACCT_PKG_IN
 	 echo "short_description=\"$(NFACCT_PKG_SHORT_DESCRIPTION)\"" >> $(NFACCT_PKG)/.PKGINFO ; \
 	 echo "url=$(NFACCT_PKG_URL)"                                 >> $(NFACCT_PKG)/.PKGINFO ; \
 	 echo "license=$(NFACCT_PKG_LICENSE)"                         >> $(NFACCT_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(NFACCT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(NFACCT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -227,4 +227,4 @@ $(pkg_archive): $(install_target) $(BSD_GAMES_PKG_DESCRIPTION_FILE) $(BSD_GAMES_
 	 echo "short_description=\"$(BSD_GAMES_PKG_SHORT_DESCRIPTION)\"" >> $(BSD_GAMES_PKG)/.PKGINFO ; \
 	 echo "url=$(BSD_GAMES_PKG_URL)"                                 >> $(BSD_GAMES_PKG)/.PKGINFO ; \
 	 echo "license=$(BSD_GAMES_PKG_LICENSE)"                         >> $(BSD_GAMES_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(BSD_GAMES_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(BSD_GAMES_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

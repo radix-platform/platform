@@ -164,4 +164,4 @@ $(pkg_archive): $(install_target) $(PYREX_PKG_DESCRIPTION_FILE) $(PYREX_PKG_INST
 	 echo "short_description=\"$(PYREX_PKG_SHORT_DESCRIPTION)\"" >> $(PYREX_PKG)/.PKGINFO ; \
 	 echo "url=$(PYREX_PKG_URL)"                                 >> $(PYREX_PKG)/.PKGINFO ; \
 	 echo "license=$(PYREX_PKG_LICENSE)"                         >> $(PYREX_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(PYREX_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PYREX_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

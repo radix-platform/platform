@@ -183,4 +183,4 @@ $(pkg_archive): $(install_target) $(SHARUTILS_PKG_DESCRIPTION_FILE) $(SHARUTILS_
 	 echo "short_description=\"$(SHARUTILS_PKG_SHORT_DESCRIPTION)\"" >> $(SHARUTILS_PKG)/.PKGINFO ; \
 	 echo "url=$(SHARUTILS_PKG_URL)"                                 >> $(SHARUTILS_PKG)/.PKGINFO ; \
 	 echo "license=$(SHARUTILS_PKG_LICENSE)"                         >> $(SHARUTILS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(SHARUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SHARUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -160,4 +160,4 @@ $(pkg_archive): $(install_target) $(LOGROTATE_PKG_DESCRIPTION_FILE) $(LOGROTATE_
 	 echo "short_description=\"$(LOGROTATE_PKG_SHORT_DESCRIPTION)\"" >> $(LOGROTATE_PKG)/.PKGINFO ; \
 	 echo "url=$(LOGROTATE_PKG_URL)"                                 >> $(LOGROTATE_PKG)/.PKGINFO ; \
 	 echo "license=$(LOGROTATE_PKG_LICENSE)"                         >> $(LOGROTATE_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LOGROTATE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LOGROTATE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

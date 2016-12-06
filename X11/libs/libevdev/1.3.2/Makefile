@@ -194,4 +194,4 @@ $(pkg_archive): $(install_target) $(LIBEVDEV_PKG_DESCRIPTION_FILE) $(LIBEVDEV_PK
 	 echo "short_description=\"$(LIBEVDEV_PKG_SHORT_DESCRIPTION)\"" >> $(LIBEVDEV_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBEVDEV_PKG_URL)"                                 >> $(LIBEVDEV_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBEVDEV_PKG_LICENSE)"                         >> $(LIBEVDEV_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBEVDEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBEVDEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

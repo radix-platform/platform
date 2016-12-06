@@ -164,4 +164,4 @@ $(pkg_archive): $(install_target) $(ROUTED_PKG_DESCRIPTION_FILE) $(ROUTED_PKG_IN
 	 echo "short_description=\"$(ROUTED_PKG_SHORT_DESCRIPTION)\"" >> $(ROUTED_PKG)/.PKGINFO ; \
 	 echo "url=$(ROUTED_PKG_URL)"                                 >> $(ROUTED_PKG)/.PKGINFO ; \
 	 echo "license=$(ROUTED_PKG_LICENSE)"                         >> $(ROUTED_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(ROUTED_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ROUTED_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

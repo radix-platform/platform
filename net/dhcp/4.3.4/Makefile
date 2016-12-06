@@ -226,4 +226,4 @@ $(pkg_archive): $(install_target) $(DHCP_PKG_DESCRIPTION_FILE) $(DHCP_PKG_INSTAL
 	 echo "short_description=\"$(DHCP_PKG_SHORT_DESCRIPTION)\"" >> $(DHCP_PKG)/.PKGINFO ; \
 	 echo "url=$(DHCP_PKG_URL)"                                 >> $(DHCP_PKG)/.PKGINFO ; \
 	 echo "license=$(DHCP_PKG_LICENSE)"                         >> $(DHCP_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(DHCP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(DHCP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

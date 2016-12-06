@@ -194,4 +194,4 @@ $(pkg_archive): $(install_target) $(IPUTILS_PKG_DESCRIPTION_FILE) $(IPUTILS_PKG_
 	 echo "short_description=\"$(IPUTILS_PKG_SHORT_DESCRIPTION)\"" >> $(IPUTILS_PKG)/.PKGINFO ; \
 	 echo "url=$(IPUTILS_PKG_URL)"                                 >> $(IPUTILS_PKG)/.PKGINFO ; \
 	 echo "license=$(IPUTILS_PKG_LICENSE)"                         >> $(IPUTILS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(IPUTILS_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(IPUTILS_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

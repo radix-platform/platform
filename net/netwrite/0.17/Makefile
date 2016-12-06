@@ -158,4 +158,4 @@ $(pkg_archive): $(install_target) $(NETWRITE_PKG_DESCRIPTION_FILE) $(NETWRITE_PK
 	 echo "short_description=\"$(NETWRITE_PKG_SHORT_DESCRIPTION)\"" >> $(NETWRITE_PKG)/.PKGINFO ; \
 	 echo "url=$(NETWRITE_PKG_URL)"                                 >> $(NETWRITE_PKG)/.PKGINFO ; \
 	 echo "license=$(NETWRITE_PKG_LICENSE)"                         >> $(NETWRITE_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(NETWRITE_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(NETWRITE_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

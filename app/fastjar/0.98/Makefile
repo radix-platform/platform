@@ -194,4 +194,4 @@ $(pkg_archive): $(install_target) $(FASTJAR_PKG_DESCRIPTION_FILE) $(FASTJAR_PKG_
 	 echo "short_description=\"$(FASTJAR_PKG_SHORT_DESCRIPTION)\"" >> $(FASTJAR_PKG)/.PKGINFO ; \
 	 echo "url=$(FASTJAR_PKG_URL)"                                 >> $(FASTJAR_PKG)/.PKGINFO ; \
 	 echo "license=$(FASTJAR_PKG_LICENSE)"                         >> $(FASTJAR_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(FASTJAR_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(FASTJAR_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

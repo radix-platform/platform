@@ -234,4 +234,4 @@ $(pkg_archive): $(install_target) $(LIBSHOUT_PKG_DESCRIPTION_FILE) $(LIBSHOUT_PK
 	 echo "short_description=\"$(LIBSHOUT_PKG_SHORT_DESCRIPTION)\"" >> $(LIBSHOUT_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBSHOUT_PKG_URL)"                                 >> $(LIBSHOUT_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBSHOUT_PKG_LICENSE)"                         >> $(LIBSHOUT_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBSHOUT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBSHOUT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

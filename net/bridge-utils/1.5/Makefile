@@ -190,4 +190,4 @@ $(pkg_archive): $(install_target) $(BRCTL_PKG_DESCRIPTION_FILE) $(BRCTL_PKG_INST
 	 echo "short_description=\"$(BRCTL_PKG_SHORT_DESCRIPTION)\"" >> $(BRCTL_PKG)/.PKGINFO ; \
 	 echo "url=$(BRCTL_PKG_URL)"                                 >> $(BRCTL_PKG)/.PKGINFO ; \
 	 echo "license=$(BRCTL_PKG_LICENSE)"                         >> $(BRCTL_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(BRCTL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(BRCTL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

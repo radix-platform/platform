@@ -208,4 +208,4 @@ $(pkg_archive): $(install_target) $(LIBIDN_PKG_DESCRIPTION_FILE) $(LIBIDN_PKG_IN
 	 echo "short_description=\"$(LIBIDN_PKG_SHORT_DESCRIPTION)\"" >> $(LIBIDN_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBIDN_PKG_URL)"                                 >> $(LIBIDN_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBIDN_PKG_LICENSE)"                         >> $(LIBIDN_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBIDN_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBIDN_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

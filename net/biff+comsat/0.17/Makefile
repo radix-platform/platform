@@ -163,4 +163,4 @@ $(pkg_archive): $(install_target) $(COMSAT_PKG_DESCRIPTION_FILE) $(COMSAT_PKG_IN
 	 echo "short_description=\"$(COMSAT_PKG_SHORT_DESCRIPTION)\"" >> $(COMSAT_PKG)/.PKGINFO ; \
 	 echo "url=$(COMSAT_PKG_URL)"                                 >> $(COMSAT_PKG)/.PKGINFO ; \
 	 echo "license=$(COMSAT_PKG_LICENSE)"                         >> $(COMSAT_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(COMSAT_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(COMSAT_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

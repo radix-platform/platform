@@ -199,4 +199,4 @@ $(pkg_archive): $(install_target) $(ICU4C_PKG_DESCRIPTION_FILE) $(ICU4C_PKG_INST
 	 echo "short_description=\"$(ICU4C_PKG_SHORT_DESCRIPTION)\"" >> $(ICU4C_PKG)/.PKGINFO ; \
 	 echo "url=$(ICU4C_PKG_URL)"                                 >> $(ICU4C_PKG)/.PKGINFO ; \
 	 echo "license=$(ICU4C_PKG_LICENSE)"                         >> $(ICU4C_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(ICU4C_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ICU4C_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

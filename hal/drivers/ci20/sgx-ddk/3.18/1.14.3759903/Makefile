@@ -149,4 +149,4 @@ $(pkg_archive): $(build_sgxddk_pkg) $(SGXDDK_BIN_PKG_DESCRIPTION_FILE) $(SGXDDK_
 	 echo "short_description=\"$(SGXDDK_BIN_PKG_SHORT_DESCRIPTION)\"" >> $(SGXDDK_BIN_PKG)/.PKGINFO ; \
 	 echo "url=$(SGXDDK_BIN_PKG_URL)"                                 >> $(SGXDDK_BIN_PKG)/.PKGINFO ; \
 	 echo "license=$(SGXDDK_BIN_PKG_LICENSE)"                         >> $(SGXDDK_BIN_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(SGXDDK_BIN_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SGXDDK_BIN_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

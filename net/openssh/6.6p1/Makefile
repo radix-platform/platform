@@ -212,4 +212,4 @@ $(pkg_archive): $(install_target) $(OPENSSH_PKG_DESCRIPTION_FILE) $(OPENSSH_PKG_
 	 echo "short_description=\"$(OPENSSH_PKG_SHORT_DESCRIPTION)\"" >> $(OPENSSH_PKG)/.PKGINFO ; \
 	 echo "url=$(OPENSSH_PKG_URL)"                                 >> $(OPENSSH_PKG)/.PKGINFO ; \
 	 echo "license=$(OPENSSH_PKG_LICENSE)"                         >> $(OPENSSH_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(OPENSSH_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(OPENSSH_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

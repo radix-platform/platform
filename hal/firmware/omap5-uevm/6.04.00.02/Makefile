@@ -110,4 +110,4 @@ $(pkg_archive): $(install_target) $(OMAPFW_PKG_DESCRIPTION_FILE) $(OMAPFW_PKG_IN
 	 echo "short_description=\"$(OMAPFW_PKG_SHORT_DESCRIPTION)\"" >> $(OMAPFW_PKG)/.PKGINFO ; \
 	 echo "url=$(OMAPFW_PKG_URL)"                                 >> $(OMAPFW_PKG)/.PKGINFO ; \
 	 echo "license=$(OMAPFW_PKG_LICENSE)"                         >> $(OMAPFW_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(OMAPFW_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(OMAPFW_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

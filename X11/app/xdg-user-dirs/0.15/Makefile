@@ -179,4 +179,4 @@ $(pkg_archive): $(install_target) $(XDGUDIRS_PKG_DESCRIPTION_FILE) $(XDGUDIRS_PK
 	 echo "short_description=\"$(XDGUDIRS_PKG_SHORT_DESCRIPTION)\"" >> $(XDGUDIRS_PKG)/.PKGINFO ; \
 	 echo "url=$(XDGUDIRS_PKG_URL)"                                 >> $(XDGUDIRS_PKG)/.PKGINFO ; \
 	 echo "license=$(XDGUDIRS_PKG_LICENSE)"                         >> $(XDGUDIRS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(XDGUDIRS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(XDGUDIRS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

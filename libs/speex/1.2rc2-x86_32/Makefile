@@ -170,4 +170,4 @@ $(pkg_archive): $(install_target) $(SPEEX_32_PKG_DESCRIPTION_FILE) $(SPEEX_32_PK
 	 echo "short_description=\"$(SPEEX_32_PKG_SHORT_DESCRIPTION)\"" >> $(SPEEX_32_PKG)/.PKGINFO ; \
 	 echo "url=$(SPEEX_32_PKG_URL)"                                 >> $(SPEEX_32_PKG)/.PKGINFO ; \
 	 echo "license=$(SPEEX_32_PKG_LICENSE)"                         >> $(SPEEX_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(SPEEX_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SPEEX_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

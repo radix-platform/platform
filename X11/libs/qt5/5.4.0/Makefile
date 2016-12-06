@@ -696,4 +696,4 @@ $(pkg_archive): $(install_target) $(QT5_PKG_DESCRIPTION_FILE) $(QT5_PKG_INSTALL_
 	 echo "short_description=\"$(QT5_PKG_SHORT_DESCRIPTION)\"" >> $(QT5_PKG)/.PKGINFO ; \
 	 echo "url=$(QT5_PKG_URL)"                                 >> $(QT5_PKG)/.PKGINFO ; \
 	 echo "license=$(QT5_PKG_LICENSE)"                         >> $(QT5_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(QT5_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(QT5_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

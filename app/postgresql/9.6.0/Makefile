@@ -418,8 +418,8 @@ $(pkg_archive): $(install_target) $(PGSQL_PKG_DESCRIPTION_FILE) $(PGSQL_PKG_INST
 	 echo "short_description=\"$(PGSQL_PKG_SHORT_DESCRIPTION)\"" >> $(PGSQL_PKG)/.PKGINFO ; \
 	 echo "url=$(PGSQL_PKG_URL)"                                 >> $(PGSQL_PKG)/.PKGINFO ; \
 	 echo "license=$(PGSQL_PKG_LICENSE)"                         >> $(PGSQL_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(PGSQL_PKG) && \
-	                    chown -R root:root .     && \
-	                    chmod 700 var/lib/pgsql  && \
-	                    chown -R $(pg_uid):$(pg_gid) var/lib/pgsql  && \
-	                    $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PGSQL_PKG) && \
+	                  chown -R root:root .     && \
+	                  chmod 700 var/lib/pgsql  && \
+	                  chown -R $(pg_uid):$(pg_gid) var/lib/pgsql  && \
+	                  $(MAKE_PACKAGE) --linkadd yes .."

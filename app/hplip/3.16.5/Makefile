@@ -265,4 +265,4 @@ $(pkg_archive): $(install_target) $(HPLIP_PKG_DESCRIPTION_FILE) $(HPLIP_PKG_INST
 	 echo "short_description=\"$(HPLIP_PKG_SHORT_DESCRIPTION)\"" >> $(HPLIP_PKG)/.PKGINFO ; \
 	 echo "url=$(HPLIP_PKG_URL)"                                 >> $(HPLIP_PKG)/.PKGINFO ; \
 	 echo "license=$(HPLIP_PKG_LICENSE)"                         >> $(HPLIP_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(HPLIP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(HPLIP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

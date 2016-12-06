@@ -225,4 +225,4 @@ $(pkg_archive): $(install_target) $(MARIADB_32_PKG_DESCRIPTION_FILE) $(MARIADB_3
 	 echo "short_description=\"$(MARIADB_32_PKG_SHORT_DESCRIPTION)\"" >> $(MARIADB_32_PKG)/.PKGINFO ; \
 	 echo "url=$(MARIADB_32_PKG_URL)"                                 >> $(MARIADB_32_PKG)/.PKGINFO ; \
 	 echo "license=$(MARIADB_32_PKG_LICENSE)"                         >> $(MARIADB_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(MARIADB_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(MARIADB_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

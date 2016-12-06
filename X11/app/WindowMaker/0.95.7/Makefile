@@ -281,4 +281,4 @@ $(pkg_archive): $(install_target) $(WMAKER_PKG_DESCRIPTION_FILE) $(WMAKER_PKG_IN
 	 echo "short_description=\"$(WMAKER_PKG_SHORT_DESCRIPTION)\"" >> $(WMAKER_PKG)/.PKGINFO ; \
 	 echo "url=$(WMAKER_PKG_URL)"                                 >> $(WMAKER_PKG)/.PKGINFO ; \
 	 echo "license=$(WMAKER_PKG_LICENSE)"                         >> $(WMAKER_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(WMAKER_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(WMAKER_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

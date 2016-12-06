@@ -155,4 +155,4 @@ $(pkg_archive): $(install_target) $(ICONV32_PKG_DESCRIPTION_FILE) $(ICONV32_PKG_
 	 echo "short_description=\"$(ICONV32_PKG_SHORT_DESCRIPTION)\"" >> $(ICONV32_PKG)/.PKGINFO ; \
 	 echo "url=$(ICONV32_PKG_URL)"                                 >> $(ICONV32_PKG)/.PKGINFO ; \
 	 echo "license=$(ICONV32_PKG_LICENSE)"                         >> $(ICONV32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(ICONV32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ICONV32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

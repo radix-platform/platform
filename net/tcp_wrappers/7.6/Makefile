@@ -163,4 +163,4 @@ $(pkg_archive): $(install_target) $(TCP_WRAP_PKG_DESCRIPTION_FILE) $(TCP_WRAP_PK
 	 echo "short_description=\"$(TCP_WRAP_PKG_SHORT_DESCRIPTION)\"" >> $(TCP_WRAP_PKG)/.PKGINFO ; \
 	 echo "url=$(TCP_WRAP_PKG_URL)"                                 >> $(TCP_WRAP_PKG)/.PKGINFO ; \
 	 echo "license=$(TCP_WRAP_PKG_LICENSE)"                         >> $(TCP_WRAP_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(TCP_WRAP_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(TCP_WRAP_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

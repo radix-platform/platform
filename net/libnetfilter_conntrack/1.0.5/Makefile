@@ -208,4 +208,4 @@ $(pkg_archive): $(install_target) $(LIBNF_CONNTRACK_PKG_DESCRIPTION_FILE) $(LIBN
 	 echo "short_description=\"$(LIBNF_CONNTRACK_PKG_SHORT_DESCRIPTION)\"" >> $(LIBNF_CONNTRACK_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBNF_CONNTRACK_PKG_URL)"                                 >> $(LIBNF_CONNTRACK_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBNF_CONNTRACK_PKG_LICENSE)"                         >> $(LIBNF_CONNTRACK_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBNF_CONNTRACK_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBNF_CONNTRACK_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

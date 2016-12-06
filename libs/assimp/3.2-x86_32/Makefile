@@ -167,4 +167,4 @@ $(pkg_archive): $(install_target) $(ASSIMP_32_PKG_DESCRIPTION_FILE) $(ASSIMP_32_
 	 echo "short_description=\"$(ASSIMP_32_PKG_SHORT_DESCRIPTION)\"" >> $(ASSIMP_32_PKG)/.PKGINFO ; \
 	 echo "url=$(ASSIMP_32_PKG_URL)"                                 >> $(ASSIMP_32_PKG)/.PKGINFO ; \
 	 echo "license=$(ASSIMP_32_PKG_LICENSE)"                         >> $(ASSIMP_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(ASSIMP_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ASSIMP_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

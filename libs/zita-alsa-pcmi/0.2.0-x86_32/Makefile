@@ -134,4 +134,4 @@ $(pkg_archive): $(install_target) $(Z_ALSA_PCM_32_PKG_DESCRIPTION_FILE) $(Z_ALSA
 	 echo "short_description=\"$(Z_ALSA_PCM_32_PKG_SHORT_DESCRIPTION)\"" >> $(Z_ALSA_PCM_32_PKG)/.PKGINFO ; \
 	 echo "url=$(Z_ALSA_PCM_32_PKG_URL)"                                 >> $(Z_ALSA_PCM_32_PKG)/.PKGINFO ; \
 	 echo "license=$(Z_ALSA_PCM_32_PKG_LICENSE)"                         >> $(Z_ALSA_PCM_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(Z_ALSA_PCM_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(Z_ALSA_PCM_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

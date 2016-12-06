@@ -199,4 +199,4 @@ $(pkg_archive): $(install_target) $(SQLITE_PKG_DESCRIPTION_FILE) $(SQLITE_PKG_IN
 	 echo "short_description=\"$(SQLITE_PKG_SHORT_DESCRIPTION)\"" >> $(SQLITE_PKG)/.PKGINFO ; \
 	 echo "url=$(SQLITE_PKG_URL)"                                 >> $(SQLITE_PKG)/.PKGINFO ; \
 	 echo "license=$(SQLITE_PKG_LICENSE)"                         >> $(SQLITE_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(SQLITE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SQLITE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

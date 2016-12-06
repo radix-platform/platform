@@ -222,4 +222,4 @@ $(pkg_archive): $(install_target) $(LIBBLURAY_PKG_DESCRIPTION_FILE) $(LIBBLURAY_
 	 echo "short_description=\"$(LIBBLURAY_PKG_SHORT_DESCRIPTION)\"" >> $(LIBBLURAY_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBBLURAY_PKG_URL)"                                 >> $(LIBBLURAY_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBBLURAY_PKG_LICENSE)"                         >> $(LIBBLURAY_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBBLURAY_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBBLURAY_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

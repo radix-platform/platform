@@ -169,4 +169,4 @@ $(pkg_archive): $(install_target) $(XSL_PKG_DESCRIPTION_FILE) $(XSL_PKG_INSTALL_
 	 echo "short_description=\"$(XSL_PKG_SHORT_DESCRIPTION)\"" >> $(XSL_PKG)/.PKGINFO ; \
 	 echo "url=$(XSL_PKG_URL)"                                 >> $(XSL_PKG)/.PKGINFO ; \
 	 echo "license=$(XSL_PKG_LICENSE)"                         >> $(XSL_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(XSL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(XSL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

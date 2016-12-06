@@ -209,4 +209,4 @@ $(pkg_archive): $(build_glibc_pkg) $(GLIBC_PKG_DESCRIPTION_FILE) $(GLIBC_PKG_INS
 	 echo "short_description=\"$(GLIBC_PKG_SHORT_DESCRIPTION)\"" >> $(GLIBC_PKG)/.PKGINFO ; \
 	 echo "url=$(GLIBC_PKG_URL)"                                 >> $(GLIBC_PKG)/.PKGINFO ; \
 	 echo "license=$(GLIBC_PKG_LICENSE)"                         >> $(GLIBC_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GLIBC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GLIBC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

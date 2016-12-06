@@ -261,4 +261,4 @@ $(pkg_archive): $(install_target) $(LIBVA_PKG_DESCRIPTION_FILE) $(LIBVA_PKG_INST
 	 echo "short_description=\"$(LIBVA_PKG_SHORT_DESCRIPTION)\"" >> $(LIBVA_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBVA_PKG_URL)"                                 >> $(LIBVA_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBVA_PKG_LICENSE)"                         >> $(LIBVA_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBVA_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBVA_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -165,4 +165,4 @@ $(pkg_archive): $(install_target) $(LIBIODBC_32_PKG_DESCRIPTION_FILE) $(LIBIODBC
 	 echo "short_description=\"$(LIBIODBC_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBIODBC_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBIODBC_32_PKG_URL)"                                 >> $(LIBIODBC_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBIODBC_32_PKG_LICENSE)"                         >> $(LIBIODBC_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBIODBC_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBIODBC_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

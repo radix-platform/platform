@@ -150,4 +150,4 @@ $(pkg_archive): $(install_target) $(HELLO_PKG_DESCRIPTION_FILE) $(HELLO_PKG_INST
 	 echo "short_description=\"$(HELLO_PKG_SHORT_DESCRIPTION)\"" >> $(HELLO_PKG)/.PKGINFO ; \
 	 echo "url=$(HELLO_PKG_URL)"                                 >> $(HELLO_PKG)/.PKGINFO ; \
 	 echo "license=$(HELLO_PKG_LICENSE)"                         >> $(HELLO_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(HELLO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --flavour=$(FLAVOUR) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(HELLO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --flavour=$(FLAVOUR) --linkadd yes .."

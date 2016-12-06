@@ -184,4 +184,4 @@ $(pkg_archive): $(install_target) $(LIBAIO_PKG_DESCRIPTION_FILE) $(LIBAIO_PKG_IN
 	 echo "short_description=\"$(LIBAIO_PKG_SHORT_DESCRIPTION)\"" >> $(LIBAIO_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBAIO_PKG_URL)"                                 >> $(LIBAIO_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBAIO_PKG_LICENSE)"                         >> $(LIBAIO_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBAIO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBAIO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -177,4 +177,4 @@ $(pkg_archive): $(install_target) $(LIBTOOL32_PKG_DESCRIPTION_FILE) $(LIBTOOL32_
 	 echo "short_description=\"$(LIBTOOL32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBTOOL32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBTOOL32_PKG_URL)"                                 >> $(LIBTOOL32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBTOOL32_PKG_LICENSE)"                         >> $(LIBTOOL32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBTOOL32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBTOOL32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

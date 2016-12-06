@@ -169,4 +169,4 @@ $(pkg_archive): $(install_target) $(LIBMBIM_32_PKG_DESCRIPTION_FILE) $(LIBMBIM_3
 	 echo "short_description=\"$(LIBMBIM_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBMBIM_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBMBIM_32_PKG_URL)"                                 >> $(LIBMBIM_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBMBIM_32_PKG_LICENSE)"                         >> $(LIBMBIM_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBMBIM_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBMBIM_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

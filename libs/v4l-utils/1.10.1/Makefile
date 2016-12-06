@@ -274,4 +274,4 @@ $(pkg_archive): $(install_target) $(V4LUTILS_PKG_DESCRIPTION_FILE) $(V4LUTILS_PK
 	 echo "short_description=\"$(V4LUTILS_PKG_SHORT_DESCRIPTION)\"" >> $(V4LUTILS_PKG)/.PKGINFO ; \
 	 echo "url=$(V4LUTILS_PKG_URL)"                                 >> $(V4LUTILS_PKG)/.PKGINFO ; \
 	 echo "license=$(V4LUTILS_PKG_LICENSE)"                         >> $(V4LUTILS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(V4LUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(V4LUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

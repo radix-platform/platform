@@ -145,4 +145,4 @@ $(pkg_archive): $(install_target) $(LIBSODIUM_32_PKG_DESCRIPTION_FILE) $(LIBSODI
 	 echo "short_description=\"$(LIBSODIUM_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBSODIUM_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBSODIUM_32_PKG_URL)"                                 >> $(LIBSODIUM_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBSODIUM_32_PKG_LICENSE)"                         >> $(LIBSODIUM_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBSODIUM_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBSODIUM_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -181,4 +181,4 @@ $(pkg_archive): $(install_target) $(LIBSSH_32_PKG_DESCRIPTION_FILE) $(LIBSSH_32_
 	 echo "short_description=\"$(LIBSSH_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBSSH_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBSSH_32_PKG_URL)"                                 >> $(LIBSSH_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBSSH_32_PKG_LICENSE)"                         >> $(LIBSSH_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBSSH_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBSSH_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

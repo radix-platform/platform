@@ -229,4 +229,4 @@ $(pkg_archive): $(install_target) $(LIBQMI_PKG_DESCRIPTION_FILE) $(LIBQMI_PKG_IN
 	 echo "short_description=\"$(LIBQMI_PKG_SHORT_DESCRIPTION)\"" >> $(LIBQMI_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBQMI_PKG_URL)"                                 >> $(LIBQMI_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBQMI_PKG_LICENSE)"                         >> $(LIBQMI_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBQMI_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBQMI_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -230,4 +230,4 @@ $(pkg_archive): $(install_target) $(CONNTRACK_TOOLS_PKG_DESCRIPTION_FILE) $(CONN
 	 echo "short_description=\"$(CONNTRACK_TOOLS_PKG_SHORT_DESCRIPTION)\"" >> $(CONNTRACK_TOOLS_PKG)/.PKGINFO ; \
 	 echo "url=$(CONNTRACK_TOOLS_PKG_URL)"                                 >> $(CONNTRACK_TOOLS_PKG)/.PKGINFO ; \
 	 echo "license=$(CONNTRACK_TOOLS_PKG_LICENSE)"                         >> $(CONNTRACK_TOOLS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(CONNTRACK_TOOLS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(CONNTRACK_TOOLS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

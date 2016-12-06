@@ -229,4 +229,4 @@ $(pkg_archive): $(install_target) $(LIBAO_PKG_DESCRIPTION_FILE) $(LIBAO_PKG_INST
 	 echo "short_description=\"$(LIBAO_PKG_SHORT_DESCRIPTION)\"" >> $(LIBAO_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBAO_PKG_URL)"                                 >> $(LIBAO_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBAO_PKG_LICENSE)"                         >> $(LIBAO_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBAO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBAO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

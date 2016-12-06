@@ -249,4 +249,4 @@ $(pkg_archive): $(install_target) $(BOTAN_PKG_DESCRIPTION_FILE) $(BOTAN_PKG_INST
 	 echo "short_description=\"$(BOTAN_PKG_SHORT_DESCRIPTION)\"" >> $(BOTAN_PKG)/.PKGINFO ; \
 	 echo "url=$(BOTAN_PKG_URL)"                                 >> $(BOTAN_PKG)/.PKGINFO ; \
 	 echo "license=$(BOTAN_PKG_LICENSE)"                         >> $(BOTAN_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(BOTAN_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(BOTAN_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -204,4 +204,4 @@ $(pkg_archive): $(install_target) $(LIBEXIF_PKG_DESCRIPTION_FILE) $(LIBEXIF_PKG_
 	 echo "short_description=\"$(LIBEXIF_PKG_SHORT_DESCRIPTION)\"" >> $(LIBEXIF_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBEXIF_PKG_URL)"                                 >> $(LIBEXIF_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBEXIF_PKG_LICENSE)"                         >> $(LIBEXIF_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBEXIF_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBEXIF_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

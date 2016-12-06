@@ -214,4 +214,4 @@ $(pkg_archive): $(install_target) $(XZ_PKG_DESCRIPTION_FILE) $(XZ_PKG_INSTALL_SC
 	 echo "short_description=\"$(XZ_PKG_SHORT_DESCRIPTION)\"" >> $(XZ_PKG)/.PKGINFO ; \
 	 echo "url=$(XZ_PKG_URL)"                                 >> $(XZ_PKG)/.PKGINFO ; \
 	 echo "license=$(XZ_PKG_LICENSE)"                         >> $(XZ_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(XZ_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(XZ_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

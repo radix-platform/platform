@@ -167,4 +167,4 @@ $(pkg_archive): $(install_target) $(RWHO_PKG_DESCRIPTION_FILE) $(RWHO_PKG_INSTAL
 	 echo "short_description=\"$(RWHO_PKG_SHORT_DESCRIPTION)\"" >> $(RWHO_PKG)/.PKGINFO ; \
 	 echo "url=$(RWHO_PKG_URL)"                                 >> $(RWHO_PKG)/.PKGINFO ; \
 	 echo "license=$(RWHO_PKG_LICENSE)"                         >> $(RWHO_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(RWHO_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(RWHO_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

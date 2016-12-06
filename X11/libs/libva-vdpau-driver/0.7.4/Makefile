@@ -192,4 +192,4 @@ $(pkg_archive): $(install_target) $(VDPAU_DRV_PKG_DESCRIPTION_FILE) $(VDPAU_DRV_
 	 echo "short_description=\"$(VDPAU_DRV_PKG_SHORT_DESCRIPTION)\"" >> $(VDPAU_DRV_PKG)/.PKGINFO ; \
 	 echo "url=$(VDPAU_DRV_PKG_URL)"                                 >> $(VDPAU_DRV_PKG)/.PKGINFO ; \
 	 echo "license=$(VDPAU_DRV_PKG_LICENSE)"                         >> $(VDPAU_DRV_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(VDPAU_DRV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(VDPAU_DRV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

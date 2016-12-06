@@ -572,4 +572,4 @@ $(pkg_archive): $(install_target) $(QT4_PKG_DESCRIPTION_FILE) $(QT4_PKG_INSTALL_
 	 echo "short_description=\"$(QT4_PKG_SHORT_DESCRIPTION)\"" >> $(QT4_PKG)/.PKGINFO ; \
 	 echo "url=$(QT4_PKG_URL)"                                 >> $(QT4_PKG)/.PKGINFO ; \
 	 echo "license=$(QT4_PKG_LICENSE)"                         >> $(QT4_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(QT4_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(QT4_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

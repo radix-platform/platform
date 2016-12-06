@@ -221,4 +221,4 @@ $(pkg_archive): $(install_target) $(LIBTIFF_PKG_DESCRIPTION_FILE) $(LIBTIFF_PKG_
 	 echo "short_description=\"$(LIBTIFF_PKG_SHORT_DESCRIPTION)\"" >> $(LIBTIFF_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBTIFF_PKG_URL)"                                 >> $(LIBTIFF_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBTIFF_PKG_LICENSE)"                         >> $(LIBTIFF_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBTIFF_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBTIFF_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

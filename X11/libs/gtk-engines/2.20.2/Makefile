@@ -224,4 +224,4 @@ $(pkg_archive): $(install_target) $(GTKENGINES_PKG_DESCRIPTION_FILE) $(GTKENGINE
 	 echo "short_description=\"$(GTKENGINES_PKG_SHORT_DESCRIPTION)\"" >> $(GTKENGINES_PKG)/.PKGINFO ; \
 	 echo "url=$(GTKENGINES_PKG_URL)"                                 >> $(GTKENGINES_PKG)/.PKGINFO ; \
 	 echo "license=$(GTKENGINES_PKG_LICENSE)"                         >> $(GTKENGINES_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GTKENGINES_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GTKENGINES_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

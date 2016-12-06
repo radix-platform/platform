@@ -257,4 +257,4 @@ $(pkg_archive): $(install_target) $(PYTHON_PKG_DESCRIPTION_FILE) $(PYTHON_PKG_IN
 	 echo "short_description=\"$(PYTHON_PKG_SHORT_DESCRIPTION)\"" >> $(PYTHON_PKG)/.PKGINFO ; \
 	 echo "url=$(PYTHON_PKG_URL)"                                 >> $(PYTHON_PKG)/.PKGINFO ; \
 	 echo "license=$(PYTHON_PKG_LICENSE)"                         >> $(PYTHON_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(PYTHON_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PYTHON_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

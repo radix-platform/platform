@@ -191,4 +191,4 @@ $(pkg_archive): $(install_target) $(KMOD_32_PKG_DESCRIPTION_FILE) $(KMOD_32_PKG_
 	 echo "short_description=\"$(KMOD_32_PKG_SHORT_DESCRIPTION)\"" >> $(KMOD_32_PKG)/.PKGINFO ; \
 	 echo "url=$(KMOD_32_PKG_URL)"                                 >> $(KMOD_32_PKG)/.PKGINFO ; \
 	 echo "license=$(KMOD_32_PKG_LICENSE)"                         >> $(KMOD_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(KMOD_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(KMOD_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

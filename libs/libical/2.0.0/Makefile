@@ -238,4 +238,4 @@ $(pkg_archive): $(install_target) $(LIBICAL_PKG_DESCRIPTION_FILE) $(LIBICAL_PKG_
 	 echo "short_description=\"$(LIBICAL_PKG_SHORT_DESCRIPTION)\"" >> $(LIBICAL_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBICAL_PKG_URL)"                                 >> $(LIBICAL_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBICAL_PKG_LICENSE)"                         >> $(LIBICAL_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBICAL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBICAL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

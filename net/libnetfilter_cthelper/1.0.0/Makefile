@@ -204,4 +204,4 @@ $(pkg_archive): $(install_target) $(LIBNF_CTHELPER_PKG_DESCRIPTION_FILE) $(LIBNF
 	 echo "short_description=\"$(LIBNF_CTHELPER_PKG_SHORT_DESCRIPTION)\"" >> $(LIBNF_CTHELPER_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBNF_CTHELPER_PKG_URL)"                                 >> $(LIBNF_CTHELPER_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBNF_CTHELPER_PKG_LICENSE)"                         >> $(LIBNF_CTHELPER_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBNF_CTHELPER_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBNF_CTHELPER_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

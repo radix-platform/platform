@@ -199,4 +199,4 @@ $(pkg_archive): $(install_target) $(PCONFIG_PKG_DESCRIPTION_FILE) $(PCONFIG_PKG_
 	 echo "short_description=\"$(PCONFIG_PKG_SHORT_DESCRIPTION)\"" >> $(PCONFIG_PKG)/.PKGINFO ; \
 	 echo "url=$(PCONFIG_PKG_URL)"                                 >> $(PCONFIG_PKG)/.PKGINFO ; \
 	 echo "license=$(PCONFIG_PKG_LICENSE)"                         >> $(PCONFIG_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(PCONFIG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PCONFIG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

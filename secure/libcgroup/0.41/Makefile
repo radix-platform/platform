@@ -230,4 +230,4 @@ $(pkg_archive): $(install_target) $(LIBCGROUP_PKG_DESCRIPTION_FILE) $(LIBCGROUP_
 	 echo "short_description=\"$(LIBCGROUP_PKG_SHORT_DESCRIPTION)\"" >> $(LIBCGROUP_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBCGROUP_PKG_URL)"                                 >> $(LIBCGROUP_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBCGROUP_PKG_LICENSE)"                         >> $(LIBCGROUP_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBCGROUP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBCGROUP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

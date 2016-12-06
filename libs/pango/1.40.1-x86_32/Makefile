@@ -189,4 +189,4 @@ $(pkg_archive): $(install_target) $(PANGO_32_PKG_DESCRIPTION_FILE) $(PANGO_32_PK
 	 echo "short_description=\"$(PANGO_32_PKG_SHORT_DESCRIPTION)\"" >> $(PANGO_32_PKG)/.PKGINFO ; \
 	 echo "url=$(PANGO_32_PKG_URL)"                                 >> $(PANGO_32_PKG)/.PKGINFO ; \
 	 echo "license=$(PANGO_32_PKG_LICENSE)"                         >> $(PANGO_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(PANGO_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PANGO_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

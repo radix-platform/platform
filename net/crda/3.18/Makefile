@@ -205,4 +205,4 @@ $(pkg_archive): $(install_target) $(CRDA_PKG_DESCRIPTION_FILE) $(CRDA_PKG_INSTAL
 	 echo "short_description=\"$(CRDA_PKG_SHORT_DESCRIPTION)\"" >> $(CRDA_PKG)/.PKGINFO ; \
 	 echo "url=$(CRDA_PKG_URL)"                                 >> $(CRDA_PKG)/.PKGINFO ; \
 	 echo "license=$(CRDA_PKG_LICENSE)"                         >> $(CRDA_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(CRDA_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(CRDA_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

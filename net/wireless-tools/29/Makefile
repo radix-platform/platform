@@ -172,4 +172,4 @@ $(pkg_archive): $(install_target) $(WTOOLS_PKG_DESCRIPTION_FILE) $(WTOOLS_PKG_IN
 	 echo "short_description=\"$(WTOOLS_PKG_SHORT_DESCRIPTION)\"" >> $(WTOOLS_PKG)/.PKGINFO ; \
 	 echo "url=$(WTOOLS_PKG_URL)"                                 >> $(WTOOLS_PKG)/.PKGINFO ; \
 	 echo "license=$(WTOOLS_PKG_LICENSE)"                         >> $(WTOOLS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(WTOOLS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(WTOOLS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

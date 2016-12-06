@@ -216,4 +216,4 @@ $(pkg_archive): $(install_target) $(LIBASS_PKG_DESCRIPTION_FILE) $(LIBASS_PKG_IN
 	 echo "short_description=\"$(LIBASS_PKG_SHORT_DESCRIPTION)\"" >> $(LIBASS_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBASS_PKG_URL)"                                 >> $(LIBASS_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBASS_PKG_LICENSE)"                         >> $(LIBASS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBASS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBASS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

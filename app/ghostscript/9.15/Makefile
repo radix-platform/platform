@@ -297,4 +297,4 @@ $(pkg_archive): $(install_target) $(GS_PKG_DESCRIPTION_FILE) $(GS_PKG_INSTALL_SC
 	 echo "short_description=\"$(GS_PKG_SHORT_DESCRIPTION)\"" >> $(GS_PKG)/.PKGINFO ; \
 	 echo "url=$(GS_PKG_URL)"                                 >> $(GS_PKG)/.PKGINFO ; \
 	 echo "license=$(GS_PKG_LICENSE)"                         >> $(GS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

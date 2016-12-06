@@ -158,4 +158,4 @@ $(pkg_archive): $(install_target) $(TERMCAP_PKG_DESCRIPTION_FILE) $(TERMCAP_PKG_
 	 echo "short_description=\"$(TERMCAP_PKG_SHORT_DESCRIPTION)\"" >> $(TERMCAP_PKG)/.PKGINFO ; \
 	 echo "url=$(TERMCAP_PKG_URL)"                                 >> $(TERMCAP_PKG)/.PKGINFO ; \
 	 echo "license=$(TERMCAP_PKG_LICENSE)"                         >> $(TERMCAP_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(TERMCAP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(TERMCAP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

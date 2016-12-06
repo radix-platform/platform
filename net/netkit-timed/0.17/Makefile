@@ -161,4 +161,4 @@ $(pkg_archive): $(install_target) $(TIMED_PKG_DESCRIPTION_FILE) $(TIMED_PKG_INST
 	 echo "short_description=\"$(TIMED_PKG_SHORT_DESCRIPTION)\"" >> $(TIMED_PKG)/.PKGINFO ; \
 	 echo "url=$(TIMED_PKG_URL)"                                 >> $(TIMED_PKG)/.PKGINFO ; \
 	 echo "license=$(TIMED_PKG_LICENSE)"                         >> $(TIMED_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(TIMED_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(TIMED_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

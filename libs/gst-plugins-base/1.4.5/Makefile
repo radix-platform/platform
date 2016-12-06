@@ -311,4 +311,4 @@ $(pkg_archive): $(install_target) $(GSTP_BASE_PKG_DESCRIPTION_FILE) $(GSTP_BASE_
 	 echo "short_description=\"$(GSTP_BASE_PKG_SHORT_DESCRIPTION)\"" >> $(GSTP_BASE_PKG)/.PKGINFO ; \
 	 echo "url=$(GSTP_BASE_PKG_URL)"                                 >> $(GSTP_BASE_PKG)/.PKGINFO ; \
 	 echo "license=$(GSTP_BASE_PKG_LICENSE)"                         >> $(GSTP_BASE_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GSTP_BASE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GSTP_BASE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

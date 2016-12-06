@@ -184,4 +184,4 @@ $(pkg_archive): $(install_target) $(CUPS_32_PKG_DESCRIPTION_FILE) $(CUPS_32_PKG_
 	 echo "short_description=\"$(CUPS_32_PKG_SHORT_DESCRIPTION)\"" >> $(CUPS_32_PKG)/.PKGINFO ; \
 	 echo "url=$(CUPS_32_PKG_URL)"                                 >> $(CUPS_32_PKG)/.PKGINFO ; \
 	 echo "license=$(CUPS_32_PKG_LICENSE)"                         >> $(CUPS_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(CUPS_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(CUPS_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

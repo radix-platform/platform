@@ -207,4 +207,4 @@ $(pkg_archive): $(install_target) $(POPT_PKG_DESCRIPTION_FILE) $(POPT_PKG_INSTAL
 	 echo "short_description=\"$(POPT_PKG_SHORT_DESCRIPTION)\"" >> $(POPT_PKG)/.PKGINFO ; \
 	 echo "url=$(POPT_PKG_URL)"                                 >> $(POPT_PKG)/.PKGINFO ; \
 	 echo "license=$(POPT_PKG_LICENSE)"                         >> $(POPT_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(POPT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(POPT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

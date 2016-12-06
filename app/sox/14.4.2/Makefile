@@ -231,4 +231,4 @@ $(pkg_archive): $(install_target) $(SOX_PKG_DESCRIPTION_FILE) $(SOX_PKG_INSTALL_
 	 echo "short_description=\"$(SOX_PKG_SHORT_DESCRIPTION)\"" >> $(SOX_PKG)/.PKGINFO ; \
 	 echo "url=$(SOX_PKG_URL)"                                 >> $(SOX_PKG)/.PKGINFO ; \
 	 echo "license=$(SOX_PKG_LICENSE)"                         >> $(SOX_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(SOX_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SOX_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

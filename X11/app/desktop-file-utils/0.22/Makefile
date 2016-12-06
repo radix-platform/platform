@@ -177,4 +177,4 @@ $(pkg_archive): $(install_target) $(DFUTILS_PKG_DESCRIPTION_FILE) $(DFUTILS_PKG_
 	 echo "short_description=\"$(DFUTILS_PKG_SHORT_DESCRIPTION)\"" >> $(DFUTILS_PKG)/.PKGINFO ; \
 	 echo "url=$(DFUTILS_PKG_URL)"                                 >> $(DFUTILS_PKG)/.PKGINFO ; \
 	 echo "license=$(DFUTILS_PKG_LICENSE)"                         >> $(DFUTILS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(DFUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(DFUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

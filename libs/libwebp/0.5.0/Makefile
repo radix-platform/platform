@@ -222,4 +222,4 @@ $(pkg_archive): $(install_target) $(LIBWEBP_PKG_DESCRIPTION_FILE) $(LIBWEBP_PKG_
 	 echo "short_description=\"$(LIBWEBP_PKG_SHORT_DESCRIPTION)\"" >> $(LIBWEBP_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBWEBP_PKG_URL)"                                 >> $(LIBWEBP_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBWEBP_PKG_LICENSE)"                         >> $(LIBWEBP_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBWEBP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBWEBP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

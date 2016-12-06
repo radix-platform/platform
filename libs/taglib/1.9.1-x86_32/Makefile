@@ -139,4 +139,4 @@ $(pkg_archive): $(install_target) $(TAGLIB_32_PKG_DESCRIPTION_FILE) $(TAGLIB_32_
 	 echo "short_description=\"$(TAGLIB_32_PKG_SHORT_DESCRIPTION)\"" >> $(TAGLIB_32_PKG)/.PKGINFO ; \
 	 echo "url=$(TAGLIB_32_PKG_URL)"                                 >> $(TAGLIB_32_PKG)/.PKGINFO ; \
 	 echo "license=$(TAGLIB_32_PKG_LICENSE)"                         >> $(TAGLIB_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(TAGLIB_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(TAGLIB_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

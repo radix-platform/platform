@@ -181,4 +181,4 @@ $(pkg_archive): $(install_target) $(MIME_INFO_PKG_DESCRIPTION_FILE) $(MIME_INFO_
 	 echo "short_description=\"$(MIME_INFO_PKG_SHORT_DESCRIPTION)\"" >> $(MIME_INFO_PKG)/.PKGINFO ; \
 	 echo "url=$(MIME_INFO_PKG_URL)"                                 >> $(MIME_INFO_PKG)/.PKGINFO ; \
 	 echo "license=$(MIME_INFO_PKG_LICENSE)"                         >> $(MIME_INFO_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(MIME_INFO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(MIME_INFO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -161,4 +161,4 @@ $(pkg_archive): $(install_target) $(TFTP_PKG_DESCRIPTION_FILE) $(TFTP_PKG_INSTAL
 	 echo "short_description=\"$(TFTP_PKG_SHORT_DESCRIPTION)\"" >> $(TFTP_PKG)/.PKGINFO ; \
 	 echo "url=$(TFTP_PKG_URL)"                                 >> $(TFTP_PKG)/.PKGINFO ; \
 	 echo "license=$(TFTP_PKG_LICENSE)"                         >> $(TFTP_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(TFTP_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(TFTP_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

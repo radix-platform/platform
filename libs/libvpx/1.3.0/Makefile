@@ -234,4 +234,4 @@ $(pkg_archive): $(install_target) $(LIBVPX_PKG_DESCRIPTION_FILE) $(LIBVPX_PKG_IN
 	 echo "short_description=\"$(LIBVPX_PKG_SHORT_DESCRIPTION)\"" >> $(LIBVPX_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBVPX_PKG_URL)"                                 >> $(LIBVPX_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBVPX_PKG_LICENSE)"                         >> $(LIBVPX_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBVPX_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBVPX_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

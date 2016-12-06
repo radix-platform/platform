@@ -238,4 +238,4 @@ $(pkg_archive): $(install_target) $(CRACKLIB_PKG_DESCRIPTION_FILE) $(CRACKLIB_PK
 	 echo "short_description=\"$(CRACKLIB_PKG_SHORT_DESCRIPTION)\"" >> $(CRACKLIB_PKG)/.PKGINFO ; \
 	 echo "url=$(CRACKLIB_PKG_URL)"                                 >> $(CRACKLIB_PKG)/.PKGINFO ; \
 	 echo "license=$(CRACKLIB_PKG_LICENSE)"                         >> $(CRACKLIB_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(CRACKLIB_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(CRACKLIB_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

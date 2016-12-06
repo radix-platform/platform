@@ -149,4 +149,4 @@ $(pkg_archive): $(install_target) $(LIBPNG_32_PKG_DESCRIPTION_FILE) $(LIBPNG_32_
 	 echo "short_description=\"$(LIBPNG_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBPNG_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBPNG_32_PKG_URL)"                                 >> $(LIBPNG_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBPNG_32_PKG_LICENSE)"                         >> $(LIBPNG_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBPNG_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBPNG_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

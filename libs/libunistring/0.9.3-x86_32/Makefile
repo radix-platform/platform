@@ -145,4 +145,4 @@ $(pkg_archive): $(install_target) $(LIBUNISTR32_PKG_DESCRIPTION_FILE) $(LIBUNIST
 	 echo "short_description=\"$(LIBUNISTR32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBUNISTR32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBUNISTR32_PKG_URL)"                                 >> $(LIBUNISTR32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBUNISTR32_PKG_LICENSE)"                         >> $(LIBUNISTR32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBUNISTR32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBUNISTR32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

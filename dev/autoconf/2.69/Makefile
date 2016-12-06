@@ -177,4 +177,4 @@ $(pkg_archive): $(install_target) $(AUTOCONF_PKG_DESCRIPTION_FILE) $(AUTOCONF_PK
 	 echo "short_description=\"$(AUTOCONF_PKG_SHORT_DESCRIPTION)\"" >> $(AUTOCONF_PKG)/.PKGINFO ; \
 	 echo "url=$(AUTOCONF_PKG_URL)"                                 >> $(AUTOCONF_PKG)/.PKGINFO ; \
 	 echo "license=$(AUTOCONF_PKG_LICENSE)"                         >> $(AUTOCONF_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(AUTOCONF_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(AUTOCONF_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

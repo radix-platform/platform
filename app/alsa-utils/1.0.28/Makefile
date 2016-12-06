@@ -217,4 +217,4 @@ $(pkg_archive): $(install_target) $(ALSA_UTILS_PKG_DESCRIPTION_FILE) $(ALSA_UTIL
 	 echo "short_description=\"$(ALSA_UTILS_PKG_SHORT_DESCRIPTION)\"" >> $(ALSA_UTILS_PKG)/.PKGINFO ; \
 	 echo "url=$(ALSA_UTILS_PKG_URL)"                                 >> $(ALSA_UTILS_PKG)/.PKGINFO ; \
 	 echo "license=$(ALSA_UTILS_PKG_LICENSE)"                         >> $(ALSA_UTILS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(ALSA_UTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ALSA_UTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

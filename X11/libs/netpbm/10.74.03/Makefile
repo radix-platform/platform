@@ -208,4 +208,4 @@ $(pkg_archive): $(install_target) $(NETPBM_PKG_DESCRIPTION_FILE) $(NETPBM_PKG_IN
 	 echo "short_description=\"$(NETPBM_PKG_SHORT_DESCRIPTION)\"" >> $(NETPBM_PKG)/.PKGINFO ; \
 	 echo "url=$(NETPBM_PKG_URL)"                                 >> $(NETPBM_PKG)/.PKGINFO ; \
 	 echo "license=$(NETPBM_PKG_LICENSE)"                         >> $(NETPBM_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(NETPBM_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(NETPBM_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

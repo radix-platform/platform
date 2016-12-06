@@ -166,4 +166,4 @@ $(pkg_archive): $(install_target) $(RUSERS_PKG_DESCRIPTION_FILE) $(RUSERS_PKG_IN
 	 echo "short_description=\"$(RUSERS_PKG_SHORT_DESCRIPTION)\"" >> $(RUSERS_PKG)/.PKGINFO ; \
 	 echo "url=$(RUSERS_PKG_URL)"                                 >> $(RUSERS_PKG)/.PKGINFO ; \
 	 echo "license=$(RUSERS_PKG_LICENSE)"                         >> $(RUSERS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(RUSERS_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(RUSERS_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

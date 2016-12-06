@@ -281,4 +281,4 @@ $(pkg_archive): $(install_target) $(OMPI_PKG_DESCRIPTION_FILE) $(OMPI_PKG_INSTAL
 	 echo "short_description=\"$(OMPI_PKG_SHORT_DESCRIPTION)\"" >> $(OMPI_PKG)/.PKGINFO ; \
 	 echo "url=$(OMPI_PKG_URL)"                                 >> $(OMPI_PKG)/.PKGINFO ; \
 	 echo "license=$(OMPI_PKG_LICENSE)"                         >> $(OMPI_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(OMPI_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(OMPI_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

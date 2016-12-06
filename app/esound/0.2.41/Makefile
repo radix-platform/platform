@@ -222,4 +222,4 @@ $(pkg_archive): $(install_target) $(ESOUND_PKG_DESCRIPTION_FILE) $(ESOUND_PKG_IN
 	 echo "short_description=\"$(ESOUND_PKG_SHORT_DESCRIPTION)\"" >> $(ESOUND_PKG)/.PKGINFO ; \
 	 echo "url=$(ESOUND_PKG_URL)"                                 >> $(ESOUND_PKG)/.PKGINFO ; \
 	 echo "license=$(ESOUND_PKG_LICENSE)"                         >> $(ESOUND_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(ESOUND_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ESOUND_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

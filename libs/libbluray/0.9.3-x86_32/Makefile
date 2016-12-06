@@ -180,4 +180,4 @@ $(pkg_archive): $(install_target) $(LIBBLURAY_32_PKG_DESCRIPTION_FILE) $(LIBBLUR
 	 echo "short_description=\"$(LIBBLURAY_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBBLURAY_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBBLURAY_32_PKG_URL)"                                 >> $(LIBBLURAY_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBBLURAY_32_PKG_LICENSE)"                         >> $(LIBBLURAY_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBBLURAY_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBBLURAY_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

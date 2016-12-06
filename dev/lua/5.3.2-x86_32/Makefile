@@ -134,4 +134,4 @@ $(pkg_archive): $(install_target) $(LUA_32_PKG_DESCRIPTION_FILE) $(LUA_32_PKG_IN
 	 echo "short_description=\"$(LUA_32_PKG_SHORT_DESCRIPTION)\"" >> $(LUA_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LUA_32_PKG_URL)"                                 >> $(LUA_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LUA_32_PKG_LICENSE)"                         >> $(LUA_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LUA_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LUA_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

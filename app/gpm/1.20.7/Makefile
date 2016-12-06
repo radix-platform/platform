@@ -206,4 +206,4 @@ $(pkg_archive): $(install_target) $(GPM_PKG_DESCRIPTION_FILE) $(GPM_PKG_INSTALL_
 	 echo "short_description=\"$(GPM_PKG_SHORT_DESCRIPTION)\"" >> $(GPM_PKG)/.PKGINFO ; \
 	 echo "url=$(GPM_PKG_URL)"                                 >> $(GPM_PKG)/.PKGINFO ; \
 	 echo "license=$(GPM_PKG_LICENSE)"                         >> $(GPM_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GPM_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GPM_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

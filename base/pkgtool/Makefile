@@ -111,4 +111,4 @@ $(pkg_archive): $(build) $(PKGTOOL_BIN_PKG_DESCRIPTION_FILE) $(PKGTOOL_BIN_PKG_I
 	 echo "short_description=\"$(PKGTOOL_BIN_PKG_SHORT_DESCRIPTION)\"" >> $(PKGTOOL_BIN_PKG)/.PKGINFO ; \
 	 echo "url=$(PKGTOOL_BIN_PKG_URL)"                                 >> $(PKGTOOL_BIN_PKG)/.PKGINFO ; \
 	 echo "license=$(PKGTOOL_BIN_PKG_LICENSE)"                         >> $(PKGTOOL_BIN_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(PKGTOOL_BIN_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PKGTOOL_BIN_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

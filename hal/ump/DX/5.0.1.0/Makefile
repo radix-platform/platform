@@ -188,4 +188,4 @@ $(pkg_archive): $(install_target) $(LIBUMP_PKG_DESCRIPTION_FILE) $(LIBUMP_PKG_IN
 	 echo "short_description=\"$(LIBUMP_PKG_SHORT_DESCRIPTION)\"" >> $(LIBUMP_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBUMP_PKG_URL)"                                 >> $(LIBUMP_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBUMP_PKG_LICENSE)"                         >> $(LIBUMP_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBUMP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBUMP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

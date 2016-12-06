@@ -165,4 +165,4 @@ $(pkg_archive): $(install_target) $(NSPR_32_PKG_DESCRIPTION_FILE) $(NSPR_32_PKG_
 	 echo "short_description=\"$(NSPR_32_PKG_SHORT_DESCRIPTION)\"" >> $(NSPR_32_PKG)/.PKGINFO ; \
 	 echo "url=$(NSPR_32_PKG_URL)"                                 >> $(NSPR_32_PKG)/.PKGINFO ; \
 	 echo "license=$(NSPR_32_PKG_LICENSE)"                         >> $(NSPR_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(NSPR_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(NSPR_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

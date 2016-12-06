@@ -277,4 +277,4 @@ $(pkg_archive): $(install_target) $(VIM_PKG_DESCRIPTION_FILE) $(VIM_PKG_INSTALL_
 	 echo "short_description=\"$(VIM_PKG_SHORT_DESCRIPTION)\"" >> $(VIM_PKG)/.PKGINFO ; \
 	 echo "url=$(VIM_PKG_URL)"                                 >> $(VIM_PKG)/.PKGINFO ; \
 	 echo "license=$(VIM_PKG_LICENSE)"                         >> $(VIM_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(VIM_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(VIM_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

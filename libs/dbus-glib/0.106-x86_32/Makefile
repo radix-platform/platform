@@ -189,4 +189,4 @@ $(pkg_archive): $(install_target) $(DBUS_GLIB_32_PKG_DESCRIPTION_FILE) $(DBUS_GL
 	 echo "short_description=\"$(DBUS_GLIB_32_PKG_SHORT_DESCRIPTION)\"" >> $(DBUS_GLIB_32_PKG)/.PKGINFO ; \
 	 echo "url=$(DBUS_GLIB_32_PKG_URL)"                                 >> $(DBUS_GLIB_32_PKG)/.PKGINFO ; \
 	 echo "license=$(DBUS_GLIB_32_PKG_LICENSE)"                         >> $(DBUS_GLIB_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(DBUS_GLIB_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(DBUS_GLIB_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

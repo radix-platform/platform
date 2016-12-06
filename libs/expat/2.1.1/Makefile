@@ -199,4 +199,4 @@ $(pkg_archive): $(install_target) $(EXPAT_PKG_DESCRIPTION_FILE) $(EXPAT_PKG_INST
 	 echo "short_description=\"$(EXPAT_PKG_SHORT_DESCRIPTION)\"" >> $(EXPAT_PKG)/.PKGINFO ; \
 	 echo "url=$(EXPAT_PKG_URL)"                                 >> $(EXPAT_PKG)/.PKGINFO ; \
 	 echo "license=$(EXPAT_PKG_LICENSE)"                         >> $(EXPAT_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(EXPAT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(EXPAT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

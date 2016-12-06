@@ -267,4 +267,4 @@ $(pkg_archive): $(install_target) $(JACK_PKG_DESCRIPTION_FILE) $(JACK_PKG_INSTAL
 	 echo "short_description=\"$(JACK_PKG_SHORT_DESCRIPTION)\"" >> $(JACK_PKG)/.PKGINFO ; \
 	 echo "url=$(JACK_PKG_URL)"                                 >> $(JACK_PKG)/.PKGINFO ; \
 	 echo "license=$(JACK_PKG_LICENSE)"                         >> $(JACK_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(JACK_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(JACK_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

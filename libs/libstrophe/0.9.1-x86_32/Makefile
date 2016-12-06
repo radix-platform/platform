@@ -165,4 +165,4 @@ $(pkg_archive): $(install_target) $(LIBSTROPHE_32_PKG_DESCRIPTION_FILE) $(LIBSTR
 	 echo "short_description=\"$(LIBSTROPHE_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBSTROPHE_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBSTROPHE_32_PKG_URL)"                                 >> $(LIBSTROPHE_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBSTROPHE_32_PKG_LICENSE)"                         >> $(LIBSTROPHE_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBSTROPHE_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBSTROPHE_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

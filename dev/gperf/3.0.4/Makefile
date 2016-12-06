@@ -185,4 +185,4 @@ $(pkg_archive): $(install_target) $(GPERF_PKG_DESCRIPTION_FILE) $(GPERF_PKG_INST
 	 echo "short_description=\"$(GPERF_PKG_SHORT_DESCRIPTION)\"" >> $(GPERF_PKG)/.PKGINFO ; \
 	 echo "url=$(GPERF_PKG_URL)"                                 >> $(GPERF_PKG)/.PKGINFO ; \
 	 echo "license=$(GPERF_PKG_LICENSE)"                         >> $(GPERF_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GPERF_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GPERF_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

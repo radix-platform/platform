@@ -193,4 +193,4 @@ $(pkg_archive): $(install_target) $(IPTRAF_PKG_DESCRIPTION_FILE) $(IPTRAF_PKG_IN
 	 echo "short_description=\"$(IPTRAF_PKG_SHORT_DESCRIPTION)\"" >> $(IPTRAF_PKG)/.PKGINFO ; \
 	 echo "url=$(IPTRAF_PKG_URL)"                                 >> $(IPTRAF_PKG)/.PKGINFO ; \
 	 echo "license=$(IPTRAF_PKG_LICENSE)"                         >> $(IPTRAF_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(IPTRAF_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(IPTRAF_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

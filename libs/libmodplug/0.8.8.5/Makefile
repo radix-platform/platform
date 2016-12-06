@@ -219,4 +219,4 @@ $(pkg_archive): $(install_target) $(MODPLUG_PKG_DESCRIPTION_FILE) $(MODPLUG_PKG_
 	 echo "short_description=\"$(MODPLUG_PKG_SHORT_DESCRIPTION)\"" >> $(MODPLUG_PKG)/.PKGINFO ; \
 	 echo "url=$(MODPLUG_PKG_URL)"                                 >> $(MODPLUG_PKG)/.PKGINFO ; \
 	 echo "license=$(MODPLUG_PKG_LICENSE)"                         >> $(MODPLUG_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(MODPLUG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(MODPLUG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

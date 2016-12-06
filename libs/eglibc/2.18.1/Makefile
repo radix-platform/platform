@@ -190,4 +190,4 @@ $(pkg_archive): $(build_eglibc_pkg) $(EGLIBC_PKG_DESCRIPTION_FILE) $(EGLIBC_PKG_
 	 echo "short_description=\"$(EGLIBC_PKG_SHORT_DESCRIPTION)\"" >> $(EGLIBC_PKG)/.PKGINFO ; \
 	 echo "url=$(EGLIBC_PKG_URL)"                                 >> $(EGLIBC_PKG)/.PKGINFO ; \
 	 echo "license=$(EGLIBC_PKG_LICENSE)"                         >> $(EGLIBC_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(EGLIBC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(EGLIBC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -248,4 +248,4 @@ $(pkg_archive): $(install_target) $(CURL_PKG_DESCRIPTION_FILE) $(CURL_PKG_INSTAL
 	 echo "short_description=\"$(CURL_PKG_SHORT_DESCRIPTION)\"" >> $(CURL_PKG)/.PKGINFO ; \
 	 echo "url=$(CURL_PKG_URL)"                                 >> $(CURL_PKG)/.PKGINFO ; \
 	 echo "license=$(CURL_PKG_LICENSE)"                         >> $(CURL_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(CURL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(CURL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

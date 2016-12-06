@@ -206,4 +206,4 @@ $(pkg_archive): $(install_target) $(TASN_PKG_DESCRIPTION_FILE) $(TASN_PKG_INSTAL
 	 echo "short_description=\"$(TASN_PKG_SHORT_DESCRIPTION)\"" >> $(TASN_PKG)/.PKGINFO ; \
 	 echo "url=$(TASN_PKG_URL)"                                 >> $(TASN_PKG)/.PKGINFO ; \
 	 echo "license=$(TASN_PKG_LICENSE)"                         >> $(TASN_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(TASN_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(TASN_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

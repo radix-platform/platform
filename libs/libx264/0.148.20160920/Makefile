@@ -219,4 +219,4 @@ $(pkg_archive): $(install_target) $(LIBX264_PKG_DESCRIPTION_FILE) $(LIBX264_PKG_
 	 echo "short_description=\"$(LIBX264_PKG_SHORT_DESCRIPTION)\"" >> $(LIBX264_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBX264_PKG_URL)"                                 >> $(LIBX264_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBX264_PKG_LICENSE)"                         >> $(LIBX264_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBX264_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBX264_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

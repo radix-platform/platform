@@ -174,4 +174,4 @@ $(pkg_archive): $(install_target) $(DMAPI_PKG_DESCRIPTION_FILE) $(DMAPI_PKG_INST
 	 echo "short_description=\"$(DMAPI_PKG_SHORT_DESCRIPTION)\"" >> $(DMAPI_PKG)/.PKGINFO ; \
 	 echo "url=$(DMAPI_PKG_URL)"                                 >> $(DMAPI_PKG)/.PKGINFO ; \
 	 echo "license=$(DMAPI_PKG_LICENSE)"                         >> $(DMAPI_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(DMAPI_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(DMAPI_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

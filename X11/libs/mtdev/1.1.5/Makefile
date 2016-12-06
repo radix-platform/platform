@@ -205,4 +205,4 @@ $(pkg_archive): $(install_target) $(MTDEV_PKG_DESCRIPTION_FILE) $(MTDEV_PKG_INST
 	 echo "short_description=\"$(MTDEV_PKG_SHORT_DESCRIPTION)\"" >> $(MTDEV_PKG)/.PKGINFO ; \
 	 echo "url=$(MTDEV_PKG_URL)"                                 >> $(MTDEV_PKG)/.PKGINFO ; \
 	 echo "license=$(MTDEV_PKG_LICENSE)"                         >> $(MTDEV_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(MTDEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(MTDEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

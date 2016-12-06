@@ -218,4 +218,4 @@ $(pkg_archive): $(install_target) $(LIBCAP_PKG_DESCRIPTION_FILE) $(LIBCAP_PKG_IN
 	 echo "short_description=\"$(LIBCAP_PKG_SHORT_DESCRIPTION)\"" >> $(LIBCAP_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBCAP_PKG_URL)"                                 >> $(LIBCAP_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBCAP_PKG_LICENSE)"                         >> $(LIBCAP_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBCAP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBCAP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

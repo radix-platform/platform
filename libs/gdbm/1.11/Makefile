@@ -207,4 +207,4 @@ $(pkg_archive): $(install_target) $(GDBM_PKG_DESCRIPTION_FILE) $(GDBM_PKG_INSTAL
 	 echo "short_description=\"$(GDBM_PKG_SHORT_DESCRIPTION)\"" >> $(GDBM_PKG)/.PKGINFO ; \
 	 echo "url=$(GDBM_PKG_URL)"                                 >> $(GDBM_PKG)/.PKGINFO ; \
 	 echo "license=$(GDBM_PKG_LICENSE)"                         >> $(GDBM_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GDBM_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GDBM_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

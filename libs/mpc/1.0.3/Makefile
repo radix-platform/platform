@@ -186,4 +186,4 @@ $(pkg_archive): $(install_target) $(MPC_PKG_DESCRIPTION_FILE) $(MPC_PKG_INSTALL_
 	 echo "short_description=\"$(MPC_PKG_SHORT_DESCRIPTION)\"" >> $(MPC_PKG)/.PKGINFO ; \
 	 echo "url=$(MPC_PKG_URL)"                                 >> $(MPC_PKG)/.PKGINFO ; \
 	 echo "license=$(MPC_PKG_LICENSE)"                         >> $(MPC_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(MPC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(MPC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

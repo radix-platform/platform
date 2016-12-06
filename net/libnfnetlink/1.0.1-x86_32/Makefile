@@ -144,4 +144,4 @@ $(pkg_archive): $(install_target) $(LIBNFNETLINK_32_PKG_DESCRIPTION_FILE) $(LIBN
 	 echo "short_description=\"$(LIBNFNETLINK_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBNFNETLINK_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBNFNETLINK_32_PKG_URL)"                                 >> $(LIBNFNETLINK_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBNFNETLINK_32_PKG_LICENSE)"                         >> $(LIBNFNETLINK_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBNFNETLINK_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBNFNETLINK_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

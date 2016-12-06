@@ -203,4 +203,4 @@ $(pkg_archive): $(install_target) $(LIBOGG_PKG_DESCRIPTION_FILE) $(LIBOGG_PKG_IN
 	 echo "short_description=\"$(LIBOGG_PKG_SHORT_DESCRIPTION)\"" >> $(LIBOGG_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBOGG_PKG_URL)"                                 >> $(LIBOGG_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBOGG_PKG_LICENSE)"                         >> $(LIBOGG_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBOGG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBOGG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -164,4 +164,4 @@ $(pkg_archive): $(install_target) $(ALSA_OSS_32_PKG_DESCRIPTION_FILE) $(ALSA_OSS
 	 echo "short_description=\"$(ALSA_OSS_32_PKG_SHORT_DESCRIPTION)\"" >> $(ALSA_OSS_32_PKG)/.PKGINFO ; \
 	 echo "url=$(ALSA_OSS_32_PKG_URL)"                                 >> $(ALSA_OSS_32_PKG)/.PKGINFO ; \
 	 echo "license=$(ALSA_OSS_32_PKG_LICENSE)"                         >> $(ALSA_OSS_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(ALSA_OSS_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ALSA_OSS_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

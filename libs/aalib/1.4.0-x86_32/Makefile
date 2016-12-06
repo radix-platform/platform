@@ -177,4 +177,4 @@ $(pkg_archive): $(install_target) $(AALIB_32_PKG_DESCRIPTION_FILE) $(AALIB_32_PK
 	 echo "short_description=\"$(AALIB_32_PKG_SHORT_DESCRIPTION)\"" >> $(AALIB_32_PKG)/.PKGINFO ; \
 	 echo "url=$(AALIB_32_PKG_URL)"                                 >> $(AALIB_32_PKG)/.PKGINFO ; \
 	 echo "license=$(AALIB_32_PKG_LICENSE)"                         >> $(AALIB_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(AALIB_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(AALIB_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

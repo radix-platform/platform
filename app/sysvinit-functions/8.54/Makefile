@@ -164,4 +164,4 @@ $(pkg_archive): $(install_target) $(SYSVFUNC_PKG_DESCRIPTION_FILE) $(SYSVFUNC_PK
 	 echo "short_description=\"$(SYSVFUNC_PKG_SHORT_DESCRIPTION)\"" >> $(SYSVFUNC_PKG)/.PKGINFO ; \
 	 echo "url=$(SYSVFUNC_PKG_URL)"                                 >> $(SYSVFUNC_PKG)/.PKGINFO ; \
 	 echo "license=$(SYSVFUNC_PKG_LICENSE)"                         >> $(SYSVFUNC_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(SYSVFUNC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SYSVFUNC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -193,4 +193,4 @@ $(pkg_archive): $(install_target) $(SYSFSUTILS_PKG_DESCRIPTION_FILE) $(SYSFSUTIL
 	 echo "short_description=\"$(SYSFSUTILS_PKG_SHORT_DESCRIPTION)\"" >> $(SYSFSUTILS_PKG)/.PKGINFO ; \
 	 echo "url=$(SYSFSUTILS_PKG_URL)"                                 >> $(SYSFSUTILS_PKG)/.PKGINFO ; \
 	 echo "license=$(SYSFSUTILS_PKG_LICENSE)"                         >> $(SYSFSUTILS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(SYSFSUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SYSFSUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

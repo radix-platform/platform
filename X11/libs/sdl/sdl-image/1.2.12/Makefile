@@ -218,4 +218,4 @@ $(pkg_archive): $(install_target) $(SDL_IMAGE_PKG_DESCRIPTION_FILE) $(SDL_IMAGE_
 	 echo "short_description=\"$(SDL_IMAGE_PKG_SHORT_DESCRIPTION)\"" >> $(SDL_IMAGE_PKG)/.PKGINFO ; \
 	 echo "url=$(SDL_IMAGE_PKG_URL)"                                 >> $(SDL_IMAGE_PKG)/.PKGINFO ; \
 	 echo "license=$(SDL_IMAGE_PKG_LICENSE)"                         >> $(SDL_IMAGE_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(SDL_IMAGE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SDL_IMAGE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -140,4 +140,4 @@ $(pkg_archive): $(install_target) $(ZLIB32_PKG_DESCRIPTION_FILE) $(ZLIB32_PKG_IN
 	 echo "short_description=\"$(ZLIB32_PKG_SHORT_DESCRIPTION)\"" >> $(ZLIB32_PKG)/.PKGINFO ; \
 	 echo "url=$(ZLIB32_PKG_URL)"                                 >> $(ZLIB32_PKG)/.PKGINFO ; \
 	 echo "license=$(ZLIB32_PKG_LICENSE)"                         >> $(ZLIB32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(ZLIB32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ZLIB32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

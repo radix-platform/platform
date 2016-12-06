@@ -198,4 +198,4 @@ $(pkg_archive): $(install_target) $(LIBNFNETLINK_PKG_DESCRIPTION_FILE) $(LIBNFNE
 	 echo "short_description=\"$(LIBNFNETLINK_PKG_SHORT_DESCRIPTION)\"" >> $(LIBNFNETLINK_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBNFNETLINK_PKG_URL)"                                 >> $(LIBNFNETLINK_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBNFNETLINK_PKG_LICENSE)"                         >> $(LIBNFNETLINK_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBNFNETLINK_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBNFNETLINK_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

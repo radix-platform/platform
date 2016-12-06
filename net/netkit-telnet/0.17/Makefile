@@ -166,4 +166,4 @@ $(pkg_archive): $(install_target) $(TELNET_PKG_DESCRIPTION_FILE) $(TELNET_PKG_IN
 	 echo "short_description=\"$(TELNET_PKG_SHORT_DESCRIPTION)\"" >> $(TELNET_PKG)/.PKGINFO ; \
 	 echo "url=$(TELNET_PKG_URL)"                                 >> $(TELNET_PKG)/.PKGINFO ; \
 	 echo "license=$(TELNET_PKG_LICENSE)"                         >> $(TELNET_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(TELNET_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(TELNET_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

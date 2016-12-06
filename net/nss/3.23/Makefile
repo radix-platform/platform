@@ -315,4 +315,4 @@ $(pkg_archive): $(install_target) $(NSS_PKG_DESCRIPTION_FILE) $(NSS_PKG_INSTALL_
 	 echo "short_description=\"$(NSS_PKG_SHORT_DESCRIPTION)\"" >> $(NSS_PKG)/.PKGINFO ; \
 	 echo "url=$(NSS_PKG_URL)"                                 >> $(NSS_PKG)/.PKGINFO ; \
 	 echo "license=$(NSS_PKG_LICENSE)"                         >> $(NSS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(NSS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(NSS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

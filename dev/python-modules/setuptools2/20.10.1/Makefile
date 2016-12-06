@@ -165,4 +165,4 @@ $(pkg_archive): $(install_target) $(SETUPTOOLS2_PKG_DESCRIPTION_FILE) $(SETUPTOO
 	 echo "short_description=\"$(SETUPTOOLS2_PKG_SHORT_DESCRIPTION)\"" >> $(SETUPTOOLS2_PKG)/.PKGINFO ; \
 	 echo "url=$(SETUPTOOLS2_PKG_URL)"                                 >> $(SETUPTOOLS2_PKG)/.PKGINFO ; \
 	 echo "license=$(SETUPTOOLS2_PKG_LICENSE)"                         >> $(SETUPTOOLS2_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(SETUPTOOLS2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SETUPTOOLS2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

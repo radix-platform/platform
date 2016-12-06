@@ -227,4 +227,4 @@ $(pkg_archive): $(install_target) $(LIBINPUT_PKG_DESCRIPTION_FILE) $(LIBINPUT_PK
 	 echo "short_description=\"$(LIBINPUT_PKG_SHORT_DESCRIPTION)\"" >> $(LIBINPUT_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBINPUT_PKG_URL)"                                 >> $(LIBINPUT_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBINPUT_PKG_LICENSE)"                         >> $(LIBINPUT_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBINPUT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBINPUT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

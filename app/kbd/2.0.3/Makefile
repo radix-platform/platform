@@ -240,4 +240,4 @@ $(pkg_archive): $(install_target) $(KBD_PKG_DESCRIPTION_FILE) $(KBD_PKG_INSTALL_
 	 echo "short_description=\"$(KBD_PKG_SHORT_DESCRIPTION)\"" >> $(KBD_PKG)/.PKGINFO ; \
 	 echo "url=$(KBD_PKG_URL)"                                 >> $(KBD_PKG)/.PKGINFO ; \
 	 echo "license=$(KBD_PKG_LICENSE)"                         >> $(KBD_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(KBD_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(KBD_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

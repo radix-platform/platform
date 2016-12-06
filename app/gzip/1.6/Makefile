@@ -198,4 +198,4 @@ $(pkg_archive): $(install_target) $(GZIP_PKG_DESCRIPTION_FILE) $(GZIP_PKG_INSTAL
 	 echo "short_description=\"$(GZIP_PKG_SHORT_DESCRIPTION)\"" >> $(GZIP_PKG)/.PKGINFO ; \
 	 echo "url=$(GZIP_PKG_URL)"                                 >> $(GZIP_PKG)/.PKGINFO ; \
 	 echo "license=$(GZIP_PKG_LICENSE)"                         >> $(GZIP_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GZIP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GZIP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

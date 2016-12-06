@@ -194,4 +194,4 @@ $(pkg_archive): $(install_target) $(LAME_PKG_DESCRIPTION_FILE) $(LAME_PKG_INSTAL
 	 echo "short_description=\"$(LAME_PKG_SHORT_DESCRIPTION)\"" >> $(LAME_PKG)/.PKGINFO ; \
 	 echo "url=$(LAME_PKG_URL)"                                 >> $(LAME_PKG)/.PKGINFO ; \
 	 echo "license=$(LAME_PKG_LICENSE)"                         >> $(LAME_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LAME_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LAME_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

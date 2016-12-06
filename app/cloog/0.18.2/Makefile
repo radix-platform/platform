@@ -192,4 +192,4 @@ $(pkg_archive): $(install_target) $(CLOOG_PKG_DESCRIPTION_FILE) $(CLOOG_PKG_INST
 	 echo "short_description=\"$(CLOOG_PKG_SHORT_DESCRIPTION)\"" >> $(CLOOG_PKG)/.PKGINFO ; \
 	 echo "url=$(CLOOG_PKG_URL)"                                 >> $(CLOOG_PKG)/.PKGINFO ; \
 	 echo "license=$(CLOOG_PKG_LICENSE)"                         >> $(CLOOG_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(CLOOG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(CLOOG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

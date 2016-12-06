@@ -232,4 +232,4 @@ $(pkg_archive): $(install_target) $(DIRAC_PKG_DESCRIPTION_FILE) $(DIRAC_PKG_INST
 	 echo "short_description=\"$(DIRAC_PKG_SHORT_DESCRIPTION)\"" >> $(DIRAC_PKG)/.PKGINFO ; \
 	 echo "url=$(DIRAC_PKG_URL)"                                 >> $(DIRAC_PKG)/.PKGINFO ; \
 	 echo "license=$(DIRAC_PKG_LICENSE)"                         >> $(DIRAC_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(DIRAC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(DIRAC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

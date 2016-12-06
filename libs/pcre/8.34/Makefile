@@ -221,4 +221,4 @@ $(pkg_archive): $(install_target) $(PCRE_PKG_DESCRIPTION_FILE) $(PCRE_PKG_INSTAL
 	 echo "short_description=\"$(PCRE_PKG_SHORT_DESCRIPTION)\"" >> $(PCRE_PKG)/.PKGINFO ; \
 	 echo "url=$(PCRE_PKG_URL)"                                 >> $(PCRE_PKG)/.PKGINFO ; \
 	 echo "license=$(PCRE_PKG_LICENSE)"                         >> $(PCRE_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(PCRE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PCRE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

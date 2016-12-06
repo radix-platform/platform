@@ -187,4 +187,4 @@ $(pkg_archive): $(install_target) $(SED_PKG_DESCRIPTION_FILE) $(SED_PKG_INSTALL_
 	 echo "short_description=\"$(SED_PKG_SHORT_DESCRIPTION)\"" >> $(SED_PKG)/.PKGINFO ; \
 	 echo "url=$(SED_PKG_URL)"                                 >> $(SED_PKG)/.PKGINFO ; \
 	 echo "license=$(SED_PKG_LICENSE)"                         >> $(SED_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(SED_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SED_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

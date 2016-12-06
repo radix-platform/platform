@@ -187,4 +187,4 @@ $(pkg_archive): $(install_target) $(ED_PKG_DESCRIPTION_FILE) $(ED_PKG_INSTALL_SC
 	 echo "short_description=\"$(ED_PKG_SHORT_DESCRIPTION)\"" >> $(ED_PKG)/.PKGINFO ; \
 	 echo "url=$(ED_PKG_URL)"                                 >> $(ED_PKG)/.PKGINFO ; \
 	 echo "license=$(ED_PKG_LICENSE)"                         >> $(ED_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(ED_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ED_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

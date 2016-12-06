@@ -187,4 +187,4 @@ $(pkg_archive): $(install_target) $(DIFFUTILS_PKG_DESCRIPTION_FILE) $(DIFFUTILS_
 	 echo "short_description=\"$(DIFFUTILS_PKG_SHORT_DESCRIPTION)\"" >> $(DIFFUTILS_PKG)/.PKGINFO ; \
 	 echo "url=$(DIFFUTILS_PKG_URL)"                                 >> $(DIFFUTILS_PKG)/.PKGINFO ; \
 	 echo "license=$(DIFFUTILS_PKG_LICENSE)"                         >> $(DIFFUTILS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(DIFFUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(DIFFUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

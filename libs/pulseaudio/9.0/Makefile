@@ -307,4 +307,4 @@ $(pkg_archive): $(install_target) $(PAUDIO_PKG_DESCRIPTION_FILE) $(PAUDIO_PKG_IN
 	 echo "short_description=\"$(PAUDIO_PKG_SHORT_DESCRIPTION)\"" >> $(PAUDIO_PKG)/.PKGINFO ; \
 	 echo "url=$(PAUDIO_PKG_URL)"                                 >> $(PAUDIO_PKG)/.PKGINFO ; \
 	 echo "license=$(PAUDIO_PKG_LICENSE)"                         >> $(PAUDIO_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(PAUDIO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PAUDIO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -233,4 +233,4 @@ $(pkg_archive): $(install_target) $(ICECAST_PKG_DESCRIPTION_FILE) $(ICECAST_PKG_
 	 echo "short_description=\"$(ICECAST_PKG_SHORT_DESCRIPTION)\"" >> $(ICECAST_PKG)/.PKGINFO ; \
 	 echo "url=$(ICECAST_PKG_URL)"                                 >> $(ICECAST_PKG)/.PKGINFO ; \
 	 echo "license=$(ICECAST_PKG_LICENSE)"                         >> $(ICECAST_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(ICECAST_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ICECAST_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

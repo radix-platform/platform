@@ -197,4 +197,4 @@ $(pkg_archive): $(install_target) $(LIBGSM_PKG_DESCRIPTION_FILE) $(LIBGSM_PKG_IN
 	 echo "short_description=\"$(LIBGSM_PKG_SHORT_DESCRIPTION)\"" >> $(LIBGSM_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBGSM_PKG_URL)"                                 >> $(LIBGSM_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBGSM_PKG_LICENSE)"                         >> $(LIBGSM_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBGSM_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBGSM_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

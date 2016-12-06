@@ -195,4 +195,4 @@ $(pkg_archive): $(install_target) $(TAR_PKG_DESCRIPTION_FILE) $(TAR_PKG_INSTALL_
 	 echo "short_description=\"$(TAR_PKG_SHORT_DESCRIPTION)\"" >> $(TAR_PKG)/.PKGINFO ; \
 	 echo "url=$(TAR_PKG_URL)"                                 >> $(TAR_PKG)/.PKGINFO ; \
 	 echo "license=$(TAR_PKG_LICENSE)"                         >> $(TAR_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(TAR_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(TAR_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

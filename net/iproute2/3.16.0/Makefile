@@ -206,4 +206,4 @@ $(pkg_archive): $(install_target) $(IPROUTE2_PKG_DESCRIPTION_FILE) $(IPROUTE2_PK
 	 echo "short_description=\"$(IPROUTE2_PKG_SHORT_DESCRIPTION)\"" >> $(IPROUTE2_PKG)/.PKGINFO ; \
 	 echo "url=$(IPROUTE2_PKG_URL)"                                 >> $(IPROUTE2_PKG)/.PKGINFO ; \
 	 echo "license=$(IPROUTE2_PKG_LICENSE)"                         >> $(IPROUTE2_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(IPROUTE2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(IPROUTE2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

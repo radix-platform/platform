@@ -228,4 +228,4 @@ $(pkg_archive): $(install_target) $(IPERF3_PKG_DESCRIPTION_FILE) $(IPERF3_PKG_IN
 	 echo "short_description=\"$(IPERF3_PKG_SHORT_DESCRIPTION)\"" >> $(IPERF3_PKG)/.PKGINFO ; \
 	 echo "url=$(IPERF3_PKG_URL)"                                 >> $(IPERF3_PKG)/.PKGINFO ; \
 	 echo "license=$(IPERF3_PKG_LICENSE)"                         >> $(IPERF3_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(IPERF3_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(IPERF3_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

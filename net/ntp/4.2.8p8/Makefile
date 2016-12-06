@@ -303,4 +303,4 @@ $(pkg_archive): $(install_target) $(NTP_PKG_DESCRIPTION_FILE) $(NTP_PKG_INSTALL_
 	 echo "short_description=\"$(NTP_PKG_SHORT_DESCRIPTION)\"" >> $(NTP_PKG)/.PKGINFO ; \
 	 echo "url=$(NTP_PKG_URL)"                                 >> $(NTP_PKG)/.PKGINFO ; \
 	 echo "license=$(NTP_PKG_LICENSE)"                         >> $(NTP_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(NTP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(NTP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

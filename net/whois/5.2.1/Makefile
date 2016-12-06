@@ -167,4 +167,4 @@ $(pkg_archive): $(install_target) $(WHOIS_PKG_DESCRIPTION_FILE) $(WHOIS_PKG_INST
 	 echo "short_description=\"$(WHOIS_PKG_SHORT_DESCRIPTION)\"" >> $(WHOIS_PKG)/.PKGINFO ; \
 	 echo "url=$(WHOIS_PKG_URL)"                                 >> $(WHOIS_PKG)/.PKGINFO ; \
 	 echo "license=$(WHOIS_PKG_LICENSE)"                         >> $(WHOIS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(WHOIS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(WHOIS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -180,4 +180,4 @@ $(pkg_archive): $(install_target) $(LIBWEBP_32_PKG_DESCRIPTION_FILE) $(LIBWEBP_3
 	 echo "short_description=\"$(LIBWEBP_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBWEBP_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBWEBP_32_PKG_URL)"                                 >> $(LIBWEBP_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBWEBP_32_PKG_LICENSE)"                         >> $(LIBWEBP_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBWEBP_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBWEBP_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

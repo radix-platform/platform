@@ -182,4 +182,4 @@ $(pkg_archive): $(install_target) $(EBTABLES_PKG_DESCRIPTION_FILE) $(EBTABLES_PK
 	 echo "short_description=\"$(EBTABLES_PKG_SHORT_DESCRIPTION)\"" >> $(EBTABLES_PKG)/.PKGINFO ; \
 	 echo "url=$(EBTABLES_PKG_URL)"                                 >> $(EBTABLES_PKG)/.PKGINFO ; \
 	 echo "license=$(EBTABLES_PKG_LICENSE)"                         >> $(EBTABLES_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(EBTABLES_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(EBTABLES_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

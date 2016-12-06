@@ -153,4 +153,4 @@ $(pkg_archive): $(install_target) $(INETD_PKG_DESCRIPTION_FILE) $(INETD_PKG_INST
 	 echo "short_description=\"$(INETD_PKG_SHORT_DESCRIPTION)\"" >> $(INETD_PKG)/.PKGINFO ; \
 	 echo "url=$(INETD_PKG_URL)"                                 >> $(INETD_PKG)/.PKGINFO ; \
 	 echo "license=$(INETD_PKG_LICENSE)"                         >> $(INETD_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(INETD_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(INETD_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

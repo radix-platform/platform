@@ -182,4 +182,4 @@ $(pkg_archive): $(install_target) $(SDPARM_PKG_DESCRIPTION_FILE) $(SDPARM_PKG_IN
 	 echo "short_description=\"$(SDPARM_PKG_SHORT_DESCRIPTION)\"" >> $(SDPARM_PKG)/.PKGINFO ; \
 	 echo "url=$(SDPARM_PKG_URL)"                                 >> $(SDPARM_PKG)/.PKGINFO ; \
 	 echo "license=$(SDPARM_PKG_LICENSE)"                         >> $(SDPARM_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(SDPARM_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SDPARM_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

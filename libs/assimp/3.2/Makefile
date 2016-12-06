@@ -222,4 +222,4 @@ $(pkg_archive): $(install_target) $(ASSIMP_PKG_DESCRIPTION_FILE) $(ASSIMP_PKG_IN
 	 echo "short_description=\"$(ASSIMP_PKG_SHORT_DESCRIPTION)\"" >> $(ASSIMP_PKG)/.PKGINFO ; \
 	 echo "url=$(ASSIMP_PKG_URL)"                                 >> $(ASSIMP_PKG)/.PKGINFO ; \
 	 echo "license=$(ASSIMP_PKG_LICENSE)"                         >> $(ASSIMP_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(ASSIMP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ASSIMP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -186,4 +186,4 @@ $(pkg_archive): $(install_target) $(GLEW_PKG_DESCRIPTION_FILE) $(GLEW_PKG_INSTAL
 	 echo "short_description=\"$(GLEW_PKG_SHORT_DESCRIPTION)\"" >> $(GLEW_PKG)/.PKGINFO ; \
 	 echo "url=$(GLEW_PKG_URL)"                                 >> $(GLEW_PKG)/.PKGINFO ; \
 	 echo "license=$(GLEW_PKG_LICENSE)"                         >> $(GLEW_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GLEW_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GLEW_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

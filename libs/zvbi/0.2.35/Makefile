@@ -231,4 +231,4 @@ $(pkg_archive): $(install_target) $(ZVBI_PKG_DESCRIPTION_FILE) $(ZVBI_PKG_INSTAL
 	 echo "short_description=\"$(ZVBI_PKG_SHORT_DESCRIPTION)\"" >> $(ZVBI_PKG)/.PKGINFO ; \
 	 echo "url=$(ZVBI_PKG_URL)"                                 >> $(ZVBI_PKG)/.PKGINFO ; \
 	 echo "license=$(ZVBI_PKG_LICENSE)"                         >> $(ZVBI_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(ZVBI_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ZVBI_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

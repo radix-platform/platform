@@ -200,4 +200,4 @@ $(pkg_archive): $(install_target) $(GUILE_32_PKG_DESCRIPTION_FILE) $(GUILE_32_PK
 	 echo "short_description=\"$(GUILE_32_PKG_SHORT_DESCRIPTION)\"" >> $(GUILE_32_PKG)/.PKGINFO ; \
 	 echo "url=$(GUILE_32_PKG_URL)"                                 >> $(GUILE_32_PKG)/.PKGINFO ; \
 	 echo "license=$(GUILE_32_PKG_LICENSE)"                         >> $(GUILE_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GUILE_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GUILE_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

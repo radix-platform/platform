@@ -179,4 +179,4 @@ $(pkg_archive): $(install_target) $(IEC61883_32_PKG_DESCRIPTION_FILE) $(IEC61883
 	 echo "short_description=\"$(IEC61883_32_PKG_SHORT_DESCRIPTION)\"" >> $(IEC61883_32_PKG)/.PKGINFO ; \
 	 echo "url=$(IEC61883_32_PKG_URL)"                                 >> $(IEC61883_32_PKG)/.PKGINFO ; \
 	 echo "license=$(IEC61883_32_PKG_LICENSE)"                         >> $(IEC61883_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(IEC61883_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(IEC61883_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -497,10 +497,10 @@ $(pkg_archive): $(install_target) $(UTILLINUX_PKG_DESCRIPTION_FILE) $(UTILLINUX_
 	 echo "short_description=\"$(UTILLINUX_PKG_SHORT_DESCRIPTION)\"" >> $(UTILLINUX_PKG)/.PKGINFO ; \
 	 echo "url=$(UTILLINUX_PKG_URL)"                                 >> $(UTILLINUX_PKG)/.PKGINFO ; \
 	 echo "license=$(UTILLINUX_PKG_LICENSE)"                         >> $(UTILLINUX_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(UTILLINUX_PKG)  && \
-	                    chown -R root:root . && \
-	                    chgrp tty usr/bin/wall  && \
-	                    chmod g+s usr/bin/wall  && \
-	                    chgrp tty usr/bin/write && \
-	                    chmod g+s usr/bin/write && \
-	                    $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(UTILLINUX_PKG)  && \
+	                  chown -R root:root . && \
+	                  chgrp tty usr/bin/wall  && \
+	                  chmod g+s usr/bin/wall  && \
+	                  chgrp tty usr/bin/write && \
+	                  chmod g+s usr/bin/write && \
+	                  $(MAKE_PACKAGE) --linkadd yes .."

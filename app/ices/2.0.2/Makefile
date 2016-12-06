@@ -217,4 +217,4 @@ $(pkg_archive): $(install_target) $(ICES_PKG_DESCRIPTION_FILE) $(ICES_PKG_INSTAL
 	 echo "short_description=\"$(ICES_PKG_SHORT_DESCRIPTION)\"" >> $(ICES_PKG)/.PKGINFO ; \
 	 echo "url=$(ICES_PKG_URL)"                                 >> $(ICES_PKG)/.PKGINFO ; \
 	 echo "license=$(ICES_PKG_LICENSE)"                         >> $(ICES_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(ICES_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ICES_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

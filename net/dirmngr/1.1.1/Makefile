@@ -188,4 +188,4 @@ $(pkg_archive): $(install_target) $(DIRMNGR_PKG_DESCRIPTION_FILE) $(DIRMNGR_PKG_
 	 echo "short_description=\"$(DIRMNGR_PKG_SHORT_DESCRIPTION)\"" >> $(DIRMNGR_PKG)/.PKGINFO ; \
 	 echo "url=$(DIRMNGR_PKG_URL)"                                 >> $(DIRMNGR_PKG)/.PKGINFO ; \
 	 echo "license=$(DIRMNGR_PKG_LICENSE)"                         >> $(DIRMNGR_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(DIRMNGR_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(DIRMNGR_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

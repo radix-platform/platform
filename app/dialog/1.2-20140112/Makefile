@@ -210,5 +210,5 @@ $(pkg_archive): $(install_target) $(DIALOG_PKG_DESCRIPTION_FILE) $(DIALOG_PKG_IN
 	 echo "short_description=\"$(DIALOG_PKG_SHORT_DESCRIPTION)\"" >> $(DIALOG_PKG)/.PKGINFO ; \
 	 echo "url=$(DIALOG_PKG_URL)"                                 >> $(DIALOG_PKG)/.PKGINFO ; \
 	 echo "license=$(DIALOG_PKG_LICENSE)"                         >> $(DIALOG_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(DIALOG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(DIALOG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
 	@touch $@

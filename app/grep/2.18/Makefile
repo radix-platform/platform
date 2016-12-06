@@ -196,4 +196,4 @@ $(pkg_archive): $(install_target) $(GREP_PKG_DESCRIPTION_FILE) $(GREP_PKG_INSTAL
 	 echo "short_description=\"$(GREP_PKG_SHORT_DESCRIPTION)\"" >> $(GREP_PKG)/.PKGINFO ; \
 	 echo "url=$(GREP_PKG_URL)"                                 >> $(GREP_PKG)/.PKGINFO ; \
 	 echo "license=$(GREP_PKG_LICENSE)"                         >> $(GREP_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GREP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GREP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

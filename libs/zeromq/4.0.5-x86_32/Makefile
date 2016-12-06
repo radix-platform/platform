@@ -181,4 +181,4 @@ $(pkg_archive): $(install_target) $(ZEROMQ_32_PKG_DESCRIPTION_FILE) $(ZEROMQ_32_
 	 echo "short_description=\"$(ZEROMQ_32_PKG_SHORT_DESCRIPTION)\"" >> $(ZEROMQ_32_PKG)/.PKGINFO ; \
 	 echo "url=$(ZEROMQ_32_PKG_URL)"                                 >> $(ZEROMQ_32_PKG)/.PKGINFO ; \
 	 echo "license=$(ZEROMQ_32_PKG_LICENSE)"                         >> $(ZEROMQ_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(ZEROMQ_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ZEROMQ_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

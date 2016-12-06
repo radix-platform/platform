@@ -154,4 +154,4 @@ $(pkg_archive): $(install_target) $(FTP_PKG_DESCRIPTION_FILE) $(FTP_PKG_INSTALL_
 	 echo "short_description=\"$(FTP_PKG_SHORT_DESCRIPTION)\"" >> $(FTP_PKG)/.PKGINFO ; \
 	 echo "url=$(FTP_PKG_URL)"                                 >> $(FTP_PKG)/.PKGINFO ; \
 	 echo "license=$(FTP_PKG_LICENSE)"                         >> $(FTP_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(FTP_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(FTP_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

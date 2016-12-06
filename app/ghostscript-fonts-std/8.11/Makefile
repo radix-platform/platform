@@ -147,4 +147,4 @@ $(pkg_archive): $(install_target) $(GSFONTS_PKG_DESCRIPTION_FILE) $(GSFONTS_PKG_
 	 echo "short_description=\"$(GSFONTS_PKG_SHORT_DESCRIPTION)\"" >> $(GSFONTS_PKG)/.PKGINFO ; \
 	 echo "url=$(GSFONTS_PKG_URL)"                                 >> $(GSFONTS_PKG)/.PKGINFO ; \
 	 echo "license=$(GSFONTS_PKG_LICENSE)"                         >> $(GSFONTS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GSFONTS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GSFONTS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

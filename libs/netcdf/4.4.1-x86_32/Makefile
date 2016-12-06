@@ -205,4 +205,4 @@ $(pkg_archive): $(install_target) $(NETCDF_32_PKG_DESCRIPTION_FILE) $(NETCDF_32_
 	 echo "short_description=\"$(NETCDF_32_PKG_SHORT_DESCRIPTION)\"" >> $(NETCDF_32_PKG)/.PKGINFO ; \
 	 echo "url=$(NETCDF_32_PKG_URL)"                                 >> $(NETCDF_32_PKG)/.PKGINFO ; \
 	 echo "license=$(NETCDF_32_PKG_LICENSE)"                         >> $(NETCDF_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(NETCDF_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(NETCDF_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

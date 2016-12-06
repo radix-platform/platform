@@ -224,4 +224,4 @@ $(pkg_archive): $(install_target) $(FREETYPE_PKG_DESCRIPTION_FILE) $(FREETYPE_PK
 	 echo "short_description=\"$(FREETYPE_PKG_SHORT_DESCRIPTION)\"" >> $(FREETYPE_PKG)/.PKGINFO ; \
 	 echo "url=$(FREETYPE_PKG_URL)"                                 >> $(FREETYPE_PKG)/.PKGINFO ; \
 	 echo "license=$(FREETYPE_PKG_LICENSE)"                         >> $(FREETYPE_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(FREETYPE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(FREETYPE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

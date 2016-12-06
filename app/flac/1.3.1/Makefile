@@ -219,4 +219,4 @@ $(pkg_archive): $(install_target) $(FLAC_PKG_DESCRIPTION_FILE) $(FLAC_PKG_INSTAL
 	 echo "short_description=\"$(FLAC_PKG_SHORT_DESCRIPTION)\"" >> $(FLAC_PKG)/.PKGINFO ; \
 	 echo "url=$(FLAC_PKG_URL)"                                 >> $(FLAC_PKG)/.PKGINFO ; \
 	 echo "license=$(FLAC_PKG_LICENSE)"                         >> $(FLAC_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(FLAC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(FLAC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

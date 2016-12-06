@@ -166,4 +166,4 @@ $(pkg_archive): $(install_target) $(Z_RESAMPLE_PKG_DESCRIPTION_FILE) $(Z_RESAMPL
 	 echo "short_description=\"$(Z_RESAMPLE_PKG_SHORT_DESCRIPTION)\"" >> $(Z_RESAMPLE_PKG)/.PKGINFO ; \
 	 echo "url=$(Z_RESAMPLE_PKG_URL)"                                 >> $(Z_RESAMPLE_PKG)/.PKGINFO ; \
 	 echo "license=$(Z_RESAMPLE_PKG_LICENSE)"                         >> $(Z_RESAMPLE_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(Z_RESAMPLE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(Z_RESAMPLE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

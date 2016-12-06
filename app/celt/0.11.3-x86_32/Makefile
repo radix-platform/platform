@@ -186,4 +186,4 @@ $(pkg_archive): $(install_target) $(CELT_32_PKG_DESCRIPTION_FILE) $(CELT_32_PKG_
 	 echo "short_description=\"$(CELT_32_PKG_SHORT_DESCRIPTION)\"" >> $(CELT_32_PKG)/.PKGINFO ; \
 	 echo "url=$(CELT_32_PKG_URL)"                                 >> $(CELT_32_PKG)/.PKGINFO ; \
 	 echo "license=$(CELT_32_PKG_LICENSE)"                         >> $(CELT_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(CELT_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(CELT_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -212,4 +212,4 @@ $(pkg_archive): $(install_target) $(LIBMNG_PKG_DESCRIPTION_FILE) $(LIBMNG_PKG_IN
 	 echo "short_description=\"$(LIBMNG_PKG_SHORT_DESCRIPTION)\"" >> $(LIBMNG_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBMNG_PKG_URL)"                                 >> $(LIBMNG_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBMNG_PKG_LICENSE)"                         >> $(LIBMNG_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBMNG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBMNG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

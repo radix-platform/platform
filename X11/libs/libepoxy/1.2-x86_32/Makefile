@@ -151,4 +151,4 @@ $(pkg_archive): $(install_target) $(LIBEPOXY_32_PKG_DESCRIPTION_FILE) $(LIBEPOXY
 	 echo "short_description=\"$(LIBEPOXY_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBEPOXY_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBEPOXY_32_PKG_URL)"                                 >> $(LIBEPOXY_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBEPOXY_32_PKG_LICENSE)"                         >> $(LIBEPOXY_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBEPOXY_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBEPOXY_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

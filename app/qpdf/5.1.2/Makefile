@@ -217,4 +217,4 @@ $(pkg_archive): $(install_target) $(QPDF_PKG_DESCRIPTION_FILE) $(QPDF_PKG_INSTAL
 	 echo "short_description=\"$(QPDF_PKG_SHORT_DESCRIPTION)\"" >> $(QPDF_PKG)/.PKGINFO ; \
 	 echo "url=$(QPDF_PKG_URL)"                                 >> $(QPDF_PKG)/.PKGINFO ; \
 	 echo "license=$(QPDF_PKG_LICENSE)"                         >> $(QPDF_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(QPDF_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(QPDF_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

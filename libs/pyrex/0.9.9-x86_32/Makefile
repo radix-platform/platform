@@ -120,4 +120,4 @@ $(pkg_archive): $(install_target) $(PYREX_32_PKG_DESCRIPTION_FILE) $(PYREX_32_PK
 	 echo "short_description=\"$(PYREX_32_PKG_SHORT_DESCRIPTION)\"" >> $(PYREX_32_PKG)/.PKGINFO ; \
 	 echo "url=$(PYREX_32_PKG_URL)"                                 >> $(PYREX_32_PKG)/.PKGINFO ; \
 	 echo "license=$(PYREX_32_PKG_LICENSE)"                         >> $(PYREX_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(PYREX_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PYREX_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

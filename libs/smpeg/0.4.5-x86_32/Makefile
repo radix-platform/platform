@@ -193,4 +193,4 @@ $(pkg_archive): $(install_target) $(SMPEG_32_PKG_DESCRIPTION_FILE) $(SMPEG_32_PK
 	 echo "short_description=\"$(SMPEG_32_PKG_SHORT_DESCRIPTION)\"" >> $(SMPEG_32_PKG)/.PKGINFO ; \
 	 echo "url=$(SMPEG_32_PKG_URL)"                                 >> $(SMPEG_32_PKG)/.PKGINFO ; \
 	 echo "license=$(SMPEG_32_PKG_LICENSE)"                         >> $(SMPEG_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(SMPEG_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SMPEG_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

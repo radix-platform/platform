@@ -172,4 +172,4 @@ $(pkg_archive): $(install_target) $(GUDEV_32_PKG_DESCRIPTION_FILE) $(GUDEV_32_PK
 	 echo "short_description=\"$(GUDEV_32_PKG_SHORT_DESCRIPTION)\"" >> $(GUDEV_32_PKG)/.PKGINFO ; \
 	 echo "url=$(GUDEV_32_PKG_URL)"                                 >> $(GUDEV_32_PKG)/.PKGINFO ; \
 	 echo "license=$(GUDEV_32_PKG_LICENSE)"                         >> $(GUDEV_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GUDEV_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GUDEV_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

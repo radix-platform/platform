@@ -258,4 +258,4 @@ $(pkg_archive): $(install_target) $(SHADOW_PKG_DESCRIPTION_FILE) $(SHADOW_PKG_IN
 	 echo "short_description=\"$(SHADOW_PKG_SHORT_DESCRIPTION)\"" >> $(SHADOW_PKG)/.PKGINFO ; \
 	 echo "url=$(SHADOW_PKG_URL)"                                 >> $(SHADOW_PKG)/.PKGINFO ; \
 	 echo "license=$(SHADOW_PKG_LICENSE)"                         >> $(SHADOW_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(SHADOW_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SHADOW_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

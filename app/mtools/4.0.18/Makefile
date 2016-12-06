@@ -199,4 +199,4 @@ $(pkg_archive): $(install_target) $(MTOOLS_PKG_DESCRIPTION_FILE) $(MTOOLS_PKG_IN
 	 echo "short_description=\"$(MTOOLS_PKG_SHORT_DESCRIPTION)\"" >> $(MTOOLS_PKG)/.PKGINFO ; \
 	 echo "url=$(MTOOLS_PKG_URL)"                                 >> $(MTOOLS_PKG)/.PKGINFO ; \
 	 echo "license=$(MTOOLS_PKG_LICENSE)"                         >> $(MTOOLS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(MTOOLS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(MTOOLS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -277,4 +277,4 @@ $(pkg_archive): $(install_target) $(PIXBUF2_PKG_DESCRIPTION_FILE) $(PIXBUF2_PKG_
 	 echo "short_description=\"$(PIXBUF2_PKG_SHORT_DESCRIPTION)\"" >> $(PIXBUF2_PKG)/.PKGINFO ; \
 	 echo "url=$(PIXBUF2_PKG_URL)"                                 >> $(PIXBUF2_PKG)/.PKGINFO ; \
 	 echo "license=$(PIXBUF2_PKG_LICENSE)"                         >> $(PIXBUF2_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(PIXBUF2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PIXBUF2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

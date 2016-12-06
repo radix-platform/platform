@@ -201,4 +201,4 @@ $(pkg_archive): $(install_target) $(SYSVINIT_PKG_DESCRIPTION_FILE) $(SYSVINIT_PK
 	 echo "short_description=\"$(SYSVINIT_PKG_SHORT_DESCRIPTION)\"" >> $(SYSVINIT_PKG)/.PKGINFO ; \
 	 echo "url=$(SYSVINIT_PKG_URL)"                                 >> $(SYSVINIT_PKG)/.PKGINFO ; \
 	 echo "license=$(SYSVINIT_PKG_LICENSE)"                         >> $(SYSVINIT_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(SYSVINIT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SYSVINIT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

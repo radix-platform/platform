@@ -235,4 +235,4 @@ $(pkg_archive): $(install_target) $(LOG4CPLUS_PKG_DESCRIPTION_FILE) $(LOG4CPLUS_
 	 echo "short_description=\"$(LOG4CPLUS_PKG_SHORT_DESCRIPTION)\"" >> $(LOG4CPLUS_PKG)/.PKGINFO ; \
 	 echo "url=$(LOG4CPLUS_PKG_URL)"                                 >> $(LOG4CPLUS_PKG)/.PKGINFO ; \
 	 echo "license=$(LOG4CPLUS_PKG_LICENSE)"                         >> $(LOG4CPLUS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LOG4CPLUS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LOG4CPLUS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

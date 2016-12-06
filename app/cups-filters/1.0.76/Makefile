@@ -251,4 +251,4 @@ $(pkg_archive): $(install_target) $(CUPS_FLTS_PKG_DESCRIPTION_FILE) $(CUPS_FLTS_
 	 echo "short_description=\"$(CUPS_FLTS_PKG_SHORT_DESCRIPTION)\"" >> $(CUPS_FLTS_PKG)/.PKGINFO ; \
 	 echo "url=$(CUPS_FLTS_PKG_URL)"                                 >> $(CUPS_FLTS_PKG)/.PKGINFO ; \
 	 echo "license=$(CUPS_FLTS_PKG_LICENSE)"                         >> $(CUPS_FLTS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(CUPS_FLTS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(CUPS_FLTS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

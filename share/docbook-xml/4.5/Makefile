@@ -209,4 +209,4 @@ $(pkg_archive): $(install_target) $(DTD_PKG_DESCRIPTION_FILE) $(DTD_PKG_INSTALL_
 	 echo "short_description=\"$(DTD_PKG_SHORT_DESCRIPTION)\"" >> $(DTD_PKG)/.PKGINFO ; \
 	 echo "url=$(DTD_PKG_URL)"                                 >> $(DTD_PKG)/.PKGINFO ; \
 	 echo "license=$(DTD_PKG_LICENSE)"                         >> $(DTD_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(DTD_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(DTD_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

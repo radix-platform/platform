@@ -190,4 +190,4 @@ $(pkg_archive): $(install_target) $(AUTOMAKE_PKG_DESCRIPTION_FILE) $(AUTOMAKE_PK
 	 echo "short_description=\"$(AUTOMAKE_PKG_SHORT_DESCRIPTION)\"" >> $(AUTOMAKE_PKG)/.PKGINFO ; \
 	 echo "url=$(AUTOMAKE_PKG_URL)"                                 >> $(AUTOMAKE_PKG)/.PKGINFO ; \
 	 echo "license=$(AUTOMAKE_PKG_LICENSE)"                         >> $(AUTOMAKE_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(AUTOMAKE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(AUTOMAKE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

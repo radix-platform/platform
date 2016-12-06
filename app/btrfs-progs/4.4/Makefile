@@ -200,4 +200,4 @@ $(pkg_archive): $(install_target) $(BTRFS_PKG_DESCRIPTION_FILE) $(BTRFS_PKG_INST
 	 echo "short_description=\"$(BTRFS_PKG_SHORT_DESCRIPTION)\"" >> $(BTRFS_PKG)/.PKGINFO ; \
 	 echo "url=$(BTRFS_PKG_URL)"                                 >> $(BTRFS_PKG)/.PKGINFO ; \
 	 echo "license=$(BTRFS_PKG_LICENSE)"                         >> $(BTRFS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(BTRFS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(BTRFS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

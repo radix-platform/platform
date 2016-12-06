@@ -362,4 +362,4 @@ $(pkg_archive): $(install_target) $(MESA_PKG_DESCRIPTION_FILE) $(MESA_PKG_INSTAL
 	 echo "short_description=\"$(MESA_PKG_SHORT_DESCRIPTION)\"" >> $(MESA_PKG)/.PKGINFO ; \
 	 echo "url=$(MESA_PKG_URL)"                                 >> $(MESA_PKG)/.PKGINFO ; \
 	 echo "license=$(MESA_PKG_LICENSE)"                         >> $(MESA_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(MESA_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(MESA_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -177,4 +177,4 @@ $(pkg_archive): $(install_target) $(IFTOP_PKG_DESCRIPTION_FILE) $(IFTOP_PKG_INST
 	 echo "short_description=\"$(IFTOP_PKG_SHORT_DESCRIPTION)\"" >> $(IFTOP_PKG)/.PKGINFO ; \
 	 echo "url=$(IFTOP_PKG_URL)"                                 >> $(IFTOP_PKG)/.PKGINFO ; \
 	 echo "license=$(IFTOP_PKG_LICENSE)"                         >> $(IFTOP_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(IFTOP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(IFTOP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

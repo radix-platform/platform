@@ -179,4 +179,4 @@ $(pkg_archive): $(install_target) $(SASL_32_PKG_DESCRIPTION_FILE) $(SASL_32_PKG_
 	 echo "short_description=\"$(SASL_32_PKG_SHORT_DESCRIPTION)\"" >> $(SASL_32_PKG)/.PKGINFO ; \
 	 echo "url=$(SASL_32_PKG_URL)"                                 >> $(SASL_32_PKG)/.PKGINFO ; \
 	 echo "license=$(SASL_32_PKG_LICENSE)"                         >> $(SASL_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(SASL_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SASL_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

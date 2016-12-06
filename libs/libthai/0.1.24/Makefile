@@ -210,4 +210,4 @@ $(pkg_archive): $(install_target) $(THAI_PKG_DESCRIPTION_FILE) $(THAI_PKG_INSTAL
 	 echo "short_description=\"$(THAI_PKG_SHORT_DESCRIPTION)\"" >> $(THAI_PKG)/.PKGINFO ; \
 	 echo "url=$(THAI_PKG_URL)"                                 >> $(THAI_PKG)/.PKGINFO ; \
 	 echo "license=$(THAI_PKG_LICENSE)"                         >> $(THAI_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(THAI_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(THAI_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

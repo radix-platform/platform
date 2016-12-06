@@ -282,4 +282,4 @@ $(pkg_archive): $(install_target) $(BIND_PKG_DESCRIPTION_FILE) $(BIND_PKG_INSTAL
 	 echo "short_description=\"$(BIND_PKG_SHORT_DESCRIPTION)\"" >> $(BIND_PKG)/.PKGINFO ; \
 	 echo "url=$(BIND_PKG_URL)"                                 >> $(BIND_PKG)/.PKGINFO ; \
 	 echo "license=$(BIND_PKG_LICENSE)"                         >> $(BIND_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(BIND_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(BIND_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -224,4 +224,4 @@ $(pkg_archive): $(install_target) $(AUDIOFILE_PKG_DESCRIPTION_FILE) $(AUDIOFILE_
 	 echo "short_description=\"$(AUDIOFILE_PKG_SHORT_DESCRIPTION)\"" >> $(AUDIOFILE_PKG)/.PKGINFO ; \
 	 echo "url=$(AUDIOFILE_PKG_URL)"                                 >> $(AUDIOFILE_PKG)/.PKGINFO ; \
 	 echo "license=$(AUDIOFILE_PKG_LICENSE)"                         >> $(AUDIOFILE_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(AUDIOFILE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(AUDIOFILE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

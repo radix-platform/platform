@@ -198,4 +198,4 @@ $(pkg_archive): $(install_target) $(LIBFFI_PKG_DESCRIPTION_FILE) $(LIBFFI_PKG_IN
 	 echo "short_description=\"$(LIBFFI_PKG_SHORT_DESCRIPTION)\"" >> $(LIBFFI_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBFFI_PKG_URL)"                                 >> $(LIBFFI_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBFFI_PKG_LICENSE)"                         >> $(LIBFFI_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBFFI_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBFFI_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -216,4 +216,4 @@ $(pkg_archive): $(install_target) $(OMXIL_PKG_DESCRIPTION_FILE) $(OMXIL_PKG_INST
 	 echo "short_description=\"$(OMXIL_PKG_SHORT_DESCRIPTION)\"" >> $(OMXIL_PKG)/.PKGINFO ; \
 	 echo "url=$(OMXIL_PKG_URL)"                                 >> $(OMXIL_PKG)/.PKGINFO ; \
 	 echo "license=$(OMXIL_PKG_LICENSE)"                         >> $(OMXIL_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(OMXIL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(OMXIL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

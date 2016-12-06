@@ -181,4 +181,4 @@ $(pkg_archive): $(install_target) $(MAKE_PKG_DESCRIPTION_FILE) $(MAKE_PKG_INSTAL
 	 echo "short_description=\"$(MAKE_PKG_SHORT_DESCRIPTION)\"" >> $(MAKE_PKG)/.PKGINFO ; \
 	 echo "url=$(MAKE_PKG_URL)"                                 >> $(MAKE_PKG)/.PKGINFO ; \
 	 echo "license=$(MAKE_PKG_LICENSE)"                         >> $(MAKE_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(MAKE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(MAKE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

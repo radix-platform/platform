@@ -235,4 +235,4 @@ $(pkg_archive): $(install_target) $(LIBSOXR_PKG_DESCRIPTION_FILE) $(LIBSOXR_PKG_
 	 echo "short_description=\"$(LIBSOXR_PKG_SHORT_DESCRIPTION)\"" >> $(LIBSOXR_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBSOXR_PKG_URL)"                                 >> $(LIBSOXR_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBSOXR_PKG_LICENSE)"                         >> $(LIBSOXR_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBSOXR_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBSOXR_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

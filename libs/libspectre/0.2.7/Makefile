@@ -184,4 +184,4 @@ $(pkg_archive): $(install_target) $(LIBSPECTRE_PKG_DESCRIPTION_FILE) $(LIBSPECTR
 	 echo "short_description=\"$(LIBSPECTRE_PKG_SHORT_DESCRIPTION)\"" >> $(LIBSPECTRE_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBSPECTRE_PKG_URL)"                                 >> $(LIBSPECTRE_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBSPECTRE_PKG_LICENSE)"                         >> $(LIBSPECTRE_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBSPECTRE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBSPECTRE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

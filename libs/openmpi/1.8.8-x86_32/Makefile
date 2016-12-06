@@ -230,4 +230,4 @@ $(pkg_archive): $(install_target) $(OMPI_32_PKG_DESCRIPTION_FILE) $(OMPI_32_PKG_
 	 echo "short_description=\"$(OMPI_32_PKG_SHORT_DESCRIPTION)\"" >> $(OMPI_32_PKG)/.PKGINFO ; \
 	 echo "url=$(OMPI_32_PKG_URL)"                                 >> $(OMPI_32_PKG)/.PKGINFO ; \
 	 echo "license=$(OMPI_32_PKG_LICENSE)"                         >> $(OMPI_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(OMPI_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(OMPI_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -162,4 +162,4 @@ $(pkg_archive): $(install_target) $(RWALL_PKG_DESCRIPTION_FILE) $(RWALL_PKG_INST
 	 echo "short_description=\"$(RWALL_PKG_SHORT_DESCRIPTION)\"" >> $(RWALL_PKG)/.PKGINFO ; \
 	 echo "url=$(RWALL_PKG_URL)"                                 >> $(RWALL_PKG)/.PKGINFO ; \
 	 echo "license=$(RWALL_PKG_LICENSE)"                         >> $(RWALL_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(RWALL_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(RWALL_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

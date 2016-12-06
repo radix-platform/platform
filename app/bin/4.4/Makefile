@@ -267,4 +267,4 @@ $(pkg_archive): $(install_target) $(CMDUTILS_PKG_DESCRIPTION_FILE) $(CMDUTILS_PK
 	 echo "short_description=\"$(CMDUTILS_PKG_SHORT_DESCRIPTION)\"" >> $(CMDUTILS_PKG)/.PKGINFO ; \
 	 echo "url=$(CMDUTILS_PKG_URL)"                                 >> $(CMDUTILS_PKG)/.PKGINFO ; \
 	 echo "license=$(CMDUTILS_PKG_LICENSE)"                         >> $(CMDUTILS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(CMDUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(CMDUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

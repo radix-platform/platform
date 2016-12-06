@@ -209,4 +209,4 @@ $(pkg_archive): $(install_target) $(LIBSAMPLERATE_PKG_DESCRIPTION_FILE) $(LIBSAM
 	 echo "short_description=\"$(LIBSAMPLERATE_PKG_SHORT_DESCRIPTION)\"" >> $(LIBSAMPLERATE_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBSAMPLERATE_PKG_URL)"                                 >> $(LIBSAMPLERATE_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBSAMPLERATE_PKG_LICENSE)"                         >> $(LIBSAMPLERATE_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBSAMPLERATE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBSAMPLERATE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

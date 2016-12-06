@@ -226,4 +226,4 @@ $(pkg_archive): $(install_target) $(COREUTILS_PKG_DESCRIPTION_FILE) $(COREUTILS_
 	 echo "short_description=\"$(COREUTILS_PKG_SHORT_DESCRIPTION)\"" >> $(COREUTILS_PKG)/.PKGINFO ; \
 	 echo "url=$(COREUTILS_PKG_URL)"                                 >> $(COREUTILS_PKG)/.PKGINFO ; \
 	 echo "license=$(COREUTILS_PKG_LICENSE)"                         >> $(COREUTILS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(COREUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(COREUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

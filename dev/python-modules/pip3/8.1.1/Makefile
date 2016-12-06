@@ -156,4 +156,4 @@ $(pkg_archive): $(install_target) $(PIP3_PKG_DESCRIPTION_FILE) $(PIP3_PKG_INSTAL
 	 echo "short_description=\"$(PIP3_PKG_SHORT_DESCRIPTION)\"" >> $(PIP3_PKG)/.PKGINFO ; \
 	 echo "url=$(PIP3_PKG_URL)"                                 >> $(PIP3_PKG)/.PKGINFO ; \
 	 echo "license=$(PIP3_PKG_LICENSE)"                         >> $(PIP3_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(PIP3_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PIP3_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

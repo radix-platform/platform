@@ -242,4 +242,4 @@ $(pkg_archive): $(install_target) $(GCRYPT_PKG_DESCRIPTION_FILE) $(GCRYPT_PKG_IN
 	 echo "short_description=\"$(GCRYPT_PKG_SHORT_DESCRIPTION)\"" >> $(GCRYPT_PKG)/.PKGINFO ; \
 	 echo "url=$(GCRYPT_PKG_URL)"                                 >> $(GCRYPT_PKG)/.PKGINFO ; \
 	 echo "license=$(GCRYPT_PKG_LICENSE)"                         >> $(GCRYPT_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GCRYPT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GCRYPT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

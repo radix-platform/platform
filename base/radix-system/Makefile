@@ -267,7 +267,7 @@ $(pkg_archive): $(build) $(SYSINIT_BIN_PKG_DESCRIPTION_FILE) $(SYSINIT_BIN_PKG_I
 	 echo "short_description=\"$(SYSINIT_BIN_PKG_SHORT_DESCRIPTION)\"" >> $(SYSINIT_BIN_PKG)/.PKGINFO ; \
 	 echo "url=$(SYSINIT_BIN_PKG_URL)"                                 >> $(SYSINIT_BIN_PKG)/.PKGINFO ; \
 	 echo "license=$(SYSINIT_BIN_PKG_LICENSE)"                         >> $(SYSINIT_BIN_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(SYSINIT_BIN_PKG)  && \
-	                    chown -R 0:0 .       && \
-	                    chown -R 0:22 var/log/wtmp var/run/utmp && \
-	                    $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SYSINIT_BIN_PKG)  && \
+	                  chown -R 0:0 .       && \
+	                  chown -R 0:22 var/log/wtmp var/run/utmp && \
+	                  $(MAKE_PACKAGE) --linkadd yes .."

@@ -188,4 +188,4 @@ $(pkg_archive): $(install_target) $(CROCO_32_PKG_DESCRIPTION_FILE) $(CROCO_32_PK
 	 echo "short_description=\"$(CROCO_32_PKG_SHORT_DESCRIPTION)\"" >> $(CROCO_32_PKG)/.PKGINFO ; \
 	 echo "url=$(CROCO_32_PKG_URL)"                                 >> $(CROCO_32_PKG)/.PKGINFO ; \
 	 echo "license=$(CROCO_32_PKG_LICENSE)"                         >> $(CROCO_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(CROCO_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(CROCO_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

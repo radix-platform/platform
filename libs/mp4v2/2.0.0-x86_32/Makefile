@@ -179,4 +179,4 @@ $(pkg_archive): $(install_target) $(MP4V2_32_PKG_DESCRIPTION_FILE) $(MP4V2_32_PK
 	 echo "short_description=\"$(MP4V2_32_PKG_SHORT_DESCRIPTION)\"" >> $(MP4V2_32_PKG)/.PKGINFO ; \
 	 echo "url=$(MP4V2_32_PKG_URL)"                                 >> $(MP4V2_32_PKG)/.PKGINFO ; \
 	 echo "license=$(MP4V2_32_PKG_LICENSE)"                         >> $(MP4V2_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(MP4V2_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(MP4V2_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

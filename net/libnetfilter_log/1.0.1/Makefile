@@ -204,4 +204,4 @@ $(pkg_archive): $(install_target) $(LIBNF_LOG_PKG_DESCRIPTION_FILE) $(LIBNF_LOG_
 	 echo "short_description=\"$(LIBNF_LOG_PKG_SHORT_DESCRIPTION)\"" >> $(LIBNF_LOG_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBNF_LOG_PKG_URL)"                                 >> $(LIBNF_LOG_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBNF_LOG_PKG_LICENSE)"                         >> $(LIBNF_LOG_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBNF_LOG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBNF_LOG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

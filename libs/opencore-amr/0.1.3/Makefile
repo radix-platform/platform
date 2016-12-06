@@ -202,4 +202,4 @@ $(pkg_archive): $(install_target) $(OPENCORE_AMR_PKG_DESCRIPTION_FILE) $(OPENCOR
 	 echo "short_description=\"$(OPENCORE_AMR_PKG_SHORT_DESCRIPTION)\"" >> $(OPENCORE_AMR_PKG)/.PKGINFO ; \
 	 echo "url=$(OPENCORE_AMR_PKG_URL)"                                 >> $(OPENCORE_AMR_PKG)/.PKGINFO ; \
 	 echo "license=$(OPENCORE_AMR_PKG_LICENSE)"                         >> $(OPENCORE_AMR_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(OPENCORE_AMR_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(OPENCORE_AMR_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

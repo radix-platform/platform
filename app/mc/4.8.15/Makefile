@@ -242,4 +242,4 @@ $(pkg_archive): $(install_target) $(MC_PKG_DESCRIPTION_FILE) $(MC_PKG_INSTALL_SC
 	 echo "short_description=\"$(MC_PKG_SHORT_DESCRIPTION)\"" >> $(MC_PKG)/.PKGINFO ; \
 	 echo "url=$(MC_PKG_URL)"                                 >> $(MC_PKG)/.PKGINFO ; \
 	 echo "license=$(MC_PKG_LICENSE)"                         >> $(MC_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(MC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(MC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

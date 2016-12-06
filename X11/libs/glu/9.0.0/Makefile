@@ -210,4 +210,4 @@ $(pkg_archive): $(install_target) $(GLU_PKG_DESCRIPTION_FILE) $(GLU_PKG_INSTALL_
 	 echo "short_description=\"$(GLU_PKG_SHORT_DESCRIPTION)\"" >> $(GLU_PKG)/.PKGINFO ; \
 	 echo "url=$(GLU_PKG_URL)"                                 >> $(GLU_PKG)/.PKGINFO ; \
 	 echo "license=$(GLU_PKG_LICENSE)"                         >> $(GLU_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GLU_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GLU_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -206,4 +206,4 @@ $(pkg_archive): $(install_target) $(WAVPACK_PKG_DESCRIPTION_FILE) $(WAVPACK_PKG_
 	 echo "short_description=\"$(WAVPACK_PKG_SHORT_DESCRIPTION)\"" >> $(WAVPACK_PKG)/.PKGINFO ; \
 	 echo "url=$(WAVPACK_PKG_URL)"                                 >> $(WAVPACK_PKG)/.PKGINFO ; \
 	 echo "license=$(WAVPACK_PKG_LICENSE)"                         >> $(WAVPACK_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(WAVPACK_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(WAVPACK_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

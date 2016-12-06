@@ -194,4 +194,4 @@ $(pkg_archive): $(install_target) $(RTMPDUMP_PKG_DESCRIPTION_FILE) $(RTMPDUMP_PK
 	 echo "short_description=\"$(RTMPDUMP_PKG_SHORT_DESCRIPTION)\"" >> $(RTMPDUMP_PKG)/.PKGINFO ; \
 	 echo "url=$(RTMPDUMP_PKG_URL)"                                 >> $(RTMPDUMP_PKG)/.PKGINFO ; \
 	 echo "license=$(RTMPDUMP_PKG_LICENSE)"                         >> $(RTMPDUMP_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(RTMPDUMP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(RTMPDUMP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -199,4 +199,4 @@ $(pkg_archive): $(install_target) $(WGET_PKG_DESCRIPTION_FILE) $(WGET_PKG_INSTAL
 	 echo "short_description=\"$(WGET_PKG_SHORT_DESCRIPTION)\"" >> $(WGET_PKG)/.PKGINFO ; \
 	 echo "url=$(WGET_PKG_URL)"                                 >> $(WGET_PKG)/.PKGINFO ; \
 	 echo "license=$(WGET_PKG_LICENSE)"                         >> $(WGET_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(WGET_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(WGET_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

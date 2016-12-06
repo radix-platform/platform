@@ -162,4 +162,4 @@ $(pkg_archive): $(install_target) $(NTALK_PKG_DESCRIPTION_FILE) $(NTALK_PKG_INST
 	 echo "short_description=\"$(NTALK_PKG_SHORT_DESCRIPTION)\"" >> $(NTALK_PKG)/.PKGINFO ; \
 	 echo "url=$(NTALK_PKG_URL)"                                 >> $(NTALK_PKG)/.PKGINFO ; \
 	 echo "license=$(NTALK_PKG_LICENSE)"                         >> $(NTALK_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(NTALK_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(NTALK_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

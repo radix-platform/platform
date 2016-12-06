@@ -181,4 +181,4 @@ $(pkg_archive): $(install_target) $(REISERFS_PKG_DESCRIPTION_FILE) $(REISERFS_PK
 	 echo "short_description=\"$(REISERFS_PKG_SHORT_DESCRIPTION)\"" >> $(REISERFS_PKG)/.PKGINFO ; \
 	 echo "url=$(REISERFS_PKG_URL)"                                 >> $(REISERFS_PKG)/.PKGINFO ; \
 	 echo "license=$(REISERFS_PKG_LICENSE)"                         >> $(REISERFS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(REISERFS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(REISERFS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

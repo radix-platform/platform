@@ -143,4 +143,4 @@ $(pkg_archive): $(install_target) $(ICMPINFO_PKG_DESCRIPTION_FILE) $(ICMPINFO_PK
 	 echo "short_description=\"$(ICMPINFO_PKG_SHORT_DESCRIPTION)\"" >> $(ICMPINFO_PKG)/.PKGINFO ; \
 	 echo "url=$(ICMPINFO_PKG_URL)"                                 >> $(ICMPINFO_PKG)/.PKGINFO ; \
 	 echo "license=$(ICMPINFO_PKG_LICENSE)"                         >> $(ICMPINFO_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(ICMPINFO_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ICMPINFO_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

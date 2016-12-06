@@ -242,4 +242,4 @@ $(pkg_archive): $(install_target) $(LIBRSVG_PKG_DESCRIPTION_FILE) $(LIBRSVG_PKG_
 	 echo "short_description=\"$(LIBRSVG_PKG_SHORT_DESCRIPTION)\"" >> $(LIBRSVG_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBRSVG_PKG_URL)"                                 >> $(LIBRSVG_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBRSVG_PKG_LICENSE)"                         >> $(LIBRSVG_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBRSVG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBRSVG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

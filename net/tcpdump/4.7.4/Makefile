@@ -203,4 +203,4 @@ $(pkg_archive): $(install_target) $(TCPDUMP_PKG_DESCRIPTION_FILE) $(TCPDUMP_PKG_
 	 echo "short_description=\"$(TCPDUMP_PKG_SHORT_DESCRIPTION)\"" >> $(TCPDUMP_PKG)/.PKGINFO ; \
 	 echo "url=$(TCPDUMP_PKG_URL)"                                 >> $(TCPDUMP_PKG)/.PKGINFO ; \
 	 echo "license=$(TCPDUMP_PKG_LICENSE)"                         >> $(TCPDUMP_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(TCPDUMP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(TCPDUMP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -241,10 +241,10 @@ $(pkg_archive): $(install_target) $(UTILLINUX_32_PKG_DESCRIPTION_FILE) $(UTILLIN
 	 echo "short_description=\"$(UTILLINUX_32_PKG_SHORT_DESCRIPTION)\"" >> $(UTILLINUX_32_PKG)/.PKGINFO ; \
 	 echo "url=$(UTILLINUX_32_PKG_URL)"                                 >> $(UTILLINUX_32_PKG)/.PKGINFO ; \
 	 echo "license=$(UTILLINUX_32_PKG_LICENSE)"                         >> $(UTILLINUX_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(UTILLINUX_32_PKG)  && \
-	                    chown -R root:root . && \
-	                    chgrp tty usr/bin/32/wall  && \
-	                    chmod g+s usr/bin/32/wall  && \
-	                    chgrp tty usr/bin/32/write && \
-	                    chmod g+s usr/bin/32/write && \
-	                    $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(UTILLINUX_32_PKG)  && \
+	                  chown -R root:root . && \
+	                  chgrp tty usr/bin/32/wall  && \
+	                  chmod g+s usr/bin/32/wall  && \
+	                  chgrp tty usr/bin/32/write && \
+	                  chmod g+s usr/bin/32/write && \
+	                  $(MAKE_PACKAGE) --linkadd yes .."

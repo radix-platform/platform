@@ -206,4 +206,4 @@ $(pkg_archive): $(install_target) $(LIBNFTNL_PKG_DESCRIPTION_FILE) $(LIBNFTNL_PK
 	 echo "short_description=\"$(LIBNFTNL_PKG_SHORT_DESCRIPTION)\"" >> $(LIBNFTNL_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBNFTNL_PKG_URL)"                                 >> $(LIBNFTNL_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBNFTNL_PKG_LICENSE)"                         >> $(LIBNFTNL_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBNFTNL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBNFTNL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

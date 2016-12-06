@@ -215,4 +215,4 @@ $(pkg_archive): $(install_target) $(LIBARCHIVE_PKG_DESCRIPTION_FILE) $(LIBARCHIV
 	 echo "short_description=\"$(LIBARCHIVE_PKG_SHORT_DESCRIPTION)\"" >> $(LIBARCHIVE_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBARCHIVE_PKG_URL)"                                 >> $(LIBARCHIVE_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBARCHIVE_PKG_LICENSE)"                         >> $(LIBARCHIVE_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBARCHIVE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBARCHIVE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

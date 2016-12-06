@@ -153,4 +153,4 @@ $(pkg_archive): $(install_target) $(PIP2_PKG_DESCRIPTION_FILE) $(PIP2_PKG_INSTAL
 	 echo "short_description=\"$(PIP2_PKG_SHORT_DESCRIPTION)\"" >> $(PIP2_PKG)/.PKGINFO ; \
 	 echo "url=$(PIP2_PKG_URL)"                                 >> $(PIP2_PKG)/.PKGINFO ; \
 	 echo "license=$(PIP2_PKG_LICENSE)"                         >> $(PIP2_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(PIP2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PIP2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

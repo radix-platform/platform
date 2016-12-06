@@ -234,4 +234,4 @@ $(pkg_archive): $(install_target) $(LLVM_32_PKG_DESCRIPTION_FILE) $(LLVM_32_PKG_
 	 echo "short_description=\"$(LLVM_32_PKG_SHORT_DESCRIPTION)\"" >> $(LLVM_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LLVM_32_PKG_URL)"                                 >> $(LLVM_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LLVM_32_PKG_LICENSE)"                         >> $(LLVM_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LLVM_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LLVM_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

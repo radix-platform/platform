@@ -91,4 +91,4 @@ $(pkg_archive): $(build_ks_pkg) $(KS_DEV_PKG_DESCRIPTION_FILE) $(KS_DEV_PKG_INST
 	 echo "short_description=\"$(KS_DEV_PKG_SHORT_DESCRIPTION)\"" >> $(KS_DEV_PKG)/.PKGINFO ; \
 	 echo "url=$(KS_DEV_PKG_URL)"                                 >> $(KS_DEV_PKG)/.PKGINFO ; \
 	 echo "license=$(KS_DEV_PKG_LICENSE)"                         >> $(KS_DEV_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(KS_DEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(KS_DEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

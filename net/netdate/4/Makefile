@@ -157,4 +157,4 @@ $(pkg_archive): $(install_target) $(NETDATE_PKG_DESCRIPTION_FILE) $(NETDATE_PKG_
 	 echo "short_description=\"$(NETDATE_PKG_SHORT_DESCRIPTION)\"" >> $(NETDATE_PKG)/.PKGINFO ; \
 	 echo "url=$(NETDATE_PKG_URL)"                                 >> $(NETDATE_PKG)/.PKGINFO ; \
 	 echo "license=$(NETDATE_PKG_LICENSE)"                         >> $(NETDATE_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(NETDATE_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(NETDATE_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

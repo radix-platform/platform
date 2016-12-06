@@ -229,4 +229,4 @@ $(pkg_archive): $(install_target) $(P11KIT_PKG_DESCRIPTION_FILE) $(P11KIT_PKG_IN
 	 echo "short_description=\"$(P11KIT_PKG_SHORT_DESCRIPTION)\"" >> $(P11KIT_PKG)/.PKGINFO ; \
 	 echo "url=$(P11KIT_PKG_URL)"                                 >> $(P11KIT_PKG)/.PKGINFO ; \
 	 echo "license=$(P11KIT_PKG_LICENSE)"                         >> $(P11KIT_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(P11KIT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(P11KIT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

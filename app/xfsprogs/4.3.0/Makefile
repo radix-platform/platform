@@ -201,4 +201,4 @@ $(pkg_archive): $(install_target) $(XFSPROGS_PKG_DESCRIPTION_FILE) $(XFSPROGS_PK
 	 echo "short_description=\"$(XFSPROGS_PKG_SHORT_DESCRIPTION)\"" >> $(XFSPROGS_PKG)/.PKGINFO ; \
 	 echo "url=$(XFSPROGS_PKG_URL)"                                 >> $(XFSPROGS_PKG)/.PKGINFO ; \
 	 echo "license=$(XFSPROGS_PKG_LICENSE)"                         >> $(XFSPROGS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(XFSPROGS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(XFSPROGS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

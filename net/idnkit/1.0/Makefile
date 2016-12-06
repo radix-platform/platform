@@ -203,4 +203,4 @@ $(pkg_archive): $(install_target) $(IDNKIT_PKG_DESCRIPTION_FILE) $(IDNKIT_PKG_IN
 	 echo "short_description=\"$(IDNKIT_PKG_SHORT_DESCRIPTION)\"" >> $(IDNKIT_PKG)/.PKGINFO ; \
 	 echo "url=$(IDNKIT_PKG_URL)"                                 >> $(IDNKIT_PKG)/.PKGINFO ; \
 	 echo "license=$(IDNKIT_PKG_LICENSE)"                         >> $(IDNKIT_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(IDNKIT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(IDNKIT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

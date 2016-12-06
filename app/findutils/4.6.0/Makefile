@@ -188,4 +188,4 @@ $(pkg_archive): $(install_target) $(FINDUTILS_PKG_DESCRIPTION_FILE) $(FINDUTILS_
 	 echo "short_description=\"$(FINDUTILS_PKG_SHORT_DESCRIPTION)\"" >> $(FINDUTILS_PKG)/.PKGINFO ; \
 	 echo "url=$(FINDUTILS_PKG_URL)"                                 >> $(FINDUTILS_PKG)/.PKGINFO ; \
 	 echo "license=$(FINDUTILS_PKG_LICENSE)"                         >> $(FINDUTILS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(FINDUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(FINDUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

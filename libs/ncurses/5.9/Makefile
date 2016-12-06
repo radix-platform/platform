@@ -288,4 +288,4 @@ $(pkg_archive): $(install_widec_target) $(NCURSES_PKG_DESCRIPTION_FILE) $(NCURSE
 	 echo "short_description=\"$(NCURSES_PKG_SHORT_DESCRIPTION)\"" >> $(NCURSES_PKG)/.PKGINFO ; \
 	 echo "url=$(NCURSES_PKG_URL)"                                 >> $(NCURSES_PKG)/.PKGINFO ; \
 	 echo "license=$(NCURSES_PKG_LICENSE)"                         >> $(NCURSES_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(NCURSES_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(NCURSES_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

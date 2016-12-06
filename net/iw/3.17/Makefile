@@ -155,4 +155,4 @@ $(pkg_archive): $(install_target) $(IW_PKG_DESCRIPTION_FILE) $(IW_PKG_INSTALL_SC
 	 echo "short_description=\"$(IW_PKG_SHORT_DESCRIPTION)\"" >> $(IW_PKG)/.PKGINFO ; \
 	 echo "url=$(IW_PKG_URL)"                                 >> $(IW_PKG)/.PKGINFO ; \
 	 echo "license=$(IW_PKG_LICENSE)"                         >> $(IW_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(IW_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(IW_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

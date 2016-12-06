@@ -173,4 +173,4 @@ $(pkg_archive): $(install_target) $(XDGUTILS_PKG_DESCRIPTION_FILE) $(XDGUTILS_PK
 	 echo "short_description=\"$(XDGUTILS_PKG_SHORT_DESCRIPTION)\"" >> $(XDGUTILS_PKG)/.PKGINFO ; \
 	 echo "url=$(XDGUTILS_PKG_URL)"                                 >> $(XDGUTILS_PKG)/.PKGINFO ; \
 	 echo "license=$(XDGUTILS_PKG_LICENSE)"                         >> $(XDGUTILS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(XDGUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(XDGUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

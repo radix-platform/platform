@@ -185,4 +185,4 @@ $(pkg_archive): $(install_target) $(ATTR_PKG_DESCRIPTION_FILE) $(ATTR_PKG_INSTAL
 	 echo "short_description=\"$(ATTR_PKG_SHORT_DESCRIPTION)\"" >> $(ATTR_PKG)/.PKGINFO ; \
 	 echo "url=$(ATTR_PKG_URL)"                                 >> $(ATTR_PKG)/.PKGINFO ; \
 	 echo "license=$(ATTR_PKG_LICENSE)"                         >> $(ATTR_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(ATTR_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ATTR_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

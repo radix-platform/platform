@@ -183,4 +183,4 @@ $(pkg_archive): $(install_target) $(JFSUTILS_PKG_DESCRIPTION_FILE) $(JFSUTILS_PK
 	 echo "short_description=\"$(JFSUTILS_PKG_SHORT_DESCRIPTION)\"" >> $(JFSUTILS_PKG)/.PKGINFO ; \
 	 echo "url=$(JFSUTILS_PKG_URL)"                                 >> $(JFSUTILS_PKG)/.PKGINFO ; \
 	 echo "license=$(JFSUTILS_PKG_LICENSE)"                         >> $(JFSUTILS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(JFSUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(JFSUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

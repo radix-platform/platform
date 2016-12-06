@@ -247,4 +247,4 @@ $(pkg_archive): $(install_target) $(GC_PKG_DESCRIPTION_FILE) $(GC_PKG_INSTALL_SC
 	 echo "short_description=\"$(GC_PKG_SHORT_DESCRIPTION)\"" >> $(GC_PKG)/.PKGINFO ; \
 	 echo "url=$(GC_PKG_URL)"                                 >> $(GC_PKG)/.PKGINFO ; \
 	 echo "license=$(GC_PKG_LICENSE)"                         >> $(GC_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

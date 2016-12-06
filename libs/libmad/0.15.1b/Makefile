@@ -245,4 +245,4 @@ $(pkg_archive): $(install_target) $(LIBMAD_PKG_DESCRIPTION_FILE) $(LIBMAD_PKG_IN
 	 echo "short_description=\"$(LIBMAD_PKG_SHORT_DESCRIPTION)\"" >> $(LIBMAD_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBMAD_PKG_URL)"                                 >> $(LIBMAD_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBMAD_PKG_LICENSE)"                         >> $(LIBMAD_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBMAD_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBMAD_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -234,4 +234,4 @@ $(pkg_archive): $(install_target) $(GS_32_PKG_DESCRIPTION_FILE) $(GS_32_PKG_INST
 	 echo "short_description=\"$(GS_32_PKG_SHORT_DESCRIPTION)\"" >> $(GS_32_PKG)/.PKGINFO ; \
 	 echo "url=$(GS_32_PKG_URL)"                                 >> $(GS_32_PKG)/.PKGINFO ; \
 	 echo "license=$(GS_32_PKG_LICENSE)"                         >> $(GS_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GS_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GS_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

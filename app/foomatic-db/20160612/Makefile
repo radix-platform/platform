@@ -183,4 +183,4 @@ $(pkg_archive): $(install_target) $(FOOMATIC_DB_PKG_DESCRIPTION_FILE) $(FOOMATIC
 	 echo "short_description=\"$(FOOMATIC_DB_PKG_SHORT_DESCRIPTION)\"" >> $(FOOMATIC_DB_PKG)/.PKGINFO ; \
 	 echo "url=$(FOOMATIC_DB_PKG_URL)"                                 >> $(FOOMATIC_DB_PKG)/.PKGINFO ; \
 	 echo "license=$(FOOMATIC_DB_PKG_LICENSE)"                         >> $(FOOMATIC_DB_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(FOOMATIC_DB_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(FOOMATIC_DB_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

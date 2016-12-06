@@ -211,4 +211,4 @@ $(pkg_archive): $(install_target) $(LIBSTROPHE_PKG_DESCRIPTION_FILE) $(LIBSTROPH
 	 echo "short_description=\"$(LIBSTROPHE_PKG_SHORT_DESCRIPTION)\"" >> $(LIBSTROPHE_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBSTROPHE_PKG_URL)"                                 >> $(LIBSTROPHE_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBSTROPHE_PKG_LICENSE)"                         >> $(LIBSTROPHE_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBSTROPHE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBSTROPHE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

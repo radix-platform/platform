@@ -160,4 +160,4 @@ $(pkg_archive): $(install_target) $(E2FSPROGS_32_PKG_DESCRIPTION_FILE) $(E2FSPRO
 	 echo "short_description=\"$(E2FSPROGS_32_PKG_SHORT_DESCRIPTION)\"" >> $(E2FSPROGS_32_PKG)/.PKGINFO ; \
 	 echo "url=$(E2FSPROGS_32_PKG_URL)"                                 >> $(E2FSPROGS_32_PKG)/.PKGINFO ; \
 	 echo "license=$(E2FSPROGS_32_PKG_LICENSE)"                         >> $(E2FSPROGS_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(E2FSPROGS_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(E2FSPROGS_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

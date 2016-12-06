@@ -234,4 +234,4 @@ $(pkg_archive): $(install_target) $(OPENH264_PKG_DESCRIPTION_FILE) $(OPENH264_PK
 	 echo "short_description=\"$(OPENH264_PKG_SHORT_DESCRIPTION)\"" >> $(OPENH264_PKG)/.PKGINFO ; \
 	 echo "url=$(OPENH264_PKG_URL)"                                 >> $(OPENH264_PKG)/.PKGINFO ; \
 	 echo "license=$(OPENH264_PKG_LICENSE)"                         >> $(OPENH264_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(OPENH264_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(OPENH264_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

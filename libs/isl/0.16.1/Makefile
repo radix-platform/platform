@@ -197,4 +197,4 @@ $(pkg_archive): $(install_target) $(ISL_PKG_DESCRIPTION_FILE) $(ISL_PKG_INSTALL_
 	 echo "short_description=\"$(ISL_PKG_SHORT_DESCRIPTION)\"" >> $(ISL_PKG)/.PKGINFO ; \
 	 echo "url=$(ISL_PKG_URL)"                                 >> $(ISL_PKG)/.PKGINFO ; \
 	 echo "license=$(ISL_PKG_LICENSE)"                         >> $(ISL_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(ISL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ISL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

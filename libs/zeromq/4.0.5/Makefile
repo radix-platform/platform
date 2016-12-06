@@ -224,4 +224,4 @@ $(pkg_archive): $(install_target) $(ZEROMQ_PKG_DESCRIPTION_FILE) $(ZEROMQ_PKG_IN
 	 echo "short_description=\"$(ZEROMQ_PKG_SHORT_DESCRIPTION)\"" >> $(ZEROMQ_PKG)/.PKGINFO ; \
 	 echo "url=$(ZEROMQ_PKG_URL)"                                 >> $(ZEROMQ_PKG)/.PKGINFO ; \
 	 echo "license=$(ZEROMQ_PKG_LICENSE)"                         >> $(ZEROMQ_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(ZEROMQ_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ZEROMQ_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

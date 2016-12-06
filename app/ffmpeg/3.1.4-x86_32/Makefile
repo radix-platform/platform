@@ -321,4 +321,4 @@ $(pkg_archive): $(install_target) $(FFMPEG_32_PKG_DESCRIPTION_FILE) $(FFMPEG_32_
 	 echo "short_description=\"$(FFMPEG_32_PKG_SHORT_DESCRIPTION)\"" >> $(FFMPEG_32_PKG)/.PKGINFO ; \
 	 echo "url=$(FFMPEG_32_PKG_URL)"                                 >> $(FFMPEG_32_PKG)/.PKGINFO ; \
 	 echo "license=$(FFMPEG_32_PKG_LICENSE)"                         >> $(FFMPEG_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(FFMPEG_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(FFMPEG_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -184,4 +184,4 @@ $(pkg_archive): $(install_target) $(LZO_PKG_DESCRIPTION_FILE) $(LZO_PKG_INSTALL_
 	 echo "short_description=\"$(LZO_PKG_SHORT_DESCRIPTION)\"" >> $(LZO_PKG)/.PKGINFO ; \
 	 echo "url=$(LZO_PKG_URL)"                                 >> $(LZO_PKG)/.PKGINFO ; \
 	 echo "license=$(LZO_PKG_LICENSE)"                         >> $(LZO_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LZO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LZO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

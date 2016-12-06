@@ -194,4 +194,4 @@ $(pkg_archive): $(install_target) $(LIBUSB_PKG_DESCRIPTION_FILE) $(LIBUSB_PKG_IN
 	 echo "short_description=\"$(LIBUSB_PKG_SHORT_DESCRIPTION)\"" >> $(LIBUSB_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBUSB_PKG_URL)"                                 >> $(LIBUSB_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBUSB_PKG_LICENSE)"                         >> $(LIBUSB_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBUSB_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBUSB_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

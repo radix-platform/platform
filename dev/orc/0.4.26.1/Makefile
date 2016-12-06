@@ -250,4 +250,4 @@ $(pkg_archive): $(install_target) $(ORC_PKG_DESCRIPTION_FILE) $(ORC_PKG_INSTALL_
 	 echo "short_description=\"$(ORC_PKG_SHORT_DESCRIPTION)\"" >> $(ORC_PKG)/.PKGINFO ; \
 	 echo "url=$(ORC_PKG_URL)"                                 >> $(ORC_PKG)/.PKGINFO ; \
 	 echo "license=$(ORC_PKG_LICENSE)"                         >> $(ORC_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(ORC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ORC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

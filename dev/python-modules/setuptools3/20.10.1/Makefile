@@ -165,4 +165,4 @@ $(pkg_archive): $(install_target) $(SETUPTOOLS3_PKG_DESCRIPTION_FILE) $(SETUPTOO
 	 echo "short_description=\"$(SETUPTOOLS3_PKG_SHORT_DESCRIPTION)\"" >> $(SETUPTOOLS3_PKG)/.PKGINFO ; \
 	 echo "url=$(SETUPTOOLS3_PKG_URL)"                                 >> $(SETUPTOOLS3_PKG)/.PKGINFO ; \
 	 echo "license=$(SETUPTOOLS3_PKG_LICENSE)"                         >> $(SETUPTOOLS3_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(SETUPTOOLS3_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SETUPTOOLS3_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

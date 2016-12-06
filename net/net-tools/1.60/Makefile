@@ -178,4 +178,4 @@ $(pkg_archive): $(install_target) $(NETTOOLS_PKG_DESCRIPTION_FILE) $(NETTOOLS_PK
 	 echo "short_description=\"$(NETTOOLS_PKG_SHORT_DESCRIPTION)\"" >> $(NETTOOLS_PKG)/.PKGINFO ; \
 	 echo "url=$(NETTOOLS_PKG_URL)"                                 >> $(NETTOOLS_PKG)/.PKGINFO ; \
 	 echo "license=$(NETTOOLS_PKG_LICENSE)"                         >> $(NETTOOLS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(NETTOOLS_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(NETTOOLS_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

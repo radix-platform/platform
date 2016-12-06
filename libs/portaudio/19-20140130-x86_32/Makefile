@@ -161,4 +161,4 @@ $(pkg_archive): $(install_target) $(PORTAUDIO_32_PKG_DESCRIPTION_FILE) $(PORTAUD
 	 echo "short_description=\"$(PORTAUDIO_32_PKG_SHORT_DESCRIPTION)\"" >> $(PORTAUDIO_32_PKG)/.PKGINFO ; \
 	 echo "url=$(PORTAUDIO_32_PKG_URL)"                                 >> $(PORTAUDIO_32_PKG)/.PKGINFO ; \
 	 echo "license=$(PORTAUDIO_32_PKG_LICENSE)"                         >> $(PORTAUDIO_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(PORTAUDIO_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PORTAUDIO_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

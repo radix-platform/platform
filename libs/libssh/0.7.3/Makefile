@@ -238,4 +238,4 @@ $(pkg_archive): $(install_target) $(LIBSSH_PKG_DESCRIPTION_FILE) $(LIBSSH_PKG_IN
 	 echo "short_description=\"$(LIBSSH_PKG_SHORT_DESCRIPTION)\"" >> $(LIBSSH_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBSSH_PKG_URL)"                                 >> $(LIBSSH_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBSSH_PKG_LICENSE)"                         >> $(LIBSSH_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBSSH_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBSSH_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

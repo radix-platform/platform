@@ -200,4 +200,4 @@ $(pkg_archive): $(install_target) $(V4LUTILS_32_PKG_DESCRIPTION_FILE) $(V4LUTILS
 	 echo "short_description=\"$(V4LUTILS_32_PKG_SHORT_DESCRIPTION)\"" >> $(V4LUTILS_32_PKG)/.PKGINFO ; \
 	 echo "url=$(V4LUTILS_32_PKG_URL)"                                 >> $(V4LUTILS_32_PKG)/.PKGINFO ; \
 	 echo "license=$(V4LUTILS_32_PKG_LICENSE)"                         >> $(V4LUTILS_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(V4LUTILS_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(V4LUTILS_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

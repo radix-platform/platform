@@ -229,4 +229,4 @@ $(pkg_archive): $(install_target) $(ASPELL_PKG_DESCRIPTION_FILE) $(ASPELL_PKG_IN
 	 echo "short_description=\"$(ASPELL_PKG_SHORT_DESCRIPTION)\"" >> $(ASPELL_PKG)/.PKGINFO ; \
 	 echo "url=$(ASPELL_PKG_URL)"                                 >> $(ASPELL_PKG)/.PKGINFO ; \
 	 echo "license=$(ASPELL_PKG_LICENSE)"                         >> $(ASPELL_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(ASPELL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ASPELL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

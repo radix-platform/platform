@@ -187,4 +187,4 @@ $(pkg_archive): $(install_target) $(XFSDUMP_PKG_DESCRIPTION_FILE) $(XFSDUMP_PKG_
 	 echo "short_description=\"$(XFSDUMP_PKG_SHORT_DESCRIPTION)\"" >> $(XFSDUMP_PKG)/.PKGINFO ; \
 	 echo "url=$(XFSDUMP_PKG_URL)"                                 >> $(XFSDUMP_PKG)/.PKGINFO ; \
 	 echo "license=$(XFSDUMP_PKG_LICENSE)"                         >> $(XFSDUMP_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(XFSDUMP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(XFSDUMP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

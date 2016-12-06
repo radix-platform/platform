@@ -164,4 +164,4 @@ $(pkg_archive): $(install_target) $(LIBEVENT_32_PKG_DESCRIPTION_FILE) $(LIBEVENT
 	 echo "short_description=\"$(LIBEVENT_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBEVENT_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBEVENT_32_PKG_URL)"                                 >> $(LIBEVENT_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBEVENT_32_PKG_LICENSE)"                         >> $(LIBEVENT_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBEVENT_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBEVENT_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

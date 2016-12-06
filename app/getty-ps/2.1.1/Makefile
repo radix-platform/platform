@@ -161,4 +161,4 @@ $(pkg_archive): $(install_target) $(GETTY_PS_PKG_DESCRIPTION_FILE) $(GETTY_PS_PK
 	 echo "short_description=\"$(GETTY_PS_PKG_SHORT_DESCRIPTION)\"" >> $(GETTY_PS_PKG)/.PKGINFO ; \
 	 echo "url=$(GETTY_PS_PKG_URL)"                                 >> $(GETTY_PS_PKG)/.PKGINFO ; \
 	 echo "license=$(GETTY_PS_PKG_LICENSE)"                         >> $(GETTY_PS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GETTY_PS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GETTY_PS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

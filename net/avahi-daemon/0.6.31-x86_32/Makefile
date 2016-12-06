@@ -226,4 +226,4 @@ $(pkg_archive): $(install_target) $(AVAHID_32_PKG_DESCRIPTION_FILE) $(AVAHID_32_
 	 echo "short_description=\"$(AVAHID_32_PKG_SHORT_DESCRIPTION)\"" >> $(AVAHID_32_PKG)/.PKGINFO ; \
 	 echo "url=$(AVAHID_32_PKG_URL)"                                 >> $(AVAHID_32_PKG)/.PKGINFO ; \
 	 echo "license=$(AVAHID_32_PKG_LICENSE)"                         >> $(AVAHID_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(AVAHID_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(AVAHID_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

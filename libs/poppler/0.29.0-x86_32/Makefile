@@ -211,4 +211,4 @@ $(pkg_archive): $(install_target) $(POPPLER_32_PKG_DESCRIPTION_FILE) $(POPPLER_3
 	 echo "short_description=\"$(POPPLER_32_PKG_SHORT_DESCRIPTION)\"" >> $(POPPLER_32_PKG)/.PKGINFO ; \
 	 echo "url=$(POPPLER_32_PKG_URL)"                                 >> $(POPPLER_32_PKG)/.PKGINFO ; \
 	 echo "license=$(POPPLER_32_PKG_LICENSE)"                         >> $(POPPLER_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(POPPLER_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(POPPLER_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

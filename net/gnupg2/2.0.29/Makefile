@@ -211,4 +211,4 @@ $(pkg_archive): $(install_target) $(GNUPG_PKG_DESCRIPTION_FILE) $(GNUPG_PKG_INST
 	 echo "short_description=\"$(GNUPG_PKG_SHORT_DESCRIPTION)\"" >> $(GNUPG_PKG)/.PKGINFO ; \
 	 echo "url=$(GNUPG_PKG_URL)"                                 >> $(GNUPG_PKG)/.PKGINFO ; \
 	 echo "license=$(GNUPG_PKG_LICENSE)"                         >> $(GNUPG_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GNUPG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GNUPG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

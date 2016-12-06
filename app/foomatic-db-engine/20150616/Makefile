@@ -311,4 +311,4 @@ $(pkg_archive): $(install_target) $(FODB_ENGINE_PKG_DESCRIPTION_FILE) $(FODB_ENG
 	 echo "short_description=\"$(FODB_ENGINE_PKG_SHORT_DESCRIPTION)\"" >> $(FODB_ENGINE_PKG)/.PKGINFO ; \
 	 echo "url=$(FODB_ENGINE_PKG_URL)"                                 >> $(FODB_ENGINE_PKG)/.PKGINFO ; \
 	 echo "license=$(FODB_ENGINE_PKG_LICENSE)"                         >> $(FODB_ENGINE_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(FODB_ENGINE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(FODB_ENGINE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -197,4 +197,4 @@ $(pkg_archive): $(install_target) $(DB_32_PKG_DESCRIPTION_FILE) $(DB_32_PKG_INST
 	 echo "short_description=\"$(DB_32_PKG_SHORT_DESCRIPTION)\"" >> $(DB_32_PKG)/.PKGINFO ; \
 	 echo "url=$(DB_32_PKG_URL)"                                 >> $(DB_32_PKG)/.PKGINFO ; \
 	 echo "license=$(DB_32_PKG_LICENSE)"                         >> $(DB_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(DB_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(DB_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

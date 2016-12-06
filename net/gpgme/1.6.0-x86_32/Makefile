@@ -184,4 +184,4 @@ $(pkg_archive): $(install_target) $(GPGME_32_PKG_DESCRIPTION_FILE) $(GPGME_32_PK
 	 echo "short_description=\"$(GPGME_32_PKG_SHORT_DESCRIPTION)\"" >> $(GPGME_32_PKG)/.PKGINFO ; \
 	 echo "url=$(GPGME_32_PKG_URL)"                                 >> $(GPGME_32_PKG)/.PKGINFO ; \
 	 echo "license=$(GPGME_32_PKG_LICENSE)"                         >> $(GPGME_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GPGME_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GPGME_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

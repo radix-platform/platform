@@ -207,4 +207,4 @@ $(pkg_archive): $(install_target) $(GSTREAMER_32_PKG_DESCRIPTION_FILE) $(GSTREAM
 	 echo "short_description=\"$(GSTREAMER_32_PKG_SHORT_DESCRIPTION)\"" >> $(GSTREAMER_32_PKG)/.PKGINFO ; \
 	 echo "url=$(GSTREAMER_32_PKG_URL)"                                 >> $(GSTREAMER_32_PKG)/.PKGINFO ; \
 	 echo "license=$(GSTREAMER_32_PKG_LICENSE)"                         >> $(GSTREAMER_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GSTREAMER_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GSTREAMER_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

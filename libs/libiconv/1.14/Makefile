@@ -196,4 +196,4 @@ $(pkg_archive): $(install_target) $(ICONV_PKG_DESCRIPTION_FILE) $(ICONV_PKG_INST
 	 echo "short_description=\"$(ICONV_PKG_SHORT_DESCRIPTION)\"" >> $(ICONV_PKG)/.PKGINFO ; \
 	 echo "url=$(ICONV_PKG_URL)"                                 >> $(ICONV_PKG)/.PKGINFO ; \
 	 echo "license=$(ICONV_PKG_LICENSE)"                         >> $(ICONV_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(ICONV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ICONV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

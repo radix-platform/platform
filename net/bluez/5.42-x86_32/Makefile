@@ -209,4 +209,4 @@ $(pkg_archive): $(install_target) $(BLUEZ_32_PKG_DESCRIPTION_FILE) $(BLUEZ_32_PK
 	 echo "short_description=\"$(BLUEZ_32_PKG_SHORT_DESCRIPTION)\"" >> $(BLUEZ_32_PKG)/.PKGINFO ; \
 	 echo "url=$(BLUEZ_32_PKG_URL)"                                 >> $(BLUEZ_32_PKG)/.PKGINFO ; \
 	 echo "license=$(BLUEZ_32_PKG_LICENSE)"                         >> $(BLUEZ_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(BLUEZ_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(BLUEZ_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

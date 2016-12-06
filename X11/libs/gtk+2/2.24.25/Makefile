@@ -313,4 +313,4 @@ $(pkg_archive): $(install_target) $(GTK2_PKG_DESCRIPTION_FILE) $(GTK2_PKG_INSTAL
 	 echo "short_description=\"$(GTK2_PKG_SHORT_DESCRIPTION)\"" >> $(GTK2_PKG)/.PKGINFO ; \
 	 echo "url=$(GTK2_PKG_URL)"                                 >> $(GTK2_PKG)/.PKGINFO ; \
 	 echo "license=$(GTK2_PKG_LICENSE)"                         >> $(GTK2_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GTK2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GTK2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

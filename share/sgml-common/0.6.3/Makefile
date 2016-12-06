@@ -187,4 +187,4 @@ $(pkg_archive): $(install_target) $(SGML_PKG_DESCRIPTION_FILE) $(SGML_PKG_INSTAL
 	 echo "short_description=\"$(SGML_PKG_SHORT_DESCRIPTION)\"" >> $(SGML_PKG)/.PKGINFO ; \
 	 echo "url=$(SGML_PKG_URL)"                                 >> $(SGML_PKG)/.PKGINFO ; \
 	 echo "license=$(SGML_PKG_LICENSE)"                         >> $(SGML_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(SGML_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SGML_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

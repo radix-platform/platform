@@ -204,4 +204,4 @@ $(pkg_archive): $(install_target) $(OPUS_PKG_DESCRIPTION_FILE) $(OPUS_PKG_INSTAL
 	 echo "short_description=\"$(OPUS_PKG_SHORT_DESCRIPTION)\"" >> $(OPUS_PKG)/.PKGINFO ; \
 	 echo "url=$(OPUS_PKG_URL)"                                 >> $(OPUS_PKG)/.PKGINFO ; \
 	 echo "license=$(OPUS_PKG_LICENSE)"                         >> $(OPUS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(OPUS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(OPUS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

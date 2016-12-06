@@ -168,4 +168,4 @@ $(pkg_archive): $(install_target) $(LIBUSB_COMPAT_32_PKG_DESCRIPTION_FILE) $(LIB
 	 echo "short_description=\"$(LIBUSB_COMPAT_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBUSB_COMPAT_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBUSB_COMPAT_32_PKG_URL)"                                 >> $(LIBUSB_COMPAT_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBUSB_COMPAT_32_PKG_LICENSE)"                         >> $(LIBUSB_COMPAT_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBUSB_COMPAT_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBUSB_COMPAT_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

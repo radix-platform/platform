@@ -207,4 +207,4 @@ $(pkg_archive): $(install_target) $(PTH_PKG_DESCRIPTION_FILE) $(PTH_PKG_INSTALL_
 	 echo "short_description=\"$(PTH_PKG_SHORT_DESCRIPTION)\"" >> $(PTH_PKG)/.PKGINFO ; \
 	 echo "url=$(PTH_PKG_URL)"                                 >> $(PTH_PKG)/.PKGINFO ; \
 	 echo "license=$(PTH_PKG_LICENSE)"                         >> $(PTH_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(PTH_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PTH_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

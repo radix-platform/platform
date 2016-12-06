@@ -224,4 +224,4 @@ $(pkg_archive): $(install_target) $(DC1394_PKG_DESCRIPTION_FILE) $(DC1394_PKG_IN
 	 echo "short_description=\"$(DC1394_PKG_SHORT_DESCRIPTION)\"" >> $(DC1394_PKG)/.PKGINFO ; \
 	 echo "url=$(DC1394_PKG_URL)"                                 >> $(DC1394_PKG)/.PKGINFO ; \
 	 echo "license=$(DC1394_PKG_LICENSE)"                         >> $(DC1394_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(DC1394_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(DC1394_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

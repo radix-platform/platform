@@ -188,4 +188,4 @@ $(pkg_archive): $(install_target) $(LXAPP_PKG_DESCRIPTION_FILE) $(LXAPP_PKG_INST
 	 echo "short_description=\"$(LXAPP_PKG_SHORT_DESCRIPTION)\"" >> $(LXAPP_PKG)/.PKGINFO ; \
 	 echo "url=$(LXAPP_PKG_URL)"                                 >> $(LXAPP_PKG)/.PKGINFO ; \
 	 echo "license=$(LXAPP_PKG_LICENSE)"                         >> $(LXAPP_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LXAPP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LXAPP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

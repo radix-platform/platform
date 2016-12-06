@@ -177,4 +177,4 @@ $(pkg_archive): $(install_target) $(M4_PKG_DESCRIPTION_FILE) $(M4_PKG_INSTALL_SC
 	 echo "short_description=\"$(M4_PKG_SHORT_DESCRIPTION)\"" >> $(M4_PKG)/.PKGINFO ; \
 	 echo "url=$(M4_PKG_URL)"                                 >> $(M4_PKG)/.PKGINFO ; \
 	 echo "license=$(M4_PKG_LICENSE)"                         >> $(M4_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(M4_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(M4_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

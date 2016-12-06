@@ -231,4 +231,4 @@ $(pkg_archive): $(install_target) $(LIBTOOL_PKG_DESCRIPTION_FILE) $(LIBTOOL_PKG_
 	 echo "short_description=\"$(LIBTOOL_PKG_SHORT_DESCRIPTION)\"" >> $(LIBTOOL_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBTOOL_PKG_URL)"                                 >> $(LIBTOOL_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBTOOL_PKG_LICENSE)"                         >> $(LIBTOOL_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBTOOL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBTOOL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

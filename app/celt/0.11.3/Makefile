@@ -230,4 +230,4 @@ $(pkg_archive): $(install_target) $(CELT_PKG_DESCRIPTION_FILE) $(CELT_PKG_INSTAL
 	 echo "short_description=\"$(CELT_PKG_SHORT_DESCRIPTION)\"" >> $(CELT_PKG)/.PKGINFO ; \
 	 echo "url=$(CELT_PKG_URL)"                                 >> $(CELT_PKG)/.PKGINFO ; \
 	 echo "license=$(CELT_PKG_LICENSE)"                         >> $(CELT_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(CELT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(CELT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

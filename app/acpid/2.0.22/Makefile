@@ -174,4 +174,4 @@ $(pkg_archive): $(install_target) $(ACPID_PKG_DESCRIPTION_FILE) $(ACPID_PKG_INST
 	 echo "short_description=\"$(ACPID_PKG_SHORT_DESCRIPTION)\"" >> $(ACPID_PKG)/.PKGINFO ; \
 	 echo "url=$(ACPID_PKG_URL)"                                 >> $(ACPID_PKG)/.PKGINFO ; \
 	 echo "license=$(ACPID_PKG_LICENSE)"                         >> $(ACPID_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(ACPID_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ACPID_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -164,4 +164,4 @@ $(pkg_archive): $(install_target) $(DHCPCD_PKG_DESCRIPTION_FILE) $(DHCPCD_PKG_IN
 	 echo "short_description=\"$(DHCPCD_PKG_SHORT_DESCRIPTION)\"" >> $(DHCPCD_PKG)/.PKGINFO ; \
 	 echo "url=$(DHCPCD_PKG_URL)"                                 >> $(DHCPCD_PKG)/.PKGINFO ; \
 	 echo "license=$(DHCPCD_PKG_LICENSE)"                         >> $(DHCPCD_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(DHCPCD_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(DHCPCD_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

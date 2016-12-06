@@ -164,4 +164,4 @@ $(pkg_archive): $(install_target) $(BOOTPARAMD_PKG_DESCRIPTION_FILE) $(BOOTPARAM
 	 echo "short_description=\"$(BOOTPARAMD_PKG_SHORT_DESCRIPTION)\"" >> $(BOOTPARAMD_PKG)/.PKGINFO ; \
 	 echo "url=$(BOOTPARAMD_PKG_URL)"                                 >> $(BOOTPARAMD_PKG)/.PKGINFO ; \
 	 echo "license=$(BOOTPARAMD_PKG_LICENSE)"                         >> $(BOOTPARAMD_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(BOOTPARAMD_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(BOOTPARAMD_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

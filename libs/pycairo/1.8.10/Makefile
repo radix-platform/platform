@@ -229,4 +229,4 @@ $(pkg_archive): $(install_target) $(PYCAIRO_PKG_DESCRIPTION_FILE) $(PYCAIRO_PKG_
 	 echo "short_description=\"$(PYCAIRO_PKG_SHORT_DESCRIPTION)\"" >> $(PYCAIRO_PKG)/.PKGINFO ; \
 	 echo "url=$(PYCAIRO_PKG_URL)"                                 >> $(PYCAIRO_PKG)/.PKGINFO ; \
 	 echo "license=$(PYCAIRO_PKG_LICENSE)"                         >> $(PYCAIRO_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(PYCAIRO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PYCAIRO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

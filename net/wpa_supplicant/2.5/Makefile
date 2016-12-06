@@ -192,4 +192,4 @@ $(pkg_archive): $(install_target) $(WPASUP_PKG_DESCRIPTION_FILE) $(WPASUP_PKG_IN
 	 echo "short_description=\"$(WPASUP_PKG_SHORT_DESCRIPTION)\"" >> $(WPASUP_PKG)/.PKGINFO ; \
 	 echo "url=$(WPASUP_PKG_URL)"                                 >> $(WPASUP_PKG)/.PKGINFO ; \
 	 echo "license=$(WPASUP_PKG_LICENSE)"                         >> $(WPASUP_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(WPASUP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(WPASUP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

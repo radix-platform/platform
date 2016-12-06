@@ -205,4 +205,4 @@ $(pkg_archive): $(install_target) $(PYGOBJ2_32_PKG_DESCRIPTION_FILE) $(PYGOBJ2_3
 	 echo "short_description=\"$(PYGOBJ2_32_PKG_SHORT_DESCRIPTION)\"" >> $(PYGOBJ2_32_PKG)/.PKGINFO ; \
 	 echo "url=$(PYGOBJ2_32_PKG_URL)"                                 >> $(PYGOBJ2_32_PKG)/.PKGINFO ; \
 	 echo "license=$(PYGOBJ2_32_PKG_LICENSE)"                         >> $(PYGOBJ2_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(PYGOBJ2_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PYGOBJ2_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

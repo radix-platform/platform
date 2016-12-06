@@ -255,4 +255,4 @@ $(pkg_archive): $(install_target) $(BOOST_PKG_DESCRIPTION_FILE) $(BOOST_PKG_INST
 	 echo "short_description=\"$(BOOST_PKG_SHORT_DESCRIPTION)\"" >> $(BOOST_PKG)/.PKGINFO ; \
 	 echo "url=$(BOOST_PKG_URL)"                                 >> $(BOOST_PKG)/.PKGINFO ; \
 	 echo "license=$(BOOST_PKG_LICENSE)"                         >> $(BOOST_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(BOOST_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(BOOST_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

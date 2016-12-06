@@ -243,4 +243,4 @@ $(pkg_archive): $(install_target) $(GPHOTO2_32_PKG_DESCRIPTION_FILE) $(GPHOTO2_3
 	 echo "short_description=\"$(GPHOTO2_32_PKG_SHORT_DESCRIPTION)\"" >> $(GPHOTO2_32_PKG)/.PKGINFO ; \
 	 echo "url=$(GPHOTO2_32_PKG_URL)"                                 >> $(GPHOTO2_32_PKG)/.PKGINFO ; \
 	 echo "license=$(GPHOTO2_32_PKG_LICENSE)"                         >> $(GPHOTO2_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GPHOTO2_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GPHOTO2_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

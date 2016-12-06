@@ -174,4 +174,4 @@ $(pkg_archive): $(install_target) $(AC_ARCHIVE_PKG_DESCRIPTION_FILE) $(AC_ARCHIV
 	 echo "short_description=\"$(AC_ARCHIVE_PKG_SHORT_DESCRIPTION)\"" >> $(AC_ARCHIVE_PKG)/.PKGINFO ; \
 	 echo "url=$(AC_ARCHIVE_PKG_URL)"                                 >> $(AC_ARCHIVE_PKG)/.PKGINFO ; \
 	 echo "license=$(AC_ARCHIVE_PKG_LICENSE)"                         >> $(AC_ARCHIVE_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(AC_ARCHIVE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(AC_ARCHIVE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

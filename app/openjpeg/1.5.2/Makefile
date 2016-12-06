@@ -229,4 +229,4 @@ $(pkg_archive): $(install_target) $(OPENJPEG_PKG_DESCRIPTION_FILE) $(OPENJPEG_PK
 	 echo "short_description=\"$(OPENJPEG_PKG_SHORT_DESCRIPTION)\"" >> $(OPENJPEG_PKG)/.PKGINFO ; \
 	 echo "url=$(OPENJPEG_PKG_URL)"                                 >> $(OPENJPEG_PKG)/.PKGINFO ; \
 	 echo "license=$(OPENJPEG_PKG_LICENSE)"                         >> $(OPENJPEG_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(OPENJPEG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(OPENJPEG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

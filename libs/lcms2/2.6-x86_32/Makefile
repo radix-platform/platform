@@ -165,4 +165,4 @@ $(pkg_archive): $(install_target) $(LCMS2_32_PKG_DESCRIPTION_FILE) $(LCMS2_32_PK
 	 echo "short_description=\"$(LCMS2_32_PKG_SHORT_DESCRIPTION)\"" >> $(LCMS2_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LCMS2_32_PKG_URL)"                                 >> $(LCMS2_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LCMS2_32_PKG_LICENSE)"                         >> $(LCMS2_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LCMS2_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LCMS2_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -312,4 +312,4 @@ $(pkg_archive): $(install_target) $(GPHOTO2_PKG_DESCRIPTION_FILE) $(GPHOTO2_PKG_
 	 echo "short_description=\"$(GPHOTO2_PKG_SHORT_DESCRIPTION)\"" >> $(GPHOTO2_PKG)/.PKGINFO ; \
 	 echo "url=$(GPHOTO2_PKG_URL)"                                 >> $(GPHOTO2_PKG)/.PKGINFO ; \
 	 echo "license=$(GPHOTO2_PKG_LICENSE)"                         >> $(GPHOTO2_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GPHOTO2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GPHOTO2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

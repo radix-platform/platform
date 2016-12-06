@@ -260,4 +260,4 @@ $(pkg_archive): $(install_target) $(WAYLAND_PKG_DESCRIPTION_FILE) $(WAYLAND_PKG_
 	 echo "short_description=\"$(WAYLAND_PKG_SHORT_DESCRIPTION)\"" >> $(WAYLAND_PKG)/.PKGINFO ; \
 	 echo "url=$(WAYLAND_PKG_URL)"                                 >> $(WAYLAND_PKG)/.PKGINFO ; \
 	 echo "license=$(WAYLAND_PKG_LICENSE)"                         >> $(WAYLAND_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(WAYLAND_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(WAYLAND_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

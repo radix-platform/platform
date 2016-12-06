@@ -244,4 +244,4 @@ $(pkg_archive): $(install_target) $(HWLOC_PKG_DESCRIPTION_FILE) $(HWLOC_PKG_INST
 	 echo "short_description=\"$(HWLOC_PKG_SHORT_DESCRIPTION)\"" >> $(HWLOC_PKG)/.PKGINFO ; \
 	 echo "url=$(HWLOC_PKG_URL)"                                 >> $(HWLOC_PKG)/.PKGINFO ; \
 	 echo "license=$(HWLOC_PKG_LICENSE)"                         >> $(HWLOC_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(HWLOC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(HWLOC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

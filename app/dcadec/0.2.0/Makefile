@@ -191,4 +191,4 @@ $(pkg_archive): $(install_target) $(DCADEC_PKG_DESCRIPTION_FILE) $(DCADEC_PKG_IN
 	 echo "short_description=\"$(DCADEC_PKG_SHORT_DESCRIPTION)\"" >> $(DCADEC_PKG)/.PKGINFO ; \
 	 echo "url=$(DCADEC_PKG_URL)"                                 >> $(DCADEC_PKG)/.PKGINFO ; \
 	 echo "license=$(DCADEC_PKG_LICENSE)"                         >> $(DCADEC_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(DCADEC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(DCADEC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

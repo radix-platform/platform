@@ -193,4 +193,4 @@ $(pkg_archive): $(install_target) $(GLIBC_I18N_PKG_DESCRIPTION_FILE) $(GLIBC_I18
 	 echo "short_description=\"$(GLIBC_I18N_PKG_SHORT_DESCRIPTION)\"" >> $(GLIBC_I18N_PKG)/.PKGINFO ; \
 	 echo "url=$(GLIBC_I18N_PKG_URL)"                                 >> $(GLIBC_I18N_PKG)/.PKGINFO ; \
 	 echo "license=$(GLIBC_I18N_PKG_LICENSE)"                         >> $(GLIBC_I18N_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GLIBC_I18N_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GLIBC_I18N_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

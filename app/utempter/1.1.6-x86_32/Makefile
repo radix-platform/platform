@@ -123,7 +123,7 @@ $(pkg_archive): $(install_target) $(UTEMPTER_32_PKG_DESCRIPTION_FILE) $(UTEMPTER
 	 echo "short_description=\"$(UTEMPTER_32_PKG_SHORT_DESCRIPTION)\"" >> $(UTEMPTER_32_PKG)/.PKGINFO ; \
 	 echo "url=$(UTEMPTER_32_PKG_URL)"                                 >> $(UTEMPTER_32_PKG)/.PKGINFO ; \
 	 echo "license=$(UTEMPTER_32_PKG_LICENSE)"                         >> $(UTEMPTER_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(UTEMPTER_32_PKG) && \
-	                    chown -R root:root .  && \
-	                    chown    root:22 usr/lib$(MULTILIB_X86_32_SUFFIX)/utempter/utempter && \
-	                    $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(UTEMPTER_32_PKG) && \
+	                  chown -R root:root .  && \
+	                  chown    root:22 usr/lib$(MULTILIB_X86_32_SUFFIX)/utempter/utempter && \
+	                  $(MAKE_PACKAGE) --linkadd yes .."

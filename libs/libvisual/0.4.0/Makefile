@@ -201,4 +201,4 @@ $(pkg_archive): $(install_target) $(LIBVISUAL_PKG_DESCRIPTION_FILE) $(LIBVISUAL_
 	 echo "short_description=\"$(LIBVISUAL_PKG_SHORT_DESCRIPTION)\"" >> $(LIBVISUAL_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBVISUAL_PKG_URL)"                                 >> $(LIBVISUAL_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBVISUAL_PKG_LICENSE)"                         >> $(LIBVISUAL_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBVISUAL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBVISUAL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

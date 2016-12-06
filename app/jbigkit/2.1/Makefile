@@ -167,4 +167,4 @@ $(pkg_archive): $(install_target) $(JBIGKIT_PKG_DESCRIPTION_FILE) $(JBIGKIT_PKG_
 	 echo "short_description=\"$(JBIGKIT_PKG_SHORT_DESCRIPTION)\"" >> $(JBIGKIT_PKG)/.PKGINFO ; \
 	 echo "url=$(JBIGKIT_PKG_URL)"                                 >> $(JBIGKIT_PKG)/.PKGINFO ; \
 	 echo "license=$(JBIGKIT_PKG_LICENSE)"                         >> $(JBIGKIT_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(JBIGKIT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(JBIGKIT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

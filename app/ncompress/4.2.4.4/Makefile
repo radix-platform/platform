@@ -152,4 +152,4 @@ $(pkg_archive): $(install_target) $(NCOMPRESS_PKG_DESCRIPTION_FILE) $(NCOMPRESS_
 	 echo "short_description=\"$(NCOMPRESS_PKG_SHORT_DESCRIPTION)\"" >> $(NCOMPRESS_PKG)/.PKGINFO ; \
 	 echo "url=$(NCOMPRESS_PKG_URL)"                                 >> $(NCOMPRESS_PKG)/.PKGINFO ; \
 	 echo "license=$(NCOMPRESS_PKG_LICENSE)"                         >> $(NCOMPRESS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(NCOMPRESS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(NCOMPRESS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -154,4 +154,4 @@ $(pkg_archive): $(install_target) $(LIBRAW1394_32_PKG_DESCRIPTION_FILE) $(LIBRAW
 	 echo "short_description=\"$(LIBRAW1394_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBRAW1394_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBRAW1394_32_PKG_URL)"                                 >> $(LIBRAW1394_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBRAW1394_32_PKG_LICENSE)"                         >> $(LIBRAW1394_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBRAW1394_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBRAW1394_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

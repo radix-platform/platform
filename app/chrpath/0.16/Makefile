@@ -168,4 +168,4 @@ $(pkg_archive): $(install_target) $(CHRPATH_PKG_DESCRIPTION_FILE) $(CHRPATH_PKG_
 	 echo "short_description=\"$(CHRPATH_PKG_SHORT_DESCRIPTION)\"" >> $(CHRPATH_PKG)/.PKGINFO ; \
 	 echo "url=$(CHRPATH_PKG_URL)"                                 >> $(CHRPATH_PKG)/.PKGINFO ; \
 	 echo "license=$(CHRPATH_PKG_LICENSE)"                         >> $(CHRPATH_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(CHRPATH_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(CHRPATH_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

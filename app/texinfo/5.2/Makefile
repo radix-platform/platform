@@ -188,4 +188,4 @@ $(pkg_archive): $(install_target) $(TEXINFO_PKG_DESCRIPTION_FILE) $(TEXINFO_PKG_
 	 echo "short_description=\"$(TEXINFO_PKG_SHORT_DESCRIPTION)\"" >> $(TEXINFO_PKG)/.PKGINFO ; \
 	 echo "url=$(TEXINFO_PKG_URL)"                                 >> $(TEXINFO_PKG)/.PKGINFO ; \
 	 echo "license=$(TEXINFO_PKG_LICENSE)"                         >> $(TEXINFO_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(TEXINFO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(TEXINFO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

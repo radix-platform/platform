@@ -224,4 +224,4 @@ $(pkg_archive): $(install_target) $(NSS_32_PKG_DESCRIPTION_FILE) $(NSS_32_PKG_IN
 	 echo "short_description=\"$(NSS_32_PKG_SHORT_DESCRIPTION)\"" >> $(NSS_32_PKG)/.PKGINFO ; \
 	 echo "url=$(NSS_32_PKG_URL)"                                 >> $(NSS_32_PKG)/.PKGINFO ; \
 	 echo "license=$(NSS_32_PKG_LICENSE)"                         >> $(NSS_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(NSS_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(NSS_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

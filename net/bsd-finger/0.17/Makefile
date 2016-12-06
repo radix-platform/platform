@@ -163,4 +163,4 @@ $(pkg_archive): $(install_target) $(FINGER_PKG_DESCRIPTION_FILE) $(FINGER_PKG_IN
 	 echo "short_description=\"$(FINGER_PKG_SHORT_DESCRIPTION)\"" >> $(FINGER_PKG)/.PKGINFO ; \
 	 echo "url=$(FINGER_PKG_URL)"                                 >> $(FINGER_PKG)/.PKGINFO ; \
 	 echo "license=$(FINGER_PKG_LICENSE)"                         >> $(FINGER_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(FINGER_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(FINGER_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

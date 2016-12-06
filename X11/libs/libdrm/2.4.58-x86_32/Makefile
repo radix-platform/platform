@@ -179,4 +179,4 @@ $(pkg_archive): $(install_target) $(LIBDRM_32_PKG_DESCRIPTION_FILE) $(LIBDRM_32_
 	 echo "short_description=\"$(LIBDRM_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBDRM_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBDRM_32_PKG_URL)"                                 >> $(LIBDRM_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBDRM_32_PKG_LICENSE)"                         >> $(LIBDRM_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBDRM_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBDRM_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

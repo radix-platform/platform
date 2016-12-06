@@ -210,4 +210,4 @@ $(pkg_archive): $(install_target) $(SPEEXDSP_PKG_DESCRIPTION_FILE) $(SPEEXDSP_PK
 	 echo "short_description=\"$(SPEEXDSP_PKG_SHORT_DESCRIPTION)\"" >> $(SPEEXDSP_PKG)/.PKGINFO ; \
 	 echo "url=$(SPEEXDSP_PKG_URL)"                                 >> $(SPEEXDSP_PKG)/.PKGINFO ; \
 	 echo "license=$(SPEEXDSP_PKG_LICENSE)"                         >> $(SPEEXDSP_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(SPEEXDSP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SPEEXDSP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

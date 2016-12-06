@@ -211,4 +211,4 @@ $(pkg_archive): $(install_target) $(VO_AACENC_PKG_DESCRIPTION_FILE) $(VO_AACENC_
 	 echo "short_description=\"$(VO_AACENC_PKG_SHORT_DESCRIPTION)\"" >> $(VO_AACENC_PKG)/.PKGINFO ; \
 	 echo "url=$(VO_AACENC_PKG_URL)"                                 >> $(VO_AACENC_PKG)/.PKGINFO ; \
 	 echo "license=$(VO_AACENC_PKG_LICENSE)"                         >> $(VO_AACENC_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(VO_AACENC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(VO_AACENC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

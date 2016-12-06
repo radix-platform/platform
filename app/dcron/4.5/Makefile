@@ -167,4 +167,4 @@ $(pkg_archive): $(install_target) $(DCRON_PKG_DESCRIPTION_FILE) $(DCRON_PKG_INST
 	 echo "short_description=\"$(DCRON_PKG_SHORT_DESCRIPTION)\"" >> $(DCRON_PKG)/.PKGINFO ; \
 	 echo "url=$(DCRON_PKG_URL)"                                 >> $(DCRON_PKG)/.PKGINFO ; \
 	 echo "license=$(DCRON_PKG_LICENSE)"                         >> $(DCRON_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(DCRON_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(DCRON_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

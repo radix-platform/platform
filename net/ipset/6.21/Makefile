@@ -217,4 +217,4 @@ $(pkg_archive): $(install_target) $(IPSET_PKG_DESCRIPTION_FILE) $(IPSET_PKG_INST
 	 echo "short_description=\"$(IPSET_PKG_SHORT_DESCRIPTION)\"" >> $(IPSET_PKG)/.PKGINFO ; \
 	 echo "url=$(IPSET_PKG_URL)"                                 >> $(IPSET_PKG)/.PKGINFO ; \
 	 echo "license=$(IPSET_PKG_LICENSE)"                         >> $(IPSET_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(IPSET_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(IPSET_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

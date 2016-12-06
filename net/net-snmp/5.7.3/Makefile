@@ -302,4 +302,4 @@ $(pkg_archive): $(install_target) $(NSNMP_PKG_DESCRIPTION_FILE) $(NSNMP_PKG_INST
 	 echo "short_description=\"$(NSNMP_PKG_SHORT_DESCRIPTION)\"" >> $(NSNMP_PKG)/.PKGINFO ; \
 	 echo "url=$(NSNMP_PKG_URL)"                                 >> $(NSNMP_PKG)/.PKGINFO ; \
 	 echo "license=$(NSNMP_PKG_LICENSE)"                         >> $(NSNMP_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(NSNMP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(NSNMP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

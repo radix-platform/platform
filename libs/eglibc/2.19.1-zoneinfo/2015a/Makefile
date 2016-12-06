@@ -152,4 +152,4 @@ $(pkg_archive): $(install_target) $(EGLIBC_TZ_PKG_DESCRIPTION_FILE) $(EGLIBC_TZ_
 	 echo "short_description=\"$(EGLIBC_TZ_PKG_SHORT_DESCRIPTION)\"" >> $(EGLIBC_TZ_PKG)/.PKGINFO ; \
 	 echo "url=$(EGLIBC_TZ_PKG_URL)"                                 >> $(EGLIBC_TZ_PKG)/.PKGINFO ; \
 	 echo "license=$(EGLIBC_TZ_PKG_LICENSE)"                         >> $(EGLIBC_TZ_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(EGLIBC_TZ_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(EGLIBC_TZ_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

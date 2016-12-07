@@ -33,6 +33,8 @@ REQUIRES           = dev/python2/2.7.11
 
 # ======= __END_OF_REQUIRES__ =======
 
+PYTHON_VERSION = 2.7
+
 
 version            = 2.9.5
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/cracklib/cracklib-$(version).tar.gz
@@ -197,7 +199,7 @@ $(install_target): $(build_target)
 	@( cd $(CRACKLIB_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libcrack.la \
 	 )
-	@( cd $(CRACKLIB_PKG)/usr/lib$(LIBSUFFIX)/python?.?/site-packages ; \
+	@( cd $(CRACKLIB_PKG)/usr/lib$(LIBSUFFIX)/python$(PYTHON_VERSION)/site-packages ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" _cracklib.la \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
@@ -207,7 +209,7 @@ $(install_target): $(build_target)
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libcrack.la ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libcrack.la \
 	 )
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/python?.?/site-packages ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/python$(PYTHON_VERSION)/site-packages ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" _cracklib.la ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" _cracklib.la \
 	 )

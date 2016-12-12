@@ -1,0 +1,8 @@
+
+/* begin *
+
+   gtk+-2.24.25-geninclude.patch - Since Perl 5.16 the language police decided
+                                   that defined(@array) and defined(%hash) is illegal,
+                                   and will warn (Perl 5.22.2 will error).
+
+ * end */

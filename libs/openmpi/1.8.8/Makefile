@@ -106,6 +106,7 @@ extra_configure_switches += --with-threads=posix
 extra_configure_switches += --enable-smp-locks
 extra_configure_switches += --enable-pretty-print-stacktrace
 extra_configure_switches += --disable-mpi-fortran
+extra_configure_switches += --enable-java=no
 extra_configure_switches += --disable-memchecker
 extra_configure_switches += --without-valgrind
 extra_configure_switches += --without-slurm
@@ -188,16 +189,15 @@ $(install_target): $(build_target)
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libmpi.la libmpi_cxx.la                 \
 	                                    libompitrace.la libopen-pal.la          \
 	                                    libopen-rte.la libopen-trace-format.la  \
-	                                    liboshmem.la libotfaux.la               \
-	                                    libvt-hyb.la libvt-java.la              \
+	                                    liboshmem.la libotfaux.la libvt-hyb.la  \
 	                                    libvt-mpi-unify.la libvt-mpi.la         \
 	                                    libvt-mt.la libvt-pomp.la libvt.la    ; \
 	 )
 	@( cd $(OMPI_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s, -L$(CURDIR)/$(TARGET_BUILD_DIR).*\.libs,,g" libopen-trace-format.la libotfaux.la  \
-	                                                          libvt-hyb.la libvt-java.la            \
-	                                                          libvt-mpi-unify.la libvt-mpi.la       \
-	                                                          libvt-mt.la libvt-pomp.la libvt.la  ; \
+	   sed -i "s, -L$(CURDIR)/$(TARGET_BUILD_DIR).*\.libs,,g" libopen-trace-format.la              \
+	                                                          libotfaux.la libvt-hyb.la            \
+	                                                          libvt-mpi-unify.la libvt-mpi.la      \
+	                                                          libvt-mt.la libvt-pomp.la libvt.la ; \
 	 )
 	@( cd $(OMPI_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,$(TOOLCHAIN_PATH)/$(TARGET),/usr,g" libvt-hyb.la libvt-mpi-unify.la libvt-mpi.la ; \
@@ -212,15 +212,13 @@ $(install_target): $(build_target)
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libmpi.la libmpi_cxx.la                 \
 	                                            libompitrace.la libopen-pal.la          \
 	                                            libopen-rte.la libopen-trace-format.la  \
-	                                            liboshmem.la libotfaux.la               \
-	                                            libvt-hyb.la libvt-java.la              \
+	                                            liboshmem.la libotfaux.la libvt-hyb.la  \
 	                                            libvt-mpi-unify.la libvt-mpi.la         \
 	                                            libvt-mt.la libvt-pomp.la libvt.la    ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libmpi.la libmpi_cxx.la                 \
 	                                              libompitrace.la libopen-pal.la          \
 	                                              libopen-rte.la libopen-trace-format.la  \
-	                                              liboshmem.la libotfaux.la               \
-	                                              libvt-hyb.la libvt-java.la              \
+	                                              liboshmem.la libotfaux.la libvt-hyb.la  \
 	                                              libvt-mpi-unify.la libvt-mpi.la         \
 	                                              libvt-mt.la libvt-pomp.la libvt.la    ; \
 	 )

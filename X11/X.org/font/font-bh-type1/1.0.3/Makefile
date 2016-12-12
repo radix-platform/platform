@@ -30,7 +30,7 @@ include ../../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/X.org/font/font-bh-type1
 
 REQUIRES           = X11/libs/fontconfig/2.11.95
-REQUIRES          += X11/X.org/app/mkfontdir/1.0.7
+REQUIRES          += X11/X.org/font/font-util/1.3.1
 
 # ======= __END_OF_REQUIRES__ =======
 

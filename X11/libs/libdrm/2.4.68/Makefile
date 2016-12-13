@@ -41,6 +41,7 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64) $(HARDWARE_PC32)),)
 REQUIRES          += X11/X.org/lib/libpciaccess/0.13.4
 endif
+REQUIRES          += X11/X.org/xcb/libpthread-stubs/0.3
 
 # ======= __END_OF_REQUIRES__ =======
 

@@ -29,7 +29,15 @@ include ../../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/X.org/xcb/libpthread-stubs
 
-REQUIRES           = X11/X.org/xcb/libxcb/1.11.1
+ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
+REQUIRES           = dev/gcc/5.3.0
+else
+ifneq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES           = libs/glibc/2.24
+else
+REQUIRES           = libs/glibc/2.24-x86_32
+endif
+endif
 
 # ======= __END_OF_REQUIRES__ =======
 

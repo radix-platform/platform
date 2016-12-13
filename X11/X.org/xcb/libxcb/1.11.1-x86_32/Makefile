@@ -14,6 +14,7 @@ SOURCE_REQUIRES    = sources/X.org/xcb/libxcb
 
 REQUIRES           = X11/X.org/xcb/libxcb/1.11.1
 REQUIRES          += X11/X.org/xcb/xcb-proto/1.11-x86_32
+REQUIRES          += X11/X.org/xcb/libpthread-stubs/0.3-x86_32
 REQUIRES          += X11/X.org/lib/libXau/1.0.8-x86_32
 REQUIRES          += X11/X.org/lib/libXdmcp/1.1.2-x86_32
 

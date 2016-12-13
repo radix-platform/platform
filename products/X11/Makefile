@@ -823,16 +823,6 @@ REQUIRES += X11/X.org/util/makedepend/1.0.5
 REQUIRES += X11/X.org/util/gccmakedep/1.0.3
 
 #
-# X.org data:
-#
-REQUIRES += X11/X.org/data/xbitmaps/1.1.1
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += X11/X.org/data/xbitmaps/1.1.1-x86_32
-endif
-REQUIRES += X11/X.org/data/xcursor-themes/1.0.4
-REQUIRES += X11/X.org/data/xkeyboard-config/2.17
-
-#
 # X.org lib: [ order: libXau, libXdmcp ] required by xcb
 #
 
@@ -975,6 +965,17 @@ endif
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
 #REQUIRES += X11/X.org/lib/libxshmfence/1.2-x86_32
 #endif
+
+
+#
+# X.org data:
+#
+REQUIRES += X11/X.org/data/xbitmaps/1.1.1
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += X11/X.org/data/xbitmaps/1.1.1-x86_32
+endif
+REQUIRES += X11/X.org/data/xcursor-themes/1.0.4
+REQUIRES += X11/X.org/data/xkeyboard-config/2.17
 
 
 #######

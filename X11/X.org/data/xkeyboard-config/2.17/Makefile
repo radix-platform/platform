@@ -30,6 +30,7 @@ include ../../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/X.org/data/xkeyboard-config
 
 REQUIRES           = X11/X.org/util/util-macros/1.19.0
+REQUIRES          += X11/X.org/lib/libX11/1.6.3
 
 # ======= __END_OF_REQUIRES__ =======
 

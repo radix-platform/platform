@@ -110,6 +110,9 @@ extra_configure_switches += --enable-shared=yes
 
 extra_configure_switches += --enable-gtk-doc
 extra_configure_switches += --enable-gtk-doc-html
+extra_configure_switches += ac_cv_path_GTKDOC_CHECK=/usr/bin/gtkdoc-check
+extra_configure_switches += ac_cv_path_GTKDOC_REBASE=/usr/bin/gtkdoc-rebase
+extra_configure_switches += ac_cv_path_GTKDOC_MKPDF=/usr/bin/gtkdoc-mkpdf
 
 
 ####### Dependencies

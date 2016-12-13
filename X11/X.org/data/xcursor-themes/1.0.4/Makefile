@@ -30,6 +30,7 @@ include ../../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/X.org/data/xcursor-themes
 
 REQUIRES           = X11/X.org/util/util-macros/1.19.0
+REQUIRES          += X11/X.org/lib/libXcursor/1.1.14
 
 # ======= __END_OF_REQUIRES__ =======
 

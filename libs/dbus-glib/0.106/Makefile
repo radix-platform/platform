@@ -166,9 +166,14 @@ $(install_target): $(build_target)
 	   cp -a AUTHORS COPYING HACKING INSTALL NEWS README \
 	         $(DBUS_GLIB_PKG)/usr/share/doc/$(src_dir_name) ; \
 	 )
-ifeq ($(ENABLE_GTK_DOCUMENTATION),yes)
-	@ln -sf ../../gtk-doc/html/dbus-glib $(DBUS_GLIB_PKG)/usr/share/doc/$(src_dir_name)/html
+ifneq ($(ENABLE_GTK_DOCUMENTATION),yes)
+	@mkdir -p $(DBUS_GLIB_PKG)/usr/share/gtk-doc/html/dbus-glib
+	@( cd $(SRC_DIR)/doc/reference/html ; \
+	   cp -a *.html *.css *.png *.devhelp2 \
+	         $(DBUS_GLIB_PKG)/usr/share/gtk-doc/html/dbus-glib ; \
+	 )
 endif
+	@ln -sf ../../gtk-doc/html/dbus-glib $(DBUS_GLIB_PKG)/usr/share/doc/$(src_dir_name)/html
 	@( cd $(SRC_DIR) ; \
 	   if [ -r ChangeLog ]; then \
 	     DOCSDIR=`echo $(DBUS_GLIB_PKG)/usr/share/doc/$(src_dir_name)` ; \

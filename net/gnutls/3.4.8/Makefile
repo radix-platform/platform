@@ -98,6 +98,8 @@ include ../../../build-system/core.mk
 env_sysroot  = DESTDIR=$(GNUTLS_PKG)
 
 
+ENABLE_GTK_DOCUMENTATION  = yes
+
 extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
@@ -109,8 +111,10 @@ extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --disable-rpath
 extra_configure_switches += --enable-guile
 
+ifeq ($(ENABLE_GTK_DOCUMENTATION),yes)
 extra_configure_switches += --enable-gtk-doc
 extra_configure_switches += --enable-gtk-doc-html
+endif
 
 # Тhе road to hellis paved with good intentions:
 extra_configure_switches += --without-libnettle-prefix
@@ -180,8 +184,15 @@ $(install_target): $(build_target)
 	@( cd $(SRC_DIR) ; \
 	   cp -a AUTHORS COPYING* INSTALL NEWS README THANKS doc/gnutls-guile.pdf doc/gnutls.pdf \
 	         $(GNUTLS_PKG)/usr/share/doc/$(src_dir_name) ; \
-	   ln -sf ../../gtk-doc/html/gnutls $(GNUTLS_PKG)/usr/share/doc/$(src_dir_name)/html ; \
 	 )
+ifneq ($(ENABLE_GTK_DOCUMENTATION),yes)
+	@mkdir -p $(GNUTLS_PKG)/usr/share/gtk-doc/html/gnutls
+	@( cd $(SRC_DIR)/doc/reference/html ; \
+	   cp -a *.html *.css *.png *.devhelp2 \
+	         $(GNUTLS_PKG)/usr/share/gtk-doc/html/gnutls ; \
+	 )
+endif
+	@ln -sf ../../gtk-doc/html/gnutls $(GNUTLS_PKG)/usr/share/doc/$(src_dir_name)/html
 	@( cd $(SRC_DIR) ; \
 	   if [ -r ChangeLog ]; then \
 	     DOCSDIR=`echo $(GNUTLS_PKG)/usr/share/doc/$(src_dir_name)` ; \

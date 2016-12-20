@@ -15,7 +15,11 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 
-BUILD_TARGETS = $(tarballs) $(sha1s)
+patches     = $(CURDIR)/patches/compositeproto-0.4.2-automake.patch
+
+.NOTPARALLEL: $(patches)
+
+BUILD_TARGETS = $(tarballs) $(sha1s) $(patches)
 
 
 include ../../../../build-system/core.mk
@@ -43,5 +47,10 @@ $(sha1s): $(tarballs)
 	   fi ; \
 	 done
 
+$(patches): $(sha1s)
+	@echo -e "\n======= Create Patches =======\n" ; \
+	 ( cd create-0.4.2-automake-patch ; ./create.patch.sh ) ; \
+	 echo -e "\n"
+
 download_clean:
-	@rm -f $(tarballs) $(sha1s)
+	@rm -f $(tarballs) $(sha1s) $(patches)

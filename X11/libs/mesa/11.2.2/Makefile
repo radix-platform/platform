@@ -7,6 +7,12 @@ COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
 COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -139,7 +145,11 @@ extra_configure_switches += --with-gallium-drivers=nouveau,r300,r600,svga,swrast
 
 extra_configure_switches += --with-sha1=libgcrypt
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXV)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)        \
+                            $(HARDWARE_M201) $(HARDWARE_MXV)         \
+                            $(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
 extra_configure_switches += --disable-egl
 extra_configure_switches += --disable-gles1
 extra_configure_switches += --disable-gles2
@@ -246,7 +256,11 @@ $(install_target): $(build_target)
 	@( cd $(MESA_PKG)/usr/lib$(LIBSUFFIX)/dri ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" gallium_drv_video.la ; \
 	 )
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXV)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)        \
+                            $(HARDWARE_M201) $(HARDWARE_MXV)         \
+                            $(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
 	@( cd $(MESA_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libGL.la           \
 	                                    libOSMesa.la       \
@@ -279,7 +293,11 @@ endif
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   gallium_drv_video.la ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" gallium_drv_video.la ; \
 	 )
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXV)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)        \
+                            $(HARDWARE_M201) $(HARDWARE_MXV)         \
+                            $(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libGL.la           \
 	                                            libOSMesa.la       \
@@ -317,7 +335,11 @@ else
 	 )
 endif
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXV)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)        \
+                            $(HARDWARE_M201) $(HARDWARE_MXV)         \
+                            $(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" d3d.pc          \
 	                                            gl.pc           \

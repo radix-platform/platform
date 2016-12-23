@@ -158,8 +158,10 @@ $(install_target): $(build_target)
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(XORG_PKG))
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
+	# ======= do not touch fontrootdir variable in fontutil.pc file                      =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" fontutil.pc \
+	   sed -i "s,prefix=/usr,prefix=$(TARGET_DEST_DIR)/usr,g" fontutil.pc ; \
+	   sed -i "s,libdir=/usr,libdir=$(TARGET_DEST_DIR)/usr,g" fontutil.pc ; \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(XORG_PKG); \

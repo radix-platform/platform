@@ -31,16 +31,17 @@
 #define KHRONOS_APIENTRY
 #endif
 
-typedef signed char        khronos_int8_t;
-typedef unsigned char      khronos_uint8_t;
-typedef signed int         khronos_int32_t;
-typedef unsigned int       khronos_uint32_t;
-typedef unsigned long long khronos_uint64_t;
-typedef signed long long   khronos_int64_t;
+typedef int8_t             khronos_int8_t;
+typedef uint8_t            khronos_uint8_t;
+typedef int32_t            khronos_int32_t;
+typedef uint32_t           khronos_uint32_t;
+typedef uint64_t           khronos_uint64_t;
+typedef int64_t            khronos_int64_t;
 typedef float              khronos_float_t;
 
-typedef signed long int    khronos_intptr_t;
-typedef signed long int    khronos_ssize_t;
+typedef long               khronos_intptr_t;
+typedef long               khronos_ssize_t;
+typedef unsigned long khronos_usize_t;
 
 #define KHRONOS_SUPPORT_INT64   1
 
@@ -48,8 +49,8 @@ typedef signed long int    khronos_ssize_t;
 typedef unsigned __int64    khronos_utime_nanoseconds_t;
 typedef signed __int64      khronos_stime_nanoseconds_t;
 #else
-typedef unsigned long long  khronos_utime_nanoseconds_t;
-typedef signed long long    khronos_stime_nanoseconds_t;
+typedef uint64_t            khronos_utime_nanoseconds_t;
+typedef int64_t             khronos_stime_nanoseconds_t;
 #endif
 
 #endif /* _MALI_KHRPLATFORM_H_ */

@@ -15,7 +15,7 @@ SOURCE_REQUIRES    = sources/packages/m/linuxtv/v4l-utils
 REQUIRES           = libs/v4l-utils/1.10.1
 REQUIRES          += libs/eudev/3.1.5-x86_32
 REQUIRES          += libs/libjpeg-turbo/1.4.2-x86_32
-REQUIRES          += X11/libs/qt5/5.4.2-x86_32
+REQUIRES          += X11/libs/qt5/5.7.1-x86_32
 REQUIRES          += X11/libs/glu/9.0.0-x86_32
 
 # ======= __END_OF_REQUIRES__ =======

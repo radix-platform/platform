@@ -31,6 +31,10 @@
 #define KHRONOS_APIENTRY
 #endif
 
+/*
+ * Generic fallback
+ */
+#include <stdint.h>
 typedef int8_t             khronos_int8_t;
 typedef uint8_t            khronos_uint8_t;
 typedef int32_t            khronos_int32_t;
@@ -44,6 +48,7 @@ typedef long               khronos_ssize_t;
 typedef unsigned long khronos_usize_t;
 
 #define KHRONOS_SUPPORT_INT64   1
+#define KHRONOS_SUPPORT_FLOAT   1
 
 #ifdef _MSC_VER
 typedef unsigned __int64    khronos_utime_nanoseconds_t;

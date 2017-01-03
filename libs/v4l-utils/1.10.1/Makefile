@@ -35,7 +35,7 @@ endif
 REQUIRES          += app/sysfsutils/2.1.0
 REQUIRES          += libs/eudev/3.1.5
 REQUIRES          += libs/libjpeg-turbo/1.4.2
-REQUIRES          += X11/libs/qt5/5.4.2
+REQUIRES          += X11/libs/qt5/5.7.1
 REQUIRES          += X11/libs/glu/9.0.0
 
 # ======= __END_OF_REQUIRES__ =======
@@ -108,7 +108,11 @@ extra_configure_switches += --disable-rpath
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --with-udevdir=/lib/udev
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXV)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)        \
+                            $(HARDWARE_M201) $(HARDWARE_MXV)         \
+                            $(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
 #
 # Graphical Qt v4l2 control panel:
 # ===============================

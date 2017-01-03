@@ -1,0 +1,7 @@
+
+endian little
+
+<aliases>
+arm64
+armv8
+</aliases>

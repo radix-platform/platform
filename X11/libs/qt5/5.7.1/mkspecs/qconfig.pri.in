@@ -1,0 +1,26 @@
+#configuration
+CONFIG += shared qpa release qt_no_framework
+QT_ARCH = @ARCH@
+QMAKE_DEFAULT_LIBDIRS = /lib@LIBDIRSUFFIX@ /usr/lib@LIBDIRSUFFIX@
+QMAKE_DEFAULT_INCDIRS = /usr/lib@LIBDIRSUFFIX@/qt-5.7.0/include /usr/include
+QT_CONFIG += @CONFIG_SPEC@
+
+#versioning
+QT_VERSION = 5.7.0
+QT_MAJOR_VERSION = 5
+QT_MINOR_VERSION = 7
+QT_PATCH_VERSION = 0
+
+#namespaces
+QT_LIBINFIX =
+QT_NAMESPACE =
+
+QT_EDITION = OpenSource
+
+# pkgconfig
+PKG_CONFIG_LIBDIR = /usr/lib@LIBDIRSUFFIX@/pkgconfig:/usr/share/pkgconfig
+
+QT_COMPILER_STDCXX = 199711
+QT_GCC_MAJOR_VERSION = 5
+QT_GCC_MINOR_VERSION = 3
+QT_GCC_PATCH_VERSION = 0

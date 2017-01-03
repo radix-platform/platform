@@ -1,0 +1,2 @@
+
+../../../sources/packages/b/mariadb/patches/mariadb-10.0.25-bindir.patch -p0

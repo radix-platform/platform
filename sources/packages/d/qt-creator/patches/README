@@ -1,0 +1,8 @@
+
+/* begin *
+
+   qt-creator-3.5.1-botan-on-arm.patch - Botan is imported hardwired for x86 this small patch
+                                         allows it too operate on arm other platforms could be
+                                         added.
+
+ * end */

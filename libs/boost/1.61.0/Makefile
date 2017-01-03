@@ -98,8 +98,7 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)      \
                             $(HARDWARE_CB2X)      \
                             $(HARDWARE_CB3X)      \
                             $(HARDWARE_FFRK3288)  \
-                            $(HARDWARE_M201)      \
-                            $(HARDWARE_MXV)       \
+                            $(HARDWARE_M201) $(HARDWARE_MXV) \
                             $(HARDWARE_NIT6Q)     \
                             $(HARDWARE_OMAP5UEVM) \
                             $(HARDWARE_DRA7XXEVM)),)
@@ -107,6 +106,14 @@ ARCH          = arm
 ABI           = aapcs
 BINARY_FORMAT = elf
 ADDRESS_MODEL = 32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
+ARCH          = arm
+ABI           = aapcs
+BINARY_FORMAT = elf
+ADDRESS_MODEL = 64
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32)),)
 ARCH          = x86

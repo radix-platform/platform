@@ -18,7 +18,7 @@ REQUIRES          += libs/lcms2/2.7-x86_32
 REQUIRES          += net/curl/7.47.0-x86_32
 REQUIRES          += app/openjpeg2/2.1.2-x86_32
 REQUIRES          += X11/libs/qt4/4.8.7-x86_32
-REQUIRES          += X11/libs/qt5/5.4.2-x86_32
+REQUIRES          += X11/libs/qt5/5.7.1-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

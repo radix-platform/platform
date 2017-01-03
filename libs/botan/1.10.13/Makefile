@@ -120,6 +120,11 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)       \
                             $(HARDWARE_DRA7XXEVM)),)
 extra_configure_switches += --cpu=armv7
 endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
+extra_configure_switches += --cpu=armv8
+endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20) $(HARDWARE_BT1)),)
 extra_configure_switches += --cpu=mipsel
 endif

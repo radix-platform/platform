@@ -19,6 +19,8 @@ patches    += $(CURDIR)/patches/qt4-4.8.6-CVE-2014-0190.patch
 patches    += $(CURDIR)/patches/qt4-4.8.6-systemtrayicon.patch
 patches    += $(CURDIR)/patches/qt4-4.8.6-webkit-NEON-Thumb2.patch
 
+patches    += $(CURDIR)/patches/qt4-4.8.7-aarch64.patch
+
 patches    += $(CURDIR)/patches/qt4-4.8.7-clipboard-delay.patch
 patches    += $(CURDIR)/patches/qt4-4.8.7-cups.patch
 patches    += $(CURDIR)/patches/qt4-4.8.7-disable-sslv3.patch
@@ -68,6 +70,8 @@ $(patches): $(sha1s)
 	 ( cd create-4.8.6-CVE-2014-0190-patch      ; ./create.patch.sh ) ; \
 	 ( cd create-4.8.6-systemtrayicon-patch     ; ./create.patch.sh ) ; \
 	 ( cd create-4.8.6-webkit-NEON-Thumb2-patch ; ./create.patch.sh ) ; \
+	 \
+	 ( cd create-4.8.7-aarch64-patch            ; ./create.patch.sh ) ; \
 	 \
 	 ( cd create-4.8.7-clipboard-delay-patch    ; ./create.patch.sh ) ; \
 	 ( cd create-4.8.7-cups-patch               ; ./create.patch.sh ) ; \

@@ -20,6 +20,7 @@ patches    += $(CURDIR)/patches/SDL-1.2.15-joystick-axis.patch
 patches    += $(CURDIR)/patches/SDL-1.2.15-x11-XData32.patch
 patches    += $(CURDIR)/patches/SDL-1.2.15-x11-events.patch
 patches    += $(CURDIR)/patches/SDL-1.2.15-x11-grab.patch
+patches    += $(CURDIR)/patches/SDL-1.2.15-automake.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -60,6 +61,7 @@ $(patches): $(sha1s)
 	 ( cd create-1.2.15-x11-XData32-patch   ; ./create.patch.sh ) ; \
 	 ( cd create-1.2.15-x11-events-patch    ; ./create.patch.sh ) ; \
 	 ( cd create-1.2.15-x11-grab-patch      ; ./create.patch.sh ) ; \
+	 ( cd create-1.2.15-automake-patch      ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

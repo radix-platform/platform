@@ -5,3 +5,4 @@
 ../../../../../sources/packages/l/sdl/sdl/patches/SDL-1.2.15-x11-XData32.patch   -p0
 ../../../../../sources/packages/l/sdl/sdl/patches/SDL-1.2.15-x11-events.patch    -p0
 ../../../../../sources/packages/l/sdl/sdl/patches/SDL-1.2.15-x11-grab.patch      -p0
+../../../../../sources/packages/l/sdl/sdl/patches/SDL-1.2.15-automake.patch      -p0

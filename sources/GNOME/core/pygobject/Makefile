@@ -16,6 +16,7 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/pygobject-2.28.6-configure.patch
 patches    += $(CURDIR)/patches/pygobject-2.28.6-flags.patch
+patches    += $(CURDIR)/patches/pygobject-2.28.6-automake.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -52,6 +53,7 @@ $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-2.28.6-configure-patch ; ./create.patch.sh ) ; \
 	 ( cd create-2.28.6-flags-patch     ; ./create.patch.sh ) ; \
+	 ( cd create-2.28.6-automake-patch  ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

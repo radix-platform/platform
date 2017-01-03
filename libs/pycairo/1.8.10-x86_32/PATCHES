@@ -1,2 +1,3 @@
 
 ../../../sources/packages/l/pycairo/patches/pycairo-1.8.10-configure.patch -p0
+../../../sources/packages/l/pycairo/patches/pycairo-1.8.10-automake.patch  -p0

@@ -20,6 +20,7 @@ patches    += $(CURDIR)/patches/fastjar-0.97-segfault.patch
 patches    += $(CURDIR)/patches/fastjar-0.97-filename0.patch
 patches    += $(CURDIR)/patches/fastjar-0.97-man.patch
 patches    += $(CURDIR)/patches/fastjar-0.98-CVE-2010-0831.patch
+patches    += $(CURDIR)/patches/fastjar-0.98-automake.patch
 patches    += $(CURDIR)/patches/fastjar-0.98-len1.patch
 patches    += $(CURDIR)/patches/fastjar-0.98-filename0.patch
 patches    += $(CURDIR)/patches/fastjar-0.98-man.patch
@@ -63,6 +64,7 @@ $(patches): $(sha1s)
 	 ( cd create-0.97-filename0-patch     ; ./create.patch.sh ) ; \
 	 ( cd create-0.97-man-patch           ; ./create.patch.sh ) ; \
 	 ( cd create-0.98-CVE-2010-0831-patch ; ./create.patch.sh ) ; \
+	 ( cd create-0.98-automake-patch      ; ./create.patch.sh ) ; \
 	 ( cd create-0.98-len1-patch          ; ./create.patch.sh ) ; \
 	 ( cd create-0.98-filename0-patch     ; ./create.patch.sh ) ; \
 	 ( cd create-0.98-man-patch           ; ./create.patch.sh ) ; \

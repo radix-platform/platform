@@ -1,5 +1,6 @@
 
 ../../../sources/packages/j/fastjar/patches/fastjar-0.98-CVE-2010-0831.patch -p0
+../../../sources/packages/j/fastjar/patches/fastjar-0.98-automake.patch      -p0
 ../../../sources/packages/j/fastjar/patches/fastjar-0.98-len1.patch          -p0
 ../../../sources/packages/j/fastjar/patches/fastjar-0.98-filename0.patch     -p0
 ../../../sources/packages/j/fastjar/patches/fastjar-0.98-man.patch           -p0

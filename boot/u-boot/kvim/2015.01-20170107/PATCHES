@@ -1,0 +1,4 @@
+
+../../../../sources/U-Boot/Khadas/S905X/patches/u-boot-khadas-2015.01-20170107-gcc5.patch     -p0
+../../../../sources/U-Boot/Khadas/S905X/patches/u-boot-khadas-2015.01-20170107-git.patch      -p0
+../../../../sources/U-Boot/Khadas/S905X/patches/u-boot-khadas-2015.01-20170107-fw-cross.patch -p0

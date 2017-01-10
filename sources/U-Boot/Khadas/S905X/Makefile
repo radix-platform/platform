@@ -8,12 +8,20 @@ include ../../../../build-system/constants.mk
 url         = $(DOWNLOAD_SERVER)/sources/U-Boot/Khadas/S905X
 
 versions    = 2015.01-20160919
+versions   += 2015.01-20161211
+versions   += 2015.01-20170107
 
 tarballs    = $(addsuffix .tar.xz, $(addprefix u-boot-khadas-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
+patches     = $(CURDIR)/patches/u-boot-khadas-2015.01-20170107-gcc5.patch
+patches    += $(CURDIR)/patches/u-boot-khadas-2015.01-20170107-git.patch
+patches    += $(CURDIR)/patches/u-boot-khadas-2015.01-20170107-fw-cross.patch
 
-BUILD_TARGETS = $(tarballs) $(sha1s)
+.NOTPARALLEL: $(patches)
+
+
+BUILD_TARGETS = $(tarballs) $(sha1s) $(patches)
 
 
 include ../../../../build-system/core.mk
@@ -41,5 +49,12 @@ $(sha1s): $(tarballs)
 	   fi ; \
 	 done
 
+$(patches): $(sha1s)
+	@echo -e "\n======= Create Patches =======\n" ; \
+	 ( cd create-2015.01-20170107-gcc5-patch     ; ./create.patch.sh ) ; \
+	 ( cd create-2015.01-20170107-git-patch      ; ./create.patch.sh ) ; \
+	 ( cd create-2015.01-20170107-fw-cross-patch ; ./create.patch.sh ) ; \
+	 echo -e "\n"
+
 download_clean:
-	@rm -f $(tarballs) $(sha1s)
+	@rm -f $(tarballs) $(sha1s) $(patches)

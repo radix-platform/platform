@@ -8,11 +8,16 @@ include ../../../../build-system/constants.mk
 url         = $(DOWNLOAD_SERVER)/sources/Linux/Khadas/S905X
 
 versions    = khadas-3.14.29-20160919
+versions   += khadas-3.14.29-20161211
+versions   += khadas-3.14.29-20170107
 
 tarballs    = $(addsuffix .tar.xz, $(addprefix linux-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/linux-khadas-3.14.29-20160919-git.patch
+patches    += $(CURDIR)/patches/linux-khadas-3.14.29-20161211-git.patch
+patches    += $(CURDIR)/patches/linux-khadas-3.14.29-20170107-gcc5.patch
+patches    += $(CURDIR)/patches/linux-khadas-3.14.29-20170107-section-mismatch.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -47,7 +52,10 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-3.14.29-20160919-git-patch ; ./create.patch.sh ) ; \
+	 ( cd create-3.14.29-20160919-git-patch              ; ./create.patch.sh ) ; \
+	 ( cd create-3.14.29-20161211-git-patch              ; ./create.patch.sh ) ; \
+	 ( cd create-3.14.29-20170107-gcc5-patch             ; ./create.patch.sh ) ; \
+	 ( cd create-3.14.29-20170107-section-mismatch-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

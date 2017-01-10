@@ -1,0 +1,8 @@
+u-boot-khadas-2015.01-20170107/arch/arm/cpu/armv8/gxb/firmware/acs/Makefile
+u-boot-khadas-2015.01-20170107/arch/arm/cpu/armv8/gxb/firmware/bl21/Makefile
+u-boot-khadas-2015.01-20170107/arch/arm/cpu/armv8/gxl/firmware/acs/Makefile
+u-boot-khadas-2015.01-20170107/arch/arm/cpu/armv8/gxl/firmware/bl21/Makefile
+u-boot-khadas-2015.01-20170107/arch/arm/cpu/armv8/gxtvbb/firmware/acs/Makefile
+u-boot-khadas-2015.01-20170107/arch/arm/cpu/armv8/gxtvbb/firmware/bl21/Makefile
+u-boot-khadas-2015.01-20170107/arch/arm/cpu/armv8/txl/firmware/acs/Makefile
+u-boot-khadas-2015.01-20170107/arch/arm/cpu/armv8/txl/firmware/bl21/Makefile

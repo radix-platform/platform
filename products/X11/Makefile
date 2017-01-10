@@ -30,6 +30,10 @@ include ../../build-system/constants.mk
 ####### Boot
 #######
 
+ifneq ($(filter $(HARDWARE),$(HARDWARE_KHADAS_VIM)),)
+REQUIRES  = boot/u-boot/kvim/2015.01-20170107
+endif
+
 ifneq ($(filter $(HARDWARE),$(HARDWARE_M201)),)
 REQUIRES  = boot/u-boot/s8xx/2011.03-20160716
 endif

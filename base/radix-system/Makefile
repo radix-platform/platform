@@ -183,10 +183,10 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB3X)),)
 	@echo "s1:12345:respawn:/sbin/agetty -L ttyS0 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_M201)),)
-	@echo "s1:12345:respawn:/sbin/agetty -L ttyS0 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
-endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_MXV)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXV)         \
+                            $(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
 	@echo "s1:12345:respawn:/sbin/agetty -L ttyS0 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)

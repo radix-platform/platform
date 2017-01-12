@@ -154,7 +154,10 @@ $(install_target): $(build_target)
 	@cp -a $(profile_dir)/* $(GTK2_PKG)/etc/profile.d
 	@chmod 0755 $(GTK2_PKG)/etc/profile.d/*
 	# ======= Install wrappers for the 'gtk-query-immodules' binary =======
-ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)                         \
+                            $(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
 	@( cd $(GTK2_PKG)/usr/bin ; mv gtk-query-immodules-2.0{,-64} ; ln -sf gtk-query-immodules-2.0-64 gtk-query-immodules-2.0 )
 else
 	@( cd $(GTK2_PKG)/usr/bin ; mv gtk-query-immodules-2.0{,-32} ; ln -sf gtk-query-immodules-2.0-32 gtk-query-immodules-2.0 )

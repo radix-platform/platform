@@ -17,6 +17,7 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 patches     = $(CURDIR)/patches/u-boot-khadas-2015.01-20170107-gcc5.patch
 patches    += $(CURDIR)/patches/u-boot-khadas-2015.01-20170107-git.patch
 patches    += $(CURDIR)/patches/u-boot-khadas-2015.01-20170107-fw-cross.patch
+patches    += $(CURDIR)/patches/u-boot-khadas-2015.01-20170107-bmp32.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -54,6 +55,7 @@ $(patches): $(sha1s)
 	 ( cd create-2015.01-20170107-gcc5-patch     ; ./create.patch.sh ) ; \
 	 ( cd create-2015.01-20170107-git-patch      ; ./create.patch.sh ) ; \
 	 ( cd create-2015.01-20170107-fw-cross-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2015.01-20170107-bmp32-patch    ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

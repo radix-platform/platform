@@ -1,0 +1,8 @@
+
+/* begin *
+
+   u-boot-khadas-2015.01-20170107-bmp32.patch - to be able to use bmp files created by ordinary
+                                                graphical editors such as Gimp
+                                                [https://en.wikipedia.org/wiki/BMP_file_format].
+
+ * end */

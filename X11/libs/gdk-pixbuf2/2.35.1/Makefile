@@ -144,7 +144,10 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(PIXBUF2_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
-ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)                         \
+                            $(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
 	@( cd $(PIXBUF2_PKG)/usr/bin ; mv gdk-pixbuf-query-loaders gdk-pixbuf-query-loaders-64 ; ln -sf gdk-pixbuf-query-loaders-64 gdk-pixbuf-query-loaders )
 else
 	@( cd $(PIXBUF2_PKG)/usr/bin ; mv gdk-pixbuf-query-loaders gdk-pixbuf-query-loaders-32 ; ln -sf gdk-pixbuf-query-loaders-32 gdk-pixbuf-query-loaders )

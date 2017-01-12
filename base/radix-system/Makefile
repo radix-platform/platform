@@ -119,7 +119,7 @@ $(build):
 	   mv rc.modules  rc.modules.new ; \
 	 )
 ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXV)),)
-	@cat $(scripts)/rc.mesonfb >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.fbset.new
+	@cat $(scripts)/rc.meson8fb >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.fbset.new
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
 	@echo "# Ethernet:"                    >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new

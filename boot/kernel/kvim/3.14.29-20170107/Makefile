@@ -58,15 +58,11 @@ endif
 device_tree_dtbs = $(addsuffix .dtb, $(device_tree_names))
 
 
-uimage_load_address = 0x01080000
-
-
 ####### Targets
 
 linux_kernel      = $(TARGET_BUILD_DIR)/vmlinux-$(full_version)
 linux_Image       = $(TARGET_BUILD_DIR)/Image-$(full_version)
-linux_Image_gz    = $(TARGET_BUILD_DIR)/Image.gz-$(full_version)
-linux_Image_lzo   = $(TARGET_BUILD_DIR)/Image.lzo-$(full_version)
+linux_zImage      = $(TARGET_BUILD_DIR)/zImage-$(full_version)
 linux_config      = $(TARGET_BUILD_DIR)/config-$(full_version)
 linux_systemmap   = $(TARGET_BUILD_DIR)/System.map-$(full_version)
 board_dtbs_path   = $(CURDIR)/$(TARGET_BUILD_DIR)
@@ -116,8 +112,7 @@ products           = $(call pkg-files,$(pkg_archive))
 BUILD_TARGETS      = $(build_config)
 BUILD_TARGETS     += $(oldconfig_done)
 BUILD_TARGETS     += $(linux_Image)
-BUILD_TARGETS     += $(linux_Image_gz)
-BUILD_TARGETS     += $(linux_Image_lzo)
+BUILD_TARGETS     += $(linux_zImage)
 BUILD_TARGETS     += $(linux_kernel)
 BUILD_TARGETS     += $(linux_systemmap)
 BUILD_TARGETS     += $(linux_config)
@@ -166,18 +161,15 @@ $(oldconfig_done): $(build_config)
 	@touch $@
 
 $(linux_Image): $(oldconfig_done)
-	$(LMAKE) Image UIMAGE_LOADADDR=$(uimage_load_address)
-	cp $(build_dir)/arch/$(ARCH)/boot/Image $@
+	$(LMAKE) Image
+	@cp $(build_dir)/arch/$(ARCH)/boot/Image $@
+	@chmod 644 $@
 
-$(linux_Image_gz): $(linux_Image)
+$(linux_zImage): $(linux_Image)
 	$(LMAKE) Image.gz
-	cp $(build_dir)/arch/$(ARCH)/boot/Image.gz $@
+	@cp $(build_dir)/arch/$(ARCH)/boot/Image.gz $@
 
-$(linux_Image_lzo): $(linux_Image)
-	$(LMAKE) Image.lzo
-	cp $(build_dir)/arch/$(ARCH)/boot/Image.lzo $@
-
-$(linux_kernel): $(linux_Image_gz) $(linux_Image_lzo)
+$(linux_kernel): $(linux_zImage)
 	@cp $(build_dir)/vmlinux $@
 
 $(linux_systemmap): $(linux_kernel)
@@ -231,9 +223,8 @@ $(boot_fs_dir_done): $(devel_sources_done)
 	@echo "" > $(boot_filesystem)/.CONTENT
 	@echo "Collection '$(HARDWARE)' images for building BOOT filesystem." >> $(boot_filesystem)/.CONTENT
 	@echo "" >> $(boot_filesystem)/.CONTENT
-	@cp -a $(linux_Image)     $(boot_filesystem)/Image
-	@cp -a $(linux_Image_gz)  $(boot_filesystem)/Image.gz
-	@cp -a $(linux_Image_lzo) $(boot_filesystem)/Image.lzo
+	@cp -a $(linux_Image)  $(boot_filesystem)/Image
+	@cp -a $(linux_zImage) $(boot_filesystem)/zImage
 	@( cd $(board_dtbs_path) ; \
 	   cp -a $(device_tree_dtbs) $(boot_filesystem) ; \
 	 )
@@ -252,8 +243,7 @@ $(build_kernel_pkg): $(boot_fs_dir_done)
 	 fi
 	@cp -a $(linux_kernel)    $(KERNEL_BIN_PKG)/boot/vmlinux-$(full_version)
 	@cp -a $(linux_Image)     $(KERNEL_BIN_PKG)/boot/Image-$(full_version)
-	@cp -a $(linux_Image_gz)  $(KERNEL_BIN_PKG)/boot/Image.gz-$(full_version)
-	@cp -a $(linux_Image_lzo) $(KERNEL_BIN_PKG)/boot/Image.lzo-$(full_version)
+	@cp -a $(linux_zImage)    $(KERNEL_BIN_PKG)/boot/zImage-$(full_version)
 	@cp -a $(linux_config)    $(KERNEL_BIN_PKG)/boot/config-$(full_version)
 	@cp -a $(linux_systemmap) $(KERNEL_BIN_PKG)/boot/System.map-$(full_version)
 	@( cd $(board_dtbs_path) ; \
@@ -261,8 +251,7 @@ $(build_kernel_pkg): $(boot_fs_dir_done)
 	 )
 	@cd $(KERNEL_BIN_PKG)/boot && $(LN_S)f vmlinux-$(full_version) vmlinux
 	@cd $(KERNEL_BIN_PKG)/boot && $(LN_S)f Image-$(full_version) Image
-	@cd $(KERNEL_BIN_PKG)/boot && $(LN_S)f Image.gz-$(full_version) Image.gz
-	@cd $(KERNEL_BIN_PKG)/boot && $(LN_S)f Image.lzo-$(full_version) Image.lzo
+	@cd $(KERNEL_BIN_PKG)/boot && $(LN_S)f zImage-$(full_version) zImage
 	@cd $(KERNEL_BIN_PKG)/boot && $(LN_S)f config-$(full_version) config
 	@cd $(KERNEL_BIN_PKG)/boot && $(LN_S)f System.map-$(full_version) System.map
 	@mkdir -p $(KERNEL_BIN_PKG)/usr/doc/kernel-$(full_version)

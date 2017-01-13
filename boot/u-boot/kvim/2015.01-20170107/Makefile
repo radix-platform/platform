@@ -33,32 +33,23 @@ u_boot          = $(TARGET_BUILD_DIR)/.u_boot_done
 u_boot_config   = kvim_defconfig
 
 #
-# Images from Linux kernel package:
+# zImage from Linux kernel package:
 #
 kernel_version  = 3.14.29
-
-linux_Image     = $(TARGET_DEST_DIR)/bootfs/Image
-linux_Image_gz  = $(TARGET_DEST_DIR)/bootfs/Image.gz
-linux_Image_lzo = $(TARGET_DEST_DIR)/bootfs/Image.lzo
-
-linux_images    = Image Image.gz Image.lzo
+linux_zImage    = $(TARGET_DEST_DIR)/bootfs/zImage
 
 #
-# Images for U-Boot:
+# Image for U-Boot:
 #
-uimage_load_address = 0x01080000
-
+load_address    = 0x01080000
+entry_point     = $(load_address)
 uImage          = $(TARGET_BUILD_DIR)/uImage
-uImage_gz       = $(TARGET_BUILD_DIR)/uImage.gz
-uImage_lzo      = $(TARGET_BUILD_DIR)/uImage.lzo
-
-linux_uimages   = uImage uImage.gz uImage.lzo
 
 #
-# Boot Scripts:
+# Boot Script:
 #
-boot_script_sd  = $(TARGET_BUILD_DIR)/boot.script.sd
-boot_scr_sd     = $(TARGET_BUILD_DIR)/boot.scr.sd
+boot_script  = $(TARGET_BUILD_DIR)/boot.script
+boot_scr     = $(TARGET_BUILD_DIR)/boot.scr
 
 boot_records         = $(TARGET_BUILD_DIR)/$(HARDWARE).boot-records
 install_boot_records = $(TARGET_BUILD_DIR)/.boot_records_done
@@ -106,10 +97,8 @@ products           = $(call pkg-files,$(pkg_archive))
 
 BUILD_TARGETS      = $(u_boot)
 BUILD_TARGETS     += $(uImage)
-BUILD_TARGETS     += $(uImage_gz)
-BUILD_TARGETS     += $(uImage_lzo)
-BUILD_TARGETS     += $(boot_script_sd)
-BUILD_TARGETS     += $(boot_scr_sd)
+BUILD_TARGETS     += $(boot_script)
+BUILD_TARGETS     += $(boot_scr)
 BUILD_TARGETS     += $(build_uboot_pkg)
 BUILD_TARGETS     += $(install_boot_records)
 
@@ -124,12 +113,7 @@ include ../../../../build-system/core.mk
 # armv7-m (cortex-m3) toolchain
 #
 ARMV7_M_TOOLCHAIN_PATH = /opt/toolchain/arm-A9XX-eabi-newlib/1.1.2
-
 AML_FIRMWARE_SETTINGS  = FIRMWARE_CROSS_COMPILE=$(ARMV7_M_TOOLCHAIN_PATH)/bin/arm-a9xx-eabi-
-
-
-u_boot_binaries  = u-boot.bin
-u_boot_binaries += u-boot.bin.sd.bin
 
 
 logos_path    = $(CURDIR)/logo
@@ -172,8 +156,8 @@ extra += hdmimode=$(hdmi_output_mode)
 #
 # loadaddr        = 0x11000000
 # dtb_loadaddr    = 0x01000000
-# script_loadaddr = 0x12ff0000 - we allow 64k for boot scripts
-# initrd_loadaddr = 0x13000000 - also used for temporary loaded Logo images
+# script_loadaddr = 0x12ff0000 - allows 64k for boot scripts
+# initrd_loadaddr = 0x13000000 - also for temporary loaded Logo bitmaps
 #
 
 
@@ -194,64 +178,51 @@ $(u_boot): $(src_done)
 
 $(uImage): $(u_boot)
 	$(SRC_DIR)/build/tools/mkimage \
-	   -A $(ARCH) -O linux -T kernel -C none \
-	   -a $(uimage_load_address) -e $(uimage_load_address) \
-	   -n $(kernel_version) -d $(linux_Image) $@
+	   -A $(ARCH) -O linux -T kernel -C gzip -a $(load_address) -e $(entry_point) \
+	   -n $(kernel_version) -d $(linux_zImage) $@
 
-$(uImage_gz): $(u_boot)
-	$(SRC_DIR)/build/tools/mkimage \
-	   -A $(ARCH) -O linux -T kernel -C gzip \
-	   -a $(uimage_load_address) -e $(uimage_load_address) \
-	   -n $(kernel_version) -d $(linux_Image_gz) $@
-
-$(uImage_lzo): $(u_boot)
-	$(SRC_DIR)/build/tools/mkimage \
-	   -A $(ARCH) -O linux -T kernel -C lzo \
-	   -a $(uimage_load_address) -e $(uimage_load_address) \
-	   -n $(kernel_version) -d $(linux_Image_lzo) $@
-
-$(boot_script_sd): $(uImage) $(uImage_gz) $(uImage_lzo)
-	@( echo "mmcinfo"                                           > $(boot_script_sd) && \
-	   echo "ext4load mmc 0:1 0x13000000 /boot/$(logo_fname)"  >> $(boot_script_sd) && \
-	   echo "setenv display_bpp $(hdmi_bpp)"                   >> $(boot_script_sd) && \
-	   echo "setenv display_color_index $(hdmi_color_index)"   >> $(boot_script_sd) && \
-	   echo "setenv display_color_fg $(hdmi_color_fg)"         >> $(boot_script_sd) && \
-	   echo "osd open"                                         >> $(boot_script_sd) && \
-	   echo "osd clear"                                        >> $(boot_script_sd) && \
-	   echo "bmp display 0x13000000"                           >> $(boot_script_sd) && \
-	   echo "bmp scale"                                        >> $(boot_script_sd) && \
-	   echo "ext4load mmc 0:1 0x11000000 /boot/uImage.gz"      >> $(boot_script_sd) && \
-	   echo "ext4load mmc 0:1 0x01000000 /boot/$(device_dtb)"  >> $(boot_script_sd) && \
-	   echo "setenv bootargs 'console=ttyS0,115200n8 ro root=/dev/mmcblk0p1 rootfstype=ext4 no_console_suspend $(extra)'" >> $(boot_script_sd) && \
-	   echo "bootm 0x11000000 - 0x01000000"                    >> $(boot_script_sd) \
+$(boot_script): $(uImage)
+	@( echo "mmcinfo"                                           > $(boot_script) && \
+	   echo "ext4load mmc 0:1 0x13000000 /boot/$(logo_fname)"  >> $(boot_script) && \
+	   echo "setenv display_bpp $(hdmi_bpp)"                   >> $(boot_script) && \
+	   echo "setenv display_color_index $(hdmi_color_index)"   >> $(boot_script) && \
+	   echo "setenv display_color_fg $(hdmi_color_fg)"         >> $(boot_script) && \
+	   echo "osd open"                                         >> $(boot_script) && \
+	   echo "osd clear"                                        >> $(boot_script) && \
+	   echo "bmp display 0x13000000"                           >> $(boot_script) && \
+	   echo "bmp scale"                                        >> $(boot_script) && \
+	   echo "ext4load mmc 0:1 0x11000000 /boot/uImage"         >> $(boot_script) && \
+	   echo "ext4load mmc 0:1 0x01000000 /boot/$(device_dtb)"  >> $(boot_script) && \
+	   echo "setenv bootargs 'console=ttyS0,115200n8 ro root=/dev/mmcblk0p1 rootfstype=ext4 no_console_suspend $(extra)'" >> $(boot_script) && \
+	   echo "bootm 0x11000000 - 0x01000000"                    >> $(boot_script) \
 	 )
 
-$(boot_scr_sd): $(boot_script_sd)
+$(boot_scr): $(boot_script)
 	$(SRC_DIR)/build/tools/mkimage -A $(ARCH) -T script -C none -n "Boot Script" -d $< $@
 
-$(build_uboot_pkg): $(boot_scr_sd)
+$(build_uboot_pkg): $(boot_scr)
 	@mkdir -p $(TARGET_DEST_DIR)/bootfs
 	@mkdir -p $(UBOOT_BIN_PKG)/boot
-	# ======= Copy U-Boot images =======
-	@cp -a $(uImage) $(uImage_gz) $(uImage_lzo) \
-	                        $(TARGET_DEST_DIR)/bootfs
-	@cp -a $(boot_scr_sd)   $(TARGET_DEST_DIR)/bootfs
-	@cp -a $(boot_scr_sd)   $(TARGET_DEST_DIR)/bootfs/boot.scr
-	@for logo in $(u_boot_logos) ; do \
-	   cp -a $(logos_path)/$$logo $(TARGET_DEST_DIR)/bootfs ; \
-	 done
-	@cp -a $(uImage) $(uImage_gz) $(uImage_lzo) \
-	                        $(UBOOT_BIN_PKG)/boot
-	@cp -a $(boot_scr_sd)   $(UBOOT_BIN_PKG)/boot
-	@cp -a $(boot_scr_sd)   $(UBOOT_BIN_PKG)/boot/boot.scr
+	# ======= install U-Boot images =======
+	@cp -a $(uImage) $(boot_scr)  $(UBOOT_BIN_PKG)/boot
 	@for logo in $(u_boot_logos) ; do \
 	   cp -a $(logos_path)/$$logo $(UBOOT_BIN_PKG)/boot ; \
 	 done
-	@for binary in $(u_boot_binaries) ; do \
-	   chmod a-x $(SRC_DIR)/fip/$$binary ; \
-	   cp -a $(SRC_DIR)/fip/$$binary $(TARGET_DEST_DIR)/bootfs ; \
-	   cp -a $(SRC_DIR)/fip/$$binary $(UBOOT_BIN_PKG)/boot     ; \
+	# ======= install eMMC U-Boot =======
+	@cp -a $(SRC_DIR)/fip/u-boot.bin $(UBOOT_BIN_PKG)/boot/u-boot.bin
+	@chmod 644 $(UBOOT_BIN_PKG)/boot/u-boot.bin
+	# ======= install SD Card U-Boot =======
+	@cp -a $(SRC_DIR)/fip/u-boot.bin.sd.bin $(UBOOT_BIN_PKG)/boot/u-boot.sd.bin
+	@chmod 644 $(UBOOT_BIN_PKG)/boot/u-boot.sd.bin
+	# ======= copy U-Boot images and binaries into devenv =======
+	@cp -a $(uImage) $(boot_scr)  $(TARGET_DEST_DIR)/bootfs
+	@for logo in $(u_boot_logos) ; do \
+	   cp -a $(logos_path)/$$logo $(TARGET_DEST_DIR)/bootfs ; \
 	 done
+	@for binary in u-boot.bin u-boot.sd.bin ; do \
+	   cp -a $(UBOOT_BIN_PKG)/boot/$$binary $(TARGET_DEST_DIR)/bootfs ; \
+	 done
+	# ======= Install Documentation =======
 	@mkdir -p $(UBOOT_BIN_PKG)/usr/doc/u-boot-khadas-$(version)
 	@cp -a $(SRC_DIR)/Licenses $(SRC_DIR)/MAINTAINERS $(SRC_DIR)/README \
 	       $(UBOOT_BIN_PKG)/usr/doc/u-boot-khadas-$(version)
@@ -260,8 +231,8 @@ $(build_uboot_pkg): $(boot_scr_sd)
 $(boot_records): $(build_uboot_pkg)
 	@$(DD) if=/dev/zero of=$@ bs=512 count=2048 conv=notrunc
 	# ======= Setup u-boot into unallocated space of disk image =======
-	@$(DD) if=$(UBOOT_BIN_PKG)/boot/u-boot.bin.sd.bin of=$@ bs=1 count=442       conv=notrunc
-	@$(DD) if=$(UBOOT_BIN_PKG)/boot/u-boot.bin.sd.bin of=$@ bs=512 skip=1 seek=1 conv=notrunc
+	@$(DD) if=$(UBOOT_BIN_PKG)/boot/u-boot.sd.bin of=$@ bs=1 count=442       conv=notrunc
+	@$(DD) if=$(UBOOT_BIN_PKG)/boot/u-boot.sd.bin of=$@ bs=512 skip=1 seek=1 conv=notrunc
 	@touch $@
 
 $(install_boot_records): $(boot_records)

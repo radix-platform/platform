@@ -61,7 +61,6 @@ boot_script_sd  = $(TARGET_BUILD_DIR)/boot.script.sd
 boot_scr_sd     = $(TARGET_BUILD_DIR)/boot.scr.sd
 
 boot_records         = $(TARGET_BUILD_DIR)/$(HARDWARE).boot-records
-boot_fat32fs         = $(TARGET_BUILD_DIR)/$(HARDWARE).fat32fs
 install_boot_records = $(TARGET_BUILD_DIR)/.boot_records_done
 
 
@@ -130,15 +129,7 @@ AML_FIRMWARE_SETTINGS  = FIRMWARE_CROSS_COMPILE=$(ARMV7_M_TOOLCHAIN_PATH)/bin/ar
 
 
 u_boot_binaries  = u-boot.bin
-u_boot_binaries += u-boot.bin.encrypt
-u_boot_binaries += u-boot.bin.encrypt.efuse
-u_boot_binaries += u-boot.bin.encrypt.sd.bin
-u_boot_binaries += u-boot.bin.encrypt.usb.bl2
-u_boot_binaries += u-boot.bin.encrypt.usb.tpl
 u_boot_binaries += u-boot.bin.sd.bin
-u_boot_binaries += u-boot.bin.usb.bl2
-u_boot_binaries += u-boot.bin.usb.tpl
-
 
 
 logos_path    = $(CURDIR)/logo
@@ -149,9 +140,13 @@ u_boot_logos += radix-2CPU-224x96-16bpp.bmp
 u_boot_logos += radix-2CPU-224x96-24bpp.bmp
 u_boot_logos += radix-2CPU-224x96-32bpp.bmp
 
+hdmi_bpp            = 32
+hdmi_color_index    = 32
+hdmi_color_fg       = 0xffffffff
+
 hdmi_display_width  = 1920
 hdmi_display_height = 1080
-hdmi_output_mode    = 1080p
+hdmi_output_mode    = 1080p60hz
 video_output_mode   = hdmi
 
 #
@@ -159,28 +154,27 @@ video_output_mode   = hdmi
 # --------------------
 # hdmi_display_width  = 1280
 # hdmi_display_height =  720
-# hdmi_output_mode    =  720p
+# hdmi_output_mode    =  720p60hz
 # video_output_mode   = hdmi
 #
 
-device_dtb      = kvim.dtb
+device_dtb = kvim.dtb
 
 #
 # Extra kernel boot arguments:
 #
-extra  = logo=osd1,loaded,0x3d800000,$(hdmi_output_mode),full
+extra  = logo=osd1,loaded,0x3d800000,$(hdmi_output_mode)
 extra += consoleblank=0
-#extra += fsck.fix=yes
-#extra += fsck.repair=yes
-#extra += net.ifnames=0
+extra += hdmimode=$(hdmi_output_mode)
 
-#extra += vdaccfg=0xa001
-#extra += cvbsmode=576cvbs
-#extra += hdmimode=$(hdmi_output_mode)
-#extra += hdmitx=cec0xf
-#extra += vout=$(video_output_mode)
-#extra += m_bpp=32
-#extra += mac=$(DEFAULT_HW_ADDR)
+#
+# Load Addresses:
+#
+# loadaddr        = 0x11000000
+# dtb_loadaddr    = 0x01000000
+# script_loadaddr = 0x12ff0000 - we allow 64k for boot scripts
+# initrd_loadaddr = 0x13000000 - also used for temporary loaded Logo images
+#
 
 
 ####### Dependencies
@@ -218,18 +212,18 @@ $(uImage_lzo): $(u_boot)
 
 $(boot_script_sd): $(uImage) $(uImage_gz) $(uImage_lzo)
 	@( echo "mmcinfo"                                           > $(boot_script_sd) && \
-	   echo "fatload mmc 0:1 0x01080000 $(logo_fname)"         >> $(boot_script_sd) && \
-	   echo "setenv display_width $(hdmi_display_width)"       >> $(boot_script_sd) && \
-	   echo "setenv display_height $(hdmi_display_height)"     >> $(boot_script_sd) && \
-	   echo "setenv hdmimode $(hdmi_output_mode)"              >> $(boot_script_sd) && \
-	   echo "setenv outputmode $(hdmi_output_mode)"            >> $(boot_script_sd) && \
-	   echo "video dev open $(hdmi_output_mode)"               >> $(boot_script_sd) && \
-	   echo "bmp display 0x01080000"                           >> $(boot_script_sd) && \
+	   echo "ext4load mmc 0:1 0x13000000 /boot/$(logo_fname)"  >> $(boot_script_sd) && \
+	   echo "setenv display_bpp $(hdmi_bpp)"                   >> $(boot_script_sd) && \
+	   echo "setenv display_color_index $(hdmi_color_index)"   >> $(boot_script_sd) && \
+	   echo "setenv display_color_fg $(hdmi_color_fg)"         >> $(boot_script_sd) && \
+	   echo "osd open"                                         >> $(boot_script_sd) && \
+	   echo "osd clear"                                        >> $(boot_script_sd) && \
+	   echo "bmp display 0x13000000"                           >> $(boot_script_sd) && \
 	   echo "bmp scale"                                        >> $(boot_script_sd) && \
-	   echo "fatload mmc 0:1 0x01080000 uImage"                >> $(boot_script_sd) && \
-	   echo "fatload mmc 0:1 0x01000000 $(device_dtb)"         >> $(boot_script_sd) && \
-	   echo "setenv bootargs 'console=ttyS0,115200n8 console=tty0 ro root=/dev/mmcblk0p2 rootfstype=ext4 no_console_suspend $(extra)'" >> $(boot_script_sd) && \
-	   echo "bootm 0x01080000 - 0x01000000"                    >> $(boot_script_sd) \
+	   echo "ext4load mmc 0:1 0x11000000 /boot/uImage.gz"      >> $(boot_script_sd) && \
+	   echo "ext4load mmc 0:1 0x01000000 /boot/$(device_dtb)"  >> $(boot_script_sd) && \
+	   echo "setenv bootargs 'console=ttyS0,115200n8 ro root=/dev/mmcblk0p1 rootfstype=ext4 no_console_suspend $(extra)'" >> $(boot_script_sd) && \
+	   echo "bootm 0x11000000 - 0x01000000"                    >> $(boot_script_sd) \
 	 )
 
 $(boot_scr_sd): $(boot_script_sd)
@@ -270,29 +264,7 @@ $(boot_records): $(build_uboot_pkg)
 	@$(DD) if=$(UBOOT_BIN_PKG)/boot/u-boot.bin.sd.bin of=$@ bs=512 skip=1 seek=1 conv=notrunc
 	@touch $@
 
-$(boot_fat32fs): $(build_uboot_pkg)
-	@$(DD) if=/dev/zero of=$@ bs=1M count=511
-	# ======= Create FAT32 boot partition image =======
-	@$(MKDOSFS) -F 32 -n bootfs $@
-	@$(MCOPY) -i $@ $(TARGET_DEST_DIR)/bootfs/u-boot.bin ::/
-	@$(MCOPY) -i $@ $(TARGET_DEST_DIR)/bootfs/u-boot.bin.sd.bin ::/
-	@$(MCOPY) -i $@ $(TARGET_DEST_DIR)/bootfs/boot.scr   ::/
-	@for logo in $(u_boot_logos) ; do \
-	   $(MCOPY) -i $@ $(logos_path)/$$logo               ::/ ; \
-	 done
-	@for dtb in $(device_dtb) ; do \
-	   $(MCOPY) -i $@ $(TARGET_DEST_DIR)/bootfs/$$dtb    ::/ ; \
-	 done
-	@for image in $(linux_images) ; do \
-	   $(MCOPY) -i $@ $(TARGET_DEST_DIR)/bootfs/$$image  ::/ ; \
-	 done
-	@for image in $(linux_uimages) ; do \
-	   $(MCOPY) -i $@ $(TARGET_DEST_DIR)/bootfs/$$image  ::/ ; \
-	 done
-	@$(DOSFSCK) -a $@
-	@touch $@
-
-$(install_boot_records): $(boot_records) $(boot_fat32fs)
+$(install_boot_records): $(boot_records)
 	@$(BUILDSYSTEM)/install_targets         \
 	   --destination=$(PRODUCTS_DEST_DIR)   \
 	   --toolchain=$(TOOLCHAIN)             \

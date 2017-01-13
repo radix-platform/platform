@@ -98,7 +98,6 @@
                "imgread kernel boot ${loadaddr}; bootm ${loadaddr};" \
             "fi;" \
     "\0" \
-    "bootcmd=run mmcboot\0" \
     "init_display=" \
             "osd open;" \
             "osd clear;" \

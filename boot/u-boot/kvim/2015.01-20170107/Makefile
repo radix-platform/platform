@@ -1,18 +1,17 @@
 
-COMPONENT_TARGETS  = $(HARDWARE_P212)
-COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS  = $(HARDWARE_KHADAS_VIM)
 
-NEED_ABS_PATH     = true
+NEED_ABS_PATH      = true
 
-COMPONENT_IS_3PP  = true
+COMPONENT_IS_3PP   = true
 
 
 include ../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES   = sources/U-Boot/Khadas/S905X
+SOURCE_REQUIRES    = sources/U-Boot/Khadas/S905X
 
-REQUIRES          = boot/kernel/kvim/3.14.29-20170119
+REQUIRES           = boot/kernel/kvim/3.14.29-20170119
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -22,37 +21,37 @@ DEFAULT_NFS_ROOT_PATH    = "nfsroot-khadas-vim"
 DEFAULT_HW_ADDR          = 2a:ab:c0:7e:f2:c1
 
 
-version         = 2015.01-20170107
-tar_xz_archive  = $(SRC_PACKAGE_PATH)/U-Boot/Khadas/S905X/u-boot-khadas-$(version).tar.xz
-SRC_ARCHIVE     = $(tar_xz_archive)
-SRC_DIR         = $(TARGET_BUILD_DIR)/u-boot-khadas-$(version)
-src_done        = $(TARGET_BUILD_DIR)/.source_done
+version            = 2015.01-20170107
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/U-Boot/Khadas/S905X/u-boot-khadas-$(version).tar.xz
+SRC_ARCHIVE        = $(tar_xz_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/u-boot-khadas-$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source_done
 
-u_boot          = $(TARGET_BUILD_DIR)/.u_boot_done
+u_boot             = $(TARGET_BUILD_DIR)/.u_boot_done
 
-u_boot_config   = kvim_defconfig
+u_boot_config      = kvim_defconfig
 
 #
 # zImage from Linux kernel package:
 #
-kernel_version  = 3.14.29
-linux_zImage    = $(TARGET_DEST_DIR)/bootfs/zImage
+kernel_version     = 3.14.29
+linux_zImage       = $(TARGET_DEST_DIR)/bootfs/zImage
 
 #
 # Image for U-Boot:
 #
-load_address    = 0x01080000
-entry_point     = $(load_address)
-uImage          = $(TARGET_BUILD_DIR)/uImage
+load_address       = 0x01080000
+entry_point        = $(load_address)
+uImage             = $(TARGET_BUILD_DIR)/uImage
 
 #
 # Boot Scripts:
 #
-boot_script    = $(TARGET_BUILD_DIR)/boot.script
-boot_scr       = $(TARGET_BUILD_DIR)/boot.scr
+boot_script       = $(TARGET_BUILD_DIR)/boot.script
+boot_scr          = $(TARGET_BUILD_DIR)/boot.scr
 
-boot_sd_script = $(TARGET_BUILD_DIR)/boot.sd.script
-boot_sd_scr    = $(TARGET_BUILD_DIR)/boot.sd.scr
+boot_sd_script    = $(TARGET_BUILD_DIR)/boot.sd.script
+boot_sd_scr       = $(TARGET_BUILD_DIR)/boot.sd.scr
 
 
 boot_records         = $(TARGET_BUILD_DIR)/$(HARDWARE).boot-records

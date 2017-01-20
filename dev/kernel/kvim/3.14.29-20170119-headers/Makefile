@@ -16,7 +16,7 @@ REQUIRES           = base/pkgtool
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 3.14.29-20160919
+version            = 3.14.29-20170119
 modules_version    = 3.14.29
 full_version       = $(version)
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/Linux/Khadas/S905X/linux-khadas-$(version).tar.xz

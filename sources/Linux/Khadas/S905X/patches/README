@@ -1,7 +1,8 @@
 
 /* begin *
 
-   linux-khadas-3.14.29-20170107-section-mismatch.patch
-   linux-khadas-3.14.29-20170107-gcc5.patch
+   linux-khadas-3.14.29-20170119-section-mismatch.patch - fixes section mismatch warnings ;
+   linux-khadas-3.14.29-20170119-gcc5.patch             - related GCC >= 5.0 ;
+   linux-khadas-3.14.29-20170119-partitions.patch       - removes 'boot' partition .
 
  * end */

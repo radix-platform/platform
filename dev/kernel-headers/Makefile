@@ -60,7 +60,7 @@ REQUIRES           = dev/kernel/s9xx/3.14.29-20160818-headers
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_KHADAS_VIM)),)
-REQUIRES           = dev/kernel/kvim/3.14.29-20160919-headers
+REQUIRES           = dev/kernel/kvim/3.14.29-20170119-headers
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)

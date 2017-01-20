@@ -1,0 +1,4 @@
+
+../../../../sources/Linux/Khadas/S905X/patches/linux-khadas-3.14.29-20170119-gcc5.patch             -p0
+../../../../sources/Linux/Khadas/S905X/patches/linux-khadas-3.14.29-20170119-section-mismatch.patch -p0
+../../../../sources/Linux/Khadas/S905X/patches/linux-khadas-3.14.29-20170119-partitions.patch       -p0

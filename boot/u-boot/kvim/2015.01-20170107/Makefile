@@ -12,7 +12,7 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES   = sources/U-Boot/Khadas/S905X
 
-REQUIRES          = boot/kernel/kvim/3.14.29-20170107
+REQUIRES          = boot/kernel/kvim/3.14.29-20170119
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -46,10 +46,14 @@ entry_point     = $(load_address)
 uImage          = $(TARGET_BUILD_DIR)/uImage
 
 #
-# Boot Script:
+# Boot Scripts:
 #
-boot_script  = $(TARGET_BUILD_DIR)/boot.script
-boot_scr     = $(TARGET_BUILD_DIR)/boot.scr
+boot_script    = $(TARGET_BUILD_DIR)/boot.script
+boot_scr       = $(TARGET_BUILD_DIR)/boot.scr
+
+boot_sd_script = $(TARGET_BUILD_DIR)/boot.sd.script
+boot_sd_scr    = $(TARGET_BUILD_DIR)/boot.sd.scr
+
 
 boot_records         = $(TARGET_BUILD_DIR)/$(HARDWARE).boot-records
 install_boot_records = $(TARGET_BUILD_DIR)/.boot_records_done
@@ -98,7 +102,9 @@ products           = $(call pkg-files,$(pkg_archive))
 BUILD_TARGETS      = $(u_boot)
 BUILD_TARGETS     += $(uImage)
 BUILD_TARGETS     += $(boot_script)
+BUILD_TARGETS     += $(boot_sd_script)
 BUILD_TARGETS     += $(boot_scr)
+BUILD_TARGETS     += $(boot_sd_scr)
 BUILD_TARGETS     += $(build_uboot_pkg)
 BUILD_TARGETS     += $(install_boot_records)
 
@@ -183,7 +189,7 @@ $(uImage): $(u_boot)
 
 $(boot_script): $(uImage)
 	@( echo "mmcinfo"                                           > $(boot_script) && \
-	   echo "ext4load mmc 0:1 0x13000000 /boot/$(logo_fname)"  >> $(boot_script) && \
+	   echo "ext4load mmc 1:1 0x13000000 /boot/$(logo_fname)"  >> $(boot_script) && \
 	   echo "setenv display_bpp $(hdmi_bpp)"                   >> $(boot_script) && \
 	   echo "setenv display_color_index $(hdmi_color_index)"   >> $(boot_script) && \
 	   echo "setenv display_color_fg $(hdmi_color_fg)"         >> $(boot_script) && \
@@ -191,20 +197,39 @@ $(boot_script): $(uImage)
 	   echo "osd clear"                                        >> $(boot_script) && \
 	   echo "bmp display 0x13000000"                           >> $(boot_script) && \
 	   echo "bmp scale"                                        >> $(boot_script) && \
-	   echo "ext4load mmc 0:1 0x11000000 /boot/uImage"         >> $(boot_script) && \
-	   echo "ext4load mmc 0:1 0x01000000 /boot/$(device_dtb)"  >> $(boot_script) && \
-	   echo "setenv bootargs 'console=ttyS0,115200n8 ro root=/dev/mmcblk0p1 rootfstype=ext4 no_console_suspend $(extra)'" >> $(boot_script) && \
+	   echo "ext4load mmc 1:1 0x11000000 /boot/uImage"         >> $(boot_script) && \
+	   echo "ext4load mmc 1:1 0x01000000 /boot/$(device_dtb)"  >> $(boot_script) && \
+	   echo "setenv bootargs 'console=ttyS0,115200n8 ro root=/dev/mmcblk1p5 rootfstype=ext4 no_console_suspend $(extra)'" >> $(boot_script) && \
 	   echo "bootm 0x11000000 - 0x01000000"                    >> $(boot_script) \
 	 )
 
 $(boot_scr): $(boot_script)
 	$(SRC_DIR)/build/tools/mkimage -A $(ARCH) -T script -C none -n "Boot Script" -d $< $@
 
-$(build_uboot_pkg): $(boot_scr)
+$(boot_sd_script): $(uImage)
+	@( echo "mmcinfo"                                           > $(boot_sd_script) && \
+	   echo "ext4load mmc 0:1 0x13000000 /boot/$(logo_fname)"  >> $(boot_sd_script) && \
+	   echo "setenv display_bpp $(hdmi_bpp)"                   >> $(boot_sd_script) && \
+	   echo "setenv display_color_index $(hdmi_color_index)"   >> $(boot_sd_script) && \
+	   echo "setenv display_color_fg $(hdmi_color_fg)"         >> $(boot_sd_script) && \
+	   echo "osd open"                                         >> $(boot_sd_script) && \
+	   echo "osd clear"                                        >> $(boot_sd_script) && \
+	   echo "bmp display 0x13000000"                           >> $(boot_sd_script) && \
+	   echo "bmp scale"                                        >> $(boot_sd_script) && \
+	   echo "ext4load mmc 0:1 0x11000000 /boot/uImage"         >> $(boot_sd_script) && \
+	   echo "ext4load mmc 0:1 0x01000000 /boot/$(device_dtb)"  >> $(boot_sd_script) && \
+	   echo "setenv bootargs 'console=ttyS0,115200n8 ro root=/dev/mmcblk0p1 rootfstype=ext4 no_console_suspend $(extra)'" >> $(boot_sd_script) && \
+	   echo "bootm 0x11000000 - 0x01000000"                    >> $(boot_sd_script) \
+	 )
+
+$(boot_sd_scr): $(boot_sd_script)
+	$(SRC_DIR)/build/tools/mkimage -A $(ARCH) -T script -C none -n "Boot Script" -d $< $@
+
+$(build_uboot_pkg): $(boot_scr) $(boot_sd_scr)
 	@mkdir -p $(TARGET_DEST_DIR)/bootfs
 	@mkdir -p $(UBOOT_BIN_PKG)/boot
 	# ======= install U-Boot images =======
-	@cp -a $(uImage) $(boot_scr)  $(UBOOT_BIN_PKG)/boot
+	@cp -a $(uImage) $(boot_scr) $(boot_sd_scr) $(UBOOT_BIN_PKG)/boot
 	@for logo in $(u_boot_logos) ; do \
 	   cp -a $(logos_path)/$$logo $(UBOOT_BIN_PKG)/boot ; \
 	 done
@@ -215,7 +240,7 @@ $(build_uboot_pkg): $(boot_scr)
 	@cp -a $(SRC_DIR)/fip/u-boot.bin.sd.bin $(UBOOT_BIN_PKG)/boot/u-boot.sd.bin
 	@chmod 644 $(UBOOT_BIN_PKG)/boot/u-boot.sd.bin
 	# ======= copy U-Boot images and binaries into devenv =======
-	@cp -a $(uImage) $(boot_scr)  $(TARGET_DEST_DIR)/bootfs
+	@cp -a $(uImage) $(boot_scr) $(boot_sd_scr) $(TARGET_DEST_DIR)/bootfs
 	@for logo in $(u_boot_logos) ; do \
 	   cp -a $(logos_path)/$$logo $(TARGET_DEST_DIR)/bootfs ; \
 	 done

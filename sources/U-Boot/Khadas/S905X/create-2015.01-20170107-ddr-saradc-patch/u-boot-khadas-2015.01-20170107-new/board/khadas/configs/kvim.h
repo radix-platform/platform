@@ -86,36 +86,13 @@
     "fb_addr=0x3d800000\0" \
     "fb_width=1920\0" \
     "fb_height=1080\0" \
-    "scriptaddr=0x12ff0000\0" \
-    "load_boot_script=ext4load mmc 1:1 ${scriptaddr} /boot/boot.scr\0" \
-    "load_sd_boot_script=ext4load mmc 0:1 ${scriptaddr} /boot/boot.sd.scr\0" \
-    "bootscript=echo Running bootscript ...; autoscr ${scriptaddr}\0" \
-    "emmc_init=mmc dev 1; mmcinfo\0" \
-    "mmcboot=" \
-            "if mmcinfo; then " \
-               "echo Trying to Boot from SD Card ...;" \
-               "if run load_sd_boot_script; then " \
-                  "run bootscript;" \
-               "else " \
-                  "imgread kernel boot ${loadaddr}; bootm ${loadaddr};" \
-               "fi;" \
-            "else " \
-               "echo Trying to Boot from eMMC ...;" \
-               "run emmc_init;" \
-               "if run load_boot_script; then " \
-                  "run bootscript;" \
-               "else " \
-                  "imgread kernel boot ${loadaddr}; bootm ${loadaddr};" \
-               "fi;" \
-            "fi;" \
-    "\0" \
     "init_display=" \
             "osd open;" \
             "osd clear;" \
             "imgread pic logo bootup ${loadaddr};" \
             "bmp display ${bootup_offset}; bmp scale" \
             "\0"\
-    "bootargs=" \
+	"bootargs=" \
             "root=LABEL=ROOTFS rootflags=data=writeback rw logo=${display_layer},loaded,${fb_addr},${outputmode} console=ttyS0,115200n8 console=tty0 no_console_suspend consoleblank=0 fsck.repair=yes net.ifnames=0\0" \
     "upgrade_key=" \
             "if gpio input GPIOAO_2; then " \
@@ -127,7 +104,7 @@
 #define CONFIG_PREBOOT \
     "run init_display;" \
     "run upgrade_key;"
-#define CONFIG_BOOTCOMMAND "run mmcboot"
+#define CONFIG_BOOTCOMMAND "imgread kernel boot ${loadaddr}; bootm ${loadaddr}"
 
 //#define CONFIG_ENV_IS_NOWHERE  1
 #define CONFIG_ENV_SIZE   (64*1024)
@@ -142,7 +119,7 @@
 
 /* ddr */
 #define CONFIG_DDR_SIZE					0 //MB //0 means ddr size auto-detect
-#define CONFIG_DDR_CLK					792  //MHz, Range: 384-1200, should be multiple of 24
+#define CONFIG_DDR_CLK					768  //MHz, Range: 384-1200, should be multiple of 24
 #define CONFIG_DDR4_CLK					1008  //MHz, for boards which use different ddr chip
 /* DDR type setting
  *    CONFIG_DDR_TYPE_LPDDR3   : LPDDR3
@@ -266,6 +243,7 @@
 #define CONFIG_CMD_JTAG	1
 #define CONFIG_CMD_AUTOSCRIPT 1
 #define CONFIG_CMD_MISC 1
+#define CONFIG_CMD_SARADC 1
 
 /*file system*/
 #define CONFIG_DOS_PARTITION 1

@@ -7,9 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/U-Boot/Khadas/S905X
 
-versions    = 2015.01-20160919
-versions   += 2015.01-20161211
-versions   += 2015.01-20170107
+versions    = 2015.01-20170107
 
 tarballs    = $(addsuffix .tar.xz, $(addprefix u-boot-khadas-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
@@ -19,6 +17,8 @@ patches    += $(CURDIR)/patches/u-boot-khadas-2015.01-20170107-git.patch
 patches    += $(CURDIR)/patches/u-boot-khadas-2015.01-20170107-fw-cross.patch
 patches    += $(CURDIR)/patches/u-boot-khadas-2015.01-20170107-bmp32.patch
 patches    += $(CURDIR)/patches/u-boot-khadas-2015.01-20170107-mmcboot.patch
+patches    += $(CURDIR)/patches/u-boot-khadas-2015.01-20170107-partitions.patch
+patches    += $(CURDIR)/patches/u-boot-khadas-2015.01-20170107-ddr-saradc.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -53,11 +53,13 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-2015.01-20170107-gcc5-patch     ; ./create.patch.sh ) ; \
-	 ( cd create-2015.01-20170107-git-patch      ; ./create.patch.sh ) ; \
-	 ( cd create-2015.01-20170107-fw-cross-patch ; ./create.patch.sh ) ; \
-	 ( cd create-2015.01-20170107-bmp32-patch    ; ./create.patch.sh ) ; \
-	 ( cd create-2015.01-20170107-mmcboot-patch  ; ./create.patch.sh ) ; \
+	 ( cd create-2015.01-20170107-gcc5-patch       ; ./create.patch.sh ) ; \
+	 ( cd create-2015.01-20170107-git-patch        ; ./create.patch.sh ) ; \
+	 ( cd create-2015.01-20170107-fw-cross-patch   ; ./create.patch.sh ) ; \
+	 ( cd create-2015.01-20170107-bmp32-patch      ; ./create.patch.sh ) ; \
+	 ( cd create-2015.01-20170107-mmcboot-patch    ; ./create.patch.sh ) ; \
+	 ( cd create-2015.01-20170107-partitions-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2015.01-20170107-ddr-saradc-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

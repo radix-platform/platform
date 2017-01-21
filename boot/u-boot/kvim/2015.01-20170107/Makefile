@@ -58,6 +58,9 @@ boot_records         = $(TARGET_BUILD_DIR)/$(HARDWARE).boot-records
 install_boot_records = $(TARGET_BUILD_DIR)/.boot_records_done
 
 
+rootfs_mbr_script = $(CURDIR)/scripts/rootfs-partition
+
+
 PATCHES = PATCHES
 
 
@@ -246,6 +249,8 @@ $(build_uboot_pkg): $(boot_scr) $(boot_sd_scr)
 	@for binary in u-boot.bin u-boot.sd.bin ; do \
 	   cp -a $(UBOOT_BIN_PKG)/boot/$$binary $(TARGET_DEST_DIR)/bootfs ; \
 	 done
+	# ======= install rootfs-partition script =======
+	@cat $(rootfs_mbr_script) > $(UBOOT_BIN_PKG)/boot/rootfs-partition
 	# ======= Install Documentation =======
 	@mkdir -p $(UBOOT_BIN_PKG)/usr/doc/u-boot-khadas-$(version)
 	@cp -a $(SRC_DIR)/Licenses $(SRC_DIR)/MAINTAINERS $(SRC_DIR)/README \

@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/xf86-video-mali-0.4.2-amlogic.patch
+patches    += $(CURDIR)/patches/xf86-video-mali-0.4.2-no-ump.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,6 +51,7 @@ $(sha1s): $(tarballs)
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-0.4.2-amlogic-patch ; ./create.patch.sh ) ; \
+	 ( cd create-0.4.2-no-ump-patch  ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

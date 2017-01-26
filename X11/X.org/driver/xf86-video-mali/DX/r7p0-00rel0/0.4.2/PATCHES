@@ -1,2 +1,3 @@
 
 ../../../../../../../sources/hal/Mali/xf86-video-mali/DX/r7p0-00rel0/patches/xf86-video-mali-0.4.2-amlogic.patch -p0
+../../../../../../../sources/hal/Mali/xf86-video-mali/DX/r7p0-00rel0/patches/xf86-video-mali-0.4.2-no-ump.patch  -p0

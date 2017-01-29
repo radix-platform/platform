@@ -1,0 +1,3 @@
+xorg-server-1.18.4/Xi/exevents.c
+xorg-server-1.18.4/dix/getevents.c
+xorg-server-1.18.4/include/inputstr.h

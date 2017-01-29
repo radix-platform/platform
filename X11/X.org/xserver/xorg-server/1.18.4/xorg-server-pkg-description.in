@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+           |-----handy-ruler------------------------------------------------------|
+xorg-server: xorg-server @VERSION@ (The Xorg server - core of the X Window System)
+xorg-server:
+xorg-server: Xorg is a full featured X server that was originally designed for
+xorg-server: UNIX and UNIX-like operating systems running on Intel x86 hardware.
+xorg-server: It now runs on a wider range of hardware and OS platforms. This work
+xorg-server: was derived by the X.Org Foundation from the XFree86 Project's
+xorg-server: XFree86 4.4rc2 release. The XFree86 release was originally derived
+xorg-server: from X386 1.2 by Thomas Roell which was contributed to X11R5 by
+xorg-server: Snitily Graphics Consulting Service. [see: http://www.x.org]
+xorg-server:
+xorg-server:

@@ -1,0 +1,3 @@
+
+../../../../../sources/X.org/xserver/xorg-server/patches/xorg-server-1.18.4-black.patch              -p0
+../../../../../sources/X.org/xserver/xorg-server/patches/xorg-server-1.18.4-mouse-kbd-layout.patch   -p0

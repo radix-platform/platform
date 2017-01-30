@@ -19,8 +19,10 @@ patches    += $(CURDIR)/patches/xorg-server-1.16.2-black.patch
 patches    += $(CURDIR)/patches/xorg-server-1.16.2-gcc5.patch
 patches    += $(CURDIR)/patches/xorg-server-1.16.4-black.patch
 patches    += $(CURDIR)/patches/xorg-server-1.16.4-gcc5.patch
+patches    += $(CURDIR)/patches/xorg-server-1.18.3-aarch64-backtrace.patch
 patches    += $(CURDIR)/patches/xorg-server-1.18.3-black.patch
 patches    += $(CURDIR)/patches/xorg-server-1.18.3-mouse-kbd-layout.patch
+patches    += $(CURDIR)/patches/xorg-server-1.18.4-aarch64-backtrace.patch
 patches    += $(CURDIR)/patches/xorg-server-1.18.4-black.patch
 patches    += $(CURDIR)/patches/xorg-server-1.18.4-mouse-kbd-layout.patch
 
@@ -57,15 +59,17 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-1.12.2-black-patch            ; ./create.patch.sh ) ; \
-	 ( cd create-1.16.2-black-patch            ; ./create.patch.sh ) ; \
-	 ( cd create-1.16.2-gcc5-patch             ; ./create.patch.sh ) ; \
-	 ( cd create-1.16.4-black-patch            ; ./create.patch.sh ) ; \
-	 ( cd create-1.16.4-gcc5-patch             ; ./create.patch.sh ) ; \
-	 ( cd create-1.18.3-black-patch            ; ./create.patch.sh ) ; \
-	 ( cd create-1.18.3-mouse-kbd-layout-patch ; ./create.patch.sh ) ; \
-	 ( cd create-1.18.4-black-patch            ; ./create.patch.sh ) ; \
-	 ( cd create-1.18.4-mouse-kbd-layout-patch ; ./create.patch.sh ) ; \
+	 ( cd create-1.12.2-black-patch             ; ./create.patch.sh ) ; \
+	 ( cd create-1.16.2-black-patch             ; ./create.patch.sh ) ; \
+	 ( cd create-1.16.2-gcc5-patch              ; ./create.patch.sh ) ; \
+	 ( cd create-1.16.4-black-patch             ; ./create.patch.sh ) ; \
+	 ( cd create-1.16.4-gcc5-patch              ; ./create.patch.sh ) ; \
+	 ( cd create-1.18.3-aarch64-backtrace-patch ; ./create.patch.sh ) ; \
+	 ( cd create-1.18.3-black-patch             ; ./create.patch.sh ) ; \
+	 ( cd create-1.18.3-mouse-kbd-layout-patch  ; ./create.patch.sh ) ; \
+	 ( cd create-1.18.4-aarch64-backtrace-patch ; ./create.patch.sh ) ; \
+	 ( cd create-1.18.4-black-patch             ; ./create.patch.sh ) ; \
+	 ( cd create-1.18.4-mouse-kbd-layout-patch  ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

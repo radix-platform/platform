@@ -1,0 +1,8 @@
+
+/* begin *
+
+   xorg-server-1.18.3-aarch64-backtrace.patch,
+   xorg-server-1.18.4-aarch64-backtrace.patch  - disable backtace() due to GNU Libc Segmentation fault error
+                                                 on AArch64 machines.
+
+ * end */

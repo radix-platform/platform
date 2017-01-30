@@ -14,5 +14,5 @@ Section "Screen"
     Identifier      "Screen0"
     Monitor         "Monitor"
     Device          "Device0"
-    DefaultFbBpp    32
+    DefaultFbBpp    @DEFAULT_FB_BPP@
 EndSection

@@ -39,7 +39,7 @@ else
 ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXV)),)
 REQUIRES          += X11/X.org/xserver/xorg-server/1.16.4
 else
-REQUIRES          += X11/X.org/xserver/xorg-server/1.18.3
+REQUIRES          += X11/X.org/xserver/xorg-server/1.18.4
 endif
 endif
 endif

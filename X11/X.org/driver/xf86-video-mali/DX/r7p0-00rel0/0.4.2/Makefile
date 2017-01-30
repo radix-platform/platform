@@ -16,7 +16,7 @@ include ../../../../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/hal/Mali/xf86-video-mali/DX/r7p0-00rel0
 
-REQUIRES           = X11/X.org/xserver/xorg-server/1.18.3
+REQUIRES           = X11/X.org/xserver/xorg-server/1.18.4
 REQUIRES          += X11/X.org/lib/pixman/0.34.0
 ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X)),)
 REQUIRES          += X11/libs/aml-mali/5.1.1.0

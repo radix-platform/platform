@@ -11,7 +11,7 @@ include ../../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/X.org/driver/xf86-video-siliconmotion
 
-REQUIRES           = X11/X.org/xserver/xorg-server/1.18.3
+REQUIRES           = X11/X.org/xserver/xorg-server/1.18.4
 
 # ======= __END_OF_REQUIRES__ =======
 

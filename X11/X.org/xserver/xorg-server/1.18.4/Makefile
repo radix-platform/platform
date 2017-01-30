@@ -88,12 +88,18 @@ kbd_layout         = $(CURDIR)/kbd-layout/90-keyboard-layout.conf
 
 PATCHES = PATCHES
 
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC))
+OPT_PATCHES = PATCHES.aarch64
+endif
+
 build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
 
 
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC))
 OPTIMIZATION_FLAGS  = -O2
+endif
 
 
 ####### Targets
@@ -203,6 +209,13 @@ TARGET_LIB_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUF
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC))
+	$(call apply-opt-patches, $(SRC_DIR))
+	# ======= touch to prevent autoreconf =======
+	@( cd $(SRC_DIR) ; \
+	   touch configure configure.ac -r aclocal.m4 ; \
+	 )
+endif
 	@touch $@
 
 $(build_target): $(src_done)

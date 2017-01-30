@@ -77,6 +77,15 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
 NOCLEAR_FIRST_TTY = --noclear
 endif
 
+ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
+FB_BPP = 24
+else
+FB_BPP = 32
+endif
+
+
 $(build):
 	@mkdir -p $(SYSINIT_BIN_PKG)/dev/{cgroup,pts,shm}
 	@mkdir -p $(SYSINIT_BIN_PKG)/etc/{X11,rc.d,profile.d,skel}
@@ -229,7 +238,8 @@ endif
 	@chmod a+x $(SYSINIT_BIN_PKG)/etc/rc.d/rc.{4.new,6.new,K.new,M.new,S.new}
 	# ======= etc/profile.d =======
 	@cat $(source_etc)/X11/xorg.conf.fbdev.in | \
-	     sed 's,@HARDWARE_SPEC@,$(HW_SPEC),'  > $(SYSINIT_BIN_PKG)/etc/X11/xorg.conf.fbdev
+	     sed 's,@HARDWARE_SPEC@,$(HW_SPEC),'  | \
+	     sed 's,@DEFAULT_FB_BPP@,$(FB_BPP),'  > $(SYSINIT_BIN_PKG)/etc/X11/xorg.conf.fbdev
 	@cat $(source_etc)/HOSTNAME.in | \
 	     sed 's,@HARDWARE@,$(HARDWARE),' > $(SYSINIT_BIN_PKG)/etc/HOSTNAME.new
 	@cat $(source_etc)/hosts.in | \

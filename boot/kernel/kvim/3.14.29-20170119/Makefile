@@ -9,7 +9,7 @@ COMPONENT_IS_3PP   = true
 include ../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/Linux/Khadas/S905X
+SOURCE_REQUIRES    = sources/Linux/Amlogic/S9XX
 
 REQUIRES           = base/pkgtool
 
@@ -20,9 +20,9 @@ version            = 3.14.29-20170119
 subversion         =
 modules_version    = 3.14.29
 full_version       = $(version)
-tar_xz_archive     = $(SRC_PACKAGE_PATH)/Linux/Khadas/S905X/linux-khadas-$(full_version).tar.xz
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/Linux/Amlogic/S9XX/linux-aml-$(full_version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
-SRC_DIR            = $(TARGET_BUILD_DIR)/usr/src/linux-khadas-$(full_version)
+SRC_DIR            = $(TARGET_BUILD_DIR)/usr/src/linux-aml-$(full_version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 config             = configs/$(HARDWARE).config
@@ -34,7 +34,7 @@ oldconfig_done     = $(TARGET_BUILD_DIR)/.oldconfig_done
 modules_done       = $(TARGET_BUILD_DIR)/.modules_done
 device_dtbs_done   = $(TARGET_BUILD_DIR)/.device_dtbs_done
 
-devel_sources      = $(TARGET_DEST_DIR)/usr/src/linux-khadas-$(full_version)
+devel_sources      = $(TARGET_DEST_DIR)/usr/src/linux-aml-$(full_version)
 devel_sources_done = $(TARGET_BUILD_DIR)/.devel_sources_done
 boot_filesystem    = $(TARGET_DEST_DIR)/bootfs
 boot_fs_dir_done   = $(TARGET_BUILD_DIR)/.bootfs_done
@@ -89,7 +89,7 @@ KERNEL_BIN_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 KERNEL_BIN_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 KERNEL_BIN_PKG_GROUP               = $(PKG_GROUP)
 ###                                 |---handy-ruler-------------------------------|
-KERNEL_BIN_PKG_SHORT_DESCRIPTION   = Khadas VIM S905X Linux Kernel
+KERNEL_BIN_PKG_SHORT_DESCRIPTION   = Amlogic S905X S905X Linux Kernel
 KERNEL_BIN_PKG_URL                 = $(BUG_URL)
 KERNEL_BIN_PKG_LICENSE             = GPLv2
 KERNEL_BIN_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(KERNEL_BIN_PKG_NAME)-pkg-description
@@ -208,9 +208,9 @@ $(devel_sources_done): $(device_dtbs_done)
 	@echo "Configured '$(HARDWARE)' Linux sources for building external modules." >> $(TARGET_DEST_DIR)/usr/src/.CONTENT
 	@echo "" >> $(TARGET_DEST_DIR)/usr/src/.CONTENT
 	@cp -a $(build_dir) $(TARGET_DEST_DIR)/usr/src
-	@( cd $(TARGET_DEST_DIR)/lib/modules/$(modules_version)       ; \
-	   ln -sf ../../../usr/src/linux-khadas-$(full_version) build  ; \
-	   ln -sf ../../../usr/src/linux-khadas-$(full_version) source ; \
+	@( cd $(TARGET_DEST_DIR)/lib/modules/$(modules_version)     ; \
+	   ln -sf ../../../usr/src/linux-aml-$(full_version) build  ; \
+	   ln -sf ../../../usr/src/linux-aml-$(full_version) source ; \
 	 )
 	@touch $@
 

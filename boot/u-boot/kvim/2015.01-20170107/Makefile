@@ -9,7 +9,7 @@ COMPONENT_IS_3PP   = true
 include ../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/U-Boot/Khadas/S905X
+SOURCE_REQUIRES    = sources/U-Boot/Amlogic/S9XX
 
 REQUIRES           = boot/kernel/kvim/3.14.29-20170119
 
@@ -22,9 +22,9 @@ DEFAULT_HW_ADDR          = 2a:ab:c0:7e:f2:c1
 
 
 version            = 2015.01-20170107
-tar_xz_archive     = $(SRC_PACKAGE_PATH)/U-Boot/Khadas/S905X/u-boot-khadas-$(version).tar.xz
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/U-Boot/Amlogic/S9XX/u-boot-aml-$(version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
-SRC_DIR            = $(TARGET_BUILD_DIR)/u-boot-khadas-$(version)
+SRC_DIR            = $(TARGET_BUILD_DIR)/u-boot-aml-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 u_boot             = $(TARGET_BUILD_DIR)/.u_boot_done
@@ -83,7 +83,7 @@ UBOOT_BIN_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 UBOOT_BIN_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 UBOOT_BIN_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
-UBOOT_BIN_PKG_SHORT_DESCRIPTION   = Khadas VIM S905X U-Boot
+UBOOT_BIN_PKG_SHORT_DESCRIPTION   = Amlogic S905X U-Boot
 UBOOT_BIN_PKG_URL                 = $(BUG_URL)
 UBOOT_BIN_PKG_LICENSE             = custom
 UBOOT_BIN_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(UBOOT_BIN_PKG_NAME)-pkg-description
@@ -252,9 +252,9 @@ $(build_uboot_pkg): $(boot_scr) $(boot_sd_scr)
 	# ======= install rootfs-partition script =======
 	@cat $(rootfs_mbr_script) > $(UBOOT_BIN_PKG)/boot/rootfs-partition
 	# ======= Install Documentation =======
-	@mkdir -p $(UBOOT_BIN_PKG)/usr/doc/u-boot-khadas-$(version)
+	@mkdir -p $(UBOOT_BIN_PKG)/usr/doc/u-boot-aml-$(version)
 	@cp -a $(SRC_DIR)/Licenses $(SRC_DIR)/MAINTAINERS $(SRC_DIR)/README \
-	       $(UBOOT_BIN_PKG)/usr/doc/u-boot-khadas-$(version)
+	       $(UBOOT_BIN_PKG)/usr/doc/u-boot-aml-$(version)
 	@touch $@
 
 $(boot_records): $(build_uboot_pkg)

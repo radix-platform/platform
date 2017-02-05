@@ -184,6 +184,11 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_M201)),)
 	@echo "# Additional stuff:"            >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
 	@echo "/sbin/modprobe udl"             >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
 endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_KHADAS_VIM)),)
+	@echo "# Wi-Fi/Bluetooth:"             >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
+	@echo "/sbin/modprobe dhd"             >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
+	@echo "/sbin/modprobe bcmdhd"          >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
+endif
 	@chmod a+x $(SYSINIT_BIN_PKG)/etc/rc.d/rc.{fbset.new,font.new,gpm.new,keymap.new,modules.new}
 	# ======= etc/inittab =======
 	@cat $(source_etc)/inittab.in | \

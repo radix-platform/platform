@@ -129,6 +129,17 @@ $(install_target): $(build_target)
 	   cat $(config_dir)/wpa_supplicant.conf > $(WPASUP_PKG)/etc/wpa_supplicant.conf.new ; \
 	   chmod 600 $(WPASUP_PKG)/etc/wpa_supplicant.conf.new ; \
 	 )
+ifneq ($(filter $(HARDWARE),$(HARDWARE_KHADAS_VIM)),)
+	@echo ""                          >> $(WPASUP_PKG)/etc/wpa_supplicant.conf.new
+	@echo "disable_scan_offload=1"    >> $(WPASUP_PKG)/etc/wpa_supplicant.conf.new
+	@echo "wowlan_triggers=any"       >> $(WPASUP_PKG)/etc/wpa_supplicant.conf.new
+	@echo "p2p_no_go_freq=5170-5740"  >> $(WPASUP_PKG)/etc/wpa_supplicant.conf.new
+	@echo "p2p_search_delay=0"        >> $(WPASUP_PKG)/etc/wpa_supplicant.conf.new
+	@echo "no_ctrl_interface="        >> $(WPASUP_PKG)/etc/wpa_supplicant.conf.new
+	@echo ""                          >> $(WPASUP_PKG)/etc/wpa_supplicant.conf.new
+	@echo "ctrl_interface=wlan0"      >> $(WPASUP_PKG)/etc/wpa_supplicant.conf.new
+	@echo "p2p_go_intent=13"          >> $(WPASUP_PKG)/etc/wpa_supplicant.conf.new
+endif
 	# ======= Install Documentation =======
 	@( cd $(SRC_DIR)/wpa_supplicant ; \
 	   for m in 5 8; do \

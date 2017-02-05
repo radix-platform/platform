@@ -31,6 +31,7 @@ include ../../build-system/constants.mk
 #######
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_KHADAS_VIM)),)
+REQUIRES  = hal/drivers/kvim/brcmap6xxx/1.201.59.x
 REQUIRES  = boot/u-boot/kvim/2015.01-20170107
 endif
 

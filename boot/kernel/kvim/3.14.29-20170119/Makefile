@@ -89,7 +89,7 @@ KERNEL_BIN_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 KERNEL_BIN_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 KERNEL_BIN_PKG_GROUP               = $(PKG_GROUP)
 ###                                 |---handy-ruler-------------------------------|
-KERNEL_BIN_PKG_SHORT_DESCRIPTION   = Amlogic S905X S905X Linux Kernel
+KERNEL_BIN_PKG_SHORT_DESCRIPTION   = Amlogic S905X Linux Kernel
 KERNEL_BIN_PKG_URL                 = $(BUG_URL)
 KERNEL_BIN_PKG_LICENSE             = GPLv2
 KERNEL_BIN_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(KERNEL_BIN_PKG_NAME)-pkg-description

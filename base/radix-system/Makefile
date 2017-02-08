@@ -220,6 +220,9 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_DRA7XXEVM)),)
 	@echo "s1:12345:respawn:/sbin/agetty -L ttyS0 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
 endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_BT1)),)
+	@echo "s1:12345:respawn:/sbin/agetty -L ttyS0 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
+endif
 	@echo ""                                                    >> $(SYSINIT_BIN_PKG)/etc/inittab.new
 	@echo "# End of /etc/inittab"                               >> $(SYSINIT_BIN_PKG)/etc/inittab.new
 	# ======= etc/fstab =======

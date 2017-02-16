@@ -1,3 +1,3 @@
 
 ../../../../sources/Linux/Amlogic/S9XX/patches/linux-aml-3.14.29-20170119-partitions.patch -p0
-../../../../sources/Linux/Amlogic/S9XX/patches/linux-aml-3.14.29-20170119-kvim-parts.patch -p0
+../../../../sources/Linux/Amlogic/S9XX/patches/linux-aml-3.14.29-20170119-a95x-dts.patch   -p0

@@ -1,2 +1,1 @@
-linux-aml-3.14.29-20170119/arch/arm64/boot/dts/kvim.dts
 linux-aml-3.14.29-20170119/include/linux/mmc/emmc_partitions.h

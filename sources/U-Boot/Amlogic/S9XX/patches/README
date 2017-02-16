@@ -5,8 +5,11 @@
                                                     graphical editors such as Gimp
                                                     [https://en.wikipedia.org/wiki/BMP_file_format].
 
-   u-boot-aml-2015.01-20170107-kvim-mmcboot.patch - if the /boot/boot.scr exists then run it to boot
-                                                    the board.
+   u-boot-aml-2015.01-20170107-a95x-mmcboot.patch - NEXBOX A95X boot procedure: if the /boot/boot.scr
+                                                    exists then run it to boot the board.
+
+   u-boot-aml-2015.01-20170107-kvim-mmcboot.patch - Khadas VIM boot procedure: if the /boot/boot.scr
+                                                    exists then run it to boot the board.
 
    u-boot-aml-2015.01-20170107-partitions.patch   - remove cache partition, reduce partitions size
                                                     and remove reserved spave between partitions.

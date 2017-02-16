@@ -14,6 +14,7 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/u-boot-aml-2015.01-20170107-bmp32.patch
 patches    += $(CURDIR)/patches/u-boot-aml-2015.01-20170107-fw-cross.patch
+patches    += $(CURDIR)/patches/u-boot-aml-2015.01-20170107-a95x-mmcboot.patch
 patches    += $(CURDIR)/patches/u-boot-aml-2015.01-20170107-kvim-mmcboot.patch
 patches    += $(CURDIR)/patches/u-boot-aml-2015.01-20170107-partitions.patch
 
@@ -52,6 +53,7 @@ $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-2015.01-20170107-bmp32-patch        ; ./create.patch.sh ) ; \
 	 ( cd create-2015.01-20170107-fw-cross-patch     ; ./create.patch.sh ) ; \
+	 ( cd create-2015.01-20170107-a95x-mmcboot-patch ; ./create.patch.sh ) ; \
 	 ( cd create-2015.01-20170107-kvim-mmcboot-patch ; ./create.patch.sh ) ; \
 	 ( cd create-2015.01-20170107-partitions-patch   ; ./create.patch.sh ) ; \
 	 echo -e "\n"

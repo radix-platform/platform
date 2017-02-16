@@ -13,6 +13,8 @@ tarballs    = $(addsuffix .tar.xz, $(addprefix linux-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/linux-aml-3.14.29-20170119-partitions.patch
+patches    += $(CURDIR)/patches/linux-aml-3.14.29-20170119-kvim-parts.patch
+patches    += $(CURDIR)/patches/linux-aml-3.14.29-20170119-a95x-dts.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -48,6 +50,8 @@ $(sha1s): $(tarballs)
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-3.14.29-20170119-partitions-patch ; ./create.patch.sh ) ; \
+	 ( cd create-3.14.29-20170119-kvim-parts-patch ; ./create.patch.sh ) ; \
+	 ( cd create-3.14.29-20170119-a95x-dts-patch   ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

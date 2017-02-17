@@ -11,6 +11,9 @@
    u-boot-aml-2015.01-20170107-kvim-mmcboot.patch - Khadas VIM boot procedure: if the /boot/boot.scr
                                                     exists then run it to boot the board.
 
+   u-boot-aml-2015.01-20170107-x2-mmcboot.patch   - ENYBOX X2 boot procedure: if the /boot/boot.scr
+                                                    exists then run it to boot the board.
+
    u-boot-aml-2015.01-20170107-partitions.patch   - remove cache partition, reduce partitions size
                                                     and remove reserved spave between partitions.
 

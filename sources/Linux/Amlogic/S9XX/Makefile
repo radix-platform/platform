@@ -15,6 +15,7 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 patches     = $(CURDIR)/patches/linux-aml-3.14.29-20170119-partitions.patch
 patches    += $(CURDIR)/patches/linux-aml-3.14.29-20170119-kvim-parts.patch
 patches    += $(CURDIR)/patches/linux-aml-3.14.29-20170119-a95x-dts.patch
+patches    += $(CURDIR)/patches/linux-aml-3.14.29-20170119-x2-dts.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -52,6 +53,7 @@ $(patches): $(sha1s)
 	 ( cd create-3.14.29-20170119-partitions-patch ; ./create.patch.sh ) ; \
 	 ( cd create-3.14.29-20170119-kvim-parts-patch ; ./create.patch.sh ) ; \
 	 ( cd create-3.14.29-20170119-a95x-dts-patch   ; ./create.patch.sh ) ; \
+	 ( cd create-3.14.29-20170119-x2-dts-patch     ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

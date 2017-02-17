@@ -5,5 +5,7 @@
    linux-aml-3.14.29-20170119-kvim-parts.patch - remove the 'boot' filesystem from SD and eMMC flash.
    linux-aml-3.14.29-20170119-a95x-dts.patch   - remove the 'boot' filesystem from SD and eMMC flash
                                                  and also add devices tree for NEXBOX A95X.
+   linux-aml-3.14.29-20170119-x2-dts.patch     - remove the 'boot' filesystem from SD and eMMC flash
+                                                 and also add devices tree for ENYBOX X2.
 
  * end */

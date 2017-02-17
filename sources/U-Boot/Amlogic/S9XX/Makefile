@@ -16,6 +16,7 @@ patches     = $(CURDIR)/patches/u-boot-aml-2015.01-20170107-bmp32.patch
 patches    += $(CURDIR)/patches/u-boot-aml-2015.01-20170107-fw-cross.patch
 patches    += $(CURDIR)/patches/u-boot-aml-2015.01-20170107-a95x-mmcboot.patch
 patches    += $(CURDIR)/patches/u-boot-aml-2015.01-20170107-kvim-mmcboot.patch
+patches    += $(CURDIR)/patches/u-boot-aml-2015.01-20170107-x2-mmcboot.patch
 patches    += $(CURDIR)/patches/u-boot-aml-2015.01-20170107-partitions.patch
 
 .NOTPARALLEL: $(patches)
@@ -55,6 +56,7 @@ $(patches): $(sha1s)
 	 ( cd create-2015.01-20170107-fw-cross-patch     ; ./create.patch.sh ) ; \
 	 ( cd create-2015.01-20170107-a95x-mmcboot-patch ; ./create.patch.sh ) ; \
 	 ( cd create-2015.01-20170107-kvim-mmcboot-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2015.01-20170107-x2-mmcboot-patch   ; ./create.patch.sh ) ; \
 	 ( cd create-2015.01-20170107-partitions-patch   ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 

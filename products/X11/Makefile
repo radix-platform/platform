@@ -30,6 +30,10 @@ include ../../build-system/constants.mk
 ####### Boot
 #######
 
+ifneq ($(filter $(HARDWARE),$(HARDWARE_ENYBOX_X2)),)
+REQUIRES  = boot/u-boot/x2/2015.01-20170107
+endif
+
 ifneq ($(filter $(HARDWARE),$(HARDWARE_NEXBOX_A95X)),)
 REQUIRES  = boot/u-boot/a95x/2015.01-20170107
 endif

@@ -1,5 +1,6 @@
 
 COMPONENT_TARGETS  = $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 
 NEED_ABS_PATH      = true
 
@@ -13,7 +14,12 @@ include ../../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/hal/drivers/wireless/Amlogic/brcmap6xxx
 SOURCE_REQUIRES   += sources/hal/firmware/wireless/Amlogic
 
+ifneq ($(filter $(HARDWARE),$(HARDWARE_KHADAS_VIM)),)
 REQUIRES           = boot/kernel/kvim/3.14.29-20170119
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_ENYBOX_X2)),)
+REQUIRES           = boot/kernel/x2/3.14.29-20170119
+endif
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -137,9 +143,16 @@ $(build_ap6xxx_pkg): $(modules_done)
 	   install -m 0644 6255/fw_bcm43455c0_ag_p2p.bin   $(AP6XXX_PKG)/$(FIRMWARE_DIR)                  ; \
 	   install -m 0644 6255/nvram.txt                  $(AP6XXX_PKG)/$(FIRMWARE_DIR)/nvram_ap6255.txt ; \
 	 )
+ifneq ($(filter $(HARDWARE),$(HARDWARE_KHADAS_VIM)),)
 	@( cd $(AP6XXX_PKG)/$(FIRMWARE_DIR) ; \
 	   ln -sf nvram_ap6212.txt nvram.txt ; \
 	 )
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_ENYBOX_X2)),)
+	@( cd $(AP6XXX_PKG)/$(FIRMWARE_DIR) ; \
+	   ln -sf nvram_ap6255.txt nvram.txt ; \
+	 )
+endif
 	# ======= Install Documentation =======
 	@mkdir -p $(AP6XXX_PKG)/usr/doc/brcmap6xxx-$(version)
 	@cp -a $(FIRMWARE_SRC_DIR)/p2p_supplicant_overlay.conf \

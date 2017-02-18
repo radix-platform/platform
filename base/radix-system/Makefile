@@ -184,7 +184,8 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_M201)),)
 	@echo "# Additional stuff:"            >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
 	@echo "/sbin/modprobe udl"             >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_KHADAS_VIM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_KHADAS_VIM) \
+                            $(HARDWARE_ENYBOX_X2)),)
 	@echo "# Wi-Fi/Bluetooth:"             >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
 	@echo "/sbin/modprobe dhd"             >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
 	@echo "/sbin/modprobe bcmdhd"          >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new

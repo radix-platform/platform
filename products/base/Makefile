@@ -30,17 +30,18 @@ include ../../build-system/constants.mk
 ####### Boot
 #######
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_ENYBOX_X2)),)
-REQUIRES  = boot/u-boot/x2/2015.01-20170107
-endif
-
 ifneq ($(filter $(HARDWARE),$(HARDWARE_NEXBOX_A95X)),)
 REQUIRES  = boot/u-boot/a95x/2015.01-20170107
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_KHADAS_VIM)),)
-REQUIRES  = hal/drivers/kvim/brcmap6xxx/1.201.59.x
+REQUIRES  = hal/drivers/amlogic/brcmap6xxx/1.201.59.x
 REQUIRES += boot/u-boot/kvim/2015.01-20170107
+endif
+
+ifneq ($(filter $(HARDWARE),$(HARDWARE_ENYBOX_X2)),)
+REQUIRES  = hal/drivers/amlogic/brcmap6xxx/1.201.59.x
+REQUIRES += boot/u-boot/x2/2015.01-20170107
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_M201)),)

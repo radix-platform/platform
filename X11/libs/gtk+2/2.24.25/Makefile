@@ -9,6 +9,7 @@ COMPONENT_TARGETS += $(HARDWARE_M201)
 COMPONENT_TARGETS += $(HARDWARE_MXV)
 COMPONENT_TARGETS += $(HARDWARE_P201)
 COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
 COMPONENT_TARGETS += $(HARDWARE_P212)
 COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
 COMPONENT_TARGETS += $(HARDWARE_Q201)
@@ -156,6 +157,7 @@ $(install_target): $(build_target)
 	# ======= Install wrappers for the 'gtk-query-immodules' binary =======
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)                         \
                             $(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                                             $(HARDWARE_ODROID_C2)   \
                             $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
                             $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
 	@( cd $(GTK2_PKG)/usr/bin ; mv gtk-query-immodules-2.0{,-64} ; ln -sf gtk-query-immodules-2.0-64 gtk-query-immodules-2.0 )

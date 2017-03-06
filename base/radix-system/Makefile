@@ -9,6 +9,7 @@ COMPONENT_TARGETS += $(HARDWARE_M201)
 COMPONENT_TARGETS += $(HARDWARE_MXV)
 COMPONENT_TARGETS += $(HARDWARE_P201)
 COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
 COMPONENT_TARGETS += $(HARDWARE_P212)
 COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
 COMPONENT_TARGETS += $(HARDWARE_Q201)
@@ -135,6 +136,9 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
                             $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
 	@cat $(scripts)/rc.meson64fb >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.fbset.new
 endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_ODROID_C2)),)
+	@cat $(scripts)/rc.odroidc2 >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.fbset.new
+endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
 	@echo "# Ethernet:"                    >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
 	@echo "/sbin/modprobe sunxi_gmac"      >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
@@ -205,6 +209,7 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_CB3X)),)
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXV)         \
                             $(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                                             $(HARDWARE_ODROID_C2)   \
                             $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
                             $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
 	@echo "s1:12345:respawn:/sbin/agetty -L ttyS0 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new

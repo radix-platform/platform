@@ -9,6 +9,7 @@ COMPONENT_TARGETS += $(HARDWARE_M201)
 COMPONENT_TARGETS += $(HARDWARE_MXV)
 COMPONENT_TARGETS += $(HARDWARE_P201)
 COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
 COMPONENT_TARGETS += $(HARDWARE_P212)
 COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
 COMPONENT_TARGETS += $(HARDWARE_Q201)
@@ -57,6 +58,10 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_P201)        \
                             $(HARDWARE_P212)        \
                             $(HARDWARE_ENYBOX_X2)),)
 REQUIRES           = dev/kernel/s9xx/3.14.29-20160818-headers
+endif
+
+ifneq ($(filter $(HARDWARE),$(HARDWARE_ODROID_C2)),)
+REQUIRES           = dev/kernel/odroid-c2/3.14.79-20170131-headers
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_KHADAS_VIM)),)

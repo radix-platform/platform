@@ -1,0 +1,8 @@
+
+../../../../sources/U-Boot/Hardkernel/S905/patches/u-boot-aml-2015.01-20170224-bmp32.patch   -p0
+../../../../sources/U-Boot/Hardkernel/S905/patches/u-boot-aml-2015.01-20170224-cfgload.patch -p0
+
+#../../../../sources/U-Boot/Hardkernel/S905/patches/u-boot-aml-2015.01-20170107-fw-cross.patch     -p0
+#../../../../sources/U-Boot/Hardkernel/S905/patches/u-boot-aml-2015.01-20170107-bmp32.patch        -p0
+#../../../../sources/U-Boot/Hardkernel/S905/patches/u-boot-aml-2015.01-20170107-a95x-mmcboot.patch -p0
+#../../../../sources/U-Boot/Hardkernel/S905/patches/u-boot-aml-2015.01-20170107-partitions.patch   -p0

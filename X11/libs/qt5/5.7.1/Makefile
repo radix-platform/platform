@@ -9,6 +9,7 @@ COMPONENT_TARGETS += $(HARDWARE_M201)
 COMPONENT_TARGETS += $(HARDWARE_MXV)
 COMPONENT_TARGETS += $(HARDWARE_P201)
 COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
 COMPONENT_TARGETS += $(HARDWARE_P212)
 COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
 COMPONENT_TARGETS += $(HARDWARE_Q201)
@@ -183,6 +184,7 @@ ARCH   = arm
 ABI    = gnueabihf
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                                             $(HARDWARE_ODROID_C2)   \
                             $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
                             $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
 ARCH   = aarch64
@@ -243,6 +245,7 @@ configure_switches += -no-gtk
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)        \
                             $(HARDWARE_M201) $(HARDWARE_MXV)         \
                             $(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                                             $(HARDWARE_ODROID_C2)   \
                             $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
                             $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
 configure_switches += -opengl es2
@@ -288,6 +291,7 @@ ENABLE_KMS_SUPPORT   = yes
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)        \
                             $(HARDWARE_M201) $(HARDWARE_MXV)         \
                             $(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                                             $(HARDWARE_ODROID_C2)   \
                             $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
                             $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
 ENABLE_KMS_SUPPORT = no
@@ -767,7 +771,7 @@ endif
 ifeq ($(BUILD_QT_CREATOR),yes)
 	@( cd $(QT5_PKG)/usr/bin ; \
 	   for file in lconvert lrelease lupdate moc qdbuscpp2xml qdbusxml2cpp  \
-	               qdoc qlalr qmake qmlimportscanner qmllint qmlmin rcc uic ; do \
+	               qdoc qgltf qlalr qmake qmlimportscanner qmllint qmlmin qscxmlc rcc uic ; do \
 	     rm -f $(TARGET)-qt5-$${file} ; \
 	   done ; \
 	 )

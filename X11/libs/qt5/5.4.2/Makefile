@@ -36,7 +36,7 @@ endif
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/5.3.0
 endif
-REQUIRES          += net/ca-certificates/45.0.2
+REQUIRES          += net/ca-certificates/52.0
 REQUIRES          += X11/app/desktop-file-utils/0.22
 REQUIRES          += X11/libs/hicolor-icon-theme/0.15
 REQUIRES          += X11/app/xdg-utils/1.1.1

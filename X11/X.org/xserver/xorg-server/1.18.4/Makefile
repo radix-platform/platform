@@ -73,6 +73,13 @@ REQUIRES          += X11/libs/libdrm/2.4.68
 REQUIRES          += X11/libs/libepoxy/1.3.1
 REQUIRES          += Wayland/wayland/1.11.0
 
+ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                                             $(HARDWARE_ODROID_C2)   \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
+REQUIRES          += libs/libunwind/1.2
+endif
+
 REQUIRES          += X11/libs/opengl-collection
 
 # ======= __END_OF_REQUIRES__ =======
@@ -88,10 +95,6 @@ src_done           = $(TARGET_BUILD_DIR)/.source_done
 kbd_layout         = $(CURDIR)/kbd-layout/90-keyboard-layout.conf
 
 PATCHES = PATCHES
-
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC))
-OPT_PATCHES = PATCHES.aarch64
-endif
 
 build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
@@ -185,6 +188,13 @@ extra_configure_switches += --enable-dri
 extra_configure_switches += --enable-dri2
 extra_configure_switches += --enable-dri3
 
+ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                                             $(HARDWARE_ODROID_C2)   \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
+extra_configure_switches += --enable-libunwind
+endif
+
 extra_configure_switches += --with-pic
 extra_configure_switches += --with-int10=x86emu
 extra_configure_switches += --with-default-font-path="$(DEF_FONTPATH)"
@@ -210,13 +220,6 @@ TARGET_LIB_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUF
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC))
-	$(call apply-opt-patches, $(SRC_DIR))
-	# ======= touch to prevent autoreconf =======
-	@( cd $(SRC_DIR) ; \
-	   touch configure configure.ac -r aclocal.m4 ; \
-	 )
-endif
 	@touch $@
 
 $(build_target): $(src_done)

@@ -30,7 +30,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/wget
 
-REQUIRES           = net/ca-certificates/45.0.2
+REQUIRES           = net/ca-certificates/52.0
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES          += app/util-linux/2.27.1
 REQUIRES          += libs/libidn/1.28

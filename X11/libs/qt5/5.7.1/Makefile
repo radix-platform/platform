@@ -37,7 +37,7 @@ endif
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/5.3.0
 endif
-REQUIRES          += net/ca-certificates/45.0.2
+REQUIRES          += net/ca-certificates/52.0
 REQUIRES          += X11/app/desktop-file-utils/0.22
 REQUIRES          += X11/libs/hicolor-icon-theme/0.15
 REQUIRES          += X11/app/xdg-utils/1.1.1
@@ -75,6 +75,13 @@ REQUIRES          += app/mariadb/10.0.25
 REQUIRES          += libs/libiodbc/3.52.10
 
 REQUIRES          += libs/botan/1.10.13
+
+ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                                             $(HARDWARE_ODROID_C2)   \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
+REQUIRES          += libs/libunwind/1.2
+endif
 
 REQUIRES          += X11/libs/opengl-collection
 

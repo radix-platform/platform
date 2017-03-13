@@ -20,7 +20,7 @@ REQUIRES          += libs/libidn/1.28
 REQUIRES          += libs/pcre/8.38
 REQUIRES          += libs/zlib/1.2.8
 REQUIRES          += net/openssl/1.0.2f
-REQUIRES          += net/ca-certificates/45.0.2
+REQUIRES          += net/ca-certificates/52.0
 
 # ======= __END_OF_REQUIRES__ =======
 

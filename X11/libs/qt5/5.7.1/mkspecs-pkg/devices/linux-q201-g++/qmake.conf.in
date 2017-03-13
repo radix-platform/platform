@@ -24,9 +24,15 @@ QMAKE_INCDIR            += @TARGET_PREFIX@/lib@LIBDIRSUFFIX@/glib-2.0/include
 QMAKE_INCDIR            += @TARGET_PREFIX@/include/botan-1.10
 QMAKE_LIBDIR             = @TARGET_PREFIX@/lib@LIBDIRSUFFIX@
 
+QMAKE_LIBS              += -lunwind
+
 QMAKE_LIBS_EGL          += -lEGL
 QMAKE_LIBS_OPENGL_ES2   += -lGLESv2
 QMAKE_LIBS_OPENVG       += -lOpenVG -lEGL
+#
+# Preferred eglfs backend
+#
+EGLFS_DEVICE_INTEGRATION = eglfs_mali
 
 QMAKE_LFLAGS            += -Wl,-rpath-link,@TARGET_PREFIX@/lib@LIBDIRSUFFIX@ -Wl,--export-dynamic
 

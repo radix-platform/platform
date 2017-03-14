@@ -48,6 +48,8 @@ REQUIRES          += libs/libiodbc/3.52.10-x86_32
 
 REQUIRES          += libs/botan/1.10.13-x86_32
 
+REQUIRES          += libs/libunwind/1.2-x86_32
+
 REQUIRES          += X11/libs/opengl-collection
 
 # ======= __END_OF_REQUIRES__ =======

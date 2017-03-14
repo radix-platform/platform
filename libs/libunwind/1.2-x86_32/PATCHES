@@ -1,3 +1,4 @@
 
-../../../sources/packages/l/libunwind/patches/libunwind-1.2-automake.patch -p0
-../../../sources/packages/l/libunwind/patches/libunwind-1.2-mips.patch     -p0
+../../../sources/packages/l/libunwind/patches/libunwind-1.2-automake.patch   -p0
+../../../sources/packages/l/libunwind/patches/libunwind-1.2-gcc-unwind.patch -p0
+../../../sources/packages/l/libunwind/patches/libunwind-1.2-mips.patch       -p0

@@ -1,0 +1,7 @@
+
+/* begin *
+
+   libunwind-1.2-gcc-unwind.patch - This is a workaround for building GCC5 with system installed libunwind.
+                                    The patch related to building libstdc++, ada.rts, and objc in GCC.
+
+ * end */

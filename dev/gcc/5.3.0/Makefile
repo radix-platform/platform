@@ -33,6 +33,7 @@ SOURCE_REQUIRES    = sources/GNU/gcc/gcc-5.3.0
 REQUIRES           = dev/binutils/2.27
 REQUIRES          += libs/isl/0.16.1
 REQUIRES          += libs/mpc/1.0.3
+REQUIRES          += libs/libunwind/1.2
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -137,7 +138,6 @@ extra_configure_switches += --docdir=/usr/share/doc
 extra_configure_switches += --enable-languages=c,c++,objc,obj-c++,fortran,go,lto,ada
 extra_configure_switches += --enable-libstdcxx-dual-abi
 extra_configure_switches += --with-default-libstdcxx-abi=gcc4-compatible
-extra_configure_switches += --disable-libunwind-exceptions
 extra_configure_switches += --enable-__cxa_atexit
 extra_configure_switches += --enable-install-libiberty
 extra_configure_switches += --enable-shared
@@ -147,6 +147,7 @@ extra_configure_switches += --enable-c99
 extra_configure_switches += --enable-long-long
 
 extra_configure_switches += --with-system-zlib
+extra_configure_switches += --with-system-libunwind
 extra_configure_switches += --with-mpc=$(TARGET_DEST_DIR)/usr
 extra_configure_switches += --with-mpfr=$(TARGET_DEST_DIR)/usr
 extra_configure_switches += --with-gmp=$(TARGET_DEST_DIR)/usr

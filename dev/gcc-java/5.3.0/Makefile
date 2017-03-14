@@ -166,8 +166,13 @@ extra_configure_switches += --enable-lto
 extra_configure_switches += --enable-c99
 extra_configure_switches += --enable-long-long
 
-extra_configure_switches += --with-system-zlib
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC))
 extra_configure_switches += --with-system-libunwind
+else
+extra_configure_switches += --disable-libunwind-exceptions
+endif
+
+extra_configure_switches += --with-system-zlib
 extra_configure_switches += --with-mpc=$(TARGET_DEST_DIR)/usr
 extra_configure_switches += --with-mpfr=$(TARGET_DEST_DIR)/usr
 extra_configure_switches += --with-gmp=$(TARGET_DEST_DIR)/usr

@@ -69,7 +69,12 @@ REQUIRES          += X11/X.org/xcb/xcb-util-wm/0.4.1
 
 REQUIRES          += X11/X.org/lib/libpciaccess/0.13.4
 
+ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                                             $(HARDWARE_ODROID_C2)   \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
 REQUIRES          += libs/libunwind/1.2
+endif
 
 REQUIRES          += X11/libs/libdrm/2.4.68
 REQUIRES          += X11/libs/libepoxy/1.3.1

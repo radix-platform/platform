@@ -33,7 +33,9 @@ SOURCE_REQUIRES    = sources/GNU/gcc/gcc-5.3.0
 REQUIRES           = dev/binutils/2.27
 REQUIRES          += libs/isl/0.16.1
 REQUIRES          += libs/mpc/1.0.3
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC))
 REQUIRES          += libs/libunwind/1.2
+endif
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -146,8 +148,13 @@ extra_configure_switches += --enable-lto
 extra_configure_switches += --enable-c99
 extra_configure_switches += --enable-long-long
 
-extra_configure_switches += --with-system-zlib
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC))
 extra_configure_switches += --with-system-libunwind
+else
+extra_configure_switches += --disable-libunwind-exceptions
+endif
+
+extra_configure_switches += --with-system-zlib
 extra_configure_switches += --with-mpc=$(TARGET_DEST_DIR)/usr
 extra_configure_switches += --with-mpfr=$(TARGET_DEST_DIR)/usr
 extra_configure_switches += --with-gmp=$(TARGET_DEST_DIR)/usr

@@ -44,6 +44,10 @@ src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
 
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC))
+OPT_PATCHES = PATCHES.aarch64
+endif
+
 build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
@@ -138,6 +142,9 @@ LDFLAGS += -Wl,-rpath,$(TARGET_LIB_RPATH)
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC))
+	$(call apply-opt-patches, $(SRC_DIR))
+endif
 	@touch $@
 
 $(build_target): $(src_done)

@@ -197,6 +197,22 @@ $(install_widec_target): $(build_widec_target)
 	   ln -sf libncursesw.so.6.? libcursesw.so     ; \
 	   ln -sf libncurses++w.so.6.? libcurses++w.so ; \
 	 )
+	# ======= Check terminfo symbolic links =======
+	@( cd $(NCURSES_PKG) ; \
+	   for dir in `ls usr/share/terminfo` ; do \
+	     if [ -d usr/share/terminfo/$${dir} ] ; then \
+	       ( cd usr/share/terminfo/$${dir} ; \
+	         for link in `ls` ; do \
+	           if [ -L $${link} -a ! -f `readlink -f $${link}` ] ; then \
+	             file=`readlink $${link}` ; file=`basename $${file}` ; \
+	             ltr=$${file:0:1} ; \
+	             ln -sf ../$${ltr}/$${file} $${link} ; \
+	           fi ; \
+	         done ; \
+	       ) ; \
+	     fi ; \
+	   done ; \
+	 )
 	# ======= Install Documentation =======
 	@mkdir -p $(NCURSES_PKG)/usr/doc/$(doc_dir_name)
 	@cp -a $(SRC_DIR)/ANNOUNCE $(SRC_DIR)/AUTHORS \

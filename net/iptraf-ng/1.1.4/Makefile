@@ -98,6 +98,12 @@ extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --sbindir=/usr/sbin
 extra_configure_switches += --sysconfdir=/etc
 
+extra_configure_switches += --with-lib=$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)
+extra_configure_switches += --with-ncurses
+
+extra_environment  = NCURSES_CFLAGS="$(shell $(TARGET_DEST_DIR)/usr/bin/ncursesw6-config --cflags)"
+extra_environment += NCURSES_LDFLAGS="$(shell $(TARGET_DEST_DIR)/usr/bin/ncursesw6-config --libs) -lpanel"
+
 
 ####### Dependencies
 
@@ -112,7 +118,7 @@ $(build_target): $(src_done)
 	  --build=$(BUILD)            \
 	  --host=$(TARGET)            \
 	  $(extra_configure_switches)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) $(extra_environment)
 	@touch $@
 
 $(install_target): $(build_target)

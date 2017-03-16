@@ -106,6 +106,7 @@ extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --with-gpm
 extra_configure_switches += --disable-termcap
+extra_configure_switches += --enable-overwrite
 extra_configure_switches += --with-normal
 extra_configure_switches += --with-shared
 extra_configure_switches += --with-cxx-shared
@@ -254,6 +255,11 @@ $(install_widec_target): $(build_widec_target)
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
 	   sed -i "s,=/usr,=$(TARGET_DEST_DIR)/usr,g" form.pc formw.pc menu.pc menuw.pc ncurses++.pc \
 	                                              ncurses++w.pc ncurses.pc ncursesw.pc panel.pc panelw.pc \
+	 )
+	# ======= tune ncurses-config scripts for development =======
+	@( cd $(TARGET_DEST_DIR)/usr/bin ; \
+	   sed -i 's,prefix="/usr,prefix="$(TARGET_DEST_DIR)/usr,' ncurses6-config ncursesw6-config ; \
+	   sed -i 's,libdir="/usr,libdir="$(TARGET_DEST_DIR)/usr,' ncurses6-config ncursesw6-config ; \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(NCURSES_PKG) ; \

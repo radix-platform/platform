@@ -87,6 +87,7 @@ extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --with-gpm
 extra_configure_switches += --disable-termcap
+extra_configure_switches += --enable-overwrite
 extra_configure_switches += --with-normal
 extra_configure_switches += --with-shared
 extra_configure_switches += --with-cxx-shared

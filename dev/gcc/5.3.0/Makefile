@@ -467,7 +467,7 @@ ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
 	   target_rpath="/lib/../lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUFFIX)" ; \
 	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
 	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
-	     if [ -n "$$rpath" ] ; then \
+	     if echo "$$rpath" | grep -q "$(TOOLCHAIN_PATH)" ; then \
 	       $(CHRPATH) -r $${target_rpath} $$file 1> /dev/null 2> /dev/null ; \
 	     fi ; \
 	   done ; \
@@ -476,7 +476,7 @@ ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
 	   target_rpath="/lib/../lib$(MULTILIB_X86_32_SUFFIX):/usr/lib/../lib$(MULTILIB_X86_32_SUFFIX)" ; \
 	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
 	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
-	     if [ -n "$$rpath" ] ; then \
+	     if echo "$$rpath" | grep -q "$(TOOLCHAIN_PATH)" ; then \
 	       $(CHRPATH) -r $${target_rpath} $$file 1> /dev/null 2> /dev/null ; \
 	     fi ; \
 	   done ; \
@@ -486,7 +486,7 @@ else
 	   target_rpath="/lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)" ; \
 	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
 	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
-	     if [ -n "$$rpath" ] ; then \
+	     if echo "$$rpath" | grep -q "$(TOOLCHAIN_PATH)" ; then \
 	       $(CHRPATH) -r $${target_rpath} $$file 1> /dev/null 2> /dev/null ; \
 	     fi ; \
 	   done ; \

@@ -89,6 +89,9 @@ extra_configure_switches += --disable-rpath-hack
 extra_configure_switches += --with-libtool
 
 
+extra_environment  = NCURSES_CONFIG=$(TARGET_DEST_DIR)/usr/bin/32/ncursesw6-config
+
+
 ####### Dependencies
 
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
@@ -99,14 +102,13 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 $(build_target): $(src_done)
 	@mkdir -p $(build_dir)
 	@cd $(build_dir) && \
-	  $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
+	  $(BUILD_ENVIRONMENT) $(extra_environment) ../$(src_dir_name)/configure \
 	  --prefix=/usr               \
 	  --build=$(BUILD)            \
 	  --host=$(TARGET32)          \
 	  $(extra_configure_switches)
 	@cp -a $(TARGET_DEST_DIR)/usr/bin/libtool $(build_dir)
 	@( cd $(build_dir) ; \
-	   sed -i '/^LIBS	.*=/c LIBS		= $(LDFLAGS) -lncursesw -lm' makefile ; \
 	   sed -i '/^LIBTOOL	.*=/c LIBTOOL		= ./libtool --tag=CC' makefile ; \
 	 )
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
@@ -116,7 +118,6 @@ $(install_target): $(build_target)
 	@mkdir -p $(DIALOG_32_PKG)/bin/32
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@( cd $(DIALOG_32_PKG)/usr/bin/32 ; \
-	   sed -i 's,-L/usr/lib64 ,,' dialog-config ; \
 	   mv dialog ../../../bin/32   ; \
 	   ln -sf ../../../bin/32/dialog . ; \
 	 )
@@ -127,6 +128,11 @@ $(install_target): $(build_target)
 	   chmod 0755 libdialog.la libdialog.so.??.* ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libdialog.la ; \
 	 )
+	# ======= remove target path from dialog-config script =======
+	@( cd $(DIALOG_32_PKG)/usr/bin/32 ; \
+	   sed -i 's,^bindir="/usr,bindir="$${exec_prefix},g' dialog-config ; \
+	   sed -i "s, -L$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX),,g" dialog-config ; \
+	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(DIALOG_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
@@ -135,7 +141,8 @@ $(install_target): $(build_target)
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libdialog.la \
 	 )
 	@( cd $(TARGET_DEST_DIR)/usr/bin/32 ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" dialog-config ; \
+	   sed -i 's,^prefix="/usr,prefix="$(TARGET_DEST_DIR)/usr,g' dialog-config ; \
+	   sed -i 's,^libdir="/usr,libdir="$(TARGET_DEST_DIR)/usr,g' dialog-config ; \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(DIALOG_32_PKG) ; \

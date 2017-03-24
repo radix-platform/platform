@@ -184,6 +184,11 @@ $(install_widec_target): $(build_widec_target)
 	   sed -i "s,=/usr,=$(TARGET_DEST_DIR)/usr,g" form.pc formw.pc menu.pc menuw.pc ncurses++.pc \
 	                                              ncurses++w.pc ncurses.pc ncursesw.pc panel.pc panelw.pc \
 	 )
+	# ======= tune ncurses-config scripts for development =======
+	@( cd $(TARGET_DEST_DIR)/usr/bin/32 ; \
+	   sed -i 's,prefix="/usr,prefix="$(TARGET_DEST_DIR)/usr,' ncurses6-config ncursesw6-config ; \
+	   sed -i 's,libdir="/usr,libdir="$(TARGET_DEST_DIR)/usr,' ncurses6-config ncursesw6-config ; \
+	 )
 	# ======= Strip binaries =======
 	@( cd $(NCURSES_32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \

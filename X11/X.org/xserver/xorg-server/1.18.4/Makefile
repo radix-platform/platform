@@ -188,7 +188,12 @@ extra_configure_switches += --enable-dri
 extra_configure_switches += --enable-dri2
 extra_configure_switches += --enable-dri3
 
+ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                                             $(HARDWARE_ODROID_C2)   \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
 extra_configure_switches += --enable-libunwind
+endif
 
 extra_configure_switches += --with-pic
 extra_configure_switches += --with-int10=x86emu

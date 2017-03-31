@@ -70,7 +70,7 @@ REQUIRES          += libs/gst-plugins-base/1.8.2
 
 REQUIRES          += app/sqlite/3.12.2.0
 REQUIRES          += app/postgresql/9.6.0
-REQUIRES          += app/mariadb/10.0.25
+REQUIRES          += app/mariadb/10.0.30
 REQUIRES          += libs/libiodbc/3.52.10
 
 REQUIRES          += libs/botan/1.10.13

@@ -102,7 +102,12 @@ extra_configure_switches += --docdir=/usr/share/doc/$(doc_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --disable-dependency-tracking
-extra_configure_switches += --enable-shared
+extra_configure_switches += --enable-shared=yes
+
+extra_configure_switches += --disable-rpath
+
+extra_configure_switches += --with-libncurses-prefix=$(TARGET_DEST_DIR)/usr
+
 
 LDFLAGS += -Wl,-rpath,/lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)
 
@@ -130,6 +135,8 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(GETTEXT_PKG)
+	# ======= Remove relink_command before install =======
+	@( cd $(build_dir) ; sed -i '/relink_command/d' src/libgettextsrc.la )
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Install Documentation =======
 	@rm -f $(GETTEXT_PKG)/usr/share/info/dir

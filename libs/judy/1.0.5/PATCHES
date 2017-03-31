@@ -1,0 +1,4 @@
+
+../../../sources/packages/l/judy/patches/judy-1.0.5-automake.patch -p0
+../../../sources/packages/l/judy/patches/judy-1.0.5-build-cc.patch -p0
+../../../sources/packages/l/judy/patches/judy-1.0.5-make-doc.patch -p0

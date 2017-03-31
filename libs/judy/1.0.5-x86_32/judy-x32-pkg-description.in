@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+        |-----handy-ruler------------------------------------------------------|
+judy-x32: judy-x32 @VERSION@ (x86_32 C library for creating dynamic arrays)
+judy-x32:
+judy-x32: The Judy family of functions supports fully dynamic arrays.
+judy-x32: These arrays may be indexed by a 32- or 64-bit word (depending
+judy-x32: on processor word size), a null terminated string or an
+judy-x32: array-of-bytes plus length. A dynamic array (sparsely populated)
+judy-x32: can also be thought of as a mapping function or associative
+judy-x32: memory.
+judy-x32:
+judy-x32:
+judy-x32:

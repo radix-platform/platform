@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
               |-----handy-ruler------------------------------------------------------|
-kernel-headers: WesionTek S905X Linux @KERNEL_VERSION@ Header Files
+kernel-headers: Amlogic S9XX Linux @KERNEL_VERSION@ Header Files
 kernel-headers:
 kernel-headers: Linus Torvalds' Linux kernel header files.
 kernel-headers:

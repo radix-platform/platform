@@ -32,7 +32,7 @@ SOURCE_REQUIRES    = sources/packages/d/perl-modules/CPAN/DBD-mysql
 
 REQUIRES           = dev/perl/5.22.1
 REQUIRES          += dev/perl-modules/perl-dbi/1.634
-REQUIRES          += app/mariadb/10.0.25
+REQUIRES          += app/mariadb/10.0.30
 
 # ======= __END_OF_REQUIRES__ =======
 

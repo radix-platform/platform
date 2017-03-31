@@ -29,6 +29,12 @@ src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
 
+BISON_MAJOR_VERSION = $(shell bison --version | grep ^bison | sed 's/^.* //g' | cut -f 1 -d'.' )
+
+ifeq ($(BISON_MAJOR_VERSION),3)
+OPT_PATCHES = PATCHES.bison3
+endif
+
 build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
@@ -110,6 +116,9 @@ TARGET_LIB_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFI
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
+ifeq ($(BISON_MAJOR_VERSION),3)
+	$(call apply-opt-patches, $(SRC_DIR))
+endif
 	@touch $@
 
 $(build_target): $(src_done)

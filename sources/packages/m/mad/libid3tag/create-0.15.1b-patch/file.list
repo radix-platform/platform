@@ -1,4 +1,6 @@
+libid3tag-0.15.1b/compat.c
 libid3tag-0.15.1b/compat.gperf
+libid3tag-0.15.1b/compat.h
 libid3tag-0.15.1b/config.guess
 libid3tag-0.15.1b/config.sub
 libid3tag-0.15.1b/genre.dat

@@ -111,9 +111,12 @@ extra_configure_switches += --enable-static=yes
 extra_configure_switches += --enable-shared=yes
 
 # Тhе road to hellis paved with good intentions:
-extra_configure_switches += --without-libltdl-prefix
 extra_configure_switches += --without-libgmp-prefix
+extra_configure_switches += --without-libiconv-prefix
+extra_configure_switches += --without-libintl-prefix
+extra_configure_switches += --without-libltdl-prefix
 extra_configure_switches += --without-libreadline-prefix
+extra_configure_switches += --without-libunistring-prefix
 
 
 GUILE_LOAD_PATH    = ../../$(src_dir_name)/module

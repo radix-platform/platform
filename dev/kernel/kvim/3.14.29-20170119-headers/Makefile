@@ -9,7 +9,7 @@ COMPONENT_IS_3PP   = true
 include ../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/Linux/Khadas/S905X
+SOURCE_REQUIRES    = sources/Linux/Amlogic/S9XX
 
 REQUIRES           = base/pkgtool
 
@@ -19,9 +19,9 @@ REQUIRES           = base/pkgtool
 version            = 3.14.29-20170119
 modules_version    = 3.14.29
 full_version       = $(version)
-tar_xz_archive     = $(SRC_PACKAGE_PATH)/Linux/Khadas/S905X/linux-khadas-$(version).tar.xz
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/Linux/Amlogic/S9XX/linux-aml-$(version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
-SRC_DIR            = $(TARGET_BUILD_DIR)/linux-khadas-$(full_version)
+SRC_DIR            = $(TARGET_BUILD_DIR)/linux-aml-$(full_version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 

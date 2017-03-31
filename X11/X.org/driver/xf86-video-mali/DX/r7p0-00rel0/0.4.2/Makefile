@@ -114,7 +114,8 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(APPLY_PATCHES)
 	@( cd $(SRC_DIR) ; \
 	   sed -i "s,^\(MALI_DDK=\).*,\1 \"$(TARGET_DEST_DIR)/usr\"," src/Makefile.am ; \
-	   automake ; \
+	   aclocal ; \
+	   automake --add-missing ; \
 	 )
 	@touch $@
 

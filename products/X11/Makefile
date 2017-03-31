@@ -1261,9 +1261,9 @@ endif
 #ifeq ($(HARDWARE),$(HARDWARE_PC64))
 #REQUIRES += libs/jemalloc/4.2.1-x86_32
 #endif
-REQUIRES += app/mariadb/10.0.25
+REQUIRES += app/mariadb/10.0.30
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += app/mariadb/10.0.25-x86_32
+REQUIRES += app/mariadb/10.0.30-x86_32
 endif
 
 REQUIRES += libs/libiodbc/3.52.10

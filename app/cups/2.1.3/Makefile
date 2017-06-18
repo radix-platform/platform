@@ -131,6 +131,8 @@ extra_configure_switches += --with-dbusdir=/etc/dbus-1
 extra_configure_switches += --enable-avahi
 extra_configure_switches += --enable-dnssd
 extra_configure_switches += --disable-libpaper
+# GSSAPI library comming with MIT krb5 (Kerberos):
+extra_configure_switches += --disable-gssapi
 extra_configure_switches += --disable-systemd
 
 extra_configure_switches += --enable-static=yes

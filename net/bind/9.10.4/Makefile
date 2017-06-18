@@ -118,6 +118,8 @@ extra_configure_switches += --with-libxml2=$(TARGET_DEST_DIR)/usr
 extra_configure_switches += --with-openssl=$(TARGET_DEST_DIR)/usr
 extra_configure_switches += --with-ecdsa=yes
 extra_configure_switches += --with-gost=yes
+# GSSAPI library comming with MIT krb5 (Kerberos):
+extra_configure_switches += --with-gssapi=no
 extra_configure_switches += --with-libjson=$(TARGET_DEST_DIR)/usr
 extra_configure_switches += --enable-threads
 extra_configure_switches += --enable-shared=yes

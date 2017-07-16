@@ -180,4 +180,4 @@ $(pkg_archive): $(install_target) $(LIBVDPAU_32_PKG_DESCRIPTION_FILE) $(LIBVDPAU
 	 echo "short_description=\"$(LIBVDPAU_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBVDPAU_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBVDPAU_32_PKG_URL)"                                 >> $(LIBVDPAU_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBVDPAU_32_PKG_LICENSE)"                         >> $(LIBVDPAU_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBVDPAU_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBVDPAU_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -19,6 +19,7 @@ patches    += $(CURDIR)/patches/hplip-3.15.9-no-upgrade.patch
 patches    += $(CURDIR)/patches/hplip-3.16.5-configure.patch
 patches    += $(CURDIR)/patches/hplip-3.16.5-no-upgrade.patch
 patches    += $(CURDIR)/patches/hplip-3.16.5-lc-all-c.patch
+patches    += $(CURDIR)/patches/hplip-3.16.5-automake.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -58,6 +59,7 @@ $(patches): $(sha1s)
 	 ( cd create-3.16.5-configure-patch  ; ./create.patch.sh ) ; \
 	 ( cd create-3.16.5-no-upgrade-patch ; ./create.patch.sh ) ; \
 	 ( cd create-3.16.5-lc-all-c-patch   ; ./create.patch.sh ) ; \
+	 ( cd create-3.16.5-automake-patch   ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

@@ -219,4 +219,4 @@ $(pkg_archive): $(install_target) $(LIBCACA_32_PKG_DESCRIPTION_FILE) $(LIBCACA_3
 	 echo "short_description=\"$(LIBCACA_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBCACA_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBCACA_32_PKG_URL)"                                 >> $(LIBCACA_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBCACA_32_PKG_LICENSE)"                         >> $(LIBCACA_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBCACA_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBCACA_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

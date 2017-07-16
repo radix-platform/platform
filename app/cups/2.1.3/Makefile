@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -124,6 +131,8 @@ extra_configure_switches += --with-dbusdir=/etc/dbus-1
 extra_configure_switches += --enable-avahi
 extra_configure_switches += --enable-dnssd
 extra_configure_switches += --disable-libpaper
+# GSSAPI library comming with MIT krb5 (Kerberos):
+extra_configure_switches += --disable-gssapi
 extra_configure_switches += --disable-systemd
 
 extra_configure_switches += --enable-static=yes
@@ -240,4 +249,4 @@ $(pkg_archive): $(install_target) $(CUPS_PKG_DESCRIPTION_FILE) $(CUPS_PKG_INSTAL
 	 echo "short_description=\"$(CUPS_PKG_SHORT_DESCRIPTION)\"" >> $(CUPS_PKG)/.PKGINFO ; \
 	 echo "url=$(CUPS_PKG_URL)"                                 >> $(CUPS_PKG)/.PKGINFO ; \
 	 echo "license=$(CUPS_PKG_LICENSE)"                         >> $(CUPS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(CUPS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(CUPS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

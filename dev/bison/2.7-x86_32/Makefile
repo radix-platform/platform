@@ -135,4 +135,4 @@ $(pkg_archive): $(install_target) $(BISON_32_PKG_DESCRIPTION_FILE) $(BISON_32_PK
 	 echo "short_description=\"$(BISON_32_PKG_SHORT_DESCRIPTION)\"" >> $(BISON_32_PKG)/.PKGINFO ; \
 	 echo "url=$(BISON_32_PKG_URL)"                                 >> $(BISON_32_PKG)/.PKGINFO ; \
 	 echo "license=$(BISON_32_PKG_LICENSE)"                         >> $(BISON_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(BISON_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(BISON_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

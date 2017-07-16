@@ -16,6 +16,7 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/aalib-1.4.0.patch
 patches    += $(CURDIR)/patches/aalib-1.4.0-aclocal.patch
+patches    += $(CURDIR)/patches/aalib-1.4.0-automake.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,8 +51,9 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-1.4.0-patch         ; ./create.patch.sh ) ; \
-	 ( cd create-1.4.0-aclocal-patch ; ./create.patch.sh ) ; \
+	 ( cd create-1.4.0-patch          ; ./create.patch.sh ) ; \
+	 ( cd create-1.4.0-aclocal-patch  ; ./create.patch.sh ) ; \
+	 ( cd create-1.4.0-automake-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

@@ -17,6 +17,7 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 patches     = $(CURDIR)/patches/gstreamer-0.10.36-bison3.patch
 patches    += $(CURDIR)/patches/gstreamer-0.10.36-remove-osx-test.patch
 patches    += $(CURDIR)/patches/gstreamer-0.10.36-glsdk.patch
+patches    += $(CURDIR)/patches/gstreamer-0.10.36-automake.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -54,6 +55,7 @@ $(patches): $(sha1s)
 	 ( cd create-0.10.36-bison3-patch          ; ./create.patch.sh ) ; \
 	 ( cd create-0.10.36-remove-osx-test-patch ; ./create.patch.sh ) ; \
 	 ( cd create-0.10.36-glsdk-patch           ; ./create.patch.sh ) ; \
+	 ( cd create-0.10.36-automake-patch        ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

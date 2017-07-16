@@ -173,4 +173,4 @@ $(pkg_archive): $(install_target) $(LIBMIKMOD_32_PKG_DESCRIPTION_FILE) $(LIBMIKM
 	 echo "short_description=\"$(LIBMIKMOD_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBMIKMOD_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBMIKMOD_32_PKG_URL)"                                 >> $(LIBMIKMOD_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBMIKMOD_32_PKG_LICENSE)"                         >> $(LIBMIKMOD_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBMIKMOD_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBMIKMOD_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

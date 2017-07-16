@@ -233,4 +233,4 @@ $(pkg_archive): $(install_target) $(AVAHIUI_32_PKG_DESCRIPTION_FILE) $(AVAHIUI_3
 	 echo "short_description=\"$(AVAHIUI_32_PKG_SHORT_DESCRIPTION)\"" >> $(AVAHIUI_32_PKG)/.PKGINFO ; \
 	 echo "url=$(AVAHIUI_32_PKG_URL)"                                 >> $(AVAHIUI_32_PKG)/.PKGINFO ; \
 	 echo "license=$(AVAHIUI_32_PKG_LICENSE)"                         >> $(AVAHIUI_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(AVAHIUI_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(AVAHIUI_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

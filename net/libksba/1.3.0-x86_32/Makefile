@@ -180,4 +180,4 @@ $(pkg_archive): $(install_target) $(KSBA_32_PKG_DESCRIPTION_FILE) $(KSBA_32_PKG_
 	 echo "short_description=\"$(KSBA_32_PKG_SHORT_DESCRIPTION)\"" >> $(KSBA_32_PKG)/.PKGINFO ; \
 	 echo "url=$(KSBA_32_PKG_URL)"                                 >> $(KSBA_32_PKG)/.PKGINFO ; \
 	 echo "license=$(KSBA_32_PKG_LICENSE)"                         >> $(KSBA_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(KSBA_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(KSBA_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

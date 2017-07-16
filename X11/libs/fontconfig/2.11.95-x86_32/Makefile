@@ -195,4 +195,4 @@ $(pkg_archive): $(install_target) $(FONTCFG_32_PKG_DESCRIPTION_FILE) $(FONTCFG_3
 	 echo "short_description=\"$(FONTCFG_32_PKG_SHORT_DESCRIPTION)\"" >> $(FONTCFG_32_PKG)/.PKGINFO ; \
 	 echo "url=$(FONTCFG_32_PKG_URL)"                                 >> $(FONTCFG_32_PKG)/.PKGINFO ; \
 	 echo "license=$(FONTCFG_32_PKG_LICENSE)"                         >> $(FONTCFG_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(FONTCFG_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(FONTCFG_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

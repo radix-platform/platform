@@ -1,2 +1,3 @@
 
-../../../sources/packages/x/gst-plugins-base/patches/gst-plugins-base-0.10.36.patch -p0
+../../../sources/packages/x/gst-plugins-base/patches/gst-plugins-base-0.10.36.patch          -p0
+../../../sources/packages/x/gst-plugins-base/patches/gst-plugins-base-0.10.36-automake.patch -p0

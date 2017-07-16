@@ -15,7 +15,7 @@ SOURCE_REQUIRES    = sources/packages/m/linuxtv/v4l-utils
 REQUIRES           = libs/v4l-utils/1.10.1
 REQUIRES          += libs/eudev/3.1.5-x86_32
 REQUIRES          += libs/libjpeg-turbo/1.4.2-x86_32
-REQUIRES          += X11/libs/qt5/5.4.2-x86_32
+REQUIRES          += X11/libs/qt5/5.7.1-x86_32
 REQUIRES          += X11/libs/glu/9.0.0-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
@@ -200,4 +200,4 @@ $(pkg_archive): $(install_target) $(V4LUTILS_32_PKG_DESCRIPTION_FILE) $(V4LUTILS
 	 echo "short_description=\"$(V4LUTILS_32_PKG_SHORT_DESCRIPTION)\"" >> $(V4LUTILS_32_PKG)/.PKGINFO ; \
 	 echo "url=$(V4LUTILS_32_PKG_URL)"                                 >> $(V4LUTILS_32_PKG)/.PKGINFO ; \
 	 echo "license=$(V4LUTILS_32_PKG_LICENSE)"                         >> $(V4LUTILS_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(V4LUTILS_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(V4LUTILS_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

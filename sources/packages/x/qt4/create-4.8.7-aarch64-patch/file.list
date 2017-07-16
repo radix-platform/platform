@@ -1,0 +1,6 @@
+qt-everywhere-opensource-src-4.8.7/include/QtCore/headers.pri
+qt-everywhere-opensource-src-4.8.7/src/3rdparty/javascriptcore/JavaScriptCore/JavaScriptCore.pri
+qt-everywhere-opensource-src-4.8.7/src/3rdparty/webkit/Source/JavaScriptCore/JavaScriptCore.pri
+qt-everywhere-opensource-src-4.8.7/src/3rdparty/webkit/Source/JavaScriptCore/wtf/Platform.h
+qt-everywhere-opensource-src-4.8.7/src/corelib/arch/arch.pri
+qt-everywhere-opensource-src-4.8.7/src/corelib/arch/qatomic_arch.h

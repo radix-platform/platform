@@ -208,4 +208,4 @@ $(pkg_archive): $(install_target) $(MPG123_32_PKG_DESCRIPTION_FILE) $(MPG123_32_
 	 echo "short_description=\"$(MPG123_32_PKG_SHORT_DESCRIPTION)\"" >> $(MPG123_32_PKG)/.PKGINFO ; \
 	 echo "url=$(MPG123_32_PKG_URL)"                                 >> $(MPG123_32_PKG)/.PKGINFO ; \
 	 echo "license=$(MPG123_32_PKG_LICENSE)"                         >> $(MPG123_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(MPG123_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(MPG123_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

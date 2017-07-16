@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -26,6 +33,9 @@ SOURCE_REQUIRES    = sources/GNU/gcc/gcc-5.3.0
 REQUIRES           = dev/binutils/2.27
 REQUIRES          += libs/isl/0.16.1
 REQUIRES          += libs/mpc/1.0.3
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC))
+REQUIRES          += libs/libunwind/1.2
+endif
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -42,7 +52,11 @@ src_done              = $(TARGET_BUILD_DIR)/.source-done
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
 PATCHES     = PATCHES.x86_64
 else
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC))
+PATCHES     = PATCHES.aarch64
+else
 PATCHES     = PATCHES
+endif
 endif
 
 build_dir          = $(TARGET_BUILD_DIR)/build
@@ -126,7 +140,6 @@ extra_configure_switches += --docdir=/usr/share/doc
 extra_configure_switches += --enable-languages=c,c++,objc,obj-c++,fortran,go,lto,ada
 extra_configure_switches += --enable-libstdcxx-dual-abi
 extra_configure_switches += --with-default-libstdcxx-abi=gcc4-compatible
-extra_configure_switches += --disable-libunwind-exceptions
 extra_configure_switches += --enable-__cxa_atexit
 extra_configure_switches += --enable-install-libiberty
 extra_configure_switches += --enable-shared
@@ -134,6 +147,12 @@ extra_configure_switches += --enable-threads=posix
 extra_configure_switches += --enable-lto
 extra_configure_switches += --enable-c99
 extra_configure_switches += --enable-long-long
+
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC))
+extra_configure_switches += --with-system-libunwind
+else
+extra_configure_switches += --disable-libunwind-exceptions
+endif
 
 extra_configure_switches += --with-system-zlib
 extra_configure_switches += --with-mpc=$(TARGET_DEST_DIR)/usr
@@ -183,7 +202,7 @@ extra_configure_switches += --with-float=hard
 extra_configure_switches += --with-abi=aapcs-linux
 endif
 
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S805_GLIBC))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S8XX_GLIBC))
 extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
 extra_configure_switches += '--with-bugurl=$(BUG_URL)'
 extra_configure_switches += --with-arch=armv7-a
@@ -191,6 +210,16 @@ extra_configure_switches += --with-tune=cortex-a5
 extra_configure_switches += --with-fpu=neon
 extra_configure_switches += --with-float=hard
 extra_configure_switches += --with-abi=aapcs-linux
+endif
+
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC))
+extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
+extra_configure_switches += '--with-bugurl=$(BUG_URL)'
+extra_configure_switches += --with-arch=armv8-a
+extra_configure_switches += --with-cpu=cortex-a53
+extra_configure_switches += --with-abi=lp64
+extra_configure_switches += --enable-fix-cortex-a53-835769
+extra_configure_switches += --enable-fix-cortex-a53-843419
 endif
 
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_IMX6_GLIBC))
@@ -438,7 +467,7 @@ ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
 	   target_rpath="/lib/../lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUFFIX)" ; \
 	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
 	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
-	     if [ -n "$$rpath" ] ; then \
+	     if echo "$$rpath" | grep -q "$(TOOLCHAIN_PATH)" ; then \
 	       $(CHRPATH) -r $${target_rpath} $$file 1> /dev/null 2> /dev/null ; \
 	     fi ; \
 	   done ; \
@@ -447,7 +476,7 @@ ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
 	   target_rpath="/lib/../lib$(MULTILIB_X86_32_SUFFIX):/usr/lib/../lib$(MULTILIB_X86_32_SUFFIX)" ; \
 	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
 	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
-	     if [ -n "$$rpath" ] ; then \
+	     if echo "$$rpath" | grep -q "$(TOOLCHAIN_PATH)" ; then \
 	       $(CHRPATH) -r $${target_rpath} $$file 1> /dev/null 2> /dev/null ; \
 	     fi ; \
 	   done ; \
@@ -457,7 +486,7 @@ else
 	   target_rpath="/lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)" ; \
 	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
 	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
-	     if [ -n "$$rpath" ] ; then \
+	     if echo "$$rpath" | grep -q "$(TOOLCHAIN_PATH)" ; then \
 	       $(CHRPATH) -r $${target_rpath} $$file 1> /dev/null 2> /dev/null ; \
 	     fi ; \
 	   done ; \
@@ -485,4 +514,4 @@ $(pkg_archive): $(install_target) $(GCC_DEV_PKG_DESCRIPTION_FILE) $(GCC_DEV_PKG_
 	 echo "short_description=\"$(GCC_DEV_PKG_SHORT_DESCRIPTION)\"" >> $(GCC_DEV_PKG)/.PKGINFO ; \
 	 echo "url=$(GCC_DEV_PKG_URL)"                                 >> $(GCC_DEV_PKG)/.PKGINFO ; \
 	 echo "license=$(GCC_DEV_PKG_LICENSE)"                         >> $(GCC_DEV_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GCC_DEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GCC_DEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -196,4 +196,4 @@ $(pkg_archive): $(install_target) $(GAMIN32_PKG_DESCRIPTION_FILE) $(GAMIN32_PKG_
 	 echo "short_description=\"$(GAMIN32_PKG_SHORT_DESCRIPTION)\"" >> $(GAMIN32_PKG)/.PKGINFO ; \
 	 echo "url=$(GAMIN32_PKG_URL)"                                 >> $(GAMIN32_PKG)/.PKGINFO ; \
 	 echo "license=$(GAMIN32_PKG_LICENSE)"                         >> $(GAMIN32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GAMIN32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GAMIN32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

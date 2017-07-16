@@ -212,4 +212,4 @@ $(pkg_archive): $(install_target) $(PERL_32_PKG_DESCRIPTION_FILE) $(PERL_32_PKG_
 	 echo "short_description=\"$(PERL_32_PKG_SHORT_DESCRIPTION)\"" >> $(PERL_32_PKG)/.PKGINFO ; \
 	 echo "url=$(PERL_32_PKG_URL)"                                 >> $(PERL_32_PKG)/.PKGINFO ; \
 	 echo "license=$(PERL_32_PKG_LICENSE)"                         >> $(PERL_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(PERL_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PERL_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

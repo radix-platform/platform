@@ -17,6 +17,7 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 patches     = $(CURDIR)/patches/eudev-3.1.5-ids-pl.patch
 patches    += $(CURDIR)/patches/eudev-3.1.5-cdrom-id.patch
 patches    += $(CURDIR)/patches/eudev-3.1.5-mips.patch
+patches    += $(CURDIR)/patches/eudev-3.1.5-keyboard-layout.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -51,9 +52,10 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-3.1.5-ids-pl-patch   ; ./create.patch.sh ) ; \
-	 ( cd create-3.1.5-cdrom-id-patch ; ./create.patch.sh ) ; \
-	 ( cd create-3.1.5-mips-patch     ; ./create.patch.sh ) ; \
+	 ( cd create-3.1.5-ids-pl-patch          ; ./create.patch.sh ) ; \
+	 ( cd create-3.1.5-cdrom-id-patch        ; ./create.patch.sh ) ; \
+	 ( cd create-3.1.5-mips-patch            ; ./create.patch.sh ) ; \
+	 ( cd create-3.1.5-keyboard-layout-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

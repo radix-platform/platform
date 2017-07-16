@@ -1,0 +1,5 @@
+
+../../../../sources/U-Boot/Amlogic/S9XX/patches/u-boot-aml-2015.01-20170107-fw-cross.patch     -p0
+../../../../sources/U-Boot/Amlogic/S9XX/patches/u-boot-aml-2015.01-20170107-bmp32.patch        -p0
+../../../../sources/U-Boot/Amlogic/S9XX/patches/u-boot-aml-2015.01-20170107-a95x-mmcboot.patch -p0
+../../../../sources/U-Boot/Amlogic/S9XX/patches/u-boot-aml-2015.01-20170107-partitions.patch   -p0

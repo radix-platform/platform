@@ -43,7 +43,7 @@ REQUIRES          += libs/gst-plugins-base/1.8.2-x86_32
 
 REQUIRES          += app/sqlite/3.12.2.0-x86_32
 REQUIRES          += app/postgresql/9.6.0-x86_32
-REQUIRES          += app/mariadb/10.0.25-x86_32
+REQUIRES          += app/mariadb/10.0.30-x86_32
 REQUIRES          += libs/libiodbc/3.52.10-x86_32
 
 REQUIRES          += libs/botan/1.10.13-x86_32
@@ -618,4 +618,4 @@ $(pkg_archive): $(install_target) $(QT5_32_PKG_DESCRIPTION_FILE) $(QT5_32_PKG_IN
 	 echo "short_description=\"$(QT5_32_PKG_SHORT_DESCRIPTION)\"" >> $(QT5_32_PKG)/.PKGINFO ; \
 	 echo "url=$(QT5_32_PKG_URL)"                                 >> $(QT5_32_PKG)/.PKGINFO ; \
 	 echo "license=$(QT5_32_PKG_LICENSE)"                         >> $(QT5_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(QT5_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(QT5_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

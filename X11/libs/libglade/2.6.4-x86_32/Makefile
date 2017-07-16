@@ -169,4 +169,4 @@ $(pkg_archive): $(install_target) $(LIBGLADE_32_PKG_DESCRIPTION_FILE) $(LIBGLADE
 	 echo "short_description=\"$(LIBGLADE_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBGLADE_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBGLADE_32_PKG_URL)"                                 >> $(LIBGLADE_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBGLADE_32_PKG_LICENSE)"                         >> $(LIBGLADE_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBGLADE_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBGLADE_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -189,4 +189,4 @@ $(pkg_archive): $(install_target) $(GC_32_PKG_DESCRIPTION_FILE) $(GC_32_PKG_INST
 	 echo "short_description=\"$(GC_32_PKG_SHORT_DESCRIPTION)\"" >> $(GC_32_PKG)/.PKGINFO ; \
 	 echo "url=$(GC_32_PKG_URL)"                                 >> $(GC_32_PKG)/.PKGINFO ; \
 	 echo "license=$(GC_32_PKG_LICENSE)"                         >> $(GC_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GC_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GC_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

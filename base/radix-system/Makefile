@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -31,7 +38,7 @@ scripts     = $(CURDIR)/scripts
 PKG_GROUP = base
 
 SYSINIT_BIN_PKG_NAME                = radix-system
-SYSINIT_BIN_PKG_VERSION             = 1.2.1
+SYSINIT_BIN_PKG_VERSION             = 1.2.2
 SYSINIT_BIN_PKG_ARCH                = $(TOOLCHAIN)
 SYSINIT_BIN_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 SYSINIT_BIN_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -70,6 +77,15 @@ NOCLEAR_FIRST_TTY =
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
 NOCLEAR_FIRST_TTY = --noclear
 endif
+
+ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
+FB_BPP = 24
+else
+FB_BPP = 32
+endif
+
 
 $(build):
 	@mkdir -p $(SYSINIT_BIN_PKG)/dev/{cgroup,pts,shm}
@@ -112,8 +128,16 @@ $(build):
 	   mv rc.keymap   rc.keymap.new  ; \
 	   mv rc.modules  rc.modules.new ; \
 	 )
-ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXQ)),)
-	@cat $(scripts)/rc.mesonfb >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.fbset.new
+ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXV)),)
+	@cat $(scripts)/rc.meson8fb >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.fbset.new
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
+	@cat $(scripts)/rc.meson64fb >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.fbset.new
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_ODROID_C2)),)
+	@cat $(scripts)/rc.odroidc2 >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.fbset.new
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
 	@echo "# Ethernet:"                    >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
@@ -148,6 +172,10 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
 	@echo "# PowerVR:"                     >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
 	@echo "/sbin/modprobe bc_example"      >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
 endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_BT1)),)
+	@echo "# HW Random:"                   >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
+	@echo "/sbin/modprobe rng-core"        >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
+endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
 	@cat $(modprobes)/modprobe.$(HARDWARE) >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
 endif
@@ -159,6 +187,12 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_M201)),)
 	@echo ""                               >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
 	@echo "# Additional stuff:"            >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
 	@echo "/sbin/modprobe udl"             >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_KHADAS_VIM) \
+                            $(HARDWARE_ENYBOX_X2)),)
+	@echo "# Wi-Fi/Bluetooth:"             >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
+	@echo "/sbin/modprobe dhd"             >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
+	@echo "/sbin/modprobe bcmdhd"          >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
 endif
 	@chmod a+x $(SYSINIT_BIN_PKG)/etc/rc.d/rc.{fbset.new,font.new,gpm.new,keymap.new,modules.new}
 	# ======= etc/inittab =======
@@ -173,10 +207,11 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB3X)),)
 	@echo "s1:12345:respawn:/sbin/agetty -L ttyS0 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_M201)),)
-	@echo "s1:12345:respawn:/sbin/agetty -L ttyS0 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
-endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_MXQ)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXV)         \
+                            $(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                                             $(HARDWARE_ODROID_C2)   \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
 	@echo "s1:12345:respawn:/sbin/agetty -L ttyS0 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
@@ -189,6 +224,9 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM)),)
 	@echo "s1:12345:respawn:/sbin/agetty -L ttyS2 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_DRA7XXEVM)),)
+	@echo "s1:12345:respawn:/sbin/agetty -L ttyS0 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_BT1)),)
 	@echo "s1:12345:respawn:/sbin/agetty -L ttyS0 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
 endif
 	@echo ""                                                    >> $(SYSINIT_BIN_PKG)/etc/inittab.new
@@ -214,7 +252,8 @@ endif
 	@chmod a+x $(SYSINIT_BIN_PKG)/etc/rc.d/rc.{4.new,6.new,K.new,M.new,S.new}
 	# ======= etc/profile.d =======
 	@cat $(source_etc)/X11/xorg.conf.fbdev.in | \
-	     sed 's,@HARDWARE_SPEC@,$(HW_SPEC),'  > $(SYSINIT_BIN_PKG)/etc/X11/xorg.conf.fbdev
+	     sed 's,@HARDWARE_SPEC@,$(HW_SPEC),'  | \
+	     sed 's,@DEFAULT_FB_BPP@,$(FB_BPP),'  > $(SYSINIT_BIN_PKG)/etc/X11/xorg.conf.fbdev
 	@cat $(source_etc)/HOSTNAME.in | \
 	     sed 's,@HARDWARE@,$(HARDWARE),' > $(SYSINIT_BIN_PKG)/etc/HOSTNAME.new
 	@cat $(source_etc)/hosts.in | \
@@ -257,7 +296,7 @@ $(pkg_archive): $(build) $(SYSINIT_BIN_PKG_DESCRIPTION_FILE) $(SYSINIT_BIN_PKG_I
 	 echo "short_description=\"$(SYSINIT_BIN_PKG_SHORT_DESCRIPTION)\"" >> $(SYSINIT_BIN_PKG)/.PKGINFO ; \
 	 echo "url=$(SYSINIT_BIN_PKG_URL)"                                 >> $(SYSINIT_BIN_PKG)/.PKGINFO ; \
 	 echo "license=$(SYSINIT_BIN_PKG_LICENSE)"                         >> $(SYSINIT_BIN_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(SYSINIT_BIN_PKG)  && \
-	                    chown -R 0:0 .       && \
-	                    chown -R 0:22 var/log/wtmp var/run/utmp && \
-	                    $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SYSINIT_BIN_PKG)  && \
+	                  chown -R 0:0 .       && \
+	                  chown -R 0:22 var/log/wtmp var/run/utmp && \
+	                  $(MAKE_PACKAGE) --linkadd yes .."

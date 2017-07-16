@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -23,7 +30,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/m4
 
-REQUIRES           = libs/glibc/2.23
+REQUIRES           = libs/glibc/2.24
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -171,4 +178,4 @@ $(pkg_archive): $(install_target) $(M4_PKG_DESCRIPTION_FILE) $(M4_PKG_INSTALL_SC
 	 echo "short_description=\"$(M4_PKG_SHORT_DESCRIPTION)\"" >> $(M4_PKG)/.PKGINFO ; \
 	 echo "url=$(M4_PKG_URL)"                                 >> $(M4_PKG)/.PKGINFO ; \
 	 echo "license=$(M4_PKG_LICENSE)"                         >> $(M4_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(M4_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(M4_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

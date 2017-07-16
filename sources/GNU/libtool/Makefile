@@ -7,7 +7,7 @@ include ../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/GNU/libtool
 
-versions    = 2.4.2
+versions    = 2.4.2 2.4.6
 pkgname     = libtool
 suffix      = tar.xz
 
@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/libtool-2.4.2-no-moved-warning.patch
+patches    += $(CURDIR)/patches/libtool-2.4.6-no-moved-warning.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,6 +51,7 @@ $(sha1s): $(tarballs)
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-2.4.2-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2.4.6-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

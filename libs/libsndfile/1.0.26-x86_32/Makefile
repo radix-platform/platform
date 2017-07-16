@@ -187,4 +187,4 @@ $(pkg_archive): $(install_target) $(LIBSNDFILE_32_PKG_DESCRIPTION_FILE) $(LIBSND
 	 echo "short_description=\"$(LIBSNDFILE_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBSNDFILE_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBSNDFILE_32_PKG_URL)"                                 >> $(LIBSNDFILE_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBSNDFILE_32_PKG_LICENSE)"                         >> $(LIBSNDFILE_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBSNDFILE_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBSNDFILE_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

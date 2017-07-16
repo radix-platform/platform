@@ -152,4 +152,4 @@ $(pkg_archive): $(install_target) $(XZ32_PKG_DESCRIPTION_FILE) $(XZ32_PKG_INSTAL
 	 echo "short_description=\"$(XZ32_PKG_SHORT_DESCRIPTION)\"" >> $(XZ32_PKG)/.PKGINFO ; \
 	 echo "url=$(XZ32_PKG_URL)"                                 >> $(XZ32_PKG)/.PKGINFO ; \
 	 echo "license=$(XZ32_PKG_LICENSE)"                         >> $(XZ32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(XZ32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(XZ32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -27,7 +34,7 @@ REQUIRES           = libs/libexif/0.6.21
 REQUIRES          += libs/libgd/2.2.2
 REQUIRES          += libs/libusb/1.0.20
 REQUIRES          += libs/libxml2/2.9.3
-REQUIRES          += dev/libtool/2.4.2
+REQUIRES          += dev/libtool/2.4.6
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -306,4 +313,4 @@ $(pkg_archive): $(install_target) $(GPHOTO2_PKG_DESCRIPTION_FILE) $(GPHOTO2_PKG_
 	 echo "short_description=\"$(GPHOTO2_PKG_SHORT_DESCRIPTION)\"" >> $(GPHOTO2_PKG)/.PKGINFO ; \
 	 echo "url=$(GPHOTO2_PKG_URL)"                                 >> $(GPHOTO2_PKG)/.PKGINFO ; \
 	 echo "license=$(GPHOTO2_PKG_LICENSE)"                         >> $(GPHOTO2_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GPHOTO2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GPHOTO2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

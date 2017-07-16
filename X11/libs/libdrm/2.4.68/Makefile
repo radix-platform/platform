@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -27,14 +34,15 @@ ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/5.3.0
 else
 ifneq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES           = libs/glibc/2.23
+REQUIRES           = libs/glibc/2.24
 else
-REQUIRES           = libs/glibc/2.23-x86_32
+REQUIRES           = libs/glibc/2.24-x86_32
 endif
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64) $(HARDWARE_PC32)),)
 REQUIRES          += X11/X.org/lib/libpciaccess/0.13.4
 endif
+REQUIRES          += X11/X.org/xcb/libpthread-stubs/0.3
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -179,6 +187,7 @@ $(install_target): $(build_target)
 	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(LIBDRM_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libdrm.la          \
+	                                    libdrm_amdgpu.la   \
 	                                    libdrm_exynos.la   \
 	                                    libdrm_nouveau.la  \
 	                                    libdrm_omap.la     \
@@ -190,17 +199,24 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64) $(HARDWARE_PC32)),)
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libdrm_intel.la ; \
 	 )
 endif
+ifeq ($(filter $(HARDWARE),$(HARDWARE_PC64) $(HARDWARE_PC32) $(HARDWARE_CI20) $(HARDWARE_BT1)),)
+	@( cd $(LIBDRM_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libdrm_freedreno.la ; \
+	 )
+endif
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(LIBDRM_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libdrm.la          \
+	                                            libdrm_amdgpu.la   \
 	                                            libdrm_exynos.la   \
 	                                            libdrm_nouveau.la  \
 	                                            libdrm_omap.la     \
 	                                            libdrm_radeon.la   \
 	                                            libkms.la        ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libdrm.la          \
+	                                              libdrm_amdgpu.la   \
 	                                              libdrm_exynos.la   \
 	                                              libdrm_nouveau.la  \
 	                                              libdrm_omap.la     \
@@ -213,9 +229,16 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64) $(HARDWARE_PC32)),)
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libdrm_intel.la ; \
 	 )
 endif
+ifeq ($(filter $(HARDWARE),$(HARDWARE_PC64) $(HARDWARE_PC32) $(HARDWARE_CI20) $(HARDWARE_BT1)),)
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libdrm_freedreno.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libdrm_freedreno.la ; \
+	 )
+endif
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libdrm.pc          \
+	                                            libdrm_amdgpu.pc   \
 	                                            libdrm_exynos.pc   \
 	                                            libdrm_nouveau.pc  \
 	                                            libdrm_omap.pc     \
@@ -225,6 +248,11 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64) $(HARDWARE_PC32)),)
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libdrm_intel.pc ; \
+	 )
+endif
+ifeq ($(filter $(HARDWARE),$(HARDWARE_PC64) $(HARDWARE_PC32) $(HARDWARE_CI20) $(HARDWARE_BT1)),)
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libdrm_freedreno.pc libdrm_vc4.pc ; \
 	 )
 endif
 	# ======= Strip binaries =======
@@ -254,4 +282,4 @@ $(pkg_archive): $(install_target) $(LIBDRM_PKG_DESCRIPTION_FILE) $(LIBDRM_PKG_IN
 	 echo "short_description=\"$(LIBDRM_PKG_SHORT_DESCRIPTION)\"" >> $(LIBDRM_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBDRM_PKG_URL)"                                 >> $(LIBDRM_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBDRM_PKG_LICENSE)"                         >> $(LIBDRM_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBDRM_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBDRM_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

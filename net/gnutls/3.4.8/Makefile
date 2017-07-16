@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -92,6 +99,8 @@ include ../../../build-system/core.mk
 env_sysroot  = DESTDIR=$(GNUTLS_PKG)
 
 
+ENABLE_GTK_DOCUMENTATION  = yes
+
 extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
@@ -103,8 +112,10 @@ extra_configure_switches += --enable-shared=yes
 extra_configure_switches += --disable-rpath
 extra_configure_switches += --enable-guile
 
+ifeq ($(ENABLE_GTK_DOCUMENTATION),yes)
 extra_configure_switches += --enable-gtk-doc
 extra_configure_switches += --enable-gtk-doc-html
+endif
 
 # Тhе road to hellis paved with good intentions:
 extra_configure_switches += --without-libnettle-prefix
@@ -174,8 +185,15 @@ $(install_target): $(build_target)
 	@( cd $(SRC_DIR) ; \
 	   cp -a AUTHORS COPYING* INSTALL NEWS README THANKS doc/gnutls-guile.pdf doc/gnutls.pdf \
 	         $(GNUTLS_PKG)/usr/share/doc/$(src_dir_name) ; \
-	   ln -sf ../../gtk-doc/html/gnutls $(GNUTLS_PKG)/usr/share/doc/$(src_dir_name)/html ; \
 	 )
+ifneq ($(ENABLE_GTK_DOCUMENTATION),yes)
+	@mkdir -p $(GNUTLS_PKG)/usr/share/gtk-doc/html/gnutls
+	@( cd $(SRC_DIR)/doc/reference/html ; \
+	   cp -a *.html *.css *.png *.devhelp2 \
+	         $(GNUTLS_PKG)/usr/share/gtk-doc/html/gnutls ; \
+	 )
+endif
+	@ln -sf ../../gtk-doc/html/gnutls $(GNUTLS_PKG)/usr/share/doc/$(src_dir_name)/html
 	@( cd $(SRC_DIR) ; \
 	   if [ -r ChangeLog ]; then \
 	     DOCSDIR=`echo $(GNUTLS_PKG)/usr/share/doc/$(src_dir_name)` ; \
@@ -257,4 +275,4 @@ $(pkg_archive): $(install_target) $(GNUTLS_PKG_DESCRIPTION_FILE) $(GNUTLS_PKG_IN
 	 echo "short_description=\"$(GNUTLS_PKG_SHORT_DESCRIPTION)\"" >> $(GNUTLS_PKG)/.PKGINFO ; \
 	 echo "url=$(GNUTLS_PKG_URL)"                                 >> $(GNUTLS_PKG)/.PKGINFO ; \
 	 echo "license=$(GNUTLS_PKG_LICENSE)"                         >> $(GNUTLS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GNUTLS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GNUTLS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

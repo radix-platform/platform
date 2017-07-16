@@ -220,4 +220,4 @@ $(pkg_archive): $(install_target) $(FFTW_32_PKG_DESCRIPTION_FILE) $(FFTW_32_PKG_
 	 echo "short_description=\"$(FFTW_32_PKG_SHORT_DESCRIPTION)\"" >> $(FFTW_32_PKG)/.PKGINFO ; \
 	 echo "url=$(FFTW_32_PKG_URL)"                                 >> $(FFTW_32_PKG)/.PKGINFO ; \
 	 echo "license=$(FFTW_32_PKG_LICENSE)"                         >> $(FFTW_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(FFTW_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(FFTW_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

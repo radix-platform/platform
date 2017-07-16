@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/m/VideoLAN/x264
 
 REQUIRES           = libs/libx264/0.148.20160920
-REQUIRES          += libs/glibc/2.23-x86_32
+REQUIRES          += libs/glibc/2.24-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -165,4 +165,4 @@ $(pkg_archive): $(install_target) $(LIBX264_32_PKG_DESCRIPTION_FILE) $(LIBX264_3
 	 echo "short_description=\"$(LIBX264_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBX264_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBX264_32_PKG_URL)"                                 >> $(LIBX264_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBX264_32_PKG_LICENSE)"                         >> $(LIBX264_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBX264_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBX264_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

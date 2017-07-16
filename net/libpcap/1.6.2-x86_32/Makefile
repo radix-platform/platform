@@ -146,4 +146,4 @@ $(pkg_archive): $(install_target) $(LIBPCAP_32_PKG_DESCRIPTION_FILE) $(LIBPCAP_3
 	 echo "short_description=\"$(LIBPCAP_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBPCAP_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBPCAP_32_PKG_URL)"                                 >> $(LIBPCAP_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBPCAP_32_PKG_LICENSE)"                         >> $(LIBPCAP_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBPCAP_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBPCAP_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

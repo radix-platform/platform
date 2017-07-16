@@ -171,4 +171,4 @@ $(pkg_archive): $(install_target) $(LVM2_32_PKG_DESCRIPTION_FILE) $(LVM2_32_PKG_
 	 echo "short_description=\"$(LVM2_32_PKG_SHORT_DESCRIPTION)\"" >> $(LVM2_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LVM2_32_PKG_URL)"                                 >> $(LVM2_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LVM2_32_PKG_LICENSE)"                         >> $(LVM2_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LVM2_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LVM2_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

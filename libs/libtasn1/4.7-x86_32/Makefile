@@ -155,4 +155,4 @@ $(pkg_archive): $(install_target) $(TASN32_PKG_DESCRIPTION_FILE) $(TASN32_PKG_IN
 	 echo "short_description=\"$(TASN32_PKG_SHORT_DESCRIPTION)\"" >> $(TASN32_PKG)/.PKGINFO ; \
 	 echo "url=$(TASN32_PKG_URL)"                                 >> $(TASN32_PKG)/.PKGINFO ; \
 	 echo "license=$(TASN32_PKG_LICENSE)"                         >> $(TASN32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(TASN32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(TASN32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

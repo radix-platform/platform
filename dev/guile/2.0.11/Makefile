@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -26,8 +33,8 @@ SOURCE_REQUIRES    = sources/GNU/guile
 REQUIRES           = libs/libffi/3.2.1
 REQUIRES          += libs/gmp/6.1.0
 REQUIRES          += libs/readline/6.3
-REQUIRES          += dev/libtool/2.4.2
-REQUIRES          += libs/libunistring/0.9.3
+REQUIRES          += dev/libtool/2.4.6
+REQUIRES          += libs/libunistring/0.9.6
 REQUIRES          += libs/gc/7.4.2
 
 # ======= __END_OF_REQUIRES__ =======
@@ -104,9 +111,12 @@ extra_configure_switches += --enable-static=yes
 extra_configure_switches += --enable-shared=yes
 
 # Тhе road to hellis paved with good intentions:
-extra_configure_switches += --without-libltdl-prefix
 extra_configure_switches += --without-libgmp-prefix
+extra_configure_switches += --without-libiconv-prefix
+extra_configure_switches += --without-libintl-prefix
+extra_configure_switches += --without-libltdl-prefix
 extra_configure_switches += --without-libreadline-prefix
+extra_configure_switches += --without-libunistring-prefix
 
 
 GUILE_LOAD_PATH    = ../../$(src_dir_name)/module
@@ -254,4 +264,4 @@ $(pkg_archive): $(install_target) $(GUILE_PKG_DESCRIPTION_FILE) $(GUILE_PKG_INST
 	 echo "short_description=\"$(GUILE_PKG_SHORT_DESCRIPTION)\"" >> $(GUILE_PKG)/.PKGINFO ; \
 	 echo "url=$(GUILE_PKG_URL)"                                 >> $(GUILE_PKG)/.PKGINFO ; \
 	 echo "license=$(GUILE_PKG_LICENSE)"                         >> $(GUILE_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GUILE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GUILE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

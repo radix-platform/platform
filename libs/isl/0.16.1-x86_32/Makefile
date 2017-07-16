@@ -165,4 +165,4 @@ $(pkg_archive): $(install_target) $(ISL_32_PKG_DESCRIPTION_FILE) $(ISL_32_PKG_IN
 	 echo "short_description=\"$(ISL_32_PKG_SHORT_DESCRIPTION)\"" >> $(ISL_32_PKG)/.PKGINFO ; \
 	 echo "url=$(ISL_32_PKG_URL)"                                 >> $(ISL_32_PKG)/.PKGINFO ; \
 	 echo "license=$(ISL_32_PKG_LICENSE)"                         >> $(ISL_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(ISL_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ISL_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

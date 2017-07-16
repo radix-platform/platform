@@ -151,4 +151,4 @@ $(pkg_archive): $(install_target) $(JEMALLOC_32_PKG_DESCRIPTION_FILE) $(JEMALLOC
 	 echo "short_description=\"$(JEMALLOC_32_PKG_SHORT_DESCRIPTION)\"" >> $(JEMALLOC_32_PKG)/.PKGINFO ; \
 	 echo "url=$(JEMALLOC_32_PKG_URL)"                                 >> $(JEMALLOC_32_PKG)/.PKGINFO ; \
 	 echo "license=$(JEMALLOC_32_PKG_LICENSE)"                         >> $(JEMALLOC_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(JEMALLOC_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(JEMALLOC_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

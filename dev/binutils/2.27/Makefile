@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -161,7 +168,7 @@ extra_configure_switches += --enable-plugins
 extra_configure_switches += --enable-targets=$(TARGET),arm-radix-linux-gnu
 endif
 
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S805_GLIBC))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S8XX_GLIBC))
 extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
 extra_configure_switches += '--with-bugurl=$(BUG_URL)'
 # experimental gold linker( DEFAULT_LD=ld.bfd ):
@@ -178,6 +185,23 @@ extra_configure_switches += --with-abi=aapcs-linux
 extra_configure_switches += --enable-threads
 extra_configure_switches += --enable-plugins
 extra_configure_switches += --enable-targets=$(TARGET),arm-radix-linux-gnu
+endif
+
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC))
+extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
+extra_configure_switches += '--with-bugurl=$(BUG_URL)'
+# experimental gold linker( DEFAULT_LD=ld.bfd ):
+extra_configure_switches += --enable-gold=yes
+extra_configure_switches += --enable-ld=default
+extra_configure_switches += --enable-werror=no
+# standard options:
+extra_configure_switches += --disable-multilib
+extra_configure_switches += --with-cpu=cortex-a53
+extra_configure_switches += --with-arch=armv8-a
+extra_configure_switches += --with-fpu=neon-fp-armv8
+extra_configure_switches += --enable-threads
+extra_configure_switches += --enable-plugins
+extra_configure_switches += --enable-targets=$(TARGET),aarch64-radix-linux-gnu
 endif
 
 ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_IMX6_GLIBC)),)
@@ -379,9 +403,12 @@ $(install_target): $(build_target)
 	   done \
 	 )
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
-	@mkdir -p $(BINUTILS_DEV_PKG)/usr/lib{32,64}
+	@mkdir -p $(BINUTILS_DEV_PKG)/usr/lib{$(MULTILIB_X86_32_SUFFIX),$(LIBSUFFIX)}
 	@ln -sf ../lib$(LIBSUFFIX) $(BINUTILS_DEV_PKG)/usr/$(TARGET)/lib64
 	@ln -sf ../lib$(MULTILIB_X86_32_SUFFIX) $(BINUTILS_DEV_PKG)/usr/$(TARGET)/lib32
+endif
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC))
+	@ln -sf ../lib$(LIBSUFFIX) $(BINUTILS_DEV_PKG)/usr/$(TARGET)/lib64
 endif
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(BINUTILS_DEV_PKG))
@@ -430,4 +457,4 @@ $(pkg_archive): $(install_target) $(BINUTILS_DEV_PKG_DESCRIPTION_FILE) $(BINUTIL
 	 echo "short_description=\"$(BINUTILS_DEV_PKG_SHORT_DESCRIPTION)\"" >> $(BINUTILS_DEV_PKG)/.PKGINFO ; \
 	 echo "url=$(BINUTILS_DEV_PKG_URL)"                                 >> $(BINUTILS_DEV_PKG)/.PKGINFO ; \
 	 echo "license=$(BINUTILS_DEV_PKG_LICENSE)"                         >> $(BINUTILS_DEV_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(BINUTILS_DEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(BINUTILS_DEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

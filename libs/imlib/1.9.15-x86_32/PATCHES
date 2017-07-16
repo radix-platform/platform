@@ -1,5 +1,6 @@
 
 ../../../sources/packages/l/imlib/patches/imlib-1.9.15-aclocal.patch       -p0
+../../../sources/packages/l/imlib/patches/imlib-1.9.15-automake.patch      -p0
 ../../../sources/packages/l/imlib/patches/imlib-1.9.15-gif.patch           -p0
 ../../../sources/packages/l/imlib/patches/imlib-1.9.15-mitshm-render.patch -p0
 ../../../sources/packages/l/imlib/patches/imlib-1.9.15-png15.patch         -p0

@@ -16,6 +16,7 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/faac-1.28-mpeg4ip.patch
 patches    += $(CURDIR)/patches/faac-1.28-mp4v2.patch
+patches    += $(CURDIR)/patches/faac-1.28-automake.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,8 +51,9 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-1.28-mpeg4ip-patch ; ./create.patch.sh ) ; \
-	 ( cd create-1.28-mp4v2-patch   ; ./create.patch.sh ) ; \
+	 ( cd create-1.28-mpeg4ip-patch  ; ./create.patch.sh ) ; \
+	 ( cd create-1.28-mp4v2-patch    ; ./create.patch.sh ) ; \
+	 ( cd create-1.28-automake-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

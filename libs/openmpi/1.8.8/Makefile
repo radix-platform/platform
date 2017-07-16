@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -27,7 +34,7 @@ ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/5.3.0
 endif
 REQUIRES          += libs/hwloc/1.11.3
-REQUIRES          += dev/libtool/2.4.2
+REQUIRES          += dev/libtool/2.4.6
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -100,6 +107,7 @@ extra_configure_switches += --with-threads=posix
 extra_configure_switches += --enable-smp-locks
 extra_configure_switches += --enable-pretty-print-stacktrace
 extra_configure_switches += --disable-mpi-fortran
+extra_configure_switches += --enable-java=no
 extra_configure_switches += --disable-memchecker
 extra_configure_switches += --without-valgrind
 extra_configure_switches += --without-slurm
@@ -182,16 +190,15 @@ $(install_target): $(build_target)
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libmpi.la libmpi_cxx.la                 \
 	                                    libompitrace.la libopen-pal.la          \
 	                                    libopen-rte.la libopen-trace-format.la  \
-	                                    liboshmem.la libotfaux.la               \
-	                                    libvt-hyb.la libvt-java.la              \
+	                                    liboshmem.la libotfaux.la libvt-hyb.la  \
 	                                    libvt-mpi-unify.la libvt-mpi.la         \
 	                                    libvt-mt.la libvt-pomp.la libvt.la    ; \
 	 )
 	@( cd $(OMPI_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s, -L$(CURDIR)/$(TARGET_BUILD_DIR).*\.libs,,g" libopen-trace-format.la libotfaux.la  \
-	                                                          libvt-hyb.la libvt-java.la            \
-	                                                          libvt-mpi-unify.la libvt-mpi.la       \
-	                                                          libvt-mt.la libvt-pomp.la libvt.la  ; \
+	   sed -i "s, -L$(CURDIR)/$(TARGET_BUILD_DIR).*\.libs,,g" libopen-trace-format.la              \
+	                                                          libotfaux.la libvt-hyb.la            \
+	                                                          libvt-mpi-unify.la libvt-mpi.la      \
+	                                                          libvt-mt.la libvt-pomp.la libvt.la ; \
 	 )
 	@( cd $(OMPI_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,$(TOOLCHAIN_PATH)/$(TARGET),/usr,g" libvt-hyb.la libvt-mpi-unify.la libvt-mpi.la ; \
@@ -206,15 +213,13 @@ $(install_target): $(build_target)
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libmpi.la libmpi_cxx.la                 \
 	                                            libompitrace.la libopen-pal.la          \
 	                                            libopen-rte.la libopen-trace-format.la  \
-	                                            liboshmem.la libotfaux.la               \
-	                                            libvt-hyb.la libvt-java.la              \
+	                                            liboshmem.la libotfaux.la libvt-hyb.la  \
 	                                            libvt-mpi-unify.la libvt-mpi.la         \
 	                                            libvt-mt.la libvt-pomp.la libvt.la    ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libmpi.la libmpi_cxx.la                 \
 	                                              libompitrace.la libopen-pal.la          \
 	                                              libopen-rte.la libopen-trace-format.la  \
-	                                              liboshmem.la libotfaux.la               \
-	                                              libvt-hyb.la libvt-java.la              \
+	                                              liboshmem.la libotfaux.la libvt-hyb.la  \
 	                                              libvt-mpi-unify.la libvt-mpi.la         \
 	                                              libvt-mt.la libvt-pomp.la libvt.la    ; \
 	 )
@@ -275,4 +280,4 @@ $(pkg_archive): $(install_target) $(OMPI_PKG_DESCRIPTION_FILE) $(OMPI_PKG_INSTAL
 	 echo "short_description=\"$(OMPI_PKG_SHORT_DESCRIPTION)\"" >> $(OMPI_PKG)/.PKGINFO ; \
 	 echo "url=$(OMPI_PKG_URL)"                                 >> $(OMPI_PKG)/.PKGINFO ; \
 	 echo "license=$(OMPI_PKG_LICENSE)"                         >> $(OMPI_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(OMPI_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(OMPI_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

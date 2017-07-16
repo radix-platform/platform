@@ -147,4 +147,4 @@ $(pkg_archive): $(install_target) $(OPENCORE_AMR_32_PKG_DESCRIPTION_FILE) $(OPEN
 	 echo "short_description=\"$(OPENCORE_AMR_32_PKG_SHORT_DESCRIPTION)\"" >> $(OPENCORE_AMR_32_PKG)/.PKGINFO ; \
 	 echo "url=$(OPENCORE_AMR_32_PKG_URL)"                                 >> $(OPENCORE_AMR_32_PKG)/.PKGINFO ; \
 	 echo "license=$(OPENCORE_AMR_32_PKG_LICENSE)"                         >> $(OPENCORE_AMR_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(OPENCORE_AMR_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(OPENCORE_AMR_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -157,4 +157,4 @@ $(pkg_archive): $(install_target) $(LIBART_32_PKG_DESCRIPTION_FILE) $(LIBART_32_
 	 echo "short_description=\"$(LIBART_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBART_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBART_32_PKG_URL)"                                 >> $(LIBART_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBART_32_PKG_LICENSE)"                         >> $(LIBART_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBART_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBART_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

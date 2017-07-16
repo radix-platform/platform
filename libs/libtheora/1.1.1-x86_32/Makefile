@@ -172,4 +172,4 @@ $(pkg_archive): $(install_target) $(LIBTHEORA_32_PKG_DESCRIPTION_FILE) $(LIBTHEO
 	 echo "short_description=\"$(LIBTHEORA_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBTHEORA_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBTHEORA_32_PKG_URL)"                                 >> $(LIBTHEORA_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBTHEORA_32_PKG_LICENSE)"                         >> $(LIBTHEORA_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBTHEORA_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBTHEORA_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

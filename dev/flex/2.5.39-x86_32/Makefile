@@ -149,4 +149,4 @@ $(pkg_archive): $(install_target) $(FLEX_32_PKG_DESCRIPTION_FILE) $(FLEX_32_PKG_
 	 echo "short_description=\"$(FLEX_32_PKG_SHORT_DESCRIPTION)\"" >> $(FLEX_32_PKG)/.PKGINFO ; \
 	 echo "url=$(FLEX_32_PKG_URL)"                                 >> $(FLEX_32_PKG)/.PKGINFO ; \
 	 echo "license=$(FLEX_32_PKG_LICENSE)"                         >> $(FLEX_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(FLEX_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(FLEX_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

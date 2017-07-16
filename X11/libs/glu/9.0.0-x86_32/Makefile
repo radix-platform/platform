@@ -166,4 +166,4 @@ $(pkg_archive): $(install_target) $(GLU_32_PKG_DESCRIPTION_FILE) $(GLU_32_PKG_IN
 	 echo "short_description=\"$(GLU_32_PKG_SHORT_DESCRIPTION)\"" >> $(GLU_32_PKG)/.PKGINFO ; \
 	 echo "url=$(GLU_32_PKG_URL)"                                 >> $(GLU_32_PKG)/.PKGINFO ; \
 	 echo "license=$(GLU_32_PKG_LICENSE)"                         >> $(GLU_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GLU_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GLU_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

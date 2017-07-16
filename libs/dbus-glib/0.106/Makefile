@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -160,9 +167,14 @@ $(install_target): $(build_target)
 	   cp -a AUTHORS COPYING HACKING INSTALL NEWS README \
 	         $(DBUS_GLIB_PKG)/usr/share/doc/$(src_dir_name) ; \
 	 )
-ifeq ($(ENABLE_GTK_DOCUMENTATION),yes)
-	@ln -sf ../../gtk-doc/html/dbus-glib $(DBUS_GLIB_PKG)/usr/share/doc/$(src_dir_name)/html
+ifneq ($(ENABLE_GTK_DOCUMENTATION),yes)
+	@mkdir -p $(DBUS_GLIB_PKG)/usr/share/gtk-doc/html/dbus-glib
+	@( cd $(SRC_DIR)/doc/reference/html ; \
+	   cp -a *.html *.css *.png *.devhelp2 \
+	         $(DBUS_GLIB_PKG)/usr/share/gtk-doc/html/dbus-glib ; \
+	 )
 endif
+	@ln -sf ../../gtk-doc/html/dbus-glib $(DBUS_GLIB_PKG)/usr/share/doc/$(src_dir_name)/html
 	@( cd $(SRC_DIR) ; \
 	   if [ -r ChangeLog ]; then \
 	     DOCSDIR=`echo $(DBUS_GLIB_PKG)/usr/share/doc/$(src_dir_name)` ; \
@@ -232,4 +244,4 @@ $(pkg_archive): $(install_target) $(DBUS_GLIB_PKG_DESCRIPTION_FILE) $(DBUS_GLIB_
 	 echo "short_description=\"$(DBUS_GLIB_PKG_SHORT_DESCRIPTION)\"" >> $(DBUS_GLIB_PKG)/.PKGINFO ; \
 	 echo "url=$(DBUS_GLIB_PKG_URL)"                                 >> $(DBUS_GLIB_PKG)/.PKGINFO ; \
 	 echo "license=$(DBUS_GLIB_PKG_LICENSE)"                         >> $(DBUS_GLIB_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(DBUS_GLIB_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(DBUS_GLIB_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

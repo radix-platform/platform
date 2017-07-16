@@ -1,2 +1,3 @@
 
 ../../../sources/packages/x/gstreamer/patches/gstreamer-0.10.36-remove-osx-test.patch -p0
+../../../sources/packages/x/gstreamer/patches/gstreamer-0.10.36-automake.patch        -p0

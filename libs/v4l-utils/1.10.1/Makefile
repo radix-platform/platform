@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -29,7 +36,7 @@ endif
 REQUIRES          += app/sysfsutils/2.1.0
 REQUIRES          += libs/eudev/3.1.5
 REQUIRES          += libs/libjpeg-turbo/1.4.2
-REQUIRES          += X11/libs/qt5/5.4.2
+REQUIRES          += X11/libs/qt5/5.7.1
 REQUIRES          += X11/libs/glu/9.0.0
 
 # ======= __END_OF_REQUIRES__ =======
@@ -102,7 +109,12 @@ extra_configure_switches += --disable-rpath
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --with-udevdir=/lib/udev
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXQ)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20)        \
+                            $(HARDWARE_M201) $(HARDWARE_MXV)         \
+                            $(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                                             $(HARDWARE_ODROID_C2)   \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
 #
 # Graphical Qt v4l2 control panel:
 # ===============================
@@ -268,4 +280,4 @@ $(pkg_archive): $(install_target) $(V4LUTILS_PKG_DESCRIPTION_FILE) $(V4LUTILS_PK
 	 echo "short_description=\"$(V4LUTILS_PKG_SHORT_DESCRIPTION)\"" >> $(V4LUTILS_PKG)/.PKGINFO ; \
 	 echo "url=$(V4LUTILS_PKG_URL)"                                 >> $(V4LUTILS_PKG)/.PKGINFO ; \
 	 echo "license=$(V4LUTILS_PKG_LICENSE)"                         >> $(V4LUTILS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(V4LUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(V4LUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

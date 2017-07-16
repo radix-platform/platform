@@ -1,0 +1,4 @@
+
+../../../../sources/packages/x/qt5/patches/qt5-5.7.1-arm-neon-thumb.patch  -p0
+../../../../sources/packages/x/qt5/patches/qt5-5.7.1-ffmpeg-no-thumb.patch -p0
+../../../../sources/packages/x/qt5/patches/qt5-5.7.1-ffmpeg-no-armv6.patch -p0

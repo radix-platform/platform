@@ -1,2 +1,3 @@
 
-../../../sources/packages/l/libcap/patches/libcap-2.25.patch -p0
+../../../sources/packages/l/libcap/patches/libcap-2.25.patch              -p0
+../../../sources/packages/l/libcap/patches/libcap-2.25-gperf-output.patch -p0

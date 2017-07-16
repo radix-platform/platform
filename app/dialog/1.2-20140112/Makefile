@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -24,7 +31,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/dialog
 
 REQUIRES           = libs/ncurses/6.0
-REQUIRES          += dev/libtool/2.4.2
+REQUIRES          += dev/libtool/2.4.6
 REQUIRES          += app/ctags/5.8
 
 # ======= __END_OF_REQUIRES__ =======
@@ -100,6 +107,10 @@ extra_configure_switches += --disable-rpath
 extra_configure_switches += --disable-rpath-hack
 extra_configure_switches += --with-libtool
 
+
+extra_environment  = NCURSES_CONFIG=$(TARGET_DEST_DIR)/usr/bin/ncursesw6-config
+
+
 ####### Dependencies
 
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
@@ -110,14 +121,13 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 $(build_target): $(src_done)
 	@mkdir -p $(build_dir)
 	@cd $(build_dir) && \
-	  $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
+	  $(BUILD_ENVIRONMENT) $(extra_environment) ../$(src_dir_name)/configure \
 	  --prefix=/usr               \
 	  --build=$(BUILD)            \
 	  --host=$(TARGET)            \
 	  $(extra_configure_switches)
 	@cp -a $(TARGET_DEST_DIR)/usr/bin/libtool $(build_dir)
 	@( cd $(build_dir) ; \
-	   sed -i '/^LIBS	.*=/c LIBS		= $(LDFLAGS) -lncursesw -lm' makefile ; \
 	   sed -i '/^LIBTOOL	.*=/c LIBTOOL		= ./libtool --tag=CC' makefile ; \
 	 )
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
@@ -127,7 +137,6 @@ $(install_target): $(build_target)
 	@mkdir -p $(DIALOG_PKG)/{bin,etc}
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@( cd $(DIALOG_PKG)/usr/bin ; \
-	   sed -i 's,-L/usr/lib64 ,,' dialog-config ; \
 	   mv dialog ../../bin       ; \
 	   ln -sf ../../bin/dialog . ; \
 	 )
@@ -167,6 +176,10 @@ $(install_target): $(build_target)
 	   chmod 0755 libdialog.la libdialog.so.??.* ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libdialog.la \
 	 )
+	# ======= remove target path from dialog-config script =======
+	@( cd $(DIALOG_PKG)/usr/bin ; \
+	   sed -i "s, -L$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX),,g" dialog-config \
+	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(DIALOG_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
@@ -175,7 +188,8 @@ $(install_target): $(build_target)
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libdialog.la \
 	 )
 	@( cd $(TARGET_DEST_DIR)/usr/bin ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" dialog-config ; \
+	   sed -i 's,^prefix="/usr,prefix="$(TARGET_DEST_DIR)/usr,g' dialog-config ; \
+	   sed -i 's,^libdir="/usr,libdir="$(TARGET_DEST_DIR)/usr,g' dialog-config ; \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(DIALOG_PKG) ; \
@@ -204,5 +218,5 @@ $(pkg_archive): $(install_target) $(DIALOG_PKG_DESCRIPTION_FILE) $(DIALOG_PKG_IN
 	 echo "short_description=\"$(DIALOG_PKG_SHORT_DESCRIPTION)\"" >> $(DIALOG_PKG)/.PKGINFO ; \
 	 echo "url=$(DIALOG_PKG_URL)"                                 >> $(DIALOG_PKG)/.PKGINFO ; \
 	 echo "license=$(DIALOG_PKG_LICENSE)"                         >> $(DIALOG_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(DIALOG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(DIALOG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
 	@touch $@

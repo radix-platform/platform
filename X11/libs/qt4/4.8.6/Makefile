@@ -6,7 +6,7 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -26,7 +26,7 @@ SOURCE_REQUIRES    = sources/packages/x/qt4
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/5.3.0
 endif
-REQUIRES          += net/ca-certificates/45.0.2
+REQUIRES          += net/ca-certificates/52.0
 REQUIRES          += X11/app/desktop-file-utils/0.22
 REQUIRES          += X11/libs/hicolor-icon-theme/0.15
 REQUIRES          += X11/app/xdg-utils/1.1.1
@@ -52,7 +52,7 @@ REQUIRES          += libs/gstreamer0/0.10.36
 REQUIRES          += libs/gst-plugins-base0/0.10.36
 
 REQUIRES          += app/sqlite/3.12.2.0
-REQUIRES          += app/mariadb/10.0.25
+REQUIRES          += app/mariadb/10.0.30
 REQUIRES          += libs/libiodbc/3.52.10
 
 REQUIRES          += X11/libs/opengl-collection
@@ -132,7 +132,7 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)      \
                             $(HARDWARE_CB3X)      \
                             $(HARDWARE_FFRK3288)  \
                             $(HARDWARE_M201)      \
-                            $(HARDWARE_MXQ)       \
+                            $(HARDWARE_MXV)       \
                             $(HARDWARE_NIT6Q)     \
                             $(HARDWARE_OMAP5UEVM) \
                             $(HARDWARE_DRA7XXEVM)),)
@@ -180,7 +180,7 @@ configure_switches += -demosdir       /usr/lib$(LIBSUFFIX)/qt4/demos
 
 configure_switches += -graphicssystem raster
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXQ)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXV)),)
 configure_switches += -opengl es2
 else
 configure_switches += -opengl
@@ -401,7 +401,7 @@ $(install_target): $(build_target)
 	                                    libQtXml.prl         libQtXmlPatterns.prl        \
 	                                    libphonon.prl                                  ; \
 	 )
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXQ)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXV)),)
 	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/lib ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libQtMeeGoGraphicsSystemHelper.la  ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libQtMeeGoGraphicsSystemHelper.prl ; \
@@ -422,7 +422,7 @@ endif
 	           libQtXml.prl         libQtXmlPatterns.prl        \
 	           libphonon.prl                                  ; \
 	 )
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXQ)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXV)),)
 	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/lib ; \
 	   sed -i "s,$(CURDIR)/$(SRC_DIR),/usr/lib$(LIBSUFFIX)/qt-$(version),g" \
 	           libQtMeeGoGraphicsSystemHelper.prl             ; \
@@ -442,7 +442,7 @@ endif
 	                                    QtXml.pc         QtXmlPatterns.pc        \
 	                                    phonon.pc                              ; \
 	 )
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXQ)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXV)),)
 	@( cd $(QT4_PKG)/usr/lib$(LIBSUFFIX)/qt4/lib/pkgconfig ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" QtMeeGoGraphicsSystemHelper.pc ; \
 	 )
@@ -479,7 +479,7 @@ endif
 	                                                    libQtXml.prl         libQtXmlPatterns.prl        \
 	                                                    libphonon.prl                                  ; \
 	 )
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXQ)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXV)),)
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/qt4/lib ; \
 	   sed -i "s,/usr/lib,$(TARGET_DEST_DIR)/usr/lib,g" libQtMeeGoGraphicsSystemHelper.la  ; \
 	   sed -i "s,/usr/lib,$(TARGET_DEST_DIR)/usr/lib,g" libQtMeeGoGraphicsSystemHelper.prl ; \
@@ -499,7 +499,7 @@ endif
 	                                                    QtXml.pc         QtXmlPatterns.pc        \
 	                                                    phonon.pc                              ; \
 	 )
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXQ)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXV)),)
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/qt4/lib/pkgconfig ; \
 	   sed -i "s,/usr/lib,$(TARGET_DEST_DIR)/usr/lib,g" QtMeeGoGraphicsSystemHelper.pc ; \
 	 )
@@ -542,4 +542,4 @@ $(pkg_archive): $(install_target) $(QT4_PKG_DESCRIPTION_FILE) $(QT4_PKG_INSTALL_
 	 echo "short_description=\"$(QT4_PKG_SHORT_DESCRIPTION)\"" >> $(QT4_PKG)/.PKGINFO ; \
 	 echo "url=$(QT4_PKG_URL)"                                 >> $(QT4_PKG)/.PKGINFO ; \
 	 echo "license=$(QT4_PKG_LICENSE)"                         >> $(QT4_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(QT4_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(QT4_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

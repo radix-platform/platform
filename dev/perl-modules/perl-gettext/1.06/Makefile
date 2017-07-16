@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -97,57 +104,65 @@ include ../../../../build-system/core.mk
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32)),)
 ARCH            = x86_32
 UNAME_R_VERSION = 4.1.15
-GLIBC_VERSION   = 2.23
+GLIBC_VERSION   = 2.24
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 ARCH            = x86_64
 UNAME_R_VERSION = 4.1.15
-GLIBC_VERSION   = 2.23
+GLIBC_VERSION   = 2.24
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
 ARCH            = arm
 UNAME_R_VERSION = 3.4.90
-GLIBC_VERSION   = 2.23
+GLIBC_VERSION   = 2.24
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB2X) $(HARDWARE_CB3X)),)
 ARCH            = arm
 UNAME_R_VERSION = 3.4.104
-GLIBC_VERSION   = 2.23
+GLIBC_VERSION   = 2.24
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_FFRK3288)),)
 ARCH            = arm
 UNAME_R_VERSION = 3.10.37
-GLIBC_VERSION   = 2.23
+GLIBC_VERSION   = 2.24
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_M201)),)
 ARCH            = arm
 UNAME_R_VERSION = 3.10.33
-GLIBC_VERSION   = 2.23
+GLIBC_VERSION   = 2.24
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_MXQ)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MXV)),)
 ARCH            = arm
 UNAME_R_VERSION = 3.10.103
-GLIBC_VERSION   = 2.23
+GLIBC_VERSION   = 2.24
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                                             $(HARDWARE_ODROID_C2)   \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
+ARCH            = aarch64
+UNAME_R_VERSION = $(if $(filter $(HARDWARE),$(HARDWARE_ODROID_C2)),3.14.79,3.14.29)
+GLIBC_VERSION   = 2.24
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
 ARCH            = arm
 UNAME_R_VERSION = 3.14.28
-GLIBC_VERSION   = 2.23
+GLIBC_VERSION   = 2.24
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
 ARCH            = arm
 UNAME_R_VERSION = 3.14.57
-GLIBC_VERSION   = 2.23
+GLIBC_VERSION   = 2.24
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
 ARCH            = mips32r2
 UNAME_R_VERSION = 3.18.3
-GLIBC_VERSION   = 2.23
+GLIBC_VERSION   = 2.24
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_BT1)),)
 ARCH            = mips32r5
-UNAME_R_VERSION = 4.1.15
-GLIBC_VERSION   = 2.23
+UNAME_R_VERSION = 4.4.24
+GLIBC_VERSION   = 2.24
 endif
 
 
@@ -318,4 +333,4 @@ $(pkg_archive): $(install_target) $(PERL_PKG_DESCRIPTION_FILE) $(PERL_PKG_INSTAL
 	 echo "short_description=\"$(PERL_PKG_SHORT_DESCRIPTION)\"" >> $(PERL_PKG)/.PKGINFO ; \
 	 echo "url=$(PERL_PKG_URL)"                                 >> $(PERL_PKG)/.PKGINFO ; \
 	 echo "license=$(PERL_PKG_LICENSE)"                         >> $(PERL_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(PERL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PERL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -148,4 +148,4 @@ $(pkg_archive): $(install_target) $(VO_AMRWBENC_32_PKG_DESCRIPTION_FILE) $(VO_AM
 	 echo "short_description=\"$(VO_AMRWBENC_32_PKG_SHORT_DESCRIPTION)\"" >> $(VO_AMRWBENC_32_PKG)/.PKGINFO ; \
 	 echo "url=$(VO_AMRWBENC_32_PKG_URL)"                                 >> $(VO_AMRWBENC_32_PKG)/.PKGINFO ; \
 	 echo "license=$(VO_AMRWBENC_32_PKG_LICENSE)"                         >> $(VO_AMRWBENC_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(VO_AMRWBENC_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(VO_AMRWBENC_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

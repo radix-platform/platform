@@ -194,4 +194,4 @@ $(pkg_archive): $(install_target) $(PYGTK2_32_PKG_DESCRIPTION_FILE) $(PYGTK2_32_
 	 echo "short_description=\"$(PYGTK2_32_PKG_SHORT_DESCRIPTION)\"" >> $(PYGTK2_32_PKG)/.PKGINFO ; \
 	 echo "url=$(PYGTK2_32_PKG_URL)"                                 >> $(PYGTK2_32_PKG)/.PKGINFO ; \
 	 echo "license=$(PYGTK2_32_PKG_LICENSE)"                         >> $(PYGTK2_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(PYGTK2_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PYGTK2_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

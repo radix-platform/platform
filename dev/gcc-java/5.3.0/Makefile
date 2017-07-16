@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -60,7 +67,11 @@ ECJ_JAR               = $(CURDIR)/$(SRC_DIR)/ecj-$(ecj_version).jar
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
 PATCHES     = PATCHES.x86_64
 else
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC))
+PATCHES     = PATCHES.aarch64
+else
 PATCHES     = PATCHES
+endif
 endif
 
 build_dir          = $(TARGET_BUILD_DIR)/build
@@ -147,7 +158,6 @@ extra_configure_switches += --docdir=/usr/share/doc
 extra_configure_switches += --enable-languages=c,c++,java,lto
 extra_configure_switches += --enable-libstdcxx-dual-abi
 extra_configure_switches += --with-default-libstdcxx-abi=gcc4-compatible
-extra_configure_switches += --disable-libunwind-exceptions
 extra_configure_switches += --enable-__cxa_atexit
 extra_configure_switches += --enable-install-libiberty
 extra_configure_switches += --enable-shared
@@ -155,6 +165,12 @@ extra_configure_switches += --enable-threads=posix
 extra_configure_switches += --enable-lto
 extra_configure_switches += --enable-c99
 extra_configure_switches += --enable-long-long
+
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC))
+extra_configure_switches += --with-system-libunwind
+else
+extra_configure_switches += --disable-libunwind-exceptions
+endif
 
 extra_configure_switches += --with-system-zlib
 extra_configure_switches += --with-mpc=$(TARGET_DEST_DIR)/usr
@@ -209,7 +225,7 @@ extra_configure_switches += --with-float=hard
 extra_configure_switches += --with-abi=aapcs-linux
 endif
 
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S805_GLIBC))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S8XX_GLIBC))
 JAVA_LIB_ARCH = armv7a
 extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
 extra_configure_switches += '--with-bugurl=$(BUG_URL)'
@@ -218,6 +234,16 @@ extra_configure_switches += --with-tune=cortex-a5
 extra_configure_switches += --with-fpu=neon
 extra_configure_switches += --with-float=hard
 extra_configure_switches += --with-abi=aapcs-linux
+endif
+
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC))
+extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
+extra_configure_switches += '--with-bugurl=$(BUG_URL)'
+extra_configure_switches += --with-arch=armv8-a
+extra_configure_switches += --with-cpu=cortex-a53
+extra_configure_switches += --with-abi=lp64
+extra_configure_switches += --enable-fix-cortex-a53-835769
+extra_configure_switches += --enable-fix-cortex-a53-843419
 endif
 
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_IMX6_GLIBC))
@@ -590,4 +616,4 @@ $(pkg_archive): $(install_target) $(GCJ_DEV_PKG_DESCRIPTION_FILE) $(GCJ_DEV_PKG_
 	 echo "short_description=\"$(GCJ_DEV_PKG_SHORT_DESCRIPTION)\"" >> $(GCJ_DEV_PKG)/.PKGINFO ; \
 	 echo "url=$(GCJ_DEV_PKG_URL)"                                 >> $(GCJ_DEV_PKG)/.PKGINFO ; \
 	 echo "license=$(GCJ_DEV_PKG_LICENSE)"                         >> $(GCJ_DEV_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GCJ_DEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GCJ_DEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

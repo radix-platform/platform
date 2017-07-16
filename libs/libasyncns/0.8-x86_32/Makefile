@@ -153,4 +153,4 @@ $(pkg_archive): $(install_target) $(LIBASYNCNS_32_PKG_DESCRIPTION_FILE) $(LIBASY
 	 echo "short_description=\"$(LIBASYNCNS_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBASYNCNS_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBASYNCNS_32_PKG_URL)"                                 >> $(LIBASYNCNS_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBASYNCNS_32_PKG_LICENSE)"                         >> $(LIBASYNCNS_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBASYNCNS_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBASYNCNS_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

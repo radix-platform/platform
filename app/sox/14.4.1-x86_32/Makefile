@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/m/sox
 
 REQUIRES           = app/sox/14.4.1
-REQUIRES          += dev/libtool/2.4.2-x86_32
+REQUIRES          += dev/libtool/2.4.6-x86_32
 REQUIRES          += app/file/5.28-x86_32
 REQUIRES          += libs/libpng/libpng14/1.4.19-x86_32
 REQUIRES          += libs/libao/1.2.0-x86_32
@@ -186,4 +186,4 @@ $(pkg_archive): $(install_target) $(SOX_32_PKG_DESCRIPTION_FILE) $(SOX_32_PKG_IN
 	 echo "short_description=\"$(SOX_32_PKG_SHORT_DESCRIPTION)\"" >> $(SOX_32_PKG)/.PKGINFO ; \
 	 echo "url=$(SOX_32_PKG_URL)"                                 >> $(SOX_32_PKG)/.PKGINFO ; \
 	 echo "license=$(SOX_32_PKG_LICENSE)"                         >> $(SOX_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(SOX_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SOX_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

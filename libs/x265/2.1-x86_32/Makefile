@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/m/x265
 
 REQUIRES           = libs/x265/2.1
-REQUIRES          += libs/glibc/2.23-x86_32
+REQUIRES          += libs/glibc/2.24-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -192,4 +192,4 @@ $(pkg_archive): $(install_target) $(X265_32_PKG_DESCRIPTION_FILE) $(X265_32_PKG_
 	 echo "short_description=\"$(X265_32_PKG_SHORT_DESCRIPTION)\"" >> $(X265_32_PKG)/.PKGINFO ; \
 	 echo "url=$(X265_32_PKG_URL)"                                 >> $(X265_32_PKG)/.PKGINFO ; \
 	 echo "license=$(X265_32_PKG_LICENSE)"                         >> $(X265_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(X265_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(X265_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

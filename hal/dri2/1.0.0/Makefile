@@ -193,4 +193,4 @@ $(pkg_archive): $(install_target) $(LIBDRI2_PKG_DESCRIPTION_FILE) $(LIBDRI2_PKG_
 	 echo "short_description=\"$(LIBDRI2_PKG_SHORT_DESCRIPTION)\"" >> $(LIBDRI2_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBDRI2_PKG_URL)"                                 >> $(LIBDRI2_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBDRI2_PKG_LICENSE)"                         >> $(LIBDRI2_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBDRI2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBDRI2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

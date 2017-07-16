@@ -6,7 +6,7 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -26,7 +26,7 @@ SOURCE_REQUIRES    = sources/packages/x/qt5
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/5.3.0
 endif
-REQUIRES          += net/ca-certificates/45.0.2
+REQUIRES          += net/ca-certificates/52.0
 REQUIRES          += X11/app/desktop-file-utils/0.22
 REQUIRES          += X11/libs/hicolor-icon-theme/0.15
 REQUIRES          += X11/app/xdg-utils/1.1.1
@@ -56,7 +56,7 @@ REQUIRES          += libs/gstreamer/1.8.2
 REQUIRES          += libs/gst-plugins-base/1.8.2
 
 REQUIRES          += app/sqlite/3.12.2.0
-REQUIRES          += app/mariadb/10.0.25
+REQUIRES          += app/mariadb/10.0.30
 REQUIRES          += libs/libiodbc/3.52.10
 
 REQUIRES          += X11/libs/opengl-collection
@@ -142,7 +142,7 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)      \
                             $(HARDWARE_CB3X)      \
                             $(HARDWARE_FFRK3288)  \
                             $(HARDWARE_M201)      \
-                            $(HARDWARE_MXQ)       \
+                            $(HARDWARE_MXV)       \
                             $(HARDWARE_NIT6Q)     \
                             $(HARDWARE_OMAP5UEVM) \
                             $(HARDWARE_DRA7XXEVM)),)
@@ -209,7 +209,7 @@ ifeq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 configure_switches += -no-largefile
 endif
 configure_switches += -no-gtkstyle
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXQ)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXV)),)
 configure_switches += -opengl es2
 else
 configure_switches += -opengl
@@ -250,7 +250,7 @@ configure_switches += -linuxfb
 ENABLE_EGLFS_SUPPORT = yes
 ENABLE_KMS_SUPPORT   = yes
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXQ)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CI20) $(HARDWARE_M201) $(HARDWARE_MXV)),)
 ENABLE_KMS_SUPPORT = no
 endif
 
@@ -696,4 +696,4 @@ $(pkg_archive): $(install_target) $(QT5_PKG_DESCRIPTION_FILE) $(QT5_PKG_INSTALL_
 	 echo "short_description=\"$(QT5_PKG_SHORT_DESCRIPTION)\"" >> $(QT5_PKG)/.PKGINFO ; \
 	 echo "url=$(QT5_PKG_URL)"                                 >> $(QT5_PKG)/.PKGINFO ; \
 	 echo "license=$(QT5_PKG_LICENSE)"                         >> $(QT5_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(QT5_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(QT5_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

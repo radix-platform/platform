@@ -17,6 +17,8 @@ REQUIRES          += dev/python2/2.7.11-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
+PYTHON_VERSION = 2.7
+
 
 version            = 2.9.5
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/cracklib/cracklib-$(version).tar.gz
@@ -125,7 +127,7 @@ $(install_target): $(build_target)
 	@( cd $(CRACKLIB_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libcrack.la \
 	 )
-	@( cd $(CRACKLIB_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/python?.?/site-packages ; \
+	@( cd $(CRACKLIB_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/python$(PYTHON_VERSION)/site-packages ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" _cracklib.la \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
@@ -135,7 +137,7 @@ $(install_target): $(build_target)
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libcrack.la ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libcrack.la \
 	 )
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/python?.?/site-packages ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/python$(PYTHON_VERSION)/site-packages ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" _cracklib.la ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" _cracklib.la \
 	 )
@@ -166,4 +168,4 @@ $(pkg_archive): $(install_target) $(CRACKLIB_32_PKG_DESCRIPTION_FILE) $(CRACKLIB
 	 echo "short_description=\"$(CRACKLIB_32_PKG_SHORT_DESCRIPTION)\"" >> $(CRACKLIB_32_PKG)/.PKGINFO ; \
 	 echo "url=$(CRACKLIB_32_PKG_URL)"                                 >> $(CRACKLIB_32_PKG)/.PKGINFO ; \
 	 echo "license=$(CRACKLIB_32_PKG_LICENSE)"                         >> $(CRACKLIB_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(CRACKLIB_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(CRACKLIB_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

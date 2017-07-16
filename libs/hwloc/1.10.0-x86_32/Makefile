@@ -188,4 +188,4 @@ $(pkg_archive): $(install_target) $(HWLOC_32_PKG_DESCRIPTION_FILE) $(HWLOC_32_PK
 	 echo "short_description=\"$(HWLOC_32_PKG_SHORT_DESCRIPTION)\"" >> $(HWLOC_32_PKG)/.PKGINFO ; \
 	 echo "url=$(HWLOC_32_PKG_URL)"                                 >> $(HWLOC_32_PKG)/.PKGINFO ; \
 	 echo "license=$(HWLOC_32_PKG_LICENSE)"                         >> $(HWLOC_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(HWLOC_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(HWLOC_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -1,3 +1,4 @@
 
 ../../../../sources/packages/n/avahi/patches/avahi-0.6.31-browser-icons.patch -p0
 ../../../../sources/packages/n/avahi/patches/avahi-0.6.31-dnsconfd.patch      -p0
+../../../../sources/packages/n/avahi/patches/avahi-0.6.31-automake.patch      -p0

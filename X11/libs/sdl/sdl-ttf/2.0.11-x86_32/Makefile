@@ -176,4 +176,4 @@ $(pkg_archive): $(install_target) $(SDL_TTF_32_PKG_DESCRIPTION_FILE) $(SDL_TTF_3
 	 echo "short_description=\"$(SDL_TTF_32_PKG_SHORT_DESCRIPTION)\"" >> $(SDL_TTF_32_PKG)/.PKGINFO ; \
 	 echo "url=$(SDL_TTF_32_PKG_URL)"                                 >> $(SDL_TTF_32_PKG)/.PKGINFO ; \
 	 echo "license=$(SDL_TTF_32_PKG_LICENSE)"                         >> $(SDL_TTF_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(SDL_TTF_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SDL_TTF_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

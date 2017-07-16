@@ -193,4 +193,4 @@ $(pkg_archive): $(install_target) $(GNUTLS_32_PKG_DESCRIPTION_FILE) $(GNUTLS_32_
 	 echo "short_description=\"$(GNUTLS_32_PKG_SHORT_DESCRIPTION)\"" >> $(GNUTLS_32_PKG)/.PKGINFO ; \
 	 echo "url=$(GNUTLS_32_PKG_URL)"                                 >> $(GNUTLS_32_PKG)/.PKGINFO ; \
 	 echo "license=$(GNUTLS_32_PKG_LICENSE)"                         >> $(GNUTLS_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GNUTLS_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GNUTLS_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

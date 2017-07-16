@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/m/libmodplug
 
 REQUIRES           = libs/libmodplug/0.8.8.5
-REQUIRES          += libs/glibc/2.23-x86_32
+REQUIRES          += libs/glibc/2.24-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -171,4 +171,4 @@ $(pkg_archive): $(install_target) $(MODPLUG_32_PKG_DESCRIPTION_FILE) $(MODPLUG_3
 	 echo "short_description=\"$(MODPLUG_32_PKG_SHORT_DESCRIPTION)\"" >> $(MODPLUG_32_PKG)/.PKGINFO ; \
 	 echo "url=$(MODPLUG_32_PKG_URL)"                                 >> $(MODPLUG_32_PKG)/.PKGINFO ; \
 	 echo "license=$(MODPLUG_32_PKG_LICENSE)"                         >> $(MODPLUG_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(MODPLUG_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(MODPLUG_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

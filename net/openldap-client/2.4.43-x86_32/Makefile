@@ -192,4 +192,4 @@ $(pkg_archive): $(install_target) $(OPENLDAP_32_PKG_DESCRIPTION_FILE) $(OPENLDAP
 	 echo "short_description=\"$(OPENLDAP_32_PKG_SHORT_DESCRIPTION)\"" >> $(OPENLDAP_32_PKG)/.PKGINFO ; \
 	 echo "url=$(OPENLDAP_32_PKG_URL)"                                 >> $(OPENLDAP_32_PKG)/.PKGINFO ; \
 	 echo "license=$(OPENLDAP_32_PKG_LICENSE)"                         >> $(OPENLDAP_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(OPENLDAP_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(OPENLDAP_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

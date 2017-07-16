@@ -1,0 +1,3 @@
+u-boot-aml-2015.01-20170107/common/cmd_aml_mmc.c
+u-boot-aml-2015.01-20170107/drivers/mmc/emmc_partitions.c
+u-boot-aml-2015.01-20170107/include/emmc_partitions.h

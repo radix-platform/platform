@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -91,6 +98,12 @@ extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --sbindir=/usr/sbin
 extra_configure_switches += --sysconfdir=/etc
 
+extra_configure_switches += --with-lib=$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)
+extra_configure_switches += --with-ncurses
+
+extra_environment  = NCURSES_CFLAGS="$(shell $(TARGET_DEST_DIR)/usr/bin/ncursesw6-config --cflags)"
+extra_environment += NCURSES_LDFLAGS="$(shell $(TARGET_DEST_DIR)/usr/bin/ncursesw6-config --libs) -lpanel"
+
 
 ####### Dependencies
 
@@ -105,7 +118,7 @@ $(build_target): $(src_done)
 	  --build=$(BUILD)            \
 	  --host=$(TARGET)            \
 	  $(extra_configure_switches)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) $(extra_environment)
 	@touch $@
 
 $(install_target): $(build_target)
@@ -187,4 +200,4 @@ $(pkg_archive): $(install_target) $(IPTRAF_PKG_DESCRIPTION_FILE) $(IPTRAF_PKG_IN
 	 echo "short_description=\"$(IPTRAF_PKG_SHORT_DESCRIPTION)\"" >> $(IPTRAF_PKG)/.PKGINFO ; \
 	 echo "url=$(IPTRAF_PKG_URL)"                                 >> $(IPTRAF_PKG)/.PKGINFO ; \
 	 echo "license=$(IPTRAF_PKG_LICENSE)"                         >> $(IPTRAF_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(IPTRAF_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(IPTRAF_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

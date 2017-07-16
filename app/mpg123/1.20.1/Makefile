@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -123,8 +130,14 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_FFRK3288)),)
 extra_configure_switches += --with-cpu=neon
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXQ)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXV)),)
 extra_configure_switches += --with-cpu=neon
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                                             $(HARDWARE_ODROID_C2)   \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
+extra_configure_switches += --with-cpu=aarch64
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
 extra_configure_switches += --with-cpu=neon
@@ -279,4 +292,4 @@ $(pkg_archive): $(install_target) $(MPG123_PKG_DESCRIPTION_FILE) $(MPG123_PKG_IN
 	 echo "short_description=\"$(MPG123_PKG_SHORT_DESCRIPTION)\"" >> $(MPG123_PKG)/.PKGINFO ; \
 	 echo "url=$(MPG123_PKG_URL)"                                 >> $(MPG123_PKG)/.PKGINFO ; \
 	 echo "license=$(MPG123_PKG_LICENSE)"                         >> $(MPG123_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(MPG123_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(MPG123_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

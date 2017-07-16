@@ -150,4 +150,4 @@ $(pkg_archive): $(install_target) $(OPUS_32_PKG_DESCRIPTION_FILE) $(OPUS_32_PKG_
 	 echo "short_description=\"$(OPUS_32_PKG_SHORT_DESCRIPTION)\"" >> $(OPUS_32_PKG)/.PKGINFO ; \
 	 echo "url=$(OPUS_32_PKG_URL)"                                 >> $(OPUS_32_PKG)/.PKGINFO ; \
 	 echo "license=$(OPUS_32_PKG_LICENSE)"                         >> $(OPUS_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(OPUS_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(OPUS_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

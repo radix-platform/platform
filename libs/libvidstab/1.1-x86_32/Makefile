@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/m/vid-stab
 
 REQUIRES           = libs/libvidstab/1.1
-REQUIRES          += libs/glibc/2.23-x86_32
+REQUIRES          += libs/glibc/2.24-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -165,4 +165,4 @@ $(pkg_archive): $(install_target) $(VIDSTAB_32_PKG_DESCRIPTION_FILE) $(VIDSTAB_3
 	 echo "short_description=\"$(VIDSTAB_32_PKG_SHORT_DESCRIPTION)\"" >> $(VIDSTAB_32_PKG)/.PKGINFO ; \
 	 echo "url=$(VIDSTAB_32_PKG_URL)"                                 >> $(VIDSTAB_32_PKG)/.PKGINFO ; \
 	 echo "license=$(VIDSTAB_32_PKG_LICENSE)"                         >> $(VIDSTAB_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(VIDSTAB_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(VIDSTAB_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

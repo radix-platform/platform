@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -27,9 +34,9 @@ ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/5.3.0
 else
 ifneq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES           = libs/glibc/2.23
+REQUIRES           = libs/glibc/2.24
 else
-REQUIRES           = libs/glibc/2.23-x86_32
+REQUIRES           = libs/glibc/2.24-x86_32
 endif
 endif
 
@@ -94,8 +101,6 @@ include ../../../build-system/core.mk
 extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --includedir=/usr/include/cdda
-extra_configure_switches += --enable-shared=yes
-extra_configure_switches += --enable-static=yes
 
 environment  = FLAGS="-g -O2"
 environment += OPT="-O2 -fsigned-char $(FLAGS) -I$(TARGET_DEST_DIR)/usr/include $(ARCH_FLAGS) $(ARCH_DEFS) $(HW_FLAGS)"
@@ -208,4 +213,4 @@ $(pkg_archive): $(install_target) $(PARANOIA_PKG_DESCRIPTION_FILE) $(PARANOIA_PK
 	 echo "short_description=\"$(PARANOIA_PKG_SHORT_DESCRIPTION)\"" >> $(PARANOIA_PKG)/.PKGINFO ; \
 	 echo "url=$(PARANOIA_PKG_URL)"                                 >> $(PARANOIA_PKG)/.PKGINFO ; \
 	 echo "license=$(PARANOIA_PKG_LICENSE)"                         >> $(PARANOIA_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(PARANOIA_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PARANOIA_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

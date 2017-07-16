@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -108,11 +115,17 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)       \
                             $(HARDWARE_CB3X)       \
                             $(HARDWARE_FFRK3288)   \
                             $(HARDWARE_M201)       \
-                            $(HARDWARE_MXQ)        \
+                            $(HARDWARE_MXV)        \
                             $(HARDWARE_NIT6Q)      \
                             $(HARDWARE_OMAP5UEVM)  \
                             $(HARDWARE_DRA7XXEVM)),)
 extra_configure_switches += --cpu=armv7
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                                             $(HARDWARE_ODROID_C2)   \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
+extra_configure_switches += --cpu=armv8
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20) $(HARDWARE_BT1)),)
 extra_configure_switches += --cpu=mipsel
@@ -243,4 +256,4 @@ $(pkg_archive): $(install_target) $(BOTAN_PKG_DESCRIPTION_FILE) $(BOTAN_PKG_INST
 	 echo "short_description=\"$(BOTAN_PKG_SHORT_DESCRIPTION)\"" >> $(BOTAN_PKG)/.PKGINFO ; \
 	 echo "url=$(BOTAN_PKG_URL)"                                 >> $(BOTAN_PKG)/.PKGINFO ; \
 	 echo "license=$(BOTAN_PKG_LICENSE)"                         >> $(BOTAN_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(BOTAN_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(BOTAN_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

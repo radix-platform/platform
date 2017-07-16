@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/m/VideoLAN/x264
 
 REQUIRES           = libs/openh264/1.6.0
-REQUIRES          += libs/glibc/2.23-x86_32
+REQUIRES          += libs/glibc/2.24-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -165,4 +165,4 @@ $(pkg_archive): $(install_target) $(OPENH264_32_PKG_DESCRIPTION_FILE) $(OPENH264
 	 echo "short_description=\"$(OPENH264_32_PKG_SHORT_DESCRIPTION)\"" >> $(OPENH264_32_PKG)/.PKGINFO ; \
 	 echo "url=$(OPENH264_32_PKG_URL)"                                 >> $(OPENH264_32_PKG)/.PKGINFO ; \
 	 echo "license=$(OPENH264_32_PKG_LICENSE)"                         >> $(OPENH264_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(OPENH264_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(OPENH264_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -200,4 +200,4 @@ $(pkg_archive): $(install_target) $(BOOST_32_PKG_DESCRIPTION_FILE) $(BOOST_32_PK
 	 echo "short_description=\"$(BOOST_32_PKG_SHORT_DESCRIPTION)\"" >> $(BOOST_32_PKG)/.PKGINFO ; \
 	 echo "url=$(BOOST_32_PKG_URL)"                                 >> $(BOOST_32_PKG)/.PKGINFO ; \
 	 echo "license=$(BOOST_32_PKG_LICENSE)"                         >> $(BOOST_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(BOOST_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(BOOST_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

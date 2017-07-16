@@ -14,7 +14,7 @@ SOURCE_REQUIRES    = sources/packages/l/openmpi
 
 REQUIRES           = libs/openmpi/1.8.8
 REQUIRES          += libs/hwloc/1.11.3-x86_32
-REQUIRES          += dev/libtool/2.4.2-x86_32
+REQUIRES          += dev/libtool/2.4.6-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -137,16 +137,15 @@ $(install_target): $(build_target)
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libmpi.la libmpi_cxx.la                 \
 	                                    libompitrace.la libopen-pal.la          \
 	                                    libopen-rte.la libopen-trace-format.la  \
-	                                    liboshmem.la libotfaux.la               \
-	                                    libvt-hyb.la libvt-java.la              \
+	                                    liboshmem.la libotfaux.la libvt-hyb.la  \
 	                                    libvt-mpi-unify.la libvt-mpi.la         \
 	                                    libvt-mt.la libvt-pomp.la libvt.la    ; \
 	 )
 	@( cd $(OMPI_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   sed -i "s, -L$(CURDIR)/$(TARGET_BUILD_DIR).*\.libs,,g" libopen-trace-format.la libotfaux.la  \
-	                                                          libvt-hyb.la libvt-java.la            \
-	                                                          libvt-mpi-unify.la libvt-mpi.la       \
-	                                                          libvt-mt.la libvt-pomp.la libvt.la  ; \
+	   sed -i "s, -L$(CURDIR)/$(TARGET_BUILD_DIR).*\.libs,,g" libopen-trace-format.la              \
+	                                                          libotfaux.la libvt-hyb.la            \
+	                                                          libvt-mpi-unify.la libvt-mpi.la      \
+	                                                          libvt-mt.la libvt-pomp.la libvt.la ; \
 	 )
 	@( cd $(OMPI_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   sed -i "s,$(TOOLCHAIN_PATH)/$(TARGET),/usr,g" libvt-hyb.la libvt-mpi-unify.la libvt-mpi.la ; \
@@ -161,15 +160,13 @@ $(install_target): $(build_target)
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libmpi.la libmpi_cxx.la                 \
 	                                            libompitrace.la libopen-pal.la          \
 	                                            libopen-rte.la libopen-trace-format.la  \
-	                                            liboshmem.la libotfaux.la               \
-	                                            libvt-hyb.la libvt-java.la              \
+	                                            liboshmem.la libotfaux.la libvt-hyb.la  \
 	                                            libvt-mpi-unify.la libvt-mpi.la         \
 	                                            libvt-mt.la libvt-pomp.la libvt.la    ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libmpi.la libmpi_cxx.la                 \
 	                                              libompitrace.la libopen-pal.la          \
 	                                              libopen-rte.la libopen-trace-format.la  \
-	                                              liboshmem.la libotfaux.la               \
-	                                              libvt-hyb.la libvt-java.la              \
+	                                              liboshmem.la libotfaux.la libvt-hyb.la  \
 	                                              libvt-mpi-unify.la libvt-mpi.la         \
 	                                              libvt-mt.la libvt-pomp.la libvt.la    ; \
 	 )
@@ -230,4 +227,4 @@ $(pkg_archive): $(install_target) $(OMPI_32_PKG_DESCRIPTION_FILE) $(OMPI_32_PKG_
 	 echo "short_description=\"$(OMPI_32_PKG_SHORT_DESCRIPTION)\"" >> $(OMPI_32_PKG)/.PKGINFO ; \
 	 echo "url=$(OMPI_32_PKG_URL)"                                 >> $(OMPI_32_PKG)/.PKGINFO ; \
 	 echo "license=$(OMPI_32_PKG_LICENSE)"                         >> $(OMPI_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(OMPI_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(OMPI_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

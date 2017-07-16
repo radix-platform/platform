@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -284,8 +291,8 @@ $(pkg_archive): $(install_target) $(MARIADB_PKG_DESCRIPTION_FILE) $(MARIADB_PKG_
 	 echo "short_description=\"$(MARIADB_PKG_SHORT_DESCRIPTION)\"" >> $(MARIADB_PKG)/.PKGINFO ; \
 	 echo "url=$(MARIADB_PKG_URL)"                                 >> $(MARIADB_PKG)/.PKGINFO ; \
 	 echo "license=$(MARIADB_PKG_LICENSE)"                         >> $(MARIADB_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(MARIADB_PKG) && \
-	                    chown -R root:root .       && \
-	                    chown 27:27 var/lib/mysql  && \
-	                    chown 27:27 var/run/mysql  && \
-	                    $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(MARIADB_PKG) && \
+	                  chown -R root:root .       && \
+	                  chown 27:27 var/lib/mysql  && \
+	                  chown 27:27 var/run/mysql  && \
+	                  $(MAKE_PACKAGE) --linkadd yes .."

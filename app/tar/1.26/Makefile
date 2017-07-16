@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -26,7 +33,7 @@ SOURCE_REQUIRES    = sources/GNU/tar
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/5.3.0
 else
-REQUIRES           = libs/glibc/2.23
+REQUIRES           = libs/glibc/2.24
 endif
 
 # ======= __END_OF_REQUIRES__ =======
@@ -193,4 +200,4 @@ $(pkg_archive): $(install_target) $(TAR_PKG_DESCRIPTION_FILE) $(TAR_PKG_INSTALL_
 	 echo "short_description=\"$(TAR_PKG_SHORT_DESCRIPTION)\"" >> $(TAR_PKG)/.PKGINFO ; \
 	 echo "url=$(TAR_PKG_URL)"                                 >> $(TAR_PKG)/.PKGINFO ; \
 	 echo "license=$(TAR_PKG_LICENSE)"                         >> $(TAR_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(TAR_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(TAR_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

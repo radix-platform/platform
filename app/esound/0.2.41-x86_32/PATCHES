@@ -1,2 +1,3 @@
 
-../../../sources/GNOME/core/esound/patches/esound-0.2.41-book1.patch -p0
+../../../sources/GNOME/core/esound/patches/esound-0.2.41-book1.patch    -p0
+../../../sources/GNOME/core/esound/patches/esound-0.2.41-automake.patch -p0

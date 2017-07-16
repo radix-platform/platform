@@ -17,6 +17,7 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 patches     = $(CURDIR)/patches/glade-2.12.2-c-style.patch
 patches    += $(CURDIR)/patches/glade-2.12.2-e-deprecated.patch
 patches    += $(CURDIR)/patches/glade-2.12.2-posix.patch
+patches    += $(CURDIR)/patches/glade-2.12.2-automake.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -54,6 +55,7 @@ $(patches): $(sha1s)
 	 ( cd create-2.12.2-c-style-patch      ; ./create.patch.sh ) ; \
 	 ( cd create-2.12.2-e-deprecated-patch ; ./create.patch.sh ) ; \
 	 ( cd create-2.12.2-posix-patch        ; ./create.patch.sh ) ; \
+	 ( cd create-2.12.2-automake-patch     ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

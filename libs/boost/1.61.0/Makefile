@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -92,8 +99,7 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)      \
                             $(HARDWARE_CB2X)      \
                             $(HARDWARE_CB3X)      \
                             $(HARDWARE_FFRK3288)  \
-                            $(HARDWARE_M201)      \
-                            $(HARDWARE_MXQ)       \
+                            $(HARDWARE_M201) $(HARDWARE_MXV) \
                             $(HARDWARE_NIT6Q)     \
                             $(HARDWARE_OMAP5UEVM) \
                             $(HARDWARE_DRA7XXEVM)),)
@@ -101,6 +107,15 @@ ARCH          = arm
 ABI           = aapcs
 BINARY_FORMAT = elf
 ADDRESS_MODEL = 32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                                             $(HARDWARE_ODROID_C2)   \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
+ARCH          = arm
+ABI           = aapcs
+BINARY_FORMAT = elf
+ADDRESS_MODEL = 64
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32)),)
 ARCH          = x86
@@ -249,4 +264,4 @@ $(pkg_archive): $(install_target) $(BOOST_PKG_DESCRIPTION_FILE) $(BOOST_PKG_INST
 	 echo "short_description=\"$(BOOST_PKG_SHORT_DESCRIPTION)\"" >> $(BOOST_PKG)/.PKGINFO ; \
 	 echo "url=$(BOOST_PKG_URL)"                                 >> $(BOOST_PKG)/.PKGINFO ; \
 	 echo "license=$(BOOST_PKG_LICENSE)"                         >> $(BOOST_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(BOOST_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(BOOST_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

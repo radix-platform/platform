@@ -193,4 +193,4 @@ $(pkg_archive): $(install_target) $(ASSUAN_PKG_DESCRIPTION_FILE) $(ASSUAN_PKG_IN
 	 echo "short_description=\"$(ASSUAN_PKG_SHORT_DESCRIPTION)\"" >> $(ASSUAN_PKG)/.PKGINFO ; \
 	 echo "url=$(ASSUAN_PKG_URL)"                                 >> $(ASSUAN_PKG)/.PKGINFO ; \
 	 echo "license=$(ASSUAN_PKG_LICENSE)"                         >> $(ASSUAN_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(ASSUAN_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ASSUAN_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

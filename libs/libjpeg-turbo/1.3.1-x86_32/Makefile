@@ -146,4 +146,4 @@ $(pkg_archive): $(install_target) $(LIBJPEG_32_PKG_DESCRIPTION_FILE) $(LIBJPEG_3
 	 echo "short_description=\"$(LIBJPEG_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBJPEG_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBJPEG_32_PKG_URL)"                                 >> $(LIBJPEG_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBJPEG_32_PKG_LICENSE)"                         >> $(LIBJPEG_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBJPEG_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBJPEG_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

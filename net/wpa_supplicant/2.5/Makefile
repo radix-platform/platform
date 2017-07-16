@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -123,6 +130,17 @@ $(install_target): $(build_target)
 	   cat $(config_dir)/wpa_supplicant.conf > $(WPASUP_PKG)/etc/wpa_supplicant.conf.new ; \
 	   chmod 600 $(WPASUP_PKG)/etc/wpa_supplicant.conf.new ; \
 	 )
+ifneq ($(filter $(HARDWARE),$(HARDWARE_KHADAS_VIM)),)
+	@echo ""                          >> $(WPASUP_PKG)/etc/wpa_supplicant.conf.new
+	@echo "disable_scan_offload=1"    >> $(WPASUP_PKG)/etc/wpa_supplicant.conf.new
+	@echo "wowlan_triggers=any"       >> $(WPASUP_PKG)/etc/wpa_supplicant.conf.new
+	@echo "p2p_no_go_freq=5170-5740"  >> $(WPASUP_PKG)/etc/wpa_supplicant.conf.new
+	@echo "p2p_search_delay=0"        >> $(WPASUP_PKG)/etc/wpa_supplicant.conf.new
+	@echo "no_ctrl_interface="        >> $(WPASUP_PKG)/etc/wpa_supplicant.conf.new
+	@echo ""                          >> $(WPASUP_PKG)/etc/wpa_supplicant.conf.new
+	@echo "ctrl_interface=wlan0"      >> $(WPASUP_PKG)/etc/wpa_supplicant.conf.new
+	@echo "p2p_go_intent=13"          >> $(WPASUP_PKG)/etc/wpa_supplicant.conf.new
+endif
 	# ======= Install Documentation =======
 	@( cd $(SRC_DIR)/wpa_supplicant ; \
 	   for m in 5 8; do \
@@ -186,4 +204,4 @@ $(pkg_archive): $(install_target) $(WPASUP_PKG_DESCRIPTION_FILE) $(WPASUP_PKG_IN
 	 echo "short_description=\"$(WPASUP_PKG_SHORT_DESCRIPTION)\"" >> $(WPASUP_PKG)/.PKGINFO ; \
 	 echo "url=$(WPASUP_PKG_URL)"                                 >> $(WPASUP_PKG)/.PKGINFO ; \
 	 echo "license=$(WPASUP_PKG_LICENSE)"                         >> $(WPASUP_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(WPASUP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(WPASUP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

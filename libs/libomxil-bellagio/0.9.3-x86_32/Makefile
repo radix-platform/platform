@@ -168,4 +168,4 @@ $(pkg_archive): $(install_target) $(OMXIL_32_PKG_DESCRIPTION_FILE) $(OMXIL_32_PK
 	 echo "short_description=\"$(OMXIL_32_PKG_SHORT_DESCRIPTION)\"" >> $(OMXIL_32_PKG)/.PKGINFO ; \
 	 echo "url=$(OMXIL_32_PKG_URL)"                                 >> $(OMXIL_32_PKG)/.PKGINFO ; \
 	 echo "license=$(OMXIL_32_PKG_LICENSE)"                         >> $(OMXIL_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(OMXIL_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(OMXIL_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

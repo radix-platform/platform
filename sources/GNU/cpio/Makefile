@@ -7,7 +7,7 @@ include ../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/GNU/cpio
 
-versions    = 2.11
+versions    = 2.11 2.12
 pkgname     = cpio
 suffix      = tar.bz2
 

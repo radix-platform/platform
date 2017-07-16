@@ -146,4 +146,4 @@ $(pkg_archive): $(install_target) $(PIPELINE_32_PKG_DESCRIPTION_FILE) $(PIPELINE
 	 echo "short_description=\"$(PIPELINE_32_PKG_SHORT_DESCRIPTION)\"" >> $(PIPELINE_32_PKG)/.PKGINFO ; \
 	 echo "url=$(PIPELINE_32_PKG_URL)"                                 >> $(PIPELINE_32_PKG)/.PKGINFO ; \
 	 echo "license=$(PIPELINE_32_PKG_LICENSE)"                         >> $(PIPELINE_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(PIPELINE_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PIPELINE_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

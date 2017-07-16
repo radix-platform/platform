@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -491,10 +498,10 @@ $(pkg_archive): $(install_target) $(UTILLINUX_PKG_DESCRIPTION_FILE) $(UTILLINUX_
 	 echo "short_description=\"$(UTILLINUX_PKG_SHORT_DESCRIPTION)\"" >> $(UTILLINUX_PKG)/.PKGINFO ; \
 	 echo "url=$(UTILLINUX_PKG_URL)"                                 >> $(UTILLINUX_PKG)/.PKGINFO ; \
 	 echo "license=$(UTILLINUX_PKG_LICENSE)"                         >> $(UTILLINUX_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(UTILLINUX_PKG)  && \
-	                    chown -R root:root . && \
-	                    chgrp tty usr/bin/wall  && \
-	                    chmod g+s usr/bin/wall  && \
-	                    chgrp tty usr/bin/write && \
-	                    chmod g+s usr/bin/write && \
-	                    $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(UTILLINUX_PKG)  && \
+	                  chown -R root:root . && \
+	                  chgrp tty usr/bin/wall  && \
+	                  chmod g+s usr/bin/wall  && \
+	                  chgrp tty usr/bin/write && \
+	                  chmod g+s usr/bin/write && \
+	                  $(MAKE_PACKAGE) --linkadd yes .."

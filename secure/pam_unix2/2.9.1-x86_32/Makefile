@@ -138,4 +138,4 @@ $(pkg_archive): $(install_target) $(PAM_U2_32_PKG_DESCRIPTION_FILE) $(PAM_U2_32_
 	 echo "short_description=\"$(PAM_U2_32_PKG_SHORT_DESCRIPTION)\"" >> $(PAM_U2_32_PKG)/.PKGINFO ; \
 	 echo "url=$(PAM_U2_32_PKG_URL)"                                 >> $(PAM_U2_32_PKG)/.PKGINFO ; \
 	 echo "license=$(PAM_U2_32_PKG_LICENSE)"                         >> $(PAM_U2_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(PAM_U2_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PAM_U2_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

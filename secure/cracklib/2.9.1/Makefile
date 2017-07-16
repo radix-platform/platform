@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -26,6 +33,8 @@ SOURCE_REQUIRES    = sources/packages/l/cracklib
 REQUIRES           = dev/python2/2.7.11
 
 # ======= __END_OF_REQUIRES__ =======
+
+PYTHON_VERSION = 2.7
 
 
 version            = 2.9.1
@@ -191,7 +200,7 @@ $(install_target): $(build_target)
 	@( cd $(CRACKLIB_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libcrack.la \
 	 )
-	@( cd $(CRACKLIB_PKG)/usr/lib$(LIBSUFFIX)/python?.?/site-packages ; \
+	@( cd $(CRACKLIB_PKG)/usr/lib$(LIBSUFFIX)/python$(PYTHON_VERSION)/site-packages ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" _cracklib.la \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
@@ -201,7 +210,7 @@ $(install_target): $(build_target)
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libcrack.la ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libcrack.la \
 	 )
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/python?.?/site-packages ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/python$(PYTHON_VERSION)/site-packages ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" _cracklib.la ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" _cracklib.la \
 	 )
@@ -232,4 +241,4 @@ $(pkg_archive): $(install_target) $(CRACKLIB_PKG_DESCRIPTION_FILE) $(CRACKLIB_PK
 	 echo "short_description=\"$(CRACKLIB_PKG_SHORT_DESCRIPTION)\"" >> $(CRACKLIB_PKG)/.PKGINFO ; \
 	 echo "url=$(CRACKLIB_PKG_URL)"                                 >> $(CRACKLIB_PKG)/.PKGINFO ; \
 	 echo "license=$(CRACKLIB_PKG_LICENSE)"                         >> $(CRACKLIB_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(CRACKLIB_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(CRACKLIB_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

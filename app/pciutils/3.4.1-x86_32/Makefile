@@ -147,4 +147,4 @@ $(pkg_archive): $(install_target) $(PCIUTILS32_PKG_DESCRIPTION_FILE) $(PCIUTILS3
 	 echo "short_description=\"$(PCIUTILS32_PKG_SHORT_DESCRIPTION)\"" >> $(PCIUTILS32_PKG)/.PKGINFO ; \
 	 echo "url=$(PCIUTILS32_PKG_URL)"                                 >> $(PCIUTILS32_PKG)/.PKGINFO ; \
 	 echo "license=$(PCIUTILS32_PKG_LICENSE)"                         >> $(PCIUTILS32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(PCIUTILS32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PCIUTILS32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -202,4 +202,4 @@ $(pkg_archive): $(install_target) $(LIBXML2_32_PKG_DESCRIPTION_FILE) $(LIBXML2_3
 	 echo "short_description=\"$(LIBXML2_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBXML2_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBXML2_32_PKG_URL)"                                 >> $(LIBXML2_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBXML2_32_PKG_LICENSE)"                         >> $(LIBXML2_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBXML2_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBXML2_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

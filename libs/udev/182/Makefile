@@ -203,4 +203,4 @@ $(pkg_archive): $(install_target) $(UDEV_PKG_DESCRIPTION_FILE) $(UDEV_PKG_INSTAL
 	 echo "short_description=\"$(UDEV_PKG_SHORT_DESCRIPTION)\"" >> $(UDEV_PKG)/.PKGINFO ; \
 	 echo "url=$(UDEV_PKG_URL)"                                 >> $(UDEV_PKG)/.PKGINFO ; \
 	 echo "license=$(UDEV_PKG_LICENSE)"                         >> $(UDEV_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(UDEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(UDEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

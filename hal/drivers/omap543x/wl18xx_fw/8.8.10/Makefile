@@ -114,4 +114,4 @@ $(pkg_archive): $(build_wl18fw_pkg) $(WL18FW_BIN_PKG_DESCRIPTION_FILE) $(WL18FW_
 	 echo "short_description=\"$(WL18FW_BIN_PKG_SHORT_DESCRIPTION)\"" >> $(WL18FW_BIN_PKG)/.PKGINFO ; \
 	 echo "url=$(WL18FW_BIN_PKG_URL)"                                 >> $(WL18FW_BIN_PKG)/.PKGINFO ; \
 	 echo "license=$(WL18FW_BIN_PKG_LICENSE)"                         >> $(WL18FW_BIN_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(WL18FW_BIN_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(WL18FW_BIN_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

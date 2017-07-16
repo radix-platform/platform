@@ -16,6 +16,7 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/gst-plugins-base-0.10.36.patch
 patches    += $(CURDIR)/patches/gst-plugins-base-0.10.36-remove-playbin.patch
+patches    += $(CURDIR)/patches/gst-plugins-base-0.10.36-automake.patch
 patches    += $(CURDIR)/patches/gst-plugins-base-0.10.36-x86_32.patch
 
 .NOTPARALLEL: $(patches)
@@ -53,6 +54,7 @@ $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-0.10.36-patch                ; ./create.patch.sh ) ; \
 	 ( cd create-0.10.36-remove-playbin-patch ; ./create.patch.sh ) ; \
+	 ( cd create-0.10.36-automake-patch       ; ./create.patch.sh ) ; \
 	 ( cd create-0.10.36-x86_32-patch         ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 

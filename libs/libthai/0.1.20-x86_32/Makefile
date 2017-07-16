@@ -164,4 +164,4 @@ $(pkg_archive): $(install_target) $(THAI_32_PKG_DESCRIPTION_FILE) $(THAI_32_PKG_
 	 echo "short_description=\"$(THAI_32_PKG_SHORT_DESCRIPTION)\"" >> $(THAI_32_PKG)/.PKGINFO ; \
 	 echo "url=$(THAI_32_PKG_URL)"                                 >> $(THAI_32_PKG)/.PKGINFO ; \
 	 echo "license=$(THAI_32_PKG_LICENSE)"                         >> $(THAI_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(THAI_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(THAI_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

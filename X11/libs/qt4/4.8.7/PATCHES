@@ -8,3 +8,4 @@
 ../../../../sources/packages/x/qt4/patches/qt4-4.8.7-settings.patch           -p0
 ../../../../sources/packages/x/qt4/patches/qt4-4.8.7-systemtrayicon.patch     -p0
 ../../../../sources/packages/x/qt4/patches/qt4-4.8.7-webkit-werror.patch      -p0
+../../../../sources/packages/x/qt4/patches/qt4-4.8.7-aarch64.patch            -p0

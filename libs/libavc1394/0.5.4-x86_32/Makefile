@@ -179,4 +179,4 @@ $(pkg_archive): $(install_target) $(LIBAVC1394_32_PKG_DESCRIPTION_FILE) $(LIBAVC
 	 echo "short_description=\"$(LIBAVC1394_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBAVC1394_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBAVC1394_32_PKG_URL)"                                 >> $(LIBAVC1394_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBAVC1394_32_PKG_LICENSE)"                         >> $(LIBAVC1394_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBAVC1394_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBAVC1394_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

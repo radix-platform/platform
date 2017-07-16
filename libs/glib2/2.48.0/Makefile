@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -52,7 +59,13 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_FFRK3288)),)
 hw_cache_in        = $(CURDIR)/cross/hw.cache.arm
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXQ)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXV)),)
+hw_cache_in        = $(CURDIR)/cross/hw.cache.arm
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                                             $(HARDWARE_ODROID_C2)   \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
 hw_cache_in        = $(CURDIR)/cross/hw.cache.arm
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
@@ -283,4 +296,4 @@ $(pkg_archive): $(install_target) $(GLIB2_PKG_DESCRIPTION_FILE) $(GLIB2_PKG_INST
 	 echo "short_description=\"$(GLIB2_PKG_SHORT_DESCRIPTION)\"" >> $(GLIB2_PKG)/.PKGINFO ; \
 	 echo "url=$(GLIB2_PKG_URL)"                                 >> $(GLIB2_PKG)/.PKGINFO ; \
 	 echo "license=$(GLIB2_PKG_LICENSE)"                         >> $(GLIB2_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GLIB2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GLIB2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

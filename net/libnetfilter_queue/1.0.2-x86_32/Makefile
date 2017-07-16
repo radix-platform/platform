@@ -163,4 +163,4 @@ $(pkg_archive): $(install_target) $(LIBNF_QUEUE_32_PKG_DESCRIPTION_FILE) $(LIBNF
 	 echo "short_description=\"$(LIBNF_QUEUE_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBNF_QUEUE_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBNF_QUEUE_32_PKG_URL)"                                 >> $(LIBNF_QUEUE_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBNF_QUEUE_32_PKG_LICENSE)"                         >> $(LIBNF_QUEUE_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBNF_QUEUE_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBNF_QUEUE_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

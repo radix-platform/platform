@@ -37,7 +37,7 @@ REQUIRES          += libs/gst-plugins-base0/0.10.36-x86_32
 
 REQUIRES          += app/sqlite/3.12.2.0-x86_32
 REQUIRES          += app/postgresql/9.6.0-x86_32
-REQUIRES          += app/mariadb/10.0.25-x86_32
+REQUIRES          += app/mariadb/10.0.30-x86_32
 REQUIRES          += libs/libiodbc/3.52.10-x86_32
 
 REQUIRES          += X11/libs/opengl-collection
@@ -465,4 +465,4 @@ $(pkg_archive): $(install_target) $(QT4_32_PKG_DESCRIPTION_FILE) $(QT4_32_PKG_IN
 	 echo "short_description=\"$(QT4_32_PKG_SHORT_DESCRIPTION)\"" >> $(QT4_32_PKG)/.PKGINFO ; \
 	 echo "url=$(QT4_32_PKG_URL)"                                 >> $(QT4_32_PKG)/.PKGINFO ; \
 	 echo "license=$(QT4_32_PKG_LICENSE)"                         >> $(QT4_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(QT4_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(QT4_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

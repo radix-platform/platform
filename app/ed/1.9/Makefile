@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -26,7 +33,7 @@ SOURCE_REQUIRES    = sources/GNU/ed
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/5.3.0
 else
-REQUIRES           = libs/glibc/2.23
+REQUIRES           = libs/glibc/2.24
 endif
 
 # ======= __END_OF_REQUIRES__ =======
@@ -181,4 +188,4 @@ $(pkg_archive): $(install_target) $(ED_PKG_DESCRIPTION_FILE) $(ED_PKG_INSTALL_SC
 	 echo "short_description=\"$(ED_PKG_SHORT_DESCRIPTION)\"" >> $(ED_PKG)/.PKGINFO ; \
 	 echo "url=$(ED_PKG_URL)"                                 >> $(ED_PKG)/.PKGINFO ; \
 	 echo "license=$(ED_PKG_LICENSE)"                         >> $(ED_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(ED_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ED_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

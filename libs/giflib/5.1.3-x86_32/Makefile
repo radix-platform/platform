@@ -147,4 +147,4 @@ $(pkg_archive): $(install_target) $(GIFLIB_32_PKG_DESCRIPTION_FILE) $(GIFLIB_32_
 	 echo "short_description=\"$(GIFLIB_32_PKG_SHORT_DESCRIPTION)\"" >> $(GIFLIB_32_PKG)/.PKGINFO ; \
 	 echo "url=$(GIFLIB_32_PKG_URL)"                                 >> $(GIFLIB_32_PKG)/.PKGINFO ; \
 	 echo "license=$(GIFLIB_32_PKG_LICENSE)"                         >> $(GIFLIB_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GIFLIB_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GIFLIB_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -7,15 +7,19 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/b/mariadb
 
-versions    = 5.5.41 5.5.49 10.0.25
+versions    = 5.5.41 5.5.49 10.0.25 10.0.30
 pkgname     = mariadb
 suffix      = tar.gz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
+patches     = $(CURDIR)/patches/mariadb-10.0.25-bindir.patch
 
-BUILD_TARGETS = $(tarballs) $(sha1s)
+.NOTPARALLEL: $(patches)
+
+
+BUILD_TARGETS = $(tarballs) $(sha1s) $(patches)
 
 
 include ../../../../build-system/core.mk
@@ -43,5 +47,10 @@ $(sha1s): $(tarballs)
 	   fi ; \
 	 done
 
+$(patches): $(sha1s)
+	@echo -e "\n======= Create Patches =======\n" ; \
+	 ( cd create-10.0.25-bindir-patch ; ./create.patch.sh ) ; \
+	 echo -e "\n"
+
 download_clean:
-	@rm -f $(tarballs) $(sha1s)
+	@rm -f $(tarballs) $(sha1s) $(patches)

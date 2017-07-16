@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -99,6 +106,7 @@ extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --with-gpm
 extra_configure_switches += --disable-termcap
+extra_configure_switches += --enable-overwrite
 extra_configure_switches += --with-normal
 extra_configure_switches += --with-shared
 extra_configure_switches += --with-cxx-shared
@@ -190,6 +198,22 @@ $(install_widec_target): $(build_widec_target)
 	   ln -sf libncursesw.so.6.? libcursesw.so     ; \
 	   ln -sf libncurses++w.so.6.? libcurses++w.so ; \
 	 )
+	# ======= Check terminfo symbolic links =======
+	@( cd $(NCURSES_PKG) ; \
+	   for dir in `ls usr/share/terminfo` ; do \
+	     if [ -d usr/share/terminfo/$${dir} ] ; then \
+	       ( cd usr/share/terminfo/$${dir} ; \
+	         for link in `ls` ; do \
+	           if [ -L $${link} -a ! -f `readlink -f $${link}` ] ; then \
+	             file=`readlink $${link}` ; file=`basename $${file}` ; \
+	             ltr=$${file:0:1} ; \
+	             ln -sf ../$${ltr}/$${file} $${link} ; \
+	           fi ; \
+	         done ; \
+	       ) ; \
+	     fi ; \
+	   done ; \
+	 )
 	# ======= Install Documentation =======
 	@mkdir -p $(NCURSES_PKG)/usr/doc/$(doc_dir_name)
 	@cp -a $(SRC_DIR)/ANNOUNCE $(SRC_DIR)/AUTHORS \
@@ -232,6 +256,11 @@ $(install_widec_target): $(build_widec_target)
 	   sed -i "s,=/usr,=$(TARGET_DEST_DIR)/usr,g" form.pc formw.pc menu.pc menuw.pc ncurses++.pc \
 	                                              ncurses++w.pc ncurses.pc ncursesw.pc panel.pc panelw.pc \
 	 )
+	# ======= tune ncurses-config scripts for development =======
+	@( cd $(TARGET_DEST_DIR)/usr/bin ; \
+	   sed -i 's,prefix="/usr,prefix="$(TARGET_DEST_DIR)/usr,' ncurses6-config ncursesw6-config ; \
+	   sed -i 's,libdir="/usr,libdir="$(TARGET_DEST_DIR)/usr,' ncurses6-config ncursesw6-config ; \
+	 )
 	# ======= Strip binaries =======
 	@( cd $(NCURSES_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
@@ -270,4 +299,4 @@ $(pkg_archive): $(install_widec_target) $(NCURSES_PKG_DESCRIPTION_FILE) $(NCURSE
 	 echo "short_description=\"$(NCURSES_PKG_SHORT_DESCRIPTION)\"" >> $(NCURSES_PKG)/.PKGINFO ; \
 	 echo "url=$(NCURSES_PKG_URL)"                                 >> $(NCURSES_PKG)/.PKGINFO ; \
 	 echo "license=$(NCURSES_PKG_LICENSE)"                         >> $(NCURSES_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(NCURSES_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(NCURSES_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

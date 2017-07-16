@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -26,7 +33,7 @@ SOURCE_REQUIRES    = sources/packages/m/openh264
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/5.3.0
 else
-REQUIRES          += libs/glibc/2.23
+REQUIRES          += libs/glibc/2.24
 endif
 
 # ======= __END_OF_REQUIRES__ =======
@@ -101,7 +108,7 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)      \
                             $(HARDWARE_CB3X)      \
                             $(HARDWARE_FFRK3288)  \
                             $(HARDWARE_M201)      \
-                            $(HARDWARE_MXQ)       \
+                            $(HARDWARE_MXV)       \
                             $(HARDWARE_NIT6Q)     \
                             $(HARDWARE_OMAP5UEVM) \
                             $(HARDWARE_DRA7XXEVM)),)
@@ -228,4 +235,4 @@ $(pkg_archive): $(install_target) $(OPENH264_PKG_DESCRIPTION_FILE) $(OPENH264_PK
 	 echo "short_description=\"$(OPENH264_PKG_SHORT_DESCRIPTION)\"" >> $(OPENH264_PKG)/.PKGINFO ; \
 	 echo "url=$(OPENH264_PKG_URL)"                                 >> $(OPENH264_PKG)/.PKGINFO ; \
 	 echo "license=$(OPENH264_PKG_LICENSE)"                         >> $(OPENH264_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(OPENH264_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(OPENH264_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

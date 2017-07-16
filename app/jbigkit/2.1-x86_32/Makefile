@@ -124,4 +124,4 @@ $(pkg_archive): $(install_target) $(JBIGKIT_32_PKG_DESCRIPTION_FILE) $(JBIGKIT_3
 	 echo "short_description=\"$(JBIGKIT_32_PKG_SHORT_DESCRIPTION)\"" >> $(JBIGKIT_32_PKG)/.PKGINFO ; \
 	 echo "url=$(JBIGKIT_32_PKG_URL)"                                 >> $(JBIGKIT_32_PKG)/.PKGINFO ; \
 	 echo "license=$(JBIGKIT_32_PKG_LICENSE)"                         >> $(JBIGKIT_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(JBIGKIT_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(JBIGKIT_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -147,4 +147,4 @@ $(pkg_archive): $(install_target) $(FDK_AAC_32_PKG_DESCRIPTION_FILE) $(FDK_AAC_3
 	 echo "short_description=\"$(FDK_AAC_32_PKG_SHORT_DESCRIPTION)\"" >> $(FDK_AAC_32_PKG)/.PKGINFO ; \
 	 echo "url=$(FDK_AAC_32_PKG_URL)"                                 >> $(FDK_AAC_32_PKG)/.PKGINFO ; \
 	 echo "license=$(FDK_AAC_32_PKG_LICENSE)"                         >> $(FDK_AAC_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(FDK_AAC_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(FDK_AAC_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -162,4 +162,4 @@ $(pkg_archive): $(install_target) $(POPT32_PKG_DESCRIPTION_FILE) $(POPT32_PKG_IN
 	 echo "short_description=\"$(POPT32_PKG_SHORT_DESCRIPTION)\"" >> $(POPT32_PKG)/.PKGINFO ; \
 	 echo "url=$(POPT32_PKG_URL)"                                 >> $(POPT32_PKG)/.PKGINFO ; \
 	 echo "license=$(POPT32_PKG_LICENSE)"                         >> $(POPT32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(POPT32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(POPT32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

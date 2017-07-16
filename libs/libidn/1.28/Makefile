@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -27,9 +34,9 @@ ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/5.3.0
 else
 ifneq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES           = libs/glibc/2.23
+REQUIRES           = libs/glibc/2.24
 else
-REQUIRES           = libs/glibc/2.23-x86_32
+REQUIRES           = libs/glibc/2.24-x86_32
 endif
 endif
 
@@ -104,6 +111,9 @@ extra_configure_switches += --enable-shared=yes
 
 extra_configure_switches += --enable-gtk-doc
 extra_configure_switches += --enable-gtk-doc-html
+extra_configure_switches += ac_cv_path_GTKDOC_CHECK=/usr/bin/gtkdoc-check
+extra_configure_switches += ac_cv_path_GTKDOC_REBASE=/usr/bin/gtkdoc-rebase
+extra_configure_switches += ac_cv_path_GTKDOC_MKPDF=/usr/bin/gtkdoc-mkpdf
 
 
 ####### Dependencies
@@ -202,4 +212,4 @@ $(pkg_archive): $(install_target) $(LIBIDN_PKG_DESCRIPTION_FILE) $(LIBIDN_PKG_IN
 	 echo "short_description=\"$(LIBIDN_PKG_SHORT_DESCRIPTION)\"" >> $(LIBIDN_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBIDN_PKG_URL)"                                 >> $(LIBIDN_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBIDN_PKG_LICENSE)"                         >> $(LIBIDN_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBIDN_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBIDN_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

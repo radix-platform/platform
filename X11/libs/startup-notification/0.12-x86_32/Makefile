@@ -169,4 +169,4 @@ $(pkg_archive): $(install_target) $(STN_32_PKG_DESCRIPTION_FILE) $(STN_32_PKG_IN
 	 echo "short_description=\"$(STN_32_PKG_SHORT_DESCRIPTION)\"" >> $(STN_32_PKG)/.PKGINFO ; \
 	 echo "url=$(STN_32_PKG_URL)"                                 >> $(STN_32_PKG)/.PKGINFO ; \
 	 echo "license=$(STN_32_PKG_LICENSE)"                         >> $(STN_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(STN_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(STN_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

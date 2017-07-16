@@ -111,4 +111,4 @@ $(pkg_archive): $(install_target) $(INPUTATTACH32_PKG_DESCRIPTION_FILE) $(INPUTA
 	 echo "short_description=\"$(INPUTATTACH32_PKG_SHORT_DESCRIPTION)\"" >> $(INPUTATTACH32_PKG)/.PKGINFO ; \
 	 echo "url=$(INPUTATTACH32_PKG_URL)"                                 >> $(INPUTATTACH32_PKG)/.PKGINFO ; \
 	 echo "license=$(INPUTATTACH32_PKG_LICENSE)"                         >> $(INPUTATTACH32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(INPUTATTACH32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(INPUTATTACH32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

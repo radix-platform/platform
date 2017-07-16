@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -25,7 +32,7 @@ SOURCE_REQUIRES    = sources/packages/n/curl
 
 REQUIRES           = net/openssh/7.2p1
 REQUIRES          += net/gnutls/3.4.8
-REQUIRES          += net/ca-certificates/45.0.2
+REQUIRES          += net/ca-certificates/52.0
 REQUIRES          += net/openldap-client/2.4.43
 
 # ======= __END_OF_REQUIRES__ =======
@@ -242,4 +249,4 @@ $(pkg_archive): $(install_target) $(CURL_PKG_DESCRIPTION_FILE) $(CURL_PKG_INSTAL
 	 echo "short_description=\"$(CURL_PKG_SHORT_DESCRIPTION)\"" >> $(CURL_PKG)/.PKGINFO ; \
 	 echo "url=$(CURL_PKG_URL)"                                 >> $(CURL_PKG)/.PKGINFO ; \
 	 echo "license=$(CURL_PKG_LICENSE)"                         >> $(CURL_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(CURL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(CURL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

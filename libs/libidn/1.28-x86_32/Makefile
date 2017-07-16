@@ -151,4 +151,4 @@ $(pkg_archive): $(install_target) $(LIBIDN32_PKG_DESCRIPTION_FILE) $(LIBIDN32_PK
 	 echo "short_description=\"$(LIBIDN32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBIDN32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBIDN32_PKG_URL)"                                 >> $(LIBIDN32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBIDN32_PKG_LICENSE)"                         >> $(LIBIDN32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBIDN32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBIDN32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

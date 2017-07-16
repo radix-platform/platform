@@ -155,4 +155,4 @@ $(pkg_archive): $(install_target) $(PARANOIA_32_PKG_DESCRIPTION_FILE) $(PARANOIA
 	 echo "short_description=\"$(PARANOIA_32_PKG_SHORT_DESCRIPTION)\"" >> $(PARANOIA_32_PKG)/.PKGINFO ; \
 	 echo "url=$(PARANOIA_32_PKG_URL)"                                 >> $(PARANOIA_32_PKG)/.PKGINFO ; \
 	 echo "license=$(PARANOIA_32_PKG_LICENSE)"                         >> $(PARANOIA_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(PARANOIA_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PARANOIA_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

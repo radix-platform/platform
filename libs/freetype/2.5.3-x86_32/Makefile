@@ -176,4 +176,4 @@ $(pkg_archive): $(install_target) $(FREETYPE_32_PKG_DESCRIPTION_FILE) $(FREETYPE
 	 echo "short_description=\"$(FREETYPE_32_PKG_SHORT_DESCRIPTION)\"" >> $(FREETYPE_32_PKG)/.PKGINFO ; \
 	 echo "url=$(FREETYPE_32_PKG_URL)"                                 >> $(FREETYPE_32_PKG)/.PKGINFO ; \
 	 echo "license=$(FREETYPE_32_PKG_LICENSE)"                         >> $(FREETYPE_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(FREETYPE_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(FREETYPE_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

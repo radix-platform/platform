@@ -7,9 +7,9 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/X.org/driver/xf86-video-siliconmotion
 
-versions    = 1.7.7
+versions    = 1.7.8.1
 pkgname     = xf86-video-siliconmotion
-suffix      = tar.bz2
+suffix      = tar.xz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))

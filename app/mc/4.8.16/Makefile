@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -27,10 +34,12 @@ ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES           = app/gpm/1.20.7
 REQUIRES          += libs/slang/2.2.4
 REQUIRES          += libs/glib2/2.48.0
+REQUIRES          += libs/libssh2/1.8.0
 else
 REQUIRES           = app/gpm/1.20.7-x86_32
 REQUIRES          += libs/slang/2.2.4-x86_32
 REQUIRES          += libs/glib2/2.48.0-x86_32
+REQUIRES          += libs/libssh2/1.8.0-x86_32
 endif
 
 # ======= __END_OF_REQUIRES__ =======
@@ -236,4 +245,4 @@ $(pkg_archive): $(install_target) $(MC_PKG_DESCRIPTION_FILE) $(MC_PKG_INSTALL_SC
 	 echo "short_description=\"$(MC_PKG_SHORT_DESCRIPTION)\"" >> $(MC_PKG)/.PKGINFO ; \
 	 echo "url=$(MC_PKG_URL)"                                 >> $(MC_PKG)/.PKGINFO ; \
 	 echo "license=$(MC_PKG_LICENSE)"                         >> $(MC_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(MC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(MC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

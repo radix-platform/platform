@@ -154,4 +154,4 @@ $(pkg_archive): $(install_target) $(OPENSSL32_PKG_DESCRIPTION_FILE) $(OPENSSL32_
 	 echo "short_description=\"$(OPENSSL32_PKG_SHORT_DESCRIPTION)\"" >> $(OPENSSL32_PKG)/.PKGINFO ; \
 	 echo "url=$(OPENSSL32_PKG_URL)"                                 >> $(OPENSSL32_PKG)/.PKGINFO ; \
 	 echo "license=$(OPENSSL32_PKG_LICENSE)"                         >> $(OPENSSL32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(OPENSSL32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(OPENSSL32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

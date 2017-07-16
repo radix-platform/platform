@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -39,11 +46,26 @@ REQUIRES           = dev/kernel/firefly/3.10-20151231-headers
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_M201)),)
-REQUIRES           = dev/kernel/s805/3.10.33-20160716-headers
+REQUIRES           = dev/kernel/s8xx/3.10.33-20160716-headers
 endif
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_MXQ)),)
-REQUIRES           = dev/kernel/s805/3.10.103-20160830-headers
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MXV)),)
+REQUIRES           = dev/kernel/s8xx/3.10.103-20160830-headers
+endif
+
+ifneq ($(filter $(HARDWARE),$(HARDWARE_P201)        \
+                            $(HARDWARE_NEXBOX_A95X) \
+                            $(HARDWARE_P212)        \
+                            $(HARDWARE_ENYBOX_X2)),)
+REQUIRES           = dev/kernel/s9xx/3.14.29-20160818-headers
+endif
+
+ifneq ($(filter $(HARDWARE),$(HARDWARE_ODROID_C2)),)
+REQUIRES           = dev/kernel/odroid-c2/3.14.79-20170131-headers
+endif
+
+ifneq ($(filter $(HARDWARE),$(HARDWARE_KHADAS_VIM)),)
+REQUIRES           = dev/kernel/kvim/3.14.29-20170119-headers
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
@@ -59,7 +81,7 @@ REQUIRES           = dev/kernel/ci20/3.18-20160210-headers
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_BT1)),)
-REQUIRES           = dev/kernel/bt1/4.1.18-headers
+REQUIRES           = dev/kernel/bt1/4.4.24-4.08.84-headers
 endif
 
 

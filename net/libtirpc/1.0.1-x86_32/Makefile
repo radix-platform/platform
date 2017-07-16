@@ -151,4 +151,4 @@ $(pkg_archive): $(install_target) $(LIBTIRPC_32_PKG_DESCRIPTION_FILE) $(LIBTIRPC
 	 echo "short_description=\"$(LIBTIRPC_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBTIRPC_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBTIRPC_32_PKG_URL)"                                 >> $(LIBTIRPC_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBTIRPC_32_PKG_LICENSE)"                         >> $(LIBTIRPC_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBTIRPC_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBTIRPC_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

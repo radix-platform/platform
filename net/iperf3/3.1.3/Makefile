@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -23,7 +30,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/n/iperf3
 
-REQUIRES           = libs/glibc/2.23
+REQUIRES           = libs/glibc/2.24
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -222,4 +229,4 @@ $(pkg_archive): $(install_target) $(IPERF3_PKG_DESCRIPTION_FILE) $(IPERF3_PKG_IN
 	 echo "short_description=\"$(IPERF3_PKG_SHORT_DESCRIPTION)\"" >> $(IPERF3_PKG)/.PKGINFO ; \
 	 echo "url=$(IPERF3_PKG_URL)"                                 >> $(IPERF3_PKG)/.PKGINFO ; \
 	 echo "license=$(IPERF3_PKG_LICENSE)"                         >> $(IPERF3_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(IPERF3_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(IPERF3_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

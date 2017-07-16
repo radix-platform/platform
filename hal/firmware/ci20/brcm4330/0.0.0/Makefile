@@ -115,4 +115,4 @@ $(pkg_archive): $(install_target) $(WIFIFW_PKG_DESCRIPTION_FILE) $(WIFIFW_PKG_IN
 	 echo "short_description=\"$(WIFIFW_PKG_SHORT_DESCRIPTION)\"" >> $(WIFIFW_PKG)/.PKGINFO ; \
 	 echo "url=$(WIFIFW_PKG_URL)"                                 >> $(WIFIFW_PKG)/.PKGINFO ; \
 	 echo "license=$(WIFIFW_PKG_LICENSE)"                         >> $(WIFIFW_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(WIFIFW_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(WIFIFW_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

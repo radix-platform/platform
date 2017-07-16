@@ -157,4 +157,4 @@ $(pkg_archive): $(install_target) $(SQLITE_32_PKG_DESCRIPTION_FILE) $(SQLITE_32_
 	 echo "short_description=\"$(SQLITE_32_PKG_SHORT_DESCRIPTION)\"" >> $(SQLITE_32_PKG)/.PKGINFO ; \
 	 echo "url=$(SQLITE_32_PKG_URL)"                                 >> $(SQLITE_32_PKG)/.PKGINFO ; \
 	 echo "license=$(SQLITE_32_PKG_LICENSE)"                         >> $(SQLITE_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(SQLITE_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SQLITE_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -181,4 +181,4 @@ $(pkg_archive): $(install_target) $(ACL_32_PKG_DESCRIPTION_FILE) $(ACL_32_PKG_IN
 	 echo "short_description=\"$(ACL_32_PKG_SHORT_DESCRIPTION)\"" >> $(ACL_32_PKG)/.PKGINFO ; \
 	 echo "url=$(ACL_32_PKG_URL)"                                 >> $(ACL_32_PKG)/.PKGINFO ; \
 	 echo "license=$(ACL_32_PKG_LICENSE)"                         >> $(ACL_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(ACL_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ACL_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

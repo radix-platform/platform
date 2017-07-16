@@ -12,7 +12,7 @@ include ../../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/X.org/driver/xf86-video-vmware
 
-REQUIRES           = X11/X.org/xserver/xorg-server/1.18.3
+REQUIRES           = X11/X.org/xserver/xorg-server/1.18.4
 
 REQUIRES          += X11/libs/opengl-collection
 
@@ -205,4 +205,4 @@ $(pkg_archive): $(install_target) $(XORG_PKG_DESCRIPTION_FILE) $(XORG_PKG_INSTAL
 	 echo "short_description=\"$(XORG_PKG_SHORT_DESCRIPTION)\"" >> $(XORG_PKG)/.PKGINFO ; \
 	 echo "url=$(XORG_PKG_URL)"                                 >> $(XORG_PKG)/.PKGINFO ; \
 	 echo "license=$(XORG_PKG_LICENSE)"                         >> $(XORG_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(XORG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(XORG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

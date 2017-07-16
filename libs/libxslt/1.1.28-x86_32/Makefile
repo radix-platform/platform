@@ -212,4 +212,4 @@ $(pkg_archive): $(install_target) $(LIBXSLT_32_PKG_DESCRIPTION_FILE) $(LIBXSLT_3
 	 echo "short_description=\"$(LIBXSLT_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBXSLT_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBXSLT_32_PKG_URL)"                                 >> $(LIBXSLT_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBXSLT_32_PKG_LICENSE)"                         >> $(LIBXSLT_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBXSLT_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBXSLT_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

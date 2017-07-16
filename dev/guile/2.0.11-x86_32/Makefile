@@ -16,8 +16,8 @@ REQUIRES           = dev/guile/2.0.11
 REQUIRES          += libs/libffi/3.2.1-x86_32
 REQUIRES          += libs/gmp/6.1.0-x86_32
 REQUIRES          += libs/readline/6.3-x86_32
-REQUIRES          += dev/libtool/2.4.2-x86_32
-REQUIRES          += libs/libunistring/0.9.3-x86_32
+REQUIRES          += dev/libtool/2.4.6-x86_32
+REQUIRES          += libs/libunistring/0.9.6-x86_32
 REQUIRES          += libs/gc/7.4.2-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
@@ -91,6 +91,14 @@ extra_configure_switches += --with-threads
 extra_configure_switches += --disable-error-on-warning
 extra_configure_switches += --enable-static=yes
 extra_configure_switches += --enable-shared=yes
+
+# Тhе road to hellis paved with good intentions:
+extra_configure_switches += --without-libgmp-prefix
+extra_configure_switches += --without-libiconv-prefix
+extra_configure_switches += --without-libintl-prefix
+extra_configure_switches += --without-libltdl-prefix
+extra_configure_switches += --without-libreadline-prefix
+extra_configure_switches += --without-libunistring-prefix
 
 
 GUILE_LOAD_PATH    = ../../$(src_dir_name)/module
@@ -216,4 +224,4 @@ $(pkg_archive): $(install_target) $(GUILE_32_PKG_DESCRIPTION_FILE) $(GUILE_32_PK
 	 echo "short_description=\"$(GUILE_32_PKG_SHORT_DESCRIPTION)\"" >> $(GUILE_32_PKG)/.PKGINFO ; \
 	 echo "url=$(GUILE_32_PKG_URL)"                                 >> $(GUILE_32_PKG)/.PKGINFO ; \
 	 echo "license=$(GUILE_32_PKG_LICENSE)"                         >> $(GUILE_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GUILE_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GUILE_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

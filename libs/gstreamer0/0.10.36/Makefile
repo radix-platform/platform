@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -52,6 +59,12 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
 PATCHES = PATCHES.omap543x
 else
 PATCHES = PATCHES
+endif
+
+BISON_MAJOR_VERSION = $(shell bison --version | grep ^bison | sed 's/^.* //g' | cut -f 1 -d'.' )
+
+ifeq ($(BISON_MAJOR_VERSION),3)
+OPT_PATCHES = PATCHES.bison3
 endif
 
 build_dir          = $(TARGET_BUILD_DIR)/build
@@ -132,6 +145,9 @@ TARGET_LIB_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUF
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
+ifeq ($(BISON_MAJOR_VERSION),3)
+	$(call apply-opt-patches, $(SRC_DIR))
+endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
 	@( cd $(SRC_DIR) ; ./autogen.sh ; make distclean )
 endif
@@ -280,4 +296,4 @@ $(pkg_archive): $(install_target) $(GSTREAMER_PKG_DESCRIPTION_FILE) $(GSTREAMER_
 	 echo "short_description=\"$(GSTREAMER_PKG_SHORT_DESCRIPTION)\"" >> $(GSTREAMER_PKG)/.PKGINFO ; \
 	 echo "url=$(GSTREAMER_PKG_URL)"                                 >> $(GSTREAMER_PKG)/.PKGINFO ; \
 	 echo "license=$(GSTREAMER_PKG_LICENSE)"                         >> $(GSTREAMER_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GSTREAMER_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GSTREAMER_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -1,2 +1,3 @@
 
-../../../../sources/GNOME/core/libglade/patches/libglade-2.6.4.patch -p0
+../../../../sources/GNOME/core/libglade/patches/libglade-2.6.4.patch          -p0
+../../../../sources/GNOME/core/libglade/patches/libglade-2.6.4-automake.patch -p0

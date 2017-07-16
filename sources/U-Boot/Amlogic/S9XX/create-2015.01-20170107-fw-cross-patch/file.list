@@ -1,0 +1,4 @@
+u-boot-aml-2015.01-20170107/arch/arm/cpu/armv8/gxb/firmware/scp_task/Makefile
+u-boot-aml-2015.01-20170107/arch/arm/cpu/armv8/gxl/firmware/scp_task/Makefile
+u-boot-aml-2015.01-20170107/arch/arm/cpu/armv8/gxtvbb/firmware/scp_task/Makefile
+u-boot-aml-2015.01-20170107/arch/arm/cpu/armv8/txl/firmware/scp_task/Makefile

@@ -1,3 +1,4 @@
 
 ../../../sources/GNOME/core/pygobject/patches/pygobject-2.28.6-configure.patch -p0
 ../../../sources/GNOME/core/pygobject/patches/pygobject-2.28.6-flags.patch     -p0
+../../../sources/GNOME/core/pygobject/patches/pygobject-2.28.6-automake.patch  -p0

@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/imlib-1.9.15-aclocal.patch
+patches    += $(CURDIR)/patches/imlib-1.9.15-automake.patch
 patches    += $(CURDIR)/patches/imlib-1.9.15-gif.patch
 patches    += $(CURDIR)/patches/imlib-1.9.15-gtk.patch
 patches    += $(CURDIR)/patches/imlib-1.9.15-mitshm-render.patch
@@ -54,6 +55,7 @@ $(sha1s): $(tarballs)
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-1.9.15-aclocal-patch       ; ./create.patch.sh ) ; \
+	 ( cd create-1.9.15-automake-patch      ; ./create.patch.sh ) ; \
 	 ( cd create-1.9.15-gif-patch           ; ./create.patch.sh ) ; \
 	 ( cd create-1.9.15-gtk-patch           ; ./create.patch.sh ) ; \
 	 ( cd create-1.9.15-mitshm-render-patch ; ./create.patch.sh ) ; \

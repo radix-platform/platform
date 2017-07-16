@@ -6,7 +6,7 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -161,7 +161,7 @@ extra_configure_switches += --enable-plugins
 extra_configure_switches += --enable-targets=$(TARGET),arm-radix-linux-gnu
 endif
 
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S805_GLIBC))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S8XX_GLIBC))
 extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
 extra_configure_switches += '--with-bugurl=$(BUG_URL)'
 # experimental gold linker( DEFAULT_LD=ld.bfd ):
@@ -430,4 +430,4 @@ $(pkg_archive): $(install_target) $(BINUTILS_DEV_PKG_DESCRIPTION_FILE) $(BINUTIL
 	 echo "short_description=\"$(BINUTILS_DEV_PKG_SHORT_DESCRIPTION)\"" >> $(BINUTILS_DEV_PKG)/.PKGINFO ; \
 	 echo "url=$(BINUTILS_DEV_PKG_URL)"                                 >> $(BINUTILS_DEV_PKG)/.PKGINFO ; \
 	 echo "license=$(BINUTILS_DEV_PKG_LICENSE)"                         >> $(BINUTILS_DEV_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(BINUTILS_DEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(BINUTILS_DEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

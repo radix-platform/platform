@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -25,7 +32,7 @@ SOURCE_REQUIRES    = sources/GNU/gettext
 
 REQUIRES           = app/gettext/0.19.7
 REQUIRES          += libs/libcroco/0.6.11
-REQUIRES          += libs/libunistring/0.9.3
+REQUIRES          += libs/libunistring/0.9.6
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -95,7 +102,12 @@ extra_configure_switches += --docdir=/usr/share/doc/$(doc_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --disable-dependency-tracking
-extra_configure_switches += --enable-shared
+extra_configure_switches += --enable-shared=yes
+
+extra_configure_switches += --disable-rpath
+
+extra_configure_switches += --with-libncurses-prefix=$(TARGET_DEST_DIR)/usr
+
 
 LDFLAGS += -Wl,-rpath,/lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)
 
@@ -123,6 +135,8 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(GETTEXT_PKG)
+	# ======= Remove relink_command before install =======
+	@( cd $(build_dir) ; sed -i '/relink_command/d' src/libgettextsrc.la )
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Install Documentation =======
 	@rm -f $(GETTEXT_PKG)/usr/share/info/dir
@@ -219,4 +233,4 @@ $(pkg_archive): $(install_target) $(GETTEXT_PKG_DESCRIPTION_FILE) $(GETTEXT_PKG_
 	 echo "short_description=\"$(GETTEXT_PKG_SHORT_DESCRIPTION)\"" >> $(GETTEXT_PKG)/.PKGINFO ; \
 	 echo "url=$(GETTEXT_PKG_URL)"                                 >> $(GETTEXT_PKG)/.PKGINFO ; \
 	 echo "license=$(GETTEXT_PKG_LICENSE)"                         >> $(GETTEXT_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GETTEXT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GETTEXT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

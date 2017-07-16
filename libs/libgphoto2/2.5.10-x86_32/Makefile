@@ -17,7 +17,7 @@ REQUIRES          += libs/libexif/0.6.21-x86_32
 REQUIRES          += libs/libgd/2.2.2-x86_32
 REQUIRES          += libs/libusb/1.0.20-x86_32
 REQUIRES          += libs/libxml2/2.9.3-x86_32
-REQUIRES          += dev/libtool/2.4.2-x86_32
+REQUIRES          += dev/libtool/2.4.6-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -249,4 +249,4 @@ $(pkg_archive): $(install_target) $(GPHOTO2_32_PKG_DESCRIPTION_FILE) $(GPHOTO2_3
 	 echo "short_description=\"$(GPHOTO2_32_PKG_SHORT_DESCRIPTION)\"" >> $(GPHOTO2_32_PKG)/.PKGINFO ; \
 	 echo "url=$(GPHOTO2_32_PKG_URL)"                                 >> $(GPHOTO2_32_PKG)/.PKGINFO ; \
 	 echo "license=$(GPHOTO2_32_PKG_LICENSE)"                         >> $(GPHOTO2_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GPHOTO2_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GPHOTO2_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

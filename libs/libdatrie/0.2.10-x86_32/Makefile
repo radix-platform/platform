@@ -151,4 +151,4 @@ $(pkg_archive): $(install_target) $(DATRIE_32_PKG_DESCRIPTION_FILE) $(DATRIE_32_
 	 echo "short_description=\"$(DATRIE_32_PKG_SHORT_DESCRIPTION)\"" >> $(DATRIE_32_PKG)/.PKGINFO ; \
 	 echo "url=$(DATRIE_32_PKG_URL)"                                 >> $(DATRIE_32_PKG)/.PKGINFO ; \
 	 echo "license=$(DATRIE_32_PKG_LICENSE)"                         >> $(DATRIE_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(DATRIE_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(DATRIE_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

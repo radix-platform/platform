@@ -181,4 +181,4 @@ $(pkg_archive): $(install_target) $(VALA_32_PKG_DESCRIPTION_FILE) $(VALA_32_PKG_
 	 echo "short_description=\"$(VALA_32_PKG_SHORT_DESCRIPTION)\"" >> $(VALA_32_PKG)/.PKGINFO ; \
 	 echo "url=$(VALA_32_PKG_URL)"                                 >> $(VALA_32_PKG)/.PKGINFO ; \
 	 echo "license=$(VALA_32_PKG_LICENSE)"                         >> $(VALA_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(VALA_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(VALA_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

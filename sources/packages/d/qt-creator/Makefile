@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/d/qt-creator
 
-versions    = 3.5.1
+versions    = 3.5.1 4.2.0
 pkgname     = qt-creator-opensource-src
 suffix      = tar.gz
 
@@ -18,7 +18,14 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 patches     = $(CURDIR)/patches/qt-creator-3.5.1-sdk-libs.patch
 patches    += $(CURDIR)/patches/qt-creator-3.5.1-ext-tools.patch
 patches    += $(CURDIR)/patches/qt-creator-3.5.1-system-botan.patch
+patches    += $(CURDIR)/patches/qt-creator-3.5.1-botan-on-arm.patch
 patches    += $(CURDIR)/patches/qt-creator-3.5.1-docs.patch
+
+patches    += $(CURDIR)/patches/qt-creator-4.2.0-sdk-libs.patch
+patches    += $(CURDIR)/patches/qt-creator-4.2.0-ext-tools.patch
+patches    += $(CURDIR)/patches/qt-creator-4.2.0-system-botan.patch
+patches    += $(CURDIR)/patches/qt-creator-4.2.0-botan-on-arm.patch
+patches    += $(CURDIR)/patches/qt-creator-4.2.0-docs.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -56,7 +63,13 @@ $(patches): $(sha1s)
 	 ( cd create-3.5.1-sdk-libs-patch     ; ./create.patch.sh ) ; \
 	 ( cd create-3.5.1-ext-tools-patch    ; ./create.patch.sh ) ; \
 	 ( cd create-3.5.1-system-botan-patch ; ./create.patch.sh ) ; \
+	 ( cd create-3.5.1-botan-on-arm-patch ; ./create.patch.sh ) ; \
 	 ( cd create-3.5.1-docs-patch         ; ./create.patch.sh ) ; \
+	 ( cd create-4.2.0-sdk-libs-patch     ; ./create.patch.sh ) ; \
+	 ( cd create-4.2.0-ext-tools-patch    ; ./create.patch.sh ) ; \
+	 ( cd create-4.2.0-system-botan-patch ; ./create.patch.sh ) ; \
+	 ( cd create-4.2.0-botan-on-arm-patch ; ./create.patch.sh ) ; \
+	 ( cd create-4.2.0-docs-patch         ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

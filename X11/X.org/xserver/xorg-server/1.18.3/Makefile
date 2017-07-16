@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -47,11 +54,14 @@ REQUIRES          += X11/X.org/proto/resourceproto/1.2.0
 REQUIRES          += X11/X.org/lib/libXaw/1.0.13
 REQUIRES          += X11/X.org/lib/libXft/2.3.2
 REQUIRES          += X11/X.org/lib/libXfont/1.5.1
-REQUIRES          += X11/X.org/lib/libXi/1.7.6
 REQUIRES          += X11/X.org/lib/libXdamage/1.1.4
 REQUIRES          += X11/X.org/lib/libXxf86vm/1.1.4
+REQUIRES          += X11/X.org/lib/libXres/1.0.7
+REQUIRES          += X11/X.org/lib/libXtst/1.2.2
+REQUIRES          += X11/X.org/lib/libdmx/1.1.3
 REQUIRES          += X11/X.org/lib/pixman/0.34.0
 REQUIRES          += X11/X.org/lib/libxshmfence/1.2
+REQUIRES          += X11/X.org/lib/libxkbfile/1.0.9
 
 REQUIRES          += X11/X.org/xcb/xcb-util-cursor/0.1.3
 REQUIRES          += X11/X.org/xcb/xcb-util-keysyms/0.4.0
@@ -79,9 +89,18 @@ kbd_layout         = $(CURDIR)/kbd-layout/90-keyboard-layout.conf
 
 PATCHES = PATCHES
 
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC))
+OPT_PATCHES = PATCHES.aarch64
+endif
+
 build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
+
+
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC))
+OPTIMIZATION_FLAGS  = -O2
+endif
 
 
 ####### Targets
@@ -190,6 +209,13 @@ TARGET_LIB_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUF
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC))
+	$(call apply-opt-patches, $(SRC_DIR))
+	# ======= touch to prevent autoreconf =======
+	@( cd $(SRC_DIR) ; \
+	   touch configure configure.ac -r aclocal.m4 ; \
+	 )
+endif
 	@touch $@
 
 $(build_target): $(src_done)
@@ -339,7 +365,7 @@ $(pkg_archive): $(install_target) $(XORG_PKG_DESCRIPTION_FILE) $(XORG_PKG_INSTAL
 	 echo "short_description=\"$(XORG_PKG_SHORT_DESCRIPTION)\"" >> $(XORG_PKG)/.PKGINFO ; \
 	 echo "url=$(XORG_PKG_URL)"                                 >> $(XORG_PKG)/.PKGINFO ; \
 	 echo "license=$(XORG_PKG_LICENSE)"                         >> $(XORG_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(XORG_PKG) && \
-	                    chown -R root:root     . && \
-	                    chmod 04755 usr/bin/Xorg && \
-	                    $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(XORG_PKG) && \
+	                  chown -R root:root     . && \
+	                  chmod 04755 usr/bin/Xorg && \
+	                  $(MAKE_PACKAGE) --linkadd yes .."

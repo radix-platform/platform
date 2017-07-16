@@ -175,4 +175,4 @@ $(pkg_archive): $(install_target) $(LIBAO_32_PKG_DESCRIPTION_FILE) $(LIBAO_32_PK
 	 echo "short_description=\"$(LIBAO_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBAO_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBAO_32_PKG_URL)"                                 >> $(LIBAO_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBAO_32_PKG_LICENSE)"                         >> $(LIBAO_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBAO_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBAO_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

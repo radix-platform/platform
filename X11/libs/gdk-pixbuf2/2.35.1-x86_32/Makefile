@@ -119,7 +119,8 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 
 $(build_target): $(src_done)
 	@mkdir -p $(build_dir)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
+	@cd $(build_dir) && \
+	  $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
 	  --prefix=/usr               \
 	  --build=$(BUILD)            \
 	  --host=$(TARGET32)          \
@@ -225,4 +226,4 @@ $(pkg_archive): $(install_target) $(PIXBUF2_32_PKG_DESCRIPTION_FILE) $(PIXBUF2_3
 	 echo "short_description=\"$(PIXBUF2_32_PKG_SHORT_DESCRIPTION)\"" >> $(PIXBUF2_32_PKG)/.PKGINFO ; \
 	 echo "url=$(PIXBUF2_32_PKG_URL)"                                 >> $(PIXBUF2_32_PKG)/.PKGINFO ; \
 	 echo "license=$(PIXBUF2_32_PKG_LICENSE)"                         >> $(PIXBUF2_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(PIXBUF2_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PIXBUF2_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

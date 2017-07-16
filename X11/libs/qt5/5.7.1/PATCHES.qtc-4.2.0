@@ -1,0 +1,11 @@
+
+../../../../sources/packages/d/qt-creator/patches/qt-creator-4.2.0-ext-tools.patch    -p0
+../../../../sources/packages/d/qt-creator/patches/qt-creator-4.2.0-sdk-libs.patch     -p0
+../../../../sources/packages/d/qt-creator/patches/qt-creator-4.2.0-botan-on-arm.patch -p0
+../../../../sources/packages/d/qt-creator/patches/qt-creator-4.2.0-docs.patch         -p0
+
+#
+# USE_SYSTEM_BOTAN = 1 in the .qmake.conf file instead following patch
+#
+# ../../../../sources/packages/d/qt-creator/patches/qt-creator-4.2.0-system-botan.patch -p0
+#

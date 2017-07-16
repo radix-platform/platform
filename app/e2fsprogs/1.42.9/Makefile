@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -193,8 +200,9 @@ $(install_target): $(build_target)
 	$(call install-into-devenv, $(E2FSPROGS_PKG))
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" com_err.pc e2p.pc ext2fs.pc quota.pc ss.pc ; \
-	   sed -i "s,^prefix=,prefix=$(TARGET_DEST_DIR),g" com_err.pc e2p.pc ext2fs.pc quota.pc ss.pc ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"                com_err.pc e2p.pc ext2fs.pc quota.pc ss.pc ; \
+	   sed -i "s,^prefix=,prefix=$(TARGET_DEST_DIR),g"         com_err.pc e2p.pc ext2fs.pc quota.pc ss.pc ; \
+	   sed -i "s,^libdir=/lib,libdir=$(TARGET_DEST_DIR)/lib,g" com_err.pc e2p.pc ext2fs.pc quota.pc ss.pc ; \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(E2FSPROGS_PKG) ; \
@@ -222,4 +230,4 @@ $(pkg_archive): $(install_target) $(E2FSPROGS_PKG_DESCRIPTION_FILE) $(E2FSPROGS_
 	 echo "short_description=\"$(E2FSPROGS_PKG_SHORT_DESCRIPTION)\"" >> $(E2FSPROGS_PKG)/.PKGINFO ; \
 	 echo "url=$(E2FSPROGS_PKG_URL)"                                 >> $(E2FSPROGS_PKG)/.PKGINFO ; \
 	 echo "license=$(E2FSPROGS_PKG_LICENSE)"                         >> $(E2FSPROGS_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(E2FSPROGS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(E2FSPROGS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -1,0 +1,12 @@
+#!/bin/sh
+
+fdisk /dev/mmcblk1 <<EOF
+n
+p
+1
+212992
+
+a
+p
+w
+EOF

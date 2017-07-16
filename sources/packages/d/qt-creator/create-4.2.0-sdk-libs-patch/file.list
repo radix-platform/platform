@@ -1,0 +1,7 @@
+qt-creator-opensource-src-4.2.0/src/app/app.pro
+qt-creator-opensource-src-4.2.0/src/plugins/cpaster/frontend/frontend.pro
+qt-creator-opensource-src-4.2.0/src/shared/qbs/src/app/app.pri
+qt-creator-opensource-src-4.2.0/src/shared/qbs/src/lib/library.pri
+qt-creator-opensource-src-4.2.0/src/tools/buildoutputparser/buildoutputparser.pro
+qt-creator-opensource-src-4.2.0/src/tools/sdktool/sdktool.pro
+qt-creator-opensource-src-4.2.0/.qmake.conf

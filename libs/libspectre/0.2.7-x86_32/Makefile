@@ -151,4 +151,4 @@ $(pkg_archive): $(install_target) $(LIBSPECTRE_32_PKG_DESCRIPTION_FILE) $(LIBSPE
 	 echo "short_description=\"$(LIBSPECTRE_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBSPECTRE_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBSPECTRE_32_PKG_URL)"                                 >> $(LIBSPECTRE_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBSPECTRE_32_PKG_LICENSE)"                         >> $(LIBSPECTRE_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBSPECTRE_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBSPECTRE_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

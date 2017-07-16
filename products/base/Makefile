@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -24,12 +31,30 @@ include ../../build-system/constants.mk
 ####### Boot
 #######
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_M201)),)
-REQUIRES  = boot/u-boot/s805/2011.03-20160716
+ifneq ($(filter $(HARDWARE),$(HARDWARE_NEXBOX_A95X)),)
+REQUIRES  = boot/u-boot/a95x/2015.01-20170107
 endif
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_MXQ)),)
-REQUIRES  = boot/u-boot/s805/2011.03-20160716
+ifneq ($(filter $(HARDWARE),$(HARDWARE_ODROID_C2)),)
+REQUIRES  = boot/u-boot/odroid-c2/2015.01-20170224
+endif
+
+ifneq ($(filter $(HARDWARE),$(HARDWARE_KHADAS_VIM)),)
+REQUIRES  = hal/drivers/amlogic/brcmap6xxx/1.201.59.x
+REQUIRES += boot/u-boot/kvim/2015.01-20170107
+endif
+
+ifneq ($(filter $(HARDWARE),$(HARDWARE_ENYBOX_X2)),)
+REQUIRES  = hal/drivers/amlogic/brcmap6xxx/1.201.59.x
+REQUIRES += boot/u-boot/x2/2015.01-20170107
+endif
+
+ifneq ($(filter $(HARDWARE),$(HARDWARE_M201)),)
+REQUIRES  = boot/u-boot/s8xx/2011.03-20160716
+endif
+
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MXV)),)
+REQUIRES  = boot/u-boot/s8xx/2011.03-20160716
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
@@ -55,6 +80,10 @@ REQUIRES += hal/firmware/ci20/brcm4330/0.0.0
 REQUIRES += boot/u-boot/ci20/2013.10-20150915
 endif
 
+ifneq ($(filter $(HARDWARE),$(HARDWARE_BT1)),)
+REQUIRES  = boot/u-boot/bt1/2014.10-4.08.84
+endif
+
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32) $(HARDWARE_PC64)),)
 REQUIRES  = boot/lilo/x86/24.1
 endif
@@ -69,18 +98,18 @@ endif
 # └── base/pkgtool
 #     └── dev/kernel-headers
 #         └── dev/gcc-runtime
-#             ├── libs/glibc/2.23
-#             │   ├── libs/glibc/2.23-i18n
-#             │   │   └── libs/glibc-zoneinfo/2016a ■
+#             ├── libs/glibc/2.24
+#             │   ├── libs/glibc/2.24-i18n
+#             │   │   └── libs/glibc-zoneinfo/2016i ■
 #             │   │
-#             │   └── libs/glibc/2.23-x86_32
+#             │   └── libs/glibc/2.24-x86_32
 #             │
 #            ...
 #
 
-REQUIRES += libs/glibc/2.23-zoneinfo/2016a
+REQUIRES += libs/glibc/2.24-zoneinfo/2016i
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/glibc/2.23-x86_32
+REQUIRES += libs/glibc/2.24-x86_32
 endif
 
 #            ...
@@ -191,14 +220,14 @@ endif
 #             ├── libs/libidn/1.28
 #             │   └── libs/libidn/1.28-x86_32
 #             │
-#             ├── libs/libunistring/0.9.3
-#             │   └── libs/libunistring/0.9.3-x86_32
+#             ├── libs/libunistring/0.9.6
+#             │   └── libs/libunistring/0.9.6-x86_32
 #             │
 #             ├── libs/lzo/2.09
 #             │   └── libs/lzo/2.09-x86_32
 #             │
-#             ├── dev/libtool/2.4.2
-#             │   └── dev/libtool/2.4.2-x86_32
+#             ├── dev/libtool/2.4.6
+#             │   └── dev/libtool/2.4.6-x86_32
 #             │
 #             ├── libs/gc/7.4.2
 #             │   └── libs/gc/7.4.2-x86_32
@@ -307,7 +336,7 @@ endif
 #             │                  ...
 #             │      ...
 #             │       ├────────────────────────────────────────────────┬── libs/ncurses/6.0
-#             │       │                                                ├── dev/libtool/2.4.2
+#             │       │                                                ├── dev/libtool/2.4.6
 #             │       ├── app/dialog/1.2-20140112 ■                    └── app/ctags/5.8
 #             │       │   └── app/dialog/1.2-20140112-x86_32
 #             │      ...
@@ -369,7 +398,7 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += app/kbd/2.0.3-x86_32
 endif
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXQ)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXV)),)
 REQUIRES += app/remotecfg/1.0.0
 endif
 
@@ -443,7 +472,7 @@ REQUIRES += app/lvm2/2.02.141
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += app/lvm2/2.02.141-x86_32
 endif
-REQUIRES += app/cpio/2.11
+REQUIRES += app/cpio/2.12
 REQUIRES += app/ed/1.9
 REQUIRES += app/getty-ps/2.1.1
 REQUIRES += app/hdparm/9.48

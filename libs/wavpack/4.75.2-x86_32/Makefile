@@ -151,4 +151,4 @@ $(pkg_archive): $(install_target) $(WAVPACK_32_PKG_DESCRIPTION_FILE) $(WAVPACK_3
 	 echo "short_description=\"$(WAVPACK_32_PKG_SHORT_DESCRIPTION)\"" >> $(WAVPACK_32_PKG)/.PKGINFO ; \
 	 echo "url=$(WAVPACK_32_PKG_URL)"                                 >> $(WAVPACK_32_PKG)/.PKGINFO ; \
 	 echo "license=$(WAVPACK_32_PKG_LICENSE)"                         >> $(WAVPACK_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(WAVPACK_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(WAVPACK_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

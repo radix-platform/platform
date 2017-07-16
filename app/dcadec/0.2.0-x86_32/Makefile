@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/m/dcadec
 
 REQUIRES           = app/dcadec/0.2.0
-REQUIRES          += libs/glibc/2.23-x86_32
+REQUIRES          += libs/glibc/2.24-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -144,4 +144,4 @@ $(pkg_archive): $(install_target) $(DCADEC_32_PKG_DESCRIPTION_FILE) $(DCADEC_32_
 	 echo "short_description=\"$(DCADEC_32_PKG_SHORT_DESCRIPTION)\"" >> $(DCADEC_32_PKG)/.PKGINFO ; \
 	 echo "url=$(DCADEC_32_PKG_URL)"                                 >> $(DCADEC_32_PKG)/.PKGINFO ; \
 	 echo "license=$(DCADEC_32_PKG_LICENSE)"                         >> $(DCADEC_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(DCADEC_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(DCADEC_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

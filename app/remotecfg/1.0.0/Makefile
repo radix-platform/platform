@@ -1,6 +1,6 @@
 
 COMPONENT_TARGETS  = $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
 
 
 NEED_ABS_PATH      = true
@@ -16,7 +16,7 @@ SOURCE_REQUIRES    = sources/tools/Amlogic/remotecfg
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/5.3.0
 else
-REQUIRES           = libs/glibc/2.23
+REQUIRES           = libs/glibc/2.24
 endif
 
 # ======= __END_OF_REQUIRES__ =======
@@ -139,4 +139,4 @@ $(pkg_archive): $(install_target) $(REMOTECFG_PKG_DESCRIPTION_FILE) $(REMOTECFG_
 	 echo "short_description=\"$(REMOTECFG_PKG_SHORT_DESCRIPTION)\"" >> $(REMOTECFG_PKG)/.PKGINFO ; \
 	 echo "url=$(REMOTECFG_PKG_URL)"                                 >> $(REMOTECFG_PKG)/.PKGINFO ; \
 	 echo "license=$(REMOTECFG_PKG_LICENSE)"                         >> $(REMOTECFG_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(REMOTECFG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(REMOTECFG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

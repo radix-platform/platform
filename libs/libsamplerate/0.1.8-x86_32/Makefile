@@ -168,4 +168,4 @@ $(pkg_archive): $(install_target) $(LIBSAMPLERATE_32_PKG_DESCRIPTION_FILE) $(LIB
 	 echo "short_description=\"$(LIBSAMPLERATE_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBSAMPLERATE_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBSAMPLERATE_32_PKG_URL)"                                 >> $(LIBSAMPLERATE_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBSAMPLERATE_32_PKG_LICENSE)"                         >> $(LIBSAMPLERATE_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBSAMPLERATE_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBSAMPLERATE_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

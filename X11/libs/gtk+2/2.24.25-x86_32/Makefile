@@ -238,4 +238,4 @@ $(pkg_archive): $(install_target) $(GTK2_32_PKG_DESCRIPTION_FILE) $(GTK2_32_PKG_
 	 echo "short_description=\"$(GTK2_32_PKG_SHORT_DESCRIPTION)\"" >> $(GTK2_32_PKG)/.PKGINFO ; \
 	 echo "url=$(GTK2_32_PKG_URL)"                                 >> $(GTK2_32_PKG)/.PKGINFO ; \
 	 echo "license=$(GTK2_32_PKG_LICENSE)"                         >> $(GTK2_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GTK2_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GTK2_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

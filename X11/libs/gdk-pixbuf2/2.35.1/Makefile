@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -138,7 +145,11 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(PIXBUF2_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
-ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)                         \
+                            $(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                                             $(HARDWARE_ODROID_C2)   \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
 	@( cd $(PIXBUF2_PKG)/usr/bin ; mv gdk-pixbuf-query-loaders gdk-pixbuf-query-loaders-64 ; ln -sf gdk-pixbuf-query-loaders-64 gdk-pixbuf-query-loaders )
 else
 	@( cd $(PIXBUF2_PKG)/usr/bin ; mv gdk-pixbuf-query-loaders gdk-pixbuf-query-loaders-32 ; ln -sf gdk-pixbuf-query-loaders-32 gdk-pixbuf-query-loaders )
@@ -268,4 +279,4 @@ $(pkg_archive): $(install_target) $(PIXBUF2_PKG_DESCRIPTION_FILE) $(PIXBUF2_PKG_
 	 echo "short_description=\"$(PIXBUF2_PKG_SHORT_DESCRIPTION)\"" >> $(PIXBUF2_PKG)/.PKGINFO ; \
 	 echo "url=$(PIXBUF2_PKG_URL)"                                 >> $(PIXBUF2_PKG)/.PKGINFO ; \
 	 echo "license=$(PIXBUF2_PKG_LICENSE)"                         >> $(PIXBUF2_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(PIXBUF2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PIXBUF2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

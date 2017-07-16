@@ -14,6 +14,7 @@ SOURCE_REQUIRES    = sources/packages/x/libdrm
 
 REQUIRES           = X11/libs/libdrm/2.4.68
 REQUIRES          += X11/X.org/lib/libpciaccess/0.13.4-x86_32
+REQUIRES          += X11/X.org/xcb/libpthread-stubs/0.3-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -180,4 +181,4 @@ $(pkg_archive): $(install_target) $(LIBDRM_32_PKG_DESCRIPTION_FILE) $(LIBDRM_32_
 	 echo "short_description=\"$(LIBDRM_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBDRM_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBDRM_32_PKG_URL)"                                 >> $(LIBDRM_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBDRM_32_PKG_LICENSE)"                         >> $(LIBDRM_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBDRM_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBDRM_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

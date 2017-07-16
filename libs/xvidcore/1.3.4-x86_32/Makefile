@@ -136,4 +136,4 @@ $(pkg_archive): $(install_target) $(XVID_32_PKG_DESCRIPTION_FILE) $(XVID_32_PKG_
 	 echo "short_description=\"$(XVID_32_PKG_SHORT_DESCRIPTION)\"" >> $(XVID_32_PKG)/.PKGINFO ; \
 	 echo "url=$(XVID_32_PKG_URL)"                                 >> $(XVID_32_PKG)/.PKGINFO ; \
 	 echo "license=$(XVID_32_PKG_LICENSE)"                         >> $(XVID_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(XVID_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(XVID_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

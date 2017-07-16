@@ -170,4 +170,4 @@ $(pkg_archive): $(install_target) $(AUDIOFILE_32_PKG_DESCRIPTION_FILE) $(AUDIOFI
 	 echo "short_description=\"$(AUDIOFILE_32_PKG_SHORT_DESCRIPTION)\"" >> $(AUDIOFILE_32_PKG)/.PKGINFO ; \
 	 echo "url=$(AUDIOFILE_32_PKG_URL)"                                 >> $(AUDIOFILE_32_PKG)/.PKGINFO ; \
 	 echo "license=$(AUDIOFILE_32_PKG_LICENSE)"                         >> $(AUDIOFILE_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(AUDIOFILE_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(AUDIOFILE_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

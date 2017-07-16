@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -27,9 +34,9 @@ ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/5.3.0
 else
 ifneq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES           = libs/glibc/2.23
+REQUIRES           = libs/glibc/2.24
 else
-REQUIRES           = libs/glibc/2.23-x86_32
+REQUIRES           = libs/glibc/2.24-x86_32
 endif
 endif
 
@@ -101,6 +108,13 @@ extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --disable-dependency-tracking
 
 extra_configure_switches += --sysconfdir=/etc
+
+ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                                             $(HARDWARE_ODROID_C2)   \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
+extra_configure_switches += --enable-neon=no
+endif
 
 extra_configure_switches += --enable-static=yes
 extra_configure_switches += --enable-shared=yes
@@ -198,4 +212,4 @@ $(pkg_archive): $(install_target) $(SPEEXDSP_PKG_DESCRIPTION_FILE) $(SPEEXDSP_PK
 	 echo "short_description=\"$(SPEEXDSP_PKG_SHORT_DESCRIPTION)\"" >> $(SPEEXDSP_PKG)/.PKGINFO ; \
 	 echo "url=$(SPEEXDSP_PKG_URL)"                                 >> $(SPEEXDSP_PKG)/.PKGINFO ; \
 	 echo "license=$(SPEEXDSP_PKG_LICENSE)"                         >> $(SPEEXDSP_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(SPEEXDSP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SPEEXDSP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

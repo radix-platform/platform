@@ -151,4 +151,4 @@ $(pkg_archive): $(install_target) $(PPL32_PKG_DESCRIPTION_FILE) $(PPL32_PKG_INST
 	 echo "short_description=\"$(PPL32_PKG_SHORT_DESCRIPTION)\"" >> $(PPL32_PKG)/.PKGINFO ; \
 	 echo "url=$(PPL32_PKG_URL)"                                 >> $(PPL32_PKG)/.PKGINFO ; \
 	 echo "license=$(PPL32_PKG_LICENSE)"                         >> $(PPL32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(PPL32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PPL32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

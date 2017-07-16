@@ -6,7 +6,14 @@ COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
 COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
 COMPONENT_TARGETS += $(HARDWARE_M201)
-COMPONENT_TARGETS += $(HARDWARE_MXQ)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
@@ -26,7 +33,7 @@ SOURCE_REQUIRES    = sources/packages/m/x265
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/5.3.0
 else
-REQUIRES          += libs/glibc/2.23
+REQUIRES          += libs/glibc/2.24
 endif
 
 # ======= __END_OF_REQUIRES__ =======
@@ -98,12 +105,17 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)      \
                             $(HARDWARE_CB2X)      \
                             $(HARDWARE_CB3X)      \
                             $(HARDWARE_FFRK3288)  \
-                            $(HARDWARE_M201)      \
-                            $(HARDWARE_MXQ)       \
+                            $(HARDWARE_M201) $(HARDWARE_MXV) \
                             $(HARDWARE_NIT6Q)     \
                             $(HARDWARE_OMAP5UEVM) \
                             $(HARDWARE_DRA7XXEVM)),)
 ARCH_ALIAS = armv7l
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                                             $(HARDWARE_ODROID_C2)   \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
+ARCH_ALIAS = aarch64
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32)),)
 ARCH_ALIAS = x86
@@ -172,6 +184,12 @@ configure_switches += -DCMAKE_SYSTEM_NAME='Linux'
 configure_switches += -DCMAKE_SYSTEM_PROCESSOR=$(ARCH_ALIAS)
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32) $(HARDWARE_PC64)),)
 configure_switches += -DDISABLE_X86_YASM=True
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+                                             $(HARDWARE_ODROID_C2)   \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
+configure_switches += -DENABLE_ASSEMBLY='OFF'
 endif
 
 configure_switches += -DENABLE_LIBNUMA='FALSE'
@@ -326,4 +344,4 @@ $(pkg_archive): $(install_target) $(X265_PKG_DESCRIPTION_FILE) $(X265_PKG_INSTAL
 	 echo "short_description=\"$(X265_PKG_SHORT_DESCRIPTION)\"" >> $(X265_PKG)/.PKGINFO ; \
 	 echo "url=$(X265_PKG_URL)"                                 >> $(X265_PKG)/.PKGINFO ; \
 	 echo "license=$(X265_PKG_LICENSE)"                         >> $(X265_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(X265_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(X265_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

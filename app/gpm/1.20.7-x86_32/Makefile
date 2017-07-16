@@ -155,4 +155,4 @@ $(pkg_archive): $(install_target) $(GPM32_PKG_DESCRIPTION_FILE) $(GPM32_PKG_INST
 	 echo "short_description=\"$(GPM32_PKG_SHORT_DESCRIPTION)\"" >> $(GPM32_PKG)/.PKGINFO ; \
 	 echo "url=$(GPM32_PKG_URL)"                                 >> $(GPM32_PKG)/.PKGINFO ; \
 	 echo "license=$(GPM32_PKG_LICENSE)"                         >> $(GPM32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(GPM32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GPM32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

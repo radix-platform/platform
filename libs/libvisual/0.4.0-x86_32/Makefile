@@ -148,4 +148,4 @@ $(pkg_archive): $(install_target) $(LIBVISUAL_32_PKG_DESCRIPTION_FILE) $(LIBVISU
 	 echo "short_description=\"$(LIBVISUAL_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBVISUAL_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBVISUAL_32_PKG_URL)"                                 >> $(LIBVISUAL_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBVISUAL_32_PKG_LICENSE)"                         >> $(LIBVISUAL_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(LIBVISUAL_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBVISUAL_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

@@ -271,4 +271,4 @@ $(pkg_archive): $(install_target) $(PGSQL_32_PKG_DESCRIPTION_FILE) $(PGSQL_32_PK
 	 echo "short_description=\"$(PGSQL_32_PKG_SHORT_DESCRIPTION)\"" >> $(PGSQL_32_PKG)/.PKGINFO ; \
 	 echo "url=$(PGSQL_32_PKG_URL)"                                 >> $(PGSQL_32_PKG)/.PKGINFO ; \
 	 echo "license=$(PGSQL_32_PKG_LICENSE)"                         >> $(PGSQL_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(PGSQL_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PGSQL_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

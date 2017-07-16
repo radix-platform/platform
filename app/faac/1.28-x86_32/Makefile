@@ -183,4 +183,4 @@ $(pkg_archive): $(install_target) $(FAAC_32_PKG_DESCRIPTION_FILE) $(FAAC_32_PKG_
 	 echo "short_description=\"$(FAAC_32_PKG_SHORT_DESCRIPTION)\"" >> $(FAAC_32_PKG)/.PKGINFO ; \
 	 echo "url=$(FAAC_32_PKG_URL)"                                 >> $(FAAC_32_PKG)/.PKGINFO ; \
 	 echo "license=$(FAAC_32_PKG_LICENSE)"                         >> $(FAAC_32_PKG)/.PKGINFO
-	@$(FAKEROOT) sh -c "cd $(FAAC_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(FAAC_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."

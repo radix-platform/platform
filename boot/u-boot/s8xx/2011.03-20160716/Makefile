@@ -112,7 +112,7 @@ include ../../../../build-system/core.mk
 #
 # ARC toolchain
 #
-AMLOGIC_EM4_TOOLCHAIN_PATH  = /opt/toolchain/arc-S8XX-elf32-newlib/1.1.2
+AMLOGIC_EM4_TOOLCHAIN_PATH  = /opt/toolchain/arc-S8XX-elf32-newlib/1.1.3
 
 AML_COMLILERS  = ARCCC=$(AMLOGIC_EM4_TOOLCHAIN_PATH)/bin/arc-s8xx-elf32-gcc
 AML_COMLILERS += ARCASM=$(AMLOGIC_EM4_TOOLCHAIN_PATH)/bin/arc-s8xx-elf32-as

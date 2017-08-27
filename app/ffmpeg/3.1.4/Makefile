@@ -36,7 +36,7 @@ REQUIRES          += X11/libs/libva/1.7.2
 REQUIRES          += X11/libs/libvdpau/1.1.1
 REQUIRES          += app/jack/0.125.0
 
-REQUIRES          += libs/gmp/6.1.0
+REQUIRES          += libs/gmp/6.1.2
 REQUIRES          += net/gnutls/3.4.8
 REQUIRES          += libs/libtasn1/4.7
 REQUIRES          += libs/ladspa/1.13

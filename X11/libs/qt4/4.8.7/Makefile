@@ -31,7 +31,7 @@ include ../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/x/qt4
 
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/5.3.0
+REQUIRES           = dev/gcc/5.4.0
 endif
 REQUIRES          += net/ca-certificates/52.0
 REQUIRES          += X11/app/desktop-file-utils/0.22

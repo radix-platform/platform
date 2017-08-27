@@ -30,8 +30,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/mpc
 
-REQUIRES           = libs/gmp/6.1.0
-REQUIRES          += libs/mpfr/3.1.3
+REQUIRES           = libs/gmp/6.1.2
+REQUIRES          += libs/mpfr/3.1.5
 
 # ======= __END_OF_REQUIRES__ =======
 

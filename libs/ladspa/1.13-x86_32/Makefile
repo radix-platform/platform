@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/m/ladspa
 
 REQUIRES           = libs/ladspa/1.13
-REQUIRES          += libs/glibc/2.24-x86_32
+REQUIRES          += libs/glibc/2.25-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

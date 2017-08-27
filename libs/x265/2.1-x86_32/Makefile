@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/m/x265
 
 REQUIRES           = libs/x265/2.1
-REQUIRES          += libs/glibc/2.24-x86_32
+REQUIRES          += libs/glibc/2.25-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

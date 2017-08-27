@@ -7,7 +7,7 @@ include ../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/GNU/mpfr
 
-versions    = 3.1.1 3.1.2 3.1.3
+versions    = 3.1.1 3.1.2 3.1.3 3.1.5
 pkgname     = mpfr
 suffix      = tar.bz2
 

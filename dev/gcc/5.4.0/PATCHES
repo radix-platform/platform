@@ -1,0 +1,7 @@
+
+../../../sources/GNU/gcc/gcc-5.4.0/patches/gcc-5.4.0-backtrace.patch          -p0
+../../../sources/GNU/gcc/gcc-5.4.0/patches/gcc-5.4.0-libgo.patch              -p0
+../../../sources/GNU/gcc/gcc-5.4.0/patches/gcc-5.4.0-i386-66782.patch         -p0
+../../../sources/GNU/gcc/gcc-5.4.0/patches/gcc-5.4.0-fixinc-gmp-outside.patch -p0
+../../../sources/GNU/gcc/gcc-5.4.0/patches/gcc-5.4.0-build-libcpp.patch       -p0
+../../../sources/GNU/gcc/gcc-5.4.0/patches/gcc-5.4.0-ccache-ada.patch         -p0

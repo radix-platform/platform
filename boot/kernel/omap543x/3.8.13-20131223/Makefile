@@ -188,7 +188,6 @@ $(devel_sources_done): $(device_dtb_done)
 	 )
 	@mkdir -p $(TARGET_DEST_DIR)/usr/src
 	# ======= Install kernel sources =======
-	@cd $(TARGET_BUILD_DIR) && cp -ar usr $(TARGET_DEST_DIR)
 	@echo "" > $(TARGET_DEST_DIR)/usr/src/.CONTENT
 	@echo "Configured '$(HARDWARE)' Linux sources for building external modules." >> $(TARGET_DEST_DIR)/usr/src/.CONTENT
 	@echo "" >> $(TARGET_DEST_DIR)/usr/src/.CONTENT

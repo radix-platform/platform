@@ -1452,7 +1452,7 @@ endif
 ####### Development:
 #######
 
-REQUIRES += dev/gcc-java/5.3.0
+REQUIRES += dev/gcc-java/5.4.0
 
 
 # ======= __END_OF_REQUIRES__ =======

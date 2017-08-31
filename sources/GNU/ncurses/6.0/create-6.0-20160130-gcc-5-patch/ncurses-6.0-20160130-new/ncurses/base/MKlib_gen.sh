@@ -66,7 +66,7 @@ if test "${LC_COLLATE+set}"  = set; then LC_COLLATE=C;  export LC_COLLATE;  fi
 # Work around "unexpected" output of GCC 5.1.0's cpp w.r.t. #line directives
 # by simply suppressing them:
 case `$1 -dumpversion 2>/dev/null` in
-  5.[0123].*)  # assume a "broken" one 
+  [5-7].*.*)  # assume a "broken" one 
     preprocessor="$1 -P -DNCURSES_INTERNALS -I../include"
     ;;
   *)

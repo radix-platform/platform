@@ -283,7 +283,7 @@ extra_configure_switches += --disable-initfini-array
 # standard options:
 extra_configure_switches += --enable-threads
 extra_configure_switches += --enable-plugins
-extra_configure_switches += --enable-targets=$(TARGET),i486-$(DISTRO_NAME)-linux-gnu
+extra_configure_switches += --enable-targets=$(TARGET),i686-$(DISTRO_NAME)-linux-gnu
 endif
 
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))

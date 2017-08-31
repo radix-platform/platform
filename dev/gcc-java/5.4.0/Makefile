@@ -298,7 +298,7 @@ ifeq ($(TOOLCHAIN),$(TOOLCHAIN_I686_GLIBC))
 JAVA_LIB_ARCH = i386
 extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
 extra_configure_switches += '--with-bugurl=$(BUG_URL)'
-extra_configure_switches += --with-arch=i486
+extra_configure_switches += --with-arch=i686
 extra_configure_switches += --with-tune=i686
 endif
 

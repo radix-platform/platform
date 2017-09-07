@@ -1000,7 +1000,7 @@ REQUIRES += X11/X.org/data/xkeyboard-config/2.17
 #######
 ####### Now we have to return to fontconfig, harfbuzz, cairo, Mesa
 #######
-####### (order: env/freetype/2.6.3, X11/libs/fontconfig/2.11.95,
+####### (order: env/freetype/2.6.3, X11/libs/fontconfig/2.12.4,
 #######         X11/libs/libdrm, ...
 ####### )
 #######

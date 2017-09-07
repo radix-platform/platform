@@ -43,7 +43,11 @@ src_dir_name       = Clone-$(version)
 doc_dir_name       = perl-clone-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
+ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32)),)
+PATCHES = PATCHES.i386
+else
 PATCHES = PATCHES
+endif
 
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done

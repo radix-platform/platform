@@ -52,7 +52,7 @@ REQUIRES          += libs/libvpx/1.5.0
 REQUIRES          += libs/assimp/3.2
 REQUIRES          += app/cups/2.1.3
 
-REQUIRES          += X11/libs/fontconfig/2.11.95
+REQUIRES          += X11/libs/fontconfig/2.12.4
 
 REQUIRES          += X11/X.org/lib/libXaw/1.0.13
 REQUIRES          += X11/X.org/lib/libXcursor/1.1.14

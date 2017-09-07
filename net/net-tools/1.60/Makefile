@@ -39,7 +39,7 @@ endif
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 1.60-20140218
+version            = 1.60-20160127
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/net-tools/net-tools-$(version).tar.bz2
 SRC_ARCHIVE        = $(tar_bz2_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/net-tools-$(version)

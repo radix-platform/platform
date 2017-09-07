@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/m/libass
 
 REQUIRES           = libs/libass/0.13.3
-REQUIRES          += X11/libs/fontconfig/2.11.95-x86_32
+REQUIRES          += X11/libs/fontconfig/2.12.4-x86_32
 REQUIRES          += X11/libs/harfbuzz/1.2.7-x86_32
 REQUIRES          += libs/fribidi/0.19.7-x86_32
 

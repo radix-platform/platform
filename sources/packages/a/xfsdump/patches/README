@@ -1,0 +1,8 @@
+
+/* begin *
+
+   xfsdump-3.1.6-librmt.patch - When the whole system is built the READ, WRITE macros
+                                defined in librmt.h leads build error related to conflict
+                                between localy and system defined READ, WRITE macros.
+
+ * end */

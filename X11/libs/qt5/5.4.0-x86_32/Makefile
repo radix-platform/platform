@@ -21,7 +21,7 @@ REQUIRES          += libs/libmng/2.0.3-x86_32
 REQUIRES          += libs/icu4c/55.1-x86_32
 REQUIRES          += app/cups/2.1.3-x86_32
 
-REQUIRES          += X11/libs/fontconfig/2.11.95-x86_32
+REQUIRES          += X11/libs/fontconfig/2.12.4-x86_32
 
 REQUIRES          += X11/X.org/lib/libXaw/1.0.12-x86_32
 REQUIRES          += X11/X.org/lib/libXcursor/1.1.14-x86_32

@@ -32,7 +32,7 @@ SOURCE_REQUIRES    = sources/packages/a/ghostscript
 
 REQUIRES           = app/cups/2.1.3
 REQUIRES          += libs/lcms2/2.7
-REQUIRES          += X11/libs/fontconfig/2.11.95
+REQUIRES          += X11/libs/fontconfig/2.12.4
 REQUIRES          += X11/X.org/lib/libXext/1.3.3
 REQUIRES          += X11/X.org/lib/libXt/1.1.5
 

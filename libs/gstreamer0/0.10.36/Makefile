@@ -64,7 +64,11 @@ endif
 BISON_MAJOR_VERSION = $(shell bison --version | grep ^bison | sed 's/^.* //g' | cut -f 1 -d'.' )
 
 ifeq ($(BISON_MAJOR_VERSION),3)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
+PATCHES = PATCHES.omap543x.bison3
+else
 OPT_PATCHES = PATCHES.bison3
+endif
 endif
 
 build_dir          = $(TARGET_BUILD_DIR)/build

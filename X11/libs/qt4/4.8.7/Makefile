@@ -31,7 +31,7 @@ include ../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/x/qt4
 
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/5.3.0
+REQUIRES           = dev/gcc/5.4.0
 endif
 REQUIRES          += net/ca-certificates/52.0
 REQUIRES          += X11/app/desktop-file-utils/0.22
@@ -46,7 +46,7 @@ REQUIRES          += libs/libmng/2.0.3
 REQUIRES          += libs/icu4c/55.1
 REQUIRES          += app/cups/2.1.3
 
-REQUIRES          += X11/libs/fontconfig/2.11.95
+REQUIRES          += X11/libs/fontconfig/2.12.4
 
 REQUIRES          += X11/X.org/lib/libXaw/1.0.13
 REQUIRES          += X11/X.org/lib/libXcursor/1.1.14

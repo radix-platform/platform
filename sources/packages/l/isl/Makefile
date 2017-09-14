@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/isl
 
-versions    = 0.16.1
+versions    = 0.16.1 0.18
 pkgname     = isl
 suffix      = tar.xz
 

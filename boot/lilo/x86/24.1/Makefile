@@ -13,10 +13,10 @@ include ../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/lilo
 
 ifeq ($(HARDWARE),$(HARDWARE_PC32))
-REQUIRES           = boot/kernel/x86_32/4.1.15
+REQUIRES           = boot/kernel/x86_32/4.9.35
 endif
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES           = boot/kernel/x86_64/4.1.15
+REQUIRES           = boot/kernel/x86_64/4.9.35
 endif
 REQUIRES          += app/lvm2/2.02.141
 

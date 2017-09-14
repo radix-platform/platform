@@ -12,7 +12,7 @@ include ../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/hal/PowerVR/ci20/sgx-ddk/3.0.8
 
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/5.3.0
+REQUIRES           = dev/gcc/5.4.0
 endif
 REQUIRES          += hal/drivers/ci20/sgx-ddk/3.0.8/1.13.3341330
 REQUIRES          += X11/libs/mesa/11.2.2

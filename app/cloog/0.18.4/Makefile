@@ -30,7 +30,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/a/CLooG
 
-REQUIRES           = libs/isl/0.16.1
+REQUIRES           = libs/isl/0.18
 
 # ======= __END_OF_REQUIRES__ =======
 

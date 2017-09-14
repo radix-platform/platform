@@ -30,7 +30,7 @@ include ../../build-system/constants.mk
 
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32) $(HARDWARE_PC64)),)
-REQUIRES           = dev/kernel/x86/4.4.3-headers
+REQUIRES           = dev/kernel/x86/4.9.35-headers
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
@@ -42,7 +42,7 @@ REQUIRES           = dev/kernel/a2x/3.4-20150315-headers
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_FFRK3288)),)
-REQUIRES           = dev/kernel/firefly/3.10-20151231-headers
+REQUIRES           = dev/kernel/firefly/3.10-20161107-headers
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_M201)),)

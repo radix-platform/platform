@@ -17,6 +17,7 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 patches     = $(CURDIR)/patches/xfsdump-3.1.2.patch
 patches    += $(CURDIR)/patches/xfsdump-3.1.3.patch
 patches    += $(CURDIR)/patches/xfsdump-3.1.6.patch
+patches    += $(CURDIR)/patches/xfsdump-3.1.6-librmt.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -51,9 +52,10 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-3.1.2-patch ; ./create.patch.sh ) ; \
-	 ( cd create-3.1.3-patch ; ./create.patch.sh ) ; \
-	 ( cd create-3.1.6-patch ; ./create.patch.sh ) ; \
+	 ( cd create-3.1.2-patch        ; ./create.patch.sh ) ; \
+	 ( cd create-3.1.3-patch        ; ./create.patch.sh ) ; \
+	 ( cd create-3.1.6-patch        ; ./create.patch.sh ) ; \
+	 ( cd create-3.1.6-librmt-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

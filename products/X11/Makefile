@@ -98,18 +98,18 @@ endif
 # └── base/pkgtool
 #     └── dev/kernel-headers
 #         └── dev/gcc-runtime
-#             ├── libs/glibc/2.24
-#             │   ├── libs/glibc/2.24-i18n
-#             │   │   └── libs/glibc-zoneinfo/2016i ■
+#             ├── libs/glibc/2.25
+#             │   ├── libs/glibc/2.25-i18n
+#             │   │   └── libs/glibc-zoneinfo/2017b ■
 #             │   │
-#             │   └── libs/glibc/2.24-x86_32
+#             │   └── libs/glibc/2.25-x86_32
 #             │
 #            ...
 #
 
-REQUIRES += libs/glibc/2.24-zoneinfo/2016i
+REQUIRES += libs/glibc/2.25-zoneinfo/2017b
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/glibc/2.24-x86_32
+REQUIRES += libs/glibc/2.25-x86_32
 endif
 
 #            ...
@@ -118,8 +118,8 @@ endif
 #             ├── libs/zlib/1.2.8 ─────────────────────────┐                     │
 #             │   ├── libs/zlib/1.2.8-x86_32 ───────────┐  │                     │
 #             │   │                                     │  │                     │
-#             │   └── dev/binutils/2.25.1 ── if x86_64 ─┘  │                     │
-#             │       └── dev/gcc/5.3.0                    │                     │
+#             │   └── dev/binutils/2.28 ──── if x86_64 ─┘  │                     │
+#             │       └── dev/gcc/5.4.0                    │                     │
 #             │                                            │                     │
 #             ├── app/xz/5.2.2               ─────┬────────┘                     │
 #             │   └── app/xz/5.2.2-x86_32         └── app/kmod/22                │
@@ -160,14 +160,14 @@ endif
 
 #            ...
 #             │
-#             ├── libs/gmp/6.1.0 ────────────────┐
-#             │   ├── libs/gmp/6.1.0-x86_32      │
+#             ├── libs/gmp/6.1.2 ────────────────┐
+#             │   ├── libs/gmp/6.1.2-x86_32      │
 #             │   │                              ├── libs/mpc/1.0.3
-#             │   ├── libs/mpfr/3.1.3 ───────────┘   └── libs/mpc/1.0.3-x86_32
-#             │   │   └── libs/mpfr/3.1.3-x86_32
+#             │   ├── libs/mpfr/3.1.5 ───────────┘   └── libs/mpc/1.0.3-x86_32
+#             │   │   └── libs/mpfr/3.1.5-x86_32
 #             │   │
-#             │   ├── libs/isl/0.16.1
-#             │   │   └── libs/isl/0.16.1-x86_32
+#             │   ├── libs/isl/0.18
+#             │   │   └── libs/isl/0.18-x86_32
 #             │   │
 #             │   ├── app/cloog/0.18.4 ■ ─────────────┐
 #             │   │   └── app/cloog/0.18.4-x86_32     │
@@ -197,16 +197,16 @@ endif
 #            ...
 #             │  ...
 #             │   │
-#             │   └── dev/binutils/2.25.1
+#             │   └── dev/binutils/2.28
 #             │       │
-#             │       ├── dev/gcc/5.3.0 ──────────┬── libs/mpc/1.0.3
-#             │       │                           └── libs/isl/0.16.1
+#             │       ├── dev/gcc/5.4.0 ──────────┬── libs/mpc/1.0.3
+#             │       │                           └── libs/isl/0.18
 #            ...     ...
 
 
 #            ...     ...
 #             │       │
-#             │       └── dev/gcc-java/5.3.0 ─────┬── app/fastjar/0.98
+#             │       └── dev/gcc-java/5.4.0 ─────┬── app/fastjar/0.98
 #             │                                   ├── X11/libs/gtk+2/2.24.25
 #            ...                                  ├── ...
 #                                                 ├── ...
@@ -257,8 +257,8 @@ endif
 #             │      ...  └── dev/lua/5.3.2-x86_32
 #             │
 #             │      ...
-#             │       ├───────────────────────────────────── libs/gmp/6.1.0
-#             │       │                                      └── libs/gmp/6.1.0-x86_32
+#             │       ├───────────────────────────────────── libs/gmp/6.1.2
+#             │       │                                      └── libs/gmp/6.1.2-x86_32
 #             │       ├───────────────────────────────────── libs/zlib/1.2.8
 #             │       │                                      └── libs/zlib/1.2.8-x86_32
 #             │       │
@@ -1000,7 +1000,7 @@ REQUIRES += X11/X.org/data/xkeyboard-config/2.17
 #######
 ####### Now we have to return to fontconfig, harfbuzz, cairo, Mesa
 #######
-####### (order: env/freetype/2.6.3, X11/libs/fontconfig/2.11.95,
+####### (order: env/freetype/2.6.3, X11/libs/fontconfig/2.12.4,
 #######         X11/libs/libdrm, ...
 ####### )
 #######
@@ -1452,7 +1452,7 @@ endif
 ####### Development:
 #######
 
-REQUIRES += dev/gcc-java/5.3.0
+REQUIRES += dev/gcc-java/5.4.0
 
 
 # ======= __END_OF_REQUIRES__ =======

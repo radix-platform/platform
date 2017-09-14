@@ -35,7 +35,7 @@ SOURCE_REQUIRES   += sources/packages/d/qt-creator
 endif
 
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/5.3.0
+REQUIRES           = dev/gcc/5.4.0
 endif
 REQUIRES          += net/ca-certificates/52.0
 REQUIRES          += X11/app/desktop-file-utils/0.22
@@ -52,7 +52,7 @@ REQUIRES          += libs/libvpx/1.5.0
 REQUIRES          += libs/assimp/3.2
 REQUIRES          += app/cups/2.1.3
 
-REQUIRES          += X11/libs/fontconfig/2.11.95
+REQUIRES          += X11/libs/fontconfig/2.12.4
 
 REQUIRES          += X11/X.org/lib/libXaw/1.0.13
 REQUIRES          += X11/X.org/lib/libXcursor/1.1.14
@@ -80,7 +80,7 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
                                              $(HARDWARE_ODROID_C2)   \
                             $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
                             $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
-REQUIRES          += libs/libunwind/1.2
+REQUIRES          += libs/libunwind/1.2.1
 endif
 
 REQUIRES          += X11/libs/opengl-collection

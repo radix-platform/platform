@@ -31,7 +31,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/n/openssl
 
 REQUIRES           = libs/zlib/1.2.8
-REQUIRES          += libs/gmp/6.1.0
+REQUIRES          += libs/gmp/6.1.2
 
 # ======= __END_OF_REQUIRES__ =======
 

@@ -98,7 +98,9 @@ extra_configure_switches += --enable-acl
 extra_configure_switches += --enable-ssl
 extra_configure_switches += --enable-gnutls=yes
 extra_configure_switches += --enable-cdsassl=no
+
 extra_configure_switches += --without-php
+
 extra_configure_switches += --enable-pam=yes
 extra_configure_switches += --enable-raw-printing
 extra_configure_switches += --enable-dbus
@@ -107,6 +109,8 @@ extra_configure_switches += --with-dbusdir=/etc/dbus-1
 extra_configure_switches += --enable-avahi
 extra_configure_switches += --enable-dnssd
 extra_configure_switches += --disable-libpaper
+# GSSAPI library comming with MIT krb5 (Kerberos):
+extra_configure_switches += --disable-gssapi
 extra_configure_switches += --disable-systemd
 
 extra_configure_switches += --enable-static=yes

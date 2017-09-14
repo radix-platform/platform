@@ -1,5 +1,5 @@
 #
-# qmake configuration for building with i486-radix-linux-gnu-g++
+# qmake configuration for building with i686-radix-linux-gnu-g++
 #
 
 MAKEFILE_GENERATOR       = UNIX

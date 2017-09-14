@@ -36,7 +36,7 @@ REQUIRES          += X11/libs/libva/1.7.2
 REQUIRES          += X11/libs/libvdpau/1.1.1
 REQUIRES          += app/jack/0.125.0
 
-REQUIRES          += libs/gmp/6.1.0
+REQUIRES          += libs/gmp/6.1.2
 REQUIRES          += net/gnutls/3.4.8
 REQUIRES          += libs/libtasn1/4.7
 REQUIRES          += libs/ladspa/1.13
@@ -46,7 +46,7 @@ REQUIRES          += libs/libcaca/0.99.19
 REQUIRES          += app/celt/0.11.3
 REQUIRES          += app/faac/1.28
 REQUIRES          += libs/fdk-aac/0.1.4
-REQUIRES          += X11/libs/fontconfig/2.11.95
+REQUIRES          += X11/libs/fontconfig/2.12.4
 REQUIRES          += libs/freetype/2.6.3
 REQUIRES          += libs/fribidi/0.19.7
 REQUIRES          += libs/gsm/1.0.13
@@ -218,9 +218,9 @@ extra_configure_switches += --extra-cflags='--sysroot=$(TARGET_DEST_DIR) $(CFLAG
 extra_configure_switches += --extra-cxxflags='--sysroot=$(TARGET_DEST_DIR) $(CFLAGS) $(ARCH_FLAGS) $(ARCH_DEFS) $(HW_FLAGS) $(WARN_FLAGS)'
 extra_configure_switches += --extra-objcflags='--sysroot=$(TARGET_DEST_DIR) $(CFLAGS) $(ARCH_FLAGS) $(ARCH_DEFS) $(HW_FLAGS) $(WARN_FLAGS)'
 extra_configure_switches += --extra-ldflags='--sysroot=$(TARGET_DEST_DIR) -L$(TARGET_DEST_DIR)/lib$(LIBSUFFIX) -L$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)'
-extra_configure_switches += --extra-ldexeflags='--sysroot=$(TARGET_DEST_DIR) -L$(TARGET_DEST_DIR)/lib$(LIBSUFFIX) -L$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)'
-extra_configure_switches += --extra-ldlibflags='--sysroot=$(TARGET_DEST_DIR) -L$(TARGET_DEST_DIR)/lib$(LIBSUFFIX) -L$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)'
-extra_configure_switches += --enable-rpath
+extra_configure_switches += --extra-ldexeflags='--sysroot=$(TARGET_DEST_DIR) -L$(TARGET_DEST_DIR)/lib$(LIBSUFFIX) -L$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) -Wl,-rpath,$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)'
+extra_configure_switches += --extra-ldlibflags='--sysroot=$(TARGET_DEST_DIR) -L$(TARGET_DEST_DIR)/lib$(LIBSUFFIX) -L$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) -Wl,-rpath,$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)'
+extra_configure_switches += --disable-rpath
 
 
 extra_configure_switches += --host-cc=gcc
@@ -379,6 +379,28 @@ $(install_target): $(build_target)
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifneq ($(CHRPATH),)
+	# ======= Set RPATH/RUNPATH for target binaries =======
+	@( cd $(FFMPEG_PKG)/usr/bin ; \
+	   for file in `find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
+	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH" | cut -f2 -d'='` ; \
+	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
+	       rpath=`echo $$rpath | sed "s,$(TARGET_DEST_DIR),,g"` ; \
+	       $(CHRPATH) -r $$rpath $$file 1> /dev/null 2> /dev/null ; \
+	     fi ; \
+	   done ; \
+	 )
+	# ======= Set RPATH/RUNPATH for target shared objects =======
+	@( cd $(FFMPEG_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
+	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH" | cut -f2 -d'='` ; \
+	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
+	       rpath=`echo $$rpath | sed "s,$(TARGET_DEST_DIR),,g"` ; \
+	       $(CHRPATH) -r $$rpath $$file 1> /dev/null 2> /dev/null ; \
+	     fi ; \
+	   done ; \
+	 )
+endif
 	@touch $@
 
 $(FFMPEG_PKG_DESCRIPTION_FILE): $(FFMPEG_PKG_DESCRIPTION_FILE_IN)

@@ -30,7 +30,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/m/VideoLAN/libbluray
 
-REQUIRES           = X11/libs/fontconfig/2.11.95
+REQUIRES           = X11/libs/fontconfig/2.12.4
 REQUIRES          += libs/freetype/2.6.3
 REQUIRES          += libs/libxml2/2.9.3
 

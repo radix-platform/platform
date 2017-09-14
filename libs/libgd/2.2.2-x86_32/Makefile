@@ -18,7 +18,7 @@ REQUIRES          += libs/libwebp/0.5.0-x86_32
 REQUIRES          += libs/libpng/libpng14/1.4.19-x86_32
 REQUIRES          += libs/libjpeg-turbo/1.4.2-x86_32
 REQUIRES          += libs/freetype/2.6.3-x86_32
-REQUIRES          += X11/libs/fontconfig/2.11.95-x86_32
+REQUIRES          += X11/libs/fontconfig/2.12.4-x86_32
 REQUIRES          += X11/X.org/lib/libXpm/3.5.11-x86_32
 
 # ======= __END_OF_REQUIRES__ =======

@@ -25,7 +25,12 @@ patches    += $(CURDIR)/patches/qt4-4.8.7-clipboard-delay.patch
 patches    += $(CURDIR)/patches/qt4-4.8.7-cups.patch
 patches    += $(CURDIR)/patches/qt4-4.8.7-disable-sslv3.patch
 patches    += $(CURDIR)/patches/qt4-4.8.7-event-loop.patch
-patches    += $(CURDIR)/patches/qt4-4.8.7-moc-boost.patch
+patches    += $(CURDIR)/patches/qt4-4.8.7-QTBUG-22829.patch
+patches    += $(CURDIR)/patches/qt4-4.8.7-QTBUG-35459.patch
+patches    += $(CURDIR)/patches/qt4-4.8.7-version-check.patch
+patches    += $(CURDIR)/patches/qt4-4.8.7-alsa-1.1.patch
+patches    += $(CURDIR)/patches/qt4-4.8.7-gcc-version.patch
+patches    += $(CURDIR)/patches/qt4-4.8.7-qtreeview.patch
 patches    += $(CURDIR)/patches/qt4-4.8.7-mysql.patch
 patches    += $(CURDIR)/patches/qt4-4.8.7-settings.patch
 patches    += $(CURDIR)/patches/qt4-4.8.7-systemtrayicon.patch
@@ -77,7 +82,12 @@ $(patches): $(sha1s)
 	 ( cd create-4.8.7-cups-patch               ; ./create.patch.sh ) ; \
 	 ( cd create-4.8.7-disable-sslv3-patch      ; ./create.patch.sh ) ; \
 	 ( cd create-4.8.7-event-loop-patch         ; ./create.patch.sh ) ; \
-	 ( cd create-4.8.7-moc-boost-patch          ; ./create.patch.sh ) ; \
+	 ( cd create-4.8.7-QTBUG-22829-patch        ; ./create.patch.sh ) ; \
+	 ( cd create-4.8.7-QTBUG-35459-patch        ; ./create.patch.sh ) ; \
+	 ( cd create-4.8.7-version-check-patch      ; ./create.patch.sh ) ; \
+	 ( cd create-4.8.7-alsa-1.1-patch           ; ./create.patch.sh ) ; \
+	 ( cd create-4.8.7-gcc-version-patch        ; ./create.patch.sh ) ; \
+	 ( cd create-4.8.7-qtreeview-patch          ; ./create.patch.sh ) ; \
 	 ( cd create-4.8.7-mysql-patch              ; ./create.patch.sh ) ; \
 	 ( cd create-4.8.7-settings-patch           ; ./create.patch.sh ) ; \
 	 ( cd create-4.8.7-systemtrayicon-patch     ; ./create.patch.sh ) ; \

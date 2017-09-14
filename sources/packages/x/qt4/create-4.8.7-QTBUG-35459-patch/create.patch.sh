@@ -7,9 +7,9 @@ mv qt-everywhere-opensource-src-$VERSION qt-everywhere-opensource-src-$VERSION-o
 
 cp -rf ./qt-everywhere-opensource-src-$VERSION-new ./qt-everywhere-opensource-src-$VERSION
 
-diff -b --unified -Nr  qt-everywhere-opensource-src-$VERSION-orig  qt-everywhere-opensource-src-$VERSION > qt4-$VERSION-moc-boost.patch
+diff -b --unified -Nr  qt-everywhere-opensource-src-$VERSION-orig  qt-everywhere-opensource-src-$VERSION > qt4-$VERSION-QTBUG-35459.patch
 
-mv qt4-$VERSION-moc-boost.patch ../patches
+mv qt4-$VERSION-QTBUG-35459.patch ../patches
 
 rm -rf ./qt-everywhere-opensource-src-$VERSION
 rm -rf ./qt-everywhere-opensource-src-$VERSION-orig

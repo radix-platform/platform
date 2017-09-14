@@ -173,9 +173,9 @@ extra_configure_switches += --extra-cflags='--sysroot=$(TARGET_DEST_DIR) -m32 $(
 extra_configure_switches += --extra-cxxflags='--sysroot=$(TARGET_DEST_DIR) -m32 $(CFLAGS) $(ARCH_FLAGS) $(ARCH_DEFS) $(HW_FLAGS) $(WARN_FLAGS)'
 extra_configure_switches += --extra-objcflags='--sysroot=$(TARGET_DEST_DIR) -m32 $(CFLAGS) $(ARCH_FLAGS) $(ARCH_DEFS) $(HW_FLAGS) $(WARN_FLAGS)'
 extra_configure_switches += --extra-ldflags='--sysroot=$(TARGET_DEST_DIR) -m32 -L$(TARGET_DEST_DIR)/lib$(MULTILIB_X86_32_SUFFIX) -L$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)'
-extra_configure_switches += --extra-ldexeflags='--sysroot=$(TARGET_DEST_DIR) -m32 -L$(TARGET_DEST_DIR)/lib$(MULTILIB_X86_32_SUFFIX) -L$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)'
-extra_configure_switches += --extra-ldlibflags='--sysroot=$(TARGET_DEST_DIR) -m32 -L$(TARGET_DEST_DIR)/lib$(MULTILIB_X86_32_SUFFIX) -L$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)'
-extra_configure_switches += --enable-rpath
+extra_configure_switches += --extra-ldexeflags='--sysroot=$(TARGET_DEST_DIR) -m32 -L$(TARGET_DEST_DIR)/lib$(MULTILIB_X86_32_SUFFIX) -L$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) -Wl,-rpath,$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)'
+extra_configure_switches += --extra-ldlibflags='--sysroot=$(TARGET_DEST_DIR) -m32 -L$(TARGET_DEST_DIR)/lib$(MULTILIB_X86_32_SUFFIX) -L$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) -Wl,-rpath,$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)'
+extra_configure_switches += --disable-rpath
 
 
 extra_configure_switches += --host-cc=gcc
@@ -300,6 +300,28 @@ $(install_target): $(build_target)
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifneq ($(CHRPATH),)
+	# ======= Set RPATH/RUNPATH for target binaries =======
+	@( cd $(FFMPEG_32_PKG)/usr/bin/32 ; \
+	   for file in `find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
+	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH" | cut -f2 -d'='` ; \
+	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
+	       rpath=`echo $$rpath | sed "s,$(TARGET_DEST_DIR),,g"` ; \
+	       $(CHRPATH) -r $$rpath $$file 1> /dev/null 2> /dev/null ; \
+	     fi ; \
+	   done ; \
+	 )
+	# ======= Set RPATH/RUNPATH for target shared objects =======
+	@( cd $(FFMPEG_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
+	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH" | cut -f2 -d'='` ; \
+	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
+	       rpath=`echo $$rpath | sed "s,$(TARGET_DEST_DIR),,g"` ; \
+	       $(CHRPATH) -r $$rpath $$file 1> /dev/null 2> /dev/null ; \
+	     fi ; \
+	   done ; \
+	 )
+endif
 	@touch $@
 
 $(FFMPEG_32_PKG_DESCRIPTION_FILE): $(FFMPEG_32_PKG_DESCRIPTION_FILE_IN)

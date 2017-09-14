@@ -31,7 +31,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/n/gnutls
 
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/5.3.0
+REQUIRES           = dev/gcc/5.4.0
 endif
 REQUIRES          += libs/libidn/1.28
 REQUIRES          += net/p11-kit/0.23.2

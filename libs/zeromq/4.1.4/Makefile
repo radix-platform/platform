@@ -31,7 +31,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/zeromq
 
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/5.3.0
+REQUIRES           = dev/gcc/5.4.0
 endif
 REQUIRES          += app/util-linux/2.27.1
 REQUIRES          += libs/libsodium/1.0.8

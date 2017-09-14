@@ -1,0 +1,4 @@
+
+../../../sources/packages/a/xfsprogs/patches/xfsprogs-4.7.0.patch          -p0
+../../../sources/packages/a/xfsprogs/patches/xfsprogs-4.7.0-build_cc.patch -p0
+../../../sources/packages/a/xfsprogs/patches/xfsprogs-4.7.0-loff_t.patch   -p0

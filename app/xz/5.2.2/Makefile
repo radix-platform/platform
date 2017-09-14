@@ -31,9 +31,9 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/xz
 
 ifneq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES           = libs/glibc/2.24
+REQUIRES           = libs/glibc/2.25
 else
-REQUIRES           = libs/glibc/2.24-x86_32
+REQUIRES           = libs/glibc/2.25-x86_32
 endif
 
 # ======= __END_OF_REQUIRES__ =======

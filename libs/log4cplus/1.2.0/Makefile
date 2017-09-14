@@ -31,7 +31,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/log4cplus
 
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/5.3.0
+REQUIRES           = dev/gcc/5.4.0
 endif
 REQUIRES          += X11/libs/qt4/4.8.7
 REQUIRES          += dev/python2/2.7.11

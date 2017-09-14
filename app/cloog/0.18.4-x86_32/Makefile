@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/CLooG
 
 REQUIRES           = app/cloog/0.18.4
-REQUIRES          += libs/isl/0.16.1-x86_32
+REQUIRES          += libs/isl/0.18-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

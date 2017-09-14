@@ -120,7 +120,7 @@ include ../../../../build-system/core.mk
 #
 # armv7-m (cortex-m3) toolchain
 #
-ARMV7_M_TOOLCHAIN_PATH = /opt/toolchain/arm-A9XX-eabi-newlib/1.1.2
+ARMV7_M_TOOLCHAIN_PATH = /opt/toolchain/arm-A9XX-eabi-newlib/1.1.4
 AML_FIRMWARE_SETTINGS  = FIRMWARE_CROSS_COMPILE=$(ARMV7_M_TOOLCHAIN_PATH)/bin/arm-a9xx-eabi-
 
 

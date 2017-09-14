@@ -99,7 +99,8 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(APPLY_PATCHES)
 	@( cd $(SRC_DIR) ; \
 	   sed -i "s,^\(MALI_DDK=\).*,\1 \"$(TARGET_DEST_DIR)/usr\"," src/Makefile.am ; \
-	   automake ; \
+	   touch NEWS README AUTHORS ; autoreconf -fi ; automake --add-missing --copy ; \
+	   rm -rf autom4te.cache config.h.in~ ; \
 	 )
 	@touch $@
 
@@ -136,7 +137,7 @@ $(install_target): $(build_target)
 	       $(XORG_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(XORG_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a $(license) README* xorg.conf \
+	   cp -a $(license) README.txt xorg.conf \
 	         $(XORG_PKG)/usr/share/doc/$(src_dir_name) \
 	 )
 	@( cd $(XORG_PKG)/usr/share/doc ; \

@@ -13,6 +13,7 @@ versions   += 2015c
 versions   += 2015g
 versions   += 2016a
 versions   += 2016i
+versions   += 2017b
 
 tarballs    = $(sort \
                 $(shell \
@@ -28,6 +29,7 @@ patches    += $(CURDIR)/patches/glibc-2.21-tzcode-2015c.patch
 patches    += $(CURDIR)/patches/glibc-2.22-tzcode-2015g.patch
 patches    += $(CURDIR)/patches/glibc-2.23-tzcode-2016a.patch
 patches    += $(CURDIR)/patches/glibc-2.24-tzcode-2016i.patch
+patches    += $(CURDIR)/patches/glibc-2.25-tzcode-2017b.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -67,6 +69,7 @@ $(patches): $(sha1s)
 	 ( cd create-2015g-glibc-2.22-patch ; ./create.patch.sh ) ; \
 	 ( cd create-2016a-glibc-2.23-patch ; ./create.patch.sh ) ; \
 	 ( cd create-2016i-glibc-2.24-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2017b-glibc-2.25-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

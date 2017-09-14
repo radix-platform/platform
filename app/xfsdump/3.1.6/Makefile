@@ -33,7 +33,7 @@ SOURCE_REQUIRES    = sources/packages/a/xfsdump
 REQUIRES           = libs/ncurses/6.0
 REQUIRES          += app/util-linux/2.27.1
 REQUIRES          += app/attr/2.4.47
-REQUIRES          += app/xfsprogs/4.3.0
+REQUIRES          += app/xfsprogs/4.7.0
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES          += libs/dmapi/2.2.12
 else

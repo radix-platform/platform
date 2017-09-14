@@ -30,7 +30,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/m4
 
-REQUIRES           = libs/glibc/2.24
+REQUIRES           = libs/glibc/2.25
 
 # ======= __END_OF_REQUIRES__ =======
 

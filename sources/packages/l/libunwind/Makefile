@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/libunwind
 
-versions    = 1.2
+versions    = 1.2 1.2.1
 pkgname     = libunwind
 suffix      = tar.gz
 
@@ -17,6 +17,7 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 patches     = $(CURDIR)/patches/libunwind-1.2-automake.patch
 patches    += $(CURDIR)/patches/libunwind-1.2-gcc-unwind-aarch64.patch
 patches    += $(CURDIR)/patches/libunwind-1.2-mips.patch
+patches    += $(CURDIR)/patches/libunwind-1.2.1-gcc-unwind-aarch64.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -51,9 +52,10 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-1.2-automake-patch           ; ./create.patch.sh ) ; \
-	 ( cd create-1.2-gcc-unwind-aarch64-patch ; ./create.patch.sh ) ; \
-	 ( cd create-1.2-mips-patch               ; ./create.patch.sh ) ; \
+	 ( cd create-1.2-automake-patch             ; ./create.patch.sh ) ; \
+	 ( cd create-1.2-gcc-unwind-aarch64-patch   ; ./create.patch.sh ) ; \
+	 ( cd create-1.2-mips-patch                 ; ./create.patch.sh ) ; \
+	 ( cd create-1.2.1-gcc-unwind-aarch64-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

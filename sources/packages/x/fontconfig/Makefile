@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/x/fontconfig
 
-versions    = 2.11.1 2.11.95
+versions    = 2.11.1 2.11.95 2.12.4
 pkgname     = fontconfig
 suffix      = tar.bz2
 
@@ -16,6 +16,7 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/fontconfig-2.11.1.patch
 patches    += $(CURDIR)/patches/fontconfig-2.11.95.patch
+patches    += $(CURDIR)/patches/fontconfig-2.12.4.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -52,6 +53,7 @@ $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-2.11.1-patch  ; ./create.patch.sh ) ; \
 	 ( cd create-2.11.95-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2.12.4-patch  ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

@@ -1,28 +1,29 @@
 
-COMPONENT_TARGETS  = $(HARDWARE_FFRK3288)
-COMPONENT_TARGETS += $(HARDWARE_POIN2)
+COMPONENT_TARGETS  = $(HARDWARE_S824L)
+COMPONENT_TARGETS += $(HARDWARE_VESNIN)
+COMPONENT_TARGETS += $(HARDWARE_S824L_LSB)
+COMPONENT_TARGETS += $(HARDWARE_VESNIN_LSB)
 
 NEED_ABS_PATH     = true
-
 COMPONENT_IS_3PP  = true
 
 
 include ../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES  = sources/Linux/Rockchip/Firefly-RK3288
+SOURCE_REQUIRES  = sources/Linux/v4.x
 
 REQUIRES         = base/pkgtool
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version          = 3.10-20161107
-modules_version  = 3.10.37
+version          = 4.9.35
+modules_version  = 4.9.35
 full_version     = $(version)
-tar_bz2_archive  = $(SRC_PACKAGE_PATH)/Linux/Rockchip/Firefly-RK3288/linux-firefly-$(version).tar.bz2
-SRC_ARCHIVE      = $(tar_bz2_archive)
-SRC_DIR          = $(TARGET_BUILD_DIR)/linux-firefly-$(full_version)
+tar_xz_archive   = $(SRC_PACKAGE_PATH)/Linux/v4.x/linux-$(version).tar.xz
+SRC_ARCHIVE      = $(tar_xz_archive)
+SRC_DIR          = $(TARGET_BUILD_DIR)/linux-$(full_version)
 src_done         = $(TARGET_BUILD_DIR)/.source_done
 
 
@@ -31,8 +32,8 @@ build_kh_pkg = $(TARGET_BUILD_DIR)/.kernel_headers_pkg_done
 
 PATCHES =
 
-ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_RK328X_GLIBC)),)
-ARCH = arm
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_POWER8_GLIBC) $(TOOLCHAIN_POWER8LE_GLIBC)),)
+ARCH = powerpc
 endif
 
 USE_TARGET_DEST_DIR_SYSROOT = no
@@ -45,13 +46,13 @@ PKG_GROUP = dev
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 KH_DEV_PKG_NAME                = kernel-headers
-KH_DEV_PKG_VERSION             = 3.10.37
+KH_DEV_PKG_VERSION             = 4.9.35
 KH_DEV_PKG_ARCH                = $(TOOLCHAIN)
 KH_DEV_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 KH_DEV_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 KH_DEV_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-KH_DEV_PKG_SHORT_DESCRIPTION   = Firefly-RK3288 Linux kernel header files
+KH_DEV_PKG_SHORT_DESCRIPTION   = Linux kernel header files
 KH_DEV_PKG_URL                 = $(BUG_URL)
 KH_DEV_PKG_LICENSE             = GPLv2
 KH_DEV_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(KH_DEV_PKG_NAME)-pkg-description

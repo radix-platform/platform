@@ -52,7 +52,8 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_CB2X) $(HARDWARE_CB3X)),)
 REQUIRES           = dev/kernel/a2x/3.4-20150315-headers
 endif
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_FFRK3288)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_FFRK3288) \
+                            $(HARDWARE_POIN2)),)
 REQUIRES           = dev/kernel/firefly/3.10-20161107-headers
 endif
 
@@ -67,7 +68,8 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_P201)        \
                             $(HARDWARE_NEXBOX_A95X) \
                             $(HARDWARE_P212)        \
-                            $(HARDWARE_ENYBOX_X2)),)
+                            $(HARDWARE_ENYBOX_X2)   \
+                            $(HARDWARE_KHADAS_VIM2)),)
 REQUIRES           = dev/kernel/s9xx/3.14.29-20160818-headers
 endif
 
@@ -93,6 +95,24 @@ endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_BT1)),)
 REQUIRES           = dev/kernel/bt1/4.4.24-4.08.84-headers
+endif
+
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
+REQUIRES           = dev/kernel/r1000/4.9.35-headers
+endif
+
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)      \
+                            $(HARDWARE_VESNIN)     \
+                            $(HARDWARE_S824L_LSB)  \
+                            $(HARDWARE_VESNIN_LSB)),)
+REQUIRES           = dev/kernel/power8/4.9.35-headers
+endif
+
+ifneq ($(filter $(HARDWARE),$(HARDWARE_TL2WK2)     \
+                            $(HARDWARE_TL2SV2)     \
+                            $(HARDWARE_TL2WK2_LSB) \
+                            $(HARDWARE_TL2SV2_LSB)),)
+REQUIRES           = dev/kernel/power9/4.9.35-headers
 endif
 
 

@@ -48,7 +48,7 @@ setup_install_tools       = $(CURDIR)/sbin/setup-install-tools
 PKG_GROUP = base
 
 SETUP_DEV_PKG_NAME                = install-tools
-SETUP_DEV_PKG_VERSION             = 1.2.3
+SETUP_DEV_PKG_VERSION             = 1.4.0
 SETUP_DEV_PKG_ARCH                = $(TOOLCHAIN)
 SETUP_DEV_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 SETUP_DEV_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)

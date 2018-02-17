@@ -33,7 +33,7 @@ include ../../build-system/constants.mk
 PKG_GROUP = base
 
 INIT_DEV_PKG_NAME                = init-devices
-INIT_DEV_PKG_VERSION             = 1.2.3
+INIT_DEV_PKG_VERSION             = 1.4.0
 INIT_DEV_PKG_ARCH                = $(TOOLCHAIN)
 INIT_DEV_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 INIT_DEV_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)

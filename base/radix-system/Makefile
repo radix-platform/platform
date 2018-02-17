@@ -38,7 +38,7 @@ scripts     = $(CURDIR)/scripts
 PKG_GROUP = base
 
 SYSINIT_BIN_PKG_NAME                = radix-system
-SYSINIT_BIN_PKG_VERSION             = 1.2.3
+SYSINIT_BIN_PKG_VERSION             = 1.3.0
 SYSINIT_BIN_PKG_ARCH                = $(TOOLCHAIN)
 SYSINIT_BIN_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 SYSINIT_BIN_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)

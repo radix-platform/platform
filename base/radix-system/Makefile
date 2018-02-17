@@ -91,7 +91,8 @@ endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
                             $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
-                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)   \
+                                             $(HARDWARE_KHADAS_VIM2)),)
 FB_BPP = 24
 else
 FB_BPP = 32
@@ -144,7 +145,8 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXV)),)
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
                             $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
-                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)   \
+                                             $(HARDWARE_KHADAS_VIM2)),)
 	@cat $(scripts)/rc.meson64fb >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.fbset.new
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_ODROID_C2)),)
@@ -199,8 +201,9 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_M201)),)
 	@echo "# Additional stuff:"            >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
 	@echo "/sbin/modprobe udl"             >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_KHADAS_VIM) \
-                            $(HARDWARE_ENYBOX_X2)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_KHADAS_VIM)  \
+                            $(HARDWARE_ENYBOX_X2)   \
+                            $(HARDWARE_KHADAS_VIM2)),)
 	@echo "# Wi-Fi/Bluetooth:"             >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
 	@echo "/sbin/modprobe dhd"             >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
 	@echo "/sbin/modprobe bcmdhd"          >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
@@ -222,7 +225,8 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXV)         \
                             $(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
                                              $(HARDWARE_ODROID_C2)   \
                             $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
-                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)   \
+                                             $(HARDWARE_KHADAS_VIM2)),)
 	@echo "s1:12345:respawn:/sbin/agetty -L ttyS0 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)

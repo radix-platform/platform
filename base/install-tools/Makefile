@@ -43,7 +43,7 @@ REQUIRES           = base/init-devices
 # ======= __END_OF_REQUIRES__ =======
 
 
-dialog_version            = 1.2-20140112
+dialog_version            = 1.3-20170509
 
 dialog_archive            = ../../build-system/3pp/sources/packages/dialog/dialog-$(dialog_version).tgz
 dialog_patch              = ../../build-system/3pp/sources/packages/dialog/patches/dialog-$(dialog_version).patch

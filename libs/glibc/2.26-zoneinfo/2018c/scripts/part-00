@@ -1,0 +1,166 @@
+#!/bin/sh
+
+# program name:
+program=`basename $0`
+
+# 16 = root path has not specified arter --root option
+# 91 = root path not correct
+# 92 = Cannot create '/tmp/...' directory
+EXITSTATUS=0
+
+CWD=`pwd`
+
+umask 022
+if [ ! -z "$TMPDIR" ] ; then mkdir -p $TMPDIR ; fi
+TMP=$(mkdir -p /tmp/radix && mktemp -d -p /tmp/radix $program.XXXXXXXX) || { echo "Cannot create '/tmp/...' directory" ; exit 92; }
+trap "rm -rf $TMP" EXIT
+
+
+TARGET_ROOT_PATH=
+
+usage() {
+ cat << EOF
+
+Usage: $program [options]
+
+$program - Radix Linux timezone configuration utility.
+
+options:
+   --root <DIR>   - Configure timezone someplace else, like <DIR>.
+
+EOF
+}
+
+
+check_abs_paths()
+{
+  if [ ! -z "$TARGET_ROOT_PATH" ] ; then
+    if [[ ${TARGET_ROOT_PATH:0:1} != "/" ]] ; then
+      TARGET_ROOT_PATH=$CWD/$TARGET_ROOT_PATH
+    fi
+    TARGET_ROOT_PATH="$(echo "$TARGET_ROOT_PATH" | sed -e "s/\/$//")/"
+  fi
+}
+
+#
+# Parse options:
+#
+while [ 0 ]; do
+  if [ "$1" = "-h" -o "$1" = "--help" ]; then
+    usage
+    exit 0
+  elif [ "$1" = "--root" ]; then
+    if [ "$2" = "" ]; then
+      usage
+      echo "ERROR: Target ROOT directory has not specified. Check --root option."
+      EXITSTATUS=17
+      exit $EXITSTATUS
+    fi
+    TARGET_ROOT_PATH="$2"
+    shift 2
+  else
+    break
+  fi
+done
+
+check_abs_paths
+
+if [ -z "$TARGET_ROOT_PATH" ] ; then
+  TARGET_ROOT_PATH="/"
+fi
+
+PRODUCTS_PATH=$PRODUCTS_PATH/$TOOLCHAIN/$HARDWARE
+
+if [ ! -d $TARGET_ROOT_PATH ] ; then
+  echo "ERROR: Target ROOT path specified but not correct."
+  EXITSTATUS=91
+  exit $EXITSTATUS
+fi
+
+: ${DIALOG=dialog}
+: ${DIALOGRC=${TARGET_ROOT_PATH}etc/dialogrc}
+
+#
+# The hardware clock configuration file:
+#
+HWCLOCK_CONF=${TARGET_ROOT_PATH}etc/hardwareclock
+
+#
+# setzone( $TIMEZONE )
+#
+# This function accepts a time zone as the only parameter
+# and sets it as the default system time zone.
+#
+setzone()
+{
+  TZ=$1
+
+  cd ${TARGET_ROOT_PATH}etc
+  if [ -r ${TARGET_ROOT_PATH}usr/share/zoneinfo/$TZ -o \
+       -L ${TARGET_ROOT_PATH}usr/share/zoneinfo/$TZ    ]; then
+      ln -sf ../usr/share/zoneinfo/$TZ localtime-copied-from
+      rm -f localtime
+      cd ..
+      cp etc/localtime-copied-from etc/localtime
+   fi
+}
+
+#
+# writeconf( $CLOCK_SET_TO )
+#
+# Writes out $HWCLOCK_CONF that tells rc.S how the hardware clock value is stored.
+#
+writeconf()
+{
+   echo "#"                                               > $HWCLOCK_CONF
+   echo "# /etc/hardwareclock"                           >> $HWCLOCK_CONF
+   echo "#"                                              >> $HWCLOCK_CONF
+   echo "# Tells how the hardware clock time is stored." >> $HWCLOCK_CONF
+   echo "# You should run timeconfig to edit this file." >> $HWCLOCK_CONF
+   echo ""                                               >> $HWCLOCK_CONF
+   echo $1 >> $HWCLOCK_CONF
+}
+
+#
+# Ask the user if the hardware clock is set for UTC/GMT
+#
+cat > $TMP/menu-utc$$ << EOF
+--colors \\
+--backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \\
+--title " \Z4\ZbHardware Clock set to UTC?\ZB\Zn " \\
+--menu "\\n\\
+Is the hardware clock set to Coordinated Universal Time (UTC/GMT)?\\n\\
+If it is, select YES here.\\n\\n\\
+If the hardware clock is set to the current local time (this is how most PCs are set \\
+up), then say NO here.\\n\\n\\
+If you are not sure what this is, you should answer NO here.\\n\\
+" 16 74 2 \\
+"NO" "Hardware clock is set to local time" \\
+"YES" "Hardware clock is set to UTC" \\
+EOF
+
+$DIALOG --file $TMP/menu-utc$$ 2> $TMP/utc$$
+if [ $? = 1 -o $? = 255 ]; then
+  rm -f $TMP/utc$$
+  rm -f $TMP/menu-utc$$
+  exit
+fi
+if [ "`cat $TMP/utc$$`" = "YES" ]; then
+  # yes, the hardware clock is UTC
+  writeconf "UTC"
+else # must be NO
+  writeconf "localtime"
+fi
+rm -f $TMP/utc$$
+rm -f $TMP/menu-utc$$
+
+#
+# Ask the user which timezone is preffered
+#
+cat > $TMP/menu-tz$$ << EOF
+--colors \\
+--backtitle "\Z7Radix\Zn \Z1Pro\Zn\Z7, Ltd.\Zn" \\
+--title " \Z4\ZbTimezone Configuration\ZB\Zn " \\
+--menu "\\n\\
+Please select one of the following timezones for your machine:\\n\\
+" 22 74 14 \\

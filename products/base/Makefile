@@ -109,18 +109,29 @@ endif
 # └── base/pkgtool
 #     └── dev/kernel-headers
 #         └── dev/gcc-runtime
-#             ├── libs/glibc/2.25
-#             │   ├── libs/glibc/2.25-i18n
-#             │   │   └── libs/glibc-zoneinfo/2017b ■
+#             ├── libs/glibc/2.26
+#             │   ├── libs/glibc/2.26-i18n
+#             │   │   └── libs/glibc-zoneinfo/2018c ■
 #             │   │
-#             │   └── libs/glibc/2.25-x86_32
+#             │   ├── libs/glibc/2.26-ppc32
+#             │   │
+#             │   ├── libs/glibc/2.26-sparc32
+#             │   │
+#             │   └── libs/glibc/2.26-x86_32
 #             │
 #            ...
 #
 
-REQUIRES += libs/glibc/2.25-zoneinfo/2017b
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/glibc/2.25-x86_32
+REQUIRES += libs/glibc/2.26-zoneinfo/2018c
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
+REQUIRES += libs/glibc/2.26-ppc32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
+REQUIRES += libs/glibc/2.26-sparc32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
+REQUIRES += libs/glibc/2.26-x86_32
 endif
 
 #            ...

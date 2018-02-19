@@ -1,10 +1,10 @@
 
-COMPONENT_TARGETS  = $(HARDWARE_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_MBC4_PC)
 
 NEED_ABS_PATH      = true
 COMPONENT_IS_3PP   = true
 
-CREATE_X86_32_PACKAGE = true
+CREATE_SPARC32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/zlib
 
 REQUIRES           = libs/zlib/1.2.8
-REQUIRES          += libs/glibc/2.26-x86_32
+REQUIRES          += libs/glibc/2.26-sparc32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -74,7 +74,7 @@ env_sysroot        = DESTDIR=$(ZLIB32_PKG)
 cross_environment  = CROSS_PREFIX=$(CROSS_PREFIX)
 
 
-extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
+extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_SPARC32_SUFFIX)
 extra_configure_switches += --shared
 
 
@@ -93,24 +93,24 @@ $(build_target): $(src_done)
 	@touch $@
 
 $(install_target): $(build_target)
-	@mkdir -p $(ZLIB32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)
-	@cd $(SRC_DIR) && cp -a libz.a libz.so* $(ZLIB32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)
-	@chmod 755 $(ZLIB32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/*
-	@chmod 644 $(ZLIB32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/libz.a
-	@mkdir -p $(ZLIB32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig
-	@cd $(SRC_DIR) && cat zlib.pc > $(ZLIB32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig/zlib.pc
-	@mkdir -p $(ZLIB32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)
-	@( cd $(ZLIB32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@mkdir -p $(ZLIB32_PKG)/usr/lib$(MULTILIB_SPARC32_SUFFIX)
+	@cd $(SRC_DIR) && cp -a libz.a libz.so* $(ZLIB32_PKG)/usr/lib$(MULTILIB_SPARC32_SUFFIX)
+	@chmod 755 $(ZLIB32_PKG)/usr/lib$(MULTILIB_SPARC32_SUFFIX)/*
+	@chmod 644 $(ZLIB32_PKG)/usr/lib$(MULTILIB_SPARC32_SUFFIX)/libz.a
+	@mkdir -p $(ZLIB32_PKG)/usr/lib$(MULTILIB_SPARC32_SUFFIX)/pkgconfig
+	@cd $(SRC_DIR) && cat zlib.pc > $(ZLIB32_PKG)/usr/lib$(MULTILIB_SPARC32_SUFFIX)/pkgconfig/zlib.pc
+	@mkdir -p $(ZLIB32_PKG)/lib$(MULTILIB_SPARC32_SUFFIX)
+	@( cd $(ZLIB32_PKG)/usr/lib$(MULTILIB_SPARC32_SUFFIX) ; \
 	   for file in lib*.so.?.* ; do \
-	     mv $$file ../../lib$(MULTILIB_X86_32_SUFFIX) ; \
-	     ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/$$file . ; \
+	     mv $$file ../../lib$(MULTILIB_SPARC32_SUFFIX) ; \
+	     ln -sf ../../lib$(MULTILIB_SPARC32_SUFFIX)/$$file . ; \
 	   done ; \
-	   cp -a lib*.so.? ../../lib$(MULTILIB_X86_32_SUFFIX) ; \
+	   cp -a lib*.so.? ../../lib$(MULTILIB_SPARC32_SUFFIX) ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(ZLIB32_PKG))
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_SPARC32_SUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" zlib.pc \
 	 )
 	# ======= Strip binaries =======

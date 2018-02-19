@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
           |-----handy-ruler------------------------------------------------------|
-glibc-x32: glibc-x32 @VERSION@ (SPARC32 GNU C libraries)
+glibc-x32: glibc-x32 @VERSION@ (sparc32 GNU C libraries)
 glibc-x32:
 glibc-x32: This package contains the GNU C libraries and header files.
 glibc-x32: The GNU C library was written originally by Roland McGrath,

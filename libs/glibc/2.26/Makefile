@@ -44,7 +44,7 @@ SOURCE_REQUIRES  += sources/iana/tz
 
 
 REQUIRES          = dev/kernel-headers
-REQUIRES         += dev/gcc-runtime/6.4.0
+REQUIRES         += dev/gcc-runtime/7.2.0
 REQUIRES         += base/pkgtool
 
 # ======= __END_OF_REQUIRES__ =======

@@ -42,7 +42,13 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/GNU/binutils
 
 REQUIRES           = libs/zlib/1.2.8
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_POWER8_GLIBC) $(TOOLCHAIN_POWER9_GLIBC)),)
+REQUIRES          += libs/zlib/1.2.8-ppc32
+endif
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_R1000_GLIBC)),)
+REQUIRES          += libs/zlib/1.2.8-sparc32
+endif
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES          += libs/zlib/1.2.8-x86_32
 endif
 
@@ -274,6 +280,81 @@ extra_configure_switches += --enable-plugins
 extra_configure_switches += --enable-targets=$(TARGET),mipsel-radix-linux-gnu
 endif
 
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_POWER8_GLIBC))
+extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
+extra_configure_switches += '--with-bugurl=$(BUG_URL)'
+# experimental gold linker( DEFAULT_LD=ld.bfd ):
+extra_configure_switches += --enable-gold=yes
+extra_configure_switches += --enable-ld=default
+extra_configure_switches += --enable-werror=no
+# standard options:
+extra_configure_switches += --enable-multilib
+extra_configure_switches += --enable-64-bit-bfd
+extra_configure_switches += --enable-threads
+extra_configure_switches += --enable-plugins
+extra_configure_switches += --enable-targets=$(TARGET),ppc64-$(DISTRO_NAME)-linux,powerpc64-$(DISTRO_NAME)-linux,ppc-$(DISTRO_NAME)-linux,powerpc-$(DISTRO_NAME)-linux,ppc64-linux,powerpc64-linux,ppc-linux,powerpc-linux
+endif
+
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_POWER9_GLIBC))
+extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
+extra_configure_switches += '--with-bugurl=$(BUG_URL)'
+# experimental gold linker( DEFAULT_LD=ld.bfd ):
+extra_configure_switches += --enable-gold=yes
+extra_configure_switches += --enable-ld=default
+extra_configure_switches += --enable-werror=no
+# standard options:
+extra_configure_switches += --enable-multilib
+extra_configure_switches += --enable-64-bit-bfd
+extra_configure_switches += --enable-threads
+extra_configure_switches += --enable-plugins
+extra_configure_switches += --enable-targets=$(TARGET),ppc64-$(DISTRO_NAME)-linux,powerpc64-$(DISTRO_NAME)-linux,ppc-$(DISTRO_NAME)-linux,powerpc-$(DISTRO_NAME)-linux,ppc64-linux,powerpc64-linux,ppc-linux,powerpc-linux
+endif
+
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_POWER8LE_GLIBC))
+extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
+extra_configure_switches += '--with-bugurl=$(BUG_URL)'
+# experimental gold linker( DEFAULT_LD=ld.bfd ):
+extra_configure_switches += --enable-gold=yes
+extra_configure_switches += --enable-ld=default
+extra_configure_switches += --enable-werror=no
+# standard options:
+extra_configure_switches += --enable-multilib
+extra_configure_switches += --enable-64-bit-bfd
+extra_configure_switches += --enable-threads
+extra_configure_switches += --enable-plugins
+extra_configure_switches += --enable-targets=$(TARGET),ppc64le-$(DISTRO_NAME)-linux,powerpc64le-$(DISTRO_NAME)-linux,ppcle-$(DISTRO_NAME)-linux,powerpcle-$(DISTRO_NAME)-linux,ppc64le-linux,powerpc64le-linux,ppcle-linux,powerpcle-linux
+endif
+
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_POWER9LE_GLIBC))
+extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
+extra_configure_switches += '--with-bugurl=$(BUG_URL)'
+# experimental gold linker( DEFAULT_LD=ld.bfd ):
+extra_configure_switches += --enable-gold=yes
+extra_configure_switches += --enable-ld=default
+extra_configure_switches += --enable-werror=no
+# standard options:
+extra_configure_switches += --enable-multilib
+extra_configure_switches += --enable-64-bit-bfd
+extra_configure_switches += --enable-threads
+extra_configure_switches += --enable-plugins
+extra_configure_switches += --enable-targets=$(TARGET),ppc64le-$(DISTRO_NAME)-linux,powerpc64le-$(DISTRO_NAME)-linux,ppcle-$(DISTRO_NAME)-linux,powerpcle-$(DISTRO_NAME)-linux,ppc64le-linux,powerpc64le-linux,ppcle-linux,powerpcle-linux
+endif
+
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_R1000_GLIBC))
+extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
+extra_configure_switches += '--with-bugurl=$(BUG_URL)'
+# experimental gold linker( DEFAULT_LD=ld.bfd ):
+extra_configure_switches += --enable-gold=yes
+extra_configure_switches += --enable-ld=default
+extra_configure_switches += --enable-werror=no
+# standard options:
+extra_configure_switches += --enable-multilib
+extra_configure_switches += --enable-64-bit-bfd
+extra_configure_switches += --enable-threads
+extra_configure_switches += --enable-plugins
+extra_configure_switches += --enable-targets=$(TARGET),sparc64-$(DISTRO_NAME)-linux,sparc64-linux,sparc-$(DISTRO_NAME)-linux,sparc-linux
+endif
+
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_I686_GLIBC))
 extra_configure_switches += '--with-pkgversion=$(DISTRO_NAME) $(SYSTEM_VERSION)'
 extra_configure_switches += '--with-bugurl=$(BUG_URL)'
@@ -413,7 +494,17 @@ $(install_target): $(build_target)
 	     fi ; \
 	   done \
 	 )
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC))
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_POWER8_GLIBC) $(TOOLCHAIN_POWER9_GLIBC)),)
+	@mkdir -p $(BINUTILS_DEV_PKG)/usr/lib{$(MULTILIB_PPC32_SUFFIX),$(LIBSUFFIX)}
+	@ln -sf ../lib$(LIBSUFFIX) $(BINUTILS_DEV_PKG)/usr/$(TARGET)/lib64
+	@ln -sf ../lib$(MULTILIB_PPC32_SUFFIX) $(BINUTILS_DEV_PKG)/usr/$(TARGET)/lib32
+endif
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_R1000_GLIBC)),)
+	@mkdir -p $(BINUTILS_DEV_PKG)/usr/lib{$(MULTILIB_SPARC32_SUFFIX),$(LIBSUFFIX)}
+	@ln -sf ../lib$(LIBSUFFIX) $(BINUTILS_DEV_PKG)/usr/$(TARGET)/lib64
+	@ln -sf ../lib$(MULTILIB_SPARC32_SUFFIX) $(BINUTILS_DEV_PKG)/usr/$(TARGET)/lib32
+endif
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 	@mkdir -p $(BINUTILS_DEV_PKG)/usr/lib{$(MULTILIB_X86_32_SUFFIX),$(LIBSUFFIX)}
 	@ln -sf ../lib$(LIBSUFFIX) $(BINUTILS_DEV_PKG)/usr/$(TARGET)/lib64
 	@ln -sf ../lib$(MULTILIB_X86_32_SUFFIX) $(BINUTILS_DEV_PKG)/usr/$(TARGET)/lib32

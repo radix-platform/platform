@@ -29,6 +29,7 @@ patches    += $(CURDIR)/patches/binutils-2.28-export-demangle.patch
 patches    += $(CURDIR)/patches/binutils-2.28-no-config-check.patch
 patches    += $(CURDIR)/patches/binutils-2.28-dynamic-section-warn.patch
 patches    += $(CURDIR)/patches/binutils-2.28-gas-comp_dir.patch
+patches    += $(CURDIR)/patches/binutils-2.28-gold-ppc-pagesize.patch
 patches    += $(CURDIR)/patches/binutils-2.28-libiberty-bugfixes.patch
 patches    += $(CURDIR)/patches/binutils-2.28-ppc-dynamic-relocs.patch
 
@@ -82,6 +83,7 @@ $(patches): $(sha1s)
 	 ( cd create-2.28-no-config-check-patch      ; ./create.patch.sh ) ; \
 	 ( cd create-2.28-dynamic-section-warn-patch ; ./create.patch.sh ) ; \
 	 ( cd create-2.28-gas-comp_dir-patch         ; ./create.patch.sh ) ; \
+	 ( cd create-2.28-gold-ppc-pagesize-patch    ; ./create.patch.sh ) ; \
 	 ( cd create-2.28-libiberty-bugfixes-patch   ; ./create.patch.sh ) ; \
 	 ( cd create-2.28-ppc-dynamic-relocs-patch   ; ./create.patch.sh ) ; \
 	 echo -e "\n"

@@ -15,7 +15,7 @@ SOURCE_REQUIRES    = sources/hal/ump/DX/r5p0-01rel0
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/5.4.0
 else
-REQUIRES           = libs/glibc/2.25
+REQUIRES           = libs/glibc/2.26
 endif
 
 # ======= __END_OF_REQUIRES__ =======

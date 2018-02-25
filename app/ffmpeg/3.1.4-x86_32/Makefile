@@ -149,7 +149,7 @@ extra_configure_switches += --disable-yasm
 endif
 endif
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20) $(HARDWARE_BT1)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20) $(HARDWARE_BAIKAL_T1)),)
 extra_configure_switches += --disable-mipsdsp
 extra_configure_switches += --disable-mipsdspr2
 endif

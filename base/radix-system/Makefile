@@ -20,7 +20,7 @@ COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
-COMPONENT_TARGETS += $(HARDWARE_BT1)
+COMPONENT_TARGETS += $(HARDWARE_BAIKAL_T1)
 COMPONENT_TARGETS += $(HARDWARE_MBC4_PC)
 COMPONENT_TARGETS += $(HARDWARE_S824L)
 COMPONENT_TARGETS += $(HARDWARE_VESNIN)
@@ -185,7 +185,7 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
 	@echo "# PowerVR:"                     >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
 	@echo "/sbin/modprobe bc_example"      >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_BT1)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_BAIKAL_T1)),)
 	@echo "# HW Random:"                   >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
 	@echo "/sbin/modprobe rng-core"        >> $(SYSINIT_BIN_PKG)/etc/rc.d/rc.modules.new
 endif
@@ -241,7 +241,7 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_DRA7XXEVM)),)
 	@echo "s1:12345:respawn:/sbin/agetty -L ttyS0 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_BT1)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_BAIKAL_T1)),)
 	@echo "s1:12345:respawn:/sbin/agetty -L ttyS0 115200 vt100" >> $(SYSINIT_BIN_PKG)/etc/inittab.new
 endif
 	@echo ""                                                    >> $(SYSINIT_BIN_PKG)/etc/inittab.new

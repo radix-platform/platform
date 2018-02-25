@@ -1,5 +1,5 @@
 
-COMPONENT_TARGETS = $(HARDWARE_BT1)
+COMPONENT_TARGETS = $(HARDWARE_BAIKAL_T1)
 
 NEED_ABS_PATH     = true
 
@@ -101,7 +101,7 @@ extra += earlyprintk=uart8250,mmio32,0x1F04A000,115200
 extra += video=sma750fb:1600x900-16@60
 
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_BT1)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_BAIKAL_T1)),)
 device_dtb  = baikal_bfk.dtb
 endif
 

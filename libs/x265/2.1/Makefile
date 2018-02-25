@@ -20,7 +20,7 @@ COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
-COMPONENT_TARGETS += $(HARDWARE_BT1)
+COMPONENT_TARGETS += $(HARDWARE_BAIKAL_T1)
 COMPONENT_TARGETS += $(HARDWARE_MBC4_PC)
 COMPONENT_TARGETS += $(HARDWARE_S824L)
 COMPONENT_TARGETS += $(HARDWARE_VESNIN)
@@ -44,7 +44,7 @@ SOURCE_REQUIRES    = sources/packages/m/x265
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/5.4.0
 else
-REQUIRES          += libs/glibc/2.25
+REQUIRES          += libs/glibc/2.26
 endif
 
 # ======= __END_OF_REQUIRES__ =======
@@ -134,7 +134,7 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 ARCH_ALIAS = x86_64
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20) $(HARDWARE_BT1)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20) $(HARDWARE_BAIKAL_T1)),)
 ARCH_ALIAS = mipsel
 endif
 
@@ -148,10 +148,10 @@ configure_switches  = -DCMAKE_BUILD_TYPE='Release'
 configure_switches += -DCMAKE_C_COMPILER='$(CROSS_PREFIX)gcc'
 configure_switches += -DCMAKE_CXX_COMPILER='$(CROSS_PREFIX)g++'
 
-ifeq ($(filter $(HARDWARE),$(HARDWARE_PC32) \
-                           $(HARDWARE_PC64) \
-                           $(HARDWARE_CI20) \
-                           $(HARDWARE_BT1)),)
+ifeq ($(filter $(HARDWARE),$(HARDWARE_PC32)      \
+                           $(HARDWARE_PC64)      \
+                           $(HARDWARE_CI20)      \
+                           $(HARDWARE_BAIKAL_T1)),)
 configure_switches += -DCMAKE_ASM_COMPILER='$(CROSS_PREFIX)gcc'
 endif
 
@@ -167,10 +167,10 @@ configure_switches += -DCMAKE_C_FLAGS:STRING='--sysroot=$(TARGET_DEST_DIR) $(CFL
 configure_switches += -DCMAKE_CXX_FLAGS:STRING='--sysroot=$(TARGET_DEST_DIR) $(CFLAGS) $(ARCH_FLAGS) $(ARCH_DEFS) $(HW_FLAGS) -fPIC'
 
 
-ifeq ($(filter $(HARDWARE),$(HARDWARE_PC32) \
-                           $(HARDWARE_PC64) \
-                           $(HARDWARE_CI20) \
-                           $(HARDWARE_BT1)),)
+ifeq ($(filter $(HARDWARE),$(HARDWARE_PC32)      \
+                           $(HARDWARE_PC64)      \
+                           $(HARDWARE_CI20)      \
+                           $(HARDWARE_BAIKAL_T1)),)
 configure_switches += -DCMAKE_ASM_FLAGS:STRING='--sysroot=$(TARGET_DEST_DIR) $(CFLAGS) $(ARCH_FLAGS) $(ARCH_DEFS) $(HW_FLAGS) -fPIC'
 endif
 

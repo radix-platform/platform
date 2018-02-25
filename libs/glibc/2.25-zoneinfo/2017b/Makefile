@@ -18,7 +18,7 @@ COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
-COMPONENT_TARGETS += $(HARDWARE_BT1)
+COMPONENT_TARGETS += $(HARDWARE_BAIKAL_T1)
 
 
 NEED_ABS_PATH      = true
@@ -30,7 +30,7 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES   = sources/iana/tz
 
-REQUIRES          = libs/glibc/2.25-i18n
+REQUIRES          = libs/glibc/2.26-i18n
 
 # ======= __END_OF_REQUIRES__ =======
 

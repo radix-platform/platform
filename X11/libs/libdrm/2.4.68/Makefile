@@ -20,7 +20,7 @@ COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
-COMPONENT_TARGETS += $(HARDWARE_BT1)
+COMPONENT_TARGETS += $(HARDWARE_BAIKAL_T1)
 COMPONENT_TARGETS += $(HARDWARE_MBC4_PC)
 COMPONENT_TARGETS += $(HARDWARE_S824L)
 COMPONENT_TARGETS += $(HARDWARE_VESNIN)
@@ -45,9 +45,9 @@ ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/5.4.0
 else
 ifneq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES           = libs/glibc/2.25
+REQUIRES           = libs/glibc/2.26
 else
-REQUIRES           = libs/glibc/2.25-x86_32
+REQUIRES           = libs/glibc/2.26-x86_32
 endif
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64) $(HARDWARE_PC32)),)
@@ -210,7 +210,7 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64) $(HARDWARE_PC32)),)
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libdrm_intel.la ; \
 	 )
 endif
-ifeq ($(filter $(HARDWARE),$(HARDWARE_PC64) $(HARDWARE_PC32) $(HARDWARE_CI20) $(HARDWARE_BT1)),)
+ifeq ($(filter $(HARDWARE),$(HARDWARE_PC64) $(HARDWARE_PC32) $(HARDWARE_CI20) $(HARDWARE_BAIKAL_T1)),)
 	@( cd $(LIBDRM_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libdrm_freedreno.la ; \
 	 )
@@ -240,7 +240,7 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64) $(HARDWARE_PC32)),)
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libdrm_intel.la ; \
 	 )
 endif
-ifeq ($(filter $(HARDWARE),$(HARDWARE_PC64) $(HARDWARE_PC32) $(HARDWARE_CI20) $(HARDWARE_BT1)),)
+ifeq ($(filter $(HARDWARE),$(HARDWARE_PC64) $(HARDWARE_PC32) $(HARDWARE_CI20) $(HARDWARE_BAIKAL_T1)),)
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libdrm_freedreno.la ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libdrm_freedreno.la ; \
@@ -261,7 +261,7 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64) $(HARDWARE_PC32)),)
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libdrm_intel.pc ; \
 	 )
 endif
-ifeq ($(filter $(HARDWARE),$(HARDWARE_PC64) $(HARDWARE_PC32) $(HARDWARE_CI20) $(HARDWARE_BT1)),)
+ifeq ($(filter $(HARDWARE),$(HARDWARE_PC64) $(HARDWARE_PC32) $(HARDWARE_CI20) $(HARDWARE_BAIKAL_T1)),)
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libdrm_freedreno.pc libdrm_vc4.pc ; \
 	 )

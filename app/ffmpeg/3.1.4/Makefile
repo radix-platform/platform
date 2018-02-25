@@ -20,7 +20,7 @@ COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
-COMPONENT_TARGETS += $(HARDWARE_BT1)
+COMPONENT_TARGETS += $(HARDWARE_BAIKAL_T1)
 COMPONENT_TARGETS += $(HARDWARE_MBC4_PC)
 COMPONENT_TARGETS += $(HARDWARE_S824L)
 COMPONENT_TARGETS += $(HARDWARE_VESNIN)
@@ -184,7 +184,7 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 ARCH = x86_64
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20) $(HARDWARE_BT1)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20) $(HARDWARE_BAIKAL_T1)),)
 ARCH = mips
 endif
 
@@ -205,7 +205,7 @@ extra_configure_switches += --disable-yasm
 endif
 endif
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20) $(HARDWARE_BT1)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20) $(HARDWARE_BAIKAL_T1)),)
 extra_configure_switches += --disable-mipsdsp
 extra_configure_switches += --disable-mipsdspr2
 endif

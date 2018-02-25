@@ -20,7 +20,7 @@ COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
-COMPONENT_TARGETS += $(HARDWARE_BT1)
+COMPONENT_TARGETS += $(HARDWARE_BAIKAL_T1)
 COMPONENT_TARGETS += $(HARDWARE_MBC4_PC)
 COMPONENT_TARGETS += $(HARDWARE_S824L)
 COMPONENT_TARGETS += $(HARDWARE_VESNIN)
@@ -45,9 +45,9 @@ ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/5.4.0
 else
 ifneq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES           = libs/glibc/2.25
+REQUIRES           = libs/glibc/2.26
 else
-REQUIRES           = libs/glibc/2.25-x86_32
+REQUIRES           = libs/glibc/2.26-x86_32
 endif
 endif
 
@@ -144,7 +144,7 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 extra_configure_switches += --enable-backend=sse,mmx
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20) $(HARDWARE_BT1)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20) $(HARDWARE_BAIKAL_T1)),)
 extra_configure_switches += --enable-backend=mips
 endif
 

@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/m/vid-stab
 
 REQUIRES           = libs/libvidstab/1.1
-REQUIRES          += libs/glibc/2.25-x86_32
+REQUIRES          += libs/glibc/2.26-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

@@ -1,5 +1,5 @@
 
-COMPONENT_TARGETS  = $(HARDWARE_BT1)
+COMPONENT_TARGETS  = $(HARDWARE_BAIKAL_T1)
 
 NEED_ABS_PATH      = true
 
@@ -50,7 +50,7 @@ endif
 USE_TARGET_DEST_DIR_SYSROOT = no
 
 
-ifeq ($(HARDWARE),$(HARDWARE_BT1))
+ifeq ($(HARDWARE),$(HARDWARE_BAIKAL_T1))
 device_tree_names  = baikal_bfk.dtb
 endif
 

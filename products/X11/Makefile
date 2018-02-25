@@ -20,7 +20,7 @@ COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
-COMPONENT_TARGETS += $(HARDWARE_BT1)
+COMPONENT_TARGETS += $(HARDWARE_BAIKAL_T1)
 COMPONENT_TARGETS += $(HARDWARE_MBC4_PC)
 COMPONENT_TARGETS += $(HARDWARE_S824L)
 COMPONENT_TARGETS += $(HARDWARE_VESNIN)
@@ -91,7 +91,7 @@ REQUIRES += hal/firmware/ci20/brcm4330/0.0.0
 REQUIRES += boot/u-boot/ci20/2013.10-20150915
 endif
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_BT1)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_BAIKAL_T1)),)
 REQUIRES  = boot/u-boot/bt1/2014.10-4.08.84
 endif
 
@@ -109,18 +109,18 @@ endif
 # └── base/pkgtool
 #     └── dev/kernel-headers
 #         └── dev/gcc-runtime
-#             ├── libs/glibc/2.25
-#             │   ├── libs/glibc/2.25-i18n
+#             ├── libs/glibc/2.26
+#             │   ├── libs/glibc/2.26-i18n
 #             │   │   └── libs/glibc-zoneinfo/2017b ■
 #             │   │
-#             │   └── libs/glibc/2.25-x86_32
+#             │   └── libs/glibc/2.26-x86_32
 #             │
 #            ...
 #
 
-REQUIRES += libs/glibc/2.25-zoneinfo/2017b
+REQUIRES += libs/glibc/2.26-zoneinfo/2017b
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/glibc/2.25-x86_32
+REQUIRES += libs/glibc/2.26-x86_32
 endif
 
 #            ...

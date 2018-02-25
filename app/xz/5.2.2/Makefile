@@ -18,7 +18,7 @@ COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
-COMPONENT_TARGETS += $(HARDWARE_BT1)
+COMPONENT_TARGETS += $(HARDWARE_BAIKAL_T1)
 
 
 NEED_ABS_PATH      = true
@@ -31,9 +31,9 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/xz
 
 ifneq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES           = libs/glibc/2.25
+REQUIRES           = libs/glibc/2.26
 else
-REQUIRES           = libs/glibc/2.25-x86_32
+REQUIRES           = libs/glibc/2.26-x86_32
 endif
 
 # ======= __END_OF_REQUIRES__ =======

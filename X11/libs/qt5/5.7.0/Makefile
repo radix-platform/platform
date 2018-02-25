@@ -19,7 +19,7 @@ COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
-COMPONENT_TARGETS += $(HARDWARE_BT1)
+COMPONENT_TARGETS += $(HARDWARE_BAIKAL_T1)
 COMPONENT_TARGETS += $(HARDWARE_MBC4_PC)
 COMPONENT_TARGETS += $(HARDWARE_S824L)
 COMPONENT_TARGETS += $(HARDWARE_VESNIN)
@@ -108,7 +108,7 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)      \
                             $(HARDWARE_DRA7XXEVM)),)
 PATCHES = PATCHES.$(HARDWARE)
 else
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20) $(HARDWARE_BT1)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20) $(HARDWARE_BAIKAL_T1)),)
 PATCHES = PATCHES.mips32r5
 else
 PATCHES = PATCHES
@@ -190,7 +190,7 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 ARCH   = x86_64
 ABI    = gnu
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20) $(HARDWARE_BT1)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20) $(HARDWARE_BAIKAL_T1)),)
 ARCH   = mips
 ABI    = gnu
 endif
@@ -211,7 +211,7 @@ configure_switches += -device-option CCACHE=$(CCACHE)
 configure_switches += -device-option CROSS_COMPILE=$(CROSS_PREFIX)
 
 # ======= Target compiler doesn't support MIPS DSP/DSPr2 =======
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20) $(HARDWARE_BT1)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20) $(HARDWARE_BAIKAL_T1)),)
 configure_switches += -no-mips_dsp
 configure_switches += -no-mips_dspr2
 endif

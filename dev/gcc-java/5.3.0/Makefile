@@ -18,7 +18,7 @@ COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
-COMPONENT_TARGETS += $(HARDWARE_BT1)
+COMPONENT_TARGETS += $(HARDWARE_BAIKAL_T1)
 
 
 NEED_ABS_PATH      = true
@@ -516,10 +516,10 @@ $(install_target): $(build_target)
 	   fi \
 	 )
 	# ======= remove toolchain path from target libtool *.la files =======
-ifeq ($(filter $(HARDWARE),$(HARDWARE_PC32) \
-                           $(HARDWARE_PC64) \
-                           $(HARDWARE_CI20) \
-                           $(HARDWARE_BT1)),)
+ifeq ($(filter $(HARDWARE),$(HARDWARE_PC32)      \
+                           $(HARDWARE_PC64)      \
+                           $(HARDWARE_CI20)      \
+                           $(HARDWARE_BAIKAL_T1)),)
 	@( cd $(GCJ_DEV_PKG)/usr/lib$(LIBSUFFIX)/gcj-$(version)-$(jversion) ; \
 	   sed -i "s, '$(TOOLCHAIN_PATH)/$(TARGET)/lib$(LIBSUFFIX)'/libstdc++.la,,g" *.la ; \
 	 )

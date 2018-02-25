@@ -18,8 +18,8 @@ REQUIRES           = libs/gmp/6.0.0
 
 
 version            = 6.0.0
-tar_bz2_archive    = $(SRC_PACKAGE_PATH)/GNU/gmp/gmp-$(version)a.tar.bz2
-SRC_ARCHIVE        = $(tar_bz2_archive)
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNU/gmp/gmp-$(version)a.tar.xz
+SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/gmp-$(version)
 src_dir_name       = gmp-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done

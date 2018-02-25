@@ -19,8 +19,8 @@ REQUIRES          += libs/gmp/6.0.0-x86_32
 
 
 version            = 3.1.2
-tar_bz2_archive    = $(SRC_PACKAGE_PATH)/GNU/mpfr/mpfr-$(version).tar.bz2
-SRC_ARCHIVE        = $(tar_bz2_archive)
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNU/mpfr/mpfr-$(version).tar.xz
+SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/mpfr-$(version)
 src_dir_name       = mpfr-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done

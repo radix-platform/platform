@@ -41,21 +41,19 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/gmp
 
-ifneq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES           = libs/glibc/2.25
-else
-REQUIRES           = libs/glibc/2.25-x86_32
-endif
+REQUIRES           = libs/glibc/2.26
 
 # ======= __END_OF_REQUIRES__ =======
 
 
 version            = 6.1.2
-tar_bz2_archive    = $(SRC_PACKAGE_PATH)/GNU/gmp/gmp-$(version).tar.bz2
-SRC_ARCHIVE        = $(tar_bz2_archive)
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNU/gmp/gmp-$(version).tar.xz
+SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/gmp-$(version)
 src_dir_name       = gmp-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
+
+config_dir         = $(CURDIR)/config
 
 PATCHES = PATCHES
 
@@ -115,7 +113,11 @@ extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --with-gnu-ld
 extra_configure_switches += --enable-cxx
+ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
 extra_configure_switches += --enable-shared=yes
 
 
@@ -143,6 +145,15 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(GMP_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)   $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2)  $(HARDWARE_TL2SV2) \
+                            $(HARDWARE_MBC4_PC) $(HARDWARE_PC64)),)
+	# ======= Save gmp.h according wordsize =======
+	@for header in gmp ; do \
+	   mv $(GMP_PKG)/usr/include/$$header{,-64}.h ; \
+	   cp -a $(config_dir)/$$header.h $(GMP_PKG)/usr/include/$$header.h ; \
+	 done
+endif
 	# ======= Install Documentation =======
 	@rm -f $(GMP_PKG)/usr/share/info/dir
 	@gzip -9 $(GMP_PKG)/usr/share/info/*
@@ -189,12 +200,34 @@ $(install_target): $(build_target)
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libgmp.la ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libgmpxx.la \
 	 )
+	# ======= remove toolchain path from header files =======
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)   $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2)  $(HARDWARE_TL2SV2) \
+                            $(HARDWARE_MBC4_PC) $(HARDWARE_PC64)),)
+	@( cd $(GMP_PKG)/usr/include ; \
+	   sed -i 's,$(TOOLCHAIN_PATH)/bin/$(TARGET)\-,,g' gmp-64.h ; \
+	   sed -i 's, \-\-sysroot[^"]*,,g'                 gmp-64.h ; \
+	   sed -i 's,$(TARGET_DEST_DIR),,g'                gmp-64.h ; \
+	   sed -i 's,$(CCACHE),,g'                         gmp-64.h ; \
+	 )
+else
+	@( cd $(GMP_PKG)/usr/include ; \
+	   sed -i 's,$(TOOLCHAIN_PATH)/bin/$(TARGET)\-,,g' gmp.h ; \
+	   sed -i 's, \-\-sysroot[^"]*,,g'                 gmp.h ; \
+	   sed -i 's,$(TARGET_DEST_DIR),,g'                gmp.h ; \
+	   sed -i 's,$(CCACHE),,g'                         gmp.h ; \
+	 )
+endif
 	# ======= Strip binaries =======
 	@( cd $(GMP_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(GMP_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target shared objects =======
 	@( cd $(GMP_PKG)/usr/lib$(LIBSUFFIX) ; \

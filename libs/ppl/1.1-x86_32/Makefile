@@ -19,8 +19,8 @@ REQUIRES          += libs/gmp/6.1.2-x86_32
 
 
 version            = 1.1
-tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/l/ppl/ppl-$(version).tar.bz2
-SRC_ARCHIVE        = $(tar_bz2_archive)
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/l/ppl/ppl-$(version).tar.xz
+SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/ppl-$(version)
 src_dir_name       = ppl-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done

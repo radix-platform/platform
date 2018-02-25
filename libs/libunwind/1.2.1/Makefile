@@ -21,7 +21,6 @@ COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
 COMPONENT_TARGETS += $(HARDWARE_BT1)
-COMPONENT_TARGETS += $(HARDWARE_MBC4_PC)
 COMPONENT_TARGETS += $(HARDWARE_S824L)
 COMPONENT_TARGETS += $(HARDWARE_VESNIN)
 COMPONENT_TARGETS += $(HARDWARE_S824L_LSB)
@@ -41,7 +40,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/libunwind
 
-REQUIRES          += app/xz/5.2.2
+REQUIRES          += app/xz/5.2.3
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -57,6 +56,10 @@ PATCHES = PATCHES
 
 ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC))
 OPT_PATCHES = PATCHES.aarch64
+endif
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_POWER8_GLIBC) $(TOOLCHAIN_POWER8LE_GLIBC) \
+                             $(TOOLCHAIN_POWER9_GLIBC) $(TOOLCHAIN_POWER9LE_GLIBC)),)
+OPT_PATCHES = PATCHES.ppc64
 endif
 
 build_dir          = $(TARGET_BUILD_DIR)/build
@@ -115,7 +118,11 @@ extra_configure_switches += --disable-dependency-tracking
 
 extra_configure_switches += --disable-documentation
 
+ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
 extra_configure_switches += --enable-shared=yes
 
 
@@ -126,7 +133,7 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 ARCH = x86_64
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB2X) $(HARDWARE_CB3X) \
-                            $(HARDWARE_FFRK3288)                               \
+                            $(HARDWARE_FFRK3288) $(HARDWARE_POIN2)             \
                             $(HARDWARE_M201) $(HARDWARE_MXV)                   \
                             $(HARDWARE_NIT6Q)                                  \
                             $(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
@@ -135,11 +142,18 @@ endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
                                              $(HARDWARE_ODROID_C2)   \
                             $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
-                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)   \
+                                             $(HARDWARE_KHADAS_VIM2)),)
 ARCH = aarch64
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20) $(HARDWARE_BT1)),)
 ARCH = mips
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)      $(HARDWARE_VESNIN)     \
+                            $(HARDWARE_S824L_LSB)  $(HARDWARE_VESNIN_LSB) \
+                            $(HARDWARE_TL2WK2)     $(HARDWARE_TL2SV2)     \
+                            $(HARDWARE_TL2WK2_LSB) $(HARDWARE_TL2SV2_LSB)),)
+ARCH = ppc64
 endif
 
 
@@ -153,7 +167,9 @@ LDFLAGS += -Wl,-rpath,$(TARGET_LIB_RPATH)
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC))
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC)                               \
+                             $(TOOLCHAIN_POWER8_GLIBC) $(TOOLCHAIN_POWER8LE_GLIBC) \
+                             $(TOOLCHAIN_POWER9_GLIBC) $(TOOLCHAIN_POWER9LE_GLIBC)),)
 	$(call apply-opt-patches, $(SRC_DIR))
 endif
 	@touch $@
@@ -172,6 +188,9 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(LIBUNWIND_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
+ifneq ($(__ENABLE_STATIC__),yes)
+	@rm -f $(LIBUNWIND_PKG)/usr/lib$(LIBSUFFIX)/libunwind-generic.a
+endif
 	# ======= Install Documentation =======
 	@mkdir -p $(LIBUNWIND_PKG)/usr/doc/$(src_dir_name)
 	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/COPYING \
@@ -190,33 +209,52 @@ $(install_target): $(build_target)
 	 )
 	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(LIBUNWIND_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" libunwind-$(ARCH).la libunwind-coredump.la  \
-	                                    libunwind-ptrace.la  libunwind-setjmp.la    \
-	                                    libunwind.la                              ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libunwind-$(ARCH).la libunwind-ptrace.la  \
+	                                    libunwind-setjmp.la libunwind.la        ; \
 	 )
+ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_POWER8_GLIBC) $(TOOLCHAIN_POWER8LE_GLIBC) \
+                            $(TOOLCHAIN_POWER9_GLIBC) $(TOOLCHAIN_POWER9LE_GLIBC)),)
+	@( cd $(LIBUNWIND_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libunwind-coredump.la ; \
+	 )
+endif
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(LIBUNWIND_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libunwind-$(ARCH).la libunwind-coredump.la  \
-	                                            libunwind-ptrace.la  libunwind-setjmp.la    \
-	                                            libunwind.la                              ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libunwind-$(ARCH).la libunwind-coredump.la  \
-	                                              libunwind-ptrace.la  libunwind-setjmp.la    \
-	                                              libunwind.la                              ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libunwind-$(ARCH).la libunwind-ptrace.la  \
+	                                            libunwind-setjmp.la libunwind.la        ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libunwind-$(ARCH).la libunwind-ptrace.la  \
+	                                              libunwind-setjmp.la libunwind.la        ; \
 	 )
+ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_POWER8_GLIBC) $(TOOLCHAIN_POWER8LE_GLIBC) \
+                            $(TOOLCHAIN_POWER9_GLIBC) $(TOOLCHAIN_POWER9LE_GLIBC)),)
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   libunwind-coredump.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libunwind-coredump.la ; \
+	 )
+endif
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libunwind-coredump.pc libunwind-generic.pc  \
-	                                            libunwind-ptrace.pc   libunwind-setjmp.pc   \
-	                                            libunwind.pc                              ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libunwind-generic.pc libunwind-ptrace.pc  \
+	                                            libunwind-setjmp.pc libunwind.pc        ; \
 	 )
+ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_POWER8_GLIBC) $(TOOLCHAIN_POWER8LE_GLIBC) \
+                            $(TOOLCHAIN_POWER9_GLIBC) $(TOOLCHAIN_POWER9LE_GLIBC)),)
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libunwind-coredump.pc ; \
+	 )
+endif
 	# ======= Strip binaries =======
 	@( cd $(LIBUNWIND_PKG); \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(LIBUNWIND_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target shared objects =======
 	@( cd $(LIBUNWIND_PKG)/usr/lib$(LIBSUFFIX) ; \

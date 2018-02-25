@@ -7,9 +7,9 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/xz
 
-versions    = 5.0.5 5.2.2
+versions    = 5.0.5 5.2.2 5.2.3
 pkgname     = xz
-suffix      = tar.bz2
+suffix      = tar.xz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))

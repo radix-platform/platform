@@ -2,7 +2,7 @@
 
 VERSION=1.1
 
-tar --files-from=file.list -xjvf ../ppl-$VERSION.tar.bz2
+tar --files-from=file.list -xJvf ../ppl-$VERSION.tar.xz
 mv ppl-$VERSION ppl-$VERSION-orig
 
 cp -rf ./ppl-$VERSION-new ./ppl-$VERSION

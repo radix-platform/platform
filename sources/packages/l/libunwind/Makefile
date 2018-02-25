@@ -18,6 +18,7 @@ patches     = $(CURDIR)/patches/libunwind-1.2-automake.patch
 patches    += $(CURDIR)/patches/libunwind-1.2-gcc-unwind-aarch64.patch
 patches    += $(CURDIR)/patches/libunwind-1.2-mips.patch
 patches    += $(CURDIR)/patches/libunwind-1.2.1-gcc-unwind-aarch64.patch
+patches    += $(CURDIR)/patches/libunwind-1.2.1-ppc64-libdir.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -56,6 +57,7 @@ $(patches): $(sha1s)
 	 ( cd create-1.2-gcc-unwind-aarch64-patch   ; ./create.patch.sh ) ; \
 	 ( cd create-1.2-mips-patch                 ; ./create.patch.sh ) ; \
 	 ( cd create-1.2.1-gcc-unwind-aarch64-patch ; ./create.patch.sh ) ; \
+	 ( cd create-1.2.1-ppc64-libdir-patch       ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

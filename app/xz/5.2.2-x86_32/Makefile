@@ -18,8 +18,8 @@ REQUIRES           = app/xz/5.2.2
 
 
 version            = 5.2.2
-tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/a/xz/xz-$(version).tar.bz2
-SRC_ARCHIVE        = $(tar_bz2_archive)
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/a/xz/xz-$(version).tar.xz
+SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/xz-$(version)
 src_dir_name       = xz-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done

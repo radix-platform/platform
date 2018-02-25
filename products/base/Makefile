@@ -114,9 +114,7 @@ endif
 #             │   │   └── libs/glibc-zoneinfo/2018c ■
 #             │   │
 #             │   ├── libs/glibc/2.26-ppc32
-#             │   │
 #             │   ├── libs/glibc/2.26-sparc32
-#             │   │
 #             │   └── libs/glibc/2.26-x86_32
 #             │
 #            ...
@@ -140,16 +138,16 @@ endif
 #             ├── libs/zlib/1.2.8 ─────────────────────────────────┐             │
 #             │   │                                                │             │
 #             │   ├── libs/zlib/1.2.8-ppc32 ──── if ppc64 ────┐    │             │
-#             │   │                                           │    │             │
 #             │   ├── libs/zlib/1.2.8-sparc32 ── if sparc64 ──┤    │             │
-#             │   │                                           │    │             │
 #             │   ├── libs/zlib/1.2.8-x86_32 ─── if x86_64 ───┤    │             │
 #             │   │                                           │    │             │
 #             │   └── dev/binutils/2.28 ──────────────────────┘    │             │
 #             │       └── dev/gcc/6.4.0                            │             │
 #             │                                                    │             │
-#             ├── app/xz/5.2.2               ─────┬────────────────┘             │
-#             │   └── app/xz/5.2.2-x86_32         └── app/kmod/22                │
+#             ├── app/xz/5.2.3               ─────┬────────────────┘             │
+#             │   ├── app/xz/5.2.3-ppc32          └── app/kmod/22                │
+#             │   ├── app/xz/5.2.3-sparc32            ├── app/kmod/22-ppc32      │
+#             │   └── app/xz/5.2.3-x86_32             ├── app/kmod/22-sparc32    │
 #             │                                       └── app/kmod/22-x86_32     │
 #             ├── libs/libffi/3.2.1                                              │
 #             │   └── libs/libffi/3.2.1-x86_32                                   │
@@ -188,19 +186,29 @@ endif
 #            ...
 #             │
 #             ├── libs/gmp/6.1.2 ────────────────┐
+#             │   ├── libs/gmp/6.1.2-ppc32       │
+#             │   ├── libs/gmp/6.1.2-sparc32     │
 #             │   ├── libs/gmp/6.1.2-x86_32      │
-#             │   │                              ├── libs/mpc/1.0.3
-#             │   ├── libs/mpfr/3.1.5 ───────────┘   └── libs/mpc/1.0.3-x86_32
-#             │   │   └── libs/mpfr/3.1.5-x86_32
+#             │   │                              ├── libs/mpc/1.1.0
+#             │   ├── libs/mpfr/4.0.1 ───────────┘   ├── libs/mpc/1.1.0-ppc32
+#             │   │   ├── libs/mpfr/4.0.1-ppc32      ├── libs/mpc/1.1.0-sparc32
+#             │   │   ├── libs/mpfr/4.0.1-sparc32    └── libs/mpc/1.1.0-x86_32
+#             │   │   └── libs/mpfr/4.0.1-x86_32
 #             │   │
 #             │   ├── libs/isl/0.18
+#             │   │   ├── libs/isl/0.18-ppc32
+#             │   │   ├── libs/isl/0.18-sparc32
 #             │   │   └── libs/isl/0.18-x86_32
 #             │   │
 #             │   ├── app/cloog/0.18.4 ■ ─────────────┐
+#             │   │   ├── app/cloog/0.18.4-ppc32      │
+#             │   │   ├── app/cloog/0.18.4-sparc32    │
 #             │   │   └── app/cloog/0.18.4-x86_32     │
 #             │   │                                   ├── GCC do not use these stuff but you
-#             │   └── libs/ppl/1.1 ■                  │   can uncomment following REQUIRES.
-#             │       └── libs/ppl/1.1-x86_32 ────────┘
+#             │   └── libs/ppl/1.2 ■                  │   can uncomment following REQUIRES.
+#             │       ├── libs/ppl/1.2-ppc32 ─────────┤
+#             │       ├── libs/ppl/1.2-sparc32 ───────┤
+#             │       └── libs/ppl/1.2-x86_32 ────────┘
 #             │
 #            ...
 
@@ -208,17 +216,40 @@ endif
 ####### additional libs for bootstrap GCC:
 #######
 REQUIRES += app/cloog/0.18.4
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
+REQUIRES += app/cloog/0.18.4-ppc32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
+REQUIRES += app/cloog/0.18.4-sparc32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 REQUIRES += app/cloog/0.18.4-x86_32
 endif
-REQUIRES += libs/ppl/1.1
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/ppl/1.1-x86_32
+
+REQUIRES += libs/ppl/1.2
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
+REQUIRES += libs/ppl/1.2-ppc32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
+REQUIRES += libs/ppl/1.2-sparc32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
+REQUIRES += libs/ppl/1.2-x86_32
 endif
 
-REQUIRES += libs/mpc/1.0.3
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/mpc/1.0.3-x86_32
+
+REQUIRES += libs/mpc/1.1.0
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
+REQUIRES += libs/mpc/1.1.0-ppc32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
+REQUIRES += libs/mpc/1.1.0-sparc32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
+REQUIRES += libs/mpc/1.1.0-x86_32
 endif
 
 #            ...
@@ -226,7 +257,7 @@ endif
 #             │   │
 #             │   └── dev/binutils/2.28
 #             │       │
-#             │       ├── dev/gcc/5.4.0 ──────────┬── libs/mpc/1.0.3
+#             │       ├── dev/gcc/6.4.0 ──────────┬── libs/mpc/1.1.0
 #             │       │                           └── libs/isl/0.18
 #            ...     ...
 
@@ -307,7 +338,7 @@ endif
 #             │
 #             │      ...
 #             │       ├───────────────────────────────────┬── libs/zlib/1.2.8
-#             │       │                                   ├── app/xz/5.2.2
+#             │       │                                   ├── app/xz/5.2.3
 #             │       ├── dev/python2/2.7.11              ├── libs/libffi/3.2.1
 #             │       │   └── dev/python2/2.7.11-x86_32   ├── libs/readline/6.3
 #             │      ...                                  ├── libs/expat/2.1.1

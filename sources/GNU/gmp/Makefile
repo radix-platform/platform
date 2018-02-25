@@ -9,7 +9,7 @@ url         = $(DOWNLOAD_SERVER)/sources/GNU/gmp
 
 versions    = 5.0.5 5.1.3 6.0.0a 6.1.0 6.1.2
 pkgname     = gmp
-suffix      = tar.bz2
+suffix      = tar.xz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))

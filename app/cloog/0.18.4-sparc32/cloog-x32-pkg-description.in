@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+         |-----handy-ruler------------------------------------------------------|
+cloog-x32: cloog-x32 @VERSION@ (sparc32 The Chunky Loop Generator 'cloog-isl')
+cloog-x32:
+cloog-x32: CLooG is a free software and library to generate code for scanning
+cloog-x32: Z-polyhedra. That is, it finds a code (e.g. in C, FORTRAN...) that
+cloog-x32: reaches each integral point of one or more parameterized polyhedra.
+cloog-x32: CLooG has been originally written to solve the code generation
+cloog-x32: problem for optimizing compilers based on the polytope model.
+cloog-x32:
+cloog-x32:
+cloog-x32:
+cloog-x32:

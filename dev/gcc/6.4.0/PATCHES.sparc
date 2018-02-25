@@ -1,0 +1,4 @@
+
+../../../sources/GNU/gcc/gcc-6.4.0/patches/gcc-6.4.0-sparc-ada.patch          -p0
+../../../sources/GNU/gcc/gcc-6.4.0/patches/gcc-6.4.0-sparc-config.patch       -p0
+../../../sources/GNU/gcc/gcc-6.4.0/patches/gcc-6.4.0-sparc64-multilib.patch   -p0

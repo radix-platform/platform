@@ -2,7 +2,7 @@
 
 VERSION=6.0.0
 
-tar --files-from=file.list -xjvf ../gmp-${VERSION}a.tar.bz2
+tar --files-from=file.list -xJvf ../gmp-${VERSION}a.tar.xz
 mv gmp-$VERSION gmp-$VERSION-orig
 
 cp -rf ./gmp-$VERSION-new ./gmp-$VERSION

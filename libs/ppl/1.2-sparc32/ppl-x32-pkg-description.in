@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+       |-----handy-ruler------------------------------------------------------|
+ppl-x32: ppl-x32 @VERSION@ (sparc32 The Parma Polyhedra Library)
+ppl-x32:
+ppl-x32: The Parma Polyhedra Library (PPL) provides numerical abstractions
+ppl-x32: especially targeted at applications in the field of analysis and
+ppl-x32: verification of complex systems.
+ppl-x32:
+ppl-x32: see: http://bugseng.com/products/ppl/
+ppl-x32:
+ppl-x32:
+ppl-x32:
+ppl-x32:

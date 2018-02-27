@@ -44,9 +44,18 @@ SOURCE_REQUIRES    = sources/GNU/gcc/gcc-6.4.0
 REQUIRES           = dev/binutils/2.28
 REQUIRES          += libs/isl/0.18
 REQUIRES          += libs/mpc/1.1.0
-#ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC))
-#REQUIRES          += libs/libunwind/1.2.1
-#endif
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_POWER8_GLIBC) $(TOOLCHAIN_POWER9_GLIBC)),)
+REQUIRES          += libs/isl/0.18-ppc32
+REQUIRES          += libs/mpc/1.1.0-ppc32
+endif
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_R1000_GLIBC)),)
+REQUIRES          += libs/isl/0.18-sparc32
+REQUIRES          += libs/mpc/1.1.0-sparc32
+endif
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
+REQUIRES          += libs/isl/0.18-x86_32
+REQUIRES          += libs/mpc/1.1.0-x86_32
+endif
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -164,11 +173,7 @@ extra_configure_switches += --enable-lto
 extra_configure_switches += --enable-c99
 extra_configure_switches += --enable-long-long
 
-#ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC))
-#extra_configure_switches += --with-system-libunwind
-#else
 extra_configure_switches += --disable-libunwind-exceptions
-#endif
 
 extra_configure_switches += --disable-install-libiberty
 

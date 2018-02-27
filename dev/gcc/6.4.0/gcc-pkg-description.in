@@ -15,5 +15,5 @@ gcc: Java compiler is not included into this colection due to
 gcc: dependencies such as gtk+2 library which can requires X11.
 gcc: In order to have C compiler on the small system, GNU Compiler
 gcc: Collection should be split at least into two packages
-gcc: gcc-5.3.0 and gcc-java-5.3.0 .
+gcc: gcc-@VERSION@ and gcc-java-@VERSION@ .
 gcc:

@@ -21,6 +21,7 @@ COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
 COMPONENT_TARGETS += $(HARDWARE_BAIKAL_T1)
+COMPONENT_TARGETS += $(HARDWARE_MBC4_PC)
 COMPONENT_TARGETS += $(HARDWARE_S824L)
 COMPONENT_TARGETS += $(HARDWARE_VESNIN)
 COMPONENT_TARGETS += $(HARDWARE_S824L_LSB)
@@ -60,6 +61,9 @@ endif
 ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_POWER8_GLIBC) $(TOOLCHAIN_POWER8LE_GLIBC) \
                              $(TOOLCHAIN_POWER9_GLIBC) $(TOOLCHAIN_POWER9LE_GLIBC)),)
 OPT_PATCHES = PATCHES.ppc64
+endif
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_R1000_GLIBC))
+OPT_PATCHES = PATCHES.sparc64
 endif
 
 build_dir          = $(TARGET_BUILD_DIR)/build
@@ -155,6 +159,9 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)      $(HARDWARE_VESNIN)     \
                             $(HARDWARE_TL2WK2_LSB) $(HARDWARE_TL2SV2_LSB)),)
 ARCH = ppc64
 endif
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_R1000_GLIBC))
+ARCH = sparc64
+endif
 
 
 TARGET_LIB_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUFFIX)
@@ -169,7 +176,8 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(APPLY_PATCHES)
 ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC)                               \
                              $(TOOLCHAIN_POWER8_GLIBC) $(TOOLCHAIN_POWER8LE_GLIBC) \
-                             $(TOOLCHAIN_POWER9_GLIBC) $(TOOLCHAIN_POWER9LE_GLIBC)),)
+                             $(TOOLCHAIN_POWER9_GLIBC) $(TOOLCHAIN_POWER9LE_GLIBC) \
+                             $(TOOLCHAIN_R1000_GLIBC)),)
 	$(call apply-opt-patches, $(SRC_DIR))
 endif
 	@touch $@
@@ -213,7 +221,8 @@ endif
 	                                    libunwind-setjmp.la libunwind.la        ; \
 	 )
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_POWER8_GLIBC) $(TOOLCHAIN_POWER8LE_GLIBC) \
-                            $(TOOLCHAIN_POWER9_GLIBC) $(TOOLCHAIN_POWER9LE_GLIBC)),)
+                            $(TOOLCHAIN_POWER9_GLIBC) $(TOOLCHAIN_POWER9LE_GLIBC) \
+                            $(TOOLCHAIN_R1000_GLIBC)),)
 	@( cd $(LIBUNWIND_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libunwind-coredump.la ; \
 	 )
@@ -228,7 +237,8 @@ endif
 	                                              libunwind-setjmp.la libunwind.la        ; \
 	 )
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_POWER8_GLIBC) $(TOOLCHAIN_POWER8LE_GLIBC) \
-                            $(TOOLCHAIN_POWER9_GLIBC) $(TOOLCHAIN_POWER9LE_GLIBC)),)
+                            $(TOOLCHAIN_POWER9_GLIBC) $(TOOLCHAIN_POWER9LE_GLIBC) \
+                            $(TOOLCHAIN_R1000_GLIBC)),)
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   libunwind-coredump.la ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libunwind-coredump.la ; \
@@ -240,7 +250,8 @@ endif
 	                                            libunwind-setjmp.pc libunwind.pc        ; \
 	 )
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_POWER8_GLIBC) $(TOOLCHAIN_POWER8LE_GLIBC) \
-                            $(TOOLCHAIN_POWER9_GLIBC) $(TOOLCHAIN_POWER9LE_GLIBC)),)
+                            $(TOOLCHAIN_POWER9_GLIBC) $(TOOLCHAIN_POWER9LE_GLIBC) \
+                            $(TOOLCHAIN_R1000_GLIBC)),)
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libunwind-coredump.pc ; \
 	 )

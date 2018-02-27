@@ -7,9 +7,9 @@ mv libunwind-$VERSION libunwind-$VERSION-orig
 
 cp -rf ./libunwind-$VERSION-new ./libunwind-$VERSION
 
-diff -b --unified -Nr  libunwind-$VERSION-orig  libunwind-$VERSION > libunwind-$VERSION-gcc-unwind-aarch64.patch
+diff -b --unified -Nr  libunwind-$VERSION-orig  libunwind-$VERSION > libunwind-$VERSION-sparc64.patch
 
-mv libunwind-$VERSION-gcc-unwind-aarch64.patch ../patches
+mv libunwind-$VERSION-sparc64.patch ../patches
 
 rm -rf ./libunwind-$VERSION
 rm -rf ./libunwind-$VERSION-orig

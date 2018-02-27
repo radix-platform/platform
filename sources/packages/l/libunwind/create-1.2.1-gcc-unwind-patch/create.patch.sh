@@ -7,9 +7,9 @@ mv libunwind-$VERSION libunwind-$VERSION-orig
 
 cp -rf ./libunwind-$VERSION-new ./libunwind-$VERSION
 
-diff -b --unified -Nr  libunwind-$VERSION-orig  libunwind-$VERSION > libunwind-$VERSION-gcc5-unwind.patch
+diff -b --unified -Nr  libunwind-$VERSION-orig  libunwind-$VERSION > libunwind-$VERSION-gcc-unwind.patch
 
-mv libunwind-$VERSION-gcc5-unwind.patch ../patches
+mv libunwind-$VERSION-gcc-unwind.patch ../patches
 
 rm -rf ./libunwind-$VERSION
 rm -rf ./libunwind-$VERSION-orig

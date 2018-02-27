@@ -17,7 +17,7 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 patches     = $(CURDIR)/patches/libunwind-1.2-automake.patch
 patches    += $(CURDIR)/patches/libunwind-1.2-gcc-unwind-aarch64.patch
 patches    += $(CURDIR)/patches/libunwind-1.2-mips.patch
-patches    += $(CURDIR)/patches/libunwind-1.2.1-gcc5-unwind.patch
+patches    += $(CURDIR)/patches/libunwind-1.2.1-gcc-unwind.patch
 patches    += $(CURDIR)/patches/libunwind-1.2.1-ppc64-libdir.patch
 patches    += $(CURDIR)/patches/libunwind-1.2.1-sparc64.patch
 
@@ -57,7 +57,7 @@ $(patches): $(sha1s)
 	 ( cd create-1.2-automake-patch           ; ./create.patch.sh ) ; \
 	 ( cd create-1.2-gcc-unwind-aarch64-patch ; ./create.patch.sh ) ; \
 	 ( cd create-1.2-mips-patch               ; ./create.patch.sh ) ; \
-	 ( cd create-1.2.1-gcc5-unwind-patch      ; ./create.patch.sh ) ; \
+	 ( cd create-1.2.1-gcc-unwind-patch       ; ./create.patch.sh ) ; \
 	 ( cd create-1.2.1-ppc64-libdir-patch     ; ./create.patch.sh ) ; \
 	 ( cd create-1.2.1-sparc64-patch          ; ./create.patch.sh ) ; \
 	 echo -e "\n"

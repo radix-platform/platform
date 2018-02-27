@@ -56,6 +56,9 @@ ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES          += libs/isl/0.18-x86_32
 REQUIRES          += libs/mpc/1.1.0-x86_32
 endif
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC))
+REQUIRES          += libs/libunwind/1.2.1
+endif
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -173,7 +176,11 @@ extra_configure_switches += --enable-lto
 extra_configure_switches += --enable-c99
 extra_configure_switches += --enable-long-long
 
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC))
+extra_configure_switches += --with-system-libunwind
+else
 extra_configure_switches += --disable-libunwind-exceptions
+endif
 
 extra_configure_switches += --disable-install-libiberty
 

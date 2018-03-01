@@ -31,6 +31,8 @@ patches    += $(CURDIR)/patches/gcc-6.4.0-sparc-config.patch
 patches    += $(CURDIR)/patches/gcc-6.4.0-sparc64-multilib.patch
 patches    += $(CURDIR)/patches/gcc-6.4.0-x86_64-multilib.patch
 
+patches    += $(CURDIR)/patches/gcc-6.4.0-libjava-exception.patch
+
 patches    += $(CURDIR)/patches/gcc-6.4.0-libstdc++-docs.patch
 patches    += $(CURDIR)/patches/gcc-6.4.0-libtool-no-rpath.patch
 patches    += $(CURDIR)/patches/gcc-6.4.0-glibc-2.26.patch
@@ -81,6 +83,7 @@ $(patches): $(sha1s)
 	 ( cd create-6.4.0-sparc-config-patch       ; ./create.patch.sh ) ; \
 	 ( cd create-6.4.0-sparc64-multilib-patch   ; ./create.patch.sh ) ; \
 	 ( cd create-6.4.0-x86_64-multilib-patch    ; ./create.patch.sh ) ; \
+	 ( cd create-6.4.0-libjava-exception-patch  ; ./create.patch.sh ) ; \
 	 ( cd create-6.4.0-libstdc++-docs-patch     ; ./create.patch.sh ) ; \
 	 ( cd create-6.4.0-libtool-no-rpath-patch   ; ./create.patch.sh ) ; \
 	 ( cd create-6.4.0-glibc-2.26-patch         ; ./create.patch.sh ) ; \

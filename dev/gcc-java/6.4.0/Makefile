@@ -503,7 +503,7 @@ $(install_target): $(build_target)
 	 )
 	# ======= remove unneeded stuff =======
 	@( cd $(GCJ_DEV_PKG)/usr/bin ; \
-	   rm -f cpp *++ *gcc *gcc-* *gcov *gcov-* ; \
+	   rm -f cpp *++ *gcc *gcc-* *gcov *gcov-* gcj ; \
 	   for file in aot-compile gappletviewer gc-analyze gcj       \
 	               gcj-dbtool gcjh gij gjar gjarsigner gjavah     \
 	               gjdoc gkeytool gnative2ascii gorbd grmic grmid \
@@ -655,6 +655,9 @@ endif
 	@( cd $(GCJ_DEV_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libgcj-tools.la libgcj.la libgij.la ; \
 	 )
+ifneq ($(BUILD_JAVA_AWT),yes)
+	@rm -f $(GCJ_DEV_PKG)/usr/lib$(LIBSUFFIX)/jvm/jre/lib/$(JAVA_LIB_ARCH)/libjawt.so
+endif
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(GCJ_DEV_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======

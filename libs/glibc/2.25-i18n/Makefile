@@ -32,7 +32,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES   = sources/GNU/glibc/2.25
 SOURCE_REQUIRES  += sources/iana/tz
 
-REQUIRES          = libs/glibc/2.26
+REQUIRES          = libs/glibc/2.25
 
 # ======= __END_OF_REQUIRES__ =======
 

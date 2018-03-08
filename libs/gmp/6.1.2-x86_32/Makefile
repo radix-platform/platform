@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/GNU/gmp
 
 REQUIRES           = libs/gmp/6.1.2
-REQUIRES          += libs/glibc/2.26-x86_32
+REQUIRES          += libs/glibc/2.27-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

@@ -32,6 +32,7 @@ patches    += $(CURDIR)/patches/glibc-2.23-tzcode-2016a.patch
 patches    += $(CURDIR)/patches/glibc-2.24-tzcode-2016i.patch
 patches    += $(CURDIR)/patches/glibc-2.25-tzcode-2017b.patch
 patches    += $(CURDIR)/patches/glibc-2.26-tzcode-2018c.patch
+patches    += $(CURDIR)/patches/glibc-2.27-tzcode-2018c.patch
 patches    += $(CURDIR)/patches/tzcode-2018c-version.patch
 
 .NOTPARALLEL: $(patches)
@@ -74,6 +75,7 @@ $(patches): $(sha1s)
 	 ( cd create-2016i-glibc-2.24-patch ; ./create.patch.sh ) ; \
 	 ( cd create-2017b-glibc-2.25-patch ; ./create.patch.sh ) ; \
 	 ( cd create-2018c-glibc-2.26-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2018c-glibc-2.27-patch ; ./create.patch.sh ) ; \
 	 ( cd create-2018c-version-patch    ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 

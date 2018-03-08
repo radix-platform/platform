@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/xz
 
 REQUIRES           = app/xz/5.2.3
-REQUIRES          += libs/glibc/2.26-sparc32
+REQUIRES          += libs/glibc/2.27-sparc32
 
 # ======= __END_OF_REQUIRES__ =======
 

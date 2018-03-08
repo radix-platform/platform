@@ -44,7 +44,7 @@ SOURCE_REQUIRES    = sources/packages/n/rfkill
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/5.4.0
 else
-REQUIRES           = libs/glibc/2.26
+REQUIRES           = libs/glibc/2.27
 endif
 
 # ======= __END_OF_REQUIRES__ =======

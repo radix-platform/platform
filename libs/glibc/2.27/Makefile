@@ -175,7 +175,7 @@ $(build_glibc_pkg): $(install_target)
 	        $(GLIBC_PKG)/usr/doc/glibc-$(version)
 	@mkdir -p $(GLIBC_PKG)/usr/share/doc/glibc-$(version)
 	@( cd $(SRC_DIR) ; \
-	   cp -a BUGS CONFORMANCE COPYING* INSTALL LICENSES NAMESPACE NEWS README \
+	   cp -a COPYING* INSTALL LICENSES NEWS README \
 	         $(GLIBC_PKG)/usr/share/doc/glibc-$(version) ; \
 	 )
 	@( cd $(SRC_DIR) ; \

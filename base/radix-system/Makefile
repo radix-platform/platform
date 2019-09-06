@@ -69,7 +69,8 @@ build = $(TARGET_BUILD_DIR)/.done
 
 pkg_basename    = $(SYSINIT_BIN_PKG_NAME)-$(SYSINIT_BIN_PKG_VERSION)-$(SYSINIT_BIN_PKG_ARCH)-$(SYSINIT_BIN_PKG_DISTRO_NAME)-$(SYSINIT_BIN_PKG_DISTRO_VERSION)
 
-pkg_archive     = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_archive     = $(TARGET_BUILD_DIR)/$(SYSINIT_BIN_PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate = $(call cert-name,$(pkg_archive))
 pkg_signature   = $(call sign-name,$(pkg_archive))
 pkg_description = $(call desc-name,$(pkg_archive))
 products        = $(call pkg-files,$(pkg_archive))
@@ -311,7 +312,7 @@ $(pkg_archive): $(build) $(SYSINIT_BIN_PKG_DESCRIPTION_FILE) $(SYSINIT_BIN_PKG_I
 	 echo "short_description=\"$(SYSINIT_BIN_PKG_SHORT_DESCRIPTION)\"" >> $(SYSINIT_BIN_PKG)/.PKGINFO ; \
 	 echo "url=$(SYSINIT_BIN_PKG_URL)"                                 >> $(SYSINIT_BIN_PKG)/.PKGINFO ; \
 	 echo "license=$(SYSINIT_BIN_PKG_LICENSE)"                         >> $(SYSINIT_BIN_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(SYSINIT_BIN_PKG)  && \
-	                  chown -R 0:0 .       && \
+	@$(PSEUDO) sh -c "cd $(SYSINIT_BIN_PKG) && \
+	                  chown -R 0:0 .        && \
 	                  chown -R 0:22 var/log/wtmp var/run/utmp && \
-	                  $(MAKE_PACKAGE) --linkadd yes .."
+	                  $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

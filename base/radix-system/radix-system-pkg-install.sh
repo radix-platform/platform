@@ -68,7 +68,7 @@ post_install() {
   install_file etc/rc.d/rc.keymap.new
   install_file etc/rc.d/rc.modules.new
 
-  ( cd etc/rc.d ; rm -rf rc.0 )
+  ( cd etc/rc.d ; rm -f rc.0 )
   ( cd etc/rc.d ; ln -sf rc.6 rc.0 )
 }
 
@@ -86,7 +86,7 @@ post_update() {
 
 # arg 1:  the old package version
 pre_remove() {
-  /bin/true
+  ( cd etc/rc.d ; rm -f rc.0 )
 }
 
 # arg 1:  the old package version

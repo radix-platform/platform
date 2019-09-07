@@ -61,6 +61,7 @@ UDEV_32_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(UDEV_32_PKG_NAME)-package
 pkg_basename     = $(UDEV_32_PKG_NAME)-$(UDEV_32_PKG_VERSION)-$(UDEV_32_PKG_ARCH)-$(UDEV_32_PKG_DISTRO_NAME)-$(UDEV_32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -185,4 +186,4 @@ $(pkg_archive): $(install_target) $(UDEV_32_PKG_DESCRIPTION_FILE) $(UDEV_32_PKG_
 	 echo "short_description=\"$(UDEV_32_PKG_SHORT_DESCRIPTION)\"" >> $(UDEV_32_PKG)/.PKGINFO ; \
 	 echo "url=$(UDEV_32_PKG_URL)"                                 >> $(UDEV_32_PKG)/.PKGINFO ; \
 	 echo "license=$(UDEV_32_PKG_LICENSE)"                         >> $(UDEV_32_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(UDEV_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(UDEV_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

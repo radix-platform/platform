@@ -89,6 +89,7 @@ HDPARM_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(HDPARM_PKG_NAME)-package
 pkg_basename     = $(HDPARM_PKG_NAME)-$(HDPARM_PKG_VERSION)-$(HDPARM_PKG_ARCH)-$(HDPARM_PKG_DISTRO_NAME)-$(HDPARM_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -173,4 +174,4 @@ $(pkg_archive): $(install_target) $(HDPARM_PKG_DESCRIPTION_FILE) $(HDPARM_PKG_IN
 	 echo "short_description=\"$(HDPARM_PKG_SHORT_DESCRIPTION)\"" >> $(HDPARM_PKG)/.PKGINFO ; \
 	 echo "url=$(HDPARM_PKG_URL)"                                 >> $(HDPARM_PKG)/.PKGINFO ; \
 	 echo "license=$(HDPARM_PKG_LICENSE)"                         >> $(HDPARM_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(HDPARM_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(HDPARM_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

@@ -92,6 +92,7 @@ GNUTLS_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(GNUTLS_PKG_NAME)-package
 pkg_basename     = $(GNUTLS_PKG_NAME)-$(GNUTLS_PKG_VERSION)-$(GNUTLS_PKG_ARCH)-$(GNUTLS_PKG_DISTRO_NAME)-$(GNUTLS_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -265,4 +266,4 @@ $(pkg_archive): $(install_target) $(GNUTLS_PKG_DESCRIPTION_FILE) $(GNUTLS_PKG_IN
 	 echo "short_description=\"$(GNUTLS_PKG_SHORT_DESCRIPTION)\"" >> $(GNUTLS_PKG)/.PKGINFO ; \
 	 echo "url=$(GNUTLS_PKG_URL)"                                 >> $(GNUTLS_PKG)/.PKGINFO ; \
 	 echo "license=$(GNUTLS_PKG_LICENSE)"                         >> $(GNUTLS_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(GNUTLS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GNUTLS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

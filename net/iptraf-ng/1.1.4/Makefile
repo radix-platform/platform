@@ -85,6 +85,7 @@ IPTRAF_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(IPTRAF_PKG_NAME)-package
 pkg_basename     = $(IPTRAF_PKG_NAME)-$(IPTRAF_PKG_VERSION)-$(IPTRAF_PKG_ARCH)-$(IPTRAF_PKG_DISTRO_NAME)-$(IPTRAF_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -211,4 +212,4 @@ $(pkg_archive): $(install_target) $(IPTRAF_PKG_DESCRIPTION_FILE) $(IPTRAF_PKG_IN
 	 echo "short_description=\"$(IPTRAF_PKG_SHORT_DESCRIPTION)\"" >> $(IPTRAF_PKG)/.PKGINFO ; \
 	 echo "url=$(IPTRAF_PKG_URL)"                                 >> $(IPTRAF_PKG)/.PKGINFO ; \
 	 echo "license=$(IPTRAF_PKG_LICENSE)"                         >> $(IPTRAF_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(IPTRAF_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(IPTRAF_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

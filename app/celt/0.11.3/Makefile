@@ -89,6 +89,7 @@ CELT_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(CELT_PKG_NAME)-package
 pkg_basename     = $(CELT_PKG_NAME)-$(CELT_PKG_VERSION)-$(CELT_PKG_ARCH)-$(CELT_PKG_DISTRO_NAME)-$(CELT_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -242,4 +243,4 @@ $(pkg_archive): $(install_target) $(CELT_PKG_DESCRIPTION_FILE) $(CELT_PKG_INSTAL
 	 echo "short_description=\"$(CELT_PKG_SHORT_DESCRIPTION)\"" >> $(CELT_PKG)/.PKGINFO ; \
 	 echo "url=$(CELT_PKG_URL)"                                 >> $(CELT_PKG)/.PKGINFO ; \
 	 echo "license=$(CELT_PKG_LICENSE)"                         >> $(CELT_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(CELT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(CELT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

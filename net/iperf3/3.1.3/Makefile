@@ -87,6 +87,7 @@ IPERF3_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(IPERF3_PKG_NAME)-package
 pkg_basename     = $(IPERF3_PKG_NAME)-$(IPERF3_PKG_VERSION)-$(IPERF3_PKG_ARCH)-$(IPERF3_PKG_DISTRO_NAME)-$(IPERF3_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -240,4 +241,4 @@ $(pkg_archive): $(install_target) $(IPERF3_PKG_DESCRIPTION_FILE) $(IPERF3_PKG_IN
 	 echo "short_description=\"$(IPERF3_PKG_SHORT_DESCRIPTION)\"" >> $(IPERF3_PKG)/.PKGINFO ; \
 	 echo "url=$(IPERF3_PKG_URL)"                                 >> $(IPERF3_PKG)/.PKGINFO ; \
 	 echo "license=$(IPERF3_PKG_LICENSE)"                         >> $(IPERF3_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(IPERF3_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(IPERF3_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

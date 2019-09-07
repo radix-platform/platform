@@ -102,6 +102,7 @@ ICECAST_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(ICECAST_PKG_NAME)-package
 pkg_basename     = $(ICECAST_PKG_NAME)-$(ICECAST_PKG_VERSION)-$(ICECAST_PKG_ARCH)-$(ICECAST_PKG_DISTRO_NAME)-$(ICECAST_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -242,4 +243,4 @@ $(pkg_archive): $(install_target) $(ICECAST_PKG_DESCRIPTION_FILE) $(ICECAST_PKG_
 	 echo "short_description=\"$(ICECAST_PKG_SHORT_DESCRIPTION)\"" >> $(ICECAST_PKG)/.PKGINFO ; \
 	 echo "url=$(ICECAST_PKG_URL)"                                 >> $(ICECAST_PKG)/.PKGINFO ; \
 	 echo "license=$(ICECAST_PKG_LICENSE)"                         >> $(ICECAST_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(ICECAST_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ICECAST_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

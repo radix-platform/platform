@@ -57,6 +57,7 @@ E2FSPROGS_32_PKG = $(CURDIR)/$(TARGET_BUILD_DIR)/$(E2FSPROGS_32_PKG_NAME)-packag
 pkg_basename     = $(E2FSPROGS_32_PKG_NAME)-$(E2FSPROGS_32_PKG_VERSION)-$(E2FSPROGS_32_PKG_ARCH)-$(E2FSPROGS_32_PKG_DISTRO_NAME)-$(E2FSPROGS_32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -160,4 +161,4 @@ $(pkg_archive): $(install_target) $(E2FSPROGS_32_PKG_DESCRIPTION_FILE) $(E2FSPRO
 	 echo "short_description=\"$(E2FSPROGS_32_PKG_SHORT_DESCRIPTION)\"" >> $(E2FSPROGS_32_PKG)/.PKGINFO ; \
 	 echo "url=$(E2FSPROGS_32_PKG_URL)"                                 >> $(E2FSPROGS_32_PKG)/.PKGINFO ; \
 	 echo "license=$(E2FSPROGS_32_PKG_LICENSE)"                         >> $(E2FSPROGS_32_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(E2FSPROGS_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(E2FSPROGS_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

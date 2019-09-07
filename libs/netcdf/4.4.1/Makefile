@@ -87,6 +87,7 @@ NETCDF_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(NETCDF_PKG_NAME)-package
 pkg_basename     = $(NETCDF_PKG_NAME)-$(NETCDF_PKG_VERSION)-$(NETCDF_PKG_ARCH)-$(NETCDF_PKG_DISTRO_NAME)-$(NETCDF_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -258,4 +259,4 @@ $(pkg_archive): $(install_target) $(NETCDF_PKG_DESCRIPTION_FILE) $(NETCDF_PKG_IN
 	 echo "short_description=\"$(NETCDF_PKG_SHORT_DESCRIPTION)\"" >> $(NETCDF_PKG)/.PKGINFO ; \
 	 echo "url=$(NETCDF_PKG_URL)"                                 >> $(NETCDF_PKG)/.PKGINFO ; \
 	 echo "license=$(NETCDF_PKG_LICENSE)"                         >> $(NETCDF_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(NETCDF_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(NETCDF_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

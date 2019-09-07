@@ -86,6 +86,7 @@ LIBEPOXY_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBEPOXY_PKG_NAME)-package
 pkg_basename     = $(LIBEPOXY_PKG_NAME)-$(LIBEPOXY_PKG_VERSION)-$(LIBEPOXY_PKG_ARCH)-$(LIBEPOXY_PKG_DISTRO_NAME)-$(LIBEPOXY_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -206,4 +207,4 @@ $(pkg_archive): $(install_target) $(LIBEPOXY_PKG_DESCRIPTION_FILE) $(LIBEPOXY_PK
 	 echo "short_description=\"$(LIBEPOXY_PKG_SHORT_DESCRIPTION)\"" >> $(LIBEPOXY_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBEPOXY_PKG_URL)"                                 >> $(LIBEPOXY_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBEPOXY_PKG_LICENSE)"                         >> $(LIBEPOXY_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBEPOXY_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBEPOXY_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

@@ -96,6 +96,7 @@ LIBMAD_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBMAD_PKG_NAME)-package
 pkg_basename     = $(LIBMAD_PKG_NAME)-$(LIBMAD_PKG_VERSION)-$(LIBMAD_PKG_ARCH)-$(LIBMAD_PKG_DISTRO_NAME)-$(LIBMAD_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -258,4 +259,4 @@ $(pkg_archive): $(install_target) $(LIBMAD_PKG_DESCRIPTION_FILE) $(LIBMAD_PKG_IN
 	 echo "short_description=\"$(LIBMAD_PKG_SHORT_DESCRIPTION)\"" >> $(LIBMAD_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBMAD_PKG_URL)"                                 >> $(LIBMAD_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBMAD_PKG_LICENSE)"                         >> $(LIBMAD_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBMAD_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBMAD_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

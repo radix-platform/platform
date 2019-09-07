@@ -84,6 +84,7 @@ ZLIB_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(ZLIB_PKG_NAME)-package
 pkg_basename     = $(ZLIB_PKG_NAME)-$(ZLIB_PKG_VERSION)-$(ZLIB_PKG_ARCH)-$(ZLIB_PKG_DISTRO_NAME)-$(ZLIB_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -177,4 +178,4 @@ $(pkg_archive): $(install_target) $(ZLIB_PKG_DESCRIPTION_FILE) $(ZLIB_PKG_INSTAL
 	 echo "short_description=\"$(ZLIB_PKG_SHORT_DESCRIPTION)\"" >> $(ZLIB_PKG)/.PKGINFO ; \
 	 echo "url=$(ZLIB_PKG_URL)"                                 >> $(ZLIB_PKG)/.PKGINFO ; \
 	 echo "license=$(ZLIB_PKG_LICENSE)"                         >> $(ZLIB_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(ZLIB_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ZLIB_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

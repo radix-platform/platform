@@ -62,6 +62,7 @@ OPENSSL_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(OPENSSL_PKG_NAME)-package
 pkg_basename     = $(OPENSSL_PKG_NAME)-$(OPENSSL_PKG_VERSION)-$(OPENSSL_PKG_ARCH)-$(OPENSSL_PKG_DISTRO_NAME)-$(OPENSSL_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -206,4 +207,4 @@ $(pkg_archive): $(install_target) $(OPENSSL_PKG_DESCRIPTION_FILE) $(OPENSSL_PKG_
 	 echo "short_description=\"$(OPENSSL_PKG_SHORT_DESCRIPTION)\"" >> $(OPENSSL_PKG)/.PKGINFO ; \
 	 echo "url=$(OPENSSL_PKG_URL)"                                 >> $(OPENSSL_PKG)/.PKGINFO ; \
 	 echo "license=$(OPENSSL_PKG_LICENSE)"                         >> $(OPENSSL_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(OPENSSL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(OPENSSL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

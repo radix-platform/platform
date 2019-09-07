@@ -58,6 +58,7 @@ LIBUNWIND_32_PKG = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBUNWIND_32_PKG_NAME)-packag
 pkg_basename     = $(LIBUNWIND_32_PKG_NAME)-$(LIBUNWIND_32_PKG_VERSION)-$(LIBUNWIND_32_PKG_ARCH)-$(LIBUNWIND_32_PKG_DISTRO_NAME)-$(LIBUNWIND_32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -193,4 +194,4 @@ $(pkg_archive): $(install_target) $(LIBUNWIND_32_PKG_DESCRIPTION_FILE) $(LIBUNWI
 	 echo "short_description=\"$(LIBUNWIND_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBUNWIND_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBUNWIND_32_PKG_URL)"                                 >> $(LIBUNWIND_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBUNWIND_32_PKG_LICENSE)"                         >> $(LIBUNWIND_32_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBUNWIND_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBUNWIND_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

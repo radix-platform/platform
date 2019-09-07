@@ -90,6 +90,7 @@ FINDUTILS_PKG    = $(CURDIR)/$(TARGET_BUILD_DIR)/$(FINDUTILS_PKG_NAME)-package
 pkg_basename     = $(FINDUTILS_PKG_NAME)-$(FINDUTILS_PKG_VERSION)-$(FINDUTILS_PKG_ARCH)-$(FINDUTILS_PKG_DISTRO_NAME)-$(FINDUTILS_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -200,4 +201,4 @@ $(pkg_archive): $(install_target) $(FINDUTILS_PKG_DESCRIPTION_FILE) $(FINDUTILS_
 	 echo "short_description=\"$(FINDUTILS_PKG_SHORT_DESCRIPTION)\"" >> $(FINDUTILS_PKG)/.PKGINFO ; \
 	 echo "url=$(FINDUTILS_PKG_URL)"                                 >> $(FINDUTILS_PKG)/.PKGINFO ; \
 	 echo "license=$(FINDUTILS_PKG_LICENSE)"                         >> $(FINDUTILS_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(FINDUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(FINDUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

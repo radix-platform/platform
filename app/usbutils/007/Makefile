@@ -95,6 +95,7 @@ USBUTILS_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(USBUTILS_PKG_NAME)-package
 pkg_basename     = $(USBUTILS_PKG_NAME)-$(USBUTILS_PKG_VERSION)-$(USBUTILS_PKG_ARCH)-$(USBUTILS_PKG_DISTRO_NAME)-$(USBUTILS_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -223,4 +224,4 @@ $(pkg_archive): $(install_target) $(USBUTILS_PKG_DESCRIPTION_FILE) $(USBUTILS_PK
 	 echo "short_description=\"$(USBUTILS_PKG_SHORT_DESCRIPTION)\"" >> $(USBUTILS_PKG)/.PKGINFO ; \
 	 echo "url=$(USBUTILS_PKG_URL)"                                 >> $(USBUTILS_PKG)/.PKGINFO ; \
 	 echo "license=$(USBUTILS_PKG_LICENSE)"                         >> $(USBUTILS_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(USBUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(USBUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

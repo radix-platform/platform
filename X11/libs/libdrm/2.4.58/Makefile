@@ -99,6 +99,7 @@ LIBDRM_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBDRM_PKG_NAME)-package
 pkg_basename     = $(LIBDRM_PKG_NAME)-$(LIBDRM_PKG_VERSION)-$(LIBDRM_PKG_ARCH)-$(LIBDRM_PKG_DISTRO_NAME)-$(LIBDRM_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -271,4 +272,4 @@ $(pkg_archive): $(install_target) $(LIBDRM_PKG_DESCRIPTION_FILE) $(LIBDRM_PKG_IN
 	 echo "short_description=\"$(LIBDRM_PKG_SHORT_DESCRIPTION)\"" >> $(LIBDRM_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBDRM_PKG_URL)"                                 >> $(LIBDRM_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBDRM_PKG_LICENSE)"                         >> $(LIBDRM_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBDRM_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBDRM_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

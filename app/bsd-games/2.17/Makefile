@@ -90,6 +90,7 @@ BSD_GAMES_PKG    = $(CURDIR)/$(TARGET_BUILD_DIR)/$(BSD_GAMES_PKG_NAME)-package
 pkg_basename     = $(BSD_GAMES_PKG_NAME)-$(BSD_GAMES_PKG_VERSION)-$(BSD_GAMES_PKG_ARCH)-$(BSD_GAMES_PKG_DISTRO_NAME)-$(BSD_GAMES_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -239,4 +240,4 @@ $(pkg_archive): $(install_target) $(BSD_GAMES_PKG_DESCRIPTION_FILE) $(BSD_GAMES_
 	 echo "short_description=\"$(BSD_GAMES_PKG_SHORT_DESCRIPTION)\"" >> $(BSD_GAMES_PKG)/.PKGINFO ; \
 	 echo "url=$(BSD_GAMES_PKG_URL)"                                 >> $(BSD_GAMES_PKG)/.PKGINFO ; \
 	 echo "license=$(BSD_GAMES_PKG_LICENSE)"                         >> $(BSD_GAMES_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(BSD_GAMES_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(BSD_GAMES_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

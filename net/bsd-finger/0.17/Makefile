@@ -90,6 +90,7 @@ FINGER_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(FINGER_PKG_NAME)-package
 pkg_basename     = $(FINGER_PKG_NAME)-$(FINGER_PKG_VERSION)-$(FINGER_PKG_ARCH)-$(FINGER_PKG_DISTRO_NAME)-$(FINGER_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -175,4 +176,4 @@ $(pkg_archive): $(install_target) $(FINGER_PKG_DESCRIPTION_FILE) $(FINGER_PKG_IN
 	 echo "short_description=\"$(FINGER_PKG_SHORT_DESCRIPTION)\"" >> $(FINGER_PKG)/.PKGINFO ; \
 	 echo "url=$(FINGER_PKG_URL)"                                 >> $(FINGER_PKG)/.PKGINFO ; \
 	 echo "license=$(FINGER_PKG_LICENSE)"                         >> $(FINGER_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(FINGER_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(FINGER_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

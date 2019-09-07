@@ -64,6 +64,7 @@ LIBUMP_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBUMP_PKG_NAME)-package
 pkg_basename     = $(LIBUMP_PKG_NAME)-$(LIBUMP_PKG_VERSION)-$(LIBUMP_PKG_ARCH)-$(LIBUMP_PKG_DISTRO_NAME)-$(LIBUMP_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -189,4 +190,4 @@ $(pkg_archive): $(install_target) $(LIBUMP_PKG_DESCRIPTION_FILE) $(LIBUMP_PKG_IN
 	 echo "short_description=\"$(LIBUMP_PKG_SHORT_DESCRIPTION)\"" >> $(LIBUMP_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBUMP_PKG_URL)"                                 >> $(LIBUMP_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBUMP_PKG_LICENSE)"                         >> $(LIBUMP_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBUMP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBUMP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

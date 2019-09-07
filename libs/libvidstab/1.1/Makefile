@@ -91,6 +91,7 @@ VIDSTAB_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(VIDSTAB_PKG_NAME)-package
 pkg_basename     = $(VIDSTAB_PKG_NAME)-$(VIDSTAB_PKG_VERSION)-$(VIDSTAB_PKG_ARCH)-$(VIDSTAB_PKG_DISTRO_NAME)-$(VIDSTAB_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -240,4 +241,4 @@ $(pkg_archive): $(install_target) $(VIDSTAB_PKG_DESCRIPTION_FILE) $(VIDSTAB_PKG_
 	 echo "short_description=\"$(VIDSTAB_PKG_SHORT_DESCRIPTION)\"" >> $(VIDSTAB_PKG)/.PKGINFO ; \
 	 echo "url=$(VIDSTAB_PKG_URL)"                                 >> $(VIDSTAB_PKG)/.PKGINFO ; \
 	 echo "license=$(VIDSTAB_PKG_LICENSE)"                         >> $(VIDSTAB_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(VIDSTAB_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(VIDSTAB_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

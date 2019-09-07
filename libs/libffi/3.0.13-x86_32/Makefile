@@ -56,6 +56,7 @@ LIBFFI32_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBFFI32_PKG_NAME)-package
 pkg_basename     = $(LIBFFI32_PKG_NAME)-$(LIBFFI32_PKG_VERSION)-$(LIBFFI32_PKG_ARCH)-$(LIBFFI32_PKG_DISTRO_NAME)-$(LIBFFI32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -147,4 +148,4 @@ $(pkg_archive): $(install_target) $(LIBFFI32_PKG_DESCRIPTION_FILE) $(LIBFFI32_PK
 	 echo "short_description=\"$(LIBFFI32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBFFI32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBFFI32_PKG_URL)"                                 >> $(LIBFFI32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBFFI32_PKG_LICENSE)"                         >> $(LIBFFI32_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBFFI32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBFFI32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

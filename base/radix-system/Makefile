@@ -67,19 +67,19 @@ SYSINIT_BIN_PKG = $(TARGET_BUILD_DIR)/$(SYSINIT_BIN_PKG_NAME)-package
 
 build = $(TARGET_BUILD_DIR)/.done
 
-pkg_basename    = $(SYSINIT_BIN_PKG_NAME)-$(SYSINIT_BIN_PKG_VERSION)-$(SYSINIT_BIN_PKG_ARCH)-$(SYSINIT_BIN_PKG_DISTRO_NAME)-$(SYSINIT_BIN_PKG_DISTRO_VERSION)
+pkg_basename     = $(SYSINIT_BIN_PKG_NAME)-$(SYSINIT_BIN_PKG_VERSION)-$(SYSINIT_BIN_PKG_ARCH)-$(SYSINIT_BIN_PKG_DISTRO_NAME)-$(SYSINIT_BIN_PKG_DISTRO_VERSION)
 
-pkg_archive     = $(TARGET_BUILD_DIR)/$(SYSINIT_BIN_PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
-pkg_certificate = $(call cert-name,$(pkg_archive))
-pkg_signature   = $(call sign-name,$(pkg_archive))
-pkg_description = $(call desc-name,$(pkg_archive))
-products        = $(call pkg-files,$(pkg_archive))
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS   = $(build)
+BUILD_TARGETS    = $(build)
 
-PRODUCT_TARGETS = $(products)
+PRODUCT_TARGETS  = $(products)
 
-ROOTFS_TARGETS  = $(pkg_archive)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../build-system/core.mk

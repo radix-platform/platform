@@ -86,6 +86,7 @@ GLEW_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(GLEW_PKG_NAME)-package
 pkg_basename     = $(GLEW_PKG_NAME)-$(GLEW_PKG_VERSION)-$(GLEW_PKG_ARCH)-$(GLEW_PKG_DISTRO_NAME)-$(GLEW_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -198,4 +199,4 @@ $(pkg_archive): $(install_target) $(GLEW_PKG_DESCRIPTION_FILE) $(GLEW_PKG_INSTAL
 	 echo "short_description=\"$(GLEW_PKG_SHORT_DESCRIPTION)\"" >> $(GLEW_PKG)/.PKGINFO ; \
 	 echo "url=$(GLEW_PKG_URL)"                                 >> $(GLEW_PKG)/.PKGINFO ; \
 	 echo "license=$(GLEW_PKG_LICENSE)"                         >> $(GLEW_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(GLEW_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GLEW_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

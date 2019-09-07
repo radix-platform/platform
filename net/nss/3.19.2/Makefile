@@ -96,6 +96,7 @@ NSS_PKG          = $(CURDIR)/$(TARGET_BUILD_DIR)/$(NSS_PKG_NAME)-package
 pkg_basename     = $(NSS_PKG_NAME)-$(NSS_PKG_VERSION)-$(NSS_PKG_ARCH)-$(NSS_PKG_DISTRO_NAME)-$(NSS_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -328,4 +329,4 @@ $(pkg_archive): $(install_target) $(NSS_PKG_DESCRIPTION_FILE) $(NSS_PKG_INSTALL_
 	 echo "short_description=\"$(NSS_PKG_SHORT_DESCRIPTION)\"" >> $(NSS_PKG)/.PKGINFO ; \
 	 echo "url=$(NSS_PKG_URL)"                                 >> $(NSS_PKG)/.PKGINFO ; \
 	 echo "license=$(NSS_PKG_LICENSE)"                         >> $(NSS_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(NSS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(NSS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

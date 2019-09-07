@@ -87,6 +87,7 @@ CROCO_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(CROCO_PKG_NAME)-package
 pkg_basename     = $(CROCO_PKG_NAME)-$(CROCO_PKG_VERSION)-$(CROCO_PKG_ARCH)-$(CROCO_PKG_DISTRO_NAME)-$(CROCO_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -248,4 +249,4 @@ $(pkg_archive): $(install_target) $(CROCO_PKG_DESCRIPTION_FILE) $(CROCO_PKG_INST
 	 echo "short_description=\"$(CROCO_PKG_SHORT_DESCRIPTION)\"" >> $(CROCO_PKG)/.PKGINFO ; \
 	 echo "url=$(CROCO_PKG_URL)"                                 >> $(CROCO_PKG)/.PKGINFO ; \
 	 echo "license=$(CROCO_PKG_LICENSE)"                         >> $(CROCO_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(CROCO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(CROCO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

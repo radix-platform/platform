@@ -92,6 +92,7 @@ VORBIS_TOOLS_PKG = $(CURDIR)/$(TARGET_BUILD_DIR)/$(VORBIS_TOOLS_PKG_NAME)-packag
 pkg_basename     = $(VORBIS_TOOLS_PKG_NAME)-$(VORBIS_TOOLS_PKG_VERSION)-$(VORBIS_TOOLS_PKG_ARCH)-$(VORBIS_TOOLS_PKG_DISTRO_NAME)-$(VORBIS_TOOLS_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -210,4 +211,4 @@ $(pkg_archive): $(install_target) $(VORBIS_TOOLS_PKG_DESCRIPTION_FILE) $(VORBIS_
 	 echo "short_description=\"$(VORBIS_TOOLS_PKG_SHORT_DESCRIPTION)\"" >> $(VORBIS_TOOLS_PKG)/.PKGINFO ; \
 	 echo "url=$(VORBIS_TOOLS_PKG_URL)"                                 >> $(VORBIS_TOOLS_PKG)/.PKGINFO ; \
 	 echo "license=$(VORBIS_TOOLS_PKG_LICENSE)"                         >> $(VORBIS_TOOLS_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(VORBIS_TOOLS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(VORBIS_TOOLS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

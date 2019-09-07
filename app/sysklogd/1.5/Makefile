@@ -91,6 +91,7 @@ SYSKLOGD_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(SYSKLOGD_PKG_NAME)-package
 pkg_basename     = $(SYSKLOGD_PKG_NAME)-$(SYSKLOGD_PKG_VERSION)-$(SYSKLOGD_PKG_ARCH)-$(SYSKLOGD_PKG_DISTRO_NAME)-$(SYSKLOGD_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -184,4 +185,4 @@ $(pkg_archive): $(install_target) $(SYSKLOGD_PKG_DESCRIPTION_FILE) $(SYSKLOGD_PK
 	 echo "short_description=\"$(SYSKLOGD_PKG_SHORT_DESCRIPTION)\"" >> $(SYSKLOGD_PKG)/.PKGINFO ; \
 	 echo "url=$(SYSKLOGD_PKG_URL)"                                 >> $(SYSKLOGD_PKG)/.PKGINFO ; \
 	 echo "license=$(SYSKLOGD_PKG_LICENSE)"                         >> $(SYSKLOGD_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(SYSKLOGD_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SYSKLOGD_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

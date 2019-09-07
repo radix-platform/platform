@@ -93,6 +93,7 @@ V4LUTILS_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(V4LUTILS_PKG_NAME)-package
 pkg_basename     = $(V4LUTILS_PKG_NAME)-$(V4LUTILS_PKG_VERSION)-$(V4LUTILS_PKG_ARCH)-$(V4LUTILS_PKG_DISTRO_NAME)-$(V4LUTILS_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -291,4 +292,4 @@ $(pkg_archive): $(install_target) $(V4LUTILS_PKG_DESCRIPTION_FILE) $(V4LUTILS_PK
 	 echo "short_description=\"$(V4LUTILS_PKG_SHORT_DESCRIPTION)\"" >> $(V4LUTILS_PKG)/.PKGINFO ; \
 	 echo "url=$(V4LUTILS_PKG_URL)"                                 >> $(V4LUTILS_PKG)/.PKGINFO ; \
 	 echo "license=$(V4LUTILS_PKG_LICENSE)"                         >> $(V4LUTILS_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(V4LUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(V4LUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

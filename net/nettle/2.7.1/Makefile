@@ -86,6 +86,7 @@ NETTLE_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(NETTLE_PKG_NAME)-package
 pkg_basename     = $(NETTLE_PKG_NAME)-$(NETTLE_PKG_VERSION)-$(NETTLE_PKG_ARCH)-$(NETTLE_PKG_DISTRO_NAME)-$(NETTLE_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -188,4 +189,4 @@ $(pkg_archive): $(install_target) $(NETTLE_PKG_DESCRIPTION_FILE) $(NETTLE_PKG_IN
 	 echo "short_description=\"$(NETTLE_PKG_SHORT_DESCRIPTION)\"" >> $(NETTLE_PKG)/.PKGINFO ; \
 	 echo "url=$(NETTLE_PKG_URL)"                                 >> $(NETTLE_PKG)/.PKGINFO ; \
 	 echo "license=$(NETTLE_PKG_LICENSE)"                         >> $(NETTLE_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(NETTLE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(NETTLE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

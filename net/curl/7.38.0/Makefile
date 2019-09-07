@@ -95,6 +95,7 @@ CURL_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(CURL_PKG_NAME)-package
 pkg_basename     = $(CURL_PKG_NAME)-$(CURL_PKG_VERSION)-$(CURL_PKG_ARCH)-$(CURL_PKG_DISTRO_NAME)-$(CURL_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -260,4 +261,4 @@ $(pkg_archive): $(install_target) $(CURL_PKG_DESCRIPTION_FILE) $(CURL_PKG_INSTAL
 	 echo "short_description=\"$(CURL_PKG_SHORT_DESCRIPTION)\"" >> $(CURL_PKG)/.PKGINFO ; \
 	 echo "url=$(CURL_PKG_URL)"                                 >> $(CURL_PKG)/.PKGINFO ; \
 	 echo "license=$(CURL_PKG_LICENSE)"                         >> $(CURL_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(CURL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(CURL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

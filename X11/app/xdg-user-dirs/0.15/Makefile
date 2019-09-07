@@ -85,6 +85,7 @@ XDGUDIRS_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(XDGUDIRS_PKG_NAME)-package
 pkg_basename     = $(XDGUDIRS_PKG_NAME)-$(XDGUDIRS_PKG_VERSION)-$(XDGUDIRS_PKG_ARCH)-$(XDGUDIRS_PKG_DISTRO_NAME)-$(XDGUDIRS_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -191,4 +192,4 @@ $(pkg_archive): $(install_target) $(XDGUDIRS_PKG_DESCRIPTION_FILE) $(XDGUDIRS_PK
 	 echo "short_description=\"$(XDGUDIRS_PKG_SHORT_DESCRIPTION)\"" >> $(XDGUDIRS_PKG)/.PKGINFO ; \
 	 echo "url=$(XDGUDIRS_PKG_URL)"                                 >> $(XDGUDIRS_PKG)/.PKGINFO ; \
 	 echo "license=$(XDGUDIRS_PKG_LICENSE)"                         >> $(XDGUDIRS_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(XDGUDIRS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(XDGUDIRS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

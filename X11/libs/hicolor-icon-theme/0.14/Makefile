@@ -86,6 +86,7 @@ DITHEME_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(DITHEME_PKG_NAME)-package
 pkg_basename     = $(DITHEME_PKG_NAME)-$(DITHEME_PKG_VERSION)-$(DITHEME_PKG_ARCH)-$(DITHEME_PKG_DISTRO_NAME)-$(DITHEME_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -184,4 +185,4 @@ $(pkg_archive): $(install_target) $(DITHEME_PKG_DESCRIPTION_FILE) $(DITHEME_PKG_
 	 echo "short_description=\"$(DITHEME_PKG_SHORT_DESCRIPTION)\"" >> $(DITHEME_PKG)/.PKGINFO ; \
 	 echo "url=$(DITHEME_PKG_URL)"                                 >> $(DITHEME_PKG)/.PKGINFO ; \
 	 echo "license=$(DITHEME_PKG_LICENSE)"                         >> $(DITHEME_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(DITHEME_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(DITHEME_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

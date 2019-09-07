@@ -54,6 +54,7 @@ UTEMPTER_32_PKG  = $(CURDIR)/$(TARGET_BUILD_DIR)/$(UTEMPTER_32_PKG_NAME)-package
 pkg_basename     = $(UTEMPTER_32_PKG_NAME)-$(UTEMPTER_32_PKG_VERSION)-$(UTEMPTER_32_PKG_ARCH)-$(UTEMPTER_32_PKG_DISTRO_NAME)-$(UTEMPTER_32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -126,4 +127,4 @@ $(pkg_archive): $(install_target) $(UTEMPTER_32_PKG_DESCRIPTION_FILE) $(UTEMPTER
 	@$(PSEUDO) sh -c "cd $(UTEMPTER_32_PKG) && \
 	                  chown -R root:root .  && \
 	                  chown    root:22 usr/lib$(MULTILIB_X86_32_SUFFIX)/utempter/utempter && \
-	                  $(MAKE_PACKAGE) --linkadd yes .."
+	                  $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

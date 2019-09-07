@@ -57,6 +57,7 @@ LIBASYNCNS_32_PKG  = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBASYNCNS_32_PKG_NAME)-pac
 pkg_basename       = $(LIBASYNCNS_32_PKG_NAME)-$(LIBASYNCNS_32_PKG_VERSION)-$(LIBASYNCNS_32_PKG_ARCH)-$(LIBASYNCNS_32_PKG_DISTRO_NAME)-$(LIBASYNCNS_32_PKG_DISTRO_VERSION)
 
 pkg_archive        = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature      = $(call sign-name,$(pkg_archive))
 pkg_description    = $(call desc-name,$(pkg_archive))
 products           = $(call pkg-files,$(pkg_archive))
@@ -153,4 +154,4 @@ $(pkg_archive): $(install_target) $(LIBASYNCNS_32_PKG_DESCRIPTION_FILE) $(LIBASY
 	 echo "short_description=\"$(LIBASYNCNS_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBASYNCNS_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBASYNCNS_32_PKG_URL)"                                 >> $(LIBASYNCNS_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBASYNCNS_32_PKG_LICENSE)"                         >> $(LIBASYNCNS_32_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBASYNCNS_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBASYNCNS_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

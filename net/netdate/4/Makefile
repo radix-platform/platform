@@ -92,6 +92,7 @@ NETDATE_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(NETDATE_PKG_NAME)-package
 pkg_basename     = $(NETDATE_PKG_NAME)-$(NETDATE_PKG_VERSION)-$(NETDATE_PKG_ARCH)-$(NETDATE_PKG_DISTRO_NAME)-$(NETDATE_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -169,4 +170,4 @@ $(pkg_archive): $(install_target) $(NETDATE_PKG_DESCRIPTION_FILE) $(NETDATE_PKG_
 	 echo "short_description=\"$(NETDATE_PKG_SHORT_DESCRIPTION)\"" >> $(NETDATE_PKG)/.PKGINFO ; \
 	 echo "url=$(NETDATE_PKG_URL)"                                 >> $(NETDATE_PKG)/.PKGINFO ; \
 	 echo "license=$(NETDATE_PKG_LICENSE)"                         >> $(NETDATE_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(NETDATE_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(NETDATE_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

@@ -59,6 +59,7 @@ VALA_32_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(VALA_32_PKG_NAME)-package
 pkg_basename     = $(VALA_32_PKG_NAME)-$(VALA_32_PKG_VERSION)-$(VALA_32_PKG_ARCH)-$(VALA_32_PKG_DISTRO_NAME)-$(VALA_32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -181,4 +182,4 @@ $(pkg_archive): $(install_target) $(VALA_32_PKG_DESCRIPTION_FILE) $(VALA_32_PKG_
 	 echo "short_description=\"$(VALA_32_PKG_SHORT_DESCRIPTION)\"" >> $(VALA_32_PKG)/.PKGINFO ; \
 	 echo "url=$(VALA_32_PKG_URL)"                                 >> $(VALA_32_PKG)/.PKGINFO ; \
 	 echo "license=$(VALA_32_PKG_LICENSE)"                         >> $(VALA_32_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(VALA_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(VALA_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

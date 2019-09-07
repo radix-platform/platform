@@ -87,6 +87,7 @@ P11KIT_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(P11KIT_PKG_NAME)-package
 pkg_basename     = $(P11KIT_PKG_NAME)-$(P11KIT_PKG_VERSION)-$(P11KIT_PKG_ARCH)-$(P11KIT_PKG_DISTRO_NAME)-$(P11KIT_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -241,4 +242,4 @@ $(pkg_archive): $(install_target) $(P11KIT_PKG_DESCRIPTION_FILE) $(P11KIT_PKG_IN
 	 echo "short_description=\"$(P11KIT_PKG_SHORT_DESCRIPTION)\"" >> $(P11KIT_PKG)/.PKGINFO ; \
 	 echo "url=$(P11KIT_PKG_URL)"                                 >> $(P11KIT_PKG)/.PKGINFO ; \
 	 echo "license=$(P11KIT_PKG_LICENSE)"                         >> $(P11KIT_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(P11KIT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(P11KIT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

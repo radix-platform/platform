@@ -106,6 +106,7 @@ PAUDIO_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(PAUDIO_PKG_NAME)-package
 pkg_basename     = $(PAUDIO_PKG_NAME)-$(PAUDIO_PKG_VERSION)-$(PAUDIO_PKG_ARCH)-$(PAUDIO_PKG_DISTRO_NAME)-$(PAUDIO_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -319,4 +320,4 @@ $(pkg_archive): $(install_target) $(PAUDIO_PKG_DESCRIPTION_FILE) $(PAUDIO_PKG_IN
 	 echo "short_description=\"$(PAUDIO_PKG_SHORT_DESCRIPTION)\"" >> $(PAUDIO_PKG)/.PKGINFO ; \
 	 echo "url=$(PAUDIO_PKG_URL)"                                 >> $(PAUDIO_PKG)/.PKGINFO ; \
 	 echo "license=$(PAUDIO_PKG_LICENSE)"                         >> $(PAUDIO_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(PAUDIO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PAUDIO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

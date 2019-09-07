@@ -85,6 +85,7 @@ LIBCAP_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBCAP_PKG_NAME)-package
 pkg_basename     = $(LIBCAP_PKG_NAME)-$(LIBCAP_PKG_VERSION)-$(LIBCAP_PKG_ARCH)-$(LIBCAP_PKG_DISTRO_NAME)-$(LIBCAP_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -230,4 +231,4 @@ $(pkg_archive): $(install_target) $(LIBCAP_PKG_DESCRIPTION_FILE) $(LIBCAP_PKG_IN
 	 echo "short_description=\"$(LIBCAP_PKG_SHORT_DESCRIPTION)\"" >> $(LIBCAP_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBCAP_PKG_URL)"                                 >> $(LIBCAP_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBCAP_PKG_LICENSE)"                         >> $(LIBCAP_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBCAP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBCAP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

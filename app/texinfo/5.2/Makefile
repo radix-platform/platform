@@ -91,6 +91,7 @@ TEXINFO_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(TEXINFO_PKG_NAME)-package
 pkg_basename     = $(TEXINFO_PKG_NAME)-$(TEXINFO_PKG_VERSION)-$(TEXINFO_PKG_ARCH)-$(TEXINFO_PKG_DISTRO_NAME)-$(TEXINFO_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -200,4 +201,4 @@ $(pkg_archive): $(install_target) $(TEXINFO_PKG_DESCRIPTION_FILE) $(TEXINFO_PKG_
 	 echo "short_description=\"$(TEXINFO_PKG_SHORT_DESCRIPTION)\"" >> $(TEXINFO_PKG)/.PKGINFO ; \
 	 echo "url=$(TEXINFO_PKG_URL)"                                 >> $(TEXINFO_PKG)/.PKGINFO ; \
 	 echo "license=$(TEXINFO_PKG_LICENSE)"                         >> $(TEXINFO_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(TEXINFO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(TEXINFO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

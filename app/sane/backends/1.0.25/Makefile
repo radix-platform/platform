@@ -105,6 +105,7 @@ SANE_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(SANE_PKG_NAME)-package
 pkg_basename     = $(SANE_PKG_NAME)-$(SANE_PKG_VERSION)-$(SANE_PKG_ARCH)-$(SANE_PKG_DISTRO_NAME)-$(SANE_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -340,4 +341,4 @@ $(pkg_archive): $(install_target) $(SANE_PKG_DESCRIPTION_FILE) $(SANE_PKG_INSTAL
 	                  chmod  755 var           && \
 	                  chmod 1777 var/lock      && \
 	                  chown 0:93 var/lock/sane && \
-	                  chmod  755 var/lock/sane && $(MAKE_PACKAGE) --linkadd yes .."
+	                  chmod  755 var/lock/sane && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

@@ -87,6 +87,7 @@ GAWK_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(GAWK_PKG_NAME)-package
 pkg_basename     = $(GAWK_PKG_NAME)-$(GAWK_PKG_VERSION)-$(GAWK_PKG_ARCH)-$(GAWK_PKG_DISTRO_NAME)-$(GAWK_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -212,4 +213,4 @@ $(pkg_archive): $(install_target) $(GAWK_PKG_DESCRIPTION_FILE) $(GAWK_PKG_INSTAL
 	 echo "short_description=\"$(GAWK_PKG_SHORT_DESCRIPTION)\"" >> $(GAWK_PKG)/.PKGINFO ; \
 	 echo "url=$(GAWK_PKG_URL)"                                 >> $(GAWK_PKG)/.PKGINFO ; \
 	 echo "license=$(GAWK_PKG_LICENSE)"                         >> $(GAWK_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(GAWK_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GAWK_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

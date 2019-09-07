@@ -94,6 +94,7 @@ NSPR_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(NSPR_PKG_NAME)-package
 pkg_basename     = $(NSPR_PKG_NAME)-$(NSPR_PKG_VERSION)-$(NSPR_PKG_ARCH)-$(NSPR_PKG_DISTRO_NAME)-$(NSPR_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -217,4 +218,4 @@ $(pkg_archive): $(install_target) $(NSPR_PKG_DESCRIPTION_FILE) $(NSPR_PKG_INSTAL
 	 echo "short_description=\"$(NSPR_PKG_SHORT_DESCRIPTION)\"" >> $(NSPR_PKG)/.PKGINFO ; \
 	 echo "url=$(NSPR_PKG_URL)"                                 >> $(NSPR_PKG)/.PKGINFO ; \
 	 echo "license=$(NSPR_PKG_LICENSE)"                         >> $(NSPR_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(NSPR_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(NSPR_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

@@ -90,6 +90,7 @@ ZEROMQ_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(ZEROMQ_PKG_NAME)-package
 pkg_basename     = $(ZEROMQ_PKG_NAME)-$(ZEROMQ_PKG_VERSION)-$(ZEROMQ_PKG_ARCH)-$(ZEROMQ_PKG_DISTRO_NAME)-$(ZEROMQ_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -236,4 +237,4 @@ $(pkg_archive): $(install_target) $(ZEROMQ_PKG_DESCRIPTION_FILE) $(ZEROMQ_PKG_IN
 	 echo "short_description=\"$(ZEROMQ_PKG_SHORT_DESCRIPTION)\"" >> $(ZEROMQ_PKG)/.PKGINFO ; \
 	 echo "url=$(ZEROMQ_PKG_URL)"                                 >> $(ZEROMQ_PKG)/.PKGINFO ; \
 	 echo "license=$(ZEROMQ_PKG_LICENSE)"                         >> $(ZEROMQ_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(ZEROMQ_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ZEROMQ_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

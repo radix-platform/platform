@@ -88,6 +88,7 @@ GPM_PKG          = $(CURDIR)/$(TARGET_BUILD_DIR)/$(GPM_PKG_NAME)-package
 pkg_basename     = $(GPM_PKG_NAME)-$(GPM_PKG_VERSION)-$(GPM_PKG_ARCH)-$(GPM_PKG_DISTRO_NAME)-$(GPM_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -218,4 +219,4 @@ $(pkg_archive): $(install_target) $(GPM_PKG_DESCRIPTION_FILE) $(GPM_PKG_INSTALL_
 	 echo "short_description=\"$(GPM_PKG_SHORT_DESCRIPTION)\"" >> $(GPM_PKG)/.PKGINFO ; \
 	 echo "url=$(GPM_PKG_URL)"                                 >> $(GPM_PKG)/.PKGINFO ; \
 	 echo "license=$(GPM_PKG_LICENSE)"                         >> $(GPM_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(GPM_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GPM_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

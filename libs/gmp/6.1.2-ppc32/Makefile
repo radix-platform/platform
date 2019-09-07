@@ -60,6 +60,7 @@ GMP_32_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(GMP_32_PKG_NAME)-package
 pkg_basename     = $(GMP_32_PKG_NAME)-$(GMP_32_PKG_VERSION)-$(GMP_32_PKG_ARCH)-$(GMP_32_PKG_DISTRO_NAME)-$(GMP_32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -190,4 +191,4 @@ $(pkg_archive): $(install_target) $(GMP_32_PKG_DESCRIPTION_FILE) $(GMP_32_PKG_IN
 	 echo "short_description=\"$(GMP_32_PKG_SHORT_DESCRIPTION)\"" >> $(GMP_32_PKG)/.PKGINFO ; \
 	 echo "url=$(GMP_32_PKG_URL)"                                 >> $(GMP_32_PKG)/.PKGINFO ; \
 	 echo "license=$(GMP_32_PKG_LICENSE)"                         >> $(GMP_32_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(GMP_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GMP_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

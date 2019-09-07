@@ -90,6 +90,7 @@ LIBVDPAU_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBVDPAU_PKG_NAME)-package
 pkg_basename     = $(LIBVDPAU_PKG_NAME)-$(LIBVDPAU_PKG_VERSION)-$(LIBVDPAU_PKG_ARCH)-$(LIBVDPAU_PKG_DISTRO_NAME)-$(LIBVDPAU_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -242,4 +243,4 @@ $(pkg_archive): $(install_target) $(LIBVDPAU_PKG_DESCRIPTION_FILE) $(LIBVDPAU_PK
 	 echo "short_description=\"$(LIBVDPAU_PKG_SHORT_DESCRIPTION)\"" >> $(LIBVDPAU_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBVDPAU_PKG_URL)"                                 >> $(LIBVDPAU_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBVDPAU_PKG_LICENSE)"                         >> $(LIBVDPAU_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBVDPAU_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBVDPAU_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

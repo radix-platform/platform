@@ -93,6 +93,7 @@ OPENSSH_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(OPENSSH_PKG_NAME)-package
 pkg_basename     = $(OPENSSH_PKG_NAME)-$(OPENSSH_PKG_VERSION)-$(OPENSSH_PKG_ARCH)-$(OPENSSH_PKG_DISTRO_NAME)-$(OPENSSH_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -224,4 +225,4 @@ $(pkg_archive): $(install_target) $(OPENSSH_PKG_DESCRIPTION_FILE) $(OPENSSH_PKG_
 	 echo "short_description=\"$(OPENSSH_PKG_SHORT_DESCRIPTION)\"" >> $(OPENSSH_PKG)/.PKGINFO ; \
 	 echo "url=$(OPENSSH_PKG_URL)"                                 >> $(OPENSSH_PKG)/.PKGINFO ; \
 	 echo "license=$(OPENSSH_PKG_LICENSE)"                         >> $(OPENSSH_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(OPENSSH_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(OPENSSH_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

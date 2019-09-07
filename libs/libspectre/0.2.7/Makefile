@@ -87,6 +87,7 @@ LIBSPECTRE_PKG   = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBSPECTRE_PKG_NAME)-package
 pkg_basename     = $(LIBSPECTRE_PKG_NAME)-$(LIBSPECTRE_PKG_VERSION)-$(LIBSPECTRE_PKG_ARCH)-$(LIBSPECTRE_PKG_DISTRO_NAME)-$(LIBSPECTRE_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -196,4 +197,4 @@ $(pkg_archive): $(install_target) $(LIBSPECTRE_PKG_DESCRIPTION_FILE) $(LIBSPECTR
 	 echo "short_description=\"$(LIBSPECTRE_PKG_SHORT_DESCRIPTION)\"" >> $(LIBSPECTRE_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBSPECTRE_PKG_URL)"                                 >> $(LIBSPECTRE_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBSPECTRE_PKG_LICENSE)"                         >> $(LIBSPECTRE_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBSPECTRE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBSPECTRE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

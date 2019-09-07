@@ -89,6 +89,7 @@ SGML_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(SGML_PKG_NAME)-package
 pkg_basename     = $(SGML_PKG_NAME)-$(SGML_PKG_VERSION)-$(SGML_PKG_ARCH)-$(SGML_PKG_DISTRO_NAME)-$(SGML_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -199,4 +200,4 @@ $(pkg_archive): $(install_target) $(SGML_PKG_DESCRIPTION_FILE) $(SGML_PKG_INSTAL
 	 echo "short_description=\"$(SGML_PKG_SHORT_DESCRIPTION)\"" >> $(SGML_PKG)/.PKGINFO ; \
 	 echo "url=$(SGML_PKG_URL)"                                 >> $(SGML_PKG)/.PKGINFO ; \
 	 echo "license=$(SGML_PKG_LICENSE)"                         >> $(SGML_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(SGML_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SGML_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

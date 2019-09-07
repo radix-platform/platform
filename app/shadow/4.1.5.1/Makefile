@@ -92,6 +92,7 @@ SHADOW_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(SHADOW_PKG_NAME)-package
 pkg_basename     = $(SHADOW_PKG_NAME)-$(SHADOW_PKG_VERSION)-$(SHADOW_PKG_ARCH)-$(SHADOW_PKG_DISTRO_NAME)-$(SHADOW_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -246,4 +247,4 @@ $(pkg_archive): $(install_target) $(SHADOW_PKG_DESCRIPTION_FILE) $(SHADOW_PKG_IN
 	 echo "short_description=\"$(SHADOW_PKG_SHORT_DESCRIPTION)\"" >> $(SHADOW_PKG)/.PKGINFO ; \
 	 echo "url=$(SHADOW_PKG_URL)"                                 >> $(SHADOW_PKG)/.PKGINFO ; \
 	 echo "license=$(SHADOW_PKG_LICENSE)"                         >> $(SHADOW_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(SHADOW_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SHADOW_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

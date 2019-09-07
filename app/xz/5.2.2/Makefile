@@ -79,6 +79,7 @@ XZ_PKG           = $(CURDIR)/$(TARGET_BUILD_DIR)/$(XZ_PKG_NAME)-package
 pkg_basename     = $(XZ_PKG_NAME)-$(XZ_PKG_VERSION)-$(XZ_PKG_ARCH)-$(XZ_PKG_DISTRO_NAME)-$(XZ_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -211,4 +212,4 @@ $(pkg_archive): $(install_target) $(XZ_PKG_DESCRIPTION_FILE) $(XZ_PKG_INSTALL_SC
 	 echo "short_description=\"$(XZ_PKG_SHORT_DESCRIPTION)\"" >> $(XZ_PKG)/.PKGINFO ; \
 	 echo "url=$(XZ_PKG_URL)"                                 >> $(XZ_PKG)/.PKGINFO ; \
 	 echo "license=$(XZ_PKG_LICENSE)"                         >> $(XZ_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(XZ_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(XZ_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

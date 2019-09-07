@@ -94,6 +94,7 @@ JSONC_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(JSONC_PKG_NAME)-package
 pkg_basename     = $(JSONC_PKG_NAME)-$(JSONC_PKG_VERSION)-$(JSONC_PKG_ARCH)-$(JSONC_PKG_DISTRO_NAME)-$(JSONC_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -214,4 +215,4 @@ $(pkg_archive): $(install_target) $(JSONC_PKG_DESCRIPTION_FILE) $(JSONC_PKG_INST
 	 echo "short_description=\"$(JSONC_PKG_SHORT_DESCRIPTION)\"" >> $(JSONC_PKG)/.PKGINFO ; \
 	 echo "url=$(JSONC_PKG_URL)"                                 >> $(JSONC_PKG)/.PKGINFO ; \
 	 echo "license=$(JSONC_PKG_LICENSE)"                         >> $(JSONC_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(JSONC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(JSONC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

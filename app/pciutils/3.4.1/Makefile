@@ -92,6 +92,7 @@ PCIUTILS_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(PCIUTILS_PKG_NAME)-package
 pkg_basename     = $(PCIUTILS_PKG_NAME)-$(PCIUTILS_PKG_VERSION)-$(PCIUTILS_PKG_ARCH)-$(PCIUTILS_PKG_DISTRO_NAME)-$(PCIUTILS_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -203,4 +204,4 @@ $(pkg_archive): $(install_target) $(PCIUTILS_PKG_DESCRIPTION_FILE) $(PCIUTILS_PK
 	 echo "short_description=\"$(PCIUTILS_PKG_SHORT_DESCRIPTION)\"" >> $(PCIUTILS_PKG)/.PKGINFO ; \
 	 echo "url=$(PCIUTILS_PKG_URL)"                                 >> $(PCIUTILS_PKG)/.PKGINFO ; \
 	 echo "license=$(PCIUTILS_PKG_LICENSE)"                         >> $(PCIUTILS_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(PCIUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PCIUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

@@ -88,6 +88,7 @@ FOOMATIC_DB_PKG  = $(CURDIR)/$(TARGET_BUILD_DIR)/$(FOOMATIC_DB_PKG_NAME)-package
 pkg_basename     = $(FOOMATIC_DB_PKG_NAME)-$(FOOMATIC_DB_PKG_VERSION)-$(FOOMATIC_DB_PKG_ARCH)-$(FOOMATIC_DB_PKG_DISTRO_NAME)-$(FOOMATIC_DB_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -195,4 +196,4 @@ $(pkg_archive): $(install_target) $(FOOMATIC_DB_PKG_DESCRIPTION_FILE) $(FOOMATIC
 	 echo "short_description=\"$(FOOMATIC_DB_PKG_SHORT_DESCRIPTION)\"" >> $(FOOMATIC_DB_PKG)/.PKGINFO ; \
 	 echo "url=$(FOOMATIC_DB_PKG_URL)"                                 >> $(FOOMATIC_DB_PKG)/.PKGINFO ; \
 	 echo "license=$(FOOMATIC_DB_PKG_LICENSE)"                         >> $(FOOMATIC_DB_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(FOOMATIC_DB_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(FOOMATIC_DB_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

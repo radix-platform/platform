@@ -90,6 +90,7 @@ TCP_WRAP_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(TCP_WRAP_PKG_NAME)-package
 pkg_basename     = $(TCP_WRAP_PKG_NAME)-$(TCP_WRAP_PKG_VERSION)-$(TCP_WRAP_PKG_ARCH)-$(TCP_WRAP_PKG_DISTRO_NAME)-$(TCP_WRAP_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -175,4 +176,4 @@ $(pkg_archive): $(install_target) $(TCP_WRAP_PKG_DESCRIPTION_FILE) $(TCP_WRAP_PK
 	 echo "short_description=\"$(TCP_WRAP_PKG_SHORT_DESCRIPTION)\"" >> $(TCP_WRAP_PKG)/.PKGINFO ; \
 	 echo "url=$(TCP_WRAP_PKG_URL)"                                 >> $(TCP_WRAP_PKG)/.PKGINFO ; \
 	 echo "license=$(TCP_WRAP_PKG_LICENSE)"                         >> $(TCP_WRAP_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(TCP_WRAP_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(TCP_WRAP_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

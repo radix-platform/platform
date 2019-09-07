@@ -86,6 +86,7 @@ MPFR_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(MPFR_PKG_NAME)-package
 pkg_basename     = $(MPFR_PKG_NAME)-$(MPFR_PKG_VERSION)-$(MPFR_PKG_ARCH)-$(MPFR_PKG_DISTRO_NAME)-$(MPFR_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -220,4 +221,4 @@ $(pkg_archive): $(install_target) $(MPFR_PKG_DESCRIPTION_FILE) $(MPFR_PKG_INSTAL
 	 echo "short_description=\"$(MPFR_PKG_SHORT_DESCRIPTION)\"" >> $(MPFR_PKG)/.PKGINFO ; \
 	 echo "url=$(MPFR_PKG_URL)"                                 >> $(MPFR_PKG)/.PKGINFO ; \
 	 echo "license=$(MPFR_PKG_LICENSE)"                         >> $(MPFR_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(MPFR_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(MPFR_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

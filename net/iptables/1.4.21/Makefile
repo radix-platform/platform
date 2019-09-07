@@ -93,6 +93,7 @@ IPTABLES_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(IPTABLES_PKG_NAME)-package
 pkg_basename     = $(IPTABLES_PKG_NAME)-$(IPTABLES_PKG_VERSION)-$(IPTABLES_PKG_ARCH)-$(IPTABLES_PKG_DISTRO_NAME)-$(IPTABLES_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -252,4 +253,4 @@ $(pkg_archive): $(install_target) $(IPTABLES_PKG_DESCRIPTION_FILE) $(IPTABLES_PK
 	 echo "short_description=\"$(IPTABLES_PKG_SHORT_DESCRIPTION)\"" >> $(IPTABLES_PKG)/.PKGINFO ; \
 	 echo "url=$(IPTABLES_PKG_URL)"                                 >> $(IPTABLES_PKG)/.PKGINFO ; \
 	 echo "license=$(IPTABLES_PKG_LICENSE)"                         >> $(IPTABLES_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(IPTABLES_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(IPTABLES_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

@@ -88,6 +88,7 @@ ASPELL6_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(ASPELL6_PKG_NAME)-package
 pkg_basename     = $(ASPELL6_PKG_NAME)-$(ASPELL6_PKG_VERSION)-$(ASPELL6_PKG_ARCH)-$(ASPELL6_PKG_DISTRO_NAME)-$(ASPELL6_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -160,4 +161,4 @@ $(pkg_archive): $(install_target) $(ASPELL6_PKG_DESCRIPTION_FILE) $(ASPELL6_PKG_
 	 echo "short_description=\"$(ASPELL6_PKG_SHORT_DESCRIPTION)\"" >> $(ASPELL6_PKG)/.PKGINFO ; \
 	 echo "url=$(ASPELL6_PKG_URL)"                                 >> $(ASPELL6_PKG)/.PKGINFO ; \
 	 echo "license=$(ASPELL6_PKG_LICENSE)"                         >> $(ASPELL6_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(ASPELL6_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ASPELL6_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

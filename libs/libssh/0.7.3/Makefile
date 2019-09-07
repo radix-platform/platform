@@ -87,6 +87,7 @@ LIBSSH_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBSSH_PKG_NAME)-package
 pkg_basename     = $(LIBSSH_PKG_NAME)-$(LIBSSH_PKG_VERSION)-$(LIBSSH_PKG_ARCH)-$(LIBSSH_PKG_DISTRO_NAME)-$(LIBSSH_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -250,4 +251,4 @@ $(pkg_archive): $(install_target) $(LIBSSH_PKG_DESCRIPTION_FILE) $(LIBSSH_PKG_IN
 	 echo "short_description=\"$(LIBSSH_PKG_SHORT_DESCRIPTION)\"" >> $(LIBSSH_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBSSH_PKG_URL)"                                 >> $(LIBSSH_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBSSH_PKG_LICENSE)"                         >> $(LIBSSH_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBSSH_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBSSH_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

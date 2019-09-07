@@ -90,6 +90,7 @@ MODPLUG_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(MODPLUG_PKG_NAME)-package
 pkg_basename     = $(MODPLUG_PKG_NAME)-$(MODPLUG_PKG_VERSION)-$(MODPLUG_PKG_ARCH)-$(MODPLUG_PKG_DISTRO_NAME)-$(MODPLUG_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -231,4 +232,4 @@ $(pkg_archive): $(install_target) $(MODPLUG_PKG_DESCRIPTION_FILE) $(MODPLUG_PKG_
 	 echo "short_description=\"$(MODPLUG_PKG_SHORT_DESCRIPTION)\"" >> $(MODPLUG_PKG)/.PKGINFO ; \
 	 echo "url=$(MODPLUG_PKG_URL)"                                 >> $(MODPLUG_PKG)/.PKGINFO ; \
 	 echo "license=$(MODPLUG_PKG_LICENSE)"                         >> $(MODPLUG_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(MODPLUG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(MODPLUG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

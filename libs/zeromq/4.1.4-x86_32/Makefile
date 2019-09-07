@@ -59,6 +59,7 @@ ZEROMQ_32_PKG    = $(CURDIR)/$(TARGET_BUILD_DIR)/$(ZEROMQ_32_PKG_NAME)-package
 pkg_basename     = $(ZEROMQ_32_PKG_NAME)-$(ZEROMQ_32_PKG_VERSION)-$(ZEROMQ_32_PKG_ARCH)-$(ZEROMQ_32_PKG_DISTRO_NAME)-$(ZEROMQ_32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -181,4 +182,4 @@ $(pkg_archive): $(install_target) $(ZEROMQ_32_PKG_DESCRIPTION_FILE) $(ZEROMQ_32_
 	 echo "short_description=\"$(ZEROMQ_32_PKG_SHORT_DESCRIPTION)\"" >> $(ZEROMQ_32_PKG)/.PKGINFO ; \
 	 echo "url=$(ZEROMQ_32_PKG_URL)"                                 >> $(ZEROMQ_32_PKG)/.PKGINFO ; \
 	 echo "license=$(ZEROMQ_32_PKG_LICENSE)"                         >> $(ZEROMQ_32_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(ZEROMQ_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ZEROMQ_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

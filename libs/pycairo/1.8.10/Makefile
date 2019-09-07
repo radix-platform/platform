@@ -89,6 +89,7 @@ PYCAIRO_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(PYCAIRO_PKG_NAME)-package
 pkg_basename     = $(PYCAIRO_PKG_NAME)-$(PYCAIRO_PKG_VERSION)-$(PYCAIRO_PKG_ARCH)-$(PYCAIRO_PKG_DISTRO_NAME)-$(PYCAIRO_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -241,4 +242,4 @@ $(pkg_archive): $(install_target) $(PYCAIRO_PKG_DESCRIPTION_FILE) $(PYCAIRO_PKG_
 	 echo "short_description=\"$(PYCAIRO_PKG_SHORT_DESCRIPTION)\"" >> $(PYCAIRO_PKG)/.PKGINFO ; \
 	 echo "url=$(PYCAIRO_PKG_URL)"                                 >> $(PYCAIRO_PKG)/.PKGINFO ; \
 	 echo "license=$(PYCAIRO_PKG_LICENSE)"                         >> $(PYCAIRO_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(PYCAIRO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PYCAIRO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

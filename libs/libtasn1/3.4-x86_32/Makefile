@@ -56,6 +56,7 @@ TASN32_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(TASN32_PKG_NAME)-package
 pkg_basename     = $(TASN32_PKG_NAME)-$(TASN32_PKG_VERSION)-$(TASN32_PKG_ARCH)-$(TASN32_PKG_DISTRO_NAME)-$(TASN32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -153,4 +154,4 @@ $(pkg_archive): $(install_target) $(TASN32_PKG_DESCRIPTION_FILE) $(TASN32_PKG_IN
 	 echo "short_description=\"$(TASN32_PKG_SHORT_DESCRIPTION)\"" >> $(TASN32_PKG)/.PKGINFO ; \
 	 echo "url=$(TASN32_PKG_URL)"                                 >> $(TASN32_PKG)/.PKGINFO ; \
 	 echo "license=$(TASN32_PKG_LICENSE)"                         >> $(TASN32_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(TASN32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(TASN32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

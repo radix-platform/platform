@@ -63,6 +63,7 @@ REMOTECFG_PKG    = $(CURDIR)/$(TARGET_BUILD_DIR)/$(REMOTECFG_PKG_NAME)-package
 pkg_basename     = $(REMOTECFG_PKG_NAME)-$(REMOTECFG_PKG_VERSION)-$(REMOTECFG_PKG_ARCH)-$(REMOTECFG_PKG_DISTRO_NAME)-$(REMOTECFG_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -139,4 +140,4 @@ $(pkg_archive): $(install_target) $(REMOTECFG_PKG_DESCRIPTION_FILE) $(REMOTECFG_
 	 echo "short_description=\"$(REMOTECFG_PKG_SHORT_DESCRIPTION)\"" >> $(REMOTECFG_PKG)/.PKGINFO ; \
 	 echo "url=$(REMOTECFG_PKG_URL)"                                 >> $(REMOTECFG_PKG)/.PKGINFO ; \
 	 echo "license=$(REMOTECFG_PKG_LICENSE)"                         >> $(REMOTECFG_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(REMOTECFG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(REMOTECFG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

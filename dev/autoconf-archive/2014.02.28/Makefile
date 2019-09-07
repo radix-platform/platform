@@ -88,6 +88,7 @@ AC_ARCHIVE_PKG   = $(CURDIR)/$(TARGET_BUILD_DIR)/$(AC_ARCHIVE_PKG_NAME)-package
 pkg_basename     = $(AC_ARCHIVE_PKG_NAME)-$(AC_ARCHIVE_PKG_VERSION)-$(AC_ARCHIVE_PKG_ARCH)-$(AC_ARCHIVE_PKG_DISTRO_NAME)-$(AC_ARCHIVE_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -186,4 +187,4 @@ $(pkg_archive): $(install_target) $(AC_ARCHIVE_PKG_DESCRIPTION_FILE) $(AC_ARCHIV
 	 echo "short_description=\"$(AC_ARCHIVE_PKG_SHORT_DESCRIPTION)\"" >> $(AC_ARCHIVE_PKG)/.PKGINFO ; \
 	 echo "url=$(AC_ARCHIVE_PKG_URL)"                                 >> $(AC_ARCHIVE_PKG)/.PKGINFO ; \
 	 echo "license=$(AC_ARCHIVE_PKG_LICENSE)"                         >> $(AC_ARCHIVE_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(AC_ARCHIVE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(AC_ARCHIVE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

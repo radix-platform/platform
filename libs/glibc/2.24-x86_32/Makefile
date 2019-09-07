@@ -66,6 +66,7 @@ GLIBC_32_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(GLIBC_32_PKG_NAME)-package
 pkg_basename     = $(GLIBC_32_PKG_NAME)-$(GLIBC_32_PKG_VERSION)-$(GLIBC_32_PKG_ARCH)-$(GLIBC_32_PKG_DISTRO_NAME)-$(GLIBC_32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -167,4 +168,4 @@ $(pkg_archive): $(build_glibc32_pkg) $(GLIBC_32_PKG_DESCRIPTION_FILE) $(GLIBC_32
 	 echo "short_description=\"$(GLIBC_32_PKG_SHORT_DESCRIPTION)\"" >> $(GLIBC_32_PKG)/.PKGINFO ; \
 	 echo "url=$(GLIBC_32_PKG_URL)"                                 >> $(GLIBC_32_PKG)/.PKGINFO ; \
 	 echo "license=$(GLIBC_32_PKG_LICENSE)"                         >> $(GLIBC_32_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(GLIBC_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GLIBC_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

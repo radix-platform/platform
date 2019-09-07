@@ -86,6 +86,7 @@ LAME_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LAME_PKG_NAME)-package
 pkg_basename     = $(LAME_PKG_NAME)-$(LAME_PKG_VERSION)-$(LAME_PKG_ARCH)-$(LAME_PKG_DISTRO_NAME)-$(LAME_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -206,4 +207,4 @@ $(pkg_archive): $(install_target) $(LAME_PKG_DESCRIPTION_FILE) $(LAME_PKG_INSTAL
 	 echo "short_description=\"$(LAME_PKG_SHORT_DESCRIPTION)\"" >> $(LAME_PKG)/.PKGINFO ; \
 	 echo "url=$(LAME_PKG_URL)"                                 >> $(LAME_PKG)/.PKGINFO ; \
 	 echo "license=$(LAME_PKG_LICENSE)"                         >> $(LAME_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LAME_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LAME_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

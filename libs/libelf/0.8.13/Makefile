@@ -94,6 +94,7 @@ LIBELF_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBELF_PKG_NAME)-package
 pkg_basename     = $(LIBELF_PKG_NAME)-$(LIBELF_PKG_VERSION)-$(LIBELF_PKG_ARCH)-$(LIBELF_PKG_DISTRO_NAME)-$(LIBELF_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -192,4 +193,4 @@ $(pkg_archive): $(install_target) $(LIBELF_PKG_DESCRIPTION_FILE) $(LIBELF_PKG_IN
 	 echo "short_description=\"$(LIBELF_PKG_SHORT_DESCRIPTION)\"" >> $(LIBELF_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBELF_PKG_URL)"                                 >> $(LIBELF_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBELF_PKG_LICENSE)"                         >> $(LIBELF_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBELF_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBELF_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

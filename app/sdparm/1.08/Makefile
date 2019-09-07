@@ -90,6 +90,7 @@ SDPARM_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(SDPARM_PKG_NAME)-package
 pkg_basename     = $(SDPARM_PKG_NAME)-$(SDPARM_PKG_VERSION)-$(SDPARM_PKG_ARCH)-$(SDPARM_PKG_DISTRO_NAME)-$(SDPARM_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -194,4 +195,4 @@ $(pkg_archive): $(install_target) $(SDPARM_PKG_DESCRIPTION_FILE) $(SDPARM_PKG_IN
 	 echo "short_description=\"$(SDPARM_PKG_SHORT_DESCRIPTION)\"" >> $(SDPARM_PKG)/.PKGINFO ; \
 	 echo "url=$(SDPARM_PKG_URL)"                                 >> $(SDPARM_PKG)/.PKGINFO ; \
 	 echo "license=$(SDPARM_PKG_LICENSE)"                         >> $(SDPARM_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(SDPARM_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SDPARM_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

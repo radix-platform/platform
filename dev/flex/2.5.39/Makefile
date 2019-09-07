@@ -94,6 +94,7 @@ FLEX_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(FLEX_PKG_NAME)-package
 pkg_basename     = $(FLEX_PKG_NAME)-$(FLEX_PKG_VERSION)-$(FLEX_PKG_ARCH)-$(FLEX_PKG_DISTRO_NAME)-$(FLEX_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -212,4 +213,4 @@ $(pkg_archive): $(install_target) $(FLEX_PKG_DESCRIPTION_FILE) $(FLEX_PKG_INSTAL
 	 echo "short_description=\"$(FLEX_PKG_SHORT_DESCRIPTION)\"" >> $(FLEX_PKG)/.PKGINFO ; \
 	 echo "url=$(FLEX_PKG_URL)"                                 >> $(FLEX_PKG)/.PKGINFO ; \
 	 echo "license=$(FLEX_PKG_LICENSE)"                         >> $(FLEX_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(FLEX_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(FLEX_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

@@ -95,6 +95,7 @@ LIBART_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBART_PKG_NAME)-package
 pkg_basename     = $(LIBART_PKG_NAME)-$(LIBART_PKG_VERSION)-$(LIBART_PKG_ARCH)-$(LIBART_PKG_DISTRO_NAME)-$(LIBART_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -218,4 +219,4 @@ $(pkg_archive): $(install_target) $(LIBART_PKG_DESCRIPTION_FILE) $(LIBART_PKG_IN
 	 echo "short_description=\"$(LIBART_PKG_SHORT_DESCRIPTION)\"" >> $(LIBART_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBART_PKG_URL)"                                 >> $(LIBART_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBART_PKG_LICENSE)"                         >> $(LIBART_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBART_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBART_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

@@ -90,6 +90,7 @@ DNSMASQ_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(DNSMASQ_PKG_NAME)-package
 pkg_basename     = $(DNSMASQ_PKG_NAME)-$(DNSMASQ_PKG_VERSION)-$(DNSMASQ_PKG_ARCH)-$(DNSMASQ_PKG_DISTRO_NAME)-$(DNSMASQ_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -199,4 +200,4 @@ $(pkg_archive): $(install_target) $(DNSMASQ_PKG_DESCRIPTION_FILE) $(DNSMASQ_PKG_
 	 echo "short_description=\"$(DNSMASQ_PKG_SHORT_DESCRIPTION)\"" >> $(DNSMASQ_PKG)/.PKGINFO ; \
 	 echo "url=$(DNSMASQ_PKG_URL)"                                 >> $(DNSMASQ_PKG)/.PKGINFO ; \
 	 echo "license=$(DNSMASQ_PKG_LICENSE)"                         >> $(DNSMASQ_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(DNSMASQ_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(DNSMASQ_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

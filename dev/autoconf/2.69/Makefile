@@ -90,6 +90,7 @@ AUTOCONF_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(AUTOCONF_PKG_NAME)-package
 pkg_basename     = $(AUTOCONF_PKG_NAME)-$(AUTOCONF_PKG_VERSION)-$(AUTOCONF_PKG_ARCH)-$(AUTOCONF_PKG_DISTRO_NAME)-$(AUTOCONF_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -189,4 +190,4 @@ $(pkg_archive): $(install_target) $(AUTOCONF_PKG_DESCRIPTION_FILE) $(AUTOCONF_PK
 	 echo "short_description=\"$(AUTOCONF_PKG_SHORT_DESCRIPTION)\"" >> $(AUTOCONF_PKG)/.PKGINFO ; \
 	 echo "url=$(AUTOCONF_PKG_URL)"                                 >> $(AUTOCONF_PKG)/.PKGINFO ; \
 	 echo "license=$(AUTOCONF_PKG_LICENSE)"                         >> $(AUTOCONF_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(AUTOCONF_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(AUTOCONF_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

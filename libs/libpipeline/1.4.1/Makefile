@@ -94,6 +94,7 @@ PIPELINE_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(PIPELINE_PKG_NAME)-package
 pkg_basename     = $(PIPELINE_PKG_NAME)-$(PIPELINE_PKG_VERSION)-$(PIPELINE_PKG_ARCH)-$(PIPELINE_PKG_DISTRO_NAME)-$(PIPELINE_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -212,4 +213,4 @@ $(pkg_archive): $(install_target) $(PIPELINE_PKG_DESCRIPTION_FILE) $(PIPELINE_PK
 	 echo "short_description=\"$(PIPELINE_PKG_SHORT_DESCRIPTION)\"" >> $(PIPELINE_PKG)/.PKGINFO ; \
 	 echo "url=$(PIPELINE_PKG_URL)"                                 >> $(PIPELINE_PKG)/.PKGINFO ; \
 	 echo "license=$(PIPELINE_PKG_LICENSE)"                         >> $(PIPELINE_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(PIPELINE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PIPELINE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

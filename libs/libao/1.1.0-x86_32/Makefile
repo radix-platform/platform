@@ -58,6 +58,7 @@ LIBAO_32_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBAO_32_PKG_NAME)-package
 pkg_basename     = $(LIBAO_32_PKG_NAME)-$(LIBAO_32_PKG_VERSION)-$(LIBAO_32_PKG_ARCH)-$(LIBAO_32_PKG_DISTRO_NAME)-$(LIBAO_32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -175,4 +176,4 @@ $(pkg_archive): $(install_target) $(LIBAO_32_PKG_DESCRIPTION_FILE) $(LIBAO_32_PK
 	 echo "short_description=\"$(LIBAO_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBAO_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBAO_32_PKG_URL)"                                 >> $(LIBAO_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBAO_32_PKG_LICENSE)"                         >> $(LIBAO_32_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBAO_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBAO_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

@@ -54,6 +54,7 @@ BZIP2_32_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(BZIP2_32_PKG_NAME)-package
 pkg_basename     = $(BZIP2_32_PKG_NAME)-$(BZIP2_32_PKG_VERSION)-$(BZIP2_32_PKG_ARCH)-$(BZIP2_32_PKG_DISTRO_NAME)-$(BZIP2_32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -143,4 +144,4 @@ $(pkg_archive): $(install_target) $(BZIP2_32_PKG_DESCRIPTION_FILE) $(BZIP2_32_PK
 	 echo "short_description=\"$(BZIP2_32_PKG_SHORT_DESCRIPTION)\"" >> $(BZIP2_32_PKG)/.PKGINFO ; \
 	 echo "url=$(BZIP2_32_PKG_URL)"                                 >> $(BZIP2_32_PKG)/.PKGINFO ; \
 	 echo "license=$(BZIP2_32_PKG_LICENSE)"                         >> $(BZIP2_32_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(BZIP2_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(BZIP2_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

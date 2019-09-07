@@ -94,6 +94,7 @@ LIBPNG_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBPNG_PKG_NAME)-package
 pkg_basename     = $(LIBPNG_PKG_NAME)-$(LIBPNG_PKG_VERSION)-$(LIBPNG_PKG_ARCH)-$(LIBPNG_PKG_DISTRO_NAME)-$(LIBPNG_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -215,4 +216,4 @@ $(pkg_archive): $(install_target) $(LIBPNG_PKG_DESCRIPTION_FILE) $(LIBPNG_PKG_IN
 	 echo "short_description=\"$(LIBPNG_PKG_SHORT_DESCRIPTION)\"" >> $(LIBPNG_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBPNG_PKG_URL)"                                 >> $(LIBPNG_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBPNG_PKG_LICENSE)"                         >> $(LIBPNG_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBPNG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBPNG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

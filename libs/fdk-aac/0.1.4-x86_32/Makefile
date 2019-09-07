@@ -56,6 +56,7 @@ FDK_AAC_32_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(FDK_AAC_32_PKG_NAME)-packa
 pkg_basename        = $(FDK_AAC_32_PKG_NAME)-$(FDK_AAC_32_PKG_VERSION)-$(FDK_AAC_32_PKG_ARCH)-$(FDK_AAC_32_PKG_DISTRO_NAME)-$(FDK_AAC_32_PKG_DISTRO_VERSION)
 
 pkg_archive         = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature       = $(call sign-name,$(pkg_archive))
 pkg_description     = $(call desc-name,$(pkg_archive))
 products            = $(call pkg-files,$(pkg_archive))
@@ -147,4 +148,4 @@ $(pkg_archive): $(install_target) $(FDK_AAC_32_PKG_DESCRIPTION_FILE) $(FDK_AAC_3
 	 echo "short_description=\"$(FDK_AAC_32_PKG_SHORT_DESCRIPTION)\"" >> $(FDK_AAC_32_PKG)/.PKGINFO ; \
 	 echo "url=$(FDK_AAC_32_PKG_URL)"                                 >> $(FDK_AAC_32_PKG)/.PKGINFO ; \
 	 echo "license=$(FDK_AAC_32_PKG_LICENSE)"                         >> $(FDK_AAC_32_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(FDK_AAC_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(FDK_AAC_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

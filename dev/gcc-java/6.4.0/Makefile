@@ -125,6 +125,7 @@ GCJ_DEV_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(GCJ_DEV_PKG_NAME)-package
 pkg_basename     = $(GCJ_DEV_PKG_NAME)-$(GCJ_DEV_PKG_VERSION)-$(GCJ_DEV_PKG_ARCH)-$(GCJ_DEV_PKG_DISTRO_NAME)-$(GCJ_DEV_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -735,4 +736,4 @@ $(pkg_archive): $(install_target) $(GCJ_DEV_PKG_DESCRIPTION_FILE) $(GCJ_DEV_PKG_
 	 echo "short_description=\"$(GCJ_DEV_PKG_SHORT_DESCRIPTION)\"" >> $(GCJ_DEV_PKG)/.PKGINFO ; \
 	 echo "url=$(GCJ_DEV_PKG_URL)"                                 >> $(GCJ_DEV_PKG)/.PKGINFO ; \
 	 echo "license=$(GCJ_DEV_PKG_LICENSE)"                         >> $(GCJ_DEV_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(GCJ_DEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GCJ_DEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

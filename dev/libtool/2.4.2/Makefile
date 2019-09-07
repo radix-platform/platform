@@ -95,6 +95,7 @@ LIBTOOL_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBTOOL_PKG_NAME)-package
 pkg_basename     = $(LIBTOOL_PKG_NAME)-$(LIBTOOL_PKG_VERSION)-$(LIBTOOL_PKG_ARCH)-$(LIBTOOL_PKG_DISTRO_NAME)-$(LIBTOOL_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -243,4 +244,4 @@ $(pkg_archive): $(install_target) $(LIBTOOL_PKG_DESCRIPTION_FILE) $(LIBTOOL_PKG_
 	 echo "short_description=\"$(LIBTOOL_PKG_SHORT_DESCRIPTION)\"" >> $(LIBTOOL_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBTOOL_PKG_URL)"                                 >> $(LIBTOOL_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBTOOL_PKG_LICENSE)"                         >> $(LIBTOOL_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBTOOL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBTOOL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

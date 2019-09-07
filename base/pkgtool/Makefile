@@ -80,19 +80,20 @@ dialogrc = $(BUILDSYSTEM)/pkgtool/dialogrc
 
 build = $(TARGET_BUILD_DIR)/.done
 
-pkg_basename    = $(PKGTOOL_BIN_PKG_NAME)-$(PKGTOOL_BIN_PKG_VERSION)-$(PKGTOOL_BIN_PKG_ARCH)-$(PKGTOOL_BIN_PKG_DISTRO_NAME)-$(PKGTOOL_BIN_PKG_DISTRO_VERSION)
+pkg_basename     = $(PKGTOOL_BIN_PKG_NAME)-$(PKGTOOL_BIN_PKG_VERSION)-$(PKGTOOL_BIN_PKG_ARCH)-$(PKGTOOL_BIN_PKG_DISTRO_NAME)-$(PKGTOOL_BIN_PKG_DISTRO_VERSION)
 
 # we need to have full path of product files for installation:
-pkg_archive     = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
-pkg_signature   = $(call sign-name,$(pkg_archive))
-pkg_description = $(call desc-name,$(pkg_archive))
-products        = $(call pkg-files,$(pkg_archive))
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS   = $(build)
+BUILD_TARGETS    = $(build)
 
-PRODUCT_TARGETS = $(products)
+PRODUCT_TARGETS  = $(products)
 
-ROOTFS_TARGETS  = $(pkg_archive)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../build-system/core.mk
@@ -123,4 +124,4 @@ $(pkg_archive): $(build) $(PKGTOOL_BIN_PKG_DESCRIPTION_FILE) $(PKGTOOL_BIN_PKG_I
 	 echo "short_description=\"$(PKGTOOL_BIN_PKG_SHORT_DESCRIPTION)\"" >> $(PKGTOOL_BIN_PKG)/.PKGINFO ; \
 	 echo "url=$(PKGTOOL_BIN_PKG_URL)"                                 >> $(PKGTOOL_BIN_PKG)/.PKGINFO ; \
 	 echo "license=$(PKGTOOL_BIN_PKG_LICENSE)"                         >> $(PKGTOOL_BIN_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(PKGTOOL_BIN_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PKGTOOL_BIN_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

@@ -85,6 +85,7 @@ DMAPI_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(DMAPI_PKG_NAME)-package
 pkg_basename     = $(DMAPI_PKG_NAME)-$(DMAPI_PKG_VERSION)-$(DMAPI_PKG_ARCH)-$(DMAPI_PKG_DISTRO_NAME)-$(DMAPI_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -186,4 +187,4 @@ $(pkg_archive): $(install_target) $(DMAPI_PKG_DESCRIPTION_FILE) $(DMAPI_PKG_INST
 	 echo "short_description=\"$(DMAPI_PKG_SHORT_DESCRIPTION)\"" >> $(DMAPI_PKG)/.PKGINFO ; \
 	 echo "url=$(DMAPI_PKG_URL)"                                 >> $(DMAPI_PKG)/.PKGINFO ; \
 	 echo "license=$(DMAPI_PKG_LICENSE)"                         >> $(DMAPI_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(DMAPI_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(DMAPI_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

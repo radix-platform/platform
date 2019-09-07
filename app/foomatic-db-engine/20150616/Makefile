@@ -89,6 +89,7 @@ FODB_ENGINE_PKG  = $(CURDIR)/$(TARGET_BUILD_DIR)/$(FODB_ENGINE_PKG_NAME)-package
 pkg_basename     = $(FODB_ENGINE_PKG_NAME)-$(FODB_ENGINE_PKG_VERSION)-$(FODB_ENGINE_PKG_ARCH)-$(FODB_ENGINE_PKG_DISTRO_NAME)-$(FODB_ENGINE_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -324,4 +325,4 @@ $(pkg_archive): $(install_target) $(FODB_ENGINE_PKG_DESCRIPTION_FILE) $(FODB_ENG
 	 echo "short_description=\"$(FODB_ENGINE_PKG_SHORT_DESCRIPTION)\"" >> $(FODB_ENGINE_PKG)/.PKGINFO ; \
 	 echo "url=$(FODB_ENGINE_PKG_URL)"                                 >> $(FODB_ENGINE_PKG)/.PKGINFO ; \
 	 echo "license=$(FODB_ENGINE_PKG_LICENSE)"                         >> $(FODB_ENGINE_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(FODB_ENGINE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(FODB_ENGINE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

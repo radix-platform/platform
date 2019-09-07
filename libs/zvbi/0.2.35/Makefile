@@ -86,6 +86,7 @@ ZVBI_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(ZVBI_PKG_NAME)-package
 pkg_basename     = $(ZVBI_PKG_NAME)-$(ZVBI_PKG_VERSION)-$(ZVBI_PKG_ARCH)-$(ZVBI_PKG_DISTRO_NAME)-$(ZVBI_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -243,4 +244,4 @@ $(pkg_archive): $(install_target) $(ZVBI_PKG_DESCRIPTION_FILE) $(ZVBI_PKG_INSTAL
 	 echo "short_description=\"$(ZVBI_PKG_SHORT_DESCRIPTION)\"" >> $(ZVBI_PKG)/.PKGINFO ; \
 	 echo "url=$(ZVBI_PKG_URL)"                                 >> $(ZVBI_PKG)/.PKGINFO ; \
 	 echo "license=$(ZVBI_PKG_LICENSE)"                         >> $(ZVBI_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(ZVBI_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ZVBI_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

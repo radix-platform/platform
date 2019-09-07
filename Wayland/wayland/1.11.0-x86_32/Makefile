@@ -60,6 +60,7 @@ WAYLAND_32_PKG   = $(CURDIR)/$(TARGET_BUILD_DIR)/$(WAYLAND_32_PKG_NAME)-package
 pkg_basename     = $(WAYLAND_32_PKG_NAME)-$(WAYLAND_32_PKG_VERSION)-$(WAYLAND_32_PKG_ARCH)-$(WAYLAND_32_PKG_DISTRO_NAME)-$(WAYLAND_32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -197,4 +198,4 @@ $(pkg_archive): $(install_target) $(WAYLAND_32_PKG_DESCRIPTION_FILE) $(WAYLAND_3
 	 echo "short_description=\"$(WAYLAND_32_PKG_SHORT_DESCRIPTION)\"" >> $(WAYLAND_32_PKG)/.PKGINFO ; \
 	 echo "url=$(WAYLAND_32_PKG_URL)"                                 >> $(WAYLAND_32_PKG)/.PKGINFO ; \
 	 echo "license=$(WAYLAND_32_PKG_LICENSE)"                         >> $(WAYLAND_32_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(WAYLAND_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(WAYLAND_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

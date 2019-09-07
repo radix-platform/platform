@@ -54,6 +54,7 @@ WIFIFW_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(WIFIFW_PKG_NAME)-package
 pkg_basename     = $(WIFIFW_PKG_NAME)-$(WIFIFW_PKG_VERSION)-$(WIFIFW_PKG_ARCH)-$(WIFIFW_PKG_DISTRO_NAME)-$(WIFIFW_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -115,4 +116,4 @@ $(pkg_archive): $(install_target) $(WIFIFW_PKG_DESCRIPTION_FILE) $(WIFIFW_PKG_IN
 	 echo "short_description=\"$(WIFIFW_PKG_SHORT_DESCRIPTION)\"" >> $(WIFIFW_PKG)/.PKGINFO ; \
 	 echo "url=$(WIFIFW_PKG_URL)"                                 >> $(WIFIFW_PKG)/.PKGINFO ; \
 	 echo "license=$(WIFIFW_PKG_LICENSE)"                         >> $(WIFIFW_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(WIFIFW_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(WIFIFW_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

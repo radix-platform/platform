@@ -58,21 +58,22 @@ INIT_DEV_PKG_DESCRIPTION_FILE_IN = $(INIT_DEV_PKG_NAME)-pkg-description.in
 INIT_DEV_PKG_INSTALL_SCRIPT      = $(INIT_DEV_PKG_NAME)-pkg-install.sh
 
 
-INIT_DEV_PKG    = $(TARGET_BUILD_DIR)/$(INIT_DEV_PKG_NAME)-package
+INIT_DEV_PKG     = $(TARGET_BUILD_DIR)/$(INIT_DEV_PKG_NAME)-package
 
 
 build = $(TARGET_BUILD_DIR)/.done
 
-pkg_basename    = $(INIT_DEV_PKG_NAME)-$(INIT_DEV_PKG_VERSION)-$(INIT_DEV_PKG_ARCH)-$(INIT_DEV_PKG_DISTRO_NAME)-$(INIT_DEV_PKG_DISTRO_VERSION)
+pkg_basename     = $(INIT_DEV_PKG_NAME)-$(INIT_DEV_PKG_VERSION)-$(INIT_DEV_PKG_ARCH)-$(INIT_DEV_PKG_DISTRO_NAME)-$(INIT_DEV_PKG_DISTRO_VERSION)
 
-pkg_archive     = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
-pkg_signature   = $(call sign-name,$(pkg_archive))
-pkg_description = $(call desc-name,$(pkg_archive))
-products        = $(call pkg-files,$(pkg_archive))
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS   = $(build)
+BUILD_TARGETS    = $(build)
 
-PRODUCT_TARGETS = $(products)
+PRODUCT_TARGETS  = $(products)
 
 
 include ../../build-system/core.mk
@@ -212,4 +213,4 @@ $(pkg_archive): $(build) $(INIT_DEV_PKG_DESCRIPTION_FILE) $(INIT_DEV_PKG_INSTALL
 	                    chown 0:0   kmsg kvm            ; \
 	                    chown 0:0   mtd? mtdblock? \
 	                  ) && \
-	                  $(MAKE_PACKAGE) --linkadd yes .."
+	                  $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

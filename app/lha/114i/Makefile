@@ -89,6 +89,7 @@ LHA_PKG          = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LHA_PKG_NAME)-package
 pkg_basename     = $(LHA_PKG_NAME)-$(LHA_PKG_VERSION)-$(LHA_PKG_ARCH)-$(LHA_PKG_DISTRO_NAME)-$(LHA_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -163,4 +164,4 @@ $(pkg_archive): $(install_target) $(LHA_PKG_DESCRIPTION_FILE) $(LHA_PKG_INSTALL_
 	 echo "short_description=\"$(LHA_PKG_SHORT_DESCRIPTION)\"" >> $(LHA_PKG)/.PKGINFO ; \
 	 echo "url=$(LHA_PKG_URL)"                                 >> $(LHA_PKG)/.PKGINFO ; \
 	 echo "license=$(LHA_PKG_LICENSE)"                         >> $(LHA_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LHA_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LHA_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

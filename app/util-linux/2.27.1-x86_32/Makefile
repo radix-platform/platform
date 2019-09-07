@@ -62,6 +62,7 @@ UTILLINUX_32_PKG = $(CURDIR)/$(TARGET_BUILD_DIR)/$(UTILLINUX_32_PKG_NAME)-packag
 pkg_basename     = $(UTILLINUX_32_PKG_NAME)-$(UTILLINUX_32_PKG_VERSION)-$(UTILLINUX_32_PKG_ARCH)-$(UTILLINUX_32_PKG_DISTRO_NAME)-$(UTILLINUX_32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -247,4 +248,4 @@ $(pkg_archive): $(install_target) $(UTILLINUX_32_PKG_DESCRIPTION_FILE) $(UTILLIN
 	                  chmod g+s usr/bin/32/wall  && \
 	                  chgrp tty usr/bin/32/write && \
 	                  chmod g+s usr/bin/32/write && \
-	                  $(MAKE_PACKAGE) --linkadd yes .."
+	                  $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

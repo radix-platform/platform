@@ -93,6 +93,7 @@ TAGLIB_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(TAGLIB_PKG_NAME)-package
 pkg_basename     = $(TAGLIB_PKG_NAME)-$(TAGLIB_PKG_VERSION)-$(TAGLIB_PKG_ARCH)-$(TAGLIB_PKG_DISTRO_NAME)-$(TAGLIB_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -202,4 +203,4 @@ $(pkg_archive): $(install_target) $(TAGLIB_PKG_DESCRIPTION_FILE) $(TAGLIB_PKG_IN
 	 echo "short_description=\"$(TAGLIB_PKG_SHORT_DESCRIPTION)\"" >> $(TAGLIB_PKG)/.PKGINFO ; \
 	 echo "url=$(TAGLIB_PKG_URL)"                                 >> $(TAGLIB_PKG)/.PKGINFO ; \
 	 echo "license=$(TAGLIB_PKG_LICENSE)"                         >> $(TAGLIB_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(TAGLIB_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(TAGLIB_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

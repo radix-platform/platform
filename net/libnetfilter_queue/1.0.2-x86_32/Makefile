@@ -58,6 +58,7 @@ LIBNF_QUEUE_32_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBNF_QUEUE_32_PKG_NAME
 pkg_basename           = $(LIBNF_QUEUE_32_PKG_NAME)-$(LIBNF_QUEUE_32_PKG_VERSION)-$(LIBNF_QUEUE_32_PKG_ARCH)-$(LIBNF_QUEUE_32_PKG_DISTRO_NAME)-$(LIBNF_QUEUE_32_PKG_DISTRO_VERSION)
 
 pkg_archive            = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature          = $(call sign-name,$(pkg_archive))
 pkg_description        = $(call desc-name,$(pkg_archive))
 products               = $(call pkg-files,$(pkg_archive))
@@ -163,4 +164,4 @@ $(pkg_archive): $(install_target) $(LIBNF_QUEUE_32_PKG_DESCRIPTION_FILE) $(LIBNF
 	 echo "short_description=\"$(LIBNF_QUEUE_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBNF_QUEUE_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBNF_QUEUE_32_PKG_URL)"                                 >> $(LIBNF_QUEUE_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBNF_QUEUE_32_PKG_LICENSE)"                         >> $(LIBNF_QUEUE_32_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBNF_QUEUE_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBNF_QUEUE_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

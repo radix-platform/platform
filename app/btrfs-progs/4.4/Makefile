@@ -93,6 +93,7 @@ BTRFS_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(BTRFS_PKG_NAME)-package
 pkg_basename     = $(BTRFS_PKG_NAME)-$(BTRFS_PKG_VERSION)-$(BTRFS_PKG_ARCH)-$(BTRFS_PKG_DISTRO_NAME)-$(BTRFS_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -212,4 +213,4 @@ $(pkg_archive): $(install_target) $(BTRFS_PKG_DESCRIPTION_FILE) $(BTRFS_PKG_INST
 	 echo "short_description=\"$(BTRFS_PKG_SHORT_DESCRIPTION)\"" >> $(BTRFS_PKG)/.PKGINFO ; \
 	 echo "url=$(BTRFS_PKG_URL)"                                 >> $(BTRFS_PKG)/.PKGINFO ; \
 	 echo "license=$(BTRFS_PKG_LICENSE)"                         >> $(BTRFS_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(BTRFS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(BTRFS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

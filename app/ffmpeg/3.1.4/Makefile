@@ -134,6 +134,7 @@ FFMPEG_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(FFMPEG_PKG_NAME)-package
 pkg_basename     = $(FFMPEG_PKG_NAME)-$(FFMPEG_PKG_VERSION)-$(FFMPEG_PKG_ARCH)-$(FFMPEG_PKG_DISTRO_NAME)-$(FFMPEG_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -433,4 +434,4 @@ $(pkg_archive): $(install_target) $(FFMPEG_PKG_DESCRIPTION_FILE) $(FFMPEG_PKG_IN
 	 echo "short_description=\"$(FFMPEG_PKG_SHORT_DESCRIPTION)\"" >> $(FFMPEG_PKG)/.PKGINFO ; \
 	 echo "url=$(FFMPEG_PKG_URL)"                                 >> $(FFMPEG_PKG)/.PKGINFO ; \
 	 echo "license=$(FFMPEG_PKG_LICENSE)"                         >> $(FFMPEG_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(FFMPEG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(FFMPEG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

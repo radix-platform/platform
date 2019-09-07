@@ -92,6 +92,7 @@ LIBCACA_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBCACA_PKG_NAME)-package
 pkg_basename     = $(LIBCACA_PKG_NAME)-$(LIBCACA_PKG_VERSION)-$(LIBCACA_PKG_ARCH)-$(LIBCACA_PKG_DISTRO_NAME)-$(LIBCACA_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -273,4 +274,4 @@ $(pkg_archive): $(install_target) $(LIBCACA_PKG_DESCRIPTION_FILE) $(LIBCACA_PKG_
 	 echo "short_description=\"$(LIBCACA_PKG_SHORT_DESCRIPTION)\"" >> $(LIBCACA_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBCACA_PKG_URL)"                                 >> $(LIBCACA_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBCACA_PKG_LICENSE)"                         >> $(LIBCACA_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBCACA_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBCACA_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

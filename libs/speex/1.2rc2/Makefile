@@ -87,6 +87,7 @@ SPEEX_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(SPEEX_PKG_NAME)-package
 pkg_basename     = $(SPEEX_PKG_NAME)-$(SPEEX_PKG_VERSION)-$(SPEEX_PKG_ARCH)-$(SPEEX_PKG_DISTRO_NAME)-$(SPEEX_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -223,4 +224,4 @@ $(pkg_archive): $(install_target) $(SPEEX_PKG_DESCRIPTION_FILE) $(SPEEX_PKG_INST
 	 echo "short_description=\"$(SPEEX_PKG_SHORT_DESCRIPTION)\"" >> $(SPEEX_PKG)/.PKGINFO ; \
 	 echo "url=$(SPEEX_PKG_URL)"                                 >> $(SPEEX_PKG)/.PKGINFO ; \
 	 echo "license=$(SPEEX_PKG_LICENSE)"                         >> $(SPEEX_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(SPEEX_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SPEEX_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

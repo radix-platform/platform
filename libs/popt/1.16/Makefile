@@ -94,6 +94,7 @@ POPT_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(POPT_PKG_NAME)-package
 pkg_basename     = $(POPT_PKG_NAME)-$(POPT_PKG_VERSION)-$(POPT_PKG_ARCH)-$(POPT_PKG_DISTRO_NAME)-$(POPT_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -219,4 +220,4 @@ $(pkg_archive): $(install_target) $(POPT_PKG_DESCRIPTION_FILE) $(POPT_PKG_INSTAL
 	 echo "short_description=\"$(POPT_PKG_SHORT_DESCRIPTION)\"" >> $(POPT_PKG)/.PKGINFO ; \
 	 echo "url=$(POPT_PKG_URL)"                                 >> $(POPT_PKG)/.PKGINFO ; \
 	 echo "license=$(POPT_PKG_LICENSE)"                         >> $(POPT_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(POPT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(POPT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

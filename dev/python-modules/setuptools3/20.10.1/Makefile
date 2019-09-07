@@ -90,6 +90,7 @@ SETUPTOOLS3_PKG  = $(CURDIR)/$(TARGET_BUILD_DIR)/$(SETUPTOOLS3_PKG_NAME)-package
 pkg_basename     = $(SETUPTOOLS3_PKG_NAME)-$(SETUPTOOLS3_PKG_VERSION)-$(SETUPTOOLS3_PKG_ARCH)-$(SETUPTOOLS3_PKG_DISTRO_NAME)-$(SETUPTOOLS3_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -177,4 +178,4 @@ $(pkg_archive): $(install_target) $(SETUPTOOLS3_PKG_DESCRIPTION_FILE) $(SETUPTOO
 	 echo "short_description=\"$(SETUPTOOLS3_PKG_SHORT_DESCRIPTION)\"" >> $(SETUPTOOLS3_PKG)/.PKGINFO ; \
 	 echo "url=$(SETUPTOOLS3_PKG_URL)"                                 >> $(SETUPTOOLS3_PKG)/.PKGINFO ; \
 	 echo "license=$(SETUPTOOLS3_PKG_LICENSE)"                         >> $(SETUPTOOLS3_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(SETUPTOOLS3_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SETUPTOOLS3_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

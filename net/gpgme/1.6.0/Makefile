@@ -87,6 +87,7 @@ GPGME_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(GPGME_PKG_NAME)-package
 pkg_basename     = $(GPGME_PKG_NAME)-$(GPGME_PKG_VERSION)-$(GPGME_PKG_ARCH)-$(GPGME_PKG_DISTRO_NAME)-$(GPGME_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -240,4 +241,4 @@ $(pkg_archive): $(install_target) $(GPGME_PKG_DESCRIPTION_FILE) $(GPGME_PKG_INST
 	 echo "short_description=\"$(GPGME_PKG_SHORT_DESCRIPTION)\"" >> $(GPGME_PKG)/.PKGINFO ; \
 	 echo "url=$(GPGME_PKG_URL)"                                 >> $(GPGME_PKG)/.PKGINFO ; \
 	 echo "license=$(GPGME_PKG_LICENSE)"                         >> $(GPGME_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(GPGME_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GPGME_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

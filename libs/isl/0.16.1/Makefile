@@ -75,6 +75,7 @@ ISL_PKG          = $(CURDIR)/$(TARGET_BUILD_DIR)/$(ISL_PKG_NAME)-package
 pkg_basename     = $(ISL_PKG_NAME)-$(ISL_PKG_VERSION)-$(ISL_PKG_ARCH)-$(ISL_PKG_DISTRO_NAME)-$(ISL_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -198,4 +199,4 @@ $(pkg_archive): $(install_target) $(ISL_PKG_DESCRIPTION_FILE) $(ISL_PKG_INSTALL_
 	 echo "short_description=\"$(ISL_PKG_SHORT_DESCRIPTION)\"" >> $(ISL_PKG)/.PKGINFO ; \
 	 echo "url=$(ISL_PKG_URL)"                                 >> $(ISL_PKG)/.PKGINFO ; \
 	 echo "license=$(ISL_PKG_LICENSE)"                         >> $(ISL_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(ISL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ISL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

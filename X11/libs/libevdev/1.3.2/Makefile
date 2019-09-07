@@ -86,6 +86,7 @@ LIBEVDEV_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBEVDEV_PKG_NAME)-package
 pkg_basename     = $(LIBEVDEV_PKG_NAME)-$(LIBEVDEV_PKG_VERSION)-$(LIBEVDEV_PKG_ARCH)-$(LIBEVDEV_PKG_DISTRO_NAME)-$(LIBEVDEV_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -206,4 +207,4 @@ $(pkg_archive): $(install_target) $(LIBEVDEV_PKG_DESCRIPTION_FILE) $(LIBEVDEV_PK
 	 echo "short_description=\"$(LIBEVDEV_PKG_SHORT_DESCRIPTION)\"" >> $(LIBEVDEV_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBEVDEV_PKG_URL)"                                 >> $(LIBEVDEV_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBEVDEV_PKG_LICENSE)"                         >> $(LIBEVDEV_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBEVDEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBEVDEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

@@ -90,6 +90,7 @@ GSFONTS_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(GSFONTS_PKG_NAME)-package
 pkg_basename     = $(GSFONTS_PKG_NAME)-$(GSFONTS_PKG_VERSION)-$(GSFONTS_PKG_ARCH)-$(GSFONTS_PKG_DISTRO_NAME)-$(GSFONTS_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -159,4 +160,4 @@ $(pkg_archive): $(install_target) $(GSFONTS_PKG_DESCRIPTION_FILE) $(GSFONTS_PKG_
 	 echo "short_description=\"$(GSFONTS_PKG_SHORT_DESCRIPTION)\"" >> $(GSFONTS_PKG)/.PKGINFO ; \
 	 echo "url=$(GSFONTS_PKG_URL)"                                 >> $(GSFONTS_PKG)/.PKGINFO ; \
 	 echo "license=$(GSFONTS_PKG_LICENSE)"                         >> $(GSFONTS_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(GSFONTS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GSFONTS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

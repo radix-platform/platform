@@ -88,6 +88,7 @@ SYSVINIT_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(SYSVINIT_PKG_NAME)-package
 pkg_basename     = $(SYSVINIT_PKG_NAME)-$(SYSVINIT_PKG_VERSION)-$(SYSVINIT_PKG_ARCH)-$(SYSVINIT_PKG_DISTRO_NAME)-$(SYSVINIT_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -213,4 +214,4 @@ $(pkg_archive): $(install_target) $(SYSVINIT_PKG_DESCRIPTION_FILE) $(SYSVINIT_PK
 	 echo "short_description=\"$(SYSVINIT_PKG_SHORT_DESCRIPTION)\"" >> $(SYSVINIT_PKG)/.PKGINFO ; \
 	 echo "url=$(SYSVINIT_PKG_URL)"                                 >> $(SYSVINIT_PKG)/.PKGINFO ; \
 	 echo "license=$(SYSVINIT_PKG_LICENSE)"                         >> $(SYSVINIT_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(SYSVINIT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SYSVINIT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

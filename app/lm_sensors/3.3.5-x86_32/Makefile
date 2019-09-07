@@ -54,6 +54,7 @@ LMSENS_32_PKG    = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LMSENS_32_PKG_NAME)-package
 pkg_basename     = $(LMSENS_32_PKG_NAME)-$(LMSENS_32_PKG_VERSION)-$(LMSENS_32_PKG_ARCH)-$(LMSENS_32_PKG_DISTRO_NAME)-$(LMSENS_32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -144,4 +145,4 @@ $(pkg_archive): $(install_target) $(LMSENS_32_PKG_DESCRIPTION_FILE) $(LMSENS_32_
 	 echo "short_description=\"$(LMSENS_32_PKG_SHORT_DESCRIPTION)\"" >> $(LMSENS_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LMSENS_32_PKG_URL)"                                 >> $(LMSENS_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LMSENS_32_PKG_LICENSE)"                         >> $(LMSENS_32_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LMSENS_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LMSENS_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

@@ -106,6 +106,7 @@ MC_PKG           = $(CURDIR)/$(TARGET_BUILD_DIR)/$(MC_PKG_NAME)-package
 pkg_basename     = $(MC_PKG_NAME)-$(MC_PKG_VERSION)-$(MC_PKG_ARCH)-$(MC_PKG_DISTRO_NAME)-$(MC_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -254,4 +255,4 @@ $(pkg_archive): $(install_target) $(MC_PKG_DESCRIPTION_FILE) $(MC_PKG_INSTALL_SC
 	 echo "short_description=\"$(MC_PKG_SHORT_DESCRIPTION)\"" >> $(MC_PKG)/.PKGINFO ; \
 	 echo "url=$(MC_PKG_URL)"                                 >> $(MC_PKG)/.PKGINFO ; \
 	 echo "license=$(MC_PKG_LICENSE)"                         >> $(MC_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(MC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(MC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

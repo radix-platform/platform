@@ -88,6 +88,7 @@ LESS_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LESS_PKG_NAME)-package
 pkg_basename     = $(LESS_PKG_NAME)-$(LESS_PKG_VERSION)-$(LESS_PKG_ARCH)-$(LESS_PKG_DISTRO_NAME)-$(LESS_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -184,4 +185,4 @@ $(pkg_archive): $(install_target) $(LESS_PKG_DESCRIPTION_FILE) $(LESS_PKG_INSTAL
 	 echo "short_description=\"$(LESS_PKG_SHORT_DESCRIPTION)\"" >> $(LESS_PKG)/.PKGINFO ; \
 	 echo "url=$(LESS_PKG_URL)"                                 >> $(LESS_PKG)/.PKGINFO ; \
 	 echo "license=$(LESS_PKG_LICENSE)"                         >> $(LESS_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LESS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LESS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

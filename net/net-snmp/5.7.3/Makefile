@@ -100,6 +100,7 @@ NSNMP_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(NSNMP_PKG_NAME)-package
 pkg_basename     = $(NSNMP_PKG_NAME)-$(NSNMP_PKG_VERSION)-$(NSNMP_PKG_ARCH)-$(NSNMP_PKG_DISTRO_NAME)-$(NSNMP_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -314,4 +315,4 @@ $(pkg_archive): $(install_target) $(NSNMP_PKG_DESCRIPTION_FILE) $(NSNMP_PKG_INST
 	 echo "short_description=\"$(NSNMP_PKG_SHORT_DESCRIPTION)\"" >> $(NSNMP_PKG)/.PKGINFO ; \
 	 echo "url=$(NSNMP_PKG_URL)"                                 >> $(NSNMP_PKG)/.PKGINFO ; \
 	 echo "license=$(NSNMP_PKG_LICENSE)"                         >> $(NSNMP_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(NSNMP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(NSNMP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

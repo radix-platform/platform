@@ -59,6 +59,7 @@ GCRYPT_32_PKG    = $(CURDIR)/$(TARGET_BUILD_DIR)/$(GCRYPT_32_PKG_NAME)-package
 pkg_basename     = $(GCRYPT_32_PKG_NAME)-$(GCRYPT_32_PKG_VERSION)-$(GCRYPT_32_PKG_ARCH)-$(GCRYPT_32_PKG_DISTRO_NAME)-$(GCRYPT_32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -198,4 +199,4 @@ $(pkg_archive): $(install_target) $(GCRYPT_32_PKG_DESCRIPTION_FILE) $(GCRYPT_32_
 	 echo "short_description=\"$(GCRYPT_32_PKG_SHORT_DESCRIPTION)\"" >> $(GCRYPT_32_PKG)/.PKGINFO ; \
 	 echo "url=$(GCRYPT_32_PKG_URL)"                                 >> $(GCRYPT_32_PKG)/.PKGINFO ; \
 	 echo "license=$(GCRYPT_32_PKG_LICENSE)"                         >> $(GCRYPT_32_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(GCRYPT_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GCRYPT_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

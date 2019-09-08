@@ -56,6 +56,7 @@ FFTW_32_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(FFTW_32_PKG_NAME)-package
 pkg_basename      = $(FFTW_32_PKG_NAME)-$(FFTW_32_PKG_VERSION)-$(FFTW_32_PKG_ARCH)-$(FFTW_32_PKG_DISTRO_NAME)-$(FFTW_32_PKG_DISTRO_VERSION)
 
 pkg_archive       = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature     = $(call sign-name,$(pkg_archive))
 pkg_description   = $(call desc-name,$(pkg_archive))
 products          = $(call pkg-files,$(pkg_archive))
@@ -220,4 +221,4 @@ $(pkg_archive): $(install_target) $(FFTW_32_PKG_DESCRIPTION_FILE) $(FFTW_32_PKG_
 	 echo "short_description=\"$(FFTW_32_PKG_SHORT_DESCRIPTION)\"" >> $(FFTW_32_PKG)/.PKGINFO ; \
 	 echo "url=$(FFTW_32_PKG_URL)"                                 >> $(FFTW_32_PKG)/.PKGINFO ; \
 	 echo "license=$(FFTW_32_PKG_LICENSE)"                         >> $(FFTW_32_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(FFTW_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(FFTW_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

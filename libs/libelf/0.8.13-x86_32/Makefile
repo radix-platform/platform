@@ -56,6 +56,7 @@ LIBELF32_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBELF32_PKG_NAME)-package
 pkg_basename     = $(LIBELF32_PKG_NAME)-$(LIBELF32_PKG_VERSION)-$(LIBELF32_PKG_ARCH)-$(LIBELF32_PKG_DISTRO_NAME)-$(LIBELF32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -136,4 +137,4 @@ $(pkg_archive): $(install_target) $(LIBELF32_PKG_DESCRIPTION_FILE) $(LIBELF32_PK
 	 echo "short_description=\"$(LIBELF32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBELF32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBELF32_PKG_URL)"                                 >> $(LIBELF32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBELF32_PKG_LICENSE)"                         >> $(LIBELF32_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBELF32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBELF32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

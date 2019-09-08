@@ -86,6 +86,7 @@ LIBSSH2_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBSSH2_PKG_NAME)-package
 pkg_basename     = $(LIBSSH2_PKG_NAME)-$(LIBSSH2_PKG_VERSION)-$(LIBSSH2_PKG_ARCH)-$(LIBSSH2_PKG_DISTRO_NAME)-$(LIBSSH2_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -217,4 +218,4 @@ $(pkg_archive): $(install_target) $(LIBSSH2_PKG_DESCRIPTION_FILE) $(LIBSSH2_PKG_
 	 echo "short_description=\"$(LIBSSH2_PKG_SHORT_DESCRIPTION)\"" >> $(LIBSSH2_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBSSH2_PKG_URL)"                                 >> $(LIBSSH2_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBSSH2_PKG_LICENSE)"                         >> $(LIBSSH2_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBSSH2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBSSH2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

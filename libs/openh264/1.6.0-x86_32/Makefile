@@ -58,6 +58,7 @@ OPENH264_32_PKG   = $(CURDIR)/$(TARGET_BUILD_DIR)/$(OPENH264_32_PKG_NAME)-packag
 pkg_basename      = $(OPENH264_32_PKG_NAME)-$(OPENH264_32_PKG_VERSION)-$(OPENH264_32_PKG_ARCH)-$(OPENH264_32_PKG_DISTRO_NAME)-$(OPENH264_32_PKG_DISTRO_VERSION)
 
 pkg_archive       = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature     = $(call sign-name,$(pkg_archive))
 pkg_description   = $(call desc-name,$(pkg_archive))
 products          = $(call pkg-files,$(pkg_archive))
@@ -165,4 +166,4 @@ $(pkg_archive): $(install_target) $(OPENH264_32_PKG_DESCRIPTION_FILE) $(OPENH264
 	 echo "short_description=\"$(OPENH264_32_PKG_SHORT_DESCRIPTION)\"" >> $(OPENH264_32_PKG)/.PKGINFO ; \
 	 echo "url=$(OPENH264_32_PKG_URL)"                                 >> $(OPENH264_32_PKG)/.PKGINFO ; \
 	 echo "license=$(OPENH264_32_PKG_LICENSE)"                         >> $(OPENH264_32_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(OPENH264_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(OPENH264_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

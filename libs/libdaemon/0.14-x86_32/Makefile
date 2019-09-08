@@ -58,6 +58,7 @@ LIBDAEMON_32_PKG  = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBDAEMON_32_PKG_NAME)-packa
 pkg_basename      = $(LIBDAEMON_32_PKG_NAME)-$(LIBDAEMON_32_PKG_VERSION)-$(LIBDAEMON_32_PKG_ARCH)-$(LIBDAEMON_32_PKG_DISTRO_NAME)-$(LIBDAEMON_32_PKG_DISTRO_VERSION)
 
 pkg_archive       = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature     = $(call sign-name,$(pkg_archive))
 pkg_description   = $(call desc-name,$(pkg_archive))
 products          = $(call pkg-files,$(pkg_archive))
@@ -154,4 +155,4 @@ $(pkg_archive): $(install_target) $(LIBDAEMON_32_PKG_DESCRIPTION_FILE) $(LIBDAEM
 	 echo "short_description=\"$(LIBDAEMON_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBDAEMON_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBDAEMON_32_PKG_URL)"                                 >> $(LIBDAEMON_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBDAEMON_32_PKG_LICENSE)"                         >> $(LIBDAEMON_32_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBDAEMON_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBDAEMON_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

@@ -104,6 +104,7 @@ PGSQL_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(PGSQL_PKG_NAME)-package
 pkg_basename     = $(PGSQL_PKG_NAME)-$(PGSQL_PKG_VERSION)-$(PGSQL_PKG_ARCH)-$(PGSQL_PKG_DISTRO_NAME)-$(PGSQL_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -435,4 +436,4 @@ $(pkg_archive): $(install_target) $(PGSQL_PKG_DESCRIPTION_FILE) $(PGSQL_PKG_INST
 	                  chown -R root:root .     && \
 	                  chmod 700 var/lib/pgsql  && \
 	                  chown -R $(pg_uid):$(pg_gid) var/lib/pgsql  && \
-	                  $(MAKE_PACKAGE) --linkadd yes .."
+	                  $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

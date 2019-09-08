@@ -54,6 +54,7 @@ JBIGKIT_32_PKG   = $(CURDIR)/$(TARGET_BUILD_DIR)/$(JBIGKIT_32_PKG_NAME)-package
 pkg_basename     = $(JBIGKIT_32_PKG_NAME)-$(JBIGKIT_32_PKG_VERSION)-$(JBIGKIT_32_PKG_ARCH)-$(JBIGKIT_32_PKG_DISTRO_NAME)-$(JBIGKIT_32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -124,4 +125,4 @@ $(pkg_archive): $(install_target) $(JBIGKIT_32_PKG_DESCRIPTION_FILE) $(JBIGKIT_3
 	 echo "short_description=\"$(JBIGKIT_32_PKG_SHORT_DESCRIPTION)\"" >> $(JBIGKIT_32_PKG)/.PKGINFO ; \
 	 echo "url=$(JBIGKIT_32_PKG_URL)"                                 >> $(JBIGKIT_32_PKG)/.PKGINFO ; \
 	 echo "license=$(JBIGKIT_32_PKG_LICENSE)"                         >> $(JBIGKIT_32_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(JBIGKIT_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(JBIGKIT_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

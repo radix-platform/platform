@@ -91,6 +91,7 @@ IPROUTE2_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(IPROUTE2_PKG_NAME)-package
 pkg_basename     = $(IPROUTE2_PKG_NAME)-$(IPROUTE2_PKG_VERSION)-$(IPROUTE2_PKG_ARCH)-$(IPROUTE2_PKG_DISTRO_NAME)-$(IPROUTE2_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -217,4 +218,4 @@ $(pkg_archive): $(install_target) $(IPROUTE2_PKG_DESCRIPTION_FILE) $(IPROUTE2_PK
 	 echo "short_description=\"$(IPROUTE2_PKG_SHORT_DESCRIPTION)\"" >> $(IPROUTE2_PKG)/.PKGINFO ; \
 	 echo "url=$(IPROUTE2_PKG_URL)"                                 >> $(IPROUTE2_PKG)/.PKGINFO ; \
 	 echo "license=$(IPROUTE2_PKG_LICENSE)"                         >> $(IPROUTE2_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(IPROUTE2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(IPROUTE2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

@@ -89,6 +89,7 @@ LIBSNDFILE_PKG   = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBSNDFILE_PKG_NAME)-package
 pkg_basename     = $(LIBSNDFILE_PKG_NAME)-$(LIBSNDFILE_PKG_VERSION)-$(LIBSNDFILE_PKG_ARCH)-$(LIBSNDFILE_PKG_DISTRO_NAME)-$(LIBSNDFILE_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -241,4 +242,4 @@ $(pkg_archive): $(install_target) $(LIBSNDFILE_PKG_DESCRIPTION_FILE) $(LIBSNDFIL
 	 echo "short_description=\"$(LIBSNDFILE_PKG_SHORT_DESCRIPTION)\"" >> $(LIBSNDFILE_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBSNDFILE_PKG_URL)"                                 >> $(LIBSNDFILE_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBSNDFILE_PKG_LICENSE)"                         >> $(LIBSNDFILE_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBSNDFILE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBSNDFILE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

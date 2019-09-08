@@ -90,6 +90,7 @@ WL18XX_BIN_PKG   = $(CURDIR)/$(TARGET_BUILD_DIR)/$(WL18XX_BIN_PKG_NAME)-package
 pkg_basename     = $(WL18XX_BIN_PKG_NAME)-$(WL18XX_BIN_PKG_VERSION)-$(WL18XX_BIN_PKG_ARCH)-$(WL18XX_BIN_PKG_DISTRO_NAME)-$(WL18XX_BIN_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -187,4 +188,4 @@ $(pkg_archive): $(build_wl18xx_pkg) $(WL18XX_BIN_PKG_DESCRIPTION_FILE) $(WL18XX_
 	 echo "short_description=\"$(WL18XX_BIN_PKG_SHORT_DESCRIPTION)\"" >> $(WL18XX_BIN_PKG)/.PKGINFO ; \
 	 echo "url=$(WL18XX_BIN_PKG_URL)"                                 >> $(WL18XX_BIN_PKG)/.PKGINFO ; \
 	 echo "license=$(WL18XX_BIN_PKG_LICENSE)"                         >> $(WL18XX_BIN_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(WL18XX_BIN_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(WL18XX_BIN_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

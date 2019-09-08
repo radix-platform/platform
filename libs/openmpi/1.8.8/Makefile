@@ -90,6 +90,7 @@ OMPI_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(OMPI_PKG_NAME)-package
 pkg_basename     = $(OMPI_PKG_NAME)-$(OMPI_PKG_VERSION)-$(OMPI_PKG_ARCH)-$(OMPI_PKG_DISTRO_NAME)-$(OMPI_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -291,4 +292,4 @@ $(pkg_archive): $(install_target) $(OMPI_PKG_DESCRIPTION_FILE) $(OMPI_PKG_INSTAL
 	 echo "short_description=\"$(OMPI_PKG_SHORT_DESCRIPTION)\"" >> $(OMPI_PKG)/.PKGINFO ; \
 	 echo "url=$(OMPI_PKG_URL)"                                 >> $(OMPI_PKG)/.PKGINFO ; \
 	 echo "license=$(OMPI_PKG_LICENSE)"                         >> $(OMPI_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(OMPI_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(OMPI_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

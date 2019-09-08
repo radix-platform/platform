@@ -59,6 +59,7 @@ AALIB_32_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(AALIB_32_PKG_NAME)-package
 pkg_basename     = $(AALIB_32_PKG_NAME)-$(AALIB_32_PKG_VERSION)-$(AALIB_32_PKG_ARCH)-$(AALIB_32_PKG_DISTRO_NAME)-$(AALIB_32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -177,4 +178,4 @@ $(pkg_archive): $(install_target) $(AALIB_32_PKG_DESCRIPTION_FILE) $(AALIB_32_PK
 	 echo "short_description=\"$(AALIB_32_PKG_SHORT_DESCRIPTION)\"" >> $(AALIB_32_PKG)/.PKGINFO ; \
 	 echo "url=$(AALIB_32_PKG_URL)"                                 >> $(AALIB_32_PKG)/.PKGINFO ; \
 	 echo "license=$(AALIB_32_PKG_LICENSE)"                         >> $(AALIB_32_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(AALIB_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(AALIB_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

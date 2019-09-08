@@ -87,6 +87,7 @@ PIP2_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(PIP2_PKG_NAME)-package
 pkg_basename     = $(PIP2_PKG_NAME)-$(PIP2_PKG_VERSION)-$(PIP2_PKG_ARCH)-$(PIP2_PKG_DISTRO_NAME)-$(PIP2_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -165,4 +166,4 @@ $(pkg_archive): $(install_target) $(PIP2_PKG_DESCRIPTION_FILE) $(PIP2_PKG_INSTAL
 	 echo "short_description=\"$(PIP2_PKG_SHORT_DESCRIPTION)\"" >> $(PIP2_PKG)/.PKGINFO ; \
 	 echo "url=$(PIP2_PKG_URL)"                                 >> $(PIP2_PKG)/.PKGINFO ; \
 	 echo "license=$(PIP2_PKG_LICENSE)"                         >> $(PIP2_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(PIP2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PIP2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

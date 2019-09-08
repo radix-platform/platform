@@ -60,6 +60,7 @@ HELLO_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(HELLO_PKG_NAME)-package
 pkg_basename     = $(HELLO_PKG_NAME)-$(HELLO_PKG_VERSION)-$(HELLO_PKG_ARCH)-$(HELLO_PKG_DISTRO_NAME)-$(HELLO_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)$(if $(FLAVOUR),/$(FLAVOUR))/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -143,4 +144,4 @@ $(pkg_archive): $(install_target) $(HELLO_PKG_DESCRIPTION_FILE) $(HELLO_PKG_INST
 	 echo "short_description=\"$(HELLO_PKG_SHORT_DESCRIPTION)\"" >> $(HELLO_PKG)/.PKGINFO ; \
 	 echo "url=$(HELLO_PKG_URL)"                                 >> $(HELLO_PKG)/.PKGINFO ; \
 	 echo "license=$(HELLO_PKG_LICENSE)"                         >> $(HELLO_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(HELLO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --flavour=$(FLAVOUR) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(HELLO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --flavour=$(FLAVOUR) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

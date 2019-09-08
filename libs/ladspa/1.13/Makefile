@@ -89,6 +89,7 @@ LADSPA_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LADSPA_PKG_NAME)-package
 pkg_basename     = $(LADSPA_PKG_NAME)-$(LADSPA_PKG_VERSION)-$(LADSPA_PKG_ARCH)-$(LADSPA_PKG_DISTRO_NAME)-$(LADSPA_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -195,4 +196,4 @@ $(pkg_archive): $(install_target) $(LADSPA_PKG_DESCRIPTION_FILE) $(LADSPA_PKG_IN
 	 echo "short_description=\"$(LADSPA_PKG_SHORT_DESCRIPTION)\"" >> $(LADSPA_PKG)/.PKGINFO ; \
 	 echo "url=$(LADSPA_PKG_URL)"                                 >> $(LADSPA_PKG)/.PKGINFO ; \
 	 echo "license=$(LADSPA_PKG_LICENSE)"                         >> $(LADSPA_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LADSPA_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LADSPA_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

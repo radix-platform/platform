@@ -86,7 +86,7 @@ post_update() {
 
 # arg 1:  the old package version
 pre_remove() {
-  /bin/true
+  ( cd etc/rc.d ; rm -f rc.0 )
 }
 
 # arg 1:  the old package version

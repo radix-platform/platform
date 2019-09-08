@@ -94,6 +94,7 @@ LIBNL3_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBNL3_PKG_NAME)-package
 pkg_basename     = $(LIBNL3_PKG_NAME)-$(LIBNL3_PKG_VERSION)-$(LIBNL3_PKG_ARCH)-$(LIBNL3_PKG_DISTRO_NAME)-$(LIBNL3_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -253,4 +254,4 @@ $(pkg_archive): $(install_target) $(LIBNL3_PKG_DESCRIPTION_FILE) $(LIBNL3_PKG_IN
 	 echo "short_description=\"$(LIBNL3_PKG_SHORT_DESCRIPTION)\"" >> $(LIBNL3_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBNL3_PKG_URL)"                                 >> $(LIBNL3_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBNL3_PKG_LICENSE)"                         >> $(LIBNL3_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBNL3_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBNL3_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

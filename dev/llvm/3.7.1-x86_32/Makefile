@@ -61,6 +61,7 @@ LLVM_32_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LLVM_32_PKG_NAME)-package
 pkg_basename     = $(LLVM_32_PKG_NAME)-$(LLVM_32_PKG_VERSION)-$(LLVM_32_PKG_ARCH)-$(LLVM_32_PKG_DISTRO_NAME)-$(LLVM_32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -234,4 +235,4 @@ $(pkg_archive): $(install_target) $(LLVM_32_PKG_DESCRIPTION_FILE) $(LLVM_32_PKG_
 	 echo "short_description=\"$(LLVM_32_PKG_SHORT_DESCRIPTION)\"" >> $(LLVM_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LLVM_32_PKG_URL)"                                 >> $(LLVM_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LLVM_32_PKG_LICENSE)"                         >> $(LLVM_32_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LLVM_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LLVM_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

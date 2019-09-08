@@ -94,6 +94,7 @@ LIBSODIUM_PKG    = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBSODIUM_PKG_NAME)-package
 pkg_basename     = $(LIBSODIUM_PKG_NAME)-$(LIBSODIUM_PKG_VERSION)-$(LIBSODIUM_PKG_ARCH)-$(LIBSODIUM_PKG_DISTRO_NAME)-$(LIBSODIUM_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -211,4 +212,4 @@ $(pkg_archive): $(install_target) $(LIBSODIUM_PKG_DESCRIPTION_FILE) $(LIBSODIUM_
 	 echo "short_description=\"$(LIBSODIUM_PKG_SHORT_DESCRIPTION)\"" >> $(LIBSODIUM_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBSODIUM_PKG_URL)"                                 >> $(LIBSODIUM_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBSODIUM_PKG_LICENSE)"                         >> $(LIBSODIUM_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBSODIUM_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBSODIUM_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

@@ -91,6 +91,7 @@ LIBVA_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBVA_PKG_NAME)-package
 pkg_basename     = $(LIBVA_PKG_NAME)-$(LIBVA_PKG_VERSION)-$(LIBVA_PKG_ARCH)-$(LIBVA_PKG_DISTRO_NAME)-$(LIBVA_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -273,4 +274,4 @@ $(pkg_archive): $(install_target) $(LIBVA_PKG_DESCRIPTION_FILE) $(LIBVA_PKG_INST
 	 echo "short_description=\"$(LIBVA_PKG_SHORT_DESCRIPTION)\"" >> $(LIBVA_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBVA_PKG_URL)"                                 >> $(LIBVA_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBVA_PKG_LICENSE)"                         >> $(LIBVA_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBVA_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBVA_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

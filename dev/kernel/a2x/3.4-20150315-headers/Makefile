@@ -64,6 +64,7 @@ KH_DEV_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(KH_DEV_PKG_NAME)-package
 pkg_basename     = $(KH_DEV_PKG_NAME)-$(KH_DEV_PKG_VERSION)-$(KH_DEV_PKG_ARCH)-$(KH_DEV_PKG_DISTRO_NAME)-$(KH_DEV_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -124,4 +125,4 @@ $(pkg_archive): $(build_kh_pkg) $(KH_DEV_PKG_DESCRIPTION_FILE) $(KH_DEV_PKG_INST
 	 echo "short_description=\"$(KH_DEV_PKG_SHORT_DESCRIPTION)\"" >> $(KH_DEV_PKG)/.PKGINFO ; \
 	 echo "url=$(KH_DEV_PKG_URL)"                                 >> $(KH_DEV_PKG)/.PKGINFO ; \
 	 echo "license=$(KH_DEV_PKG_LICENSE)"                         >> $(KH_DEV_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(KH_DEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(KH_DEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

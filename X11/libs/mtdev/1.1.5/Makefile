@@ -94,6 +94,7 @@ MTDEV_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(MTDEV_PKG_NAME)-package
 pkg_basename     = $(MTDEV_PKG_NAME)-$(MTDEV_PKG_VERSION)-$(MTDEV_PKG_ARCH)-$(MTDEV_PKG_DISTRO_NAME)-$(MTDEV_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -217,4 +218,4 @@ $(pkg_archive): $(install_target) $(MTDEV_PKG_DESCRIPTION_FILE) $(MTDEV_PKG_INST
 	 echo "short_description=\"$(MTDEV_PKG_SHORT_DESCRIPTION)\"" >> $(MTDEV_PKG)/.PKGINFO ; \
 	 echo "url=$(MTDEV_PKG_URL)"                                 >> $(MTDEV_PKG)/.PKGINFO ; \
 	 echo "license=$(MTDEV_PKG_LICENSE)"                         >> $(MTDEV_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(MTDEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(MTDEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

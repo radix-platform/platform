@@ -94,6 +94,7 @@ MTOOLS_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(MTOOLS_PKG_NAME)-package
 pkg_basename     = $(MTOOLS_PKG_NAME)-$(MTOOLS_PKG_VERSION)-$(MTOOLS_PKG_ARCH)-$(MTOOLS_PKG_DISTRO_NAME)-$(MTOOLS_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -211,4 +212,4 @@ $(pkg_archive): $(install_target) $(MTOOLS_PKG_DESCRIPTION_FILE) $(MTOOLS_PKG_IN
 	 echo "short_description=\"$(MTOOLS_PKG_SHORT_DESCRIPTION)\"" >> $(MTOOLS_PKG)/.PKGINFO ; \
 	 echo "url=$(MTOOLS_PKG_URL)"                                 >> $(MTOOLS_PKG)/.PKGINFO ; \
 	 echo "license=$(MTOOLS_PKG_LICENSE)"                         >> $(MTOOLS_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(MTOOLS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(MTOOLS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

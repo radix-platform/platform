@@ -92,6 +92,7 @@ LIBTIFF_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBTIFF_PKG_NAME)-package
 pkg_basename     = $(LIBTIFF_PKG_NAME)-$(LIBTIFF_PKG_VERSION)-$(LIBTIFF_PKG_ARCH)-$(LIBTIFF_PKG_DISTRO_NAME)-$(LIBTIFF_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -233,4 +234,4 @@ $(pkg_archive): $(install_target) $(LIBTIFF_PKG_DESCRIPTION_FILE) $(LIBTIFF_PKG_
 	 echo "short_description=\"$(LIBTIFF_PKG_SHORT_DESCRIPTION)\"" >> $(LIBTIFF_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBTIFF_PKG_URL)"                                 >> $(LIBTIFF_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBTIFF_PKG_LICENSE)"                         >> $(LIBTIFF_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBTIFF_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBTIFF_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

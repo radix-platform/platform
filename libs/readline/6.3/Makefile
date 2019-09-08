@@ -87,6 +87,7 @@ READLINE_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(READLINE_PKG_NAME)-package
 pkg_basename     = $(READLINE_PKG_NAME)-$(READLINE_PKG_VERSION)-$(READLINE_PKG_ARCH)-$(READLINE_PKG_DISTRO_NAME)-$(READLINE_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -201,4 +202,4 @@ $(pkg_archive): $(install_target) $(READLINE_PKG_DESCRIPTION_FILE) $(READLINE_PK
 	 echo "short_description=\"$(READLINE_PKG_SHORT_DESCRIPTION)\"" >> $(READLINE_PKG)/.PKGINFO ; \
 	 echo "url=$(READLINE_PKG_URL)"                                 >> $(READLINE_PKG)/.PKGINFO ; \
 	 echo "license=$(READLINE_PKG_LICENSE)"                         >> $(READLINE_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(READLINE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(READLINE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

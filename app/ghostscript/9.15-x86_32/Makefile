@@ -62,6 +62,7 @@ GS_32_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(GS_32_PKG_NAME)-package
 pkg_basename     = $(GS_32_PKG_NAME)-$(GS_32_PKG_VERSION)-$(GS_32_PKG_ARCH)-$(GS_32_PKG_DISTRO_NAME)-$(GS_32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -230,4 +231,4 @@ $(pkg_archive): $(install_target) $(GS_32_PKG_DESCRIPTION_FILE) $(GS_32_PKG_INST
 	 echo "short_description=\"$(GS_32_PKG_SHORT_DESCRIPTION)\"" >> $(GS_32_PKG)/.PKGINFO ; \
 	 echo "url=$(GS_32_PKG_URL)"                                 >> $(GS_32_PKG)/.PKGINFO ; \
 	 echo "license=$(GS_32_PKG_LICENSE)"                         >> $(GS_32_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(GS_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GS_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

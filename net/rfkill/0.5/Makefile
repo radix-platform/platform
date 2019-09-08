@@ -89,6 +89,7 @@ RFKILL_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(RFKILL_PKG_NAME)-package
 pkg_basename     = $(RFKILL_PKG_NAME)-$(RFKILL_PKG_VERSION)-$(RFKILL_PKG_ARCH)-$(RFKILL_PKG_DISTRO_NAME)-$(RFKILL_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -167,4 +168,4 @@ $(pkg_archive): $(install_target) $(RFKILL_PKG_DESCRIPTION_FILE) $(RFKILL_PKG_IN
 	 echo "short_description=\"$(RFKILL_PKG_SHORT_DESCRIPTION)\"" >> $(RFKILL_PKG)/.PKGINFO ; \
 	 echo "url=$(RFKILL_PKG_URL)"                                 >> $(RFKILL_PKG)/.PKGINFO ; \
 	 echo "license=$(RFKILL_PKG_LICENSE)"                         >> $(RFKILL_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(RFKILL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(RFKILL_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

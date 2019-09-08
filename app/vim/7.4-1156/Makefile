@@ -101,6 +101,7 @@ VIM_PKG          = $(CURDIR)/$(TARGET_BUILD_DIR)/$(VIM_PKG_NAME)-package
 pkg_basename     = $(VIM_PKG_NAME)-$(VIM_PKG_VERSION)-$(VIM_PKG_ARCH)-$(VIM_PKG_DISTRO_NAME)-$(VIM_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -290,4 +291,4 @@ $(pkg_archive): $(install_target) $(VIM_PKG_DESCRIPTION_FILE) $(VIM_PKG_INSTALL_
 	 echo "short_description=\"$(VIM_PKG_SHORT_DESCRIPTION)\"" >> $(VIM_PKG)/.PKGINFO ; \
 	 echo "url=$(VIM_PKG_URL)"                                 >> $(VIM_PKG)/.PKGINFO ; \
 	 echo "license=$(VIM_PKG_LICENSE)"                         >> $(VIM_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(VIM_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(VIM_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

@@ -86,6 +86,7 @@ LIBAVC1394_PKG   = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBAVC1394_PKG_NAME)-package
 pkg_basename     = $(LIBAVC1394_PKG_NAME)-$(LIBAVC1394_PKG_VERSION)-$(LIBAVC1394_PKG_ARCH)-$(LIBAVC1394_PKG_DISTRO_NAME)-$(LIBAVC1394_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -233,4 +234,4 @@ $(pkg_archive): $(install_target) $(LIBAVC1394_PKG_DESCRIPTION_FILE) $(LIBAVC139
 	 echo "short_description=\"$(LIBAVC1394_PKG_SHORT_DESCRIPTION)\"" >> $(LIBAVC1394_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBAVC1394_PKG_URL)"                                 >> $(LIBAVC1394_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBAVC1394_PKG_LICENSE)"                         >> $(LIBAVC1394_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBAVC1394_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBAVC1394_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

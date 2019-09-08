@@ -94,6 +94,7 @@ PARANOIA_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(PARANOIA_PKG_NAME)-package
 pkg_basename     = $(PARANOIA_PKG_NAME)-$(PARANOIA_PKG_VERSION)-$(PARANOIA_PKG_ARCH)-$(PARANOIA_PKG_DISTRO_NAME)-$(PARANOIA_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -224,4 +225,4 @@ $(pkg_archive): $(install_target) $(PARANOIA_PKG_DESCRIPTION_FILE) $(PARANOIA_PK
 	 echo "short_description=\"$(PARANOIA_PKG_SHORT_DESCRIPTION)\"" >> $(PARANOIA_PKG)/.PKGINFO ; \
 	 echo "url=$(PARANOIA_PKG_URL)"                                 >> $(PARANOIA_PKG)/.PKGINFO ; \
 	 echo "license=$(PARANOIA_PKG_LICENSE)"                         >> $(PARANOIA_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(PARANOIA_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PARANOIA_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

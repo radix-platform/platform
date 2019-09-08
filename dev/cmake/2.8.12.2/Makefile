@@ -97,6 +97,7 @@ CMAKE_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(CMAKE_PKG_NAME)-package
 pkg_basename     = $(CMAKE_PKG_NAME)-$(CMAKE_PKG_VERSION)-$(CMAKE_PKG_ARCH)-$(CMAKE_PKG_DISTRO_NAME)-$(CMAKE_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -224,4 +225,4 @@ $(pkg_archive): $(install_target) $(CMAKE_PKG_DESCRIPTION_FILE) $(CMAKE_PKG_INST
 	 echo "short_description=\"$(CMAKE_PKG_SHORT_DESCRIPTION)\"" >> $(CMAKE_PKG)/.PKGINFO ; \
 	 echo "url=$(CMAKE_PKG_URL)"                                 >> $(CMAKE_PKG)/.PKGINFO ; \
 	 echo "license=$(CMAKE_PKG_LICENSE)"                         >> $(CMAKE_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(CMAKE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(CMAKE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

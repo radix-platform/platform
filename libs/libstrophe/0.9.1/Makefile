@@ -87,6 +87,7 @@ LIBSTROPHE_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBSTROPHE_PKG_NAME)-packag
 pkg_basename       = $(LIBSTROPHE_PKG_NAME)-$(LIBSTROPHE_PKG_VERSION)-$(LIBSTROPHE_PKG_ARCH)-$(LIBSTROPHE_PKG_DISTRO_NAME)-$(LIBSTROPHE_PKG_DISTRO_VERSION)
 
 pkg_archive        = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature      = $(call sign-name,$(pkg_archive))
 pkg_description    = $(call desc-name,$(pkg_archive))
 products           = $(call pkg-files,$(pkg_archive))
@@ -223,4 +224,4 @@ $(pkg_archive): $(install_target) $(LIBSTROPHE_PKG_DESCRIPTION_FILE) $(LIBSTROPH
 	 echo "short_description=\"$(LIBSTROPHE_PKG_SHORT_DESCRIPTION)\"" >> $(LIBSTROPHE_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBSTROPHE_PKG_URL)"                                 >> $(LIBSTROPHE_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBSTROPHE_PKG_LICENSE)"                         >> $(LIBSTROPHE_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBSTROPHE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBSTROPHE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

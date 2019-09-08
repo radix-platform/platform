@@ -86,6 +86,7 @@ ALSA_LIB_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(ALSA_LIB_PKG_NAME)-package
 pkg_basename     = $(ALSA_LIB_PKG_NAME)-$(ALSA_LIB_PKG_VERSION)-$(ALSA_LIB_PKG_ARCH)-$(ALSA_LIB_PKG_DISTRO_NAME)-$(ALSA_LIB_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -223,4 +224,4 @@ $(pkg_archive): $(install_target) $(ALSA_LIB_PKG_DESCRIPTION_FILE) $(ALSA_LIB_PK
 	 echo "short_description=\"$(ALSA_LIB_PKG_SHORT_DESCRIPTION)\"" >> $(ALSA_LIB_PKG)/.PKGINFO ; \
 	 echo "url=$(ALSA_LIB_PKG_URL)"                                 >> $(ALSA_LIB_PKG)/.PKGINFO ; \
 	 echo "license=$(ALSA_LIB_PKG_LICENSE)"                         >> $(ALSA_LIB_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(ALSA_LIB_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ALSA_LIB_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

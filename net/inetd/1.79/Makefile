@@ -95,6 +95,7 @@ INETD_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(INETD_PKG_NAME)-package
 pkg_basename     = $(INETD_PKG_NAME)-$(INETD_PKG_VERSION)-$(INETD_PKG_ARCH)-$(INETD_PKG_DISTRO_NAME)-$(INETD_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -165,4 +166,4 @@ $(pkg_archive): $(install_target) $(INETD_PKG_DESCRIPTION_FILE) $(INETD_PKG_INST
 	 echo "short_description=\"$(INETD_PKG_SHORT_DESCRIPTION)\"" >> $(INETD_PKG)/.PKGINFO ; \
 	 echo "url=$(INETD_PKG_URL)"                                 >> $(INETD_PKG)/.PKGINFO ; \
 	 echo "license=$(INETD_PKG_LICENSE)"                         >> $(INETD_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(INETD_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(INETD_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

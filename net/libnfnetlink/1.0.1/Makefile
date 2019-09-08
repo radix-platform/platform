@@ -94,6 +94,7 @@ LIBNFNETLINK_PKG = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBNFNETLINK_PKG_NAME)-packag
 pkg_basename     = $(LIBNFNETLINK_PKG_NAME)-$(LIBNFNETLINK_PKG_VERSION)-$(LIBNFNETLINK_PKG_ARCH)-$(LIBNFNETLINK_PKG_DISTRO_NAME)-$(LIBNFNETLINK_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -210,4 +211,4 @@ $(pkg_archive): $(install_target) $(LIBNFNETLINK_PKG_DESCRIPTION_FILE) $(LIBNFNE
 	 echo "short_description=\"$(LIBNFNETLINK_PKG_SHORT_DESCRIPTION)\"" >> $(LIBNFNETLINK_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBNFNETLINK_PKG_URL)"                                 >> $(LIBNFNETLINK_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBNFNETLINK_PKG_LICENSE)"                         >> $(LIBNFNETLINK_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBNFNETLINK_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBNFNETLINK_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

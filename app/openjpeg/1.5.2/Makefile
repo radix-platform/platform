@@ -91,6 +91,7 @@ OPENJPEG_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(OPENJPEG_PKG_NAME)-package
 pkg_basename     = $(OPENJPEG_PKG_NAME)-$(OPENJPEG_PKG_VERSION)-$(OPENJPEG_PKG_ARCH)-$(OPENJPEG_PKG_DISTRO_NAME)-$(OPENJPEG_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -241,4 +242,4 @@ $(pkg_archive): $(install_target) $(OPENJPEG_PKG_DESCRIPTION_FILE) $(OPENJPEG_PK
 	 echo "short_description=\"$(OPENJPEG_PKG_SHORT_DESCRIPTION)\"" >> $(OPENJPEG_PKG)/.PKGINFO ; \
 	 echo "url=$(OPENJPEG_PKG_URL)"                                 >> $(OPENJPEG_PKG)/.PKGINFO ; \
 	 echo "license=$(OPENJPEG_PKG_LICENSE)"                         >> $(OPENJPEG_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(OPENJPEG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(OPENJPEG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

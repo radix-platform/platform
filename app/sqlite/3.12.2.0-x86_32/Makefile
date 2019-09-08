@@ -58,6 +58,7 @@ SQLITE_32_PKG    = $(CURDIR)/$(TARGET_BUILD_DIR)/$(SQLITE_32_PKG_NAME)-package
 pkg_basename     = $(SQLITE_32_PKG_NAME)-$(SQLITE_32_PKG_VERSION)-$(SQLITE_32_PKG_ARCH)-$(SQLITE_32_PKG_DISTRO_NAME)-$(SQLITE_32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -161,4 +162,4 @@ $(pkg_archive): $(install_target) $(SQLITE_32_PKG_DESCRIPTION_FILE) $(SQLITE_32_
 	 echo "short_description=\"$(SQLITE_32_PKG_SHORT_DESCRIPTION)\"" >> $(SQLITE_32_PKG)/.PKGINFO ; \
 	 echo "url=$(SQLITE_32_PKG_URL)"                                 >> $(SQLITE_32_PKG)/.PKGINFO ; \
 	 echo "license=$(SQLITE_32_PKG_LICENSE)"                         >> $(SQLITE_32_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(SQLITE_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SQLITE_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

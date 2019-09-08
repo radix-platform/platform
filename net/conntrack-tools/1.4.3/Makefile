@@ -96,6 +96,7 @@ CONNTRACK_TOOLS_PKG = $(CURDIR)/$(TARGET_BUILD_DIR)/$(CONNTRACK_TOOLS_PKG_NAME)-
 pkg_basename        = $(CONNTRACK_TOOLS_PKG_NAME)-$(CONNTRACK_TOOLS_PKG_VERSION)-$(CONNTRACK_TOOLS_PKG_ARCH)-$(CONNTRACK_TOOLS_PKG_DISTRO_NAME)-$(CONNTRACK_TOOLS_PKG_DISTRO_VERSION)
 
 pkg_archive         = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature       = $(call sign-name,$(pkg_archive))
 pkg_description     = $(call desc-name,$(pkg_archive))
 products            = $(call pkg-files,$(pkg_archive))
@@ -242,4 +243,4 @@ $(pkg_archive): $(install_target) $(CONNTRACK_TOOLS_PKG_DESCRIPTION_FILE) $(CONN
 	 echo "short_description=\"$(CONNTRACK_TOOLS_PKG_SHORT_DESCRIPTION)\"" >> $(CONNTRACK_TOOLS_PKG)/.PKGINFO ; \
 	 echo "url=$(CONNTRACK_TOOLS_PKG_URL)"                                 >> $(CONNTRACK_TOOLS_PKG)/.PKGINFO ; \
 	 echo "license=$(CONNTRACK_TOOLS_PKG_LICENSE)"                         >> $(CONNTRACK_TOOLS_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(CONNTRACK_TOOLS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(CONNTRACK_TOOLS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

@@ -85,6 +85,7 @@ DOSFS_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(DOSFS_PKG_NAME)-package
 pkg_basename     = $(DOSFS_PKG_NAME)-$(DOSFS_PKG_VERSION)-$(DOSFS_PKG_ARCH)-$(DOSFS_PKG_DISTRO_NAME)-$(DOSFS_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -174,4 +175,4 @@ $(pkg_archive): $(install_target) $(DOSFS_PKG_DESCRIPTION_FILE) $(DOSFS_PKG_INST
 	 echo "short_description=\"$(DOSFS_PKG_SHORT_DESCRIPTION)\"" >> $(DOSFS_PKG)/.PKGINFO ; \
 	 echo "url=$(DOSFS_PKG_URL)"                                 >> $(DOSFS_PKG)/.PKGINFO ; \
 	 echo "license=$(DOSFS_PKG_LICENSE)"                         >> $(DOSFS_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(DOSFS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(DOSFS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

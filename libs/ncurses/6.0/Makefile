@@ -92,6 +92,7 @@ NCURSES_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(NCURSES_PKG_NAME)-package
 pkg_basename     = $(NCURSES_PKG_NAME)-$(NCURSES_PKG_VERSION)-$(NCURSES_PKG_ARCH)-$(NCURSES_PKG_DISTRO_NAME)-$(NCURSES_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -310,4 +311,4 @@ $(pkg_archive): $(install_widec_target) $(NCURSES_PKG_DESCRIPTION_FILE) $(NCURSE
 	 echo "short_description=\"$(NCURSES_PKG_SHORT_DESCRIPTION)\"" >> $(NCURSES_PKG)/.PKGINFO ; \
 	 echo "url=$(NCURSES_PKG_URL)"                                 >> $(NCURSES_PKG)/.PKGINFO ; \
 	 echo "license=$(NCURSES_PKG_LICENSE)"                         >> $(NCURSES_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(NCURSES_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(NCURSES_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

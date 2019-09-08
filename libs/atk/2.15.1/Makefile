@@ -86,6 +86,7 @@ ATK_PKG          = $(CURDIR)/$(TARGET_BUILD_DIR)/$(ATK_PKG_NAME)-package
 pkg_basename     = $(ATK_PKG_NAME)-$(ATK_PKG_VERSION)-$(ATK_PKG_ARCH)-$(ATK_PKG_DISTRO_NAME)-$(ATK_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -230,4 +231,4 @@ $(pkg_archive): $(install_target) $(ATK_PKG_DESCRIPTION_FILE) $(ATK_PKG_INSTALL_
 	 echo "short_description=\"$(ATK_PKG_SHORT_DESCRIPTION)\"" >> $(ATK_PKG)/.PKGINFO ; \
 	 echo "url=$(ATK_PKG_URL)"                                 >> $(ATK_PKG)/.PKGINFO ; \
 	 echo "license=$(ATK_PKG_LICENSE)"                         >> $(ATK_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(ATK_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ATK_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

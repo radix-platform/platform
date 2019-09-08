@@ -87,6 +87,7 @@ GLADE2_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(GLADE2_PKG_NAME)-package
 pkg_basename     = $(GLADE2_PKG_NAME)-$(GLADE2_PKG_VERSION)-$(GLADE2_PKG_ARCH)-$(GLADE2_PKG_DISTRO_NAME)-$(GLADE2_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -208,4 +209,4 @@ $(pkg_archive): $(install_target) $(GLADE2_PKG_DESCRIPTION_FILE) $(GLADE2_PKG_IN
 	 echo "short_description=\"$(GLADE2_PKG_SHORT_DESCRIPTION)\"" >> $(GLADE2_PKG)/.PKGINFO ; \
 	 echo "url=$(GLADE2_PKG_URL)"                                 >> $(GLADE2_PKG)/.PKGINFO ; \
 	 echo "license=$(GLADE2_PKG_LICENSE)"                         >> $(GLADE2_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(GLADE2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GLADE2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

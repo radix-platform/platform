@@ -75,6 +75,7 @@ GCC_RT_DEV_PKG   = $(CURDIR)/$(TARGET_BUILD_DIR)/$(GCC_RT_DEV_PKG_NAME)-package
 pkg_basename     = $(GCC_RT_DEV_PKG_NAME)-$(GCC_RT_DEV_PKG_VERSION)-$(GCC_RT_DEV_PKG_ARCH)-$(GCC_RT_DEV_PKG_DISTRO_NAME)-$(GCC_RT_DEV_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -201,4 +202,4 @@ $(pkg_archive): $(build_gcc_rt_pkg) $(GCC_RT_DEV_PKG_DESCRIPTION_FILE) $(GCC_RT_
 	 echo "short_description=\"$(GCC_RT_DEV_PKG_SHORT_DESCRIPTION)\"" >> $(GCC_RT_DEV_PKG)/.PKGINFO ; \
 	 echo "url=$(GCC_RT_DEV_PKG_URL)"                                 >> $(GCC_RT_DEV_PKG)/.PKGINFO ; \
 	 echo "license=$(GCC_RT_DEV_PKG_LICENSE)"                         >> $(GCC_RT_DEV_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(GCC_RT_DEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GCC_RT_DEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

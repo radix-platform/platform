@@ -56,6 +56,7 @@ LIBOGG_32_PKG    = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBOGG_32_PKG_NAME)-package
 pkg_basename     = $(LIBOGG_32_PKG_NAME)-$(LIBOGG_32_PKG_VERSION)-$(LIBOGG_32_PKG_ARCH)-$(LIBOGG_32_PKG_DISTRO_NAME)-$(LIBOGG_32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -146,4 +147,4 @@ $(pkg_archive): $(install_target) $(LIBOGG_32_PKG_DESCRIPTION_FILE) $(LIBOGG_32_
 	 echo "short_description=\"$(LIBOGG_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBOGG_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBOGG_32_PKG_URL)"                                 >> $(LIBOGG_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBOGG_32_PKG_LICENSE)"                         >> $(LIBOGG_32_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBOGG_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBOGG_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

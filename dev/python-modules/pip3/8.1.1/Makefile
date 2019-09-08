@@ -88,6 +88,7 @@ PIP3_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(PIP3_PKG_NAME)-package
 pkg_basename     = $(PIP3_PKG_NAME)-$(PIP3_PKG_VERSION)-$(PIP3_PKG_ARCH)-$(PIP3_PKG_DISTRO_NAME)-$(PIP3_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -168,4 +169,4 @@ $(pkg_archive): $(install_target) $(PIP3_PKG_DESCRIPTION_FILE) $(PIP3_PKG_INSTAL
 	 echo "short_description=\"$(PIP3_PKG_SHORT_DESCRIPTION)\"" >> $(PIP3_PKG)/.PKGINFO ; \
 	 echo "url=$(PIP3_PKG_URL)"                                 >> $(PIP3_PKG)/.PKGINFO ; \
 	 echo "license=$(PIP3_PKG_LICENSE)"                         >> $(PIP3_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(PIP3_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PIP3_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

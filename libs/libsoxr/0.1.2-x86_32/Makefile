@@ -59,6 +59,7 @@ LIBSOXR_32_PKG   = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBSOXR_32_PKG_NAME)-package
 pkg_basename     = $(LIBSOXR_32_PKG_NAME)-$(LIBSOXR_32_PKG_VERSION)-$(LIBSOXR_32_PKG_ARCH)-$(LIBSOXR_32_PKG_DISTRO_NAME)-$(LIBSOXR_32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -180,4 +181,4 @@ $(pkg_archive): $(install_target) $(LIBSOXR_32_PKG_DESCRIPTION_FILE) $(LIBSOXR_3
 	 echo "short_description=\"$(LIBSOXR_32_PKG_SHORT_DESCRIPTION)\"" >> $(LIBSOXR_32_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBSOXR_32_PKG_URL)"                                 >> $(LIBSOXR_32_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBSOXR_32_PKG_LICENSE)"                         >> $(LIBSOXR_32_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBSOXR_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBSOXR_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

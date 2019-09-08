@@ -94,6 +94,7 @@ LIBIODBC_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBIODBC_PKG_NAME)-package
 pkg_basename     = $(LIBIODBC_PKG_NAME)-$(LIBIODBC_PKG_VERSION)-$(LIBIODBC_PKG_ARCH)-$(LIBIODBC_PKG_DISTRO_NAME)-$(LIBIODBC_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -241,4 +242,4 @@ $(pkg_archive): $(install_target) $(LIBIODBC_PKG_DESCRIPTION_FILE) $(LIBIODBC_PK
 	 echo "short_description=\"$(LIBIODBC_PKG_SHORT_DESCRIPTION)\"" >> $(LIBIODBC_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBIODBC_PKG_URL)"                                 >> $(LIBIODBC_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBIODBC_PKG_LICENSE)"                         >> $(LIBIODBC_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBIODBC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBIODBC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

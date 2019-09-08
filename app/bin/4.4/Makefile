@@ -115,6 +115,7 @@ CMDUTILS_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(CMDUTILS_PKG_NAME)-package
 pkg_basename     = $(CMDUTILS_PKG_NAME)-$(CMDUTILS_PKG_VERSION)-$(CMDUTILS_PKG_ARCH)-$(CMDUTILS_PKG_DISTRO_NAME)-$(CMDUTILS_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -279,4 +280,4 @@ $(pkg_archive): $(install_target) $(CMDUTILS_PKG_DESCRIPTION_FILE) $(CMDUTILS_PK
 	 echo "short_description=\"$(CMDUTILS_PKG_SHORT_DESCRIPTION)\"" >> $(CMDUTILS_PKG)/.PKGINFO ; \
 	 echo "url=$(CMDUTILS_PKG_URL)"                                 >> $(CMDUTILS_PKG)/.PKGINFO ; \
 	 echo "license=$(CMDUTILS_PKG_LICENSE)"                         >> $(CMDUTILS_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(CMDUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(CMDUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

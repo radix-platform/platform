@@ -86,6 +86,7 @@ RSH_PKG          = $(CURDIR)/$(TARGET_BUILD_DIR)/$(RSH_PKG_NAME)-package
 pkg_basename     = $(RSH_PKG_NAME)-$(RSH_PKG_VERSION)-$(RSH_PKG_ARCH)-$(RSH_PKG_DISTRO_NAME)-$(RSH_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -190,4 +191,4 @@ $(pkg_archive): $(install_target) $(RSH_PKG_DESCRIPTION_FILE) $(RSH_PKG_INSTALL_
 	 echo "short_description=\"$(RSH_PKG_SHORT_DESCRIPTION)\"" >> $(RSH_PKG)/.PKGINFO ; \
 	 echo "url=$(RSH_PKG_URL)"                                 >> $(RSH_PKG)/.PKGINFO ; \
 	 echo "license=$(RSH_PKG_LICENSE)"                         >> $(RSH_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(RSH_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(RSH_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

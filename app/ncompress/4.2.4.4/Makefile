@@ -88,6 +88,7 @@ NCOMPRESS_PKG    = $(CURDIR)/$(TARGET_BUILD_DIR)/$(NCOMPRESS_PKG_NAME)-package
 pkg_basename     = $(NCOMPRESS_PKG_NAME)-$(NCOMPRESS_PKG_VERSION)-$(NCOMPRESS_PKG_ARCH)-$(NCOMPRESS_PKG_DISTRO_NAME)-$(NCOMPRESS_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -164,4 +165,4 @@ $(pkg_archive): $(install_target) $(NCOMPRESS_PKG_DESCRIPTION_FILE) $(NCOMPRESS_
 	 echo "short_description=\"$(NCOMPRESS_PKG_SHORT_DESCRIPTION)\"" >> $(NCOMPRESS_PKG)/.PKGINFO ; \
 	 echo "url=$(NCOMPRESS_PKG_URL)"                                 >> $(NCOMPRESS_PKG)/.PKGINFO ; \
 	 echo "license=$(NCOMPRESS_PKG_LICENSE)"                         >> $(NCOMPRESS_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(NCOMPRESS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(NCOMPRESS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

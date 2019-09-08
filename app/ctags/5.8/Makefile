@@ -94,6 +94,7 @@ CTAGS_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(CTAGS_PKG_NAME)-package
 pkg_basename     = $(CTAGS_PKG_NAME)-$(CTAGS_PKG_VERSION)-$(CTAGS_PKG_ARCH)-$(CTAGS_PKG_DISTRO_NAME)-$(CTAGS_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -184,4 +185,4 @@ $(pkg_archive): $(install_target) $(CTAGS_PKG_DESCRIPTION_FILE) $(CTAGS_PKG_INST
 	 echo "short_description=\"$(CTAGS_PKG_SHORT_DESCRIPTION)\"" >> $(CTAGS_PKG)/.PKGINFO ; \
 	 echo "url=$(CTAGS_PKG_URL)"                                 >> $(CTAGS_PKG)/.PKGINFO ; \
 	 echo "license=$(CTAGS_PKG_LICENSE)"                         >> $(CTAGS_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(CTAGS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(CTAGS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

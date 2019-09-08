@@ -91,6 +91,7 @@ DIALOG_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(DIALOG_PKG_NAME)-package
 pkg_basename     = $(DIALOG_PKG_NAME)-$(DIALOG_PKG_VERSION)-$(DIALOG_PKG_ARCH)-$(DIALOG_PKG_DISTRO_NAME)-$(DIALOG_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -229,5 +230,5 @@ $(pkg_archive): $(install_target) $(DIALOG_PKG_DESCRIPTION_FILE) $(DIALOG_PKG_IN
 	 echo "short_description=\"$(DIALOG_PKG_SHORT_DESCRIPTION)\"" >> $(DIALOG_PKG)/.PKGINFO ; \
 	 echo "url=$(DIALOG_PKG_URL)"                                 >> $(DIALOG_PKG)/.PKGINFO ; \
 	 echo "license=$(DIALOG_PKG_LICENSE)"                         >> $(DIALOG_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(DIALOG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(DIALOG_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."
 	@touch $@

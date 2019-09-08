@@ -57,6 +57,7 @@ DIRAC_32_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(DIRAC_32_PKG_NAME)-package
 pkg_basename     = $(DIRAC_32_PKG_NAME)-$(DIRAC_32_PKG_VERSION)-$(DIRAC_32_PKG_ARCH)-$(DIRAC_32_PKG_DISTRO_NAME)-$(DIRAC_32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -171,4 +172,4 @@ $(pkg_archive): $(install_target) $(DIRAC_32_PKG_DESCRIPTION_FILE) $(DIRAC_32_PK
 	 echo "short_description=\"$(DIRAC_32_PKG_SHORT_DESCRIPTION)\"" >> $(DIRAC_32_PKG)/.PKGINFO ; \
 	 echo "url=$(DIRAC_32_PKG_URL)"                                 >> $(DIRAC_32_PKG)/.PKGINFO ; \
 	 echo "license=$(DIRAC_32_PKG_LICENSE)"                         >> $(DIRAC_32_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(DIRAC_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(DIRAC_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

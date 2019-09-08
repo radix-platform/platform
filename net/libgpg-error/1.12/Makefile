@@ -60,6 +60,7 @@ GPGERROR_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(GPGERROR_PKG_NAME)-package
 pkg_basename     = $(GPGERROR_PKG_NAME)-$(GPGERROR_PKG_VERSION)-$(GPGERROR_PKG_ARCH)-$(GPGERROR_PKG_DISTRO_NAME)-$(GPGERROR_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -169,4 +170,4 @@ $(pkg_archive): $(install_target) $(GPGERROR_PKG_DESCRIPTION_FILE) $(GPGERROR_PK
 	 echo "short_description=\"$(GPGERROR_PKG_SHORT_DESCRIPTION)\"" >> $(GPGERROR_PKG)/.PKGINFO ; \
 	 echo "url=$(GPGERROR_PKG_URL)"                                 >> $(GPGERROR_PKG)/.PKGINFO ; \
 	 echo "license=$(GPGERROR_PKG_LICENSE)"                         >> $(GPGERROR_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(GPGERROR_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GPGERROR_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

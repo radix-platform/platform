@@ -90,6 +90,7 @@ DIFFUTILS_PKG    = $(CURDIR)/$(TARGET_BUILD_DIR)/$(DIFFUTILS_PKG_NAME)-package
 pkg_basename     = $(DIFFUTILS_PKG_NAME)-$(DIFFUTILS_PKG_VERSION)-$(DIFFUTILS_PKG_ARCH)-$(DIFFUTILS_PKG_DISTRO_NAME)-$(DIFFUTILS_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -199,4 +200,4 @@ $(pkg_archive): $(install_target) $(DIFFUTILS_PKG_DESCRIPTION_FILE) $(DIFFUTILS_
 	 echo "short_description=\"$(DIFFUTILS_PKG_SHORT_DESCRIPTION)\"" >> $(DIFFUTILS_PKG)/.PKGINFO ; \
 	 echo "url=$(DIFFUTILS_PKG_URL)"                                 >> $(DIFFUTILS_PKG)/.PKGINFO ; \
 	 echo "license=$(DIFFUTILS_PKG_LICENSE)"                         >> $(DIFFUTILS_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(DIFFUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(DIFFUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

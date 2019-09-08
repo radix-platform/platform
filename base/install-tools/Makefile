@@ -92,16 +92,17 @@ dialogrc = $(BUILDSYSTEM)/pkgtool/dialogrc
 
 build = $(TARGET_BUILD_DIR)/.done
 
-pkg_basename    = $(SETUP_DEV_PKG_NAME)-$(SETUP_DEV_PKG_VERSION)-$(SETUP_DEV_PKG_ARCH)-$(SETUP_DEV_PKG_DISTRO_NAME)-$(SETUP_DEV_PKG_DISTRO_VERSION)
+pkg_basename     = $(SETUP_DEV_PKG_NAME)-$(SETUP_DEV_PKG_VERSION)-$(SETUP_DEV_PKG_ARCH)-$(SETUP_DEV_PKG_DISTRO_NAME)-$(SETUP_DEV_PKG_DISTRO_VERSION)
 
-pkg_archive     = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
-pkg_signature   = $(call sign-name,$(pkg_archive))
-pkg_description = $(call desc-name,$(pkg_archive))
-products        = $(call pkg-files,$(pkg_archive))
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS   = $(build)
+BUILD_TARGETS    = $(build)
 
-PRODUCT_TARGETS = $(products)
+PRODUCT_TARGETS  = $(products)
 
 
 include ../../build-system/core.mk
@@ -164,4 +165,4 @@ $(pkg_archive): $(build) $(SETUP_DEV_PKG_DESCRIPTION_FILE) $(SETUP_DEV_PKG_INSTA
 	 echo "short_description=\"$(SETUP_DEV_PKG_SHORT_DESCRIPTION)\"" >> $(SETUP_DEV_PKG)/.PKGINFO ; \
 	 echo "url=$(SETUP_DEV_PKG_URL)"                                 >> $(SETUP_DEV_PKG)/.PKGINFO ; \
 	 echo "license=$(SETUP_DEV_PKG_LICENSE)"                         >> $(SETUP_DEV_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(SETUP_DEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SETUP_DEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

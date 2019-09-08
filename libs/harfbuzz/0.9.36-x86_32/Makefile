@@ -61,6 +61,7 @@ HARFBUZZ_32_PKG  = $(CURDIR)/$(TARGET_BUILD_DIR)/$(HARFBUZZ_32_PKG_NAME)-package
 pkg_basename     = $(HARFBUZZ_32_PKG_NAME)-$(HARFBUZZ_32_PKG_VERSION)-$(HARFBUZZ_32_PKG_ARCH)-$(HARFBUZZ_32_PKG_DISTRO_NAME)-$(HARFBUZZ_32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -197,4 +198,4 @@ $(pkg_archive): $(install_target) $(HARFBUZZ_32_PKG_DESCRIPTION_FILE) $(HARFBUZZ
 	 echo "short_description=\"$(HARFBUZZ_32_PKG_SHORT_DESCRIPTION)\"" >> $(HARFBUZZ_32_PKG)/.PKGINFO ; \
 	 echo "url=$(HARFBUZZ_32_PKG_URL)"                                 >> $(HARFBUZZ_32_PKG)/.PKGINFO ; \
 	 echo "license=$(HARFBUZZ_32_PKG_LICENSE)"                         >> $(HARFBUZZ_32_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(HARFBUZZ_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(HARFBUZZ_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

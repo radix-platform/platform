@@ -96,6 +96,7 @@ LIBGSM_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBGSM_PKG_NAME)-package
 pkg_basename     = $(LIBGSM_PKG_NAME)-$(LIBGSM_PKG_VERSION)-$(LIBGSM_PKG_ARCH)-$(LIBGSM_PKG_DISTRO_NAME)-$(LIBGSM_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -209,4 +210,4 @@ $(pkg_archive): $(install_target) $(LIBGSM_PKG_DESCRIPTION_FILE) $(LIBGSM_PKG_IN
 	 echo "short_description=\"$(LIBGSM_PKG_SHORT_DESCRIPTION)\"" >> $(LIBGSM_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBGSM_PKG_URL)"                                 >> $(LIBGSM_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBGSM_PKG_LICENSE)"                         >> $(LIBGSM_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBGSM_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBGSM_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

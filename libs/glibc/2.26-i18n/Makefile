@@ -97,6 +97,7 @@ GLIBC_I18N_PKG   = $(CURDIR)/$(TARGET_BUILD_DIR)/$(GLIBC_I18N_PKG_NAME)-package
 pkg_basename     = $(GLIBC_I18N_PKG_NAME)-$(GLIBC_I18N_PKG_VERSION)-$(GLIBC_I18N_PKG_ARCH)-$(GLIBC_I18N_PKG_DISTRO_NAME)-$(GLIBC_I18N_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -215,4 +216,4 @@ $(pkg_archive): $(install_target) $(GLIBC_I18N_PKG_DESCRIPTION_FILE) $(GLIBC_I18
 	 echo "short_description=\"$(GLIBC_I18N_PKG_SHORT_DESCRIPTION)\"" >> $(GLIBC_I18N_PKG)/.PKGINFO ; \
 	 echo "url=$(GLIBC_I18N_PKG_URL)"                                 >> $(GLIBC_I18N_PKG)/.PKGINFO ; \
 	 echo "license=$(GLIBC_I18N_PKG_LICENSE)"                         >> $(GLIBC_I18N_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(GLIBC_I18N_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GLIBC_I18N_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

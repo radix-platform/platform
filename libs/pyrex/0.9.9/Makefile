@@ -88,6 +88,7 @@ PYREX_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(PYREX_PKG_NAME)-package
 pkg_basename     = $(PYREX_PKG_NAME)-$(PYREX_PKG_VERSION)-$(PYREX_PKG_ARCH)-$(PYREX_PKG_DISTRO_NAME)-$(PYREX_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -176,4 +177,4 @@ $(pkg_archive): $(install_target) $(PYREX_PKG_DESCRIPTION_FILE) $(PYREX_PKG_INST
 	 echo "short_description=\"$(PYREX_PKG_SHORT_DESCRIPTION)\"" >> $(PYREX_PKG)/.PKGINFO ; \
 	 echo "url=$(PYREX_PKG_URL)"                                 >> $(PYREX_PKG)/.PKGINFO ; \
 	 echo "license=$(PYREX_PKG_LICENSE)"                         >> $(PYREX_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(PYREX_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PYREX_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

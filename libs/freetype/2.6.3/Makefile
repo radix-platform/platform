@@ -87,6 +87,7 @@ FREETYPE_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(FREETYPE_PKG_NAME)-package
 pkg_basename     = $(FREETYPE_PKG_NAME)-$(FREETYPE_PKG_VERSION)-$(FREETYPE_PKG_ARCH)-$(FREETYPE_PKG_DISTRO_NAME)-$(FREETYPE_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -236,4 +237,4 @@ $(pkg_archive): $(install_target) $(FREETYPE_PKG_DESCRIPTION_FILE) $(FREETYPE_PK
 	 echo "short_description=\"$(FREETYPE_PKG_SHORT_DESCRIPTION)\"" >> $(FREETYPE_PKG)/.PKGINFO ; \
 	 echo "url=$(FREETYPE_PKG_URL)"                                 >> $(FREETYPE_PKG)/.PKGINFO ; \
 	 echo "license=$(FREETYPE_PKG_LICENSE)"                         >> $(FREETYPE_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(FREETYPE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(FREETYPE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

@@ -85,6 +85,7 @@ FRIBIDI_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(FRIBIDI_PKG_NAME)-package
 pkg_basename     = $(FRIBIDI_PKG_NAME)-$(FRIBIDI_PKG_VERSION)-$(FRIBIDI_PKG_ARCH)-$(FRIBIDI_PKG_DISTRO_NAME)-$(FRIBIDI_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -257,4 +258,4 @@ $(pkg_archive): $(install_target) $(FRIBIDI_PKG_DESCRIPTION_FILE) $(FRIBIDI_PKG_
 	 echo "short_description=\"$(FRIBIDI_PKG_SHORT_DESCRIPTION)\"" >> $(FRIBIDI_PKG)/.PKGINFO ; \
 	 echo "url=$(FRIBIDI_PKG_URL)"                                 >> $(FRIBIDI_PKG)/.PKGINFO ; \
 	 echo "license=$(FRIBIDI_PKG_LICENSE)"                         >> $(FRIBIDI_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(FRIBIDI_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(FRIBIDI_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

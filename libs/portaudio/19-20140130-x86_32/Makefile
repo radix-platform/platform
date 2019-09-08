@@ -57,6 +57,7 @@ PORTAUDIO_32_PKG = $(CURDIR)/$(TARGET_BUILD_DIR)/$(PORTAUDIO_32_PKG_NAME)-packag
 pkg_basename     = $(PORTAUDIO_32_PKG_NAME)-$(PORTAUDIO_32_PKG_VERSION)-$(PORTAUDIO_32_PKG_ARCH)-$(PORTAUDIO_32_PKG_DISTRO_NAME)-$(PORTAUDIO_32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -161,4 +162,4 @@ $(pkg_archive): $(install_target) $(PORTAUDIO_32_PKG_DESCRIPTION_FILE) $(PORTAUD
 	 echo "short_description=\"$(PORTAUDIO_32_PKG_SHORT_DESCRIPTION)\"" >> $(PORTAUDIO_32_PKG)/.PKGINFO ; \
 	 echo "url=$(PORTAUDIO_32_PKG_URL)"                                 >> $(PORTAUDIO_32_PKG)/.PKGINFO ; \
 	 echo "license=$(PORTAUDIO_32_PKG_LICENSE)"                         >> $(PORTAUDIO_32_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(PORTAUDIO_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PORTAUDIO_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

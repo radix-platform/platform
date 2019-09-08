@@ -44,6 +44,7 @@ build_ks_pkg     = $(TARGET_BUILD_DIR)/.kernel_sources_pkg_done
 pkg_basename     = $(KS_DEV_PKG_NAME)-$(KS_DEV_PKG_VERSION)-$(KS_DEV_PKG_ARCH)-$(KS_DEV_PKG_DISTRO_NAME)-$(KS_DEV_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -91,4 +92,4 @@ $(pkg_archive): $(build_ks_pkg) $(KS_DEV_PKG_DESCRIPTION_FILE) $(KS_DEV_PKG_INST
 	 echo "short_description=\"$(KS_DEV_PKG_SHORT_DESCRIPTION)\"" >> $(KS_DEV_PKG)/.PKGINFO ; \
 	 echo "url=$(KS_DEV_PKG_URL)"                                 >> $(KS_DEV_PKG)/.PKGINFO ; \
 	 echo "license=$(KS_DEV_PKG_LICENSE)"                         >> $(KS_DEV_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(KS_DEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(KS_DEV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

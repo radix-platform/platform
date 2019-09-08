@@ -97,6 +97,7 @@ MARIADB_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(MARIADB_PKG_NAME)-package
 pkg_basename     = $(MARIADB_PKG_NAME)-$(MARIADB_PKG_VERSION)-$(MARIADB_PKG_ARCH)-$(MARIADB_PKG_DISTRO_NAME)-$(MARIADB_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -323,4 +324,4 @@ $(pkg_archive): $(install_target) $(MARIADB_PKG_DESCRIPTION_FILE) $(MARIADB_PKG_
 	                  chown -R root:root .       && \
 	                  chown 27:27 var/lib/mysql  && \
 	                  chown 27:27 var/run/mysql  && \
-	                  $(MAKE_PACKAGE) --linkadd yes .."
+	                  $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

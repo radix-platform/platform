@@ -90,6 +90,7 @@ SHARUTILS_PKG    = $(CURDIR)/$(TARGET_BUILD_DIR)/$(SHARUTILS_PKG_NAME)-package
 pkg_basename     = $(SHARUTILS_PKG_NAME)-$(SHARUTILS_PKG_VERSION)-$(SHARUTILS_PKG_ARCH)-$(SHARUTILS_PKG_DISTRO_NAME)-$(SHARUTILS_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -195,4 +196,4 @@ $(pkg_archive): $(install_target) $(SHARUTILS_PKG_DESCRIPTION_FILE) $(SHARUTILS_
 	 echo "short_description=\"$(SHARUTILS_PKG_SHORT_DESCRIPTION)\"" >> $(SHARUTILS_PKG)/.PKGINFO ; \
 	 echo "url=$(SHARUTILS_PKG_URL)"                                 >> $(SHARUTILS_PKG)/.PKGINFO ; \
 	 echo "license=$(SHARUTILS_PKG_LICENSE)"                         >> $(SHARUTILS_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(SHARUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(SHARUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

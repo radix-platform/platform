@@ -68,6 +68,7 @@ EGLIBC32_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(EGLIBC32_PKG_NAME)-package
 pkg_basename     = $(EGLIBC32_PKG_NAME)-$(EGLIBC32_PKG_VERSION)-$(EGLIBC32_PKG_ARCH)-$(EGLIBC32_PKG_DISTRO_NAME)-$(EGLIBC32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -170,4 +171,4 @@ $(pkg_archive): $(build_eglibc32_pkg) $(EGLIBC32_PKG_DESCRIPTION_FILE) $(EGLIBC3
 	 echo "short_description=\"$(EGLIBC32_PKG_SHORT_DESCRIPTION)\"" >> $(EGLIBC32_PKG)/.PKGINFO ; \
 	 echo "url=$(EGLIBC32_PKG_URL)"                                 >> $(EGLIBC32_PKG)/.PKGINFO ; \
 	 echo "license=$(EGLIBC32_PKG_LICENSE)"                         >> $(EGLIBC32_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(EGLIBC32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(EGLIBC32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

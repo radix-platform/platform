@@ -96,6 +96,7 @@ JEMALLOC_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(JEMALLOC_PKG_NAME)-package
 pkg_basename     = $(JEMALLOC_PKG_NAME)-$(JEMALLOC_PKG_VERSION)-$(JEMALLOC_PKG_ARCH)-$(JEMALLOC_PKG_DISTRO_NAME)-$(JEMALLOC_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -214,4 +215,4 @@ $(pkg_archive): $(install_target) $(JEMALLOC_PKG_DESCRIPTION_FILE) $(JEMALLOC_PK
 	 echo "short_description=\"$(JEMALLOC_PKG_SHORT_DESCRIPTION)\"" >> $(JEMALLOC_PKG)/.PKGINFO ; \
 	 echo "url=$(JEMALLOC_PKG_URL)"                                 >> $(JEMALLOC_PKG)/.PKGINFO ; \
 	 echo "license=$(JEMALLOC_PKG_LICENSE)"                         >> $(JEMALLOC_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(JEMALLOC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(JEMALLOC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

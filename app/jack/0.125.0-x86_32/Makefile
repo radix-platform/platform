@@ -61,6 +61,7 @@ JACK_32_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(JACK_32_PKG_NAME)-package
 pkg_basename     = $(JACK_32_PKG_NAME)-$(JACK_32_PKG_VERSION)-$(JACK_32_PKG_ARCH)-$(JACK_32_PKG_DISTRO_NAME)-$(JACK_32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -215,4 +216,4 @@ $(pkg_archive): $(install_target) $(JACK_32_PKG_DESCRIPTION_FILE) $(JACK_32_PKG_
 	 echo "short_description=\"$(JACK_32_PKG_SHORT_DESCRIPTION)\"" >> $(JACK_32_PKG)/.PKGINFO ; \
 	 echo "url=$(JACK_32_PKG_URL)"                                 >> $(JACK_32_PKG)/.PKGINFO ; \
 	 echo "license=$(JACK_32_PKG_LICENSE)"                         >> $(JACK_32_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(JACK_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(JACK_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

@@ -60,6 +60,7 @@ GPM32_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(GPM32_PKG_NAME)-package
 pkg_basename     = $(GPM32_PKG_NAME)-$(GPM32_PKG_VERSION)-$(GPM32_PKG_ARCH)-$(GPM32_PKG_DISTRO_NAME)-$(GPM32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -155,4 +156,4 @@ $(pkg_archive): $(install_target) $(GPM32_PKG_DESCRIPTION_FILE) $(GPM32_PKG_INST
 	 echo "short_description=\"$(GPM32_PKG_SHORT_DESCRIPTION)\"" >> $(GPM32_PKG)/.PKGINFO ; \
 	 echo "url=$(GPM32_PKG_URL)"                                 >> $(GPM32_PKG)/.PKGINFO ; \
 	 echo "license=$(GPM32_PKG_LICENSE)"                         >> $(GPM32_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(GPM32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GPM32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

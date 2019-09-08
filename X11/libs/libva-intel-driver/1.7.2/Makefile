@@ -57,6 +57,7 @@ INTEL_DRV_PKG    = $(CURDIR)/$(TARGET_BUILD_DIR)/$(INTEL_DRV_PKG_NAME)-package
 pkg_basename     = $(INTEL_DRV_PKG_NAME)-$(INTEL_DRV_PKG_VERSION)-$(INTEL_DRV_PKG_ARCH)-$(INTEL_DRV_PKG_DISTRO_NAME)-$(INTEL_DRV_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -193,4 +194,4 @@ $(pkg_archive): $(install_target) $(INTEL_DRV_PKG_DESCRIPTION_FILE) $(INTEL_DRV_
 	 echo "short_description=\"$(INTEL_DRV_PKG_SHORT_DESCRIPTION)\"" >> $(INTEL_DRV_PKG)/.PKGINFO ; \
 	 echo "url=$(INTEL_DRV_PKG_URL)"                                 >> $(INTEL_DRV_PKG)/.PKGINFO ; \
 	 echo "license=$(INTEL_DRV_PKG_LICENSE)"                         >> $(INTEL_DRV_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(INTEL_DRV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(INTEL_DRV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

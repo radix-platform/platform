@@ -86,6 +86,7 @@ EBTABLES_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(EBTABLES_PKG_NAME)-package
 pkg_basename     = $(EBTABLES_PKG_NAME)-$(EBTABLES_PKG_VERSION)-$(EBTABLES_PKG_ARCH)-$(EBTABLES_PKG_DISTRO_NAME)-$(EBTABLES_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -194,4 +195,4 @@ $(pkg_archive): $(install_target) $(EBTABLES_PKG_DESCRIPTION_FILE) $(EBTABLES_PK
 	 echo "short_description=\"$(EBTABLES_PKG_SHORT_DESCRIPTION)\"" >> $(EBTABLES_PKG)/.PKGINFO ; \
 	 echo "url=$(EBTABLES_PKG_URL)"                                 >> $(EBTABLES_PKG)/.PKGINFO ; \
 	 echo "license=$(EBTABLES_PKG_LICENSE)"                         >> $(EBTABLES_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(EBTABLES_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(EBTABLES_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

@@ -90,6 +90,7 @@ GPERF_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(GPERF_PKG_NAME)-package
 pkg_basename     = $(GPERF_PKG_NAME)-$(GPERF_PKG_VERSION)-$(GPERF_PKG_ARCH)-$(GPERF_PKG_DISTRO_NAME)-$(GPERF_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -197,4 +198,4 @@ $(pkg_archive): $(install_target) $(GPERF_PKG_DESCRIPTION_FILE) $(GPERF_PKG_INST
 	 echo "short_description=\"$(GPERF_PKG_SHORT_DESCRIPTION)\"" >> $(GPERF_PKG)/.PKGINFO ; \
 	 echo "url=$(GPERF_PKG_URL)"                                 >> $(GPERF_PKG)/.PKGINFO ; \
 	 echo "license=$(GPERF_PKG_LICENSE)"                         >> $(GPERF_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(GPERF_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(GPERF_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

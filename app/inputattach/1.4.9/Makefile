@@ -92,6 +92,7 @@ INPUTATTACH_PKG  = $(CURDIR)/$(TARGET_BUILD_DIR)/$(INPUTATTACH_PKG_NAME)-package
 pkg_basename     = $(INPUTATTACH_PKG_NAME)-$(INPUTATTACH_PKG_VERSION)-$(INPUTATTACH_PKG_ARCH)-$(INPUTATTACH_PKG_DISTRO_NAME)-$(INPUTATTACH_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -177,4 +178,4 @@ $(pkg_archive): $(install_target) $(INPUTATTACH_PKG_DESCRIPTION_FILE) $(INPUTATT
 	 echo "short_description=\"$(INPUTATTACH_PKG_SHORT_DESCRIPTION)\"" >> $(INPUTATTACH_PKG)/.PKGINFO ; \
 	 echo "url=$(INPUTATTACH_PKG_URL)"                                 >> $(INPUTATTACH_PKG)/.PKGINFO ; \
 	 echo "license=$(INPUTATTACH_PKG_LICENSE)"                         >> $(INPUTATTACH_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(INPUTATTACH_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(INPUTATTACH_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

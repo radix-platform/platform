@@ -87,6 +87,7 @@ LIBEVENT_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBEVENT_PKG_NAME)-package
 pkg_basename     = $(LIBEVENT_PKG_NAME)-$(LIBEVENT_PKG_VERSION)-$(LIBEVENT_PKG_ARCH)-$(LIBEVENT_PKG_DISTRO_NAME)-$(LIBEVENT_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -206,4 +207,4 @@ $(pkg_archive): $(install_target) $(LIBEVENT_PKG_DESCRIPTION_FILE) $(LIBEVENT_PK
 	 echo "short_description=\"$(LIBEVENT_PKG_SHORT_DESCRIPTION)\"" >> $(LIBEVENT_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBEVENT_PKG_URL)"                                 >> $(LIBEVENT_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBEVENT_PKG_LICENSE)"                         >> $(LIBEVENT_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBEVENT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBEVENT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

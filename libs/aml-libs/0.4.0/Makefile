@@ -61,6 +61,7 @@ AML_LIBS_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(AML_LIBS_PKG_NAME)-package
 pkg_basename     = $(AML_LIBS_PKG_NAME)-$(AML_LIBS_PKG_VERSION)-$(AML_LIBS_PKG_ARCH)-$(AML_LIBS_PKG_DISTRO_NAME)-$(AML_LIBS_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -212,4 +213,4 @@ $(pkg_archive): $(install_target) $(AML_LIBS_PKG_DESCRIPTION_FILE) $(AML_LIBS_PK
 	 echo "short_description=\"$(AML_LIBS_PKG_SHORT_DESCRIPTION)\"" >> $(AML_LIBS_PKG)/.PKGINFO ; \
 	 echo "url=$(AML_LIBS_PKG_URL)"                                 >> $(AML_LIBS_PKG)/.PKGINFO ; \
 	 echo "license=$(AML_LIBS_PKG_LICENSE)"                         >> $(AML_LIBS_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(AML_LIBS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(AML_LIBS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

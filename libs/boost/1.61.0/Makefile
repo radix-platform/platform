@@ -88,6 +88,7 @@ BOOST_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(BOOST_PKG_NAME)-package
 pkg_basename     = $(BOOST_PKG_NAME)-$(BOOST_PKG_VERSION)-$(BOOST_PKG_ARCH)-$(BOOST_PKG_DISTRO_NAME)-$(BOOST_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -275,4 +276,4 @@ $(pkg_archive): $(install_target) $(BOOST_PKG_DESCRIPTION_FILE) $(BOOST_PKG_INST
 	 echo "short_description=\"$(BOOST_PKG_SHORT_DESCRIPTION)\"" >> $(BOOST_PKG)/.PKGINFO ; \
 	 echo "url=$(BOOST_PKG_URL)"                                 >> $(BOOST_PKG)/.PKGINFO ; \
 	 echo "license=$(BOOST_PKG_LICENSE)"                         >> $(BOOST_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(BOOST_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(BOOST_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

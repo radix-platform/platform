@@ -56,6 +56,7 @@ PTH32_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(PTH32_PKG_NAME)-package
 pkg_basename     = $(PTH32_PKG_NAME)-$(PTH32_PKG_VERSION)-$(PTH32_PKG_ARCH)-$(PTH32_PKG_DISTRO_NAME)-$(PTH32_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -151,4 +152,4 @@ $(pkg_archive): $(install_target) $(PTH32_PKG_DESCRIPTION_FILE) $(PTH32_PKG_INST
 	 echo "short_description=\"$(PTH32_PKG_SHORT_DESCRIPTION)\"" >> $(PTH32_PKG)/.PKGINFO ; \
 	 echo "url=$(PTH32_PKG_URL)"                                 >> $(PTH32_PKG)/.PKGINFO ; \
 	 echo "license=$(PTH32_PKG_LICENSE)"                         >> $(PTH32_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(PTH32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PTH32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

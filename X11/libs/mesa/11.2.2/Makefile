@@ -112,6 +112,7 @@ MESA_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(MESA_PKG_NAME)-package
 pkg_basename     = $(MESA_PKG_NAME)-$(MESA_PKG_VERSION)-$(MESA_PKG_ARCH)-$(MESA_PKG_DISTRO_NAME)-$(MESA_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -417,4 +418,4 @@ $(pkg_archive): $(install_target) $(MESA_PKG_DESCRIPTION_FILE) $(MESA_PKG_INSTAL
 	 echo "short_description=\"$(MESA_PKG_SHORT_DESCRIPTION)\"" >> $(MESA_PKG)/.PKGINFO ; \
 	 echo "url=$(MESA_PKG_URL)"                                 >> $(MESA_PKG)/.PKGINFO ; \
 	 echo "license=$(MESA_PKG_LICENSE)"                         >> $(MESA_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(MESA_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(MESA_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

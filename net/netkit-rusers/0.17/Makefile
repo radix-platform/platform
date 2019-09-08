@@ -90,6 +90,7 @@ RUSERS_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(RUSERS_PKG_NAME)-package
 pkg_basename     = $(RUSERS_PKG_NAME)-$(RUSERS_PKG_VERSION)-$(RUSERS_PKG_ARCH)-$(RUSERS_PKG_DISTRO_NAME)-$(RUSERS_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -178,4 +179,4 @@ $(pkg_archive): $(install_target) $(RUSERS_PKG_DESCRIPTION_FILE) $(RUSERS_PKG_IN
 	 echo "short_description=\"$(RUSERS_PKG_SHORT_DESCRIPTION)\"" >> $(RUSERS_PKG)/.PKGINFO ; \
 	 echo "url=$(RUSERS_PKG_URL)"                                 >> $(RUSERS_PKG)/.PKGINFO ; \
 	 echo "license=$(RUSERS_PKG_LICENSE)"                         >> $(RUSERS_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(RUSERS_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(RUSERS_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

@@ -92,6 +92,7 @@ LIBGD_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBGD_PKG_NAME)-package
 pkg_basename     = $(LIBGD_PKG_NAME)-$(LIBGD_PKG_VERSION)-$(LIBGD_PKG_ARCH)-$(LIBGD_PKG_DISTRO_NAME)-$(LIBGD_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -259,4 +260,4 @@ $(pkg_archive): $(install_target) $(LIBGD_PKG_DESCRIPTION_FILE) $(LIBGD_PKG_INST
 	 echo "short_description=\"$(LIBGD_PKG_SHORT_DESCRIPTION)\"" >> $(LIBGD_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBGD_PKG_URL)"                                 >> $(LIBGD_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBGD_PKG_LICENSE)"                         >> $(LIBGD_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBGD_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBGD_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

@@ -86,6 +86,7 @@ LXAPP_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LXAPP_PKG_NAME)-package
 pkg_basename     = $(LXAPP_PKG_NAME)-$(LXAPP_PKG_VERSION)-$(LXAPP_PKG_ARCH)-$(LXAPP_PKG_DISTRO_NAME)-$(LXAPP_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -200,4 +201,4 @@ $(pkg_archive): $(install_target) $(LXAPP_PKG_DESCRIPTION_FILE) $(LXAPP_PKG_INST
 	 echo "short_description=\"$(LXAPP_PKG_SHORT_DESCRIPTION)\"" >> $(LXAPP_PKG)/.PKGINFO ; \
 	 echo "url=$(LXAPP_PKG_URL)"                                 >> $(LXAPP_PKG)/.PKGINFO ; \
 	 echo "license=$(LXAPP_PKG_LICENSE)"                         >> $(LXAPP_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LXAPP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LXAPP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

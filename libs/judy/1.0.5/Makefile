@@ -93,6 +93,7 @@ JUDY_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(JUDY_PKG_NAME)-package
 pkg_basename     = $(JUDY_PKG_NAME)-$(JUDY_PKG_VERSION)-$(JUDY_PKG_ARCH)-$(JUDY_PKG_DISTRO_NAME)-$(JUDY_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -226,4 +227,4 @@ $(pkg_archive): $(install_target) $(JUDY_PKG_DESCRIPTION_FILE) $(JUDY_PKG_INSTAL
 	 echo "short_description=\"$(JUDY_PKG_SHORT_DESCRIPTION)\"" >> $(JUDY_PKG)/.PKGINFO ; \
 	 echo "url=$(JUDY_PKG_URL)"                                 >> $(JUDY_PKG)/.PKGINFO ; \
 	 echo "license=$(JUDY_PKG_LICENSE)"                         >> $(JUDY_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(JUDY_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(JUDY_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

@@ -86,6 +86,7 @@ FASTJAR_PKG      = $(CURDIR)/$(TARGET_BUILD_DIR)/$(FASTJAR_PKG_NAME)-package
 pkg_basename     = $(FASTJAR_PKG_NAME)-$(FASTJAR_PKG_VERSION)-$(FASTJAR_PKG_ARCH)-$(FASTJAR_PKG_DISTRO_NAME)-$(FASTJAR_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -206,4 +207,4 @@ $(pkg_archive): $(install_target) $(FASTJAR_PKG_DESCRIPTION_FILE) $(FASTJAR_PKG_
 	 echo "short_description=\"$(FASTJAR_PKG_SHORT_DESCRIPTION)\"" >> $(FASTJAR_PKG)/.PKGINFO ; \
 	 echo "url=$(FASTJAR_PKG_URL)"                                 >> $(FASTJAR_PKG)/.PKGINFO ; \
 	 echo "license=$(FASTJAR_PKG_LICENSE)"                         >> $(FASTJAR_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(FASTJAR_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(FASTJAR_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

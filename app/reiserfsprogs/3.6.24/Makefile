@@ -86,6 +86,7 @@ REISERFS_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(REISERFS_PKG_NAME)-package
 pkg_basename     = $(REISERFS_PKG_NAME)-$(REISERFS_PKG_VERSION)-$(REISERFS_PKG_ARCH)-$(REISERFS_PKG_DISTRO_NAME)-$(REISERFS_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -193,4 +194,4 @@ $(pkg_archive): $(install_target) $(REISERFS_PKG_DESCRIPTION_FILE) $(REISERFS_PK
 	 echo "short_description=\"$(REISERFS_PKG_SHORT_DESCRIPTION)\"" >> $(REISERFS_PKG)/.PKGINFO ; \
 	 echo "url=$(REISERFS_PKG_URL)"                                 >> $(REISERFS_PKG)/.PKGINFO ; \
 	 echo "license=$(REISERFS_PKG_LICENSE)"                         >> $(REISERFS_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(REISERFS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(REISERFS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

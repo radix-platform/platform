@@ -86,6 +86,7 @@ IPSET_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(IPSET_PKG_NAME)-package
 pkg_basename     = $(IPSET_PKG_NAME)-$(IPSET_PKG_VERSION)-$(IPSET_PKG_ARCH)-$(IPSET_PKG_DISTRO_NAME)-$(IPSET_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -229,4 +230,4 @@ $(pkg_archive): $(install_target) $(IPSET_PKG_DESCRIPTION_FILE) $(IPSET_PKG_INST
 	 echo "short_description=\"$(IPSET_PKG_SHORT_DESCRIPTION)\"" >> $(IPSET_PKG)/.PKGINFO ; \
 	 echo "url=$(IPSET_PKG_URL)"                                 >> $(IPSET_PKG)/.PKGINFO ; \
 	 echo "license=$(IPSET_PKG_LICENSE)"                         >> $(IPSET_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(IPSET_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(IPSET_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

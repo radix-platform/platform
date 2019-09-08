@@ -98,6 +98,7 @@ ICES_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(ICES_PKG_NAME)-package
 pkg_basename     = $(ICES_PKG_NAME)-$(ICES_PKG_VERSION)-$(ICES_PKG_ARCH)-$(ICES_PKG_DISTRO_NAME)-$(ICES_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -229,4 +230,4 @@ $(pkg_archive): $(install_target) $(ICES_PKG_DESCRIPTION_FILE) $(ICES_PKG_INSTAL
 	 echo "short_description=\"$(ICES_PKG_SHORT_DESCRIPTION)\"" >> $(ICES_PKG)/.PKGINFO ; \
 	 echo "url=$(ICES_PKG_URL)"                                 >> $(ICES_PKG)/.PKGINFO ; \
 	 echo "license=$(ICES_PKG_LICENSE)"                         >> $(ICES_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(ICES_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ICES_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

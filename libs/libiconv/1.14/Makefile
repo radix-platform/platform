@@ -86,6 +86,7 @@ ICONV_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(ICONV_PKG_NAME)-package
 pkg_basename     = $(ICONV_PKG_NAME)-$(ICONV_PKG_VERSION)-$(ICONV_PKG_ARCH)-$(ICONV_PKG_DISTRO_NAME)-$(ICONV_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -208,4 +209,4 @@ $(pkg_archive): $(install_target) $(ICONV_PKG_DESCRIPTION_FILE) $(ICONV_PKG_INST
 	 echo "short_description=\"$(ICONV_PKG_SHORT_DESCRIPTION)\"" >> $(ICONV_PKG)/.PKGINFO ; \
 	 echo "url=$(ICONV_PKG_URL)"                                 >> $(ICONV_PKG)/.PKGINFO ; \
 	 echo "license=$(ICONV_PKG_LICENSE)"                         >> $(ICONV_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(ICONV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ICONV_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

@@ -95,6 +95,7 @@ IDNKIT_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(IDNKIT_PKG_NAME)-package
 pkg_basename     = $(IDNKIT_PKG_NAME)-$(IDNKIT_PKG_VERSION)-$(IDNKIT_PKG_ARCH)-$(IDNKIT_PKG_DISTRO_NAME)-$(IDNKIT_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -215,4 +216,4 @@ $(pkg_archive): $(install_target) $(IDNKIT_PKG_DESCRIPTION_FILE) $(IDNKIT_PKG_IN
 	 echo "short_description=\"$(IDNKIT_PKG_SHORT_DESCRIPTION)\"" >> $(IDNKIT_PKG)/.PKGINFO ; \
 	 echo "url=$(IDNKIT_PKG_URL)"                                 >> $(IDNKIT_PKG)/.PKGINFO ; \
 	 echo "license=$(IDNKIT_PKG_LICENSE)"                         >> $(IDNKIT_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(IDNKIT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(IDNKIT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

@@ -94,6 +94,7 @@ LIBRAW1394_PKG   = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBRAW1394_PKG_NAME)-package
 pkg_basename     = $(LIBRAW1394_PKG_NAME)-$(LIBRAW1394_PKG_VERSION)-$(LIBRAW1394_PKG_ARCH)-$(LIBRAW1394_PKG_DISTRO_NAME)-$(LIBRAW1394_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -217,4 +218,4 @@ $(pkg_archive): $(install_target) $(LIBRAW1394_PKG_DESCRIPTION_FILE) $(LIBRAW139
 	 echo "short_description=\"$(LIBRAW1394_PKG_SHORT_DESCRIPTION)\"" >> $(LIBRAW1394_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBRAW1394_PKG_URL)"                                 >> $(LIBRAW1394_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBRAW1394_PKG_LICENSE)"                         >> $(LIBRAW1394_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBRAW1394_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBRAW1394_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

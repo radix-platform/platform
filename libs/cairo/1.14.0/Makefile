@@ -94,6 +94,7 @@ CAIRO_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(CAIRO_PKG_NAME)-package
 pkg_basename     = $(CAIRO_PKG_NAME)-$(CAIRO_PKG_VERSION)-$(CAIRO_PKG_ARCH)-$(CAIRO_PKG_DISTRO_NAME)-$(CAIRO_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -292,4 +293,4 @@ $(pkg_archive): $(install_target) $(CAIRO_PKG_DESCRIPTION_FILE) $(CAIRO_PKG_INST
 	 echo "short_description=\"$(CAIRO_PKG_SHORT_DESCRIPTION)\"" >> $(CAIRO_PKG)/.PKGINFO ; \
 	 echo "url=$(CAIRO_PKG_URL)"                                 >> $(CAIRO_PKG)/.PKGINFO ; \
 	 echo "license=$(CAIRO_PKG_LICENSE)"                         >> $(CAIRO_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(CAIRO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(CAIRO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

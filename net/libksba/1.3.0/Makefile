@@ -60,6 +60,7 @@ KSBA_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(KSBA_PKG_NAME)-package
 pkg_basename     = $(KSBA_PKG_NAME)-$(KSBA_PKG_VERSION)-$(KSBA_PKG_ARCH)-$(KSBA_PKG_DISTRO_NAME)-$(KSBA_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -195,4 +196,4 @@ $(pkg_archive): $(install_target) $(KSBA_PKG_DESCRIPTION_FILE) $(KSBA_PKG_INSTAL
 	 echo "short_description=\"$(KSBA_PKG_SHORT_DESCRIPTION)\"" >> $(KSBA_PKG)/.PKGINFO ; \
 	 echo "url=$(KSBA_PKG_URL)"                                 >> $(KSBA_PKG)/.PKGINFO ; \
 	 echo "license=$(KSBA_PKG_LICENSE)"                         >> $(KSBA_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(KSBA_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(KSBA_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

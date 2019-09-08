@@ -96,6 +96,7 @@ PYTHON_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(PYTHON_PKG_NAME)-package
 pkg_basename     = $(PYTHON_PKG_NAME)-$(PYTHON_PKG_VERSION)-$(PYTHON_PKG_ARCH)-$(PYTHON_PKG_DISTRO_NAME)-$(PYTHON_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -280,4 +281,4 @@ $(pkg_archive): $(install_target) $(PYTHON_PKG_DESCRIPTION_FILE) $(PYTHON_PKG_IN
 	 echo "short_description=\"$(PYTHON_PKG_SHORT_DESCRIPTION)\"" >> $(PYTHON_PKG)/.PKGINFO ; \
 	 echo "url=$(PYTHON_PKG_URL)"                                 >> $(PYTHON_PKG)/.PKGINFO ; \
 	 echo "license=$(PYTHON_PKG_LICENSE)"                         >> $(PYTHON_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(PYTHON_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PYTHON_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

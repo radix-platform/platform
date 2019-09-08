@@ -90,6 +90,7 @@ PANGO_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(PANGO_PKG_NAME)-package
 pkg_basename     = $(PANGO_PKG_NAME)-$(PANGO_PKG_VERSION)-$(PANGO_PKG_ARCH)-$(PANGO_PKG_DISTRO_NAME)-$(PANGO_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -252,4 +253,4 @@ $(pkg_archive): $(install_target) $(PANGO_PKG_DESCRIPTION_FILE) $(PANGO_PKG_INST
 	 echo "short_description=\"$(PANGO_PKG_SHORT_DESCRIPTION)\"" >> $(PANGO_PKG)/.PKGINFO ; \
 	 echo "url=$(PANGO_PKG_URL)"                                 >> $(PANGO_PKG)/.PKGINFO ; \
 	 echo "license=$(PANGO_PKG_LICENSE)"                         >> $(PANGO_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(PANGO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(PANGO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

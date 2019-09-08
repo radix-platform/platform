@@ -88,6 +88,7 @@ TAR_PKG          = $(CURDIR)/$(TARGET_BUILD_DIR)/$(TAR_PKG_NAME)-package
 pkg_basename     = $(TAR_PKG_NAME)-$(TAR_PKG_VERSION)-$(TAR_PKG_ARCH)-$(TAR_PKG_DISTRO_NAME)-$(TAR_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -207,4 +208,4 @@ $(pkg_archive): $(install_target) $(TAR_PKG_DESCRIPTION_FILE) $(TAR_PKG_INSTALL_
 	 echo "short_description=\"$(TAR_PKG_SHORT_DESCRIPTION)\"" >> $(TAR_PKG)/.PKGINFO ; \
 	 echo "url=$(TAR_PKG_URL)"                                 >> $(TAR_PKG)/.PKGINFO ; \
 	 echo "license=$(TAR_PKG_LICENSE)"                         >> $(TAR_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(TAR_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(TAR_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

@@ -94,6 +94,7 @@ DATRIE_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(DATRIE_PKG_NAME)-package
 pkg_basename     = $(DATRIE_PKG_NAME)-$(DATRIE_PKG_VERSION)-$(DATRIE_PKG_ARCH)-$(DATRIE_PKG_DISTRO_NAME)-$(DATRIE_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -216,4 +217,4 @@ $(pkg_archive): $(install_target) $(DATRIE_PKG_DESCRIPTION_FILE) $(DATRIE_PKG_IN
 	 echo "short_description=\"$(DATRIE_PKG_SHORT_DESCRIPTION)\"" >> $(DATRIE_PKG)/.PKGINFO ; \
 	 echo "url=$(DATRIE_PKG_URL)"                                 >> $(DATRIE_PKG)/.PKGINFO ; \
 	 echo "license=$(DATRIE_PKG_LICENSE)"                         >> $(DATRIE_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(DATRIE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(DATRIE_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

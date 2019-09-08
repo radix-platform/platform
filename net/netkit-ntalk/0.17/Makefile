@@ -86,6 +86,7 @@ NTALK_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(NTALK_PKG_NAME)-package
 pkg_basename     = $(NTALK_PKG_NAME)-$(NTALK_PKG_VERSION)-$(NTALK_PKG_ARCH)-$(NTALK_PKG_DISTRO_NAME)-$(NTALK_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -174,4 +175,4 @@ $(pkg_archive): $(install_target) $(NTALK_PKG_DESCRIPTION_FILE) $(NTALK_PKG_INST
 	 echo "short_description=\"$(NTALK_PKG_SHORT_DESCRIPTION)\"" >> $(NTALK_PKG)/.PKGINFO ; \
 	 echo "url=$(NTALK_PKG_URL)"                                 >> $(NTALK_PKG)/.PKGINFO ; \
 	 echo "license=$(NTALK_PKG_LICENSE)"                         >> $(NTALK_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(NTALK_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(NTALK_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

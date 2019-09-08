@@ -94,6 +94,7 @@ TMUX_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(TMUX_PKG_NAME)-package
 pkg_basename     = $(TMUX_PKG_NAME)-$(TMUX_PKG_VERSION)-$(TMUX_PKG_ARCH)-$(TMUX_PKG_DISTRO_NAME)-$(TMUX_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -198,4 +199,4 @@ $(pkg_archive): $(install_target) $(TMUX_PKG_DESCRIPTION_FILE) $(TMUX_PKG_INSTAL
 	 echo "short_description=\"$(TMUX_PKG_SHORT_DESCRIPTION)\"" >> $(TMUX_PKG)/.PKGINFO ; \
 	 echo "url=$(TMUX_PKG_URL)"                                 >> $(TMUX_PKG)/.PKGINFO ; \
 	 echo "license=$(TMUX_PKG_LICENSE)"                         >> $(TMUX_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(TMUX_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(TMUX_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

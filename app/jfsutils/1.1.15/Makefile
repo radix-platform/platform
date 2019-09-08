@@ -86,6 +86,7 @@ JFSUTILS_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(JFSUTILS_PKG_NAME)-package
 pkg_basename     = $(JFSUTILS_PKG_NAME)-$(JFSUTILS_PKG_VERSION)-$(JFSUTILS_PKG_ARCH)-$(JFSUTILS_PKG_DISTRO_NAME)-$(JFSUTILS_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -195,4 +196,4 @@ $(pkg_archive): $(install_target) $(JFSUTILS_PKG_DESCRIPTION_FILE) $(JFSUTILS_PK
 	 echo "short_description=\"$(JFSUTILS_PKG_SHORT_DESCRIPTION)\"" >> $(JFSUTILS_PKG)/.PKGINFO ; \
 	 echo "url=$(JFSUTILS_PKG_URL)"                                 >> $(JFSUTILS_PKG)/.PKGINFO ; \
 	 echo "license=$(JFSUTILS_PKG_LICENSE)"                         >> $(JFSUTILS_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(JFSUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(JFSUTILS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

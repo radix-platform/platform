@@ -89,6 +89,7 @@ HPLIP_PKG        = $(CURDIR)/$(TARGET_BUILD_DIR)/$(HPLIP_PKG_NAME)-package
 pkg_basename     = $(HPLIP_PKG_NAME)-$(HPLIP_PKG_VERSION)-$(HPLIP_PKG_ARCH)-$(HPLIP_PKG_DISTRO_NAME)-$(HPLIP_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -277,4 +278,4 @@ $(pkg_archive): $(install_target) $(HPLIP_PKG_DESCRIPTION_FILE) $(HPLIP_PKG_INST
 	 echo "short_description=\"$(HPLIP_PKG_SHORT_DESCRIPTION)\"" >> $(HPLIP_PKG)/.PKGINFO ; \
 	 echo "url=$(HPLIP_PKG_URL)"                                 >> $(HPLIP_PKG)/.PKGINFO ; \
 	 echo "license=$(HPLIP_PKG_LICENSE)"                         >> $(HPLIP_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(HPLIP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(HPLIP_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

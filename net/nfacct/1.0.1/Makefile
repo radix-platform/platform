@@ -92,6 +92,7 @@ NFACCT_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(NFACCT_PKG_NAME)-package
 pkg_basename     = $(NFACCT_PKG_NAME)-$(NFACCT_PKG_VERSION)-$(NFACCT_PKG_ARCH)-$(NFACCT_PKG_DISTRO_NAME)-$(NFACCT_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -207,4 +208,4 @@ $(pkg_archive): $(install_target) $(NFACCT_PKG_DESCRIPTION_FILE) $(NFACCT_PKG_IN
 	 echo "short_description=\"$(NFACCT_PKG_SHORT_DESCRIPTION)\"" >> $(NFACCT_PKG)/.PKGINFO ; \
 	 echo "url=$(NFACCT_PKG_URL)"                                 >> $(NFACCT_PKG)/.PKGINFO ; \
 	 echo "license=$(NFACCT_PKG_LICENSE)"                         >> $(NFACCT_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(NFACCT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(NFACCT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

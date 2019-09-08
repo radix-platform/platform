@@ -93,6 +93,7 @@ CRACKLIB_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(CRACKLIB_PKG_NAME)-package
 pkg_basename     = $(CRACKLIB_PKG_NAME)-$(CRACKLIB_PKG_VERSION)-$(CRACKLIB_PKG_ARCH)-$(CRACKLIB_PKG_DISTRO_NAME)-$(CRACKLIB_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -252,4 +253,4 @@ $(pkg_archive): $(install_target) $(CRACKLIB_PKG_DESCRIPTION_FILE) $(CRACKLIB_PK
 	 echo "short_description=\"$(CRACKLIB_PKG_SHORT_DESCRIPTION)\"" >> $(CRACKLIB_PKG)/.PKGINFO ; \
 	 echo "url=$(CRACKLIB_PKG_URL)"                                 >> $(CRACKLIB_PKG)/.PKGINFO ; \
 	 echo "license=$(CRACKLIB_PKG_LICENSE)"                         >> $(CRACKLIB_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(CRACKLIB_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(CRACKLIB_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

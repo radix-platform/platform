@@ -90,6 +90,7 @@ TELNET_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(TELNET_PKG_NAME)-package
 pkg_basename     = $(TELNET_PKG_NAME)-$(TELNET_PKG_VERSION)-$(TELNET_PKG_ARCH)-$(TELNET_PKG_DISTRO_NAME)-$(TELNET_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -178,4 +179,4 @@ $(pkg_archive): $(install_target) $(TELNET_PKG_DESCRIPTION_FILE) $(TELNET_PKG_IN
 	 echo "short_description=\"$(TELNET_PKG_SHORT_DESCRIPTION)\"" >> $(TELNET_PKG)/.PKGINFO ; \
 	 echo "url=$(TELNET_PKG_URL)"                                 >> $(TELNET_PKG)/.PKGINFO ; \
 	 echo "license=$(TELNET_PKG_LICENSE)"                         >> $(TELNET_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(TELNET_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(TELNET_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

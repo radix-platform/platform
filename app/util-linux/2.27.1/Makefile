@@ -123,6 +123,7 @@ UTILLINUX_PKG    = $(CURDIR)/$(TARGET_BUILD_DIR)/$(UTILLINUX_PKG_NAME)-package
 pkg_basename     = $(UTILLINUX_PKG_NAME)-$(UTILLINUX_PKG_VERSION)-$(UTILLINUX_PKG_ARCH)-$(UTILLINUX_PKG_DISTRO_NAME)-$(UTILLINUX_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -515,4 +516,4 @@ $(pkg_archive): $(install_target) $(UTILLINUX_PKG_DESCRIPTION_FILE) $(UTILLINUX_
 	                  chmod g+s usr/bin/wall  && \
 	                  chgrp tty usr/bin/write && \
 	                  chmod g+s usr/bin/write && \
-	                  $(MAKE_PACKAGE) --linkadd yes .."
+	                  $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

@@ -86,6 +86,7 @@ LIBVORBIS_PKG    = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBVORBIS_PKG_NAME)-package
 pkg_basename     = $(LIBVORBIS_PKG_NAME)-$(LIBVORBIS_PKG_VERSION)-$(LIBVORBIS_PKG_ARCH)-$(LIBVORBIS_PKG_DISTRO_NAME)-$(LIBVORBIS_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -228,4 +229,4 @@ $(pkg_archive): $(install_target) $(LIBVORBIS_PKG_DESCRIPTION_FILE) $(LIBVORBIS_
 	 echo "short_description=\"$(LIBVORBIS_PKG_SHORT_DESCRIPTION)\"" >> $(LIBVORBIS_PKG)/.PKGINFO ; \
 	 echo "url=$(LIBVORBIS_PKG_URL)"                                 >> $(LIBVORBIS_PKG)/.PKGINFO ; \
 	 echo "license=$(LIBVORBIS_PKG_LICENSE)"                         >> $(LIBVORBIS_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBVORBIS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LIBVORBIS_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

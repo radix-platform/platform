@@ -85,6 +85,7 @@ LVM2_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LVM2_PKG_NAME)-package
 pkg_basename     = $(LVM2_PKG_NAME)-$(LVM2_PKG_VERSION)-$(LVM2_PKG_ARCH)-$(LVM2_PKG_DISTRO_NAME)-$(LVM2_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -229,4 +230,4 @@ $(pkg_archive): $(install_target) $(LVM2_PKG_DESCRIPTION_FILE) $(LVM2_PKG_INSTAL
 	 echo "short_description=\"$(LVM2_PKG_SHORT_DESCRIPTION)\"" >> $(LVM2_PKG)/.PKGINFO ; \
 	 echo "url=$(LVM2_PKG_URL)"                                 >> $(LVM2_PKG)/.PKGINFO ; \
 	 echo "license=$(LVM2_PKG_LICENSE)"                         >> $(LVM2_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LVM2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(LVM2_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

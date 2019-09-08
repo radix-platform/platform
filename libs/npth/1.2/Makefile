@@ -94,6 +94,7 @@ NPTH_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(NPTH_PKG_NAME)-package
 pkg_basename     = $(NPTH_PKG_NAME)-$(NPTH_PKG_VERSION)-$(NPTH_PKG_ARCH)-$(NPTH_PKG_DISTRO_NAME)-$(NPTH_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -217,4 +218,4 @@ $(pkg_archive): $(install_target) $(NPTH_PKG_DESCRIPTION_FILE) $(NPTH_PKG_INSTAL
 	 echo "short_description=\"$(NPTH_PKG_SHORT_DESCRIPTION)\"" >> $(NPTH_PKG)/.PKGINFO ; \
 	 echo "url=$(NPTH_PKG_URL)"                                 >> $(NPTH_PKG)/.PKGINFO ; \
 	 echo "license=$(NPTH_PKG_LICENSE)"                         >> $(NPTH_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(NPTH_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(NPTH_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

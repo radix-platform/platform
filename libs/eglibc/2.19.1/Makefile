@@ -85,6 +85,7 @@ EGLIBC_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(EGLIBC_PKG_NAME)-package
 pkg_basename     = $(EGLIBC_PKG_NAME)-$(EGLIBC_PKG_VERSION)-$(EGLIBC_PKG_ARCH)-$(EGLIBC_PKG_DISTRO_NAME)-$(EGLIBC_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -190,4 +191,4 @@ $(pkg_archive): $(build_eglibc_pkg) $(EGLIBC_PKG_DESCRIPTION_FILE) $(EGLIBC_PKG_
 	 echo "short_description=\"$(EGLIBC_PKG_SHORT_DESCRIPTION)\"" >> $(EGLIBC_PKG)/.PKGINFO ; \
 	 echo "url=$(EGLIBC_PKG_URL)"                                 >> $(EGLIBC_PKG)/.PKGINFO ; \
 	 echo "license=$(EGLIBC_PKG_LICENSE)"                         >> $(EGLIBC_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(EGLIBC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(EGLIBC_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

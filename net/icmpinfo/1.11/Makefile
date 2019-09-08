@@ -90,6 +90,7 @@ ICMPINFO_PKG     = $(CURDIR)/$(TARGET_BUILD_DIR)/$(ICMPINFO_PKG_NAME)-package
 pkg_basename     = $(ICMPINFO_PKG_NAME)-$(ICMPINFO_PKG_VERSION)-$(ICMPINFO_PKG_ARCH)-$(ICMPINFO_PKG_DISTRO_NAME)-$(ICMPINFO_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -155,4 +156,4 @@ $(pkg_archive): $(install_target) $(ICMPINFO_PKG_DESCRIPTION_FILE) $(ICMPINFO_PK
 	 echo "short_description=\"$(ICMPINFO_PKG_SHORT_DESCRIPTION)\"" >> $(ICMPINFO_PKG)/.PKGINFO ; \
 	 echo "url=$(ICMPINFO_PKG_URL)"                                 >> $(ICMPINFO_PKG)/.PKGINFO ; \
 	 echo "license=$(ICMPINFO_PKG_LICENSE)"                         >> $(ICMPINFO_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(ICMPINFO_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(ICMPINFO_PKG)  && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

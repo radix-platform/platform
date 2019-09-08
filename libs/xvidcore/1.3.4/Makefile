@@ -94,6 +94,7 @@ XVID_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(XVID_PKG_NAME)-package
 pkg_basename     = $(XVID_PKG_NAME)-$(XVID_PKG_VERSION)-$(XVID_PKG_ARCH)-$(XVID_PKG_DISTRO_NAME)-$(XVID_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
 pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
@@ -204,4 +205,4 @@ $(pkg_archive): $(install_target) $(XVID_PKG_DESCRIPTION_FILE) $(XVID_PKG_INSTAL
 	 echo "short_description=\"$(XVID_PKG_SHORT_DESCRIPTION)\"" >> $(XVID_PKG)/.PKGINFO ; \
 	 echo "url=$(XVID_PKG_URL)"                                 >> $(XVID_PKG)/.PKGINFO ; \
 	 echo "license=$(XVID_PKG_LICENSE)"                         >> $(XVID_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(XVID_PKG) && chown -R root:root . && $(MAKE_PACKAGE) --linkadd yes .."
+	@$(PSEUDO) sh -c "cd $(XVID_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

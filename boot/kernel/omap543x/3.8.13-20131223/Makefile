@@ -11,7 +11,7 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/Linux/TI/omap5/glsdk
 
-REQUIRES           = base/pkgtool
+REQUIRES           = base/radix-system
 
 # ======= __END_OF_REQUIRES__ =======
 

@@ -15,7 +15,7 @@ SOURCE_REQUIRES    = sources/GNU/EGLIBC/2.19.1
 REQUIRES           = libs/eglibc/2.19.1
 REQUIRES          += dev/kernel-headers
 REQUIRES          += dev/gcc-runtime/4.9.1
-REQUIRES          += base/pkgtool
+REQUIRES          += base/radix-system
 
 # ======= __END_OF_REQUIRES__ =======
 

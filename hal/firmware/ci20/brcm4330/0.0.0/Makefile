@@ -11,7 +11,7 @@ include ../../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/hal/firmware/ci20/brcm4330
 
-REQUIRES           = base/pkgtool
+REQUIRES           = base/radix-system
 
 # ======= __END_OF_REQUIRES__ =======
 

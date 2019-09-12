@@ -41,7 +41,7 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/x/hicolor-icon-theme
 
-REQUIRES           = base/pkgtool
+REQUIRES           = base/radix-system
 
 # ======= __END_OF_REQUIRES__ =======
 

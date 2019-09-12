@@ -106,7 +106,7 @@ endif
 
 #
 # .
-# └── base/pkgtool
+# └── base/radix-system
 #     └── dev/kernel-headers
 #         └── dev/gcc-runtime
 #             ├── libs/glibc/2.25

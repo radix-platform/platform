@@ -1,5 +1,0 @@
-#!/bin/sh
-
-version=@VERSION@
-
-wget ftp://ftp.radix.pro/sources/packages/a/dialog/dialog-${version}.tgz

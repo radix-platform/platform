@@ -9,6 +9,7 @@ url         = $(DOWNLOAD_SERVER)/sources/Linux/Baikal/BFK
 
 versions    = baikal-3.19.12-3.00.07.68
 versions   += baikal-4.4.24-4.08.84
+versions   += baikal-4.4.145-4.15.115
 
 tarballs    = $(addsuffix .tar.xz, $(addprefix linux-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))

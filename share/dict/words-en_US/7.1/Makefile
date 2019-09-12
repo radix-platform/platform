@@ -41,7 +41,7 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES     = sources/dict/scowl
 
-REQUIRES            = base/pkgtool
+REQUIRES            = base/radix-system
 
 # ======= __END_OF_REQUIRES__ =======
 

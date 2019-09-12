@@ -25,7 +25,7 @@ COMPONENT_IS_3PP   = true
 include ../../../build-system/constants.mk
 
 
-REQUIRES           = base/pkgtool
+REQUIRES           = base/radix-system
 
 # ======= __END_OF_REQUIRES__ =======
 

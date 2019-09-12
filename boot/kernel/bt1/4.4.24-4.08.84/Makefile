@@ -11,7 +11,7 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/Linux/Baikal/BFK
 
-REQUIRES           = base/pkgtool
+REQUIRES           = base/radix-system
 
 # ======= __END_OF_REQUIRES__ =======
 

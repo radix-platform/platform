@@ -42,7 +42,7 @@ SOURCE_REQUIRES  += sources/iana/tz
 
 REQUIRES          = dev/kernel-headers
 REQUIRES         += dev/gcc-runtime/4.9.2
-REQUIRES         += base/pkgtool
+REQUIRES         += base/radix-system
 
 # ======= __END_OF_REQUIRES__ =======
 

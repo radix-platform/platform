@@ -12,7 +12,7 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES  = sources/Linux/Allwinner/sunxi-3.4
 
-REQUIRES         = base/pkgtool
+REQUIRES         = base/radix-system
 
 # ======= __END_OF_REQUIRES__ =======
 

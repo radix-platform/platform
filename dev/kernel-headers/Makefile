@@ -94,7 +94,7 @@ REQUIRES           = dev/kernel/ci20/3.18-20160210-headers
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_BAIKAL_T1)),)
-REQUIRES           = dev/kernel/bt1/4.4.145-4.15.115-headers
+REQUIRES           = dev/kernel/bt1/4.4.24-4.08.84-headers
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)

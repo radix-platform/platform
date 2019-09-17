@@ -41,7 +41,7 @@ include ../../build-system/constants.mk
 
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32) $(HARDWARE_PC64)),)
-REQUIRES           = dev/kernel/x86/4.14.23-headers
+REQUIRES           = dev/kernel/x86/4.19.3-headers
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
@@ -94,25 +94,25 @@ REQUIRES           = dev/kernel/ci20/3.18-20160210-headers
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_BAIKAL_T1)),)
-REQUIRES           = dev/kernel/bt1/4.4.24-4.08.84-headers
+REQUIRES           = dev/kernel/bt1/4.4.145-4.15.115-headers
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
-REQUIRES           = dev/kernel/r1000/4.14.23-headers
+REQUIRES           = dev/kernel/r1000/4.19.3-headers
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)      \
                             $(HARDWARE_VESNIN)     \
                             $(HARDWARE_S824L_LSB)  \
                             $(HARDWARE_VESNIN_LSB)),)
-REQUIRES           = dev/kernel/power8/4.14.23-headers
+REQUIRES           = dev/kernel/power8/4.19.3-headers
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_TL2WK2)     \
                             $(HARDWARE_TL2SV2)     \
                             $(HARDWARE_TL2WK2_LSB) \
                             $(HARDWARE_TL2SV2_LSB)),)
-REQUIRES           = dev/kernel/power9/4.14.23-headers
+REQUIRES           = dev/kernel/power9/4.19.3-headers
 endif
 
 

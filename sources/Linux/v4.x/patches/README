@@ -1,7 +1,7 @@
 
 /* begin *
 
-   linux-4.9.35-sparc64-CAS-emulation.patch - software trap "0x23" to perform a CAS operations, the
+   linux-4.19.3-sparc64-CAS-emulation.patch - software trap "0x23" to perform a CAS operations, the
                                               operands are expected in registers %o0, %o1, and %o2.
 
    http://sourceware-org.1504.n7.nabble.com/Remove-sparcv8-support-td418309.html:

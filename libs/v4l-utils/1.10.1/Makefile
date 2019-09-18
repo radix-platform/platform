@@ -49,7 +49,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/m/linuxtv/v4l-utils
 
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/5.4.0
+REQUIRES           = dev/gcc/6.5.0
 endif
 REQUIRES          += app/sysfsutils/2.1.0
 REQUIRES          += libs/eudev/3.1.5

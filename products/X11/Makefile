@@ -116,18 +116,25 @@ endif
 # └── base/radix-system
 #     └── dev/kernel-headers
 #         └── dev/gcc-runtime
-#             ├── libs/glibc/2.26
-#             │   ├── libs/glibc/2.26-i18n
-#             │   │   └── libs/glibc-zoneinfo/2017b ■
+#             ├── libs/glibc/2.28
+#             │   ├── libs/glibc/2.28-i18n
+#             │   │   └── libs/glibc-zoneinfo/2019c ■
 #             │   │
-#             │   └── libs/glibc/2.26-x86_32
+#             │   └── libs/glibc/2.28-x86_32
 #             │
 #            ...
 #
 
-REQUIRES += libs/glibc/2.26-zoneinfo/2017b
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/glibc/2.26-x86_32
+REQUIRES += libs/glibc/2.28-zoneinfo/2019c
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
+REQUIRES += libs/glibc/2.28-ppc32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
+REQUIRES += libs/glibc/2.28-sparc32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
+REQUIRES += libs/glibc/2.28-x86_32
 endif
 
 #            ...

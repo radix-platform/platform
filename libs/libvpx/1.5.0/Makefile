@@ -49,12 +49,12 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/m/libvpx
 
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/5.4.0
+REQUIRES           = dev/gcc/6.5.0
 else
 ifneq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES           = libs/glibc/2.27
+REQUIRES           = libs/glibc/2.28
 else
-REQUIRES           = libs/glibc/2.27-x86_32
+REQUIRES           = libs/glibc/2.28-x86_32
 endif
 endif
 

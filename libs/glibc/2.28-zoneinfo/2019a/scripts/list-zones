@@ -1,0 +1,29 @@
+#!/bin/sh
+
+path=$1
+p01=$2
+
+if [ -z "$path" -a -z "$p01" ] ; then
+  echo ""
+  echo "Usage: `basename $0` PATH output-file"
+  echo ""
+  exit 1
+fi
+
+ls 1> /dev/null 2> $p01
+
+( cd $path
+  find . -type f | xargs file | grep "timezone data" | cut -f 1 -d : | sort | while read zone ; do
+    if [ "`dirname $zone`" != "." ] ; then
+      line="\"`echo "$zone" | sed "s,\./,,"`\" \" \" \\\\"
+      echo "$line" >> $p01
+    fi
+  done
+
+  find . -type f | xargs file | grep "timezone data" | cut -f 1 -d : | sort | while read zone ; do
+    if [ "`dirname $zone`" == "." ] ; then
+      line="\"`echo "$zone" | sed "s,\./,,"`\" \" \" \\\\"
+      echo "$line" >> $p01
+    fi
+  done
+)

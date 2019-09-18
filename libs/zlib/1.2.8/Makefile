@@ -48,7 +48,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/zlib
 
-REQUIRES           = libs/glibc/2.27
+REQUIRES           = libs/glibc/2.28
 
 # ======= __END_OF_REQUIRES__ =======
 

@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/m/libmodplug
 
 REQUIRES           = libs/libmodplug/0.8.8.5
-REQUIRES          += libs/glibc/2.27-x86_32
+REQUIRES          += libs/glibc/2.28-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

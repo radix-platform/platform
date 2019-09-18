@@ -1,0 +1,15 @@
+EOF
+
+$DIALOG --file $TMP/menu-tz$$ 2> $TMP/tz$$
+if [ $? = 1 -o $? = 255 ]; then
+  rm -f $TMP/tz$$
+  rm -f $TMP/menu-tz$$
+  exit
+fi
+
+TIMEZONE="`cat $TMP/tz$$`"
+rm -f $TMP/tz$$
+rm -f $TMP/menu-tz$$
+
+setzone $TIMEZONE
+exit

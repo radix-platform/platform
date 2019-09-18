@@ -49,7 +49,7 @@ include ../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/harfbuzz
 
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/5.4.0
+REQUIRES           = dev/gcc/6.5.0
 endif
 REQUIRES          += libs/glib2/2.48.0
 REQUIRES          += libs/libpng/libpng14/1.4.19

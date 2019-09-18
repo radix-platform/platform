@@ -49,7 +49,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/libtiff
 
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/5.4.0
+REQUIRES           = dev/gcc/6.5.0
 endif
 REQUIRES          += app/xz/5.2.2
 REQUIRES          += app/jbigkit/2.1

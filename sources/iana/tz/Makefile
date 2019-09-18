@@ -15,6 +15,8 @@ versions   += 2016a
 versions   += 2016i
 versions   += 2017b
 versions   += 2018c
+versions   += 2019a
+versions   += 2019c
 
 tarballs    = $(sort \
                 $(shell \
@@ -33,7 +35,11 @@ patches    += $(CURDIR)/patches/glibc-2.24-tzcode-2016i.patch
 patches    += $(CURDIR)/patches/glibc-2.25-tzcode-2017b.patch
 patches    += $(CURDIR)/patches/glibc-2.26-tzcode-2018c.patch
 patches    += $(CURDIR)/patches/glibc-2.27-tzcode-2018c.patch
+patches    += $(CURDIR)/patches/glibc-2.28-tzcode-2019a.patch
+patches    += $(CURDIR)/patches/glibc-2.28-tzcode-2019c.patch
 patches    += $(CURDIR)/patches/tzcode-2018c-version.patch
+patches    += $(CURDIR)/patches/tzcode-2019a-version.patch
+patches    += $(CURDIR)/patches/tzcode-2019c-version.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -76,7 +82,11 @@ $(patches): $(sha1s)
 	 ( cd create-2017b-glibc-2.25-patch ; ./create.patch.sh ) ; \
 	 ( cd create-2018c-glibc-2.26-patch ; ./create.patch.sh ) ; \
 	 ( cd create-2018c-glibc-2.27-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2019a-glibc-2.28-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2019c-glibc-2.28-patch ; ./create.patch.sh ) ; \
 	 ( cd create-2018c-version-patch    ; ./create.patch.sh ) ; \
+	 ( cd create-2019a-version-patch    ; ./create.patch.sh ) ; \
+	 ( cd create-2019c-version-patch    ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

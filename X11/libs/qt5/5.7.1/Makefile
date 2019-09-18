@@ -53,7 +53,7 @@ SOURCE_REQUIRES   += sources/packages/d/qt-creator
 endif
 
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/5.4.0
+REQUIRES           = dev/gcc/6.5.0
 endif
 REQUIRES          += net/ca-certificates/52.0
 REQUIRES          += X11/app/desktop-file-utils/0.22

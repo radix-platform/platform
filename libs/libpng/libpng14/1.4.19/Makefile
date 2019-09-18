@@ -49,7 +49,7 @@ include ../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/libpng/libpng14
 
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/5.4.0
+REQUIRES           = dev/gcc/6.5.0
 else
 ifneq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES           = libs/zlib/1.2.8

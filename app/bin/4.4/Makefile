@@ -54,9 +54,9 @@ SOURCE_REQUIRES   += sources/packages/m/fb/fbset
 
 
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/5.4.0
+REQUIRES           = dev/gcc/6.5.0
 else
-REQUIRES           = libs/glibc/2.27
+REQUIRES           = libs/glibc/2.28
 endif
 
 # ======= __END_OF_REQUIRES__ =======

@@ -116,27 +116,27 @@ endif
 # └── base/radix-system
 #     └── dev/kernel-headers
 #         └── dev/gcc-runtime
-#             ├── libs/glibc/2.27
-#             │   ├── libs/glibc/2.27-i18n
-#             │   │   └── libs/glibc-zoneinfo/2018c ■
+#             ├── libs/glibc/2.28
+#             │   ├── libs/glibc/2.28-i18n
+#             │   │   └── libs/glibc-zoneinfo/2019c ■
 #             │   │
-#             │   ├── libs/glibc/2.27-ppc32
-#             │   ├── libs/glibc/2.27-sparc32
-#             │   └── libs/glibc/2.27-x86_32
+#             │   ├── libs/glibc/2.28-ppc32
+#             │   ├── libs/glibc/2.28-sparc32
+#             │   └── libs/glibc/2.28-x86_32
 #             │
 #            ...
 #
 
-REQUIRES += libs/glibc/2.27-zoneinfo/2018c
+REQUIRES += libs/glibc/2.28-zoneinfo/2019c
 ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
                             $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
-REQUIRES += libs/glibc/2.27-ppc32
+REQUIRES += libs/glibc/2.28-ppc32
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
-REQUIRES += libs/glibc/2.27-sparc32
+REQUIRES += libs/glibc/2.28-sparc32
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
-REQUIRES += libs/glibc/2.27-x86_32
+REQUIRES += libs/glibc/2.28-x86_32
 endif
 
 #            ...

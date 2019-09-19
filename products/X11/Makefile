@@ -144,7 +144,7 @@ endif
 #             │   ├── libs/zlib/1.2.8-x86_32 ───────────┐  │                     │
 #             │   │                                     │  │                     │
 #             │   └── dev/binutils/2.28 ──── if x86_64 ─┘  │                     │
-#             │       └── dev/gcc/5.4.0                    │                     │
+#             │       └── dev/gcc/6.5.0                    │                     │
 #             │                                            │                     │
 #             ├── app/xz/5.2.2               ─────┬────────┘                     │
 #             │   └── app/xz/5.2.2-x86_32         └── app/kmod/22                │
@@ -224,14 +224,14 @@ endif
 #             │   │
 #             │   └── dev/binutils/2.28
 #             │       │
-#             │       ├── dev/gcc/5.4.0 ──────────┬── libs/mpc/1.0.3
+#             │       ├── dev/gcc/6.5.0 ──────────┬── libs/mpc/1.0.3
 #             │       │                           └── libs/isl/0.18
 #            ...     ...
 
 
 #            ...     ...
 #             │       │
-#             │       └── dev/gcc-java/5.4.0 ─────┬── app/fastjar/0.98
+#             │       └── dev/gcc-java/6.5.0 ─────┬── app/fastjar/0.98
 #             │                                   ├── X11/libs/gtk+2/2.24.25
 #            ...                                  ├── ...
 #                                                 ├── ...
@@ -1477,7 +1477,7 @@ endif
 ####### Development:
 #######
 
-REQUIRES += dev/gcc-java/5.4.0
+REQUIRES += dev/gcc-java/6.5.0
 
 
 # ======= __END_OF_REQUIRES__ =======

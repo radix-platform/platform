@@ -1,11 +1,31 @@
 
 /* begin *
 
-   The following patches are not needed for toolchain. This patches used on target rootfs:
+   binutils-2.31.1-verinfo-and-corrupt.patch - Patch to Fix invalid version info and detect corrupted objects.
+                                               NOTE: this patch should be applyed first;
 
-   binutils-2.23.2-x86_64-multilib.patch - related to linker script search path;
-   binutils-2.24-x86_64-multilib.patch   - related to linker script search path;
+   Various upstream patches:
 
-   README.TXT                            - this file.
+     binutils-2.31.1-set-long-long.patch
+     binutils-2.31.1-copy-osabi.patch
+     binutils-2.31.1-sec-merge-omit.patch
+     binutils-2.31.1-ldforcele.patch
+     binutils-2.31.1-cleansweep.patch
+
+   binutils-2.31.1-export-demangle.patch     - Export the demangle.h header file;
+   binutils-2.31.1-no-config-check.patch     - Don't check to see if 'config.h' was included in the installed headers;
+
+   README.TXT                                - this file.
+
+
+   NOTE:
+   ====
+      On ppc64 and aarch64, we might use 64KiB pages. Following command can be used
+      to set common page size to 64KiB:
+
+      sed -i -e '/#define.*ELF_COMMONPAGESIZE/s/0x1000$/0x10000/' bfd/elf*ppc.c
+      sed -i -e '/#define.*ELF_COMMONPAGESIZE/s/0x1000$/0x10000/' bfd/elf*aarch64.c
+      sed -i -e '/common_pagesize/s/4 /64 /' gold/powerpc.cc
+      sed -i -e '/pagesize/s/0x1000,/0x10000,/' gold/aarch64.cc
 
  * end */

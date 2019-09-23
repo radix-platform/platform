@@ -157,11 +157,19 @@ $(install_widec_target): $(build_widec_target)
 	   ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/libncurses++.so.6.? .  ; \
 	   ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/libncursesw.so.6.? .   ; \
 	   ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/libncurses++w.so.6.? . ; \
-	   ln -sf libncursesw.a libcursesw.a           ; \
-	   ln -sf libncurses++w.a libcurses++w.a       ; \
 	   ln -sf libncursesw.so.6.? libcursesw.so     ; \
 	   ln -sf libncurses++w.so.6.? libcurses++w.so ; \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(NCURSES_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	   ln -sf libncursesw.a libcursesw.a           ; \
+	   ln -sf libncurses++w.a libcurses++w.a       ; \
+	 )
+else
+	@( cd $(NCURSES_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	   rm -f *.a ; \
+	 )
+endif
 	@( cd $(NCURSES_32_PKG)/usr/bin ; \
 	   mkdir 32 ; \
 	   mv {c,i,n,r,t}* 32 ; \
@@ -194,8 +202,12 @@ $(install_widec_target): $(build_widec_target)
 	@( cd $(NCURSES_32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(NCURSES_32_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target binaries =======
 	@( cd $(NCURSES_32_PKG)/usr/bin/32 ; \

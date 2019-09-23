@@ -105,6 +105,7 @@ LDFLAGS += -Wl,-rpath,$(TARGET_LIB_RPATH)
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
+	@( cd $(SRC_DIR) ; chmod 755 ./bootstrap ; ./bootstrap )
 	@touch $@
 
 $(build_target): $(src_done)

@@ -51,11 +51,7 @@ SOURCE_REQUIRES    = sources/packages/l/pcre
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/6.5.0
 else
-ifneq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES           = libs/zlib/1.2.8
-else
-REQUIRES           = libs/zlib/1.2.8-x86_32
-endif
 endif
 REQUIRES          += app/bzip2/1.0.6
 REQUIRES          += libs/readline/6.3
@@ -135,8 +131,12 @@ extra_configure_switches += --enable-pcregrep-libz
 extra_configure_switches += --enable-pcregrep-libbz2
 extra_configure_switches += --enable-pcretest-libreadline
 
-extra_configure_switches += --enable-shared=yes
+ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
+extra_configure_switches += --enable-shared=yes
 
 
 TARGET_LIB_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUFFIX)
@@ -207,8 +207,12 @@ $(install_target): $(build_target)
 	@( cd $(PCRE_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(PCRE_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target shared objects =======
 	@( cd $(PCRE_PKG)/usr/lib$(LIBSUFFIX) ; \

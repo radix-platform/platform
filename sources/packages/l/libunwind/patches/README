@@ -5,4 +5,6 @@
                                       installed libunwind. The patch related to building
                                       libstdc++, ada.rts, and objc in GCC.
 
+   SPARC64 support at libunwind-1.3.1 will be discontinued.
+
  * end */

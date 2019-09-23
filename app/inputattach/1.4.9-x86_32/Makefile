@@ -13,6 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/linuxconsole
 
 REQUIRES           = app/inputattach/1.4.9
+REQUIRES          += libs/glibc/2.28-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

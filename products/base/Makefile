@@ -157,26 +157,40 @@ endif
 #             │   └── app/xz/5.2.3-x86_32             ├── app/kmod/22-sparc32    │
 #             │                                       └── app/kmod/22-x86_32     │
 #             ├── libs/libffi/3.2.1                                              │
+#             │   ├── libs/libffi/3.2.1-ppc32                                    │
+#             │   ├── libs/libffi/3.2.1-sparc32                                  │
 #             │   └── libs/libffi/3.2.1-x86_32                                   │
 #             │                                                                  │
 #             ├── libs/libelf/0.8.13                                             │
+#             │   ├── libs/libelf/0.8.13-ppc32                                   │
+#             │   ├── libs/libelf/0.8.13-sparc32                                 │
 #             │   └── libs/libelf/0.8.13-x86_32                                  │
 #             │                                                                  │
-#             ├── app/bzip2/1.0.6 ─────────────────┬─────────────────────────────┤
-#             │   └── app/bzip2/1.0.6-x86_32       └── libs/pcre/8.38            │
-#             │                                        └── libs/pcre/8.38-x86_32 │
+#             ├── app/bzip2/1.0.6 ───────────────┬───────────────────────────────┤
+#             │   ├── app/bzip2/1.0.6-ppc32      └── libs/pcre/8.38              │
+#             │   ├── app/bzip2/1.0.6-sparc32        ├── libs/pcre/8.38-ppc32    │
+#             │   └── app/bzip2/1.0.6-x86_32         ├── libs/pcre/8.38-sparc32  │
+#             │                                      └── libs/pcre/8.38-x86_32   │
 #             ├── app/gzip/1.6                                                   │
 #             │                                                                  │
 #             ├── app/inputattach/1.4.9                                          │
+#             │   ├── app/inputattach/1.4.9-ppc32                                │
+#             │   ├── app/inputattach/1.4.9-sparc32                              │
 #             │   ├── app/inputattach/1.4.9-x86_32                               │
 #             │   │                                                              │
 #             │   └── app/gpm/1.20.7                                             │
+#             │       ├── app/gpm/1.20.7-ppc32                                   │
+#             │       ├── app/gpm/1.20.7-sparc32                                 │
 #             │       ├── app/gpm/1.20.7-x86_32                                  │
 #             │       │                                                          │
 #             │       └── libs/ncurses/6.0            ───┐                       │
-#             │           ├── libs/ncurses/6.0-x86_32    ├── libs/readline/6.3 ──┘
+#             │           ├── libs/ncurses/6.0-ppc32     ├── libs/readline/6.3 ──┘
+#             │           ├── libs/ncurses/6.0-sparc32   │   ├── libs/readline/6.3-ppc32
+#             │           ├── libs/ncurses/6.0-x86_32    │   ├── libs/readline/6.3-sparc32
 #             │           │                              │   └── libs/readline/6.3-x86_32
 #             │           └── libs/libtermcap/1.2.3   ───┘
+#             │               ├── libs/libtermcap/1.2.3-ppc32
+#             │               ├── libs/libtermcap/1.2.3-sparc32
 #             │               └── libs/libtermcap/1.2.3-x86_32
 #             │
 #            ...

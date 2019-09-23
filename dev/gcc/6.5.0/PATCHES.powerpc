@@ -1,0 +1,3 @@
+
+../../../sources/GNU/gcc/gcc-6.5.0/patches/gcc-6.5.0-ppc64-multilib.patch     -p0
+../../../sources/GNU/gcc/gcc-6.5.0/patches/gcc-6.5.0-ppc64le-multilib.patch   -p0

@@ -84,8 +84,10 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(BZIP2_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)
+ifeq ($(__ENABLE_STATIC__),yes)
 	@cd $(SRC_DIR) && cp -a libbz2.a $(BZIP2_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)
-	@chmod 644 $(BZIP2_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/libbz2.a 
+	@chmod 644 $(BZIP2_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/libbz2.a
+endif
 	@mkdir -p $(BZIP2_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)
 	@cd $(SRC_DIR) && cp -a libbz2.so.$(version) $(BZIP2_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)
 	@chmod 755 $(BZIP2_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)/libbz2.so.$(version)
@@ -121,8 +123,12 @@ $(install_target): $(build_target)
 	@( cd $(BZIP2_32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(BZIP2_32_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 	@touch $@
 
 $(BZIP2_32_PKG_DESCRIPTION_FILE): $(BZIP2_32_PKG_DESCRIPTION_FILE_IN)

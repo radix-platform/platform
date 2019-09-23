@@ -172,7 +172,7 @@ $(install_target): $(build_target)
 
 $(build_widec_target): $(install_target)
 	@mkdir -p $(build_widec_dir)
-	@cd $(build_widec_dir) && $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
+	@cd $(build_widec_dir) && $(BUILD_ENVIRONMENT) BUILD_CC=gcc ../$(src_dir_name)/configure \
 	  --prefix=/usr               \
 	  --build=$(BUILD)            \
 	  --host=$(TARGET)            \
@@ -212,11 +212,19 @@ $(install_widec_target): $(build_widec_target)
 	   ln -sf ../../lib$(LIBSUFFIX)/libncurses++.so.6.? .  ; \
 	   ln -sf ../../lib$(LIBSUFFIX)/libncursesw.so.6.? .   ; \
 	   ln -sf ../../lib$(LIBSUFFIX)/libncurses++w.so.6.? . ; \
-	   ln -sf libncursesw.a libcursesw.a           ; \
-	   ln -sf libncurses++w.a libcurses++w.a       ; \
 	   ln -sf libncursesw.so.6.? libcursesw.so     ; \
 	   ln -sf libncurses++w.so.6.? libcurses++w.so ; \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(NCURSES_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   ln -sf libncursesw.a libcursesw.a     ; \
+	   ln -sf libncurses++w.a libcurses++w.a ; \
+	 )
+else
+	@( cd $(NCURSES_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   rm -f *.a ; \
+	 )
+endif
 	# ======= Check terminfo symbolic links =======
 	@( cd $(NCURSES_PKG) ; \
 	   for dir in `ls usr/share/terminfo` ; do \
@@ -284,8 +292,12 @@ $(install_widec_target): $(build_widec_target)
 	@( cd $(NCURSES_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(NCURSES_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target binaries =======
 	@( cd $(NCURSES_PKG)/usr/bin ; \

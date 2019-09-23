@@ -87,8 +87,12 @@ $(install_target): $(build_target)
 	@mkdir -p $(TERMCAP_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)
 	@( cd $(SRC_DIR) ; \
 	   install -m755 libtermcap.so.* $(TERMCAP_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(SRC_DIR) ; \
 	   install -m644 libtermcap.a $(TERMCAP_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) \
 	 )
+endif
 	@( cd $(TERMCAP_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX) ; \
 	   ln -sf libtermcap.so.?.?.? libtermcap.so.2 \
 	 )
@@ -103,8 +107,12 @@ $(install_target): $(build_target)
 	@( cd $(TERMCAP_32_PKG); \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(TERMCAP_32_PKG); \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 	@touch $@
 
 $(TERMCAP_32_PKG_DESCRIPTION_FILE): $(TERMCAP_32_PKG_DESCRIPTION_FILE_IN)

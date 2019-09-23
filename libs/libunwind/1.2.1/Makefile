@@ -62,7 +62,8 @@ src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
 
-ifeq ($(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC))
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_H5_GLIBC) $(TOOLCHAIN_RK33XX_GLIBC) \
+                   $(TOOLCHAIN_RK339X_GLIBC) $(TOOLCHAIN_S9XX_GLIBC))
 OPT_PATCHES = PATCHES.aarch64
 endif
 ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_POWER8_GLIBC) $(TOOLCHAIN_POWER8LE_GLIBC) \
@@ -145,16 +146,20 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 ARCH = x86_64
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB2X) $(HARDWARE_CB3X) \
+                            $(HARDWARE_ORANGE_PP2E) $(HARDWARE_NANOPI_NEO)     \
                             $(HARDWARE_FFRK3288) $(HARDWARE_POIN2)             \
                             $(HARDWARE_M201) $(HARDWARE_MXV)                   \
                             $(HARDWARE_NIT6Q)                                  \
                             $(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
 ARCH = arm
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
-                                             $(HARDWARE_ODROID_C2)   \
-                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
-                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)   \
+ifneq ($(filter $(HARDWARE),$(HARDWARE_ORANGE_PP) $(HARDWARE_ORANGE_PL2)  \
+                            $(HARDWARE_WECHIP_TX6)                        \
+                            $(HARDWARE_RK3328_CC) $(HARDWARE_KHADAS_EDGE) \
+                            $(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X)      \
+                                             $(HARDWARE_ODROID_C2)        \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)       \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)        \
                                              $(HARDWARE_KHADAS_VIM2)),)
 ARCH = aarch64
 endif
@@ -181,13 +186,15 @@ LDFLAGS += -Wl,-rpath,$(TARGET_LIB_RPATH)
 
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
-	$(APPLY_PATCHES)
-ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_S9XX_GLIBC)                               \
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_H5_GLIBC)     $(TOOLCHAIN_RK33XX_GLIBC)   \
+                             $(TOOLCHAIN_RK339X_GLIBC) $(TOOLCHAIN_S9XX_GLIBC)     \
                              $(TOOLCHAIN_POWER8_GLIBC) $(TOOLCHAIN_POWER8LE_GLIBC) \
                              $(TOOLCHAIN_POWER9_GLIBC) $(TOOLCHAIN_POWER9LE_GLIBC) \
                              $(TOOLCHAIN_R1000_GLIBC)),)
 	$(call apply-opt-patches, $(SRC_DIR))
 endif
+	$(APPLY_PATCHES)
+	@( cd $(SRC_DIR) ; chmod 755 ./bootstrap ; ./bootstrap )
 	@touch $@
 
 $(build_target): $(src_done)

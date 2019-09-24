@@ -158,7 +158,7 @@ endif
 #             ├── app/bzip2/1.0.6 ─────────────────┬─────────────────────────────┤
 #             │   └── app/bzip2/1.0.6-x86_32       └── libs/pcre/8.38            │
 #             │                                        └── libs/pcre/8.38-x86_32 │
-#             ├── app/gzip/1.6                                                   │
+#             ├── app/gzip/1.10                                                  │
 #             │                                                                  │
 #             ├── app/inputattach/1.4.9                                          │
 #             │   ├── app/inputattach/1.4.9-x86_32                               │

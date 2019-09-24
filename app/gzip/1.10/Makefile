@@ -57,7 +57,7 @@ endif
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 1.6
+version            = 1.10
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNU/gzip/gzip-$(version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/gzip-$(version)
@@ -79,7 +79,7 @@ PKG_GROUP = app
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 GZIP_PKG_NAME                = gzip
-GZIP_PKG_VERSION             = 1.6
+GZIP_PKG_VERSION             = 1.10
 GZIP_PKG_ARCH                = $(TOOLCHAIN)
 GZIP_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 GZIP_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)

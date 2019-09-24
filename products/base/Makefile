@@ -171,7 +171,7 @@ endif
 #             │   ├── app/bzip2/1.0.6-sparc32        ├── libs/pcre/8.38-ppc32    │
 #             │   └── app/bzip2/1.0.6-x86_32         ├── libs/pcre/8.38-sparc32  │
 #             │                                      └── libs/pcre/8.38-x86_32   │
-#             ├── app/gzip/1.6                                                   │
+#             ├── app/gzip/1.10                                                   │
 #             │                                                                  │
 #             ├── app/inputattach/1.4.9                                          │
 #             │   ├── app/inputattach/1.4.9-ppc32                                │
@@ -278,7 +278,7 @@ endif
 #             │   │
 #             │   └── dev/binutils/2.28
 #             │       │
-#             │       ├── dev/gcc/6.4.0 ──────────┬── libs/mpc/1.1.0
+#             │       ├── dev/gcc/6.5.0 ──────────┬── libs/mpc/1.1.0
 #             │       │                           └── libs/isl/0.18
 #            ...     ...
 
@@ -431,7 +431,7 @@ endif
 ####################################################################################################
 #
 # The tree presented above demonstrates dependencies of packages. I will not continue drawing
-# as it is time consuming. I think this information is sufficient to start porting system.
+# as it is time consuming. I think this information is sufficient to start porting the system.
 #
 ####################################################################################################
 

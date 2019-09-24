@@ -325,15 +325,15 @@ endif
 #             ├── dev/flex/2.6.0
 #             │   └── dev/flex/2.6.0-x86_32
 #             │
-#             ├── dev/bison/3.0.4 ■
-#             │   └── dev/bison/3.0.4-x86_32
+#             ├── dev/bison/3.4.2 ■
+#             │   └── dev/bison/3.4.2-x86_32
 #             │
 #             │      ...
 #             │       ├───────────────────────────────────── libs/readline/6.3
 #             │       │                                      └── libs/readline/6.3-x86_32
 #             │       │
-#             │       ├── dev/lua/5.3.2 ■
-#             │      ...  └── dev/lua/5.3.2-x86_32
+#             │       ├── dev/lua/5.3.5 ■
+#             │      ...  └── dev/lua/5.3.5-x86_32
 #             │
 #             │      ...
 #             │       ├───────────────────────────────────── libs/gmp/6.1.2
@@ -437,21 +437,53 @@ endif
 
 
 REQUIRES += libs/keyutils/1.5.9
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
+REQUIRES += libs/keyutils/1.5.9-ppc32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
+REQUIRES += libs/keyutils/1.5.9-sparc32
+endif
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/keyutils/1.5.9-x86_32
 endif
+
 REQUIRES += app/ncompress/4.2.4.4
+
 REQUIRES += app/utempter/1.1.6
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
+REQUIRES += app/utempter/1.1.6-ppc32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
+REQUIRES += app/utempter/1.1.6-sparc32
+endif
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += app/utempter/1.1.6-x86_32
 endif
-REQUIRES += dev/bison/3.0.4
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += dev/bison/3.0.4-x86_32
+
+REQUIRES += dev/bison/3.4.2
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
+REQUIRES += dev/bison/3.4.2-ppc32
 endif
-REQUIRES += dev/lua/5.3.2
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
+REQUIRES += dev/bison/3.4.2-sparc32
+endif
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += dev/lua/5.3.2-x86_32
+REQUIRES += dev/bison/3.4.2-x86_32
+endif
+
+REQUIRES += dev/lua/5.3.5
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
+REQUIRES += dev/lua/5.3.5-ppc32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
+REQUIRES += dev/lua/5.3.5-sparc32
+endif
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += dev/lua/5.3.5-x86_32
 endif
 
 REQUIRES += app/bsd-games/2.17

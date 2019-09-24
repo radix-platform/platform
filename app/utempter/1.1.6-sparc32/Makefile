@@ -1,10 +1,10 @@
 
-COMPONENT_TARGETS  = $(HARDWARE_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_MBC4_PC)
 
 NEED_ABS_PATH      = true
 COMPONENT_IS_3PP   = true
 
-CREATE_X86_32_PACKAGE = true
+CREATE_SPARC32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/utempter
 
 REQUIRES           = app/utempter/1.1.6
-REQUIRES          += libs/glibc/2.28-x86_32
+REQUIRES          += libs/glibc/2.28-sparc32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -43,7 +43,7 @@ UTEMPTER_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 UTEMPTER_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 UTEMPTER_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                  |---handy-ruler-------------------------------|
-UTEMPTER_32_PKG_SHORT_DESCRIPTION   = utmp updating x86_32 library
+UTEMPTER_32_PKG_SHORT_DESCRIPTION   = utmp updating sparc32 library
 UTEMPTER_32_PKG_URL                 = $(BUG_URL)
 UTEMPTER_32_PKG_LICENSE             = LGPLv2.1
 UTEMPTER_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(UTEMPTER_32_PKG_NAME)-pkg-description
@@ -74,8 +74,8 @@ include ../../../build-system/core.mk
 
 env_sysroot = DESTDIR=$(UTEMPTER_32_PKG)
 
-environment  = libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
-environment += libexecdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
+environment  = libdir=/usr/lib$(MULTILIB_SPARC32_SUFFIX)
+environment += libexecdir=/usr/lib$(MULTILIB_SPARC32_SUFFIX)
 environment += includedir=/usr/include
 environment += mandir=/usr/share/man
 
@@ -95,7 +95,7 @@ $(install_target): $(build_target)
 	@mkdir -p $(UTEMPTER_32_PKG)
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) -j1 install $(env_sysroot)
 ifneq ($(__ENABLE_STATIC__),yes)
-	@rm -f $(UTEMPTER_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/*.a
+	@rm -f $(UTEMPTER_32_PKG)/usr/lib$(MULTILIB_SPARC32_SUFFIX)/*.a
 endif
 	@rm -rf $(UTEMPTER_32_PKG)/usr/include
 	@rm -rf $(UTEMPTER_32_PKG)/usr/share
@@ -134,5 +134,5 @@ $(pkg_archive): $(install_target) $(UTEMPTER_32_PKG_DESCRIPTION_FILE) $(UTEMPTER
 	 echo "license=$(UTEMPTER_32_PKG_LICENSE)"                         >> $(UTEMPTER_32_PKG)/.PKGINFO
 	@$(PSEUDO) sh -c "cd $(UTEMPTER_32_PKG) && \
 	                  chown -R root:root .  && \
-	                  chown    root:22 usr/lib$(MULTILIB_X86_32_SUFFIX)/utempter/utempter && \
+	                  chown    root:22 usr/lib$(MULTILIB_SPARC32_SUFFIX)/utempter/utempter && \
 	                  $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

@@ -51,11 +51,7 @@ SOURCE_REQUIRES    = sources/packages/a/utempter
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/6.5.0
 else
-ifneq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES           = libs/glibc/2.28
-else
-REQUIRES           = libs/glibc/2.28-x86_32
-endif
 endif
 
 # ======= __END_OF_REQUIRES__ =======
@@ -140,6 +136,9 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(UTEMPTER_PKG)
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) -j1 install $(env_sysroot)
+ifneq ($(__ENABLE_STATIC__),yes)
+	@rm -f $(UTEMPTER_PKG)/usr/lib$(LIBSUFFIX)/*.a
+endif
 	# ======= Install Documentation =======
 	@if [ -d $(UTEMPTER_PKG)/usr/share/man ]; then \
 	  ( cd $(UTEMPTER_PKG)/usr/share/man ; \
@@ -168,8 +167,12 @@ $(install_target): $(build_target)
 	@( cd $(UTEMPTER_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(UTEMPTER_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 	@touch $@
 
 $(UTEMPTER_PKG_DESCRIPTION_FILE): $(UTEMPTER_PKG_DESCRIPTION_FILE_IN)

@@ -53,7 +53,7 @@ REQUIRES           = libs/readline/6.3
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 5.3.2
+version            = 5.3.5
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/a/lua/lua-$(version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/lua-$(version)
@@ -76,7 +76,7 @@ PKG_GROUP = dev
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 LUA_PKG_NAME                = lua
-LUA_PKG_VERSION             = 5.3.2
+LUA_PKG_VERSION             = 5.3.5
 LUA_PKG_ARCH                = $(TOOLCHAIN)
 LUA_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LUA_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)

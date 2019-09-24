@@ -171,7 +171,7 @@ endif
 #             │   ├── app/bzip2/1.0.6-sparc32        ├── libs/pcre/8.38-ppc32    │
 #             │   └── app/bzip2/1.0.6-x86_32         ├── libs/pcre/8.38-sparc32  │
 #             │                                      └── libs/pcre/8.38-x86_32   │
-#             ├── app/gzip/1.10                                                   │
+#             ├── app/gzip/1.10                                                  │
 #             │                                                                  │
 #             ├── app/inputattach/1.4.9                                          │
 #             │   ├── app/inputattach/1.4.9-ppc32                                │

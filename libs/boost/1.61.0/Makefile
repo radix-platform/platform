@@ -116,23 +116,26 @@ include ../../../build-system/core.mk
 #
 # See: $(SRC_DIR)/libs/context/build/Jamfile.v2
 #
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)      \
-                            $(HARDWARE_CB2X)      \
-                            $(HARDWARE_CB3X)      \
-                            $(HARDWARE_FFRK3288)  \
-                            $(HARDWARE_M201) $(HARDWARE_MXV) \
-                            $(HARDWARE_NIT6Q)     \
-                            $(HARDWARE_OMAP5UEVM) \
-                            $(HARDWARE_DRA7XXEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB2X) $(HARDWARE_CB3X) \
+                            $(HARDWARE_ORANGE_PP2E) $(HARDWARE_NANOPI_NEO)     \
+                            $(HARDWARE_FFRK3288) $(HARDWARE_POIN2)             \
+                            $(HARDWARE_M201) $(HARDWARE_MXV)                   \
+                            $(HARDWARE_NIT6Q)                                  \
+                            $(HARDWARE_OKMX6DL_C) $(HARDWARE_OKMX6Q_C)         \
+                            $(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
 ARCH          = arm
 ABI           = aapcs
 BINARY_FORMAT = elf
 ADDRESS_MODEL = 32
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
-                                             $(HARDWARE_ODROID_C2)   \
-                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
-                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_ORANGE_PP) $(HARDWARE_ORANGE_PL2)  \
+                            $(HARDWARE_WECHIP_TX6)                        \
+                            $(HARDWARE_RK3328_CC) $(HARDWARE_KHADAS_EDGE) \
+                            $(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X)      \
+                                             $(HARDWARE_ODROID_C2)        \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)       \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)        \
+                                             $(HARDWARE_KHADAS_VIM2)),)
 ARCH          = arm
 ABI           = aapcs
 BINARY_FORMAT = elf

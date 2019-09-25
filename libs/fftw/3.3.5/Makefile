@@ -131,14 +131,11 @@ extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var
 
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)      \
-                            $(HARDWARE_CB2X)      \
-                            $(HARDWARE_CB3X)      \
-                            $(HARDWARE_FFRK3288)  \
-                            $(HARDWARE_M201)      \
-                            $(HARDWARE_MXV)       \
-                            $(HARDWARE_OMAP5UEVM) \
-                            $(HARDWARE_DRA7XXEVM)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB2X) $(HARDWARE_CB3X) \
+                            $(HARDWARE_ORANGE_PP2E) $(HARDWARE_NANOPI_NEO)     \
+                            $(HARDWARE_FFRK3288) $(HARDWARE_POIN2)             \
+                            $(HARDWARE_M201) $(HARDWARE_MXV)                   \
+                            $(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
 #
 # Fast timer is available if armv7 has 64 bits readable CNTVCT
 # also we have to change try_run to try_link in configure script.
@@ -148,7 +145,7 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)      \
 #
 float_configure_switches  = --enable-neon
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
+ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q) $(HARDWARE_OKMX6DL_C) $(HARDWARE_OKMX6Q_C)),)
 float_configure_switches  = --enable-generic-simd128
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32)),)

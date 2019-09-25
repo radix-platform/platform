@@ -5,12 +5,11 @@ COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 include ../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/Linux/Boundary/Nit6Q
+url         = $(DOWNLOAD_SERVER)/sources/Linux/NXP/i.MX
 
-versions    = imx6-3.14.28-20160304
-versions   += imx6-4.14.98-20190925
+versions    = imx-4.14.98-20190418
 
-description = linux-imx6.txt
+description = linux-imx.txt
 tarballs    = $(addsuffix .tar.xz, $(addprefix linux-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 

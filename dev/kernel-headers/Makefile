@@ -110,7 +110,11 @@ REQUIRES           = dev/kernel/kvim/3.14.29-20170119-headers
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
-REQUIRES           = dev/kernel/nit6q/3.14.28-20160304-headers
+REQUIRES           = dev/kernel/nit6q/4.14.98-20190925-headers
+endif
+
+ifneq ($(filter $(HARDWARE),$(HARDWARE_OKMX6DL_C) $(HARDWARE_OKMX6Q_C)),)
+REQUIRES           = dev/kernel/okmx6x/4.14.98-20190418-headers
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)

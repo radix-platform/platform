@@ -122,32 +122,42 @@ include ../../../build-system/core.mk
 env_sysroot = DESTDIR=$(X265_PKG)
 
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB2X) $(HARDWARE_CB3X) \
-                            $(HARDWARE_ORANGE_PP2E) $(HARDWARE_NANOPI_NEO)     \
-                            $(HARDWARE_FFRK3288)    \
-                            $(HARDWARE_M201) $(HARDWARE_MXV) \
-                            $(HARDWARE_NIT6Q)       \
-                            $(HARDWARE_OKMX6DL_C) $(HARDWARE_OKMX6Q_C) \
-                            $(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
-ARCH_ALIAS = armv7l
-endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_ORANGE_PP)  \
-                            $(HARDWARE_ORANGE_PL2) \
-                            $(HARDWARE_WECHIP_TX6) \
-                            $(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
-                                             $(HARDWARE_ODROID_C2)   \
-                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
-                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
-ARCH_ALIAS = aarch64
-endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32)),)
 ARCH_ALIAS = x86
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 ARCH_ALIAS = x86_64
 endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB2X) $(HARDWARE_CB3X) \
+                            $(HARDWARE_ORANGE_PP2E) $(HARDWARE_NANOPI_NEO)     \
+                            $(HARDWARE_FFRK3288) $(HARDWARE_POIN2)             \
+                            $(HARDWARE_M201) $(HARDWARE_MXV)                   \
+                            $(HARDWARE_NIT6Q)                                  \
+                            $(HARDWARE_OKMX6DL_C) $(HARDWARE_OKMX6Q_C)         \
+                            $(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
+ARCH_ALIAS = armv7l
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_ORANGE_PP) $(HARDWARE_ORANGE_PL2)  \
+                            $(HARDWARE_WECHIP_TX6)                        \
+                            $(HARDWARE_RK3328_CC) $(HARDWARE_KHADAS_EDGE) \
+                            $(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X)      \
+                                             $(HARDWARE_ODROID_C2)        \
+                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)       \
+                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)        \
+                                             $(HARDWARE_KHADAS_VIM2)),)
+ARCH_ALIAS = aarch64
+endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20) $(HARDWARE_BAIKAL_T1)),)
 ARCH_ALIAS = mipsel
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)      $(HARDWARE_VESNIN)     \
+                            $(HARDWARE_S824L_LSB)  $(HARDWARE_VESNIN_LSB) \
+                            $(HARDWARE_TL2WK2)     $(HARDWARE_TL2SV2)     \
+                            $(HARDWARE_TL2WK2_LSB) $(HARDWARE_TL2SV2_LSB)),)
+ARCH = ppc64
+endif
+ifeq ($(TOOLCHAIN),$(TOOLCHAIN_R1000_GLIBC))
+ARCH = sparc64
 endif
 
 

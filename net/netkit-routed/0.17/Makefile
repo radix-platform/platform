@@ -168,6 +168,7 @@ $(install_target): $(build_target)
 $(ROUTED_PKG_DESCRIPTION_FILE): $(ROUTED_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/0.18/g" > $@
 
+$(pkg_certificate) : $(pkg_archive) ;
 $(pkg_signature)   : $(pkg_archive) ;
 $(pkg_description) : $(pkg_archive) ;
 

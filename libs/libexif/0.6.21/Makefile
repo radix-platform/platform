@@ -208,6 +208,7 @@ $(install_target): $(build_target)
 $(LIBEXIF_PKG_DESCRIPTION_FILE): $(LIBEXIF_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
+$(pkg_certificate) : $(pkg_archive) ;
 $(pkg_signature)   : $(pkg_archive) ;
 $(pkg_description) : $(pkg_archive) ;
 

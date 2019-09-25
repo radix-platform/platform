@@ -110,6 +110,7 @@ $(build_kh_pkg): $(KH_DEV_PKG)/usr/include/linux/autoconf.h
 $(KH_DEV_PKG_DESCRIPTION_FILE): $(KH_DEV_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@KERNEL_VERSION@/$(modules_version)/g" > $@
 
+$(pkg_certificate) : $(pkg_archive) ;
 $(pkg_signature)   : $(pkg_archive) ;
 $(pkg_description) : $(pkg_archive) ;
 

@@ -150,6 +150,7 @@ $(install_target): $(build_target)
 $(LIBX264_32_PKG_DESCRIPTION_FILE): $(LIBX264_32_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(short_version)/g" > $@
 
+$(pkg_certificate) : $(pkg_archive) ;
 $(pkg_signature)   : $(pkg_archive) ;
 $(pkg_description) : $(pkg_archive) ;
 

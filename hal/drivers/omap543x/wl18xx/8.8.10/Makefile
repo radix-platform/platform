@@ -171,6 +171,7 @@ $(WL18XX_BIN_PKG_DESCRIPTION_FILE): $(WL18XX_BIN_PKG_DESCRIPTION_FILE_IN)
 $(WL18XX_BIN_PKG_INSTALL_SCRIPT): $(WL18XX_BIN_PKG_INSTALL_SCRIPT_IN)
 	@cat $< | $(SED) -e "s/@MODULES_VERSION@/$(modules_version)/g" > $@
 
+$(pkg_certificate) : $(pkg_archive) ;
 $(pkg_signature)   : $(pkg_archive) ;
 $(pkg_description) : $(pkg_archive) ;
 

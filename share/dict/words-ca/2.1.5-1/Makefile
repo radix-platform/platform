@@ -181,6 +181,7 @@ $(WORDS_PKG_INSTALL_SCRIPT): $(WORDS_PKG_INSTALL_SCRIPT_IN)
 	@cat $< | $(SED) -e "s/@WORDLIST@/$(wordlist)/g" | \
 	          $(SED) -e "s/@SPELLING@/$(spelling)/g"   > $@
 
+$(pkg_certificate) : $(pkg_archive) ;
 $(pkg_signature)   : $(pkg_archive) ;
 $(pkg_description) : $(pkg_archive) ;
 

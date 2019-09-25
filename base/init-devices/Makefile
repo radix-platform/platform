@@ -93,6 +93,7 @@ $(build):
 $(INIT_DEV_PKG_DESCRIPTION_FILE): $(INIT_DEV_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(INIT_DEV_PKG_VERSION)/g" > $@
 
+$(pkg_certificate) : $(pkg_archive) ;
 $(pkg_signature)   : $(pkg_archive) ;
 $(pkg_description) : $(pkg_archive) ;
 

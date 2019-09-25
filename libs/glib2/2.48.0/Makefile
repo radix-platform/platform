@@ -298,6 +298,7 @@ $(GLIB2_PKG_DESCRIPTION_FILE): $(GLIB2_PKG_DESCRIPTION_FILE_IN)
 $(GLIB2_PKG_INSTALL_SCRIPT): $(GLIB2_PKG_INSTALL_SCRIPT_IN)
 	@cat $< | $(SED) -e "s,@LIBDIR@,/usr/lib$(LIBSUFFIX),g" > $@
 
+$(pkg_certificate) : $(pkg_archive) ;
 $(pkg_signature)   : $(pkg_archive) ;
 $(pkg_description) : $(pkg_archive) ;
 

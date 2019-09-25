@@ -152,6 +152,7 @@ $(GLIBC_TZ_PKG_DESCRIPTION_FILE): $(GLIBC_TZ_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" \
 	        | $(SED) -e "s/@TZVERSION@/$(tz_version)/g" > $@
 
+$(pkg_certificate) : $(pkg_archive) ;
 $(pkg_signature)   : $(pkg_archive) ;
 $(pkg_description) : $(pkg_archive) ;
 

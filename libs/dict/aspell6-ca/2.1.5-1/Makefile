@@ -158,6 +158,7 @@ $(ASPELL6_PKG_DESCRIPTION_FILE): $(ASPELL6_PKG_DESCRIPTION_FILE_IN)
 	          $(SED) -e "s/@ABASE@/$(aspell_base_version)/g" | \
 	          $(SED) -e "s/@LANGUAGE@/$(language)/g"           > $@
 
+$(pkg_certificate) : $(pkg_archive) ;
 $(pkg_signature)   : $(pkg_archive) ;
 $(pkg_description) : $(pkg_archive) ;
 

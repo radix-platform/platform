@@ -199,6 +199,7 @@ $(GLADE2_PKG_DESCRIPTION_FILE): $(GLADE2_PKG_DESCRIPTION_FILE_IN)
 $(GLADE2_PKG_INSTALL_SCRIPT): $(GLADE2_PKG_INSTALL_SCRIPT_IN)
 	@cat $< | $(SED) -e "s,@LIBDIR@,/usr/lib$(LIBSUFFIX),g" > $@
 
+$(pkg_certificate) : $(pkg_archive) ;
 $(pkg_signature)   : $(pkg_archive) ;
 $(pkg_description) : $(pkg_archive) ;
 

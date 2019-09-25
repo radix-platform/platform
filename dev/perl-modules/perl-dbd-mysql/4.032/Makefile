@@ -340,6 +340,7 @@ $(PERL_PKG_DESCRIPTION_FILE): $(PERL_PKG_DESCRIPTION_FILE_IN)
 $(PERL_PKG_INSTALL_SCRIPT): $(PERL_PKG_INSTALL_SCRIPT_IN)
 	@cat $< | $(SED) -e "s,@PERL_LOCAL_POD@,$(perl_local_pod),g" > $@
 
+$(pkg_certificate) : $(pkg_archive) ;
 $(pkg_signature)   : $(pkg_archive) ;
 $(pkg_description) : $(pkg_archive) ;
 

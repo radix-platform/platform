@@ -24,6 +24,8 @@ COMPONENT_TARGETS += $(HARDWARE_Q201)
 COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
 COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM2)
 COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
+COMPONENT_TARGETS += $(HARDWARE_OKMX6DL_C)
+COMPONENT_TARGETS += $(HARDWARE_OKMX6Q_C)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
@@ -120,17 +122,19 @@ include ../../../build-system/core.mk
 env_sysroot = DESTDIR=$(X265_PKG)
 
 
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)      \
-                            $(HARDWARE_CB2X)      \
-                            $(HARDWARE_CB3X)      \
-                            $(HARDWARE_FFRK3288)  \
+ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB2X) $(HARDWARE_CB3X) \
+                            $(HARDWARE_ORANGE_PP2E) $(HARDWARE_NANOPI_NEO)     \
+                            $(HARDWARE_FFRK3288)    \
                             $(HARDWARE_M201) $(HARDWARE_MXV) \
-                            $(HARDWARE_NIT6Q)     \
-                            $(HARDWARE_OMAP5UEVM) \
-                            $(HARDWARE_DRA7XXEVM)),)
+                            $(HARDWARE_NIT6Q)       \
+                            $(HARDWARE_OKMX6DL_C) $(HARDWARE_OKMX6Q_C) \
+                            $(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
 ARCH_ALIAS = armv7l
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
+ifneq ($(filter $(HARDWARE),$(HARDWARE_ORANGE_PP)  \
+                            $(HARDWARE_ORANGE_PL2) \
+                            $(HARDWARE_WECHIP_TX6) \
+                            $(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
                                              $(HARDWARE_ODROID_C2)   \
                             $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
                             $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)

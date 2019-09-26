@@ -1,10 +1,13 @@
 
-COMPONENT_TARGETS  = $(HARDWARE_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_S824L)
+COMPONENT_TARGETS += $(HARDWARE_VESNIN)
+COMPONENT_TARGETS += $(HARDWARE_TL2WK2)
+COMPONENT_TARGETS += $(HARDWARE_TL2SV2)
 
 NEED_ABS_PATH      = true
 COMPONENT_IS_3PP   = true
 
-CREATE_X86_32_PACKAGE = true
+CREATE_PPC32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
@@ -12,12 +15,13 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/lzo
 
-REQUIRES           = libs/lzo/2.08
+REQUIRES           = libs/lzo/2.10
+REQUIRES          += libs/glibc/2.28-ppc32
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 2.08
+version            = 2.10
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/lzo/lzo-$(version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/lzo-$(version)
@@ -38,7 +42,7 @@ PKG_GROUP = libs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 LZO_32_PKG_NAME                = lzo-x32
-LZO_32_PKG_VERSION             = 2.08
+LZO_32_PKG_VERSION             = 2.10
 LZO_32_PKG_ARCH                = $(TOOLCHAIN)
 LZO_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LZO_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -75,11 +79,15 @@ include ../../../build-system/core.mk
 env_sysroot  = DESTDIR=$(LZO_32_PKG)
 
 
-extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
+extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_PPC32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --disable-dependency-tracking
+ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
 extra_configure_switches += --enable-shared=yes
 
 
@@ -106,13 +114,13 @@ $(install_target): $(build_target)
 	@rm -rf $(LZO_32_PKG)/usr/include
 	@rm -rf $(LZO_32_PKG)/usr/share
 	# ======= remove toolchain path from target libtool *.la files =======
-	@( cd $(LZO_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(LZO_32_PKG)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" liblzo?.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(LZO_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
 	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" liblzo?.la  ; \
 	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" liblzo?.la  \
 	 )
@@ -120,8 +128,12 @@ $(install_target): $(build_target)
 	@( cd $(LZO_32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(LZO_32_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 	@touch $@
 
 $(LZO_32_PKG_DESCRIPTION_FILE): $(LZO_32_PKG_DESCRIPTION_FILE_IN)

@@ -12,13 +12,13 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/lzo
 
-REQUIRES           = libs/lzo/2.09
+REQUIRES           = libs/lzo/2.10
 REQUIRES          += libs/glibc/2.28-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 2.09
+version            = 2.10
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/lzo/lzo-$(version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/lzo-$(version)
@@ -39,7 +39,7 @@ PKG_GROUP = libs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 LZO_32_PKG_NAME                = lzo-x32
-LZO_32_PKG_VERSION             = 2.09
+LZO_32_PKG_VERSION             = 2.10
 LZO_32_PKG_ARCH                = $(TOOLCHAIN)
 LZO_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LZO_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)

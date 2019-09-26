@@ -50,7 +50,7 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/cairo
 
-REQUIRES           = libs/lzo/2.09
+REQUIRES           = libs/lzo/2.10
 REQUIRES          += libs/pcre/8.38
 REQUIRES          += libs/glib2/2.48.0
 REQUIRES          += X11/libs/fontconfig/2.12.4

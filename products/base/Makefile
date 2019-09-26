@@ -310,8 +310,10 @@ endif
 #             │   ├── libs/libunistring/0.9.10-sparc32
 #             │   └── libs/libunistring/0.9.10-x86_32
 #             │
-#             ├── libs/lzo/2.09
-#             │   └── libs/lzo/2.09-x86_32
+#             ├── libs/lzo/2.10
+#             │   ├── libs/lzo/2.10-ppc32
+#             │   ├── libs/lzo/2.10-sparc32
+#             │   └── libs/lzo/2.10-x86_32
 #             │
 #             ├── dev/libtool/2.4.6
 #             │   └── dev/libtool/2.4.6-x86_32

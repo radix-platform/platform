@@ -49,27 +49,26 @@ include ../../../build-system/constants.mk
 
 
 SOURCE_REQUIRES    = sources/packages/l/gc
+SOURCE_REQUIRES   += sources/packages/l/libatomic_ops
 
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/5.3.0
+REQUIRES           = dev/gcc/6.5.0
 else
-ifneq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES           = libs/glibc/2.24
-else
-REQUIRES           = libs/glibc/2.24-x86_32
-endif
+REQUIRES           = libs/glibc/2.28
 endif
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 7.2
-version_suffix     = d
-tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/gc/gc-$(version)$(version_suffix).tar.gz
+version            = 8.0.4
+libatomic_version  = 7.6.10
+tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/gc/gc-$(version).tar.gz
+tar_gz_archive_ops = $(SRC_PACKAGE_PATH)/packages/l/libatomic_ops/libatomic_ops-$(libatomic_version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/gc-$(version)
 src_dir_name       = gc-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
+ops_src_done       = $(TARGET_BUILD_DIR)/.ops-source-done
 
 PATCHES = PATCHES
 
@@ -86,7 +85,7 @@ PKG_GROUP = libs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 GC_PKG_NAME                = gc
-GC_PKG_VERSION             = 7.2d
+GC_PKG_VERSION             = 8.0.4
 GC_PKG_ARCH                = $(TOOLCHAIN)
 GC_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 GC_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -133,8 +132,14 @@ extra_configure_switches += --enable-large-config
 extra_configure_switches += --enable-parallel-mark
 extra_configure_switches += --enable-threads=posix
 extra_configure_switches += --with-libatomic-ops=no
+ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
 extra_configure_switches += --enable-shared=yes
+
+CFLAGS += -DUSE_GET_STACKBASE_FOR_MAIN
 
 
 TARGET_LIB_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUFFIX)
@@ -147,7 +152,17 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(APPLY_PATCHES)
 	@touch $@
 
-$(build_target): $(src_done)
+$(ops_src_done): $(src_done)
+	@echo "Expanding $(tar_gz_archive_ops)"
+	@tar xzf $(tar_gz_archive_ops) -C $(TARGET_BUILD_DIR)
+	@cd $(SRC_DIR) ; ln -sf ../libatomic_ops-$(libatomic_version) libatomic_ops
+	@( cd $(SRC_DIR) ; \
+	   autoreconf -vif        ; \
+	   automake --add-missing ; \
+	 )
+	@touch $@
+
+$(build_target): $(ops_src_done)
 	@mkdir -p $(build_dir)
 	@cd $(build_dir) && \
 	  $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
@@ -161,15 +176,35 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(GC_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
+	@cd $(build_dir)/libatomic_ops && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Install Documentation =======
-	@mkdir -p $(GC_PKG)/usr/doc/$(src_dir_name)
-	@cp -a $(SRC_DIR)/README.QUICK \
+	@mkdir -p $(GC_PKG)/usr/doc/$(src_dir_name)/atomic_ops
+	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/README.QUICK \
 	       $(GC_PKG)/usr/doc/$(src_dir_name)
-	@mkdir -p $(GC_PKG)/usr/share/doc/$(src_dir_name)
-	@cp -a $(SRC_DIR)/README.QUICK \
+	@cp -a $(SRC_DIR)/libatomic_ops/AUTHORS $(SRC_DIR)/libatomic_ops/COPYING \
+	       $(GC_PKG)/usr/doc/$(src_dir_name)/atomic_ops
+	@mkdir -p $(GC_PKG)/usr/share/doc/$(src_dir_name)/atomic_ops
+	@( cd $(GC_PKG)/usr/share/doc/$(src_dir_name) ; \
+	   mv COPYING README.md *.txt atomic_ops/ ; \
+	 )
+	@cp -a $(SRC_DIR)/README.QUICK $(SRC_DIR)/README.md \
 	       $(GC_PKG)/usr/share/doc/$(src_dir_name)
-	@mv $(GC_PKG)/usr/share/gc/* $(GC_PKG)/usr/share/doc/$(src_dir_name)
-	@rm -rf $(GC_PKG)/usr/share/gc
+	@cp -a $(SRC_DIR)/libatomic_ops/AUTHORS \
+	       $(GC_PKG)/usr/share/doc/$(src_dir_name)/atomic_ops
+	@mkdir -p $(GC_PKG)/usr/share/man/man3
+	@if [ -d $(GC_PKG)/usr/share/man ]; then \
+	  ( cd $(GC_PKG)/usr/share/man ; \
+	    for manpagedir in `find . -type d -name "man*"` ; do \
+	      ( cd $$manpagedir ; \
+	        for eachpage in `find . -type l -maxdepth 1` ; do \
+	          ln -s `readlink $$eachpage`.gz $$eachpage.gz ; \
+	          rm $$eachpage ; \
+	        done ; \
+	        gzip -9 *.?  ; \
+	      ) \
+	    done \
+	  ) \
+	 fi
 	@( cd $(SRC_DIR) ; \
 	   if [ -r ChangeLog ]; then \
 	     DOCSDIR=`echo $(GC_PKG)/usr/share/doc/$(src_dir_name)` ; \
@@ -179,25 +214,32 @@ $(install_target): $(build_target)
 	 )
 	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(GC_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" libcord.la libgc.la libgccpp.la \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libatomic_ops.la libatomic_ops_gpl.la  \
+	                                    libcord.la libgc.la libgccpp.la      ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(GC_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libcord.la libgc.la libgccpp.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libcord.la libgc.la libgccpp.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libatomic_ops.la libatomic_ops_gpl.la  \
+	                                            libcord.la libgc.la libgccpp.la      ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libatomic_ops.la libatomic_ops_gpl.la  \
+	                                              libcord.la libgc.la libgccpp.la      ; \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" bdw-gc.pc \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" atomic_ops.pc bdw-gc.pc ; \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(GC_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(GC_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target shared objects =======
 	@( cd $(GC_PKG)/usr/lib$(LIBSUFFIX) ; \

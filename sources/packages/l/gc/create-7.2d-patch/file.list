@@ -1,3 +1,0 @@
-gc-7.2/libatomic_ops/tests/test_atomic.c
-gc-7.2/libatomic_ops/tests/test_malloc.c
-gc-7.2/libatomic_ops/tests/test_stack.c

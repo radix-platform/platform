@@ -7,15 +7,15 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/gc
 
-versions    = 7.2d 7.4.2
+versions    = 7.4.2 8.0.4
 pkgname     = gc
 suffix      = tar.gz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/gc-7.2d.patch
-patches    += $(CURDIR)/patches/gc-7.4.2-noelision.patch
+patches     = $(CURDIR)/patches/gc-7.4.2-noelision.patch
+patches    += $(CURDIR)/patches/gc-7.4.2-machdep.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,8 +50,8 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-7.2d-patch            ; ./create.patch.sh ) ; \
 	 ( cd create-7.4.2-noelision-patch ; ./create.patch.sh ) ; \
+	 ( cd create-7.4.2-machdep-patch   ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

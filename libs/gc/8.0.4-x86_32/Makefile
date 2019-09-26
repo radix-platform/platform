@@ -13,14 +13,14 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/gc
 SOURCE_REQUIRES   += sources/packages/l/libatomic_ops
 
-REQUIRES           = libs/gc/7.4.2
+REQUIRES           = libs/gc/8.0.4
 REQUIRES          += libs/glibc/2.28-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 7.4.2
-libatomic_version  = 7.4.2
+version            = 8.0.4
+libatomic_version  = 7.6.10
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/gc/gc-$(version)$(version_suffix).tar.gz
 tar_gz_archive_ops = $(SRC_PACKAGE_PATH)/packages/l/libatomic_ops/libatomic_ops-$(libatomic_version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
@@ -43,7 +43,7 @@ PKG_GROUP = libs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 GC_32_PKG_NAME                = gc-x32
-GC_32_PKG_VERSION             = 7.4.2
+GC_32_PKG_VERSION             = 8.0.4
 GC_32_PKG_ARCH                = $(TOOLCHAIN)
 GC_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 GC_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -115,9 +115,6 @@ $(ops_src_done): $(src_done)
 	@tar xzf $(tar_gz_archive_ops) -C $(TARGET_BUILD_DIR)
 	@cd $(SRC_DIR) ; ln -sf ../libatomic_ops-$(libatomic_version) libatomic_ops
 	@( cd $(SRC_DIR) ; \
-	   sed -i 's#pkgdata#doc#' doc/doc.am                    ; \
-	   sed -i 's#pkgdata#doc#' libatomic_ops/Makefile.am     ; \
-	   sed -i 's#pkgdata#doc#' libatomic_ops/doc/Makefile.am ; \
 	   autoreconf -vif        ; \
 	   automake --add-missing ; \
 	 )

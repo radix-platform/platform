@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/libatomic_ops
 
-versions    = 7.4.2
+versions    = 7.4.2 7.6.10
 pkgname     = libatomic_ops
 suffix      = tar.gz
 

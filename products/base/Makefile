@@ -318,8 +318,10 @@ endif
 #             ├── dev/libtool/2.4.6
 #             │   └── dev/libtool/2.4.6-x86_32
 #             │
-#             ├── libs/gc/7.4.2
-#             │   └── libs/gc/7.4.2-x86_32
+#             ├── libs/gc/8.0.4
+#             │   ├── libs/gc/8.0.4-ppc32
+#             │   ├── libs/gc/8.0.4-sparc32
+#             │   └── libs/gc/8.0.4-x86_32
 #             │
 #             ├── libs/keyutils/1.5.9 ■
 #             │   ├── libs/keyutils/1.5.9-ppc32

@@ -1,29 +1,33 @@
 
-COMPONENT_TARGETS  = $(HARDWARE_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_MBC4_PC)
 
 NEED_ABS_PATH      = true
 COMPONENT_IS_3PP   = true
 
-CREATE_X86_32_PACKAGE = true
+CREATE_SPARC32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
 
 
 SOURCE_REQUIRES    = sources/packages/l/gc
+SOURCE_REQUIRES   += sources/packages/l/libatomic_ops
 
-REQUIRES           = libs/gc/7.2d
+REQUIRES           = libs/gc/8.0.4
+REQUIRES          += libs/glibc/2.28-sparc32
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 7.2
-version_suffix     = d
+version            = 8.0.4
+libatomic_version  = 7.6.10
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/gc/gc-$(version)$(version_suffix).tar.gz
+tar_gz_archive_ops = $(SRC_PACKAGE_PATH)/packages/l/libatomic_ops/libatomic_ops-$(libatomic_version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/gc-$(version)
 src_dir_name       = gc-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
+ops_src_done       = $(TARGET_BUILD_DIR)/.ops-source-done
 
 PATCHES = PATCHES
 
@@ -39,7 +43,7 @@ PKG_GROUP = libs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 GC_32_PKG_NAME                = gc-x32
-GC_32_PKG_VERSION             = 7.2d
+GC_32_PKG_VERSION             = 8.0.4
 GC_32_PKG_ARCH                = $(TOOLCHAIN)
 GC_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 GC_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -76,7 +80,7 @@ include ../../../build-system/core.mk
 env_sysroot  = DESTDIR=$(GC_32_PKG)
 
 
-extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
+extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_SPARC32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
@@ -86,11 +90,17 @@ extra_configure_switches += --enable-large-config
 extra_configure_switches += --enable-parallel-mark
 extra_configure_switches += --enable-threads=posix
 extra_configure_switches += --with-libatomic-ops=no
+ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
 extra_configure_switches += --enable-shared=yes
 
+CFLAGS += -DUSE_GET_STACKBASE_FOR_MAIN
 
-TARGET_LIB_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX):/usr/lib/../lib$(MULTILIB_X86_32_SUFFIX)
+
+TARGET_LIB_RPATH = /lib$(MULTILIB_SPARC32_SUFFIX):/usr/lib$(MULTILIB_SPARC32_SUFFIX):/usr/lib/../lib$(MULTILIB_SPARC32_SUFFIX)
 
 
 ####### Dependencies
@@ -100,7 +110,17 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(APPLY_PATCHES)
 	@touch $@
 
-$(build_target): $(src_done)
+$(ops_src_done): $(src_done)
+	@echo "Expanding $(tar_gz_archive_ops)"
+	@tar xzf $(tar_gz_archive_ops) -C $(TARGET_BUILD_DIR)
+	@cd $(SRC_DIR) ; ln -sf ../libatomic_ops-$(libatomic_version) libatomic_ops
+	@( cd $(SRC_DIR) ; \
+	   autoreconf -vif        ; \
+	   automake --add-missing ; \
+	 )
+	@touch $@
+
+$(build_target): $(ops_src_done)
 	@mkdir -p $(build_dir)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
 	  --prefix=/usr               \
@@ -113,32 +133,40 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(GC_32_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
+	@cd $(build_dir)/libatomic_ops && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@rm -rf $(GC_32_PKG)/usr/include
 	@rm -rf $(GC_32_PKG)/usr/share
 	# ======= remove toolchain path from target libtool *.la files =======
-	@( cd $(GC_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	  sed -i "s,$(TARGET_DEST_DIR),,g" libcord.la libgc.la libgccpp.la \
+	@( cd $(GC_32_PKG)/usr/lib$(MULTILIB_SPARC32_SUFFIX) ; \
+	  sed -i "s,$(TARGET_DEST_DIR),,g" libatomic_ops.la libatomic_ops_gpl.la  \
+	                                   libcord.la libgc.la libgccpp.la      ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(GC_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libcord.la libgc.la libgccpp.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libcord.la libgc.la libgccpp.la \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_SPARC32_SUFFIX) ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libatomic_ops.la libatomic_ops_gpl.la  \
+	                                            libcord.la libgc.la libgccpp.la      ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libatomic_ops.la libatomic_ops_gpl.la  \
+	                                              libcord.la libgc.la libgccpp.la      ; \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" bdw-gc.pc \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_SPARC32_SUFFIX)/pkgconfig ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" atomic_ops.pc bdw-gc.pc \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(GC_32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(GC_32_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target shared objects =======
-	@( cd $(GC_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(GC_32_PKG)/usr/lib$(MULTILIB_SPARC32_SUFFIX) ; \
 	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
 	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
 	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \

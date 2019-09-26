@@ -1,0 +1,3 @@
+
+#../../../sources/packages/l/gc/patches/gc-7.4.2-noelision.patch -p0
+#../../../sources/packages/l/gc/patches/gc-7.4.2-machdep.patch   -p0

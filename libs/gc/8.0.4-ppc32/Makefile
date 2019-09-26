@@ -1,10 +1,13 @@
 
-COMPONENT_TARGETS  = $(HARDWARE_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_S824L)
+COMPONENT_TARGETS += $(HARDWARE_VESNIN)
+COMPONENT_TARGETS += $(HARDWARE_TL2WK2)
+COMPONENT_TARGETS += $(HARDWARE_TL2SV2)
 
 NEED_ABS_PATH      = true
 COMPONENT_IS_3PP   = true
 
-CREATE_X86_32_PACKAGE = true
+CREATE_PPC32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
@@ -13,14 +16,14 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/gc
 SOURCE_REQUIRES   += sources/packages/l/libatomic_ops
 
-REQUIRES           = libs/gc/7.4.2
-REQUIRES          += libs/glibc/2.28-x86_32
+REQUIRES           = libs/gc/8.0.4
+REQUIRES          += libs/glibc/2.28-ppc32
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 7.4.2
-libatomic_version  = 7.4.2
+version            = 8.0.4
+libatomic_version  = 7.6.10
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/gc/gc-$(version)$(version_suffix).tar.gz
 tar_gz_archive_ops = $(SRC_PACKAGE_PATH)/packages/l/libatomic_ops/libatomic_ops-$(libatomic_version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
@@ -43,7 +46,7 @@ PKG_GROUP = libs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 GC_32_PKG_NAME                = gc-x32
-GC_32_PKG_VERSION             = 7.4.2
+GC_32_PKG_VERSION             = 8.0.4
 GC_32_PKG_ARCH                = $(TOOLCHAIN)
 GC_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 GC_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -80,7 +83,7 @@ include ../../../build-system/core.mk
 env_sysroot  = DESTDIR=$(GC_32_PKG)
 
 
-extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
+extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_PPC32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
@@ -100,7 +103,7 @@ extra_configure_switches += --enable-shared=yes
 CFLAGS += -DUSE_GET_STACKBASE_FOR_MAIN
 
 
-TARGET_LIB_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX):/usr/lib/../lib$(MULTILIB_X86_32_SUFFIX)
+TARGET_LIB_RPATH = /lib$(MULTILIB_PPC32_SUFFIX):/usr/lib$(MULTILIB_PPC32_SUFFIX):/usr/lib/../lib$(MULTILIB_PPC32_SUFFIX)
 
 
 ####### Dependencies
@@ -115,9 +118,6 @@ $(ops_src_done): $(src_done)
 	@tar xzf $(tar_gz_archive_ops) -C $(TARGET_BUILD_DIR)
 	@cd $(SRC_DIR) ; ln -sf ../libatomic_ops-$(libatomic_version) libatomic_ops
 	@( cd $(SRC_DIR) ; \
-	   sed -i 's#pkgdata#doc#' doc/doc.am                    ; \
-	   sed -i 's#pkgdata#doc#' libatomic_ops/Makefile.am     ; \
-	   sed -i 's#pkgdata#doc#' libatomic_ops/doc/Makefile.am ; \
 	   autoreconf -vif        ; \
 	   automake --add-missing ; \
 	 )
@@ -140,21 +140,21 @@ $(install_target): $(build_target)
 	@rm -rf $(GC_32_PKG)/usr/include
 	@rm -rf $(GC_32_PKG)/usr/share
 	# ======= remove toolchain path from target libtool *.la files =======
-	@( cd $(GC_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(GC_32_PKG)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
 	  sed -i "s,$(TARGET_DEST_DIR),,g" libatomic_ops.la libatomic_ops_gpl.la  \
 	                                   libcord.la libgc.la libgccpp.la      ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(GC_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libatomic_ops.la libatomic_ops_gpl.la  \
 	                                            libcord.la libgc.la libgccpp.la      ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libatomic_ops.la libatomic_ops_gpl.la  \
 	                                              libcord.la libgc.la libgccpp.la      ; \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_PPC32_SUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" atomic_ops.pc bdw-gc.pc \
 	 )
 	# ======= Strip binaries =======
@@ -169,7 +169,7 @@ ifeq ($(__ENABLE_STATIC__),yes)
 endif
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target shared objects =======
-	@( cd $(GC_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(GC_32_PKG)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
 	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
 	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
 	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \

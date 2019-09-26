@@ -7,7 +7,7 @@ include ../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/GNU/libunistring
 
-versions    = 0.9.6
+versions    = 0.9.6 0.9.10
 pkgname     = libunistring
 suffix      = tar.xz
 

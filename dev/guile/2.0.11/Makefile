@@ -54,7 +54,7 @@ REQUIRES           = libs/libffi/3.2.1
 REQUIRES          += libs/gmp/6.1.2
 REQUIRES          += libs/readline/6.3
 REQUIRES          += dev/libtool/2.4.6
-REQUIRES          += libs/libunistring/0.9.6
+REQUIRES          += libs/libunistring/0.9.10
 REQUIRES          += libs/gc/7.4.2
 
 # ======= __END_OF_REQUIRES__ =======

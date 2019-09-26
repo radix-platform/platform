@@ -1,10 +1,10 @@
 
-COMPONENT_TARGETS  = $(HARDWARE_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_MBC4_PC)
 
 NEED_ABS_PATH      = true
 COMPONENT_IS_3PP   = true
 
-CREATE_X86_32_PACKAGE = true
+CREATE_SPARC32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/GNU/libunistring
 
 REQUIRES           = libs/libunistring/0.9.6
-REQUIRES          += libs/glibc/2.28-x86_32
+REQUIRES          += libs/glibc/2.28-sparc32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -76,7 +76,7 @@ include ../../../build-system/core.mk
 env_sysroot  = DESTDIR=$(LIBUNISTR32_PKG)
 
 
-extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
+extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_SPARC32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
@@ -114,13 +114,13 @@ $(install_target): $(build_target)
 	@rm -rf $(LIBUNISTR32_PKG)/usr/include
 	@rm -rf $(LIBUNISTR32_PKG)/usr/share
 	# ======= remove toolchain path from target libtool *.la files =======
-	@( cd $(LIBUNISTR32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(LIBUNISTR32_PKG)/usr/lib$(MULTILIB_SPARC32_SUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libunistring.la  \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(LIBUNISTR32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_SPARC32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libunistring.la ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libunistring.la \
 	 )

@@ -12,13 +12,13 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/libunistring
 
-REQUIRES           = libs/libunistring/0.9.6
+REQUIRES           = libs/libunistring/0.9.10
 REQUIRES          += libs/glibc/2.28-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 0.9.6
+version            = 0.9.10
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNU/libunistring/libunistring-$(version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/libunistring-$(version)
@@ -39,7 +39,7 @@ PKG_GROUP = libs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 LIBUNISTR32_PKG_NAME                = libunistring-x32
-LIBUNISTR32_PKG_VERSION             = 0.9.6
+LIBUNISTR32_PKG_VERSION             = 0.9.10
 LIBUNISTR32_PKG_ARCH                = $(TOOLCHAIN)
 LIBUNISTR32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBUNISTR32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)

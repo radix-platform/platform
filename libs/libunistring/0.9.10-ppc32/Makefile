@@ -1,10 +1,13 @@
 
-COMPONENT_TARGETS  = $(HARDWARE_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_S824L)
+COMPONENT_TARGETS += $(HARDWARE_VESNIN)
+COMPONENT_TARGETS += $(HARDWARE_TL2WK2)
+COMPONENT_TARGETS += $(HARDWARE_TL2SV2)
 
 NEED_ABS_PATH      = true
 COMPONENT_IS_3PP   = true
 
-CREATE_X86_32_PACKAGE = true
+CREATE_PPC32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
@@ -12,13 +15,13 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/libunistring
 
-REQUIRES           = libs/libunistring/0.9.6
-REQUIRES          += libs/glibc/2.28-x86_32
+REQUIRES           = libs/libunistring/0.9.10
+REQUIRES          += libs/glibc/2.28-ppc32
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 0.9.6
+version            = 0.9.10
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNU/libunistring/libunistring-$(version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/libunistring-$(version)
@@ -39,7 +42,7 @@ PKG_GROUP = libs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 LIBUNISTR32_PKG_NAME                = libunistring-x32
-LIBUNISTR32_PKG_VERSION             = 0.9.6
+LIBUNISTR32_PKG_VERSION             = 0.9.10
 LIBUNISTR32_PKG_ARCH                = $(TOOLCHAIN)
 LIBUNISTR32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBUNISTR32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -76,7 +79,7 @@ include ../../../build-system/core.mk
 env_sysroot  = DESTDIR=$(LIBUNISTR32_PKG)
 
 
-extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
+extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_PPC32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
@@ -114,13 +117,13 @@ $(install_target): $(build_target)
 	@rm -rf $(LIBUNISTR32_PKG)/usr/include
 	@rm -rf $(LIBUNISTR32_PKG)/usr/share
 	# ======= remove toolchain path from target libtool *.la files =======
-	@( cd $(LIBUNISTR32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(LIBUNISTR32_PKG)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libunistring.la  \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(LIBUNISTR32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libunistring.la ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libunistring.la \
 	 )

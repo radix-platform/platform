@@ -1,10 +1,10 @@
 
-COMPONENT_TARGETS  = $(HARDWARE_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_MBC4_PC)
 
 NEED_ABS_PATH      = true
 COMPONENT_IS_3PP   = true
 
-CREATE_X86_32_PACKAGE = true
+CREATE_SPARC32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/GNU/libtasn1
 
 REQUIRES           = libs/libtasn1/4.7
-REQUIRES          += libs/glibc/2.28-x86_32
+REQUIRES          += libs/glibc/2.28-sparc32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -76,7 +76,7 @@ include ../../../build-system/core.mk
 env_sysroot  = DESTDIR=$(TASN32_PKG)
 
 
-extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
+extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_SPARC32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
@@ -94,7 +94,7 @@ endif
 extra_configure_switches += --enable-shared=yes
 
 
-CFLAGS += -Wl,-rpath,/lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX)
+CFLAGS += -Wl,-rpath,/lib$(MULTILIB_SPARC32_SUFFIX):/usr/lib$(MULTILIB_SPARC32_SUFFIX)
 
 
 ####### Dependencies
@@ -120,18 +120,18 @@ $(install_target): $(build_target)
 	@rm -rf $(TASN32_PKG)/usr/include
 	@rm -rf $(TASN32_PKG)/usr/share
 	# ======= remove toolchain path from target libtool *.la files =======
-	@( cd $(TASN32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(TASN32_PKG)/usr/lib$(MULTILIB_SPARC32_SUFFIX) ; \
 	  sed -i "s,$(TARGET_DEST_DIR),,g" libtasn1.la  \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(TASN32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_SPARC32_SUFFIX) ; \
 	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libtasn1.la ; \
 	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libtasn1.la \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_SPARC32_SUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libtasn1.pc \
 	 )
 	# ======= Strip binaries =======

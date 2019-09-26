@@ -48,7 +48,7 @@ COMPONENT_IS_3PP   = true
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/GNU/libtasn1
+SOURCE_REQUIRES    = sources/GNU/libunistring
 
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/6.5.0
@@ -59,11 +59,11 @@ endif
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 4.7
-tar_gz_archive     = $(SRC_PACKAGE_PATH)/GNU/libtasn1/libtasn1-$(version).tar.gz
-SRC_ARCHIVE        = $(tar_gz_archive)
-SRC_DIR            = $(TARGET_BUILD_DIR)/libtasn1-$(version)
-src_dir_name       = libtasn1-$(version)
+version            = 0.9.10
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNU/libunistring/libunistring-$(version).tar.xz
+SRC_ARCHIVE        = $(tar_xz_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/libunistring-$(version)
+src_dir_name       = libunistring-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
@@ -80,23 +80,23 @@ PKG_GROUP = libs
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-TASN_PKG_NAME                = libtasn1
-TASN_PKG_VERSION             = 4.7
-TASN_PKG_ARCH                = $(TOOLCHAIN)
-TASN_PKG_DISTRO_NAME         = $(DISTRO_NAME)
-TASN_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
-TASN_PKG_GROUP               = $(PKG_GROUP)
-###                           |---handy-ruler-------------------------------|
-TASN_PKG_SHORT_DESCRIPTION   = ASN.1 library
-TASN_PKG_URL                 = $(BUG_URL)
-TASN_PKG_LICENSE             = GPLv2
-TASN_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(TASN_PKG_NAME)-pkg-description
-TASN_PKG_DESCRIPTION_FILE_IN = $(TASN_PKG_NAME)-pkg-description.in
-TASN_PKG_INSTALL_SCRIPT      = $(TASN_PKG_NAME)-pkg-install.sh
+LIBUNISTR_PKG_NAME                = libunistring
+LIBUNISTR_PKG_VERSION             = 0.9.10
+LIBUNISTR_PKG_ARCH                = $(TOOLCHAIN)
+LIBUNISTR_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+LIBUNISTR_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
+LIBUNISTR_PKG_GROUP               = $(PKG_GROUP)
+###                                |---handy-ruler-------------------------------|
+LIBUNISTR_PKG_SHORT_DESCRIPTION   = GNU Unicode string library
+LIBUNISTR_PKG_URL                 = $(BUG_URL)
+LIBUNISTR_PKG_LICENSE             = GPLv2
+LIBUNISTR_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBUNISTR_PKG_NAME)-pkg-description
+LIBUNISTR_PKG_DESCRIPTION_FILE_IN = $(LIBUNISTR_PKG_NAME)-pkg-description.in
+LIBUNISTR_PKG_INSTALL_SCRIPT      = $(LIBUNISTR_PKG_NAME)-pkg-install.sh
 
-TASN_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(TASN_PKG_NAME)-package
+LIBUNISTR_PKG    = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBUNISTR_PKG_NAME)-package
 
-pkg_basename     = $(TASN_PKG_NAME)-$(TASN_PKG_VERSION)-$(TASN_PKG_ARCH)-$(TASN_PKG_DISTRO_NAME)-$(TASN_PKG_DISTRO_VERSION)
+pkg_basename     = $(LIBUNISTR_PKG_NAME)-$(LIBUNISTR_PKG_VERSION)-$(LIBUNISTR_PKG_ARCH)-$(LIBUNISTR_PKG_DISTRO_NAME)-$(LIBUNISTR_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
 pkg_certificate  = $(call cert-name,$(pkg_archive))
@@ -104,8 +104,8 @@ pkg_signature    = $(call sign-name,$(pkg_archive))
 pkg_description  = $(call desc-name,$(pkg_archive))
 products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS    = $(build_tasn_pkg)
-BUILD_TARGETS   += $(install_tasn_pkg)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
 PRODUCT_TARGETS  = $(products)
 
@@ -115,7 +115,7 @@ ROOTFS_TARGETS   = $(pkg_archive)
 include ../../../build-system/core.mk
 
 
-env_sysroot = DESTDIR=$(TASN_PKG)
+env_sysroot = DESTDIR=$(LIBUNISTR_PKG)
 
 
 extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
@@ -124,7 +124,7 @@ extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
-extra_configure_switches += --localstatedir=/var
+extra_configure_switches += --disable-rpath
 ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
 else
@@ -152,13 +152,13 @@ $(build_target): $(src_done)
 	@touch $@
 
 $(install_target): $(build_target)
-	@mkdir -p $(TASN_PKG)
+	@mkdir -p $(LIBUNISTR_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Install Documentation =======
-	@rm -f $(TASN_PKG)/usr/share/info/dir
-	@gzip -9 $(TASN_PKG)/usr/share/info/*
-	@if [ -d $(TASN_PKG)/usr/share/man ]; then \
-	  ( cd $(TASN_PKG)/usr/share/man ; \
+	@rm -f $(LIBUNISTR_PKG)/usr/share/info/dir
+	@gzip -9 $(LIBUNISTR_PKG)/usr/share/info/*
+	@if [ -d $(LIBUNISTR_PKG)/usr/share/man ]; then \
+	  ( cd $(LIBUNISTR_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \
 	      ( cd $$manpagedir ; \
 	        for eachpage in `find . -type l -maxdepth 1` ; do \
@@ -170,68 +170,66 @@ $(install_target): $(build_target)
 	    done \
 	  ) \
 	 fi
-	@mkdir -p $(TASN_PKG)/usr/doc/$(src_dir_name)
-	@mkdir -p $(TASN_PKG)/usr/share/doc/$(src_dir_name)
+	@mkdir -p $(LIBUNISTR_PKG)/usr/doc/$(src_dir_name)
+	@mkdir -p $(LIBUNISTR_PKG)/usr/share/doc/$(src_dir_name)
 	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/COPYING* \
-	       $(TASN_PKG)/usr/doc/$(src_dir_name)
-	@mkdir -p $(TASN_PKG)/usr/share/doc/$(src_dir_name)
+	       $(LIBUNISTR_PKG)/usr/doc/$(src_dir_name)
+	@mkdir -p $(LIBUNISTR_PKG)/usr/share/doc/$(src_dir_name)/html
+	@( cd $(LIBUNISTR_PKG)/usr/share/doc/$(src_dir_name) ; \
+	   find . -type f | xargs mv -t html ; \
+	 )
 	@( cd $(SRC_DIR) ; \
-	   cp -a AUTHORS COPYING* INSTALL NEWS README* THANKS \
-	         doc/libtasn1.html doc/libtasn1.pdf \
-	         $(TASN_PKG)/usr/share/doc/$(src_dir_name) \
+	   cp -a AUTHORS BUGS COPYING* DEPENDENCIES HACKING INSTALL NEWS README* THANKS \
+	         $(LIBUNISTR_PKG)/usr/share/doc/$(src_dir_name) ; \
 	 )
 	@( cd $(SRC_DIR) ; \
 	   if [ -r ChangeLog ]; then \
-	     DOCSDIR=`echo $(TASN_PKG)/usr/share/doc/$(src_dir_name)` ; \
+	     DOCSDIR=`echo $(LIBUNISTR_PKG)/usr/share/doc/$(src_dir_name)` ; \
 	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
 	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \
 	 )
 	# ======= remove toolchain path from target libtool *.la files =======
-	@( cd $(TASN_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" libtasn1.la  \
+	@( cd $(LIBUNISTR_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libunistring.la  \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	$(call install-into-devenv, $(TASN_PKG))
+	$(call install-into-devenv, $(LIBUNISTR_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libtasn1.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libtasn1.la \
-	 )
-	# ======= tune pkg-config *.pc search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libtasn1.pc \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libunistring.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libunistring.la \
 	 )
 	# ======= Strip binaries =======
-	@( cd $(TASN_PKG) ; \
+	@( cd $(LIBUNISTR_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )
 ifeq ($(__ENABLE_STATIC__),yes)
-	@( cd $(TASN_PKG) ; \
+	@( cd $(LIBUNISTR_PKG) ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
 	 )
 endif
 	@touch $@
 
-$(TASN_PKG_DESCRIPTION_FILE): $(TASN_PKG_DESCRIPTION_FILE_IN)
+$(LIBUNISTR_PKG_DESCRIPTION_FILE): $(LIBUNISTR_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
 $(pkg_certificate) : $(pkg_archive) ;
 $(pkg_signature)   : $(pkg_archive) ;
 $(pkg_description) : $(pkg_archive) ;
 
-$(pkg_archive): $(install_target) $(TASN_PKG_DESCRIPTION_FILE) $(TASN_PKG_INSTALL_SCRIPT)
-	@cp $(TASN_PKG_DESCRIPTION_FILE) $(TASN_PKG)/.DESCRIPTION
-	@cp $(TASN_PKG_INSTALL_SCRIPT) $(TASN_PKG)/.INSTALL
-	@$(BUILD_PKG_REQUIRES) $(TASN_PKG)/.REQUIRES
-	@echo "pkgname=$(TASN_PKG_NAME)"                            >  $(TASN_PKG)/.PKGINFO ; \
-	 echo "pkgver=$(TASN_PKG_VERSION)"                          >> $(TASN_PKG)/.PKGINFO ; \
-	 echo "arch=$(TASN_PKG_ARCH)"                               >> $(TASN_PKG)/.PKGINFO ; \
-	 echo "distroname=$(TASN_PKG_DISTRO_NAME)"                  >> $(TASN_PKG)/.PKGINFO ; \
-	 echo "distrover=$(TASN_PKG_DISTRO_VERSION)"                >> $(TASN_PKG)/.PKGINFO ; \
-	 echo "group=$(TASN_PKG_GROUP)"                             >> $(TASN_PKG)/.PKGINFO ; \
-	 echo "short_description=\"$(TASN_PKG_SHORT_DESCRIPTION)\"" >> $(TASN_PKG)/.PKGINFO ; \
-	 echo "url=$(TASN_PKG_URL)"                                 >> $(TASN_PKG)/.PKGINFO ; \
-	 echo "license=$(TASN_PKG_LICENSE)"                         >> $(TASN_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(TASN_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."
+$(pkg_archive): $(install_target) $(LIBUNISTR_PKG_DESCRIPTION_FILE) $(LIBUNISTR_PKG_INSTALL_SCRIPT)
+	@cp $(LIBUNISTR_PKG_DESCRIPTION_FILE) $(LIBUNISTR_PKG)/.DESCRIPTION
+	@cp $(LIBUNISTR_PKG_INSTALL_SCRIPT) $(LIBUNISTR_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(LIBUNISTR_PKG)/.REQUIRES
+	@echo "pkgname=$(LIBUNISTR_PKG_NAME)"                            >  $(LIBUNISTR_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(LIBUNISTR_PKG_VERSION)"                          >> $(LIBUNISTR_PKG)/.PKGINFO ; \
+	 echo "arch=$(LIBUNISTR_PKG_ARCH)"                               >> $(LIBUNISTR_PKG)/.PKGINFO ; \
+	 echo "distroname=$(LIBUNISTR_PKG_DISTRO_NAME)"                  >> $(LIBUNISTR_PKG)/.PKGINFO ; \
+	 echo "distrover=$(LIBUNISTR_PKG_DISTRO_VERSION)"                >> $(LIBUNISTR_PKG)/.PKGINFO ; \
+	 echo "group=$(LIBUNISTR_PKG_GROUP)"                             >> $(LIBUNISTR_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(LIBUNISTR_PKG_SHORT_DESCRIPTION)\"" >> $(LIBUNISTR_PKG)/.PKGINFO ; \
+	 echo "url=$(LIBUNISTR_PKG_URL)"                                 >> $(LIBUNISTR_PKG)/.PKGINFO ; \
+	 echo "license=$(LIBUNISTR_PKG_LICENSE)"                         >> $(LIBUNISTR_PKG)/.PKGINFO
+	@$(PSEUDO) sh -c "cd $(LIBUNISTR_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

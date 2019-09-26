@@ -151,7 +151,7 @@ endif
 #             │   ├── libs/zlib/1.2.8-x86_32 ─── if x86_64 ───┤    │             │
 #             │   │                                           │    │             │
 #             │   └── dev/binutils/2.31.1 ────────────────────┘    │             │
-#             │       └── dev/gcc/6.4.0                            │             │
+#             │       └── dev/gcc/6.5.0                            │             │
 #             │                                                    │             │
 #             ├── app/xz/5.2.3               ─────┬────────────────┘             │
 #             │   ├── app/xz/5.2.3-ppc32          └── app/kmod/22                │
@@ -278,7 +278,7 @@ endif
 #            ...
 #             │  ...
 #             │   │
-#             │   └── dev/binutils/2.28
+#             │   └── dev/binutils/2.31.1
 #             │       │
 #             │       ├── dev/gcc/6.5.0 ──────────┬── libs/mpc/1.1.0
 #             │       │                           └── libs/isl/0.18
@@ -296,13 +296,19 @@ endif
 #            ...
 #             │
 #             ├── libs/libtasn1/4.7
+#             │   ├── libs/libtasn1/4.7-ppc32
+#             │   ├── libs/libtasn1/4.7-sparc32
 #             │   └── libs/libtasn1/4.7-x86_32
 #             │
 #             ├── libs/libidn/1.28
+#             │   ├── libs/libidn/1.28-ppc32
+#             │   ├── libs/libidn/1.28-sparc32
 #             │   └── libs/libidn/1.28-x86_32
 #             │
-#             ├── libs/libunistring/0.9.6
-#             │   └── libs/libunistring/0.9.6-x86_32
+#             ├── libs/libunistring/0.9.10
+#             │   ├── libs/libunistring/0.9.10-ppc32
+#             │   ├── libs/libunistring/0.9.10-sparc32
+#             │   └── libs/libunistring/0.9.10-x86_32
 #             │
 #             ├── libs/lzo/2.09
 #             │   └── libs/lzo/2.09-x86_32
@@ -314,6 +320,8 @@ endif
 #             │   └── libs/gc/7.4.2-x86_32
 #             │
 #             ├── libs/keyutils/1.5.9 ■
+#             │   ├── libs/keyutils/1.5.9-ppc32
+#             │   ├── libs/keyutils/1.5.9-sparc32
 #             │   └── libs/keyutils/1.5.9-x86_32
 #             │
 #             ├── app/ncompress/4.2.4.4 ■
@@ -322,6 +330,8 @@ endif
 #             │   └── libs/expat/2.1.1-x86_32
 #             │
 #             ├── app/utempter/1.1.6 ■
+#             │   ├── app/utempter/1.1.6-x86_32
+#             │   ├── app/utempter/1.1.6-x86_32
 #             │   └── app/utempter/1.1.6-x86_32
 #             │
 #             ├── dev/flex/2.6.0
@@ -332,15 +342,24 @@ endif
 #             │
 #             │      ...
 #             │       ├───────────────────────────────────── libs/readline/6.3
+#             │       │                                      ├── libs/readline/6.3-ppc32
+#             │       │                                      ├── libs/readline/6.3-sparc32
 #             │       │                                      └── libs/readline/6.3-x86_32
 #             │       │
 #             │       ├── dev/lua/5.3.5 ■
-#             │      ...  └── dev/lua/5.3.5-x86_32
+#             │      ...  ├── dev/lua/5.3.5-ppc32
+#             │           ├── dev/lua/5.3.5-sparc32
+#             │           └── dev/lua/5.3.5-x86_32
 #             │
 #             │      ...
 #             │       ├───────────────────────────────────── libs/gmp/6.1.2
+#             │       │                                      ├── libs/gmp/6.1.2-ppc32
+#             │       │                                      ├── libs/gmp/6.1.2-sparc32
 #             │       │                                      └── libs/gmp/6.1.2-x86_32
+#             │       │
 #             │       ├───────────────────────────────────── libs/zlib/1.2.8
+#             │       │                                      ├── libs/zlib/1.2.8-ppc32
+#             │       │                                      ├── libs/zlib/1.2.8-sparc32
 #             │       │                                      └── libs/zlib/1.2.8-x86_32
 #             │       │
 #             │       ├── net/openssl/1.0.2f

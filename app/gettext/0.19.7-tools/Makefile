@@ -52,7 +52,7 @@ SOURCE_REQUIRES    = sources/GNU/gettext
 
 REQUIRES           = app/gettext/0.19.7
 REQUIRES          += libs/libcroco/0.6.11
-REQUIRES          += libs/libunistring/0.9.6
+REQUIRES          += libs/libunistring/0.9.10
 
 # ======= __END_OF_REQUIRES__ =======
 

@@ -85,6 +85,9 @@ extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --bindir=/usr/bin/32
 extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --disable-rpath
+#
+# NOTE: Only The Yacc compatibility library liby.a will be created.
+#
 
 
 ####### Dependencies

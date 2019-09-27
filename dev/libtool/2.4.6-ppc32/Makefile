@@ -1,10 +1,13 @@
 
-COMPONENT_TARGETS  = $(HARDWARE_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_S824L)
+COMPONENT_TARGETS += $(HARDWARE_VESNIN)
+COMPONENT_TARGETS += $(HARDWARE_TL2WK2)
+COMPONENT_TARGETS += $(HARDWARE_TL2SV2)
 
 NEED_ABS_PATH      = true
 COMPONENT_IS_3PP   = true
 
-CREATE_X86_32_PACKAGE = true
+CREATE_PPC32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
@@ -13,7 +16,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/GNU/libtool
 
 REQUIRES           = dev/libtool/2.4.6
-REQUIRES          += libs/glibc/2.28-x86_32
+REQUIRES          += libs/glibc/2.28-ppc32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -76,7 +79,7 @@ include ../../../build-system/core.mk
 env_sysroot  = DESTDIR=$(LIBTOOL32_PKG)
 
 
-extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
+extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_PPC32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
@@ -117,13 +120,13 @@ $(install_target): $(build_target)
 	@rm -rf $(LIBTOOL32_PKG)/usr/include
 	@rm -rf $(LIBTOOL32_PKG)/usr/share
 	# ======= remove toolchain path from target libtool *.la files =======
-	@( cd $(LIBTOOL32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(LIBTOOL32_PKG)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libltdl.la  \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(LIBTOOL32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libltdl.la ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libltdl.la \
 	 )

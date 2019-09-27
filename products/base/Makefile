@@ -316,6 +316,8 @@ endif
 #             │   └── libs/lzo/2.10-x86_32
 #             │
 #             ├── dev/libtool/2.4.6
+#             │   ├── dev/libtool/2.4.6-ppc32
+#             │   ├── dev/libtool/2.4.6-sparc32
 #             │   └── dev/libtool/2.4.6-x86_32
 #             │
 #             ├── libs/gc/8.0.4
@@ -330,8 +332,10 @@ endif
 #             │
 #             ├── app/ncompress/4.2.4.4 ■
 #             │
-#             ├── libs/expat/2.1.1
-#             │   └── libs/expat/2.1.1-x86_32
+#             ├── libs/expat/2.2.9
+#             │   ├── libs/expat/2.2.9-ppc32
+#             │   ├── libs/expat/2.2.9-sparc32
+#             │   └── libs/expat/2.2.9-x86_32
 #             │
 #             ├── app/utempter/1.1.6 ■
 #             │   ├── app/utempter/1.1.6-x86_32
@@ -339,9 +343,13 @@ endif
 #             │   └── app/utempter/1.1.6-x86_32
 #             │
 #             ├── dev/flex/2.6.0
+#             │   ├── dev/flex/2.6.0-ppc32
+#             │   ├── dev/flex/2.6.0-sparc32
 #             │   └── dev/flex/2.6.0-x86_32
 #             │
 #             ├── dev/bison/3.4.2 ■
+#             │   ├── dev/bison/3.4.2-ppc32
+#             │   ├── dev/bison/3.4.2-sparc32
 #             │   └── dev/bison/3.4.2-x86_32
 #             │
 #             │      ...

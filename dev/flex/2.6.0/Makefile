@@ -53,11 +53,7 @@ SOURCE_REQUIRES    = sources/packages/d/flex
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/6.5.0
 else
-ifneq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES           = libs/glibc/2.28
-else
-REQUIRES           = libs/glibc/2.28-x86_32
-endif
 endif
 
 # ======= __END_OF_REQUIRES__ =======
@@ -128,6 +124,12 @@ extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --disable-rpath
+ifeq ($(__ENABLE_STATIC__),yes)
+extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
+extra_configure_switches += --enable-shared=yes
 
 
 ####### Dependencies
@@ -204,8 +206,12 @@ $(install_target): $(build_target)
 	@( cd $(FLEX_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(FLEX_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 	@touch $@
 
 $(FLEX_PKG_DESCRIPTION_FILE): $(FLEX_PKG_DESCRIPTION_FILE_IN)

@@ -53,19 +53,15 @@ SOURCE_REQUIRES    = sources/packages/l/expat
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/6.5.0
 else
-ifneq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES           = libs/glibc/2.28
-else
-REQUIRES           = libs/glibc/2.28-x86_32
-endif
 endif
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 2.1.1
-tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/l/expat/expat-$(version).tar.bz2
-SRC_ARCHIVE        = $(tar_bz2_archive)
+version            = 2.2.9
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/l/expat/expat-$(version).tar.xz
+SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/expat-$(version)
 src_dir_name       = expat-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
@@ -85,7 +81,7 @@ PKG_GROUP = libs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 EXPAT_PKG_NAME                = expat
-EXPAT_PKG_VERSION             = 2.1.1
+EXPAT_PKG_VERSION             = 2.2.9
 EXPAT_PKG_ARCH                = $(TOOLCHAIN)
 EXPAT_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 EXPAT_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -125,8 +121,13 @@ env_sysroot = DESTDIR=$(EXPAT_PKG)
 extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
-extra_configure_switches += --enable-shared=yes
+
+ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
+extra_configure_switches += --enable-shared=yes
 
 
 ####### Dependencies
@@ -165,13 +166,20 @@ $(install_target): $(build_target)
 	  ) \
 	 fi
 	@mkdir -p $(EXPAT_PKG)/usr/doc/$(src_dir_name)
-	@cp -a $(SRC_DIR)/COPYING \
+	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/COPYING \
 	       $(EXPAT_PKG)/usr/doc/$(src_dir_name)
-	@mkdir -p $(EXPAT_PKG)/usr/share/doc/$(src_dir_name)
+	@mkdir -p $(EXPAT_PKG)/usr/share/doc/$(src_dir_name)/html
 	@( cd $(SRC_DIR) ; \
-	   cp -a COPYING README doc/*.png doc/*.css doc/*.html \
+	   cp -a COPYING README.md \
 	         $(EXPAT_PKG)/usr/share/doc/$(src_dir_name) \
 	 )
+	@( cd $(SRC_DIR) ; \
+	   cp -a doc/*.png doc/*.css doc/*.html \
+	         $(EXPAT_PKG)/usr/share/doc/$(src_dir_name)/html \
+	 )
+	@sed -i 's,\(>Release\)[ \t][0-9]*\.[0-9]*\.[0-9]*<,\1 $(EXPAT_PKG_VERSION)<,' \
+	    $(EXPAT_PKG)/usr/share/doc/$(src_dir_name)/html/reference.html
+	@rm -f $(EXPAT_PKG)/usr/share/doc/$(src_dir_name)/changelog
 	@( cd $(SRC_DIR) ; \
 	   if [ -r Changes ]; then \
 	     DOCSDIR=`echo $(EXPAT_PKG)/usr/share/doc/$(src_dir_name)` ; \
@@ -198,8 +206,12 @@ $(install_target): $(build_target)
 	@( cd $(EXPAT_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(EXPAT_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 	@touch $@
 
 $(EXPAT_PKG_DESCRIPTION_FILE): $(EXPAT_PKG_DESCRIPTION_FILE_IN)

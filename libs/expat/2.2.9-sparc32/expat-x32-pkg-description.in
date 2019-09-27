@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
          |-----handy-ruler------------------------------------------------------|
-expat-x32: expat-x32 @VERSION@ (sparc32 C library for parsing XML)
+expat-x32: expat-x32 @VERSION@ (C library for parsing XML)
 expat-x32:
 expat-x32: This is Expat, a C library for parsing XML, written by James Clark.
 expat-x32: Expat is a stream-oriented XML parser used by Python, GNOME, Xft2,

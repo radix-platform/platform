@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
               |-----handy-ruler------------------------------------------------------|
-libtermcap-x32: libtermcap-x32 @VERSION@ (x86_32 GNU termcap library)
+libtermcap-x32: libtermcap-x32 @VERSION@ (GNU termcap library)
 libtermcap-x32:
 libtermcap-x32: This is the GNU termcap library -- a library of C functions that
 libtermcap-x32: enable programs to send control strings to terminals in a way

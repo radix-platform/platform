@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
        |-----handy-ruler------------------------------------------------------|
-lzo-x32: lzo-x32 @VERSION@ (x86_32 LZO Compression Library)
+lzo-x32: lzo-x32 @VERSION@ (LZO Compression Library)
 lzo-x32:
 lzo-x32: LZO is a portable lossless data compression library written
 lzo-x32: in ANSI C.  It offers pretty fast compression and very fast

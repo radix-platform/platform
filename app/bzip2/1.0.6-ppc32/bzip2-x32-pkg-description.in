@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
          |-----handy-ruler------------------------------------------------------|
-bzip2-x32: bzip2-x32 @VERSION@ (x86_32 a block-sorting file compressor)
+bzip2-x32: bzip2-x32 @VERSION@ (a block-sorting file compressor)
 bzip2-x32:
 bzip2-x32: Bzip2 compresses files using the Burrows-Wheeler block sorting text
 bzip2-x32: compression algorithm, and Huffman coding. Compression is generally

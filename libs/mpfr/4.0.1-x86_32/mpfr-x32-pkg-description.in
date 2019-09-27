@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
         |-----handy-ruler------------------------------------------------------|
-mpfr-x32: mpfr-x32 @VERSION@ (x86_32 Floating-Point Reliable Library)
+mpfr-x32: mpfr-x32 @VERSION@ (Floating-Point Reliable Library)
 mpfr-x32:
 mpfr-x32: The MPFR library is a C library for multiple-precision floating-point
 mpfr-x32: computations with exact rounding (also called correct rounding).

@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
       |-----handy-ruler------------------------------------------------------|
-gc-x32: gc-x32 @VERSION@ (x86_32 garbage collector library)
+gc-x32: gc-x32 @VERSION@ (garbage collector library)
 gc-x32:
 gc-x32: The Boehm-Demers-Weiser conservative garbage collector can be used
 gc-x32: as a garbage collecting replacement for C malloc or C++ new.

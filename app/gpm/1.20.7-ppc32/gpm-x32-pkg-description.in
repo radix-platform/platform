@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
        |-----handy-ruler------------------------------------------------------|
-gpm-x32: gpm-x32 @VERSION@ (x86_32 general purpose mouse server library)
+gpm-x32: gpm-x32 @VERSION@ (general purpose mouse server library)
 gpm-x32:
 gpm-x32: This package contains only libgpm.{a,so} libraries for x86_32
 gpm-x32: architecture

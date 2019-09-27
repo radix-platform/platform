@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
         |-----handy-ruler------------------------------------------------------|
-zlib-x32: zlib-x32 @VERSION@ (sparc32 compression library)
+zlib-x32: zlib-x32 @VERSION@ (compression library)
 zlib-x32:
 zlib-x32: zlib is a general purpose thread safe data compression library.
 zlib-x32: The data format used by the zlib library is described by RFCs 1950

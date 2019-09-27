@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
           |-----handy-ruler------------------------------------------------------|
-libffi-x32: libffi-x32 @VERSION@ (x86_32 A Portable Foreign Function Interface Lib)
+libffi-x32: libffi-x32 @VERSION@ (A Portable Foreign Function Interface Lib)
 libffi-x32:
 libffi-x32: FFI stands for Foreign Function Interface.  A foreign function
 libffi-x32: interface is the popular name for the interface that allows code

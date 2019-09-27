@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
           |-----handy-ruler------------------------------------------------------|
-libidn-x32: libidn-x32 @VERSION@ (x86_32 GNU Internationalized Domain Name library)
+libidn-x32: libidn-x32 @VERSION@ (GNU Internationalized Domain Name library)
 libidn-x32:
 libidn-x32: GNU Libidn is an implementation of the Stringprep, Punycode and IDNA
 libidn-x32: specifications defined by the IETF Internationalized Domain Names

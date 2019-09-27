@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
        |-----handy-ruler------------------------------------------------------|
-mpc-x32: mpc-x32 @VERSION@ (ppc32 Multi-Precision complex floating-point library)
+mpc-x32: mpc-x32 @VERSION@ (Multi-Precision complex floating-point library)
 mpc-x32:
 mpc-x32: GNU MPC is a complex floating-point library with exact rounding.
 mpc-x32: It is based on the GNU MPFR floating-point library

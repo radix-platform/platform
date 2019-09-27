@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
        |-----handy-ruler------------------------------------------------------|
-gmp-x32: gmp-x32 @VERSION@ (sparc32 GNU multiple precision arithmetic library)
+gmp-x32: gmp-x32 @VERSION@ (GNU multiple precision arithmetic library)
 gmp-x32:
 gmp-x32: GNU MP is a library for arbitrary precision arithmetic, operating
 gmp-x32: on signed integers, rational numbers, and floating point numbers.

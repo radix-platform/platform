@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                 |-----handy-ruler------------------------------------------------------|
-libunistring-x32: libunistring-x32 @VERSION@ (x86_32 GNU Unicode string library)
+libunistring-x32: libunistring-x32 @VERSION@ (GNU Unicode string library)
 libunistring-x32:
 libunistring-x32: This library provides functions for manipulating Unicode strings and
 libunistring-x32: for manipulating C strings according to the Unicode standard.

@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
             |-----handy-ruler------------------------------------------------------|
-readline-x32: readline-x32 @VERSION@ (x86_32 line input library)
+readline-x32: readline-x32 @VERSION@ (line input library)
 readline-x32:
 readline-x32: The GNU Readline library provides a set of functions for use by
 readline-x32: applications that allow users to edit command lines as they are

@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
         |-----handy-ruler------------------------------------------------------|
-kmod-x32: kmod-x32 @VERSION@ (x86_32 kernel module library)
+kmod-x32: kmod-x32 @VERSION@ (kernel module library)
 kmod-x32:
 kmod-x32: kmod is a set of tools to handle common tasks with Linux kernel
 kmod-x32: modules like insert, remove, list, check properties, resolve

@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
              |-----handy-ruler------------------------------------------------------|
-libunwind-x32: libunwind-x32 @VERSION@ (ppc32 platform-independent unwind API)
+libunwind-x32: libunwind-x32 @VERSION@ (platform-independent unwind API)
 libunwind-x32:
 libunwind-x32: A portable and efficient C programming interface (API) to
 libunwind-x32: determine the call-chain of a program. The API additionally

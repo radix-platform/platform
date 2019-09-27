@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
        |-----handy-ruler------------------------------------------------------|
-ppl-x32: ppl-x32 @VERSION@ (ppc32 The Parma Polyhedra Library)
+ppl-x32: ppl-x32 @VERSION@ (The Parma Polyhedra Library)
 ppl-x32:
 ppl-x32: The Parma Polyhedra Library (PPL) provides numerical abstractions
 ppl-x32: especially targeted at applications in the field of analysis and

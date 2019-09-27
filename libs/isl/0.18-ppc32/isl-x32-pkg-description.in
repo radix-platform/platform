@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
        |-----handy-ruler------------------------------------------------------|
-isl-x32: isl-x32 @VERSION@ (ppc32 Integer Set Library)
+isl-x32: isl-x32 @VERSION@ (Integer Set Library)
 isl-x32:
 isl-x32: isl is a thread-safe C library for manipulating sets and relations
 isl-x32: of integer points bounded by affine constraints. The descriptions of

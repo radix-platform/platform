@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
             |-----handy-ruler------------------------------------------------------|
-libtasn1-x32: libtasn1-x32 @VERSION@ (x86_32 ASN.1 library)
+libtasn1-x32: libtasn1-x32 @VERSION@ (ASN.1 library)
 libtasn1-x32:
 libtasn1-x32: Libtasn1 is the GNU ASN.1 library. Abstract Syntax Notation One
 libtasn1-x32: (ASN.1) is a standard and flexible notation that describes rules and

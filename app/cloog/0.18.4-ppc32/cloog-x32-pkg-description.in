@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
          |-----handy-ruler------------------------------------------------------|
-cloog-x32: cloog-x32 @VERSION@ (ppc32 The Chunky Loop Generator 'cloog-isl')
+cloog-x32: cloog-x32 @VERSION@ (The Chunky Loop Generator 'cloog-isl')
 cloog-x32:
 cloog-x32: CLooG is a free software and library to generate code for scanning
 cloog-x32: Z-polyhedra. That is, it finds a code (e.g. in C, FORTRAN...) that

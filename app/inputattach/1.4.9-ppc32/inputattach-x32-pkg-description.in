@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                |-----handy-ruler------------------------------------------------------|
-inputattach-x32: inputattach-x32 @VERSION@ (x86_32 utility for legacy serial devices)
+inputattach-x32: inputattach-x32 @VERSION@ (utility for legacy serial devices)
 inputattach-x32:
 inputattach-x32: inputattach is a utility for connecting legacy serial devices to the
 inputattach-x32: input layer. This utility is a part of linuxconsole tools project

@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
         |-----handy-ruler------------------------------------------------------|
-pcre-x32: pcre-x32 @VERSION@ (x86_32 Perl-compatible regular expression library)
+pcre-x32: pcre-x32 @VERSION@ (Perl-compatible regular expression library)
 pcre-x32:
 pcre-x32: The PCRE library is a set of functions that implement regular
 pcre-x32: expression pattern matching using the same syntax and semantics as

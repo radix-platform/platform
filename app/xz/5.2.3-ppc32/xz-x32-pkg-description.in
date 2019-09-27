@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
       |-----handy-ruler------------------------------------------------------|
-xz-x32: xz-x32 @VERSION@ (ppc32 compression utility based on the LZMA algorithm)
+xz-x32: xz-x32 @VERSION@ (compression utility based on the LZMA algorithm)
 xz-x32:
 xz-x32: LZMA is a general purpose compression algorithm designed by Igor
 xz-x32: Pavlov as part of 7-Zip.  It provides high compression ratio while

@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
        |-----handy-ruler------------------------------------------------------|
-glu-x32: glu-x32 @VERSION@ (x86_32 Mesa OpenGL utility library)
+glu-x32: glu-x32 @VERSION@ (Mesa OpenGL utility library)
 glu-x32:
 glu-x32: glu is the Mesa OpenGL utility library (libGLU).
 glu-x32:

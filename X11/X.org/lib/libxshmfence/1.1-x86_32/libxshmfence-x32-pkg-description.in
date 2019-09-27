@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                 |-----handy-ruler------------------------------------------------------|
-libxshmfence-x32: libxshmfence-x32 @VERSION@ (x86_32 Shared memory SyncFence primitive)
+libxshmfence-x32: libxshmfence-x32 @VERSION@ (Shared memory SyncFence primitive)
 libxshmfence-x32:
 libxshmfence-x32: libxshmfence is part of X11.
 libxshmfence-x32:

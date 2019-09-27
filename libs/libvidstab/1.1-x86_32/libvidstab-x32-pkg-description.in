@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
               |-----handy-ruler------------------------------------------------------|
-libvidstab-x32: libvidstab-x32 @VERSION@ (x86_32 video stabilization library)
+libvidstab-x32: libvidstab-x32 @VERSION@ (video stabilization library)
 libvidstab-x32:
 libvidstab-x32: Vidstab is a video stabilization library which can be plugged-in
 libvidstab-x32: with Ffmpeg and Transcode.

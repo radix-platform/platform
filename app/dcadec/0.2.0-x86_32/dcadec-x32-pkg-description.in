@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
           |-----handy-ruler------------------------------------------------------|
-dcadec-x32: dcadec-x32 @VERSION@ (x86_32 DTS Coherent Acoustics decoder)
+dcadec-x32: dcadec-x32 @VERSION@ (DTS Coherent Acoustics decoder)
 dcadec-x32:
 dcadec-x32: dcadec is a free DTS Coherent Acoustics decoder with support
 dcadec-x32: for HD extensions.

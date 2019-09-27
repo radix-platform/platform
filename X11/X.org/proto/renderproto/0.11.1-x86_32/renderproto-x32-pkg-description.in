@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                |-----handy-ruler------------------------------------------------------|
-renderproto-x32: renderproto-x32 @VERSION@ (x86_32 X11 Rendering PROTO)
+renderproto-x32: renderproto-x32 @VERSION@ (X11 Rendering PROTO)
 renderproto-x32:
 renderproto-x32: renderproto is part of X11.
 renderproto-x32:

@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
        |-----handy-ruler------------------------------------------------------|
-acl-x32: acl-x32 @VERSION@ (x86_32 tools for using POSIX Access Control Lists)
+acl-x32: acl-x32 @VERSION@ (tools for using POSIX Access Control Lists)
 acl-x32:
 acl-x32: This package contains a set of tools and libraries for manipulating
 acl-x32: POSIX Access Control Lists.  POSIX Access Control Lists (defined in

@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
              |-----handy-ruler------------------------------------------------------|
-log4cplus-x32: log4cplus-x32 @VERSION@ (x86_32 log management library)
+log4cplus-x32: log4cplus-x32 @VERSION@ (log management library)
 log4cplus-x32:
 log4cplus-x32: log4cplus is a simple to use C++ logging API providing thread-safe,
 log4cplus-x32: flexible, and arbitrarily granular control over log management and

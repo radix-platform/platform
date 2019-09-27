@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
              |-----handy-ruler------------------------------------------------------|
-libmikmod-x32: libmikmod-x32 @VERSION@ (x86_32 A portable sound library)
+libmikmod-x32: libmikmod-x32 @VERSION@ (A portable sound library)
 libmikmod-x32:
 libmikmod-x32: The MikMod sound library is an excellent way for a programmer
 libmikmod-x32: to add music and sound effects to an application. It is a powerful

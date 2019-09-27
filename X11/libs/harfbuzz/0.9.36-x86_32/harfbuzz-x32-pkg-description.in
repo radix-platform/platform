@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
             |-----handy-ruler------------------------------------------------------|
-harfbuzz-x32: harfbuzz-x32 @VERSION@ (x86_32 OpenType text shaping engine)
+harfbuzz-x32: harfbuzz-x32 @VERSION@ (OpenType text shaping engine)
 harfbuzz-x32:
 harfbuzz-x32: HarfBuzz is an OpenType text shaping engine.
 harfbuzz-x32:

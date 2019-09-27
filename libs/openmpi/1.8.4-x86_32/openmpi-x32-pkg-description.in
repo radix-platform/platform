@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
            |-----handy-ruler------------------------------------------------------|
-openmpi-x32: openmpi-x32 @VERSION@ (x86_32 Message Passing Interface)
+openmpi-x32: openmpi-x32 @VERSION@ (Message Passing Interface)
 openmpi-x32:
 openmpi-x32: The Open MPI Project is an open source Message Passing Interface
 openmpi-x32: implementation that is developed and maintained by a consortium of

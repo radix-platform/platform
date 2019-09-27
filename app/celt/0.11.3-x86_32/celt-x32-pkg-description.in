@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
         |-----handy-ruler------------------------------------------------------|
-celt-x32: celt-x32 @VERSION@ (x86_32 Low-latency audio communication codec)
+celt-x32: celt-x32 @VERSION@ (Low-latency audio communication codec)
 celt-x32:
 celt-x32: CELT is a very low delay audio codec designed for high-quality
 celt-x32: communications.

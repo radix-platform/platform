@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
             |-----handy-ruler------------------------------------------------------|
-libeudev-x32: libeudev-x32 @VERSION@ (x86_32 libraries for eudev)
+libeudev-x32: libeudev-x32 @VERSION@ (libraries for eudev)
 libeudev-x32:
 libeudev-x32: libudev provides shared and static library to access the devices
 libeudev-x32: which are actually present. It creates or removes device node

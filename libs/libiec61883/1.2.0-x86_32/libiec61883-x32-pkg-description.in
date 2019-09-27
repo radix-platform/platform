@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                |-----handy-ruler------------------------------------------------------|
-libiec61883-x32: libiec61883-x32 @VERSION@ (x86_32 IEC 61883 implementation)
+libiec61883-x32: libiec61883-x32 @VERSION@ (IEC 61883 implementation)
 libiec61883-x32:
 libiec61883-x32: This library is an implementation of IEC 61883, part 1 (CIP, plug
 libiec61883-x32: registers, and CMP), part 2 (DV-SD), part 4 (MPEG2-TS), and part 6

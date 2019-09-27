@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
               |-----handy-ruler------------------------------------------------------|
-pulseaudio-x32: pulseaudio-x32 @VERSION@ (x86_32 PulseAudio sound server)
+pulseaudio-x32: pulseaudio-x32 @VERSION@ (PulseAudio sound server)
 pulseaudio-x32:
 pulseaudio-x32: pulseaudio is a networked low-latency sound server intended to be
 pulseaudio-x32: an improved replacement for the Enlightened Sound Daemon (EsounD).

@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
            |-----handy-ruler------------------------------------------------------|
-libmbim-x32: libmbim-x32 @VERSION@ (x86_32 MBIM library)
+libmbim-x32: libmbim-x32 @VERSION@ (MBIM library)
 libmbim-x32:
 libmbim-x32: The Mobile Broadband Interface Model (MBIM) is a new standard to
 libmbim-x32: communicate with mobile broadband modem devices developed by the

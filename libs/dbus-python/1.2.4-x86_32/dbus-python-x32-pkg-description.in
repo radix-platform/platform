@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                |-----handy-ruler------------------------------------------------------|
-dbus-python-x32: dbus-python-x32 @VERSION@ (x86_32 Python bindings for dbus)
+dbus-python-x32: dbus-python-x32 @VERSION@ (Python bindings for dbus)
 dbus-python-x32:
 dbus-python-x32: This package includes python bindings for the D-Bus messagebus.
 dbus-python-x32:

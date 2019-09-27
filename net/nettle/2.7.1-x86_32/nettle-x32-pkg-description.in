@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
           |-----handy-ruler------------------------------------------------------|
-nettle-x32: Nettle-x32 @VERSION@ (x86_32 small cryptographic library)
+nettle-x32: Nettle-x32 @VERSION@ (small cryptographic library)
 nettle-x32:
 nettle-x32: Nettle is a cryptographic library that is designed to fit easily in
 nettle-x32: more or less any context: In crypto toolkits for object-oriented

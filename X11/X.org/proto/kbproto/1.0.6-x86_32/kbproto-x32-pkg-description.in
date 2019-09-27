@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
            |-----handy-ruler------------------------------------------------------|
-kbproto-x32: kbproto-x32 @VERSION@ (x86_32 X11 Keyboard PROTO)
+kbproto-x32: kbproto-x32 @VERSION@ (X11 Keyboard PROTO)
 kbproto-x32:
 kbproto-x32: kbproto is part of X11.
 kbproto-x32:

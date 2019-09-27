@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
           |-----handy-ruler------------------------------------------------------|
-libass-x32: libass-x32 @VERSION@ (x86_32 Subtitle renderer for the ASS/SSA)
+libass-x32: libass-x32 @VERSION@ (Subtitle renderer for the ASS/SSA)
 libass-x32:
 libass-x32: libass is a portable subtitle renderer for the ASS/SSA (Advanced
 libass-x32: Substation Alpha/Substation Alpha) subtitle format. It is mostly

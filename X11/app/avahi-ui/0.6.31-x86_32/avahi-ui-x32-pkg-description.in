@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
             |-----handy-ruler------------------------------------------------------|
-avahi-ui-x32: avahi-ui-x32 @VERSION@ (x86_32 zeroconf networking)
+avahi-ui-x32: avahi-ui-x32 @VERSION@ (zeroconf networking)
 avahi-ui-x32:
 avahi-ui-x32: avahi is a system which facilitates service discovery on a local
 avahi-ui-x32: network. This package contains only GTK+2 and Qt4 user interfaces.

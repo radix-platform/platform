@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
        |-----handy-ruler------------------------------------------------------|
-sdl-x32: sdl-x32 @VERSION@ (x86_32 Simple DirectMedia Layer library)
+sdl-x32: sdl-x32 @VERSION@ (Simple DirectMedia Layer library)
 sdl-x32:
 sdl-x32: This is the Simple DirectMedia Layer, a generic API that provides
 sdl-x32: low level access to audio, keyboard, mouse, joystick, 3D hardware

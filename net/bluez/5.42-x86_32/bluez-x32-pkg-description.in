@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
          |-----handy-ruler------------------------------------------------------|
-bluez-x32: bluez-x32 @VERSION@ (x86_32 Bluetooth libraries and utilities)
+bluez-x32: bluez-x32 @VERSION@ (Bluetooth libraries and utilities)
 bluez-x32:
 bluez-x32: Bluez is the Bluetooth stack for Linux, allowing Bluetooth adaptors
 bluez-x32: and devices to be used with Linux.  This package contains the Bluez

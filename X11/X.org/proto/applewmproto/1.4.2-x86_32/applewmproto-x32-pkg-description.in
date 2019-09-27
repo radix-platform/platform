@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                 |-----handy-ruler------------------------------------------------------|
-applewmproto-x32: applewmproto-x32 @VERSION@ (x86_32 X11 Apple Rootless WM PROTO)
+applewmproto-x32: applewmproto-x32 @VERSION@ (X11 Apple Rootless WM PROTO)
 applewmproto-x32:
 applewmproto-x32: applewmproto is part of X11.
 applewmproto-x32:

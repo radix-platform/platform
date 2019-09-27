@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
            |-----handy-ruler------------------------------------------------------|
-libxml2-x32: libxml2-x32 @VERSION@ (x86_32 XML parser library)
+libxml2-x32: libxml2-x32 @VERSION@ (XML parser library)
 libxml2-x32:
 libxml2-x32: Libxml2 is the XML C parser library and toolkit. XML itself is a
 libxml2-x32: metalanguage to design markup languages - i.e. a text language where

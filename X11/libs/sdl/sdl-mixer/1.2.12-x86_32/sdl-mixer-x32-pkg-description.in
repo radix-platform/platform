@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
              |-----handy-ruler------------------------------------------------------|
-sdl-mixer-x32: sdl-mixer-x32 @VERSION@ (x86_32 Simple multi-channel audio mixer)
+sdl-mixer-x32: sdl-mixer-x32 @VERSION@ (Simple multi-channel audio mixer)
 sdl-mixer-x32:
 sdl-mixer-x32: SDL_mixer is a simple multi-channel audio mixer. It supports
 sdl-mixer-x32: 8 channels of 16 bit stereo audio, plus a single channel of music,

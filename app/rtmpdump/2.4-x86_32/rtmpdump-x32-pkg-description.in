@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
             |-----handy-ruler------------------------------------------------------|
-rtmpdump-x32: rtmpdump-x32 @VERSION@ (x86_32 RTMP streaming media client)
+rtmpdump-x32: rtmpdump-x32 @VERSION@ (RTMP streaming media client)
 rtmpdump-x32:
 rtmpdump-x32: rtmpdump is a toolkit for RTMP streams.
 rtmpdump-x32:

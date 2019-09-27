@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
        |-----handy-ruler------------------------------------------------------|
-nss-x32: nss-x32 @VERSION@ (x86_32 Network Security Services)
+nss-x32: nss-x32 @VERSION@ (Network Security Services)
 nss-x32:
 nss-x32: Network Security Services (NSS) is a set of libraries designed to
 nss-x32: support cross-platform development of security-enabled client and

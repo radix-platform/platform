@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
          |-----handy-ruler------------------------------------------------------|
-mtdev-x32: mtdev-x32 @VERSION@ (x86_32 Multitouch Protocol Translation Library)
+mtdev-x32: mtdev-x32 @VERSION@ (Multitouch Protocol Translation Library)
 mtdev-x32:
 mtdev-x32: The mtdev is a stand-alone library which transforms all variants of
 mtdev-x32: kernel MT events to the slotted type B protocol. The events put into

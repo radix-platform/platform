@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
            |-----handy-ruler------------------------------------------------------|
-python3-x32: python3-x32 @VERSION@ (x86_32 interpreted programming language)
+python3-x32: python3-x32 @VERSION@ (interpreted programming language)
 python3-x32:
 python3-x32: Python is an interpreted, interactive, object-oriented programming
 python3-x32: language that combines remarkable power with very clear syntax.

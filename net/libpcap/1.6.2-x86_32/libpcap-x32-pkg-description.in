@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
            |-----handy-ruler------------------------------------------------------|
-libpcap-x32: libpcap-x32 @VERSION@ (x86_32 packet capture library)
+libpcap-x32: libpcap-x32 @VERSION@ (packet capture library)
 libpcap-x32:
 libpcap-x32: libpcap is a library for user-level packet capture. libpcap provides
 libpcap-x32: a portable framework for low-level network monitoring. Applications

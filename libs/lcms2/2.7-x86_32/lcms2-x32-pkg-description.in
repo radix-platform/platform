@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
          |-----handy-ruler------------------------------------------------------|
-lcms2-x32: lcms2-x32 @VERSION@ (x86_32 LCMS Color Management Library)
+lcms2-x32: lcms2-x32 @VERSION@ (LCMS Color Management Library)
 lcms2-x32:
 lcms2-x32: Little CMS intends to be an OPEN SOURCE small-footprint color
 lcms2-x32: management engine, with special focus on accuracy and performance.

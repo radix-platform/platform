@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
         |-----handy-ruler------------------------------------------------------|
-faac-x32: faac-x32 @VERSION@ (x86_32 MPEG-4 and MPEG-2 AAC encoder)
+faac-x32: faac-x32 @VERSION@ (MPEG-4 and MPEG-2 AAC encoder)
 faac-x32:
 faac-x32: This package contains the ISO/MPEG 2/4 AAC Encoder and Library.
 faac-x32:

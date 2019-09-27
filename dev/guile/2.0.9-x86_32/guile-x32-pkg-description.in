@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
          |-----handy-ruler------------------------------------------------------|
-guile-x32: guile-x32 @VERSION@ (x86_32 GNU extension language library)
+guile-x32: guile-x32 @VERSION@ (GNU extension language library)
 guile-x32:
 guile-x32: This is Guile, Project GNU's extension language library. Guile is an
 guile-x32: interpreter for Scheme, packaged as a library that you can link into

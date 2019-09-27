@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                |-----handy-ruler------------------------------------------------------|
-recordproto-x32: recordproto-x32 @VERSION@ (x86_32 X11 Record PROTO)
+recordproto-x32: recordproto-x32 @VERSION@ (X11 Record PROTO)
 recordproto-x32:
 recordproto-x32: recordproto is part of X11.
 recordproto-x32:

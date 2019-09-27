@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
          |-----handy-ruler------------------------------------------------------|
-dmapi-x32: dmapi-x32 @VERSION@ (x86_32 Data Management API library)
+dmapi-x32: dmapi-x32 @VERSION@ (Data Management API library)
 dmapi-x32:
 dmapi-x32: A library required to use the Data Management API (DMAPI).
 dmapi-x32: This interface is defined in the X/Open document

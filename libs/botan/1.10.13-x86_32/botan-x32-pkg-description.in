@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
          |-----handy-ruler------------------------------------------------------|
-botan-x32: botan-x32 @VERSION@ (x86_32 Crypto and TLS library for C++11)
+botan-x32: botan-x32 @VERSION@ (Crypto and TLS library for C++11)
 botan-x32:
 botan-x32: Botan is a C++ library for performing a wide variety of
 botan-x32: cryptographic operations.

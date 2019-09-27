@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
            |-----handy-ruler------------------------------------------------------|
-poppler-x32: poppler-x32 @VERSION@ (x86_32 a library for rendering PDF documents)
+poppler-x32: poppler-x32 @VERSION@ (a library for rendering PDF documents)
 poppler-x32:
 poppler-x32: Poppler is a library based on the xpdf PDF viewer developed by Derek
 poppler-x32: Noonburg of Glyph and Cog, LLC. Since xpdf does not provide a shared

@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                     |-----handy-ruler------------------------------------------------------|
-xf86bigfontproto-x32: xf86bigfontproto-x32 @VERSION@ (x86_32 XF86BIGFONT protocol PROTO)
+xf86bigfontproto-x32: xf86bigfontproto-x32 @VERSION@ (XF86BIGFONT protocol PROTO)
 xf86bigfontproto-x32:
 xf86bigfontproto-x32: xf86bigfontproto is part of X11.
 xf86bigfontproto-x32:

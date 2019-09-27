@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                |-----handy-ruler------------------------------------------------------|
-libpipeline-x32: libpipeline-x32 @VERSION@ (x86_32 pipeline manipulation library)
+libpipeline-x32: libpipeline-x32 @VERSION@ (pipeline manipulation library)
 libpipeline-x32:
 libpipeline-x32: libpipeline is a C library for manipulating pipelines of subprocesses
 libpipeline-x32: in a flexible and convenient way.

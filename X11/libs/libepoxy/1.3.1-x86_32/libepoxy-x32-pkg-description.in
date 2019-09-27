@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
             |-----handy-ruler------------------------------------------------------|
-libepoxy-x32: libepoxy-x32 @VERSION@ (x86_32 OpenGL function pointer management)
+libepoxy-x32: libepoxy-x32 @VERSION@ (OpenGL function pointer management)
 libepoxy-x32:
 libepoxy-x32: Epoxy is a library for handling OpenGL function pointer management.
 libepoxy-x32: It hides the complexity of dlopen(), dlsym(), glXGetProcAddress(),

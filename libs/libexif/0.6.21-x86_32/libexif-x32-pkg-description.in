@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
            |-----handy-ruler------------------------------------------------------|
-libexif-x32: libexif-x32 @VERSION@ (x86_32 Library for easy access to EXIF data)
+libexif-x32: libexif-x32 @VERSION@ (Library for easy access to EXIF data)
 libexif-x32:
 libexif-x32: Most digital cameras produce EXIF files, which are JPEG files
 libexif-x32: with extra tags that contain information about the image. The EXIF

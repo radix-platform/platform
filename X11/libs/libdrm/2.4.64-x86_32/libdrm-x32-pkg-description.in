@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
           |-----handy-ruler------------------------------------------------------|
-libdrm-x32: libdrm-x32 @VERSION@ (x86_32 Direct Rendering library)
+libdrm-x32: libdrm-x32 @VERSION@ (Direct Rendering library)
 libdrm-x32:
 libdrm-x32: This library implements an interface to the kernel's DRM services.
 libdrm-x32: It is used to support hardware accelerated 3-D rendering.

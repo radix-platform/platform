@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
              |-----handy-ruler------------------------------------------------------|
-libassuan-x32: libassuan-x32 @VERSION@ (x86_32 Interprocess Communication Library)
+libassuan-x32: libassuan-x32 @VERSION@ (Interprocess Communication Library)
 libassuan-x32:
 libassuan-x32: This is the IPC library used by GnuPG 2.x, GPGME and a few other
 libassuan-x32: packages.

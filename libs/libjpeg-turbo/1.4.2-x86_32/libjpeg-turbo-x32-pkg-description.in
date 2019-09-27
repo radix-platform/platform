@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                  |-----handy-ruler------------------------------------------------------|
-libjpeg-turbo-x32: libjpeg-turbo-x32 @VERSION@ (x86_32 JPEG image codec)
+libjpeg-turbo-x32: libjpeg-turbo-x32 @VERSION@ (JPEG image codec)
 libjpeg-turbo-x32:
 libjpeg-turbo-x32: libjpeg-turbo is a JPEG image codec that uses SIMD instructions
 libjpeg-turbo-x32: (MMX, SSE2, NEON) to accelerate baseline JPEG compression and

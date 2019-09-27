@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                 |-----handy-ruler------------------------------------------------------|
-xf86dgaproto-x32: xf86dgaproto-x32 @VERSION@ (x86_32 XFree86 DGA wire PROTO)
+xf86dgaproto-x32: xf86dgaproto-x32 @VERSION@ (XFree86 DGA wire PROTO)
 xf86dgaproto-x32:
 xf86dgaproto-x32: xf86dgaproto is part of X11.
 xf86dgaproto-x32:

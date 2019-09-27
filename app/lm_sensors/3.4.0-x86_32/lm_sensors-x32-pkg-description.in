@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
               |-----handy-ruler------------------------------------------------------|
-lm_sensors-x32: lm_sensors-x32 @VERSION@ (x86_32 hardware monitoring package)
+lm_sensors-x32: lm_sensors-x32 @VERSION@ (hardware monitoring package)
 lm_sensors-x32:
 lm_sensors-x32: lm_sensors provides tools for monitoring the temperatures, voltages,
 lm_sensors-x32: and fans of Linux systems with hardware monitoring devices. Included

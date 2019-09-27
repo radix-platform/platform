@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
         |-----handy-ruler------------------------------------------------------|
-qpdf-x32: qpdf-x32 @VERSION@ (x86_32 Content-Preserving PDF Transformation System)
+qpdf-x32: qpdf-x32 @VERSION@ (Content-Preserving PDF Transformation System)
 qpdf-x32:
 qpdf-x32: QPDF is a command-line program that does structural,
 qpdf-x32: content-preserving transformations on PDF files. It could have been

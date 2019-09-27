@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
               |-----handy-ruler------------------------------------------------------|
-libspectre-x32: libspectre-x32 @VERSION@ (x86_32 ghostscript wrapper library)
+libspectre-x32: libspectre-x32 @VERSION@ (ghostscript wrapper library)
 libspectre-x32:
 libspectre-x32: libspectre is a small wrapper library for ghostscript, which is
 libspectre-x32: used for rendering Postscript documents. The goal of libspectre

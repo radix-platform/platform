@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
          |-----handy-ruler------------------------------------------------------|
-libFS-x32: libFS-x32 @VERSION@ (x86_32 X Font Service client library)
+libFS-x32: libFS-x32 @VERSION@ (X Font Service client library)
 libFS-x32:
 libFS-x32: libFS is part of X11.
 libFS-x32:

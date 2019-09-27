@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
               |-----handy-ruler------------------------------------------------------|
-libXdamage-x32: libXdamage-x32 @VERSION@ (x86_32 X Damage client library)
+libXdamage-x32: libXdamage-x32 @VERSION@ (X Damage client library)
 libXdamage-x32:
 libXdamage-x32: libXdamage is part of X11.
 libXdamage-x32:

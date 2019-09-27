@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
              |-----handy-ruler------------------------------------------------------|
-libtheora-x32: libtheora-x32 @VERSION@ (x86_32 Theora video codec library)
+libtheora-x32: libtheora-x32 @VERSION@ (Theora video codec library)
 libtheora-x32:
 libtheora-x32: Theora is Xiph.Org's first publicly released video codec, intended
 libtheora-x32: for use within the Foundation's Ogg multimedia streaming system.

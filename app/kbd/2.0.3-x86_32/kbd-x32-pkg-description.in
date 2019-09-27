@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
        |-----handy-ruler------------------------------------------------------|
-kbd-x32: kbd-x32 @VERSION@ (x86_32 Libkeymap)
+kbd-x32: kbd-x32 @VERSION@ (Libkeymap)
 kbd-x32:
 kbd-x32: Libkeymap is a library for manipulating kernel keymaps. This library
 kbd-x32: was created from the loadkeys/dumpkeys utilities.

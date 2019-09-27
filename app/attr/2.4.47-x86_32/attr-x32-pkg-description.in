@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
         |-----handy-ruler------------------------------------------------------|
-attr-x32: attr-x32 @VERSION@ (x86_32 tools for using extended attributes on FS)
+attr-x32: attr-x32 @VERSION@ (tools for using extended attributes on FS)
 attr-x32:
 attr-x32: This package contains a set of tools for manipulating extended
 attr-x32: attributes (name:value pairs associated permanently with files

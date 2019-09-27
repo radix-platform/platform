@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
           |-----handy-ruler------------------------------------------------------|
-libmng-x32: libmng-x32 @VERSION@ (x86_32 Multiple-image Network Graphics library)
+libmng-x32: libmng-x32 @VERSION@ (Multiple-image Network Graphics library)
 libmng-x32:
 libmng-x32: This is libmng, the MNG reference library. MNG (pronounced 'ming'),
 libmng-x32: is short for Multiple-image Network Graphics. Designed with the same

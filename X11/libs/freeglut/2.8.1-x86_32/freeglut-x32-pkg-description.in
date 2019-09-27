@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
             |-----handy-ruler------------------------------------------------------|
-freeglut-x32: freeglut-x32 @VERSION@ (x86_32 alternative GLUT library)
+freeglut-x32: freeglut-x32 @VERSION@ (alternative GLUT library)
 freeglut-x32:
 freeglut-x32: freeglut is a completely OpenSourced alternative to the OpenGL
 freeglut-x32: Utility Toolkit (GLUT) library. GLUT (and hence freeglut) allows

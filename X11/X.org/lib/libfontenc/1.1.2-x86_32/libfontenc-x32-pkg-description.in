@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
               |-----handy-ruler------------------------------------------------------|
-libfontenc-x32: libfontenc-x32 @VERSION@ (x86_32 font encoding library)
+libfontenc-x32: libfontenc-x32 @VERSION@ (font encoding library)
 libfontenc-x32:
 libfontenc-x32: libfontenc is part of X11.
 libfontenc-x32:

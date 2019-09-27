@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
             |-----handy-ruler------------------------------------------------------|
-libtirpc-x32: libtirpc-x32 @VERSION@ (x86_32 Transport-Independent RPC library)
+libtirpc-x32: libtirpc-x32 @VERSION@ (Transport-Independent RPC library)
 libtirpc-x32:
 libtirpc-x32: Libtirpc is a port of Sun's Transport-Independent RPC library to
 libtirpc-x32: Linux. It is being developed by Bull GNU/Linux NFSv4 project.

@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
          |-----handy-ruler------------------------------------------------------|
-ipset-x32: ipset-x32 @VERSION@ (x86_32 administration tool for kernel IP sets)
+ipset-x32: ipset-x32 @VERSION@ (administration tool for kernel IP sets)
 ipset-x32:
 ipset-x32: IP sets are a Linux kernel framework administered by the ipset
 ipset-x32: utility.  Depending on the type, currently an IP set may store

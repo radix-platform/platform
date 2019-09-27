@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                |-----handy-ruler------------------------------------------------------|
-libXinerama-x32: libXinerama-x32 @VERSION@ (x86_32 Xinerama extension library)
+libXinerama-x32: libXinerama-x32 @VERSION@ (Xinerama extension library)
 libXinerama-x32:
 libXinerama-x32: libXinerama is part of X11.
 libXinerama-x32:

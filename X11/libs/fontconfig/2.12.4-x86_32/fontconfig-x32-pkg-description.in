@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
               |-----handy-ruler------------------------------------------------------|
-fontconfig-x32: fontconfig-x32 @VERSION@ (x86_32 Font library and tools)
+fontconfig-x32: fontconfig-x32 @VERSION@ (Font library and tools)
 fontconfig-x32:
 fontconfig-x32: Fontconfig is a library and tools designed to provide system-wide
 fontconfig-x32: font configuration, customization, and application access.

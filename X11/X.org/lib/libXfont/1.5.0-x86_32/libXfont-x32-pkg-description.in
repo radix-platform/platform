@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
             |-----handy-ruler------------------------------------------------------|
-libXfont-x32: libXfont-x32 @VERSION@ (x86_32 legacy X11 font system library)
+libXfont-x32: libXfont-x32 @VERSION@ (legacy X11 font system library)
 libXfont-x32:
 libXfont-x32: libXfont is part of X11.
 libXfont-x32:

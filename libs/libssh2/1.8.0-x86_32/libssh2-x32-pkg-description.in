@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
            |-----handy-ruler------------------------------------------------------|
-libssh2-x32: libssh2-x32 @VERSION@ (x86_32 SSH2 library)
+libssh2-x32: libssh2-x32 @VERSION@ (SSH2 library)
 libssh2-x32:
 libssh2-x32: libssh2 is a library implementing the SSH2 protocol, available
 libssh2-x32: under revised BSD license.

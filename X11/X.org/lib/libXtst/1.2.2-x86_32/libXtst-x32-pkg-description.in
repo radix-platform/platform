@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
            |-----handy-ruler------------------------------------------------------|
-libXtst-x32: libXtst-x32 @VERSION@ (x86_32 XTEST & RECORD client library)
+libXtst-x32: libXtst-x32 @VERSION@ (XTEST & RECORD client library)
 libXtst-x32:
 libXtst-x32: libXtst is part of X11.
 libXtst-x32:

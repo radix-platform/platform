@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
           |-----handy-ruler------------------------------------------------------|
-giflib-x32: giflib-x32 @VERSION@ (x86_32 library for reading and writing gif images)
+giflib-x32: giflib-x32 @VERSION@ (library for reading and writing gif images)
 giflib-x32:
 giflib-x32: giflib is a library for reading and writing gif images. It is API
 giflib-x32: and ABI compatible with libungif which was in wide use while the

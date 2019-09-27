@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                 |-----handy-ruler------------------------------------------------------|
-schroedinger-x32: schroedinger-x32 @VERSION@ (x86_32 Dirac video codec)
+schroedinger-x32: schroedinger-x32 @VERSION@ (Dirac video codec)
 schroedinger-x32:
 schroedinger-x32: Schroedinger (or "schro" for short) is an implementation of the
 schroedinger-x32: Dirac and SMPTE VC-2 video compression specification. Dirac was

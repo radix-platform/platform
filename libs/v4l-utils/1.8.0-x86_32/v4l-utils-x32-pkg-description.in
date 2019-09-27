@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
              |-----handy-ruler------------------------------------------------------|
-v4l-utils-x32: v4l-utils-x32 @VERSION@ (x86_32 libraries and utilities for video4linux)
+v4l-utils-x32: v4l-utils-x32 @VERSION@ (libraries and utilities for video4linux)
 v4l-utils-x32:
 v4l-utils-x32: libv4l is a collection of libraries which adds a thin abstraction
 v4l-utils-x32: layer on top of video4linux2 devices. The purpose of this (thin)

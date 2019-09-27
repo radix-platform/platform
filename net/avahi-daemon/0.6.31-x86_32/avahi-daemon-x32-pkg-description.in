@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                 |-----handy-ruler------------------------------------------------------|
-avahi-daemon-x32: avahi-daemon-x32 @VERSION@ (x86_32 zeroconf networking)
+avahi-daemon-x32: avahi-daemon-x32 @VERSION@ (zeroconf networking)
 avahi-daemon-x32:
 avahi-daemon-x32: avahi is a system which facilitates service discovery on a local
 avahi-daemon-x32: network. This means that you can plug your laptop or computer into

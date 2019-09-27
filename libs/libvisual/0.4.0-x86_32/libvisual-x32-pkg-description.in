@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
              |-----handy-ruler------------------------------------------------------|
-libvisual-x32: libvisual-x32 @VERSION@ (x86_32 audio visualization library)
+libvisual-x32: libvisual-x32 @VERSION@ (audio visualization library)
 libvisual-x32:
 libvisual-x32: Libvisual is an audio visualization library that acts as a middle
 libvisual-x32: layer between audio visualization plugins and applications. Any

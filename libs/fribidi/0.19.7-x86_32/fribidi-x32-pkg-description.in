@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
            |-----handy-ruler------------------------------------------------------|
-fribidi-x32: fribidi-x32 @VERSION@ (x86_32 Unicode BiDirectional algorithm library)
+fribidi-x32: fribidi-x32 @VERSION@ (Unicode BiDirectional algorithm library)
 fribidi-x32:
 fribidi-x32: This library implements the Unicode BiDirectional algorithm, which
 fribidi-x32: is needed in order to support right-to-left languages such as Arabic

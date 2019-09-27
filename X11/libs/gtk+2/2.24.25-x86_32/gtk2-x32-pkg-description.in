@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
         |-----handy-ruler------------------------------------------------------|
-gtk2-x32: GTK+-x32 @VERSION@ (x86_32 multi-platform GUI toolkit)
+gtk2-x32: GTK+-x32 @VERSION@ (multi-platform GUI toolkit)
 gtk2-x32:
 gtk2-x32: This is GTK+, a multi-platform toolkit for creating graphical user
 gtk2-x32: interfaces. Offering a complete set of widgets, GTK+ is suitable for

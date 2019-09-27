@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
               |-----handy-ruler------------------------------------------------------|
-libavc1394-x32: libavc1394-x32 @VERSION@ (x86_32 AV/C spec programming interface)
+libavc1394-x32: libavc1394-x32 @VERSION@ (AV/C spec programming interface)
 libavc1394-x32:
 libavc1394-x32: libavc1394 is a programming interface to the AV/C specification
 libavc1394-x32: from the 1394 Trade Assocation. AV/C stands for Audio/Video Control.

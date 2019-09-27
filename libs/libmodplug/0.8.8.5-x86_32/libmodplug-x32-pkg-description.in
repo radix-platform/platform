@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
               |-----handy-ruler------------------------------------------------------|
-libmodplug-x32: libmodplug-x32 @VERSION@ (x86_32 MOD playing library)
+libmodplug-x32: libmodplug-x32 @VERSION@ (MOD playing library)
 libmodplug-x32:
 libmodplug-x32: libmodplug is a library which was part of the Modplug-xmms project.
 libmodplug-x32:

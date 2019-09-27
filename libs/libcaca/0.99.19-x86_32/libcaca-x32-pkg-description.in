@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
            |-----handy-ruler------------------------------------------------------|
-libcaca-x32: libcaca-x32 @VERSION@ (x86_32 Colour AsCii Art library)
+libcaca-x32: libcaca-x32 @VERSION@ (Colour AsCii Art library)
 libcaca-x32:
 libcaca-x32: The libcaca library is a graphics library that outputs text
 libcaca-x32: instead of pixels, so that it can work on older video cards

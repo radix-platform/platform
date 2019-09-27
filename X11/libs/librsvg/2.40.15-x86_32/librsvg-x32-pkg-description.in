@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
            |-----handy-ruler------------------------------------------------------|
-librsvg-x32: librsvg-x32 @VERSION@ (x86_32 SVG library)
+librsvg-x32: librsvg-x32 @VERSION@ (SVG library)
 librsvg-x32:
 librsvg-x32: Library for handling SVG (Scalable Vector Graphics).
 librsvg-x32:

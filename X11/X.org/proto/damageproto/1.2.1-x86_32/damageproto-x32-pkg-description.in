@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                |-----handy-ruler------------------------------------------------------|
-damageproto-x32: damageproto-x32 @VERSION@ (x86_32 X11 Damage PROTO)
+damageproto-x32: damageproto-x32 @VERSION@ (X11 Damage PROTO)
 damageproto-x32:
 damageproto-x32: damageproto is part of X11.
 damageproto-x32:

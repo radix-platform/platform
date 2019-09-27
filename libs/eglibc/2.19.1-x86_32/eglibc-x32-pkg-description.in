@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
           |-----handy-ruler------------------------------------------------------|
-eglibc-x32: eglibc-x32 @VERSION@ (x86_32 Embedded GNU C libraries)
+eglibc-x32: eglibc-x32 @VERSION@ (Embedded GNU C libraries)
 eglibc-x32:
 eglibc-x32: This package contains the 32-bit EGLIBC libraries for
 eglibc-x32: x86_64 platforms.

@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
              |-----handy-ruler------------------------------------------------------|
-pygobject-x32: pygobject-x32 @VERSION@ (x86_32 GObject bindings for Python)
+pygobject-x32: pygobject-x32 @VERSION@ (GObject bindings for Python)
 pygobject-x32:
 pygobject-x32: This archive contains bindings for the GObject, to be used in Python.
 pygobject-x32: It is a fairly complete set of bindings, it's already rather useful,

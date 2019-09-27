@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                        |-----handy-ruler------------------------------------------------------|
-xcb-util-renderutil-x32: xcb-util-renderutil-x32 @VERSION@ (x86_32 XCB renderutil library)
+xcb-util-renderutil-x32: xcb-util-renderutil-x32 @VERSION@ (XCB renderutil library)
 xcb-util-renderutil-x32:
 xcb-util-renderutil-x32: xcb-util-renderutil is part of X11.
 xcb-util-renderutil-x32:

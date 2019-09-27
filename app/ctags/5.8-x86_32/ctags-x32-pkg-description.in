@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
          |-----handy-ruler------------------------------------------------------|
-ctags-x32: ctags-x32 @VERSION@ (x86_32 Exuberant Ctags)
+ctags-x32: ctags-x32 @VERSION@ (Exuberant Ctags)
 ctags-x32:
 ctags-x32: Exuberant Ctags is a multilanguage reimplementation of the
 ctags-x32: much-underused ctags(1) program and is intended to be the mother of

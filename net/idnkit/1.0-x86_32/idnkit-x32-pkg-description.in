@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
           |-----handy-ruler------------------------------------------------------|
-idnkit-x32: idnkit-x32 @VERSION@ (x86_32 Internationalized domain names toolkit)
+idnkit-x32: idnkit-x32 @VERSION@ (Internationalized domain names toolkit)
 idnkit-x32:
 idnkit-x32: idnkit is a toolkit for handling internationalized domain names.
 idnkit-x32: It includes a library for handling internationalized domain names

@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                    |-----handy-ruler------------------------------------------------------|
-dbus-x11-launch-x32: dbus-x11-launch-x32 @VERSION@ (x86_32 D-Bus X11 launcher)
+dbus-x11-launch-x32: dbus-x11-launch-x32 @VERSION@ (D-Bus X11 launcher)
 dbus-x11-launch-x32:
 dbus-x11-launch-x32: This package contains D-Bus X11 launcher only.
 dbus-x11-launch-x32:

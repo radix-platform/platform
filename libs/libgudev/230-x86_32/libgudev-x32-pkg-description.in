@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
             |-----handy-ruler------------------------------------------------------|
-libgudev-x32: libgudev-x32 @VERSION@ (x86_32 library of GObject bindings for libudev)
+libgudev-x32: libgudev-x32 @VERSION@ (library of GObject bindings for libudev)
 libgudev-x32:
 libgudev-x32: Libcroco is a library providing GObject bindings for libudev.
 libgudev-x32: It used to be part of udev, then merged into systemd. It's now

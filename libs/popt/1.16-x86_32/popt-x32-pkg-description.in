@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
         |-----handy-ruler------------------------------------------------------|
-popt-x32: popt-x32 @VERSION@ (x86_32 command line parsing library)
+popt-x32: popt-x32 @VERSION@ (command line parsing library)
 popt-x32:
 popt-x32: Popt is a C library for parsing command line parameters. Popt was
 popt-x32: heavily influenced by the getopt() and getopt_long() functions, but

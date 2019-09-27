@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
           |-----handy-ruler------------------------------------------------------|
-libusb-x32: libusb-x32 @VERSION@ (x86_32 USB library)
+libusb-x32: libusb-x32 @VERSION@ (USB library)
 libusb-x32:
 libusb-x32: This is libusb, a library which allows userspace application access
 libusb-x32: to USB devices. It is used to connect to USB devices like scanners

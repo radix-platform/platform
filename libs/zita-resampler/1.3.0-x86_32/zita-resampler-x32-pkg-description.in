@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                   |-----handy-ruler------------------------------------------------------|
-zita-resampler-x32: zita-resampler-x32 @VERSION@ (x86_32 sample rate conversion library)
+zita-resampler-x32: zita-resampler-x32 @VERSION@ (sample rate conversion library)
 zita-resampler-x32:
 zita-resampler-x32: Zita-resampler is a C++ library for sample rate conversion of
 zita-resampler-x32: audio signals. Full documentation is available in HTML format,

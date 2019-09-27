@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
            |-----handy-ruler------------------------------------------------------|
-twolame-x32: twolame-x32 @VERSION@ (x86_32 optimized MPEG Audio Layer 2 encoder)
+twolame-x32: twolame-x32 @VERSION@ (optimized MPEG Audio Layer 2 encoder)
 twolame-x32:
 twolame-x32: TwoLAME should be able to be used as a drop-in replacement for
 twolame-x32: LAME (a MPEG Layer 3 encoder). The frontend takes very similar

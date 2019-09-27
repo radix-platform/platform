@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
             |-----handy-ruler------------------------------------------------------|
-libnftnl-x32: libnftnl-x32 @VERSION@ (x86_32 kernel nf_tables subsystem interface)
+libnftnl-x32: libnftnl-x32 @VERSION@ (kernel nf_tables subsystem interface)
 libnftnl-x32:
 libnftnl-x32: libnftnl is a userspace library providing a low-level netlink
 libnftnl-x32: programming interface (API) to the in-kernel nf_tables subsystem.

@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
               |-----handy-ruler------------------------------------------------------|
-fixesproto-x32: fixesproto-x32 @VERSION@ (x86_32 X11 X Fixes PROTO)
+fixesproto-x32: fixesproto-x32 @VERSION@ (X11 X Fixes PROTO)
 fixesproto-x32:
 fixesproto-x32: fixesproto is part of X11.
 fixesproto-x32:

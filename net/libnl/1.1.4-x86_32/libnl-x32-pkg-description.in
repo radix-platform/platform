@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
          |-----handy-ruler------------------------------------------------------|
-libnl-x32: libnl-x32 @VERSION@ (x86_32 netlink socket library)
+libnl-x32: libnl-x32 @VERSION@ (netlink socket library)
 libnl-x32:
 libnl-x32: libnl is a library for applications dealing with netlink sockets.
 libnl-x32: The library provides an interface for raw netlink messaging and

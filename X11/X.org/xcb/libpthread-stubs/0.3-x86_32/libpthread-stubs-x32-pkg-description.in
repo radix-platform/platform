@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                     |-----handy-ruler------------------------------------------------------|
-libpthread-stubs-x32: libpthread-stubs-x32 @VERSION@ (x86_32 thread support stubs)
+libpthread-stubs-x32: libpthread-stubs-x32 @VERSION@ (thread support stubs)
 libpthread-stubs-x32:
 libpthread-stubs-x32: This library provides weak aliases for pthread functions not
 libpthread-stubs-x32: provided in libc or otherwise available by default. Libraries

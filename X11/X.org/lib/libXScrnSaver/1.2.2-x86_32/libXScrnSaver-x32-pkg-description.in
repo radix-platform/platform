@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                  |-----handy-ruler------------------------------------------------------|
-libXScrnSaver-x32: libXScrnSaver-x32 @VERSION@ (x86_32 X Screen Saver client library)
+libXScrnSaver-x32: libXScrnSaver-x32 @VERSION@ (X Screen Saver client library)
 libXScrnSaver-x32:
 libXScrnSaver-x32: libXScrnSaver is part of X11.
 libXScrnSaver-x32:

@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
           |-----handy-ruler------------------------------------------------------|
-netpbm-x32: netpbm-x32 @VERSION@ (x86_32 graphics conversion utilities)
+netpbm-x32: netpbm-x32 @VERSION@ (graphics conversion utilities)
 netpbm-x32:
 netpbm-x32: The netpbm package contains a library and tools for converting
 netpbm-x32: between many different graphics formats.

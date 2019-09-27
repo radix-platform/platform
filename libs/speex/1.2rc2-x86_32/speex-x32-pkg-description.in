@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
          |-----handy-ruler------------------------------------------------------|
-speex-x32: speex-x32 @VERSION@ (x86_32 opensource speech codec)
+speex-x32: speex-x32 @VERSION@ (opensource speech codec)
 speex-x32:
 speex-x32: speex is an Open Source/Free Software patent-free audio compression
 speex-x32: format designed for speech. Speex is part of the GNU Project and

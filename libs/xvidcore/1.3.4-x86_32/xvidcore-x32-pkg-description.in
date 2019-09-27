@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
             |-----handy-ruler------------------------------------------------------|
-xvidcore-x32: xvidcore-x32 @VERSION@ (x86_32 XviD MPEG-4 video codec)
+xvidcore-x32: xvidcore-x32 @VERSION@ (XviD MPEG-4 video codec)
 xvidcore-x32:
 xvidcore-x32: Xvid is a high performance and high quality MPEG-4 video
 xvidcore-x32: de-/encoding solution.

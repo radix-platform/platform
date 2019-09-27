@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
             |-----handy-ruler------------------------------------------------------|
-speexdsp-x32: speexdsp-x32 @VERSION@ (x86_32 A patent-free speech codec)
+speexdsp-x32: speexdsp-x32 @VERSION@ (A patent-free speech codec)
 speexdsp-x32:
 speexdsp-x32: Speex is a patent-free audio codec designed especially for voice
 speexdsp-x32: (unlike Vorbis which targets general audio) signals and providing

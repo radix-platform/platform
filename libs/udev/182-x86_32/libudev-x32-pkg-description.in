@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
            |-----handy-ruler------------------------------------------------------|
-libudev-x32: libudev-x32 @VERSION@ (x86_32 libraries for udev)
+libudev-x32: libudev-x32 @VERSION@ (libraries for udev)
 libudev-x32:
 libudev-x32: libudev provides shared and static library to access the devices
 libudev-x32: which are actually present. It creates or removes device node

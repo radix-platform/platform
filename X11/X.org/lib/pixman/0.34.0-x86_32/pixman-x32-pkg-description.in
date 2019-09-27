@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
           |-----handy-ruler------------------------------------------------------|
-pixman-x32: pixman-x32 @VERSION@ (x86_32 pixel manipulation library)
+pixman-x32: pixman-x32 @VERSION@ (pixel manipulation library)
 pixman-x32:
 pixman-x32: pixman is part of X11.
 pixman-x32:

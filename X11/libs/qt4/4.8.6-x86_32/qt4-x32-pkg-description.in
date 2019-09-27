@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
        |-----handy-ruler------------------------------------------------------|
-qt4-x32: qt4-x32 @VERSION@ (x86_32 graphical user interface toolkit)
+qt4-x32: qt4-x32 @VERSION@ (graphical user interface toolkit)
 qt4-x32:
 qt4-x32: Qt is a complete and well-developed object-oriented framework for
 qt4-x32: developing graphical user interface (GUI) applications using C++.

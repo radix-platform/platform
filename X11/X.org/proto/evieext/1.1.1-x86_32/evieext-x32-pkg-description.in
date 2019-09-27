@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
            |-----handy-ruler------------------------------------------------------|
-evieext-x32: evieext-x32 @VERSION@ (x86_32 X11 Extended Visual Information PROTO)
+evieext-x32: evieext-x32 @VERSION@ (X11 Extended Visual Information PROTO)
 evieext-x32:
 evieext-x32: evieext is part of X11.
 evieext-x32:

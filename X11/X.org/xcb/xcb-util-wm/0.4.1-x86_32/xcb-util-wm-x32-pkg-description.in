@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                |-----handy-ruler------------------------------------------------------|
-xcb-util-wm-x32: xcb-util-wm-x32 @VERSION@ (x86_32 XCB libraries for EWMH and ICCCM)
+xcb-util-wm-x32: xcb-util-wm-x32 @VERSION@ (XCB libraries for EWMH and ICCCM)
 xcb-util-wm-x32:
 xcb-util-wm-x32: xcb-util-wm is part of X11.
 xcb-util-wm-x32:

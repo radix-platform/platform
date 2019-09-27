@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
              |-----handy-ruler------------------------------------------------------|
-xcb-proto-x32: xcb-proto-x32 @VERSION@ (x86_32 XML-XCB protocol descriptions PROTO)
+xcb-proto-x32: xcb-proto-x32 @VERSION@ (XML-XCB protocol descriptions PROTO)
 xcb-proto-x32:
 xcb-proto-x32: xcb-proto provides the XML-XCB protocol descriptions that libxcb
 xcb-proto-x32: uses to generate the majority of its code and API. We provide them

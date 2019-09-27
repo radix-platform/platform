@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
             |-----handy-ruler------------------------------------------------------|
-xbitmaps-x32: xbitmaps-x32 @VERSION@ (x86_32 miscellaneous X bitmap files)
+xbitmaps-x32: xbitmaps-x32 @VERSION@ (miscellaneous X bitmap files)
 xbitmaps-x32:
 xbitmaps-x32: xbitmaps is part of X11.
 xbitmaps-x32:

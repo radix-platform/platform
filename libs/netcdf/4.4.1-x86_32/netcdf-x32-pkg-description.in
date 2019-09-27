@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
           |-----handy-ruler------------------------------------------------------|
-netcdf-x32: netcdf-x32 @VERSION@ (x86_32 network Common Data Form)
+netcdf-x32: netcdf-x32 @VERSION@ (network Common Data Form)
 netcdf-x32:
 netcdf-x32: NetCDF (network Common Data Form) is a set of software libraries
 netcdf-x32: and machine-independent data formats that support the creation,

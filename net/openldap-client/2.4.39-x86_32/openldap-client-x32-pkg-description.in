@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                    |-----handy-ruler------------------------------------------------------|
-openldap-client-x32: openldap-client-x32 @VERSION@ (x86_32 OpenLDAP client programs)
+openldap-client-x32: openldap-client-x32 @VERSION@ (OpenLDAP client programs)
 openldap-client-x32:
 openldap-client-x32: OpenLDAP is an open source implementation of the Lightweight
 openldap-client-x32: Directory Access Protocol. LDAP is a alternative to the X.500

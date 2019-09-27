@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
              |-----handy-ruler------------------------------------------------------|
-libsodium-x32: libsodium-x32 @VERSION@ (x86_32 easy-to-use crypto library)
+libsodium-x32: libsodium-x32 @VERSION@ (easy-to-use crypto library)
 libsodium-x32:
 libsodium-x32: A portable, cross-compilable, installable, packageable fork of NaCl,
 libsodium-x32: with a compatible API.

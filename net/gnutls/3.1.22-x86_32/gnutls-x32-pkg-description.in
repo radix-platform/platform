@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
           |-----handy-ruler------------------------------------------------------|
-gnutls-x32: gnutls-x32 @VERSION@ (x86_32 GNU TLS library)
+gnutls-x32: gnutls-x32 @VERSION@ (GNU TLS library)
 gnutls-x32:
 gnutls-x32: This is a TLS (Transport Layer Security) 1.0 and SSL (Secure Sockets
 gnutls-x32: Layer) 3.0 implementation. In brief, GnuTLS can be described as a

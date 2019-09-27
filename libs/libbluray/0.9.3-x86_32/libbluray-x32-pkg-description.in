@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
              |-----handy-ruler------------------------------------------------------|
-libbluray-x32: libbluray-x32 @VERSION@ (x86_32 Library to access Blu-Ray disks)
+libbluray-x32: libbluray-x32 @VERSION@ (Library to access Blu-Ray disks)
 libbluray-x32:
 libbluray-x32: libbluray is simply a tool for playback of Blu-ray movies. It is
 libbluray-x32: intended for software that want to support Blu-ray playback (such

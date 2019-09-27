@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
           |-----handy-ruler------------------------------------------------------|
-libaio-x32: libaio-x32 @VERSION@ (x86_32 asynchronous I/O library)
+libaio-x32: libaio-x32 @VERSION@ (asynchronous I/O library)
 libaio-x32:
 libaio-x32: The Linux-native asynchronous I/O facility ("async I/O", or "aio")
 libaio-x32: has a richer API and capability set than the simple POSIX async I/O

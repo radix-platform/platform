@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
             |-----handy-ruler------------------------------------------------------|
-libshout-x32: libshout-x32 @VERSION@ (x86_32 Library for accessing an icecast server)
+libshout-x32: libshout-x32 @VERSION@ (Library for accessing an icecast server)
 libshout-x32:
 libshout-x32: Libshout is a library for communicating with and sending data to an
 libshout-x32: icecast server. It handles the socket connection, the timing of the

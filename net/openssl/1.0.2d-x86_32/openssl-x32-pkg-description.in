@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
            |-----handy-ruler------------------------------------------------------|
-openssl-x32: openssl-x32 @VERSION@ (x86_32 Secure Sockets Layer toolkit)
+openssl-x32: openssl-x32 @VERSION@ (Secure Sockets Layer toolkit)
 openssl-x32:
 openssl-x32: The OpenSSL certificate management tool and the shared libraries
 openssl-x32: that provide various encryption and decryption algorithms and

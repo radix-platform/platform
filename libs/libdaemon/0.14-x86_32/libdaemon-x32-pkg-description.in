@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
               |-----handy-ruler------------------------------------------------------|
-libdaemon-x32: libdaemon-x32 @VERSION@ (x86_32 library for writing UNIX daemons)
+libdaemon-x32: libdaemon-x32 @VERSION@ (library for writing UNIX daemons)
 libdaemon-x32:
 libdaemon-x32: Libdaemon is a lightweight C library that eases the writing of UNIX
 libdaemon-x32: daemons.

@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                         |-----handy-ruler------------------------------------------------------|
-startup-notification-x32: startup-notification-x32 @VERSION@ (x86_32 startup notification protocol)
+startup-notification-x32: startup-notification-x32 @VERSION@ (startup notification protocol)
 startup-notification-x32:
 startup-notification-x32: Adds support for applications to use "busy" cursors while
 startup-notification-x32: starting up.

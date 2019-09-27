@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
            |-----handy-ruler------------------------------------------------------|
-wayland-x32: wayland-x32 @VERSION@ (x86_32 C implementation of the Wayland protocol)
+wayland-x32: wayland-x32 @VERSION@ (C implementation of the Wayland protocol)
 wayland-x32:
 wayland-x32: Wayland is a project to define a protocol for a compositor to talk
 wayland-x32: to its clients as well as a library implementation of the protocol.

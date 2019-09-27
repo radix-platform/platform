@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
          |-----handy-ruler------------------------------------------------------|
-hwloc-x32: hwloc-x32 @VERSION@ (x86_32 Portable Hardware Locality)
+hwloc-x32: hwloc-x32 @VERSION@ (Portable Hardware Locality)
 hwloc-x32:
 hwloc-x32: The Portable Hardware Locality (hwloc) software package provides a
 hwloc-x32: portable abstraction (across OS, versions, architectures, ...) of

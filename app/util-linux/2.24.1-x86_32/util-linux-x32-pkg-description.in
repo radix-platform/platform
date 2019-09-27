@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
               |-----handy-ruler------------------------------------------------------|
-util-linux-x32: util-linux-x32 @VERSION@ (x86_32 a collection of essential utilities)
+util-linux-x32: util-linux-x32 @VERSION@ (a collection of essential utilities)
 util-linux-x32:
 util-linux-x32: The util-linux package is a huge collection of random utilities
 util-linux-x32: that are essential to run a Linux system.

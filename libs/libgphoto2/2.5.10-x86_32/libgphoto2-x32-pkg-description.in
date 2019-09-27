@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
               |-----handy-ruler------------------------------------------------------|
-libgphoto2-x32: libgphoto2-x32 @VERSION@ (x86_32 Library for access to digital cameras)
+libgphoto2-x32: libgphoto2-x32 @VERSION@ (Library for access to digital cameras)
 libgphoto2-x32:
 libgphoto2-x32: gPhoto is a program and library framework that lets users download
 libgphoto2-x32: pictures from their digital cameras. The libgphoto2 library gives

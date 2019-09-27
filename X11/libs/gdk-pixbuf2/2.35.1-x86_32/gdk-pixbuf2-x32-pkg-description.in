@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                |-----handy-ruler------------------------------------------------------|
-gdk-pixbuf2-x32: gdk-pixbuf2-x32 @VERSION@ (x86_32 image library used by GTK+ v2)
+gdk-pixbuf2-x32: gdk-pixbuf2-x32 @VERSION@ (image library used by GTK+ v2)
 gdk-pixbuf2-x32:
 gdk-pixbuf2-x32: The gdk-pixbuf library provides a number of features:
 gdk-pixbuf2-x32:  - GdkPixbuf structure for representing images.

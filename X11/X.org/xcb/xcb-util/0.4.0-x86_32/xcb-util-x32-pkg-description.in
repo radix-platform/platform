@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
             |-----handy-ruler------------------------------------------------------|
-xcb-util-x32: xcb-util-x32 @VERSION@ (x86_32 X C-language Binding utility libraries)
+xcb-util-x32: xcb-util-x32 @VERSION@ (X C-language Binding utility libraries)
 xcb-util-x32:
 xcb-util-x32: xcb-util is part of X11.
 xcb-util-x32:

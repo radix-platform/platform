@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
           |-----handy-ruler------------------------------------------------------|
-libqmi-x32: libqmi-x32 @VERSION@ (x86_32 QMI library and utils)
+libqmi-x32: libqmi-x32 @VERSION@ (QMI library and utils)
 libqmi-x32:
 libqmi-x32: libqmi is a glib-based library for talking to WWAN modems and
 libqmi-x32: devices which speak the Qualcomm MSM Interface (QMI) protocol.

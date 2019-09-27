@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
        |-----handy-ruler------------------------------------------------------|
-pth-x32: pth-x32 @VERSION@ (x86_32 GNU Portable Threads)
+pth-x32: pth-x32 @VERSION@ (GNU Portable Threads)
 pth-x32:
 pth-x32: Pth is a very portable POSIX/ANSI-C based library for Unix platforms
 pth-x32: which provides non-preemptive priority-based scheduling for multiple

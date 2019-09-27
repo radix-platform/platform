@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
             |-----handy-ruler------------------------------------------------------|
-libgamin-x32: libgamin-x32 @VERSION@ (x86_32 fam/gamin libraries for Gamin)
+libgamin-x32: libgamin-x32 @VERSION@ (fam/gamin libraries for Gamin)
 libgamin-x32:
 libgamin-x32: Gamin is a file and directory monitoring system defined to be a
 libgamin-x32: subset of the FAM (File Alteration Monitor) system.

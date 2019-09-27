@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
          |-----handy-ruler------------------------------------------------------|
-gpgme-x32: gpgme-x32 @VERSION@ (x86_32 GnuPG Made Easy)
+gpgme-x32: gpgme-x32 @VERSION@ (GnuPG Made Easy)
 gpgme-x32:
 gpgme-x32: GPGME (GnuPG Made Easy) is a C language library that allows to add
 gpgme-x32: support for cryptography to a program. It is designed to make access

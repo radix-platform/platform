@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
               |-----handy-ruler------------------------------------------------------|
-libstrophe-x32: libstrophe-x32 @VERSION@ (x86_32 XMPP library for C)
+libstrophe-x32: libstrophe-x32 @VERSION@ (XMPP library for C)
 libstrophe-x32:
 libstrophe-x32: libstrophe is a minimal XMPP library written in C. It has almost no
 libstrophe-x32: external dependencies, only an XML parsing library (expat or libxml

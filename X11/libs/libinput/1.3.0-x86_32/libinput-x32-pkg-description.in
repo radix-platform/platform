@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
             |-----handy-ruler------------------------------------------------------|
-libinput-x32: libinput-x32 @VERSION@ (x86_32 input devices handler)
+libinput-x32: libinput-x32 @VERSION@ (input devices handler)
 libinput-x32:
 libinput-x32: libinput is a library that handles input devices for display servers
 libinput-x32: and other applications that need to directly deal with input devices.

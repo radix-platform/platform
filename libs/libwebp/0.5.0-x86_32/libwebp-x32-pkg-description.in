@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
            |-----handy-ruler------------------------------------------------------|
-libwebp-x32: libwebp-x32 @VERSION@ (x86_32 WebP library and conversion tools)
+libwebp-x32: libwebp-x32 @VERSION@ (WebP library and conversion tools)
 libwebp-x32:
 libwebp-x32: WebP is a modern image format that provides superior lossless
 libwebp-x32: and lossy compression for images on the web. Using WebP, webmasters

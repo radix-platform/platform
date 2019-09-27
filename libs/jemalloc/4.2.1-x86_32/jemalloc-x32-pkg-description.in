@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
             |-----handy-ruler------------------------------------------------------|
-jemalloc-x32: jemalloc-x32 @VERSION@ (x86_32 Memory allocator)
+jemalloc-x32: jemalloc-x32 @VERSION@ (Memory allocator)
 jemalloc-x32:
 jemalloc-x32: jemalloc is a general-purpose scalable concurrent malloc(3)
 jemalloc-x32: implementation.

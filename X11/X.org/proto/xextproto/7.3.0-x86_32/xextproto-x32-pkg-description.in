@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
              |-----handy-ruler------------------------------------------------------|
-xextproto-x32: xextproto-x32 @VERSION@ (x86_32 X11 Protocol Extensions PROTO)
+xextproto-x32: xextproto-x32 @VERSION@ (X11 Protocol Extensions PROTO)
 xextproto-x32:
 xextproto-x32: xextproto is part of X11.
 xextproto-x32:

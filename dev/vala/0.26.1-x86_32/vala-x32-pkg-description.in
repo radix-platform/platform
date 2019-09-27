@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
         |-----handy-ruler------------------------------------------------------|
-vala-x32: vala-x32 @VERSION@ (x86_32 Vala Compiler for GObject)
+vala-x32: vala-x32 @VERSION@ (Vala Compiler for GObject)
 vala-x32:
 vala-x32: Vala is a new programming language that aims to bring modern
 vala-x32: programming language features to GNOME developers without imposing

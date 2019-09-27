@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
           |-----handy-ruler------------------------------------------------------|
-libXau-x32: libXau-x32 @VERSION@ (x86_32 Sample Authorization Protocol for X)
+libXau-x32: libXau-x32 @VERSION@ (Sample Authorization Protocol for X)
 libXau-x32:
 libXau-x32: This is a very simple mechanism for providing individual access
 libXau-x32: to an X Window System display.It uses existing core protocol and

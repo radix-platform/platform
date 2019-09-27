@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
               |-----handy-ruler------------------------------------------------------|
-inputproto-x32: inputproto-x32 @VERSION@ (x86_32 X11 Input PROTO)
+inputproto-x32: inputproto-x32 @VERSION@ (X11 Input PROTO)
 inputproto-x32:
 inputproto-x32: inputproto is part of X11.
 inputproto-x32:

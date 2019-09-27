@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
              |-----handy-ruler------------------------------------------------------|
-openjpeg2-x32: openjpeg2-x32 @VERSION@ (x86_32 JPEG 2000 codec)
+openjpeg2-x32: openjpeg2-x32 @VERSION@ (JPEG 2000 codec)
 openjpeg2-x32:
 openjpeg2-x32: OpenJPEG is an open-source JPEG 2000 codec written in C language.
 openjpeg2-x32: It has been developed in order to promote the use of JPEG 2000,

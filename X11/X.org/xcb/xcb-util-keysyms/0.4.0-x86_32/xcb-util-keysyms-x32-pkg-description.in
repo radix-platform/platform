@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                     |-----handy-ruler------------------------------------------------------|
-xcb-util-keysyms-x32: xcb-util-keysyms-x32 @VERSION@ (x86_32 XCB keysyms library)
+xcb-util-keysyms-x32: xcb-util-keysyms-x32 @VERSION@ (XCB keysyms library)
 xcb-util-keysyms-x32:
 xcb-util-keysyms-x32: xcb-util-keysyms is part of X11.
 xcb-util-keysyms-x32:

@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                           |-----handy-ruler------------------------------------------------------|
-libnetfilter_cttimeout-x32: libnetfilter_cttimeout-x32 @VERSION@ (x86_32 timeout library)
+libnetfilter_cttimeout-x32: libnetfilter_cttimeout-x32 @VERSION@ (timeout library)
 libnetfilter_cttimeout-x32:
 libnetfilter_cttimeout-x32: libnetfilter_cttimeout is the userspace library that provides
 libnetfilter_cttimeout-x32: the programming interface to the fine-grain connection tracking

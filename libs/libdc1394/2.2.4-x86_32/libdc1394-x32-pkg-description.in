@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
              |-----handy-ruler------------------------------------------------------|
-libdc1394-x32: libdc1394-x32 @VERSION@ (x86_32 IIDC Camera Control Library)
+libdc1394-x32: libdc1394-x32 @VERSION@ (IIDC Camera Control Library)
 libdc1394-x32:
 libdc1394-x32: libdc1394 is a library that provides a high level programming
 libdc1394-x32: interface for application developers who wish to control and

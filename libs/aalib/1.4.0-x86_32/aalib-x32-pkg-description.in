@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
          |-----handy-ruler------------------------------------------------------|
-aalib-x32: aalib-x32 @VERSION@ (x86_32 ASCII Art library)
+aalib-x32: aalib-x32 @VERSION@ (ASCII Art library)
 aalib-x32:
 aalib-x32: AA-lib is an ASCII art graphics library. Internally, the AA-lib
 aalib-x32: API is similar to other graphics libraries, but it renders the

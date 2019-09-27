@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
        |-----handy-ruler------------------------------------------------------|
-sbc-x32: sbc-x32 @VERSION@ (x86_32 Bluetooth Subband Codec library)
+sbc-x32: sbc-x32 @VERSION@ (Bluetooth Subband Codec library)
 sbc-x32:
 sbc-x32: Bluetooth low-complexity, subband codec (SBC) library.
 sbc-x32:

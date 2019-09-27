@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
            |-----handy-ruler------------------------------------------------------|
-libksba-x32: libksba-x32 @VERSION@ (x86_32 X.509 & CMS library for S/MIME and TLS)
+libksba-x32: libksba-x32 @VERSION@ (X.509 & CMS library for S/MIME and TLS)
 libksba-x32:
 libksba-x32: KSBA (pronounced Kasbah) is a library to make X.509 certificates as
 libksba-x32: well as the CMS easily accessible by other applications.  Both

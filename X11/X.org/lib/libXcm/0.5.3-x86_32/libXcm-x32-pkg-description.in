@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
           |-----handy-ruler------------------------------------------------------|
-libXcm-x32: libXcm-x32 @VERSION@ (x86_32 net-color specification library)
+libXcm-x32: libXcm-x32 @VERSION@ (net-color specification library)
 libXcm-x32:
 libXcm-x32: libXcm is part of X11.
 libXcm-x32:

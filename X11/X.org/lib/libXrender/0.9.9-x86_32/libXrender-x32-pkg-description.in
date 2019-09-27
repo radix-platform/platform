@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
               |-----handy-ruler------------------------------------------------------|
-libXrender-x32: libXrender-x32 @VERSION@ (x86_32 X Render Extension library)
+libXrender-x32: libXrender-x32 @VERSION@ (X Render Extension library)
 libXrender-x32:
 libXrender-x32: libXrender is part of X11.
 libXrender-x32:

@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
           |-----handy-ruler------------------------------------------------------|
-libxcb-x32: libxcb-x32 @VERSION@ (x86_32 X protocol C-language Binding)
+libxcb-x32: libxcb-x32 @VERSION@ (X protocol C-language Binding)
 libxcb-x32:
 libxcb-x32: The XCB library provides an interface to the X Window System
 libxcb-x32: protocol which is fully capable of replacing Xlib. In fact, libX11

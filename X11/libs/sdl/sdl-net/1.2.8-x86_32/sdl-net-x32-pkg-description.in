@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
            |-----handy-ruler------------------------------------------------------|
-sdl-net-x32: sdl-net-x32 @VERSION@ (x86_32 SDL portable network library)
+sdl-net-x32: sdl-net-x32 @VERSION@ (SDL portable network library)
 sdl-net-x32:
 sdl-net-x32: This is an example portable network library for use with SDL.
 sdl-net-x32: It is available under the zlib license, found in the file COPYING.

@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
            |-----handy-ruler------------------------------------------------------|
-mariadb-x32: mariadb-x32 @VERSION@ (x86_32 the MySQL Database Server)
+mariadb-x32: mariadb-x32 @VERSION@ (the MySQL Database Server)
 mariadb-x32:
 mariadb-x32: MariaDB is a backward compatible, drop-in replacement branch of the
 mariadb-x32: MySQL(R) Database Server. It includes all major open source storage

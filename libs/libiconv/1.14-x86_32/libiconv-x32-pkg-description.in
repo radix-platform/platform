@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
             |-----handy-ruler------------------------------------------------------|
-libiconv-x32: libiconv-x32 @VERSION@ (x86_32 character set conversion library)
+libiconv-x32: libiconv-x32 @VERSION@ (character set conversion library)
 libiconv-x32:
 libiconv-x32: This library provides an iconv() implementation, for use on systems
 libiconv-x32: which don't have one, or whose implementation cannot convert from/to

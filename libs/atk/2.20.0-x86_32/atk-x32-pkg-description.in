@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
        |-----handy-ruler------------------------------------------------------|
-atk-x32: atk-x32 @VERSION@ (x86_32 accessibility functions library)
+atk-x32: atk-x32 @VERSION@ (accessibility functions library)
 atk-x32:
 atk-x32: atk is a library of accessibility functions that is used by the
 atk-x32: GTK+-2 toolkit.

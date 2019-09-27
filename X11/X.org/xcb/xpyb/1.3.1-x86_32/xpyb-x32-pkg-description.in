@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
         |-----handy-ruler------------------------------------------------------|
-xpyb-x32: xpyb-x32 @VERSION@ (x86_32 Python binding to the X protocol)
+xpyb-x32: xpyb-x32 @VERSION@ (Python binding to the X protocol)
 xpyb-x32:
 xpyb-x32: xpyb is part of X11.
 xpyb-x32:

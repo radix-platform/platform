@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
          |-----handy-ruler------------------------------------------------------|
-libXi-x32: libXi-x32 @VERSION@ (x86_32 X Input Extension library)
+libXi-x32: libXi-x32 @VERSION@ (X Input Extension library)
 libXi-x32:
 libXi-x32: libXi is part of X11.
 libXi-x32:

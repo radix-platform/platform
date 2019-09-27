@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
          |-----handy-ruler------------------------------------------------------|
-libXv-x32: libXv-x32 @VERSION@ (x86_32 X Video library)
+libXv-x32: libXv-x32 @VERSION@ (X Video library)
 libXv-x32:
 libXv-x32: libXv is part of X11.
 libXv-x32:

@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
           |-----handy-ruler------------------------------------------------------|
-libvpx-x32: libvpx-x32 @VERSION@ (x86_32 WebM VP8 Codec SDK)
+libvpx-x32: libvpx-x32 @VERSION@ (WebM VP8 Codec SDK)
 libvpx-x32:
 libvpx-x32: This SDK allows you to integrate your applications with the VP8
 libvpx-x32: video codec, a high quality, royalty free, open source

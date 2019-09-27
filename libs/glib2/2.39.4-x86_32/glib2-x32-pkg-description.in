@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
          |-----handy-ruler------------------------------------------------------|
-glib2-x32: glib2-x32 @VERSION@ (x86_32 library of C routines)
+glib2-x32: glib2-x32 @VERSION@ (library of C routines)
 glib2-x32:
 glib2-x32: GLib is a library which includes support routines for C such as
 glib2-x32: lists, trees, hashes, memory allocation, and many other things.

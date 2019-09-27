@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
            |-----handy-ruler------------------------------------------------------|
-libxslt-x32: libxslt-x32 @VERSION@ (x86_32 XML transformation library)
+libxslt-x32: libxslt-x32 @VERSION@ (XML transformation library)
 libxslt-x32:
 libxslt-x32: XSLT support for libxml2. (XSLT is a language used for transforming
 libxslt-x32: XML documents).

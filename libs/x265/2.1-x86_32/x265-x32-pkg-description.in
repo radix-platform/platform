@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
         |-----handy-ruler------------------------------------------------------|
-x265-x32: x265-x32 @VERSION@ (x86_32 Open Source H265/HEVC video encoder)
+x265-x32: x265-x32 @VERSION@ (Open Source H265/HEVC video encoder)
 x265-x32:
 x265-x32: The High Efficiency Video Coding (HEVC) was developed by the ISO/IEC
 x265-x32: Moving Picture Experts Group (MPEG) and ITU-T Video Coding Experts

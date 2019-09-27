@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
           |-----handy-ruler------------------------------------------------------|
-assimp-x32: assimp-x32 @VERSION@ (x86_32 Open Asset Import Library)
+assimp-x32: assimp-x32 @VERSION@ (Open Asset Import Library)
 assimp-x32:
 assimp-x32: Open Asset Import Library is a portable Open Source library to
 assimp-x32: import various well-known 3D model formats in a uniform manner.

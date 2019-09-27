@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
           |-----handy-ruler------------------------------------------------------|
-libnl3-x32: libnl3-x32 @VERSION@ (x86_32 Netlink Protocol Library Suite version 3)
+libnl3-x32: libnl3-x32 @VERSION@ (Netlink Protocol Library Suite version 3)
 libnl3-x32:
 libnl3-x32: The libnl suite is a collection of libraries providing APIs to
 libnl3-x32: netlink protocol based Linux kernel interfaces.

@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
            |-----handy-ruler------------------------------------------------------|
-libXvMC-x32: libXvMC-x32 @VERSION@ (x86_32 X11 libXvMC runtime library)
+libXvMC-x32: libXvMC-x32 @VERSION@ (X11 libXvMC runtime library)
 libXvMC-x32:
 libXvMC-x32: libXvMC is part of X11.
 libXvMC-x32:

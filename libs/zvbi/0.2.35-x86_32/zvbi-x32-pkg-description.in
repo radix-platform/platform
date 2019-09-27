@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
         |-----handy-ruler------------------------------------------------------|
-zvbi-x32: zvbi-x32 @VERSION@ (x86_32 Zapping VBI library)
+zvbi-x32: zvbi-x32 @VERSION@ (Zapping VBI library)
 zvbi-x32:
 zvbi-x32: The Zapping VBI library, in short ZVBI, provides functions to
 zvbi-x32: capture and decode VBI data. It is written in plain ANSI C with few

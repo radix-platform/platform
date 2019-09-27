@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
              |-----handy-ruler------------------------------------------------------|
-libXfixes-x32: libXfixes-x32 @VERSION@ (x86_32 Xfixes client library)
+libXfixes-x32: libXfixes-x32 @VERSION@ (Xfixes client library)
 libXfixes-x32:
 libXfixes-x32: libXfixes is part of X11.
 libXfixes-x32:

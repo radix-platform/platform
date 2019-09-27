@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                 |-----handy-ruler------------------------------------------------------|
-libnfnetlink-x32: libnfnetlink-x32 @VERSION@ (x86_32 library for netfilter)
+libnfnetlink-x32: libnfnetlink-x32 @VERSION@ (library for netfilter)
 libnfnetlink-x32:
 libnfnetlink-x32: libnfnetlink is the low-level library for netfilter related
 libnfnetlink-x32: kernel/userspace communication. It provides a generic messaging

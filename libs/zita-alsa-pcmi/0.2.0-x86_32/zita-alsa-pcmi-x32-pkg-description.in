@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                   |-----handy-ruler------------------------------------------------------|
-zita-alsa-pcmi-x32: zita-alsa-pcmi-x32 @VERSION@ (x86_32 access to ALSA PCM devices library)
+zita-alsa-pcmi-x32: zita-alsa-pcmi-x32 @VERSION@ (access to ALSA PCM devices library)
 zita-alsa-pcmi-x32:
 zita-alsa-pcmi-x32: Zita-alsa-pcmi is the successor of clalsadrv. It provides easy
 zita-alsa-pcmi-x32: access to ALSA PCM devices, taking care of the many functions

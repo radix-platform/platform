@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
               |-----handy-ruler------------------------------------------------------|
-randrproto-x32: randrproto-x32 @VERSION@ (x86_32 X11 Resize and Rotate PROTO)
+randrproto-x32: randrproto-x32 @VERSION@ (X11 Resize and Rotate PROTO)
 randrproto-x32:
 randrproto-x32: randrproto is part of X11.
 randrproto-x32:

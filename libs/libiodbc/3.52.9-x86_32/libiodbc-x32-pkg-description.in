@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
             |-----handy-ruler------------------------------------------------------|
-libiodbc-x32: libiodbc-x32 @VERSION@ (x86_32 Independent Open DataBase Connectivity)
+libiodbc-x32: libiodbc-x32 @VERSION@ (Independent Open DataBase Connectivity)
 libiodbc-x32:
 libiodbc-x32: iODBC is the acronym for Independent Open DataBase Connectivity,
 libiodbc-x32: an Open Source platform independent implementation of both the ODBC

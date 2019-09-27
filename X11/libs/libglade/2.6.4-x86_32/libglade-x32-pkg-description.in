@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
             |-----handy-ruler------------------------------------------------------|
-libglade-x32: libglade-x32 @VERSION@ (x86_32 GLADE library)
+libglade-x32: libglade-x32 @VERSION@ (GLADE library)
 libglade-x32:
 libglade-x32: The GLADE library allows loading user interfaces which are stored
 libglade-x32: externally into a program.  This allows the interface to be changed

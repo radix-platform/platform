@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
              |-----handy-ruler------------------------------------------------------|
-libdatrie-x32: libdatrie-x32 @VERSION@ (x86_32 Trie is a kind of digital search tree)
+libdatrie-x32: libdatrie-x32 @VERSION@ (Trie is a kind of digital search tree)
 libdatrie-x32:
 libdatrie-x32: datrie is an implementation of double-array structure for
 libdatrie-x32: representing trie, as proposed by Junichi Aoe.

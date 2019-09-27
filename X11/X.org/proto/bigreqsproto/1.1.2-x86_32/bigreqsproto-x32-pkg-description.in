@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                 |-----handy-ruler------------------------------------------------------|
-bigreqsproto-x32: bigreqsproto-x32 @VERSION@ (x86_32 X11 Big Requests PROTO)
+bigreqsproto-x32: bigreqsproto-x32 @VERSION@ (X11 Big Requests PROTO)
 bigreqsproto-x32:
 bigreqsproto-x32: bigreqsproto is part of X11.
 bigreqsproto-x32:

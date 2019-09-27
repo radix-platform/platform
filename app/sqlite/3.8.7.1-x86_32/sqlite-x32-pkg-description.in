@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
           |-----handy-ruler------------------------------------------------------|
-sqlite-x32: SQLite-x32 @VERSION@ (x86_32 simple, self contained database engine)
+sqlite-x32: SQLite-x32 @VERSION@ (simple, self contained database engine)
 sqlite-x32:
 sqlite-x32: SQLite is a small C library that implements a self-contained,
 sqlite-x32: embeddable, zero-configuration SQL database engine.

@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                  |-----handy-ruler------------------------------------------------------|
-libusb-compat-x32: libusb-compat-x32 @VERSION@ (x86_32 Compatibility for libusb-0.1 apps)
+libusb-compat-x32: libusb-compat-x32 @VERSION@ (Compatibility for libusb-0.1 apps)
 libusb-compat-x32:
 libusb-compat-x32: A compatibility layer allowing applications written for libusb-0.1
 libusb-compat-x32: to work with libusb-1.0. libusb-compat-0.1 attempts to retain as

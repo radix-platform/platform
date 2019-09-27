@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
             |-----handy-ruler------------------------------------------------------|
-libXdmcp-x32: libXdmcp-x32 @VERSION@ (x86_32 X DM Control Protocol library)
+libXdmcp-x32: libXdmcp-x32 @VERSION@ (X DM Control Protocol library)
 libXdmcp-x32:
 libXdmcp-x32: libXdmcp is part of X11.
 libXdmcp-x32:

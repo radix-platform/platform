@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
           |-----handy-ruler------------------------------------------------------|
-zeromq-x32: zeromq-x32 @VERSION@ (x86_32 Fast messaging system)
+zeromq-x32: zeromq-x32 @VERSION@ (Fast messaging system)
 zeromq-x32:
 zeromq-x32: The 0MQ lightweight messaging kernel is a library which extends
 zeromq-x32: the standard socket interfaces with features traditionally provided

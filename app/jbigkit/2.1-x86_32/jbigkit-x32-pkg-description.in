@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
            |-----handy-ruler------------------------------------------------------|
-jbigkit-x32: jbigkit-x32 @VERSION@ (x86_32 lossless image compression library)
+jbigkit-x32: jbigkit-x32 @VERSION@ (lossless image compression library)
 jbigkit-x32:
 jbigkit-x32: JBIG-KIT implements a highly effective data compression algorithm
 jbigkit-x32: for bi-level high-resolution images such as fax pages or scanned

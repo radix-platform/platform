@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
              |-----handy-ruler------------------------------------------------------|
-gstreamer-x32: GStreamer-x32 @VERSION@ (x86_32 streaming multimedia framework)
+gstreamer-x32: GStreamer-x32 @VERSION@ (streaming multimedia framework)
 gstreamer-x32:
 gstreamer-x32: GStreamer is a library that allows the construction of graphs of a
 gstreamer-x32: media-handling components, ranging from simple Ogg/Vorbis playback

@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                |-----handy-ruler------------------------------------------------------|
-libart-lgpl-x32: libart-lgpl-x32 @VERSION@ (x86_32 high-performance 2D graphics library)
+libart-lgpl-x32: libart-lgpl-x32 @VERSION@ (high-performance 2D graphics library)
 libart-lgpl-x32:
 libart-lgpl-x32: Libart is a library for high-performance 2D graphics. It is used by
 libart-lgpl-x32: both KDE and GNOME. This is the LGPL'd component of the library.

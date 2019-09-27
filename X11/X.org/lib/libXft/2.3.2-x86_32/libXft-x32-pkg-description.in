@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
           |-----handy-ruler------------------------------------------------------|
-libXft-x32: libXft-x32 @VERSION@ (x86_32 X FreeType library)
+libXft-x32: libXft-x32 @VERSION@ (X FreeType library)
 libXft-x32:
 libXft-x32: libXft is part of X11.
 libXft-x32:

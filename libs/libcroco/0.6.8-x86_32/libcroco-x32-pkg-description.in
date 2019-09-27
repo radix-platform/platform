@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
             |-----handy-ruler------------------------------------------------------|
-libcroco-x32: libcroco-x32 @VERSION@ (x86_32 CSS2 parsing and manipulation library)
+libcroco-x32: libcroco-x32 @VERSION@ (CSS2 parsing and manipulation library)
 libcroco-x32:
 libcroco-x32: Libcroco is a standalone CSS2 parsing and manipulation library.
 libcroco-x32: The parser provides a low level event driven SAC like API and a CSS

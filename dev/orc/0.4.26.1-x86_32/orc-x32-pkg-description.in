@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
        |-----handy-ruler------------------------------------------------------|
-orc-x32: orc-x32 @VERSION@ (x86_32 Optimized Inner Loop Runtime Compiler)
+orc-x32: orc-x32 @VERSION@ (Optimized Inner Loop Runtime Compiler)
 orc-x32:
 orc-x32: Orc is a library and set of tools for compiling and executing
 orc-x32: very simple programs that operate on arrays of data. The "language"

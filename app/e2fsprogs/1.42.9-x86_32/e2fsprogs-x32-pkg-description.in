@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
              |-----handy-ruler------------------------------------------------------|
-e2fsprogs-x32: e2fsprogs-x32 @VERSION@ (x86_32 ext2 and ext3 filesystems utilities)
+e2fsprogs-x32: e2fsprogs-x32 @VERSION@ (ext2 and ext3 filesystems utilities)
 e2fsprogs-x32:
 e2fsprogs-x32: Utilities needed to create and maintain ext2 and ext3 filesystems.
 e2fsprogs-x32:

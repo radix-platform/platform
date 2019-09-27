@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
              |-----handy-ruler------------------------------------------------------|
-dri3proto-x32: dri3proto-x32 @VERSION@ (x86_32 X11 Direct Rendering 3 PROTO)
+dri3proto-x32: dri3proto-x32 @VERSION@ (X11 Direct Rendering 3 PROTO)
 dri3proto-x32:
 dri3proto-x32: dri3proto is part of X11.
 dri3proto-x32:

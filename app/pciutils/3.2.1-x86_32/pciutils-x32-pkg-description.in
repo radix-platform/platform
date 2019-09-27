@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
             |-----handy-ruler------------------------------------------------------|
-pciutils-x32: pciutils-x32 @VERSION@ (x86_32 PCI Library)
+pciutils-x32: pciutils-x32 @VERSION@ (PCI Library)
 pciutils-x32:
 pciutils-x32: libpci is used by pciutils to display detailed information about all
 pciutils-x32: PCI buses and devices in the system.

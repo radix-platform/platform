@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
         |-----handy-ruler------------------------------------------------------|
-judy-x32: judy-x32 @VERSION@ (x86_32 C library for creating dynamic arrays)
+judy-x32: judy-x32 @VERSION@ (C library for creating dynamic arrays)
 judy-x32:
 judy-x32: The Judy family of functions supports fully dynamic arrays.
 judy-x32: These arrays may be indexed by a 32- or 64-bit word (depending

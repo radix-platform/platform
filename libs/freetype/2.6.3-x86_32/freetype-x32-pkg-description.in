@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
             |-----handy-ruler------------------------------------------------------|
-freetype-x32: freetype-x32 @VERSION@ (x86_32 High-Quality and Portable Font Engine)
+freetype-x32: freetype-x32 @VERSION@ (High-Quality and Portable Font Engine)
 freetype-x32:
 freetype-x32: The FreeType engine is a free and portable TrueType font rendering
 freetype-x32: engine. It has been developed to provide TrueType support to a

@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
           |-----handy-ruler------------------------------------------------------|
-xtrans-x32: xtrans-x32 @VERSION@ (x86_32 X network transport library)
+xtrans-x32: xtrans-x32 @VERSION@ (X network transport library)
 xtrans-x32:
 xtrans-x32: xtrans is part of X11.
 xtrans-x32:

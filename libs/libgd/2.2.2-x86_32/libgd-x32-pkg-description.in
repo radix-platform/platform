@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
          |-----handy-ruler------------------------------------------------------|
-libgd-x32: libgd-x32 @VERSION@ (x86_32 GD graphic library)
+libgd-x32: libgd-x32 @VERSION@ (GD graphic library)
 libgd-x32:
 libgd-x32: GD is an open source code library for the dynamic creation of images
 libgd-x32: by programmers.

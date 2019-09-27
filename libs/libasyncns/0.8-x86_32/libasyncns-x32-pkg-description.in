@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
               |-----handy-ruler------------------------------------------------------|
-libasyncns-x32: libasyncns-x32 @VERSION@ (x86_32 asynchronous name query library)
+libasyncns-x32: libasyncns-x32 @VERSION@ (asynchronous name query library)
 libasyncns-x32:
 libasyncns-x32: libasyncns is a C library for asynchronous name queries.
 libasyncns-x32: It is an asynchronous wrapper around the libc's synchronous

@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
            |-----handy-ruler------------------------------------------------------|
-libtiff-x32: libtiff-x32 @VERSION@ (x86_32 library for manipulation of TIFF images)
+libtiff-x32: libtiff-x32 @VERSION@ (library for manipulation of TIFF images)
 libtiff-x32:
 libtiff-x32: This package provides support for the Tag Image File Format (TIFF),
 libtiff-x32: a widely used format for storing image data. Included is the libtiff

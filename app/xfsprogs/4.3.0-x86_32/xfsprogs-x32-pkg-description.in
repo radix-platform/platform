@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
             |-----handy-ruler------------------------------------------------------|
-xfsprogs-x32: xfsprogs-x32 @VERSION@ (x86_32 libraries to use the XFS filesystem)
+xfsprogs-x32: xfsprogs-x32 @VERSION@ (libraries to use the XFS filesystem)
 xfsprogs-x32:
 xfsprogs-x32: XFS is a high performance journaling filesystem which originated
 xfsprogs-x32: on the SGI IRIX platform.  It is completely multi-threaded, can

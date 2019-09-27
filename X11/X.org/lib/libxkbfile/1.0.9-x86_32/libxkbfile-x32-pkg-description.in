@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
               |-----handy-ruler------------------------------------------------------|
-libxkbfile-x32: libxkbfile-x32 @VERSION@ (x86_32 X11 keyboard file manipulation library)
+libxkbfile-x32: libxkbfile-x32 @VERSION@ (X11 keyboard file manipulation library)
 libxkbfile-x32:
 libxkbfile-x32: libxkbfile is part of X11.
 libxkbfile-x32:

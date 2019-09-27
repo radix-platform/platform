@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
         |-----handy-ruler------------------------------------------------------|
-dbus-x32: dbus-x32 @VERSION@ (x86_32 D-Bus message bus system)
+dbus-x32: dbus-x32 @VERSION@ (D-Bus message bus system)
 dbus-x32:
 dbus-x32: D-Bus supplies both a system daemon (for events such as "new
 dbus-x32: hardware device added" or "printer queue changed") and a per user

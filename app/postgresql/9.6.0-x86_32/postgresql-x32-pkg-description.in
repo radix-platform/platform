@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
               |-----handy-ruler------------------------------------------------------|
-postgresql-x32: PostgreSQL-x32 @VERSION@ (x86_32 database management system)
+postgresql-x32: PostgreSQL-x32 @VERSION@ (database management system)
 postgresql-x32:
 postgresql-x32: PostgreSQL is an advanced object-relational database management
 postgresql-x32: system (ORDBMS) based on POSTGRES. With more than 15 years of

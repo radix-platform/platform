@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
           |-----handy-ruler------------------------------------------------------|
-ffmpeg-x32: ffmpeg-x32 @VERSION@ (x86_32 FFmpeg collection)
+ffmpeg-x32: ffmpeg-x32 @VERSION@ (FFmpeg collection)
 ffmpeg-x32:
 ffmpeg-x32: FFmpeg is a collection of libraries and tools to process
 ffmpeg-x32: multimedia content such as audio, video, subtitles and

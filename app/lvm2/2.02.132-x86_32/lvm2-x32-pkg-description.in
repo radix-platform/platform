@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
         |-----handy-ruler------------------------------------------------------|
-lvm2-x32: lvm2-x32 @VERSION@ (x86_32 Logical Volume Manager version 2)
+lvm2-x32: lvm2-x32 @VERSION@ (Logical Volume Manager version 2)
 lvm2-x32:
 lvm2-x32: Heinz Mauelshagen's LVM (Logical Volume Manager) for Linux.
 lvm2-x32: LVM adds an additional layer between the physical peripherals and

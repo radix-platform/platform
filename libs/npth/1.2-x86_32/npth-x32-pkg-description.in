@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
         |-----handy-ruler------------------------------------------------------|
-npth-x32: npth-x32 @VERSION@ (x86_32 New GNU Portable Threads)
+npth-x32: npth-x32 @VERSION@ (New GNU Portable Threads)
 npth-x32:
 npth-x32: This is a library to provide the GNU Pth API and thus
 npth-x32: a non-preemptive threads implementation.

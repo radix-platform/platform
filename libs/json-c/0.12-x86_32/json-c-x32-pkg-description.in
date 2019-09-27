@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
           |-----handy-ruler------------------------------------------------------|
-json-c-x32: json-c-x32 @VERSION@ (x86_32 javascript object notation library for C)
+json-c-x32: json-c-x32 @VERSION@ (javascript object notation library for C)
 json-c-x32:
 json-c-x32: json is a lightweight data-interchange format. JSON-C implements a
 json-c-x32: reference counting object model that allows you to easily construct

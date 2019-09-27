@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
            |-----handy-ruler------------------------------------------------------|
-libical-x32: libical-x32 @VERSION@ (x86_32 iCAL protocol implementation)
+libical-x32: libical-x32 @VERSION@ (iCAL protocol implementation)
 libical-x32:
 libical-x32: libical is an Open Source (MPL/LGPL) implementation of the IETF's
 libical-x32: iCalendar Calendaring and Scheduling protocols. (RFC 2445, 2446,

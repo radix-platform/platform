@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
         |-----handy-ruler------------------------------------------------------|
-glew-x32: glew-x32 @VERSION@ (x86_32 OpenGL Extension Wrangler Library)
+glew-x32: glew-x32 @VERSION@ (OpenGL Extension Wrangler Library)
 glew-x32:
 glew-x32: The OpenGL Extension Wrangler Library (GLEW) is a cross-platform
 glew-x32: open-source C/C++ extension loading library. GLEW provides efficient

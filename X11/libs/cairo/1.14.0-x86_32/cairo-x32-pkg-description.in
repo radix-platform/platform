@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
          |-----handy-ruler------------------------------------------------------|
-cairo-x32: cairo-x32 @VERSION@ (x86_32 graphics library used by GTK+)
+cairo-x32: cairo-x32 @VERSION@ (graphics library used by GTK+)
 cairo-x32:
 cairo-x32: Cairo is a vector graphics library designed to provide high-quality
 cairo-x32: display and print output. Cairo is designed to produce identical

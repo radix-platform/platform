@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
           |-----handy-ruler------------------------------------------------------|
-libdmx-x32: libdmx-x32 @VERSION@ (x86_32 Distributed Multihead X library)
+libdmx-x32: libdmx-x32 @VERSION@ (Distributed Multihead X library)
 libdmx-x32:
 libdmx-x32: libdmx is part of X11.
 libdmx-x32:

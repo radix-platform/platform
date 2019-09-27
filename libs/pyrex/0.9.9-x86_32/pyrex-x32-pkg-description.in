@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
          |-----handy-ruler------------------------------------------------------|
-pyrex-x32: pyrex-x32 @VERSION@ (x86_32 A Python extension modules language)
+pyrex-x32: pyrex-x32 @VERSION@ (A Python extension modules language)
 pyrex-x32:
 pyrex-x32: Pyrex is a language for writing Python extension modules.
 pyrex-x32: Pyrex lets you write code that mixes Python and C data types any

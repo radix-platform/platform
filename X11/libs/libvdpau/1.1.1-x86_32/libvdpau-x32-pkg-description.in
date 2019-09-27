@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
             |-----handy-ruler------------------------------------------------------|
-libvdpau-x32: libvdpau-x32 @VERSION@ (x86_32 VDPAU wrapper library)
+libvdpau-x32: libvdpau-x32 @VERSION@ (VDPAU wrapper library)
 libvdpau-x32:
 libvdpau-x32: This package contains the libvdpau wrapper library and the
 libvdpau-x32: libvdpau_trace debugging library, along with the header files

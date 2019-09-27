@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                 |-----handy-ruler------------------------------------------------------|
-libgpg-error-x32: libgpg-error-x32 @VERSION@ (x86_32 GnuPG Error Definitions Library)
+libgpg-error-x32: libgpg-error-x32 @VERSION@ (GnuPG Error Definitions Library)
 libgpg-error-x32:
 libgpg-error-x32: This is a library that defines common error values for all GnuPG
 libgpg-error-x32: components. Among these are GPG, GPGSM, GPGME, GPG-Agent, libgcrypt,

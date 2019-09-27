@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                      |-----handy-ruler------------------------------------------------------|
-libnetfilter_acct-x32: libnetfilter_acct-x32 @VERSION@ (x86_32 lib for netfilter accounting)
+libnetfilter_acct-x32: libnetfilter_acct-x32 @VERSION@ (lib for netfilter accounting)
 libnetfilter_acct-x32:
 libnetfilter_acct-x32: libnetfilter_acct is the userspace library providing interface
 libnetfilter_acct-x32: to extended accounting infrastructure.

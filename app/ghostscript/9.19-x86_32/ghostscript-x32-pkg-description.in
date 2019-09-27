@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                |-----handy-ruler------------------------------------------------------|
-ghostscript-x32: ghostscript-x32 @VERSION@ (x86_32 Postscript and PDF interpreter)
+ghostscript-x32: ghostscript-x32 @VERSION@ (Postscript and PDF interpreter)
 ghostscript-x32:
 ghostscript-x32: Ghostscript is an interpreter of Adobe Systems' PostScript(tm)
 ghostscript-x32: and Portable Document Format (PDF) languages. Ghostscript is an

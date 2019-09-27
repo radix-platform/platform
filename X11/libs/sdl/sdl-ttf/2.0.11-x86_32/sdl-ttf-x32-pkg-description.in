@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
            |-----handy-ruler------------------------------------------------------|
-sdl-ttf-x32: sdl-ttf-x32 @VERSION@ (x86_32 SDL TrueType fonts library)
+sdl-ttf-x32: sdl-ttf-x32 @VERSION@ (SDL TrueType fonts library)
 sdl-ttf-x32:
 sdl-ttf-x32: This library is a wrapper around the FreeType 2.0 library which
 sdl-ttf-x32: allows you to use TrueType fonts to render text in SDL applications.

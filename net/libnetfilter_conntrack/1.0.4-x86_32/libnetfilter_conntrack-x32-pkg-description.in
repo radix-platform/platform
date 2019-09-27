@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                           |-----handy-ruler------------------------------------------------------|
-libnetfilter_conntrack-x32: libnetfilter_conntrack-x32 @VERSION@ (x86_32 netfilter conntrack lib)
+libnetfilter_conntrack-x32: libnetfilter_conntrack-x32 @VERSION@ (netfilter conntrack lib)
 libnetfilter_conntrack-x32:
 libnetfilter_conntrack-x32: libnetfilter_conntrack is a userspace library providing
 libnetfilter_conntrack-x32: a programming interface (API) to the in-kernel connection tracking

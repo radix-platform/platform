@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                       |-----handy-ruler------------------------------------------------------|
-libva-vdpau-driver-x32: libva-vdpau-driver-x32 @VERSION@ (x86_32 VDPAU backend for VA API)
+libva-vdpau-driver-x32: libva-vdpau-driver-x32 @VERSION@ (VDPAU backend for VA API)
 libva-vdpau-driver-x32:
 libva-vdpau-driver-x32: libva-vdpau-driver is a VDPAU-based backend for VA-API.
 libva-vdpau-driver-x32:

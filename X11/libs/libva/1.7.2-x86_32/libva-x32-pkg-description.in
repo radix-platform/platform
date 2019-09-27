@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
          |-----handy-ruler------------------------------------------------------|
-libva-x32: libva-x32 @VERSION@ (x86_32 Video Acceleration API)
+libva-x32: libva-x32 @VERSION@ (Video Acceleration API)
 libva-x32:
 libva-x32: The main motivation for VAAPI (Video Acceleration API) is to enable
 libva-x32: hardware accelerated video decode/encode at various entry-points

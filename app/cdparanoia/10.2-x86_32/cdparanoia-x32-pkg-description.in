@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
               |-----handy-ruler------------------------------------------------------|
-cdparanoia-x32: cdparanoia-x32 @VERSION@ (x86_32 digital audio extraction tool)
+cdparanoia-x32: cdparanoia-x32 @VERSION@ (digital audio extraction tool)
 cdparanoia-x32:
 cdparanoia-x32: cdparanoia is a Compact Disc Digital Audio (CDDA) extraction tool,
 cdparanoia-x32: commonly known on the net as a 'ripper'. It reads digital audio data

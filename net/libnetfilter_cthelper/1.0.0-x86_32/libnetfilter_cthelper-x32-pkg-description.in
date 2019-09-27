@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                          |-----handy-ruler------------------------------------------------------|
-libnetfilter_cthelper-x32: libnetfilter_cthelper-x32 @VERSION@ (x86_32 lib for conntrack helpers)
+libnetfilter_cthelper-x32: libnetfilter_cthelper-x32 @VERSION@ (lib for conntrack helpers)
 libnetfilter_cthelper-x32:
 libnetfilter_cthelper-x32: Connection tracking helpers allows you to filter multi-flow
 libnetfilter_cthelper-x32: protocols that usually separate control and data traffic into

@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
          |-----handy-ruler------------------------------------------------------|
-pygtk-x32: pygtk-x32 @VERSION@ (x86_32 GTK+ bindings for Python)
+pygtk-x32: pygtk-x32 @VERSION@ (GTK+ bindings for Python)
 pygtk-x32:
 pygtk-x32: PyGTK provides a convenient wrapper for the GTK+ library for use in
 pygtk-x32: Python programs, taking care of many of the boring details such as

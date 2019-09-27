@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
           |-----handy-ruler------------------------------------------------------|
-ladspa-x32: ladspa-x32 @VERSION@ (x86_32 Simple Plugin API)
+ladspa-x32: ladspa-x32 @VERSION@ (Simple Plugin API)
 ladspa-x32:
 ladspa-x32: LADSPA - Linux Audio Developer's Simple Plugin API.
 ladspa-x32:

@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
         |-----handy-ruler------------------------------------------------------|
-cups-x32: CUPS-x32 @VERSION@ (x86_32 Common UNIX Printing System)
+cups-x32: CUPS-x32 @VERSION@ (Common UNIX Printing System)
 cups-x32:
 cups-x32: The Common UNIX Printing System provides a portable printing layer
 cups-x32: for UNIX(R)-like operating systems. It has been developed by Easy

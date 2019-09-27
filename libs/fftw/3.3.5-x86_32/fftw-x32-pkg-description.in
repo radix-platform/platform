@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
         |-----handy-ruler------------------------------------------------------|
-fftw-x32: fftw-x32 @VERSION@ (x86_32 Discrete Fourier Transform routines)
+fftw-x32: fftw-x32 @VERSION@ (Discrete Fourier Transform routines)
 fftw-x32:
 fftw-x32: FFTW is a free collection of fast C routines for computing the
 fftw-x32: Discrete Fourier Transform in one or more dimensions. It includes

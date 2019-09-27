@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
         |-----handy-ruler------------------------------------------------------|
-nspr-x32: nspr-x32 @VERSION@ (x86_32 Netscape Portable Runtime)
+nspr-x32: nspr-x32 @VERSION@ (Netscape Portable Runtime)
 nspr-x32:
 nspr-x32: Netscape Portable Runtime (NSPR) provides a platform-neutral API for
 nspr-x32: system level and libc-like functions. The API is used in the Mozilla

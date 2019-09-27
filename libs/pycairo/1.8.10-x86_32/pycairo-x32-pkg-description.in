@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
            |-----handy-ruler------------------------------------------------------|
-pycairo-x32: pycairo-x32 @VERSION@ (x86_32 Python bindings for the cairo library)
+pycairo-x32: pycairo-x32 @VERSION@ (Python bindings for the cairo library)
 pycairo-x32:
 pycairo-x32: Pycairo is set of Python bindings for the cairo graphics library.
 pycairo-x32:

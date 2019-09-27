@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
          |-----handy-ruler------------------------------------------------------|
-imlib-x32: imlib-x32 @VERSION@ (x86_32 image loading and rendering library)
+imlib-x32: imlib-x32 @VERSION@ (image loading and rendering library)
 imlib-x32:
 imlib-x32: Imlib is a display depth-independent image loading and rendering
 imlib-x32: library. Imlib is designed to simplify and speed up the process

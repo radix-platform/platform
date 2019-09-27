@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
            |-----handy-ruler------------------------------------------------------|
-libx264-x32: libx264-x32 @VERSION@ (x86_32 H.264/MPEG-4 AVC encoder library)
+libx264-x32: libx264-x32 @VERSION@ (H.264/MPEG-4 AVC encoder library)
 libx264-x32:
 libx264-x32: x264 is a free software library for encoding video streams into the
 libx264-x32: H.264/MPEG-4 AVC compression format, and is released under the terms

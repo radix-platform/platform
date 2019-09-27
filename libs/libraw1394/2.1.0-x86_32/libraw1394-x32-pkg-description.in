@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
               |-----handy-ruler------------------------------------------------------|
-libraw1394-x32: libraw1394-x32 @VERSION@ (x86_32 user space IEEE 1394 driver)
+libraw1394-x32: libraw1394-x32 @VERSION@ (user space IEEE 1394 driver)
 libraw1394-x32:
 libraw1394-x32: libraw1394 provides direct access to the IEEE 1394 bus through
 libraw1394-x32: the Linux 1394 subsystem's raw1394 user space interface.

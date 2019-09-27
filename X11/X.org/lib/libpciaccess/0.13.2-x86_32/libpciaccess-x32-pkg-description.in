@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                 |-----handy-ruler------------------------------------------------------|
-libpciaccess-x32: libpciaccess-x32 @VERSION@ (x86_32 Generic PCI access library)
+libpciaccess-x32: libpciaccess-x32 @VERSION@ (Generic PCI access library)
 libpciaccess-x32:
 libpciaccess-x32: libpciaccess is part of X11.
 libpciaccess-x32:

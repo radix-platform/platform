@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
            |-----handy-ruler------------------------------------------------------|
-libXres-x32: libXres-x32 @VERSION@ (x86_32 X-Resource client library)
+libXres-x32: libXres-x32 @VERSION@ (X-Resource client library)
 libXres-x32:
 libXres-x32: libXres is part of X11.
 libXres-x32:

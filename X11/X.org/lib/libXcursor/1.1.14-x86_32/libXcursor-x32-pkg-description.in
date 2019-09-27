@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
               |-----handy-ruler------------------------------------------------------|
-libXcursor-x32: libXcursor-x32 @VERSION@ (x86_32 X Cursor management library)
+libXcursor-x32: libXcursor-x32 @VERSION@ (X Cursor management library)
 libXcursor-x32:
 libXcursor-x32: libXcursor is part of X11.
 libXcursor-x32:

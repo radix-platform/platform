@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                   |-----handy-ruler------------------------------------------------------|
-fontcacheproto-x32: fontcacheproto-x32 @VERSION@ (x86_32 X11 Font Cache PROTO)
+fontcacheproto-x32: fontcacheproto-x32 @VERSION@ (X11 Font Cache PROTO)
 fontcacheproto-x32:
 fontcacheproto-x32: fontcacheproto is part of X11.
 fontcacheproto-x32:

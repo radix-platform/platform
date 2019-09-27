@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
               |-----handy-ruler------------------------------------------------------|
-printproto-x32: printproto-x32 @VERSION@ (x86_32 X11 Xprint PROTO)
+printproto-x32: printproto-x32 @VERSION@ (X11 Xprint PROTO)
 printproto-x32:
 printproto-x32: printproto is part of X11.
 printproto-x32:

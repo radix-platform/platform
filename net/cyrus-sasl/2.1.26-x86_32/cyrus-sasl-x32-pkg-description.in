@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
               |-----handy-ruler------------------------------------------------------|
-cyrus-sasl-x32: cyrus-sasl-x32 @VERSION@ (x86_32 Simple Authentication Layer)
+cyrus-sasl-x32: cyrus-sasl-x32 @VERSION@ (Simple Authentication Layer)
 cyrus-sasl-x32:
 cyrus-sasl-x32: This is the Cyrus SASL library. Cyrus SASL is used by mail
 cyrus-sasl-x32: programs on the client or server side to provide authentication

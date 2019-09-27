@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                       |-----handy-ruler------------------------------------------------------|
-libnetfilter_queue-x32: libnetfilter_queue-x32 @VERSION@ (x86_32 packet queueing library)
+libnetfilter_queue-x32: libnetfilter_queue-x32 @VERSION@ (packet queueing library)
 libnetfilter_queue-x32:
 libnetfilter_queue-x32: libnetfilter_queue is a userspace library providing an API to
 libnetfilter_queue-x32: packets that have been queued by the kernel packet filter. It is

@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
             |-----handy-ruler------------------------------------------------------|
-libevdev-x32: libevdev-x32 @VERSION@ (x86_32 Wrapper library for evdev devices)
+libevdev-x32: libevdev-x32 @VERSION@ (Wrapper library for evdev devices)
 libevdev-x32:
 libevdev-x32: libevdev is a library for handling evdev kernel devices.
 libevdev-x32: It abstracts the evdev ioctls through type-safe interfaces and

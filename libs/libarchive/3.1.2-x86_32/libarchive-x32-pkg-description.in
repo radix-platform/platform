@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
               |-----handy-ruler------------------------------------------------------|
-libarchive-x32: libarchive-x32 @VERSION@ (x86_32 archive reading library)
+libarchive-x32: libarchive-x32 @VERSION@ (archive reading library)
 libarchive-x32:
 libarchive-x32: Libarchive is a programming library that can create and
 libarchive-x32: read several different streaming archive formats, including

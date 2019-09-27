@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
              |-----handy-ruler------------------------------------------------------|
-dbus-glib-x32: dbus-glib-x32 @VERSION@ (x86_32 Glib bindings for dbus)
+dbus-glib-x32: dbus-glib-x32 @VERSION@ (Glib bindings for dbus)
 dbus-glib-x32:
 dbus-glib-x32: This package includes the glib bindings for the dbus IPC library.
 dbus-glib-x32:

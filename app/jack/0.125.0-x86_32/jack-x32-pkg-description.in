@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
         |-----handy-ruler------------------------------------------------------|
-jack-x32: jack-x32 @VERSION@ (x86_32 Low-latency audio server)
+jack-x32: jack-x32 @VERSION@ (Low-latency audio server)
 jack-x32:
 jack-x32: JACK is a low-latency audio server, written for any operating
 jack-x32: system that is reasonably POSIX compliant. It currently exists

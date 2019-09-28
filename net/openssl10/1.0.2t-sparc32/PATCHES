@@ -1,0 +1,3 @@
+
+../../../sources/packages/n/openssl/patches/openssl-1.0.2t-versioned-symbols.patch -p0
+../../../sources/packages/n/openssl/patches/openssl-1.0.2t-shlib.patch             -p0

@@ -1,0 +1,2 @@
+
+../../../sources/packages/n/openssl/patches/openssl-1.0.2t-mips-O2.patch -p0

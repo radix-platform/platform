@@ -374,8 +374,13 @@ endif
 #             │       │                                      ├── libs/zlib/1.2.8-sparc32
 #             │       │                                      └── libs/zlib/1.2.8-x86_32
 #             │       │
-#             │       ├── net/openssl/1.0.2f
-#             │       │   ├── net/openssl/1.0.2f-x86_32
+#             │       ├── net/openssl10/1.0.2t ■
+#             │       │   ├── net/openssl10/1.0.2t-ppc32
+#             │       │   ├── net/openssl10/1.0.2t-sparc32
+#             │       │   └── net/openssl10/1.0.2t-x86_32
+#             │       │
+#             │       ├── net/openssl/1.1.1d
+#             │       │   ├── net/openssl/1.1.1d-x86_32
 #             │       │   │
 #             │       │   ├── libs/libevent/2.0.22 ■
 #             │       │   │   └── libs/libevent/2.0.22-x86_32
@@ -641,6 +646,18 @@ REQUIRES += app/sdparm/1.09
 #######
 ####### Networking:
 #######
+REQUIRES += net/openssl10/1.0.2t
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
+REQUIRES += net/openssl10/1.0.2t-ppc32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
+REQUIRES += net/openssl10/1.0.2t-sparc32
+endif
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/openssl10/1.0.2t-x86_32
+endif
+
 REQUIRES += net/libtirpc/1.0.1
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += net/libtirpc/1.0.1-x86_32

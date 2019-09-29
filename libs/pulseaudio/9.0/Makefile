@@ -54,7 +54,7 @@ ENABLE_X11_SUPPORT = yes
 
 REQUIRES           = net/bluez/5.42
 REQUIRES          += net/avahi-daemon/0.6.31
-REQUIRES          += net/openssl/1.0.2f
+REQUIRES          += net/openssl/1.1.1d
 REQUIRES          += libs/pcre/8.38
 REQUIRES          += libs/libasyncns/0.8
 REQUIRES          += libs/json-c/0.12

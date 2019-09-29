@@ -51,7 +51,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/m/rtmpdump
 
 REQUIRES           = libs/zlib/1.2.8
-REQUIRES          += net/openssl/1.0.2f
+REQUIRES          += net/openssl/1.1.1d
 
 # ======= __END_OF_REQUIRES__ =======
 

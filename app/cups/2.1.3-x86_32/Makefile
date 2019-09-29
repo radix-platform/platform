@@ -19,7 +19,7 @@ REQUIRES          += app/dbus/1.11.2-x86_32
 REQUIRES          += libs/libtiff/4.0.6-x86_32
 REQUIRES          += libs/libpng/libpng14/1.4.19-x86_32
 REQUIRES          += net/gnutls/3.4.8-x86_32
-REQUIRES          += net/openssl/1.0.2f-x86_32
+REQUIRES          += net/openssl/1.1.1d-x86_32
 REQUIRES          += libs/libusb/1.0.20-x86_32
 REQUIRES          += net/avahi-daemon/0.6.31-x86_32
 

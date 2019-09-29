@@ -16,7 +16,7 @@ REQUIRES           = libs/libshout/2.4.1
 REQUIRES          += libs/libtheora/1.1.1-x86_32
 REQUIRES          += libs/libvorbis/1.3.5-x86_32
 REQUIRES          += libs/speex/1.2rc2-x86_32
-REQUIRES          += net/openssl/1.0.2f-x86_32
+REQUIRES          += net/openssl/1.1.1d-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

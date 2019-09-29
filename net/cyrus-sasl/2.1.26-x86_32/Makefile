@@ -14,7 +14,7 @@ SOURCE_REQUIRES      = sources/packages/n/cyrus-sasl
 
 REQUIRES             = net/cyrus-sasl/2.1.26
 REQUIRES            += libs/gdbm/1.11-x86_32
-REQUIRES            += net/openssl/1.0.2f-x86_32
+REQUIRES            += net/openssl/1.1.1d-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

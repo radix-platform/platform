@@ -56,7 +56,7 @@ REQUIRES          += app/dbus/1.11.2
 REQUIRES          += libs/libtiff/4.0.6
 REQUIRES          += libs/libpng/libpng14/1.4.19
 REQUIRES          += net/gnutls/3.4.8
-REQUIRES          += net/openssl/1.0.2f
+REQUIRES          += net/openssl/1.1.1d
 REQUIRES          += libs/libusb/1.0.20
 REQUIRES          += net/avahi-daemon/0.6.31
 

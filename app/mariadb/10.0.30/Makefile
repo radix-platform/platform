@@ -57,7 +57,7 @@ endif
 REQUIRES          += libs/pcre/8.38
 REQUIRES          += libs/libxml2/2.9.3
 REQUIRES          += libs/libaio/0.3.110
-REQUIRES          += net/openssl/1.0.2f
+REQUIRES          += net/openssl/1.1.1d
 REQUIRES          += secure/pam_unix2/2.9.1
 REQUIRES          += libs/boost/1.61.0
 REQUIRES          += libs/jemalloc/4.2.1

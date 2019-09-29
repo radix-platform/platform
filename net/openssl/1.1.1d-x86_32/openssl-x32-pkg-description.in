@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+           |-----handy-ruler------------------------------------------------------|
+openssl-x32: openssl-x32 @VERSION@ (Secure Sockets Layer toolkit)
+openssl-x32:
+openssl-x32: The OpenSSL certificate management tool and the shared libraries
+openssl-x32: that provide various encryption and decryption algorithms and
+openssl-x32: protocols.
+openssl-x32: This product includes software developed by the OpenSSL Project for
+openssl-x32: use in the OpenSSL Toolkit (http://www.openssl.org). This product
+openssl-x32: includes cryptographic software written by Eric Young
+openssl-x32: (eay@cryptsoft.com). This product includes software written by Tim
+openssl-x32: Hudson (tjh@cryptsoft.com).
+openssl-x32:

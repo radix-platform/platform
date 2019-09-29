@@ -380,6 +380,8 @@ endif
 #             │       │   └── net/openssl10/1.0.2t-x86_32
 #             │       │
 #             │       ├── net/openssl/1.1.1d
+#             │       │   ├── net/openssl/1.1.1d-ppc32
+#             │       │   ├── net/openssl/1.1.1d-sparc32
 #             │       │   ├── net/openssl/1.1.1d-x86_32
 #             │       │   │
 #             │       │   ├── libs/libevent/2.0.22 ■
@@ -401,7 +403,7 @@ endif
 #             │       ├── dev/python2/2.7.11              ├── libs/libffi/3.2.1
 #             │       │   └── dev/python2/2.7.11-x86_32   ├── libs/readline/6.3
 #             │      ...                                  ├── libs/expat/2.1.1
-#             │                                           └── net/openssl/1.0.2f
+#             │                                           └── net/openssl/1.1.1d
 #             │      ...
 #             │       ├────────────────────────────────────── libs/gdbm/1.11
 #             │       ├── dev/perl/5.22.1
@@ -411,7 +413,7 @@ endif
 #             │      ...
 #             │       ├───────────────────────────────────┬── libs/libtermcap/1.2.3
 #             │       │                                   ├── dev/flex/2.6.0
-#             │       ├── app/bsd-games/2.17 ■            └── net/openssl/1.0.2f
+#             │       ├── app/bsd-games/2.17 ■            └── net/openssl/1.1.1d
 #             │       │
 #             │      ...
 #             │

@@ -18,7 +18,7 @@ REQUIRES          += dev/python2/2.7.11-x86_32
 REQUIRES          += dev/python3/3.5.1-x86_32
 REQUIRES          += libs/libxml2/2.9.3-x86_32
 REQUIRES          += libs/libxslt/1.1.28-x86_32
-REQUIRES          += net/openssl/1.0.2f-x86_32
+REQUIRES          += net/openssl/1.1.1d-x86_32
 REQUIRES          += secure/pam_unix2/2.9.1-x86_32
 
 # ======= __END_OF_REQUIRES__ =======

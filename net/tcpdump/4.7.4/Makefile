@@ -52,10 +52,10 @@ SOURCE_REQUIRES    = sources/packages/n/tcpdump
 
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES           = net/libpcap/1.7.4
-REQUIRES          += net/openssl/1.0.2f
+REQUIRES          += net/openssl/1.1.1d
 else
 REQUIRES           = net/libpcap/1.7.4-x86_32
-REQUIRES          += net/openssl/1.0.2f-x86_32
+REQUIRES          += net/openssl/1.1.1d-x86_32
 endif
 
 # ======= __END_OF_REQUIRES__ =======

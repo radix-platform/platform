@@ -94,6 +94,11 @@ endif
 extra_configure_switches += --enable-shared=yes
 
 
+CFLAGS += -Wno-pointer-sign -Wno-misleading-indentation
+CFLAGS += -Wno-unused-but-set-variable -Wno-uninitialized
+CFLAGS += -Wno-int-to-pointer-cast -Wno-unused-function
+CFLAGS += -Wno-unused-value -Wno-format
+
 ####### Dependencies
 
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)

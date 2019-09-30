@@ -46,7 +46,7 @@ PROG = $(POBJ:.o=)
 
 SRCS = $(GSRC) $(LSRC) $(PSRC) report.c
 
-DEFS  = @DEFS@ -DHAVE_CURSES_H -I lib/ncurses
+DEFS  = @DEFS@ -DHAVE_CURSES_H -I lib/ncurses -I headers
 
 STRIP = -s
 
@@ -59,7 +59,7 @@ STRIP = -s
 
 # the prog rules are not very clean...
 prog/%.o: prog/%.c
-	$(CC) -Iheaders @CPPFLAGS@ $(CPPFLAGS) @CFLAGS@ $(CFLAGS) -c -o $@ $<
+	$(CC) -I@srcdir@/headers @CPPFLAGS@ $(CPPFLAGS) @CFLAGS@ $(CFLAGS) -c -o $@ $<
 
 prog/%:	prog/%.o
 	$(CC) @LDFLAGS@ $(LDFLAGS) -o $@ $^ @LIBS@ $(LIBS)
@@ -92,7 +92,7 @@ $(DEPFILE) dep: prog/gpm-root.c
 	do $(LN_S) $$cfiles 2>/dev/null; done; cd ..; done
 
 	# make links in srcdir
-	-@for cfiles in `echo $(srcdir)/*.c`; do $(LN_S) $$cfiles 2>/dev/null; done
+	-@if [ "$(CURDIR)" != "$(srcdir)" ] ; then for cfiles in `echo $(srcdir)/*.c`; do $(LN_S) $$cfiles 2>/dev/null; done ; fi
 
 	# create dependencies
 	for DEPS in `echo *.c */*.c`; do \

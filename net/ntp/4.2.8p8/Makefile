@@ -55,7 +55,7 @@ REQUIRES          += net/openssl/1.1.1d
 REQUIRES          += net/net-snmp/5.7.3
 REQUIRES          += net/net-snmp/5.7.3
 REQUIRES          += net/libnl3/3.2.27
-REQUIRES          += libs/libevent/2.0.22
+REQUIRES          += libs/libevent/2.1.11
 REQUIRES          += app/lm_sensors/3.4.0
 REQUIRES          += dev/perl/5.22.1
 

@@ -96,7 +96,8 @@ extra_configure_switches += zlib
 extra_configure_switches += shared
 
 openssl_environment  = KERNEL_BITS=32 MACHINE=sparcv9 SYSTEM=Linux
-openssl_environment += LDFLAGS=-Wl,-rpath=/lib32:/usr/lib32 LDLIBS=-latomic
+openssl_environment += LDFLAGS=-Wl,-rpath=/lib$(MULTILIB_SPARC32_SUFFIX):/usr/lib$(MULTILIB_SPARC32_SUFFIX)
+openssl_environment += LDLIBS=-latomic
 
 
 ####### Dependencies

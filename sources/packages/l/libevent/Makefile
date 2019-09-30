@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/libevent
 
-versions    = 2.0.21-stable 2.0.22-stable
+versions    = 2.0.22-stable 2.1.11-stable
 pkgname     = libevent
 suffix      = tar.gz
 

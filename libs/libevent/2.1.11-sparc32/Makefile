@@ -1,10 +1,10 @@
 
-COMPONENT_TARGETS  = $(HARDWARE_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_MBC4_PC)
 
 NEED_ABS_PATH      = true
 COMPONENT_IS_3PP   = true
 
-CREATE_X86_32_PACKAGE = true
+CREATE_SPARC32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
@@ -12,13 +12,13 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/libevent
 
-REQUIRES           = libs/libevent/2.0.22
-REQUIRES          += net/openssl/1.1.1d-x86_32
+REQUIRES           = libs/libevent/2.1.11
+REQUIRES          += net/openssl/1.1.1d-sparc32
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 2.0.22
+version            = 2.1.11
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/libevent/libevent-$(version)-stable.tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/libevent-$(version)-stable
@@ -40,7 +40,7 @@ PKG_GROUP = libs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 LIBEVENT_32_PKG_NAME                = libevent-x32
-LIBEVENT_32_PKG_VERSION             = 2.0.22
+LIBEVENT_32_PKG_VERSION             = 2.1.11
 LIBEVENT_32_PKG_ARCH                = $(TOOLCHAIN)
 LIBEVENT_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBEVENT_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -77,11 +77,10 @@ include ../../../build-system/core.mk
 env_sysroot  = DESTDIR=$(LIBEVENT_32_PKG)
 
 
-extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
+extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_SPARC32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(doc_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
-extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
 ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
@@ -96,6 +95,7 @@ extra_configure_switches += --enable-shared=yes
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
+	@( cd $(SRC_DIR) ; ./autogen.sh )
 	@touch $@
 
 $(build_target): $(src_done)
@@ -114,17 +114,20 @@ $(install_target): $(build_target)
 	@rm -rf $(LIBEVENT_32_PKG)/usr/bin
 	@rm -rf $(LIBEVENT_32_PKG)/usr/include
 	# ======= remove toolchain path from target libtool *.la files =======
-	@( cd $(LIBEVENT_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(LIBEVENT_32_PKG)/usr/lib$(MULTILIB_SPARC32_SUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libevent.la          \
 	                                    libevent_core.la     \
 	                                    libevent_extra.la    \
 	                                    libevent_openssl.la  \
 	                                    libevent_pthreads.la \
 	 )
+	@( cd $(LIBEVENT_32_PKG)/usr/lib$(MULTILIB_SPARC32_SUFFIX)/pkgconfig ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libevent_openssl.pc \
+	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(LIBEVENT_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_SPARC32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libevent.la            \
 	                                            libevent_core.la       \
 	                                            libevent_extra.la      \
@@ -137,8 +140,10 @@ $(install_target): $(build_target)
 	                                              libevent_pthreads.la \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_SPARC32_SUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libevent.pc          \
+	                                            libevent_core.pc     \
+	                                            libevent_extra.pc    \
 	                                            libevent_openssl.pc  \
 	                                            libevent_pthreads.pc \
 	 )

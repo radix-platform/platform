@@ -99,7 +99,7 @@ extra_configure_switches += zlib
 extra_configure_switches += shared
 
 openssl_environment = KERNEL_BITS=32 MACHINE=ppc64 SYSTEM=Linux
-openssl_environment += LDFLAGS=-Wl,-rpath=/lib32:/usr/lib32
+openssl_environment += LDFLAGS=-Wl,-rpath=/lib$(MULTILIB_PPC32_SUFFIX):/usr/lib$(MULTILIB_PPC32_SUFFIX)
 
 
 ####### Dependencies

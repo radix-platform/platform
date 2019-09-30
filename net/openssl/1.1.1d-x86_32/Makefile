@@ -96,7 +96,7 @@ extra_configure_switches += zlib
 extra_configure_switches += shared
 
 openssl_environment = MACHINE=i686 SYSTEM=Linux
-openssl_environment += LDFLAGS=-Wl,-rpath=/lib32:/usr/lib32
+openssl_environment += LDFLAGS=-Wl,-rpath=/lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX)
 
 
 ####### Dependencies

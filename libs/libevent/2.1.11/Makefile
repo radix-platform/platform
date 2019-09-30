@@ -50,12 +50,12 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/libevent
 
-REQUIRES           = net/openssl/1.0.2f
+REQUIRES           = net/openssl/1.1.1d
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 2.0.21
+version            = 2.1.11
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/libevent/libevent-$(version)-stable.tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/libevent-$(version)-stable
@@ -78,7 +78,7 @@ PKG_GROUP = libs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 LIBEVENT_PKG_NAME                = libevent
-LIBEVENT_PKG_VERSION             = 2.0.21
+LIBEVENT_PKG_VERSION             = 2.1.11
 LIBEVENT_PKG_ARCH                = $(TOOLCHAIN)
 LIBEVENT_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBEVENT_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -119,10 +119,13 @@ extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(doc_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
-extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
-extra_configure_switches += --enable-shared
-extra_configure_switches += --enable-static
+ifeq ($(__ENABLE_STATIC__),yes)
+extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
+extra_configure_switches += --enable-shared=yes
 
 
 ####### Dependencies
@@ -130,6 +133,7 @@ extra_configure_switches += --enable-static
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
+	@( cd $(SRC_DIR) ; ./autogen.sh )
 	@touch $@
 
 $(build_target): $(src_done)
@@ -151,7 +155,7 @@ $(install_target): $(build_target)
 	@cp -a $(SRC_DIR)/LICENSE \
 	       $(LIBEVENT_PKG)/usr/doc/$(doc_dir_name)
 	@mkdir -p $(LIBEVENT_PKG)/usr/share/doc/$(doc_dir_name)
-	@cp -a $(SRC_DIR)/LICENSE $(SRC_DIR)/README \
+	@cp -a $(SRC_DIR)/LICENSE $(SRC_DIR)/README.md $(SRC_DIR)/whatsnew-2.?.txt \
 	       $(LIBEVENT_PKG)/usr/share/doc/$(doc_dir_name)
 	@( cd $(SRC_DIR) ; \
 	   if [ -r ChangeLog ]; then \
@@ -167,6 +171,9 @@ $(install_target): $(build_target)
 	                                    libevent_extra.la    \
 	                                    libevent_openssl.la  \
 	                                    libevent_pthreads.la \
+	 )
+	@( cd $(LIBEVENT_PKG)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libevent_openssl.pc \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(LIBEVENT_PKG))
@@ -186,6 +193,8 @@ $(install_target): $(build_target)
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libevent.pc          \
+	                                            libevent_core.pc     \
+	                                            libevent_extra.pc    \
 	                                            libevent_openssl.pc  \
 	                                            libevent_pthreads.pc \
 	 )
@@ -193,8 +202,12 @@ $(install_target): $(build_target)
 	@( cd $(LIBEVENT_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(LIBEVENT_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 	@touch $@
 
 $(LIBEVENT_PKG_DESCRIPTION_FILE): $(LIBEVENT_PKG_DESCRIPTION_FILE_IN)

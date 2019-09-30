@@ -384,8 +384,10 @@ endif
 #             │       │   ├── net/openssl/1.1.1d-sparc32
 #             │       │   ├── net/openssl/1.1.1d-x86_32
 #             │       │   │
-#             │       │   ├── libs/libevent/2.0.22 ■
-#             │       │   │   └── libs/libevent/2.0.22-x86_32
+#             │       │   ├── libs/libevent/2.1.11 ■
+#             │       │   │   ├── libs/libevent/2.1.11-ppc32
+#             │       │   │   ├── libs/libevent/2.1.11-sparc32
+#             │       │   │   └── libs/libevent/2.1.11-x86_32
 #             │       │  ...
 #             │      ...
 #             │

@@ -393,10 +393,14 @@ endif
 #             │
 #             │      ...
 #             │       ├── app/db/6.1.26
-#             │      ...  └── app/db/6.1.26-x86_32
+#             │      ...  ├── app/db/6.1.26-ppc32
+#             │           ├── app/db/6.1.26-sparc32
+#             │           └── app/db/6.1.26-x86_32
 #             │
 #             │
 #             ├── libs/gdbm/1.11
+#             │   ├── libs/gdbm/1.11-ppc32
+#             │   ├── libs/gdbm/1.11-sparc32
 #             │   └── libs/gdbm/1.11-x86_32
 #             │
 #             │      ...

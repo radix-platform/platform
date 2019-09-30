@@ -53,11 +53,7 @@ SOURCE_REQUIRES    = sources/packages/a/db
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/6.5.0
 else
-ifneq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES           = libs/glibc/2.28
-else
-REQUIRES           = libs/glibc/2.28-x86_32
-endif
 endif
 
 # ======= __END_OF_REQUIRES__ =======
@@ -128,8 +124,12 @@ extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --enable-compat185
 extra_configure_switches += --enable-cxx
 extra_configure_switches += --enable-dbm
-extra_configure_switches += --enable-shared
-extra_configure_switches += --enable-static
+ifeq ($(__ENABLE_STATIC__),yes)
+extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
+extra_configure_switches += --enable-shared=yes
 
 #
 # NOTE:
@@ -179,6 +179,15 @@ $(install_target): $(build_target)
 	   mv libdb_cxx-$(short_version).so ../../lib$(LIBSUFFIX)             ; \
 	   ln -sf ../../lib$(LIBSUFFIX)/libdb-$(short_version).so     .       ; \
 	   ln -sf ../../lib$(LIBSUFFIX)/libdb_cxx-$(short_version).so .       ; \
+	   ln -sf libdb-$(short_version).so libdb-$(major_version).so         ; \
+	   ln -sf libdb-$(short_version).so libdb$(major_version).so          ; \
+	   ln -sf libdb-$(short_version).so libdb.so                          ; \
+	   ln -sf libdb_cxx-$(short_version).so libdb_cxx-$(major_version).so ; \
+	   ln -sf libdb_cxx-$(short_version).so libdb_cxx$(major_version).so  ; \
+	   ln -sf libdb_cxx-$(short_version).so libdb_cxx.so                  ; \
+	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(DB_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   rm -f libdb.a                                                      ; \
 	   ln -sf libdb-$(short_version).a libdb-$(major_version).a           ; \
 	   ln -sf libdb-$(short_version).a libdb$(major_version).a            ; \
@@ -187,13 +196,8 @@ $(install_target): $(build_target)
 	   ln -sf libdb_cxx-$(short_version).a libdb_cxx-$(major_version).a   ; \
 	   ln -sf libdb_cxx-$(short_version).a libdb_cxx$(major_version).a    ; \
 	   ln -sf libdb_cxx-$(short_version).a libdb_cxx.a                    ; \
-	   ln -sf libdb-$(short_version).so libdb-$(major_version).so         ; \
-	   ln -sf libdb-$(short_version).so libdb$(major_version).so          ; \
-	   ln -sf libdb-$(short_version).so libdb.so                          ; \
-	   ln -sf libdb_cxx-$(short_version).so libdb_cxx-$(major_version).so ; \
-	   ln -sf libdb_cxx-$(short_version).so libdb_cxx$(major_version).so  ; \
-	   ln -sf libdb_cxx-$(short_version).so libdb_cxx.so                  ; \
 	 )
+endif
 	@( cd $(DB_PKG)/usr/bin ; \
 	   for file in db_* ; do \
 	     mv $$file `echo $$file | sed -e 's/_/$(pack_version)_/'` ; \
@@ -226,8 +230,12 @@ $(install_target): $(build_target)
 	@( cd $(DB_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(DB_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target shared objects =======
 	@( cd $(DB_PKG)/lib$(LIBSUFFIX) ; \

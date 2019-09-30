@@ -1,10 +1,13 @@
 
-COMPONENT_TARGETS  = $(HARDWARE_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_S824L)
+COMPONENT_TARGETS += $(HARDWARE_VESNIN)
+COMPONENT_TARGETS += $(HARDWARE_TL2WK2)
+COMPONENT_TARGETS += $(HARDWARE_TL2SV2)
 
 NEED_ABS_PATH      = true
 COMPONENT_IS_3PP   = true
 
-CREATE_X86_32_PACKAGE = true
+CREATE_PPC32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
@@ -13,7 +16,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/db
 
 REQUIRES           = app/db/6.1.26
-REQUIRES          += libs/glibc/2.28-x86_32
+REQUIRES          += libs/glibc/2.28-ppc32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -77,7 +80,7 @@ include ../../../build-system/core.mk
 
 env_sysroot = DESTDIR=$(DB_32_PKG)
 
-extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
+extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_PPC32_SUFFIX)
 extra_configure_switches += --bindir=/usr/bin/32
 extra_configure_switches += --enable-compat185
 extra_configure_switches += --enable-cxx
@@ -92,15 +95,15 @@ extra_configure_switches += --enable-shared=yes
 #
 # NOTE:
 # ====
-#  x86_32 libraries are placed in /usr/lib32. Following LDFLAG sets the correct RPATH
+#  ppc32 libraries are placed in /usr/lib32. Following LDFLAG sets the correct RPATH
 #  for executables and libraries. Moreover this way prevent potencial mistake related
 #  to chamge RPATH by chrpath utility in case when the size of RPATH string in the
 #  object file is less then  required.
 #
-LDFLAGS += -Wl,-rpath,/lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX):/usr/lib/../lib$(MULTILIB_X86_32_SUFFIX)
+LDFLAGS += -Wl,-rpath,/lib$(MULTILIB_PPC32_SUFFIX):/usr/lib$(MULTILIB_PPC32_SUFFIX):/usr/lib/../lib$(MULTILIB_PPC32_SUFFIX)
 
 
-TARGET_LIB_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX):/usr/lib/../lib$(MULTILIB_X86_32_SUFFIX)
+TARGET_LIB_RPATH = /lib$(MULTILIB_PPC32_SUFFIX):/usr/lib$(MULTILIB_PPC32_SUFFIX):/usr/lib/../lib$(MULTILIB_PPC32_SUFFIX)
 
 
 ####### Dependencies
@@ -126,12 +129,12 @@ $(install_target): $(build_target)
 	@cd $(SRC_DIR)/build_unix && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@rm -rf $(DB_32_PKG)/usr/docs
 	@rm -rf $(DB_32_PKG)/usr/include
-	@mkdir -p $(DB_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)
-	@( cd $(DB_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   mv libdb-$(short_version).so     ../../lib$(MULTILIB_X86_32_SUFFIX)       ; \
-	   mv libdb_cxx-$(short_version).so ../../lib$(MULTILIB_X86_32_SUFFIX)       ; \
-	   ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/libdb-$(short_version).so     . ; \
-	   ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/libdb_cxx-$(short_version).so . ; \
+	@mkdir -p $(DB_32_PKG)/lib$(MULTILIB_PPC32_SUFFIX)
+	@( cd $(DB_32_PKG)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
+	   mv libdb-$(short_version).so     ../../lib$(MULTILIB_PPC32_SUFFIX)        ; \
+	   mv libdb_cxx-$(short_version).so ../../lib$(MULTILIB_PPC32_SUFFIX)        ; \
+	   ln -sf ../../lib$(MULTILIB_PPC32_SUFFIX)/libdb-$(short_version).so     .  ; \
+	   ln -sf ../../lib$(MULTILIB_PPC32_SUFFIX)/libdb_cxx-$(short_version).so .  ; \
 	   ln -sf libdb-$(short_version).so libdb-$(major_version).so                ; \
 	   ln -sf libdb-$(short_version).so libdb$(major_version).so                 ; \
 	   ln -sf libdb-$(short_version).so libdb.so                                 ; \
@@ -140,7 +143,7 @@ $(install_target): $(build_target)
 	   ln -sf libdb_cxx-$(short_version).so libdb_cxx.so                         ; \
 	 )
 ifeq ($(__ENABLE_STATIC__),yes)
-	@( cd $(DB_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(DB_32_PKG)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
 	   rm -f libdb.a                                                             ; \
 	   ln -sf libdb-$(short_version).a libdb-$(major_version).a                  ; \
 	   ln -sf libdb-$(short_version).a libdb$(major_version).a                   ; \
@@ -158,14 +161,14 @@ endif
 	   done ; \
 	 )
 	# ======= remove target path from target libtool *.la files =======
-	@( cd $(DB_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(DB_32_PKG)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libdb-?.?.la libdb_cxx-?.?.la ; \
 	   chmod 0755 *.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(DB_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libdb-?.?.la libdb_cxx-?.?.la ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libdb-?.?.la libdb_cxx-?.?.la \
 	 )
@@ -181,7 +184,7 @@ ifeq ($(__ENABLE_STATIC__),yes)
 endif
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target shared objects =======
-	@( cd $(DB_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(DB_32_PKG)/lib$(MULTILIB_PPC32_SUFFIX) ; \
 	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
 	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
 	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \

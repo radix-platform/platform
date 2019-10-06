@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/Wayland/wayland
 
 REQUIRES           = Wayland/wayland/1.11.0
-REQUIRES          += libs/expat/2.1.1-x86_32
+REQUIRES          += libs/expat/2.2.9-x86_32
 REQUIRES          += libs/libffi/3.2.1-x86_32
 REQUIRES          += libs/libxml2/2.9.3-x86_32
 

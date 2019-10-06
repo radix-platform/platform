@@ -50,7 +50,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/a/dbus
 
-REQUIRES           = libs/expat/2.1.1
+REQUIRES           = libs/expat/2.2.9
 
 # ======= __END_OF_REQUIRES__ =======
 

@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/dbus
 
 REQUIRES           = app/dbus/1.11.2
-REQUIRES          += libs/expat/2.1.1-x86_32
+REQUIRES          += libs/expat/2.2.9-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

@@ -50,7 +50,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/Wayland/wayland
 
-REQUIRES           = libs/expat/2.1.1
+REQUIRES           = libs/expat/2.2.9
 REQUIRES          += libs/libffi/3.2.1
 REQUIRES          += libs/libxml2/2.9.3
 

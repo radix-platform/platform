@@ -406,10 +406,12 @@ endif
 #             │      ...
 #             │       ├───────────────────────────────────┬── libs/zlib/1.2.8
 #             │       │                                   ├── app/xz/5.2.3
-#             │       ├── dev/python2/2.7.11              ├── libs/libffi/3.2.1
-#             │       │   └── dev/python2/2.7.11-x86_32   ├── libs/readline/6.3
-#             │      ...                                  ├── libs/expat/2.1.1
-#             │                                           └── net/openssl/1.1.1d
+#             │       ├── dev/python2/2.7.16              ├── libs/libffi/3.2.1
+#             │       │   ├── dev/python2/2.7.16-ppc32    ├── libs/readline/6.3
+#             │       │   ├── dev/python2/2.7.16-sparc32  ├── libs/expat/2.2.9
+#             │       │   └── dev/python2/2.7.16-x86_32   └── net/openssl/1.1.1d
+#             │      ...
+#             │
 #             │      ...
 #             │       ├────────────────────────────────────── libs/gdbm/1.11
 #             │       ├── dev/perl/5.22.1
@@ -447,7 +449,7 @@ endif
 #             │
 #             │      ...
 #             │       │
-#             │       ├── secure/cracklib/2.9.5 ────────────────────────── dev/python2/2.7.11
+#             │       ├── secure/cracklib/2.9.5 ────────────────────────── dev/python2/2.7.16
 #             │       │   ├── secure/cracklib/2.9.5-x86_32
 #             │      ...  │
 #             │           └── secure/pam/1.1.8 ─────────────────────────── dev/flex/2.6.0

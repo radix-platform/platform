@@ -13,7 +13,7 @@ include ../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/x/mesa/11.x
 
 REQUIRES           = X11/libs/mesa/11.2.2
-REQUIRES          += libs/expat/2.1.1-x86_32
+REQUIRES          += libs/expat/2.2.9-x86_32
 REQUIRES          += libs/libxml2/2.9.3-x86_32
 REQUIRES          += libs/eudev/3.1.5-x86_32
 REQUIRES          += libs/libomxil-bellagio/0.9.3-x86_32

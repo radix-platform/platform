@@ -20,7 +20,7 @@ patches    += $(CURDIR)/patches/Python-2.7.11-x86_32.patch
 patches    += $(CURDIR)/patches/Python-2.7.11-readline.patch
 patches    += $(CURDIR)/patches/Python-2.7.16-cross.patch
 patches    += $(CURDIR)/patches/Python-2.7.16-cross32.patch
-patches    += $(CURDIR)/patches/Python-2.7.16-x86_32.patch
+patches    += $(CURDIR)/patches/Python-2.7.16-compat32.patch
 patches    += $(CURDIR)/patches/Python-2.7.16-readline.patch
 
 .NOTPARALLEL: $(patches)
@@ -61,7 +61,7 @@ $(patches): $(sha1s)
 	 ( cd create-2.7.11-cross32-patch ;  ./create.patch.sh ) ; \
 	 ( cd create-2.7.11-cross-patch ;    ./create.patch.sh ) ; \
 	 ( cd create-2.7.16-readline-patch ; ./create.patch.sh ) ; \
-	 ( cd create-2.7.16-x86_32-patch ;   ./create.patch.sh ) ; \
+	 ( cd create-2.7.16-compat32-patch ; ./create.patch.sh ) ; \
 	 ( cd create-2.7.16-cross32-patch ;  ./create.patch.sh ) ; \
 	 ( cd create-2.7.16-cross-patch ;    ./create.patch.sh ) ; \
 	 echo -e "\n"

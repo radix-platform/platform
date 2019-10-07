@@ -240,7 +240,7 @@ LIBFFI_INCLUDEDIR=	@LIBFFI_INCLUDEDIR@
 ##########################################################################
 # Parser
 PGEN=		Parser/pgen$(EXE)
-PGEN_FOR_BUILD=	Parser/pgen_for_build
+PGEN_FOR_BUILD=	$(PGEN2)
 
 PSRCS=		\
 		Parser/acceler.c \

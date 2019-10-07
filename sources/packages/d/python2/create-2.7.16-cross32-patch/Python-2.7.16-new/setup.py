@@ -462,8 +462,6 @@ class PyBuildExt(build_ext):
             add_dir_to_list(self.compiler.library_dirs, '/usr/local/lib32')
             add_dir_to_list(self.compiler.include_dirs, '/usr/local/include')
         if cross_compiling:
-            add_dir_to_list(self.compiler.library_dirs, '/usr/local/lib32')
-            add_dir_to_list(self.compiler.include_dirs, '/usr/local/include')
             self.add_gcc_paths()
             self.add_multiarch_paths()
 

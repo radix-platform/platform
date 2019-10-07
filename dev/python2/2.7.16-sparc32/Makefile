@@ -37,7 +37,6 @@ install_target     = $(TARGET_BUILD_DIR)/.install_done
 
 hw_cache_in        = $(CURDIR)/cross/hw.cache
 hw_cache           = $(CURDIR)/$(SRC_DIR)/hw.cache
-cross_patch        = $(SRC_PACKAGE_PATH_ABS)/packages/d/python2/patches/Python-$(version)-cross32.patch
 
 ####### Targets
 
@@ -102,7 +101,9 @@ python_environment  = RFS=$(TARGET_DEST_DIR)
 python_environment += HOSTARCH=$(TARGET32)
 python_environment += BUILDARCH=$(BUILD)
 python_environment += PYTHONHOME=$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_SPARC32_SUFFIX)/python2.7
-python_environment += LDFLAGS=-Wl,-rpath,/lib32:/usr/lib32
+python_environment += LDFLAGS=-Wl,-rpath,/lib$(MULTILIB_SPARC32_SUFFIX):/usr/lib$(MULTILIB_SPARC32_SUFFIX)
+python_environment += PYTHON2=$(PYTHON2)
+python_environment += PGEN2=$(PGEN2)
 
 
 ####### Dependencies
@@ -113,14 +114,6 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	@touch $@
 
 $(build_target): $(src_done)
-	@( cd $(SRC_DIR) ; \
-	   ./configure ; \
-	   make python Parser/pgen ; \
-	   mv python python_for_build ; \
-	   mv Parser/pgen Parser/pgen_for_build ; \
-	   make distclean ; \
-	 )
-	@( cd $(TARGET_BUILD_DIR) ; patch -p0 < $(cross_patch) )
 	@( cd $(SRC_DIR) ; \
 	   sed -i 's,^SSL=/usr,SSL=$(TARGET_DEST_DIR)/usr,'   Modules/Setup.dist ; \
 	   sed -i 's,^ZLIB=/usr,ZLIB=$(TARGET_DEST_DIR)/usr,' Modules/Setup.dist ; \

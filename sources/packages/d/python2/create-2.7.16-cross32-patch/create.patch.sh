@@ -3,7 +3,7 @@
 VERSION=2.7.16
 
 tar -xJf ../Python-$VERSION.tar.xz
-patch -p0 < ../patches/Python-$VERSION-x86_32.patch > /dev/null 2>&1
+patch -p0 < ../patches/Python-$VERSION-compat32.patch > /dev/null 2>&1
 tar -cJf Python-$VERSION.tar.xz Python-$VERSION
 rm -rf Python-$VERSION
 

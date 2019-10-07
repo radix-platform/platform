@@ -1,2 +1,3 @@
 
 ../../../sources/packages/d/python2/patches/Python-2.7.16-readline.patch -p0
+../../../sources/packages/d/python2/patches/Python-2.7.16-cross.patch    -p0

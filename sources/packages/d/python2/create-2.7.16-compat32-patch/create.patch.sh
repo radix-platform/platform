@@ -7,9 +7,9 @@ mv Python-$VERSION Python-$VERSION-orig
 
 cp -rf ./Python-$VERSION-new ./Python-$VERSION
 
-diff -b --unified -Nr  Python-$VERSION-orig  Python-$VERSION > Python-$VERSION-x86_32.patch
+diff -b --unified -Nr  Python-$VERSION-orig  Python-$VERSION > Python-$VERSION-compat32.patch
 
-mv Python-$VERSION-x86_32.patch ../patches
+mv Python-$VERSION-compat32.patch ../patches
 
 rm -rf ./Python-$VERSION
 rm -rf ./Python-$VERSION-orig

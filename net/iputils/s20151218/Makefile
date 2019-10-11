@@ -51,13 +51,13 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/n/iputils
 
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
-REQUIRES           = libs/readline/6.3
-REQUIRES           = secure/libcap/2.25
+REQUIRES           = libs/readline/8.0
+REQUIRES           = secure/libcap/2.27
 REQUIRES          += net/gnutls/3.4.8
 REQUIRES          += net/openssl/1.1.1d
 else
-REQUIRES           = libs/readline/6.3-x86_32
-REQUIRES           = secure/libcap/2.25-x86_32
+REQUIRES           = libs/readline/8.0-x86_32
+REQUIRES           = secure/libcap/2.27-x86_32
 REQUIRES          += net/gnutls/3.4.8-x86_32
 REQUIRES          += net/openssl/1.1.1d-x86_32
 endif

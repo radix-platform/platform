@@ -50,7 +50,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/cracklib
 
-REQUIRES           = dev/python2/2.7.11
+REQUIRES           = dev/python2/2.7.16
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -127,8 +127,12 @@ extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --datadir=/var/cache
 extra_configure_switches += --with-default-dict=/var/cache/cracklib/pq_dict
-extra_configure_switches += --enable-shared=yes
+ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
+extra_configure_switches += --enable-shared=yes
 
 
 ####### Dependencies
@@ -239,8 +243,12 @@ $(install_target): $(build_target)
 	@( cd $(CRACKLIB_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(CRACKLIB_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 	@touch $@
 
 $(CRACKLIB_PKG_DESCRIPTION_FILE): $(CRACKLIB_PKG_DESCRIPTION_FILE_IN)

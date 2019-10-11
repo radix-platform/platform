@@ -50,7 +50,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/less
 
-REQUIRES           = libs/ncurses/6.0
+REQUIRES           = libs/ncurses/6.1
 
 # ======= __END_OF_REQUIRES__ =======
 

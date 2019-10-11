@@ -53,7 +53,7 @@ SOURCE_REQUIRES    = sources/GNU/aspell
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/6.5.0
 endif
-REQUIRES          += libs/ncurses/6.0
+REQUIRES          += libs/ncurses/6.1
 
 # ======= __END_OF_REQUIRES__ =======
 

@@ -50,7 +50,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/a/cups
 
-REQUIRES           = app/acl/2.2.52
+REQUIRES           = app/acl/2.2.53
 REQUIRES          += secure/pam_unix2/2.9.1
 REQUIRES          += app/dbus/1.11.2
 REQUIRES          += libs/libtiff/4.0.6

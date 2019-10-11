@@ -50,7 +50,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/bash
 
-REQUIRES           = libs/readline/6.3
+REQUIRES           = libs/readline/8.0
 REQUIRES          += app/gettext/0.19.7
 
 # ======= __END_OF_REQUIRES__ =======

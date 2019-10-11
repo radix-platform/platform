@@ -54,7 +54,7 @@ SOURCE_REQUIRES   += sources/packages/d/python2-doc
 REQUIRES           = libs/zlib/1.2.8
 REQUIRES          += app/xz/5.2.3
 REQUIRES          += libs/libffi/3.2.1
-REQUIRES          += libs/readline/6.3
+REQUIRES          += libs/readline/8.0
 REQUIRES          += libs/expat/2.2.9
 REQUIRES          += net/openssl/1.1.1d
 
@@ -165,7 +165,10 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(PYTHON_PKG)
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(python_environment) $(MAKE) -j1 install $(env_sysroot)
-ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC) \
+                             $(TOOLCHAIN_R1000_GLIBC)  \
+                             $(TOOLCHAIN_POWER8_GLIBC) \
+                             $(TOOLCHAIN_POWER9_GLIBC)),)
 	@( cd $(PYTHON_PKG)/usr/include/python2.7 ; \
 	   mv pyconfig.h pyconfig-64.h ; \
 	   echo ''                                       > pyconfig.h ; \

@@ -91,7 +91,11 @@ extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --enable-pam
 
+ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
 extra_configure_switches += --enable-shared=yes
 
 
@@ -155,8 +159,11 @@ $(install_target): $(build_target)
 	@( cd $(CGROUP_32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target shared objects =======
 	@( cd $(CGROUP_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/security ; \

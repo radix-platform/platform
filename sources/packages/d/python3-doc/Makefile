@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/d/python3-doc
 
-versions    = 3.5.1
+versions    = 3.5.1 3.7.4
 pkgname     = python
 suffix      = tar.bz2
 formats     = text html pdf-a4

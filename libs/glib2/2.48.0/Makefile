@@ -53,7 +53,7 @@ SOURCE_REQUIRES    = sources/GNOME/core/glib2
 REQUIRES           = libs/libffi/3.2.1
 REQUIRES          += libs/libelf/0.8.13
 REQUIRES          += libs/pcre/8.38
-REQUIRES          += app/attr/2.4.47
+REQUIRES          += app/attr/2.4.48
 REQUIRES          += libs/libgamin/0.1.10
 
 # ======= __END_OF_REQUIRES__ =======

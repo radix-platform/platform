@@ -1,0 +1,17 @@
+#!/bin/sh
+
+program=$0
+prgpath=$(cd $(dirname $program) ; pwd -P)
+
+( cd $prgpath
+  rm -f 2to3          ; if [ -x 2to3-3.5         -o -L 2to3-3.5         ] ; then ln -sf 2to3-3.5         2to3          ; fi
+  rm -f easy_install  ; if [ -x easy_install-3.5 -o -L easy_install-3.5 ] ; then ln -sf easy_install-3.5 easy_install  ; fi
+  rm -f idle          ; if [ -x idle3            -o -L idle3            ] ; then ln -sf idle3            idle          ; fi
+  rm -f pip           ; if [ -x pip3             -o -L pip3             ] ; then ln -sf pip3             pip           ; fi
+  rm -f pydoc         ; if [ -x pydoc3           -o -L pydoc3           ] ; then ln -sf pydoc3           pydoc         ; fi
+  rm -f pynche        ; if [ -x pynche3          -o -L pynche3          ] ; then ln -sf pynche3          pynche        ; fi
+  rm -f msgfmt.py     ; if [ -x msgfmt-3.5.py    -o -L msgfmt-3.5.py    ] ; then ln -sf msgfmt-3.5.py    msgfmt.py     ; fi
+  rm -f pygettext.py  ; if [ -x pygettext-3.5.py -o -L pygettext-3.5.py ] ; then ln -sf pygettext-3.5.py pygettext.py  ; fi
+  rm -f python        ; if [ -x python3          -o -L python3          ] ; then ln -sf python3          python        ; fi
+  rm -f python-config ; if [ -x python3-config   -o -L python3-config   ] ; then ln -sf python3-config   python-config ; fi
+)

@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+          |-----handy-ruler------------------------------------------------------|
+libcap-x32: libcap-x32 @VERSION@ (get/set POSIX capabilities)
+libcap-x32:
+libcap-x32: This is a library for getting and setting POSIX.1e (formerly POSIX 6)
+libcap-x32: draft 15 capabilities.
+libcap-x32:
+libcap-x32: Libcap was written by Andrew G. Morgan; however, it would not
+libcap-x32: have been possible without the help of Aleph1, Roland Buresund,
+libcap-x32: Andrew Main, and Alexander Kjeldaas.
+libcap-x32:
+libcap-x32:
+libcap-x32:

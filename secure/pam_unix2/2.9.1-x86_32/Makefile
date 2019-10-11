@@ -86,8 +86,6 @@ extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var/lib
 extra_configure_switches += --without-libiconv-prefix
 extra_configure_switches += --disable-selinux
-extra_configure_switches += --enable-static=yes
-extra_configure_switches += --enable-shared=yes
 
 
 ####### Dependencies

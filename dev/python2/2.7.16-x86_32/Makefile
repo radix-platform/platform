@@ -16,7 +16,7 @@ REQUIRES           = dev/python2/2.7.16
 REQUIRES          += libs/zlib/1.2.8-x86_32
 REQUIRES          += app/xz/5.2.3-x86_32
 REQUIRES          += libs/libffi/3.2.1-x86_32
-REQUIRES          += libs/readline/6.3-x86_32
+REQUIRES          += libs/readline/8.0-x86_32
 REQUIRES          += libs/expat/2.2.9-x86_32
 REQUIRES          += net/openssl/1.1.1d-x86_32
 

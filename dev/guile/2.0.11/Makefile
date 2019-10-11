@@ -52,7 +52,7 @@ SOURCE_REQUIRES    = sources/GNU/guile
 
 REQUIRES           = libs/libffi/3.2.1
 REQUIRES          += libs/gmp/6.1.2
-REQUIRES          += libs/readline/6.3
+REQUIRES          += libs/readline/8.0
 REQUIRES          += dev/libtool/2.4.6
 REQUIRES          += libs/libunistring/0.9.10
 REQUIRES          += libs/gc/8.0.4

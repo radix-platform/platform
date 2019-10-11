@@ -7,7 +7,7 @@ include ../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/GNU/readline
 
-versions    = 6.2 6.3
+versions    = 6.3 8.0
 pkgname     = readline
 suffix      = tar.gz
 
@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/readline-6.3-cross.patch
+patches    += $(CURDIR)/patches/readline-8.0-cross.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,6 +51,7 @@ $(sha1s): $(tarballs)
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-6.3-cross-patch ; ./create.patch.sh ) ; \
+	 ( cd create-8.0-cross-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

@@ -185,11 +185,11 @@ endif
 #             │       ├── app/gpm/1.20.7-sparc32                                 │
 #             │       ├── app/gpm/1.20.7-x86_32                                  │
 #             │       │                                                          │
-#             │       └── libs/ncurses/6.0            ───┐                       │
-#             │           ├── libs/ncurses/6.0-ppc32     ├── libs/readline/6.3 ──┘
-#             │           ├── libs/ncurses/6.0-sparc32   │   ├── libs/readline/6.3-ppc32
-#             │           ├── libs/ncurses/6.0-x86_32    │   ├── libs/readline/6.3-sparc32
-#             │           │                              │   └── libs/readline/6.3-x86_32
+#             │       └── libs/ncurses/6.1            ───┐                       │
+#             │           ├── libs/ncurses/6.1-ppc32     ├── libs/readline/8.0 ──┘
+#             │           ├── libs/ncurses/6.1-sparc32   │   ├── libs/readline/8.0-ppc32
+#             │           ├── libs/ncurses/6.1-x86_32    │   ├── libs/readline/8.0-sparc32
+#             │           │                              │   └── libs/readline/8.0-x86_32
 #             │           └── libs/libtermcap/1.2.3   ───┘
 #             │               ├── libs/libtermcap/1.2.3-ppc32
 #             │               ├── libs/libtermcap/1.2.3-sparc32
@@ -353,10 +353,10 @@ endif
 #             │   └── dev/bison/3.4.2-x86_32
 #             │
 #             │      ...
-#             │       ├───────────────────────────────────── libs/readline/6.3
-#             │       │                                      ├── libs/readline/6.3-ppc32
-#             │       │                                      ├── libs/readline/6.3-sparc32
-#             │       │                                      └── libs/readline/6.3-x86_32
+#             │       ├───────────────────────────────────── libs/readline/8.0
+#             │       │                                      ├── libs/readline/8.0-ppc32
+#             │       │                                      ├── libs/readline/8.0-sparc32
+#             │       │                                      └── libs/readline/8.0-x86_32
 #             │       │
 #             │       ├── dev/lua/5.3.5 ■
 #             │      ...  ├── dev/lua/5.3.5-ppc32
@@ -407,7 +407,7 @@ endif
 #             │       ├───────────────────────────────────┬── libs/zlib/1.2.8
 #             │       │                                   ├── app/xz/5.2.3
 #             │       ├── dev/python2/2.7.16              ├── libs/libffi/3.2.1
-#             │       │   ├── dev/python2/2.7.16-ppc32    ├── libs/readline/6.3
+#             │       │   ├── dev/python2/2.7.16-ppc32    ├── libs/readline/8.0
 #             │       │   ├── dev/python2/2.7.16-sparc32  ├── libs/expat/2.2.9
 #             │       │   └── dev/python2/2.7.16-x86_32   └── net/openssl/1.1.1d
 #             │      ...
@@ -426,10 +426,12 @@ endif
 #             │      ...
 #             │
 #             │      ...
-#             │       ├────────────────────────────────────── libs/ncurses/6.0
+#             │       ├────────────────────────────────────── libs/ncurses/6.1
 #             │       │
 #             │       ├── libs/aspell/0.60.6.1
-#             │      ...  ├── libs/aspell/0.60.6.1-x86_32
+#             │      ...  ├── libs/aspell/0.60.6.1-ppc32
+#             │           ├── libs/aspell/0.60.6.1-sparc32
+#             │           ├── libs/aspell/0.60.6.1-x86_32
 #             │           │
 #             │           ├── libs/dict/aspell6-ca/2.1.5-1  ■
 #             │           ├── libs/dict/aspell6-de/2.1      ■
@@ -442,34 +444,44 @@ endif
 #             │
 #             │
 #             ├── dev/check/0.10.0
+#             │   ├── dev/check/0.10.0-ppc32
+#             │   ├── dev/check/0.10.0-sparc32
 #             │   └── dev/check/0.10.0-x86_32
 #             │
 #             ├── app/ctags/5.8
+#             │   ├── app/ctags/5.8-ppc32
+#             │   ├── app/ctags/5.8-sparc32
 #             │   └── app/ctags/5.8-x86_32
 #             │
 #             │      ...
 #             │       │
 #             │       ├── secure/cracklib/2.9.5 ────────────────────────── dev/python2/2.7.16
-#             │       │   ├── secure/cracklib/2.9.5-x86_32
-#             │      ...  │
-#             │           └── secure/pam/1.1.8 ─────────────────────────── dev/flex/2.6.0
+#             │       │   ├── secure/cracklib/2.9.5-ppc32
+#             │      ...  ├── secure/cracklib/2.9.5-sparc32
+#             │           ├── secure/cracklib/2.9.5-x86_32
+#             │           │
+#             │           └── secure/pam/1.1.8 ────────────────────────┬── dev/flex/2.6.0
+#             │               ├── secure/pam/1.1.8-ppc32               └── net/libtirpc/1.1.4
+#             │               ├── secure/pam/1.1.8-sparc32
 #             │               ├── secure/pam/1.1.8-x86_32
 #             │               │
 #             │               └── secure/pam_unix2/2.9.1
+#             │                   ├── secure/pam_unix2/2.9.1-ppc32
+#             │                   ├── secure/pam_unix2/2.9.1-sparc32
 #             │                   ├── secure/pam_unix2/2.9.1-x86_32
 #             │                   │
 #             │                   ├── app/kbd/2.0.3 ■ ──────────────────── dev/check/0.10.0
 #             │                   │   └── app/kbd/2.0.3-x86_32
 #             │                  ...
 #             │      ...
-#             │       ├────────────────────────────────────────────────┬── libs/ncurses/6.0
+#             │       ├────────────────────────────────────────────────┬── libs/ncurses/6.1
 #             │       │                                                ├── dev/libtool/2.4.6
 #             │       ├── app/dialog/1.2-20140112 ■                    └── app/ctags/5.8
 #             │       │   └── app/dialog/1.2-20140112-x86_32
 #             │      ...
 #             │
 #             │      ...
-#             │       ├───────────────────────────────────┬── libs/readline/6.3
+#             │       ├───────────────────────────────────┬── libs/readline/8.0
 #             │       │                                   └── app/gettext/0.19.7
 #             │       ├── app/bash/4.3 ■
 #             │       │
@@ -548,6 +560,13 @@ REQUIRES += libs/dict/aspell6-fi/0.7-0
 REQUIRES += libs/dict/aspell6-fr/0.50-3
 REQUIRES += libs/dict/aspell6-it/2.2
 REQUIRES += libs/dict/aspell6-ru/0.99f7-1
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
+REQUIRES += libs/aspell/0.60.6.1-ppc32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
+REQUIRES += libs/aspell/0.60.6.1-sparc32
+endif
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/aspell/0.60.6.1-x86_32
 endif
@@ -668,10 +687,18 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += net/openssl10/1.0.2t-x86_32
 endif
 
-REQUIRES += net/libtirpc/1.0.1
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += net/libtirpc/1.0.1-x86_32
+REQUIRES += net/libtirpc/1.1.4
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
+REQUIRES += net/libtirpc/1.1.4-ppc32
 endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
+REQUIRES += net/libtirpc/1.1.4-sparc32
+endif
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/libtirpc/1.1.4-x86_32
+endif
+
 REQUIRES += net/icmpinfo/1.11
 REQUIRES += net/net-tools/1.60
 REQUIRES += net/netdate/4
@@ -794,10 +821,19 @@ REQUIRES += libs/libpipeline/1.4.1
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/libpipeline/1.4.1-x86_32
 endif
-REQUIRES += app/sqlite/3.12.2.0
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += app/sqlite/3.12.2.0-x86_32
+
+REQUIRES += app/sqlite/3.26.0.0
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
+REQUIRES += app/sqlite/3.26.0.0-ppc32
 endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
+REQUIRES += app/sqlite/3.26.0.0-sparc32
+endif
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/sqlite/3.26.0.0-x86_32
+endif
+
 REQUIRES += libs/taglib/1.10
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/taglib/1.10-x86_32
@@ -816,8 +852,8 @@ endif
 #             │       ├── net/nspr/4.12
 #             │       │   ├── net/nspr/4.12-x86_32
 #             │       │   │
-#             │       │   ├── net/nss/3.23 ■  ────────────────────── app/sqlite/3.12.2.0
-#             │       │   │   └── net/nss/3.23-x86_32  ──────────────┴── app/sqlite/3.12.2.0-x86_32
+#             │       │   ├── net/nss/3.23 ■  ────────────────────── app/sqlite/3.26.0.0
+#             │       │   │   └── net/nss/3.23-x86_32  ──────────────┴── app/sqlite/3.26.0.0-x86_32
 #             │       │  ...
 #            ...     ...
 

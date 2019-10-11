@@ -50,7 +50,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/gawk
 
-REQUIRES           = libs/readline/6.3
+REQUIRES           = libs/readline/8.0
 REQUIRES          += libs/mpfr/4.0.1
 
 # ======= __END_OF_REQUIRES__ =======

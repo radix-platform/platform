@@ -50,7 +50,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/n/ntp
 
-REQUIRES           = secure/libcap/2.25
+REQUIRES           = secure/libcap/2.27
 REQUIRES          += net/openssl/1.1.1d
 REQUIRES          += net/net-snmp/5.7.3
 REQUIRES          += net/net-snmp/5.7.3

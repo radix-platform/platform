@@ -50,7 +50,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/a/dialog
 
-REQUIRES           = libs/ncurses/6.0
+REQUIRES           = libs/ncurses/6.1
 REQUIRES          += dev/libtool/2.4.6
 REQUIRES          += app/ctags/5.8
 

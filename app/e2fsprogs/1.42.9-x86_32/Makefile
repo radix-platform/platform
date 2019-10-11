@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES       = sources/packages/a/e2fsprogs
 
 REQUIRES              = app/e2fsprogs/1.42.9
-REQUIRES             += app/util-linux/2.27.1-x86_32
+REQUIRES             += app/util-linux/2.34-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

@@ -14,7 +14,7 @@ SOURCE_REQUIRES    = sources/packages/l/pcre
 
 REQUIRES           = libs/pcre/8.38
 REQUIRES          += app/bzip2/1.0.6-x86_32
-REQUIRES          += libs/readline/6.3-x86_32
+REQUIRES          += libs/readline/8.0-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

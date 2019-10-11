@@ -1,0 +1,4 @@
+
+../../../sources/packages/d/python3/patches/Python-3.7.4-readline.patch -p0
+../../../sources/packages/d/python3/patches/Python-3.7.4-compat32.patch -p0
+../../../sources/packages/d/python3/patches/Python-3.7.4-cross32.patch  -p0

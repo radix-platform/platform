@@ -1,0 +1,4 @@
+
+../../../sources/GNU/ncurses/6.1/patches/ncurses-6.1-20191005-cross.patch      -p0
+../../../sources/GNU/ncurses/6.1/patches/ncurses-6.1-20191005-mkhashsize.patch -p0
+../../../sources/GNU/ncurses/6.1/patches/ncurses-6.1-20191005-gcc-5.patch      -p0

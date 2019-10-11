@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+            |-----handy-ruler------------------------------------------------------|
+libtirpc-x32: libtirpc-x32 @VERSION@ (Transport-Independent RPC library)
+libtirpc-x32:
+libtirpc-x32: Libtirpc is a port of Sun's Transport-Independent RPC library to
+libtirpc-x32: Linux. It is being developed by Bull GNU/Linux NFSv4 project.
+libtirpc-x32:
+libtirpc-x32: You will need this library because the RPC stack has been removed
+libtirpc-x32: from GLIBC versions newer than 2.13. The library is required
+libtirpc-x32: by the 'rpcbind' package.
+libtirpc-x32:
+libtirpc-x32: Homepage: http://sourceforge.net/projects/libtirpc
+libtirpc-x32:

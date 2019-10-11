@@ -50,7 +50,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/texinfo
 
-REQUIRES           = libs/ncurses/6.0
+REQUIRES           = libs/ncurses/6.1
 REQUIRES          += app/gzip/1.10
 REQUIRES          += app/findutils/4.6.0
 REQUIRES          += app/bash/4.3

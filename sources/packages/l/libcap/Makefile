@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/libcap
 
-versions    = 2.22 2.24 2.25
+versions    = 2.22 2.24 2.25 2.27
 pkgname     = libcap
 suffix      = tar.xz
 
@@ -18,6 +18,8 @@ patches     = $(CURDIR)/patches/libcap-2.22.patch
 patches    += $(CURDIR)/patches/libcap-2.24.patch
 patches    += $(CURDIR)/patches/libcap-2.25.patch
 patches    += $(CURDIR)/patches/libcap-2.25-gperf-output.patch
+patches    += $(CURDIR)/patches/libcap-2.27.patch
+patches    += $(CURDIR)/patches/libcap-2.27-gperf-output.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -56,6 +58,8 @@ $(patches): $(sha1s)
 	 ( cd create-2.24-patch              ; ./create.patch.sh ) ; \
 	 ( cd create-2.25-patch              ; ./create.patch.sh ) ; \
 	 ( cd create-2.25-gperf-output-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2.27-patch              ; ./create.patch.sh ) ; \
+	 ( cd create-2.27-gperf-output-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

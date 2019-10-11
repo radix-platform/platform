@@ -51,7 +51,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/xfsdump
 
 REQUIRES           = libs/ncurses/6.0
-REQUIRES          += app/util-linux/2.24.1
+REQUIRES          += app/util-linux/2.34
 REQUIRES          += app/attr/2.4.47
 REQUIRES          += app/xfsprogs/3.1.11
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)

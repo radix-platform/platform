@@ -16,7 +16,7 @@ REQUIRES           = dev/python2/2.7.16
 REQUIRES          += libs/zlib/1.2.8-sparc32
 REQUIRES          += app/xz/5.2.3-sparc32
 REQUIRES          += libs/libffi/3.2.1-sparc32
-REQUIRES          += libs/readline/6.3-sparc32
+REQUIRES          += libs/readline/8.0-sparc32
 REQUIRES          += libs/expat/2.2.9-sparc32
 REQUIRES          += net/openssl/1.1.1d-sparc32
 

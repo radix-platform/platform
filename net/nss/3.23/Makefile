@@ -53,7 +53,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/n/mozilla-nss
 
 REQUIRES           = net/nspr/4.12
-REQUIRES          += app/sqlite/3.12.2.0
+REQUIRES          += app/sqlite/3.26.0.0
 
 # ======= __END_OF_REQUIRES__ =======
 

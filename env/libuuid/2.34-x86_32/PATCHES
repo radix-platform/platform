@@ -1,0 +1,2 @@
+
+../../../sources/packages/a/util-linux/patches/util-linux-2.34-libuuid-only.patch -p0

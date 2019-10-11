@@ -19,7 +19,7 @@ REQUIRES           = dev/python2/2.7.16
 REQUIRES          += libs/zlib/1.2.8-ppc32
 REQUIRES          += app/xz/5.2.3-ppc32
 REQUIRES          += libs/libffi/3.2.1-ppc32
-REQUIRES          += libs/readline/6.3-ppc32
+REQUIRES          += libs/readline/8.0-ppc32
 REQUIRES          += libs/expat/2.2.9-ppc32
 REQUIRES          += net/openssl/1.1.1d-ppc32
 

@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/d/python3
 
-versions    = 3.5.1
+versions    = 3.5.1 3.7.4
 pkgname     = Python
 suffix      = tar.xz
 
@@ -18,6 +18,10 @@ patches     = $(CURDIR)/patches/Python-3.5.1-cross.patch
 patches    += $(CURDIR)/patches/Python-3.5.1-cross32.patch
 patches    += $(CURDIR)/patches/Python-3.5.1-x86_32.patch
 patches    += $(CURDIR)/patches/Python-3.5.1-readline.patch
+patches    += $(CURDIR)/patches/Python-3.7.4-compat32.patch
+patches    += $(CURDIR)/patches/Python-3.7.4-cross.patch
+patches    += $(CURDIR)/patches/Python-3.7.4-cross32.patch
+patches    += $(CURDIR)/patches/Python-3.7.4-readline.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -56,6 +60,10 @@ $(patches): $(sha1s)
 	 ( cd create-3.5.1-x86_32-patch ;    ./create.patch.sh ) ; \
 	 ( cd create-3.5.1-cross32-patch ;   ./create.patch.sh ) ; \
 	 ( cd create-3.5.1-cross-patch ;     ./create.patch.sh ) ; \
+	 ( cd create-3.7.4-compat32-patch ;  ./create.patch.sh ) ; \
+	 ( cd create-3.7.4-cross-patch ;     ./create.patch.sh ) ; \
+	 ( cd create-3.7.4-cross32-patch ;   ./create.patch.sh ) ; \
+	 ( cd create-3.7.4-readline-patch ;  ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

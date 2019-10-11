@@ -50,7 +50,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/b/sqlite/2016
 
-REQUIRES           = libs/readline/6.3
+REQUIRES           = libs/readline/8.0
 
 # ======= __END_OF_REQUIRES__ =======
 

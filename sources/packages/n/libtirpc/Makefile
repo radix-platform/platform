@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/libtirpc
 
-versions    = 1.0.1
+versions    = 1.0.1 1.1.4
 pkgname     = libtirpc
 suffix      = tar.bz2
 

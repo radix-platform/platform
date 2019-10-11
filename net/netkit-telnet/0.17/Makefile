@@ -52,7 +52,7 @@ SOURCE_REQUIRES    = sources/packages/n/netkit-telnet
 SOURCE_REQUIRES   += sources/packages/n/telnet-OpenBSD
 
 
-REQUIRES           = libs/libtermcap/1.2.3
+REQUIRES           = libs/ncurses/6.1
 
 # ======= __END_OF_REQUIRES__ =======
 

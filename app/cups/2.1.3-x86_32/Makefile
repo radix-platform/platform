@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/cups
 
 REQUIRES           = app/cups/2.1.3
-REQUIRES          += app/acl/2.2.52-x86_32
+REQUIRES          += app/acl/2.2.53-x86_32
 REQUIRES          += secure/pam_unix2/2.9.1-x86_32
 REQUIRES          += app/dbus/1.11.2-x86_32
 REQUIRES          += libs/libtiff/4.0.6-x86_32

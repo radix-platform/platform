@@ -1,3 +1,4 @@
 
 ../../../sources/packages/s/pam_unix2/patches/pam_unix2-2.9.1-glibc216.patch -p0
+../../../sources/packages/s/pam_unix2/patches/pam_unix2-2.9.1-glibc228.patch -p0
 ../../../sources/packages/s/pam_unix2/patches/pam_unix2-2.9.1-automake.patch -p0

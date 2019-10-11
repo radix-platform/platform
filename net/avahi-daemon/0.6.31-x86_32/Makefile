@@ -18,7 +18,7 @@ REQUIRES          += app/dbus/1.11.2-x86_32
 REQUIRES          += libs/glib2/2.48.0-x86_32
 REQUIRES          += libs/dbus-python/1.2.4-x86_32
 REQUIRES          += libs/gdbm/1.11-x86_32
-REQUIRES          += secure/libcap/2.25-x86_32
+REQUIRES          += secure/libcap/2.27-x86_32
 REQUIRES          += libs/libdaemon/0.14-x86_32
 
 # ======= __END_OF_REQUIRES__ =======

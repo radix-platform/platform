@@ -52,11 +52,11 @@ SOURCE_REQUIRES    = sources/GNU/wget
 
 REQUIRES           = net/ca-certificates/52.0
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
-REQUIRES          += app/util-linux/2.27.1
+REQUIRES          += app/util-linux/2.34
 REQUIRES          += libs/libidn/1.28
 REQUIRES          += libs/pcre/8.38
 else
-REQUIRES          += app/util-linux/2.27.1-x86_32
+REQUIRES          += app/util-linux/2.34-x86_32
 REQUIRES          += libs/libidn/1.28-x86_32
 REQUIRES          += libs/pcre/8.38-x86_32
 endif

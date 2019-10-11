@@ -59,7 +59,7 @@ SOURCE_REQUIRES   += sources/packages/a/ziptool
 REQUIRES           = libs/zlib/1.2.8
 REQUIRES          += libs/libtermcap/1.2.3
 REQUIRES          += secure/pam/1.1.8
-REQUIRES          += dev/python2/2.7.11
+REQUIRES          += dev/python2/2.7.16
 
 # ======= __END_OF_REQUIRES__ =======
 

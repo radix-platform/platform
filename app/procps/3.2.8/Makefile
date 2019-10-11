@@ -52,7 +52,7 @@ SOURCE_REQUIRES   = sources/packages/a/procps
 SOURCE_REQUIRES  += sources/packages/a/procinfo
 SOURCE_REQUIRES  += sources/packages/a/psmisc
 
-REQUIRES          = libs/libtermcap/1.2.3
+REQUIRES          = libs/ncurses/6.1
 
 # ======= __END_OF_REQUIRES__ =======
 

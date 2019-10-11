@@ -51,8 +51,8 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/vim
 
 REQUIRES           = app/ctags/5.8
-REQUIRES          += libs/ncurses/6.0
-REQUIRES          += app/acl/2.2.52
+REQUIRES          += libs/ncurses/6.1
+REQUIRES          += app/acl/2.2.53
 REQUIRES          += app/gawk/4.1.1
 REQUIRES          += dev/python2/2.7.11
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)

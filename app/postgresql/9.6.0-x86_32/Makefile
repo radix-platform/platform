@@ -14,8 +14,8 @@ SOURCE_REQUIRES    = sources/packages/b/postgresql
 
 REQUIRES           = app/postgresql/9.6.0
 REQUIRES          += dev/perl/5.22.1-x86_32
-REQUIRES          += dev/python2/2.7.11-x86_32
-REQUIRES          += dev/python3/3.5.1-x86_32
+REQUIRES          += dev/python2/2.7.16-x86_32
+REQUIRES          += dev/python3/3.7.4-x86_32
 REQUIRES          += libs/libxml2/2.9.3-x86_32
 REQUIRES          += libs/libxslt/1.1.28-x86_32
 REQUIRES          += net/openssl/1.1.1d-x86_32

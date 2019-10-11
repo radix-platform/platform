@@ -7,15 +7,16 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/util-linux
 
-versions    = 2.21.2 2.24.1 2.27.1
+versions    = 2.21.2 2.24.1 2.27.1 2.34
 pkgname     = util-linux
-suffix      = tar.gz
+suffix      = tar.xz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/util-linux-2.21.2.patch
 patches    += $(CURDIR)/patches/util-linux-2.27.1-cfdisk-i386.patch
+patches    += $(CURDIR)/patches/util-linux-2.34-libuuid-only.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -52,6 +53,7 @@ $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-2.21.2-patch             ; ./create.patch.sh ) ; \
 	 ( cd create-2.27.1-cfdisk-i386-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2.34-libuuid-only-patch  ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

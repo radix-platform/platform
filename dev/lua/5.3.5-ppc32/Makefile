@@ -16,7 +16,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/lua
 
 REQUIRES           = dev/lua/5.3.5
-REQUIRES          += libs/readline/6.3-ppc32
+REQUIRES          += libs/readline/8.0-ppc32
 
 # ======= __END_OF_REQUIRES__ =======
 

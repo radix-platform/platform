@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+          |-----handy-ruler------------------------------------------------------|
+sqlite-x32: SQLite-x32 @VERSION@ (simple, self contained database engine)
+sqlite-x32:
+sqlite-x32: SQLite is a small C library that implements a self-contained,
+sqlite-x32: embeddable, zero-configuration SQL database engine.
+sqlite-x32:
+sqlite-x32: The SQLite distribution comes with a standalone command-line access
+sqlite-x32: program (sqlite) that can be used to administer an SQLite database
+sqlite-x32: and which serves as an example of how to use the SQLite library.
+sqlite-x32:
+sqlite-x32: Homepage:  http://www.sqlite.org/
+sqlite-x32:

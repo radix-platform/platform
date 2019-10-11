@@ -50,7 +50,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/a/eudev
 
-REQUIRES           = app/util-linux/2.27.1
+REQUIRES           = app/util-linux/2.34
 REQUIRES          += app/kmod/22
 
 # ======= __END_OF_REQUIRES__ =======

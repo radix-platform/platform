@@ -1,8 +1,8 @@
 
-COMPONENT_TARGETS     = $(HARDWARE_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_PC64)
 
-NEED_ABS_PATH         = true
-COMPONENT_IS_3PP      = true
+NEED_ABS_PATH      = true
+COMPONENT_IS_3PP   = true
 
 CREATE_X86_32_PACKAGE = true
 
@@ -10,25 +10,26 @@ CREATE_X86_32_PACKAGE = true
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES       = sources/packages/a/ctags
+SOURCE_REQUIRES    = sources/packages/a/ctags
 
-REQUIRES              = app/ctags/5.8
+REQUIRES           = app/ctags/5.8
+REQUIRES          += libs/glibc/2.28-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version               = 5.8
-tar_gz_archive        = $(SRC_PACKAGE_PATH)/packages/a/ctags/ctags-$(version).tar.gz
-SRC_ARCHIVE           = $(tar_gz_archive)
-SRC_DIR               = $(TARGET_BUILD_DIR)/ctags-$(version)
-src_dir_name          = ctags-$(version)
-src_done              = $(TARGET_BUILD_DIR)/.source_done
+version            = 5.8
+tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/a/ctags/ctags-$(version).tar.gz
+SRC_ARCHIVE        = $(tar_gz_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/ctags-$(version)
+src_dir_name       = ctags-$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
 
-build_dir             = $(TARGET_BUILD_DIR)/build
-build_target          = $(TARGET_BUILD_DIR)/.build_done
-install_target        = $(TARGET_BUILD_DIR)/.install_done
+build_dir          = $(TARGET_BUILD_DIR)/build
+build_target       = $(TARGET_BUILD_DIR)/.build_done
+install_target     = $(TARGET_BUILD_DIR)/.install_done
 
 
 ####### Targets

@@ -50,7 +50,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/patch
 
-REQUIRES           = app/attr/2.4.47
+REQUIRES           = app/attr/2.4.48
 
 # ======= __END_OF_REQUIRES__ =======
 

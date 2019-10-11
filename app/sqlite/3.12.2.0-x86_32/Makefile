@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/b/sqlite/2016
 
 REQUIRES           = app/sqlite/3.12.2.0
-REQUIRES          += libs/readline/6.3-x86_32
+REQUIRES          += libs/readline/8.0-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

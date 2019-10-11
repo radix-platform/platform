@@ -56,7 +56,7 @@ else
 REQUIRES           = libs/zlib/1.2.8
 endif
 REQUIRES          += app/bzip2/1.0.6
-REQUIRES          += libs/readline/6.3
+REQUIRES          += libs/readline/8.0
 
 # ======= __END_OF_REQUIRES__ =======
 

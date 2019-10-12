@@ -50,16 +50,12 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/gettext
 
-ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/6.5.0
-else
-REQUIRES           = libs/glibc/2.28
-endif
+REQUIRES           = libs/ncurses/6.1
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 0.19.7
+version            = 0.20.1
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNU/gettext/gettext-$(version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/gettext-$(version)
@@ -68,8 +64,9 @@ src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
 
-build_dir          = $(TARGET_BUILD_DIR)/build
-build_target       = $(TARGET_BUILD_DIR)/.build_done
+build_rt_dir       = $(TARGET_BUILD_DIR)/build-runtime
+build_st_dir       = $(TARGET_BUILD_DIR)/build-textstyle
+build_target       = $(TARGET_BUILD_DIR)/.build_textstyle_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
 
 
@@ -81,7 +78,7 @@ PKG_GROUP = app
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 GETTEXT_PKG_NAME                = gettext
-GETTEXT_PKG_VERSION             = 0.19.7
+GETTEXT_PKG_VERSION             = 0.20.1
 GETTEXT_PKG_ARCH                = $(TOOLCHAIN)
 GETTEXT_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 GETTEXT_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -143,28 +140,43 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	@touch $@
 
 $(build_target): $(src_done)
-	@mkdir -p $(build_dir)
-	@cd $(build_dir) && \
+	# ======= Build Gettext Runtime =======
+	@mkdir -p $(build_rt_dir)
+	@cd $(build_rt_dir) && \
 	  $(BUILD_ENVIRONMENT) ../$(src_dir_name)/gettext-runtime/configure \
 	  --prefix=/usr               \
 	  --build=$(BUILD)            \
 	  --host=$(TARGET)            \
 	  $(extra_configure_switches)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
+	@cd $(build_rt_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
+	# ======= Build libtextstyle =======
+	@mkdir -p $(build_st_dir)
+	@cd $(build_st_dir) && \
+	  $(BUILD_ENVIRONMENT) ../$(src_dir_name)/libtextstyle/configure \
+	  --prefix=/usr               \
+	  --build=$(BUILD)            \
+	  --host=$(TARGET)            \
+	  $(extra_configure_switches)
+	@cd $(build_st_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
 	@touch $@
 
 $(install_target): $(build_target)
 	@mkdir -p $(GETTEXT_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
+	@cd $(build_rt_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
+	@cd $(build_st_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Install Documentation =======
 	@rm -f $(GETTEXT_PKG)/usr/share/info/dir
 	@gzip -9 $(GETTEXT_PKG)/usr/share/info/*
 	@( cd $(GETTEXT_PKG)/usr/share/man/man3 ; \
-	   rm -f dcgettext.3 dgettext.3 dcngettext.3 dngettext.3 ; \
-	   ln -sf gettext.3 dcgettext.3 ; \
-	   ln -sf gettext.3 dgettext.3 ; \
-	   ln -sf ngettext.3 dcngettext.3 ; \
-	   ln -sf ngettext.3 dngettext.3 \
+	   for file in *.3 ; do                                \
+	     ln=`head -n 1 $$file` ;                           \
+	     if [ "`echo $$ln | grep '^\.so '`" != "" ] ; then \
+	       origin=`echo $$ln | cut -f 2 -d ' '` ;          \
+	       origin=`basename $$origin` ;                    \
+	       rm -f $$file ;                                  \
+	       ln -sf $$origin $$file ;                        \
+	     fi ;                                              \
+	   done ;                                              \
 	 )
 	@if [ -d $(GETTEXT_PKG)/usr/share/man ]; then \
 	  ( cd $(GETTEXT_PKG)/usr/share/man ; \
@@ -186,10 +198,11 @@ $(install_target): $(build_target)
 	 )
 	@mkdir -p $(GETTEXT_PKG)/usr/share/doc/$(src_dir_name)/html
 	@( cd $(GETTEXT_PKG)/usr/share/doc/$(src_dir_name) ; \
-	   mv *.html csharpdoc javadoc2 html ; \
+	   mkdir -p libtextstyle ; mv libtextstyle*.html libtextstyle ; \
+	   mv *.html csharpdoc javadoc2 libtextstyle html ; \
 	 )
 	@( cd $(SRC_DIR) ; \
-	   cp -a AUTHORS COPYING DEPENDENCIES HACKING INSTALL NEWS PACKAGING README* THANKS \
+	   cp -a AUTHORS COPYING DEPENDENCIES HACKING NEWS PACKAGING README* THANKS \
 	         $(GETTEXT_PKG)/usr/share/doc/$(src_dir_name) \
 	 )
 	@( cd $(SRC_DIR) ; \
@@ -201,14 +214,14 @@ $(install_target): $(build_target)
 	 )
 	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(GETTEXT_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" libasprintf.la \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libasprintf.la libtextstyle.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(GETTEXT_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libasprintf.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libasprintf.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libasprintf.la libtextstyle.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libasprintf.la libtextstyle.la \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(GETTEXT_PKG) ; \

@@ -50,7 +50,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/libiconv
 
-REQUIRES           = app/gettext/0.19.7
+REQUIRES           = app/gettext/0.20.1
 
 # ======= __END_OF_REQUIRES__ =======
 

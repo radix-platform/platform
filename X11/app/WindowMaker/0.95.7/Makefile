@@ -50,7 +50,7 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/x/WindowMaker
 
-REQUIRES           = app/gettext/0.19.7
+REQUIRES           = app/gettext/0.20.1
 REQUIRES          += X11/X.org/lib/libXaw/1.0.13
 REQUIRES          += X11/X.org/lib/libXft/2.3.2
 REQUIRES          += X11/X.org/lib/libXinerama/1.1.3

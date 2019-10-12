@@ -50,7 +50,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/shared-mime-info
 
 REQUIRES           = libs/glib2/2.48.0
-REQUIRES          += app/gettext/0.19.7
+REQUIRES          += app/gettext/0.20.1
 REQUIRES          += libs/libxml2/2.9.3
 
 # ======= __END_OF_REQUIRES__ =======

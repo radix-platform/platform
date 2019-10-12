@@ -7,9 +7,9 @@ include ../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/GNU/gettext
 
-versions    = 0.18.3.2 0.19.7
+versions    = 0.19.7 0.20.1
 pkgname     = gettext
-suffix      = tar.gz
+suffix      = tar.xz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))

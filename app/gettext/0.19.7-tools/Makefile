@@ -58,8 +58,8 @@ REQUIRES          += libs/libunistring/0.9.10
 
 
 version            = 0.19.7
-tar_gz_archive     = $(SRC_PACKAGE_PATH)/GNU/gettext/gettext-$(version).tar.gz
-SRC_ARCHIVE        = $(tar_gz_archive)
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNU/gettext/gettext-$(version).tar.xz
+SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/gettext-$(version)
 src_dir_name       = gettext-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done

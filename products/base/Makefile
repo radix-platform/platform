@@ -196,7 +196,7 @@ endif
 #            ...
 #             │      ...
 #             │       │
-#             │       ├── app/gettext/0.19.7
+#             │       ├── app/gettext/0.20.1
 #             │      ...
 #            ...
 #
@@ -477,7 +477,7 @@ endif
 #             │
 #             │      ...
 #             │       ├───────────────────────────────────┬── libs/readline/8.0
-#             │       │                                   └── app/gettext/0.19.7
+#             │       │                                   └── app/gettext/0.20.1
 #             │       ├── app/bash/4.3 ■
 #             │       │
 #             │      ...
@@ -652,7 +652,7 @@ REQUIRES += app/hdparm/9.48
 REQUIRES += app/less/451
 REQUIRES += app/lha/114i
 REQUIRES += app/logrotate/3.9.1
-REQUIRES += app/gettext/0.19.7-tools
+REQUIRES += app/gettext/0.20.1-tools
 
 REQUIRES += secure/libcgroup/0.41
 ifeq ($(HARDWARE),$(HARDWARE_PC64))

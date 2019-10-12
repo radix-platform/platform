@@ -50,21 +50,21 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/gettext
 
-ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/6.5.0
-else
-REQUIRES           = libs/glibc/2.28
-endif
+REQUIRES           = app/gettext/0.20.1
+REQUIRES          += libs/libcroco/0.6.11
+REQUIRES          += libs/libunistring/0.9.10
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 0.19.7
+version            = 0.20.1
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNU/gettext/gettext-$(version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/gettext-$(version)
 src_dir_name       = gettext-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
+
+doc_dir_name       = gettext-tools-$(version)
 
 PATCHES = PATCHES
 
@@ -80,14 +80,14 @@ PKG_GROUP = app
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-GETTEXT_PKG_NAME                = gettext
-GETTEXT_PKG_VERSION             = 0.19.7
+GETTEXT_PKG_NAME                = gettext-tools
+GETTEXT_PKG_VERSION             = 0.20.1
 GETTEXT_PKG_ARCH                = $(TOOLCHAIN)
 GETTEXT_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 GETTEXT_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GETTEXT_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
-GETTEXT_PKG_SHORT_DESCRIPTION   = internationalization framework
+GETTEXT_PKG_SHORT_DESCRIPTION   = internationalization framework tools
 GETTEXT_PKG_URL                 = $(BUG_URL)
 GETTEXT_PKG_LICENSE             = GPLv3
 GETTEXT_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GETTEXT_PKG_NAME)-pkg-description
@@ -119,19 +119,20 @@ env_sysroot = DESTDIR=$(GETTEXT_PKG)
 
 
 extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
-extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
+extra_configure_switches += --docdir=/usr/share/doc/$(doc_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --disable-dependency-tracking
-extra_configure_switches += --disable-rpath
-ifeq ($(__ENABLE_STATIC__),yes)
-extra_configure_switches += --enable-static=yes
-else
-extra_configure_switches += --enable-static=no
-endif
 extra_configure_switches += --enable-shared=yes
 
+extra_configure_switches += --disable-rpath
 
+extra_configure_switches += --with-libncurses-prefix=$(TARGET_DEST_DIR)/usr
+
+
+LDFLAGS += -Wl,-rpath,/lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)
+
+TARGET_BIN_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)
 TARGET_LIB_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUFFIX)
 
 
@@ -145,7 +146,7 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 $(build_target): $(src_done)
 	@mkdir -p $(build_dir)
 	@cd $(build_dir) && \
-	  $(BUILD_ENVIRONMENT) ../$(src_dir_name)/gettext-runtime/configure \
+	  $(BUILD_ENVIRONMENT) ../$(src_dir_name)/gettext-tools/configure \
 	  --prefix=/usr               \
 	  --build=$(BUILD)            \
 	  --host=$(TARGET)            \
@@ -155,17 +156,12 @@ $(build_target): $(src_done)
 
 $(install_target): $(build_target)
 	@mkdir -p $(GETTEXT_PKG)
+	# ======= Remove relink_command before install =======
+	@( cd $(build_dir) ; sed -i '/relink_command/d' src/libgettextsrc.la )
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Install Documentation =======
 	@rm -f $(GETTEXT_PKG)/usr/share/info/dir
 	@gzip -9 $(GETTEXT_PKG)/usr/share/info/*
-	@( cd $(GETTEXT_PKG)/usr/share/man/man3 ; \
-	   rm -f dcgettext.3 dgettext.3 dcngettext.3 dngettext.3 ; \
-	   ln -sf gettext.3 dcgettext.3 ; \
-	   ln -sf gettext.3 dgettext.3 ; \
-	   ln -sf ngettext.3 dcngettext.3 ; \
-	   ln -sf ngettext.3 dngettext.3 \
-	 )
 	@if [ -d $(GETTEXT_PKG)/usr/share/man ]; then \
 	  ( cd $(GETTEXT_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \
@@ -179,48 +175,54 @@ $(install_target): $(build_target)
 	    done \
 	  ) \
 	 fi
-	@mkdir -p $(GETTEXT_PKG)/usr/doc/$(src_dir_name)
+	@mkdir -p $(GETTEXT_PKG)/usr/doc/$(doc_dir_name)
 	@( cd $(SRC_DIR) ; \
 	   cp -a AUTHORS COPYING \
-	         $(GETTEXT_PKG)/usr/doc/$(src_dir_name) \
+	         $(GETTEXT_PKG)/usr/doc/$(doc_dir_name) \
 	 )
-	@mkdir -p $(GETTEXT_PKG)/usr/share/doc/$(src_dir_name)/html
-	@( cd $(GETTEXT_PKG)/usr/share/doc/$(src_dir_name) ; \
-	   mv *.html csharpdoc javadoc2 html ; \
+	@mkdir -p $(GETTEXT_PKG)/usr/share/doc/$(doc_dir_name)/html
+	@( cd $(GETTEXT_PKG)/usr/share/doc/$(doc_dir_name) ; \
+	   mv *.html html ; \
 	 )
 	@( cd $(SRC_DIR) ; \
 	   cp -a AUTHORS COPYING DEPENDENCIES HACKING INSTALL NEWS PACKAGING README* THANKS \
-	         $(GETTEXT_PKG)/usr/share/doc/$(src_dir_name) \
+	         $(GETTEXT_PKG)/usr/share/doc/$(doc_dir_name) \
 	 )
-	@( cd $(SRC_DIR) ; \
+	@( cd $(SRC_DIR)/gettext-tools ; \
 	   if [ -r ChangeLog ]; then \
-	     DOCSDIR=`echo $(GETTEXT_PKG)/usr/share/doc/$(src_dir_name)` ; \
+	     DOCSDIR=`echo $(GETTEXT_PKG)/usr/share/doc/$(doc_dir_name)` ; \
 	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
 	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \
 	 )
+
 	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(GETTEXT_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" libasprintf.la \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libgettextlib.la libgettextpo.la libgettextsrc.la  \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(GETTEXT_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libasprintf.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libasprintf.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgettextlib.la libgettextpo.la libgettextsrc.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libgettextlib.la libgettextpo.la libgettextsrc.la \
 	 )
 	# ======= Strip binaries =======
-	@( cd $(GETTEXT_PKG) ; \
+	@( cd $(GETTEXT_PKG); \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
-ifeq ($(__ENABLE_STATIC__),yes)
-	@( cd $(GETTEXT_PKG) ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
-	 )
-endif
 ifneq ($(CHRPATH),)
+	# ======= Set RPATH/RUNPATH for target binaries =======
+	@( cd $(GETTEXT_PKG)/usr ; \
+	   for file in `find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
+	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
+	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
+	       $(CHRPATH) -r $(TARGET_BIN_RPATH) $$file 1> /dev/null 2> /dev/null ; \
+	     fi ; \
+	   done ; \
+	 )
 	# ======= Set RPATH/RUNPATH for target shared objects =======
 	@( cd $(GETTEXT_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \

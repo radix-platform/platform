@@ -7,7 +7,7 @@ include ../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/GNU/coreutils
 
-versions    = 8.21 8.22
+versions    = 8.21 8.22 8.31
 pkgname     = coreutils
 suffix      = tar.xz
 
@@ -17,6 +17,8 @@ sha1s       = $(addsuffix .sha1sum, $(tarballs))
 patches     = $(CURDIR)/patches/coreutils-8.21-uname.patch
 patches    += $(CURDIR)/patches/coreutils-8.22-noman.patch
 patches    += $(CURDIR)/patches/coreutils-8.22-uname.patch
+patches    += $(CURDIR)/patches/coreutils-8.31-uname.patch
+patches    += $(CURDIR)/patches/coreutils-8.31-no-ls-quoting.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -51,9 +53,11 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-8.21-uname-patch ; ./create.patch.sh ) ; \
-	 ( cd create-8.22-noman-patch ; ./create.patch.sh ) ; \
-	 ( cd create-8.22-uname-patch ; ./create.patch.sh ) ; \
+	 ( cd create-8.21-uname-patch         ; ./create.patch.sh ) ; \
+	 ( cd create-8.22-noman-patch         ; ./create.patch.sh ) ; \
+	 ( cd create-8.22-uname-patch         ; ./create.patch.sh ) ; \
+	 ( cd create-8.31-uname-patch         ; ./create.patch.sh ) ; \
+	 ( cd create-8.31-no-ls-quoting-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

@@ -1,0 +1,3 @@
+
+../../../sources/GNU/coreutils/patches/coreutils-8.31-uname.patch         -p0
+../../../sources/GNU/coreutils/patches/coreutils-8.31-no-ls-quoting.patch -p0

@@ -185,15 +185,10 @@ endif
 #             │       ├── app/gpm/1.20.7-sparc32                                 │
 #             │       ├── app/gpm/1.20.7-x86_32                                  │
 #             │       │                                                          │
-#             │       └── libs/ncurses/6.1            ───┐                       │
-#             │           ├── libs/ncurses/6.1-ppc32     ├── libs/readline/8.0 ──┘
-#             │           ├── libs/ncurses/6.1-sparc32   │   ├── libs/readline/8.0-ppc32
-#             │           ├── libs/ncurses/6.1-x86_32    │   ├── libs/readline/8.0-sparc32
-#             │           │                              │   └── libs/readline/8.0-x86_32
-#             │           └── libs/libtermcap/1.2.3   ───┘
-#             │               ├── libs/libtermcap/1.2.3-ppc32
-#             │               ├── libs/libtermcap/1.2.3-sparc32
-#             │               └── libs/libtermcap/1.2.3-x86_32
+#             │       └── libs/ncurses/6.1            ────── libs/readline/8.0 ──┘
+#             │           ├── libs/ncurses/6.1-ppc32         ├── libs/readline/8.0-ppc32
+#             │           ├── libs/ncurses/6.1-sparc32       ├── libs/readline/8.0-sparc32
+#             │           └── libs/ncurses/6.1-x86_32        └── libs/readline/8.0-x86_32
 #             │
 #            ...
 #
@@ -419,7 +414,7 @@ endif
 #             │      ...
 #             │
 #             │      ...
-#             │       ├───────────────────────────────────┬── libs/libtermcap/1.2.3
+#             │       ├───────────────────────────────────┬── libs/ncurses/6.1
 #             │       │                                   ├── dev/flex/2.6.0
 #             │       ├── app/bsd-games/2.17 ■            └── net/openssl/1.1.1d
 #             │       │
@@ -611,7 +606,7 @@ REQUIRES += share/dict/words-ru/0.99f7-1
 #######
 ####### Core Utilites and SysVInit:
 #######
-REQUIRES += app/coreutils/8.22
+REQUIRES += app/coreutils/8.31
 REQUIRES += app/sharutils/4.15.2
 REQUIRES += app/grep/2.18
 REQUIRES += app/texinfo/5.2
@@ -881,7 +876,7 @@ REQUIRES += app/tmux/2.0
 REQUIRES += app/chrpath/0.16
 REQUIRES += app/patch/2.7
 REQUIRES += app/which/2.20
-REQUIRES += app/bin/4.4
+REQUIRES += app/bin/4.9
 
 REQUIRES += app/enscript/1.6.6
 

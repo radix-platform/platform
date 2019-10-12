@@ -1,0 +1,4 @@
+
+../../../sources/packages/a/banners/patches/banners.patch    -p0
+../../../sources/packages/a/todos/patches/todos.patch        -p0
+../../../sources/packages/m/fb/fbset/patches/fbset-2.1.patch -p0

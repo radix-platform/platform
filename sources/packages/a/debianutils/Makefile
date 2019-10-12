@@ -7,9 +7,9 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/debianutils
 
-versions    = 4.4
+versions    = 4.9
 pkgname     = debianutils
-suffix      = tar.gz
+suffix      = tar.xz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)_, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))

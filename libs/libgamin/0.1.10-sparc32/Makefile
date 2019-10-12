@@ -1,10 +1,10 @@
 
-COMPONENT_TARGETS  = $(HARDWARE_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_MBC4_PC)
 
 NEED_ABS_PATH      = true
 COMPONENT_IS_3PP   = true
 
-CREATE_X86_32_PACKAGE = true
+CREATE_SPARC32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/gamin
 
 REQUIRES           = libs/libgamin/0.1.10
-REQUIRES          += dev/python2/2.7.16-x86_32
+REQUIRES          += dev/python2/2.7.16-sparc32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -79,7 +79,7 @@ include ../../../build-system/core.mk
 env_sysroot = DESTDIR=$(GAMIN32_PKG)
 
 
-extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
+extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_SPARC32_SUFFIX)
 extra_configure_switches += --disable-dependency-tracking
 
 extra_configure_switches += --disable-server
@@ -110,7 +110,7 @@ extra_configure_switches += --with-python=$(PYTHON3)
 
 python_environment  = PYTHON_VERSION=$(PYTHON_VERSION)
 python_environment += PYTHON_INCLUDES=$(TARGET_DEST_DIR)/usr/include/python$(PYTHON_VERSION)m
-python_environment += PYTHON_SITE_PACKAGES=/usr/lib$(MULTILIB_X86_32_SUFFIX)/python$(PYTHON_VERSION)/site-packages
+python_environment += PYTHON_SITE_PACKAGES=/usr/lib$(MULTILIB_SPARC32_SUFFIX)/python$(PYTHON_VERSION)/site-packages
 endif
 
 ifeq ($(PYTHON_MAJOR_VERSION),2)
@@ -119,7 +119,7 @@ extra_configure_switches += --with-python=$(PYTHON2)
 
 python_environment  = PYTHON_VERSION=$(PYTHON_VERSION)
 python_environment += PYTHON_INCLUDES=$(TARGET_DEST_DIR)/usr/include/python$(PYTHON_VERSION)
-python_environment += PYTHON_SITE_PACKAGES=/usr/lib$(MULTILIB_X86_32_SUFFIX)/python$(PYTHON_VERSION)/site-packages
+python_environment += PYTHON_SITE_PACKAGES=/usr/lib$(MULTILIB_SPARC32_SUFFIX)/python$(PYTHON_VERSION)/site-packages
 endif
 
 
@@ -150,28 +150,28 @@ $(install_target): $(build_target)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@rm -rf $(GAMIN32_PKG)/usr/include
 	# ======= remove toolchain path from target libtool *.la files =======
-	@( cd $(GAMIN32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(GAMIN32_PKG)/usr/lib$(MULTILIB_SPARC32_SUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libfam.la ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libgamin-1.la  \
 	 )
-	@( cd $(GAMIN32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/python$(PYTHON_VERSION)/site-packages ; \
+	@( cd $(GAMIN32_PKG)/usr/lib$(MULTILIB_SPARC32_SUFFIX)/python$(PYTHON_VERSION)/site-packages ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" _gamin.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(GAMIN32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_SPARC32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libfam.la ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgamin-1.la ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libfam.la ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libgamin-1.la \
 	 )
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/python$(PYTHON_VERSION)/site-packages ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_SPARC32_SUFFIX)/python$(PYTHON_VERSION)/site-packages ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" _gamin.la ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" _gamin.la \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_SPARC32_SUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" gamin.pc ; \
 	 )
 	# ======= Strip binaries =======

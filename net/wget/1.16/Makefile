@@ -54,11 +54,11 @@ REQUIRES           = net/ca-certificates/52.0
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES          += app/util-linux/2.34
 REQUIRES          += libs/libidn/1.28
-REQUIRES          += libs/pcre/8.38
+REQUIRES          += libs/pcre/8.43
 else
 REQUIRES          += app/util-linux/2.34-x86_32
 REQUIRES          += libs/libidn/1.28-x86_32
-REQUIRES          += libs/pcre/8.38-x86_32
+REQUIRES          += libs/pcre/8.43-x86_32
 endif
 
 # ======= __END_OF_REQUIRES__ =======

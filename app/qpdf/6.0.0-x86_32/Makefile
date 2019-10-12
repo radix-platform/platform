@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/qpdf
 
 REQUIRES           = app/qpdf/6.0.0
-REQUIRES          += libs/pcre/8.38-x86_32
+REQUIRES          += libs/pcre/8.43-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

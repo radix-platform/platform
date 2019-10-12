@@ -50,7 +50,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/slang
 
-REQUIRES           = libs/pcre/8.38
+REQUIRES           = libs/pcre/8.43
 REQUIRES          += libs/libpng/libpng14/1.4.19
 
 # ======= __END_OF_REQUIRES__ =======

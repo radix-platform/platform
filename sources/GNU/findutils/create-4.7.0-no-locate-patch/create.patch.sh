@@ -1,8 +1,8 @@
 #!/bin/sh
 
-VERSION=4.6.0
+VERSION=4.7.0
 
-tar --files-from=file.list -xzvf ../findutils-$VERSION.tar.gz
+tar --files-from=file.list -xJvf ../findutils-$VERSION.tar.xz
 mv findutils-$VERSION findutils-$VERSION-orig
 
 cp -rf ./findutils-$VERSION-new ./findutils-$VERSION

@@ -1,0 +1,5 @@
+findutils-4.7.0/Makefile.am
+findutils-4.7.0/Makefile.in
+findutils-4.7.0/configure.ac
+findutils-4.7.0/doc/Makefile.am
+findutils-4.7.0/doc/find.texi

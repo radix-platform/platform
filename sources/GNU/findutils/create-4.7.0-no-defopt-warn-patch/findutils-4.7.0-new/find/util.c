@@ -1,6 +1,5 @@
 /* util.c -- functions for initializing new tree elements, and other things.
-   Copyright (C) 1990, 1991, 1992, 1993, 1994, 2000, 2003, 2004, 2005,
-   2008, 2009, 2010, 2011 Free Software Foundation, Inc.
+   Copyright (C) 1990-2019 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -13,7 +12,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 /* config.h must always come first. */
@@ -33,7 +32,6 @@
 /* gnulib headers. */
 #include "error.h"
 #include "fdleak.h"
-#include "gettext.h"
 #include "progname.h"
 #include "quotearg.h"
 #include "save-cwd.h"
@@ -42,38 +40,30 @@
 
 /* find headers. */
 #include "defs.h"
+#include "die.h"
 #include "dircallback.h"
-
-
-#if ENABLE_NLS
-# include <libintl.h>
-# define _(Text) gettext (Text)
-#else
-# define _(Text) Text
-#endif
-#ifdef gettext_noop
-# define N_(String) gettext_noop (String)
-#else
-/* See locate.c for explanation as to why not use (String) */
-# define N_(String) String
-#endif
+#include "bugreports.h"
+#include "system.h"
 
 
 struct debug_option_assoc
 {
-  char *name;
+  const char *name;
   int    val;
-  char *docstring;
+  const char *docstring;
 };
 static struct debug_option_assoc debugassoc[] =
   {
-    { "help", DebugHelp, "Explain the various -D options" },
-    { "tree", DebugExpressionTree, "Display the expression tree" },
+    { "exec", DebugExec, "Show diagnostic information relating to -exec, -execdir, -ok and -okdir" },
+    { "opt",  DebugExpressionTree|DebugTreeOpt, "Show diagnostic information relating to optimisation" },
+    { "rates", DebugSuccessRates, "Indicate how often each predicate succeeded" },
     { "search",DebugSearch, "Navigate the directory tree verbosely" },
     { "stat", DebugStat, "Trace calls to stat(2) and lstat(2)" },
-    { "rates", DebugSuccessRates, "Indicate how often each predicate succeeded" },
-    { "opt",  DebugExpressionTree|DebugTreeOpt, "Show diagnostic information relating to optimisation" },
-    { "exec", DebugExec,  "Show diagnostic information relating to -exec, -execdir, -ok and -okdir" }
+    { "time", DebugTime, "Show diagnostic information relating to time-of-day and timestamp comparisons" },
+    { "tree", DebugExpressionTree, "Display the expression tree" },
+
+    { "all", DebugAll, "Set all of the debug flags (but help)" },
+    { "help", DebugHelp, "Explain the various -D options" },
   };
 #define N_DEBUGASSOC (sizeof(debugassoc)/sizeof(debugassoc[0]))
 
@@ -143,15 +133,15 @@ insert_primary_noarg (const struct parser_table *entry)
 
 
 static void
-show_valid_debug_options (FILE *fp, int full)
+show_valid_debug_options (int full)
 {
   size_t i;
+  fputs (_("Valid arguments for -D:\n"), stdout);
   if (full)
     {
-      fprintf (fp, "Valid arguments for -D:\n");
       for (i=0; i<N_DEBUGASSOC; ++i)
 	{
-	  fprintf (fp, "%-10s %s\n",
+	  fprintf (stdout, "%-10s %s\n",
 		   debugassoc[i].name,
 		   debugassoc[i].docstring);
 	}
@@ -160,27 +150,70 @@ show_valid_debug_options (FILE *fp, int full)
     {
       for (i=0; i<N_DEBUGASSOC; ++i)
 	{
-	  fprintf (fp, "%s%s", (i>0 ? "|" : ""), debugassoc[i].name);
+	  fprintf (stdout, "%s%s", (i>0 ? ", " : ""), debugassoc[i].name);
 	}
     }
 }
 
 void
-usage (FILE *fp, int status, char *msg)
+usage (int status)
 {
-  if (msg)
-    fprintf (fp, "%s: %s\n", program_name, msg);
+  if (status != EXIT_SUCCESS)
+    {
+      fprintf (stderr, _("Try '%s --help' for more information.\n"), program_name);
+      exit (status);
+    }
 
-  fprintf (fp, _("Usage: %s [-H] [-L] [-P] [-Olevel] [-D "), program_name);
-  show_valid_debug_options (fp, 0);
-  fprintf (fp, _("] [path...] [expression]\n"));
-  if (0 != status)
-    exit (status);
+#define HTL(t) fputs (t, stdout);
+
+  fprintf (stdout, _("\
+Usage: %s [-H] [-L] [-P] [-Olevel] [-D debugopts] [path...] [expression]\n"),
+           program_name);
+
+  HTL (_("\n\
+default path is the current directory; default expression is -print\n\
+expression may consist of: operators, options, tests, and actions:\n"));
+  HTL (_("\
+operators (decreasing precedence; -and is implicit where no others are given):\n\
+      ( EXPR )   ! EXPR   -not EXPR   EXPR1 -a EXPR2   EXPR1 -and EXPR2\n\
+      EXPR1 -o EXPR2   EXPR1 -or EXPR2   EXPR1 , EXPR2\n"));
+  HTL (_("\
+positional options (always true): -daystart -follow -regextype\n\n\
+normal options (always true, specified before other expressions):\n\
+      -depth --help -maxdepth LEVELS -mindepth LEVELS -mount -noleaf\n\
+      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"));
+  HTL (_("\
+tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n\
+      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n\
+      -ilname PATTERN -iname PATTERN -inum N -iwholename PATTERN -iregex PATTERN\n\
+      -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE"));
+  HTL (_("\n\
+      -nouser -nogroup -path PATTERN -perm [-/]MODE -regex PATTERN\n\
+      -readable -writable -executable\n\
+      -wholename PATTERN -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n\
+      -used N -user NAME -xtype [bcdpfls]"));
+  HTL (_("\
+      -context CONTEXT\n"));
+  HTL (_("\n\
+actions: -delete -print0 -printf FORMAT -fprintf FILE FORMAT -print \n\
+      -fprint0 FILE -fprint FILE -ls -fls FILE -prune -quit\n\
+      -exec COMMAND ; -exec COMMAND {} + -ok COMMAND ;\n\
+      -execdir COMMAND ; -execdir COMMAND {} + -okdir COMMAND ;\n\
+\n"));
+
+  show_valid_debug_options (0);
+  HTL (_("\n\
+Use '-D help' for a description of the options, or see find(1)\n\
+\n"));
+
+  explain_how_to_report_bugs (stdout, program_name);
+  exit (status);
 }
 
 void
 set_stat_placeholders (struct stat *p)
 {
+  (void) p; /* silence warning for systems lacking these fields. */
 #if HAVE_STRUCT_STAT_ST_BIRTHTIME
   p->st_birthtime = 0;
 #endif
@@ -329,12 +362,12 @@ check_nofollow (void)
       if (0 == strcmp ("Linux", uts.sysname))
 	{
 	  /* Linux kernels 2.1.126 and earlier ignore the O_NOFOLLOW flag. */
-	  return release >= 2.2; /* close enough */
+	  return release >= 2.2f; /* close enough */
 	}
       else if (0 == strcmp ("FreeBSD", uts.sysname))
 	{
 	  /* FreeBSD 3.0-CURRENT and later support it */
-	  return release >= 3.1;
+	  return release >= 3.1f;
 	}
     }
 
@@ -454,10 +487,10 @@ record_initial_cwd (void)
   initial_wd = xmalloc (sizeof (*initial_wd));
   if (0 != save_cwd (initial_wd))
     {
-      error (EXIT_FAILURE, errno,
-	     _("Failed to save initial working directory%s%s"),
-	     (initial_wd->desc < 0 && initial_wd->name) ? ": " : "",
-	     (initial_wd->desc < 0 && initial_wd->name) ? initial_wd->name : "");
+      die (EXIT_FAILURE, errno,
+	   _("Failed to save initial working directory%s%s"),
+	   (initial_wd->desc < 0 && initial_wd->name) ? ": " : "",
+	   (initial_wd->desc < 0 && initial_wd->name) ? initial_wd->name : "");
     }
 }
 
@@ -512,18 +545,6 @@ undangle_file_pointers (struct predicate *p)
     }
 }
 
-/* Return nonzero if file descriptor leak-checking is enabled.
- */
-bool
-fd_leak_check_is_enabled (void)
-{
-  if (getenv ("GNU_FINDUTILS_FD_LEAK_CHECK"))
-    return true;
-  else
-    return false;
-
-}
-
 /* Complete any outstanding commands.
  * Flush and close any open files.
  */
@@ -537,7 +558,7 @@ cleanup (void)
       complete_pending_execdirs ();
     }
 
-  /* Close ouptut files and NULL out references to them. */
+  /* Close output files and NULL out references to them. */
   sharefile_destroy (state.shared_files);
   if (eval_tree)
     traverse_tree (eval_tree, undangle_file_pointers);
@@ -831,11 +852,12 @@ process_debug_options (char *arg)
     }
   if (empty)
     {
-      error(EXIT_FAILURE, 0, _("Empty argument to the -D option."));
+      error (0, 0, _("Empty argument to the -D option."));
+      usage (EXIT_FAILURE);
     }
   else if (options.debug_options & DebugHelp)
     {
-      show_valid_debug_options (stdout, 1);
+      show_valid_debug_options (1);
       exit (EXIT_SUCCESS);
     }
 }
@@ -846,8 +868,8 @@ process_optimisation_option (const char *arg)
 {
   if (0 == arg[0])
     {
-      error (EXIT_FAILURE, 0,
-	     _("The -O option must be immediately followed by a decimal integer"));
+      die (EXIT_FAILURE, 0,
+	   _("The -O option must be immediately followed by a decimal integer"));
     }
   else
     {
@@ -856,8 +878,8 @@ process_optimisation_option (const char *arg)
 
       if (!isdigit ( (unsigned char) arg[0] ))
 	{
-	  error (EXIT_FAILURE, 0,
-		 _("Please specify a decimal number immediately after -O"));
+	  die (EXIT_FAILURE, 0,
+	       _("Please specify a decimal number immediately after -O"));
 	}
       else
 	{
@@ -867,29 +889,29 @@ process_optimisation_option (const char *arg)
 	  opt_level = strtoul (arg, &end, 10);
 	  if ( (0==opt_level) && (end==arg) )
 	    {
-	      error (EXIT_FAILURE, 0,
-		     _("Please specify a decimal number immediately after -O"));
+	      die (EXIT_FAILURE, 0,
+		   _("Please specify a decimal number immediately after -O"));
 	    }
 	  else if (*end)
 	    {
 	      /* unwanted trailing characters. */
-	      error (EXIT_FAILURE, 0, _("Invalid optimisation level %s"), arg);
+	      die (EXIT_FAILURE, 0, _("Invalid optimisation level %s"), arg);
 	    }
 	  else if ( (ULONG_MAX==opt_level) && errno)
 	    {
-	      error (EXIT_FAILURE, errno,
-		     _("Invalid optimisation level %s"), arg);
+	      die (EXIT_FAILURE, errno,
+		   _("Invalid optimisation level %s"), arg);
 	    }
 	  else if (opt_level > USHRT_MAX)
 	    {
 	      /* tricky to test, as on some platforms USHORT_MAX and ULONG_MAX
 	       * can have the same value, though this is unusual.
 	       */
-	      error (EXIT_FAILURE, 0,
-		     _("Optimisation level %lu is too high.  "
-		       "If you want to find files very quickly, "
-		       "consider using GNU locate."),
-		     opt_level);
+	      die (EXIT_FAILURE, 0,
+		   _("Optimisation level %lu is too high.  "
+		     "If you want to find files very quickly, "
+		     "consider using GNU locate."),
+		   opt_level);
 	    }
 	  else
 	    {
@@ -930,6 +952,11 @@ process_leading_options (int argc, char *argv[])
 	}
       else if (0 == strcmp ("-D", argv[i]))
 	{
+	  if (argc <= i+1)
+	    {
+	      error (0, 0, _("Missing argument after the -D option."));
+	      usage (EXIT_FAILURE);
+	    }
 	  process_debug_options (argv[i+1]);
 	  ++i;			/* skip the argument too. */
 	}
@@ -1029,8 +1056,10 @@ set_option_defaults (struct options *p)
 
   if (getenv ("FIND_BLOCK_SIZE"))
     {
-      error (EXIT_FAILURE, 0,
-	     _("The environment variable FIND_BLOCK_SIZE is not supported, the only thing that affects the block size is the POSIXLY_CORRECT environment variable"));
+      die (EXIT_FAILURE, 0,
+	   _("The environment variable FIND_BLOCK_SIZE is not supported, "
+	     "the only thing that affects the block size is the "
+	     "POSIXLY_CORRECT environment variable"));
     }
 
 #if LEAF_OPTIMISATION

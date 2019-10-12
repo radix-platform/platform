@@ -52,9 +52,9 @@ SOURCE_REQUIRES    = sources/GNU/texinfo
 
 REQUIRES           = libs/ncurses/6.1
 REQUIRES          += app/gzip/1.10
-REQUIRES          += app/findutils/4.6.0
+REQUIRES          += app/findutils/4.7.0
 REQUIRES          += app/bash/4.3
-REQUIRES          += app/sed/4.2.2
+REQUIRES          += app/sed/4.7
 REQUIRES          += dev/perl/5.22.1
 
 # ======= __END_OF_REQUIRES__ =======

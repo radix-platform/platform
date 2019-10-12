@@ -51,17 +51,17 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/GNU/findutils
 
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/5.3.0
+REQUIRES           = dev/gcc/6.5.0
 else
-REQUIRES           = libs/glibc/2.24
+REQUIRES           = libs/glibc/2.28
 endif
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 4.4.2
-tar_gz_archive     = $(SRC_PACKAGE_PATH)/GNU/findutils/findutils-$(version).tar.gz
-SRC_ARCHIVE        = $(tar_gz_archive)
+version            = 4.7.0
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNU/findutils/findutils-$(version).tar.xz
+SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/findutils-$(version)
 src_dir_name       = findutils-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
@@ -81,7 +81,7 @@ PKG_GROUP = app
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 FINDUTILS_PKG_NAME                = findutils
-FINDUTILS_PKG_VERSION             = 4.4.2
+FINDUTILS_PKG_VERSION             = 4.7.0
 FINDUTILS_PKG_ARCH                = $(TOOLCHAIN)
 FINDUTILS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 FINDUTILS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -124,11 +124,6 @@ extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --disable-rpath
-extra_configure_switches += --disable-locate
-extra_configure_switches += --without-fts
-
-# http://savannah.gnu.org/bugs/?27299
-extra_configure_switches += gl_cv_func_wcwidth_works=yes
 
 
 ####### Dependencies
@@ -136,6 +131,7 @@ extra_configure_switches += gl_cv_func_wcwidth_works=yes
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
+	@( cd $(SRC_DIR) ; autoreconf -vif )
 	@touch $@
 
 $(build_target): $(src_done)

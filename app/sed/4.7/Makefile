@@ -50,18 +50,14 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/sed
 
-ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/6.5.0
-else
-REQUIRES           = libs/glibc/2.28
-endif
+REQUIRES           = app/acl/2.2.53
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 4.2.2
-tar_bz2_archive    = $(SRC_PACKAGE_PATH)/GNU/sed/sed-$(version).tar.bz2
-SRC_ARCHIVE        = $(tar_bz2_archive)
+version            = 4.7
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNU/sed/sed-$(version).tar.xz
+SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/sed-$(version)
 src_dir_name       = sed-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
@@ -81,7 +77,7 @@ PKG_GROUP = app
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 SED_PKG_NAME                = sed
-SED_PKG_VERSION             = 4.2.2
+SED_PKG_VERSION             = 4.7
 SED_PKG_ARCH                = $(TOOLCHAIN)
 SED_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 SED_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)

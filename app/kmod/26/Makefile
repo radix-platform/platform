@@ -29,6 +29,16 @@ COMPONENT_TARGETS += $(HARDWARE_OKMX6Q_C)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
 COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
 COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BAIKAL_T1)
+COMPONENT_TARGETS += $(HARDWARE_MBC4_PC)
+COMPONENT_TARGETS += $(HARDWARE_S824L)
+COMPONENT_TARGETS += $(HARDWARE_VESNIN)
+COMPONENT_TARGETS += $(HARDWARE_S824L_LSB)
+COMPONENT_TARGETS += $(HARDWARE_VESNIN_LSB)
+COMPONENT_TARGETS += $(HARDWARE_TL2WK2)
+COMPONENT_TARGETS += $(HARDWARE_TL2SV2)
+COMPONENT_TARGETS += $(HARDWARE_TL2WK2_LSB)
+COMPONENT_TARGETS += $(HARDWARE_TL2SV2_LSB)
 
 
 NEED_ABS_PATH      = true
@@ -41,12 +51,12 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/kmod
 
 REQUIRES           = libs/zlib/1.2.8
-REQUIRES          += app/xz/5.0.5
+REQUIRES          += app/xz/5.2.4
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 16
+version            = 26
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/a/kmod/kmod-$(version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/kmod-$(version)
@@ -68,7 +78,7 @@ PKG_GROUP = app
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 KMOD_PKG_NAME                = kmod
-KMOD_PKG_VERSION             = 16
+KMOD_PKG_VERSION             = 26
 KMOD_PKG_ARCH                = $(TOOLCHAIN)
 KMOD_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 KMOD_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -154,7 +164,7 @@ $(install_target): $(build_target)
 	@mv $(KMOD_PKG)/lib$(LIBSUFFIX)/{*.so,*.la} $(KMOD_PKG)/usr/lib$(LIBSUFFIX)
 	@cp -a $(KMOD_PKG)/lib$(LIBSUFFIX)/libkmod.so.2 $(KMOD_PKG)/usr/lib$(LIBSUFFIX)
 	@( cd $(KMOD_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   ln -sf ../../lib$(LIBSUFFIX)/libkmod.so.2.2.6 libkmod.so.2.2.6 ; \
+	   ln -sf ../../lib$(LIBSUFFIX)/libkmod.so.2.3.4 libkmod.so.2.3.4 ; \
 	   sed -i "s,libdir='/lib',libdir='/usr/lib',g" libkmod.la ; \
 	   sed -i "s,libdir=/lib,libdir=/usr/lib,g" pkgconfig/libkmod.pc \
 	 )

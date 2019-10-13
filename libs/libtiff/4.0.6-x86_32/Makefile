@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/libtiff
 
 REQUIRES           = libs/libtiff/4.0.6
-REQUIRES          += app/xz/5.2.3-x86_32
+REQUIRES          += app/xz/5.2.4-x86_32
 REQUIRES          += app/jbigkit/2.1-x86_32
 REQUIRES          += libs/libjpeg-turbo/1.4.2-x86_32
 

@@ -51,7 +51,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/libxml2
 
 REQUIRES           = libs/zlib/1.2.8
-REQUIRES          += app/xz/5.2.3
+REQUIRES          += app/xz/5.2.4
 REQUIRES          += libs/icu4c/65.1
 REQUIRES          += libs/readline/8.0
 REQUIRES          += dev/python2/2.7.16

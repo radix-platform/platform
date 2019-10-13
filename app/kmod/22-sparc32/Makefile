@@ -14,7 +14,7 @@ SOURCE_REQUIRES    = sources/packages/a/kmod
 
 REQUIRES           = app/kmod/22
 REQUIRES          += libs/zlib/1.2.8-sparc32
-REQUIRES          += app/xz/5.2.3-sparc32
+REQUIRES          += app/xz/5.2.4-sparc32
 
 # ======= __END_OF_REQUIRES__ =======
 

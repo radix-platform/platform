@@ -153,11 +153,11 @@ endif
 #             │   └── dev/binutils/2.31.1 ────────────────────┘    │             │
 #             │       └── dev/gcc/6.5.0                            │             │
 #             │                                                    │             │
-#             ├── app/xz/5.2.3               ─────┬────────────────┘             │
-#             │   ├── app/xz/5.2.3-ppc32          └── app/kmod/22                │
-#             │   ├── app/xz/5.2.3-sparc32            ├── app/kmod/22-ppc32      │
-#             │   └── app/xz/5.2.3-x86_32             ├── app/kmod/22-sparc32    │
-#             │                                       └── app/kmod/22-x86_32     │
+#             ├── app/xz/5.2.4               ─────┬────────────────┘             │
+#             │   ├── app/xz/5.2.4-ppc32          └── app/kmod/26                │
+#             │   ├── app/xz/5.2.4-sparc32            ├── app/kmod/26-ppc32      │
+#             │   └── app/xz/5.2.4-x86_32             ├── app/kmod/26-sparc32    │
+#             │                                       └── app/kmod/26-x86_32     │
 #             ├── libs/libffi/3.2.1                                              │
 #             │   ├── libs/libffi/3.2.1-ppc32                                    │
 #             │   ├── libs/libffi/3.2.1-sparc32                                  │
@@ -400,7 +400,7 @@ endif
 #             │
 #             │      ...
 #             │       ├───────────────────────────────────┬── libs/zlib/1.2.8
-#             │       │                                   ├── app/xz/5.2.3
+#             │       │                                   ├── app/xz/5.2.4
 #             │       ├── dev/python2/2.7.16              ├── libs/libffi/3.2.1
 #             │       │   ├── dev/python2/2.7.16-ppc32    ├── libs/readline/8.0
 #             │       │   ├── dev/python2/2.7.16-sparc32  ├── libs/expat/2.2.9

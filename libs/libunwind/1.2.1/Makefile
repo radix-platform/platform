@@ -50,7 +50,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/libunwind
 
-REQUIRES          += app/xz/5.2.3
+REQUIRES          += app/xz/5.2.4
 
 # ======= __END_OF_REQUIRES__ =======
 

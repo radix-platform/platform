@@ -16,7 +16,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/libunwind
 
 REQUIRES           = libs/libunwind/1.2.1
-REQUIRES          += app/xz/5.2.3-ppc32
+REQUIRES          += app/xz/5.2.4-ppc32
 
 # ======= __END_OF_REQUIRES__ =======
 

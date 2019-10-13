@@ -53,7 +53,7 @@ SOURCE_REQUIRES    = sources/packages/l/libtiff
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/6.5.0
 endif
-REQUIRES          += app/xz/5.2.3
+REQUIRES          += app/xz/5.2.4
 REQUIRES          += app/jbigkit/2.1
 REQUIRES          += libs/libjpeg-turbo/1.4.2
 

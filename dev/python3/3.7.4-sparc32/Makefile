@@ -14,7 +14,7 @@ SOURCE_REQUIRES    = sources/packages/d/python3
 
 REQUIRES           = dev/python3/3.7.4
 REQUIRES          += env/libuuid/2.34-sparc32
-REQUIRES          += app/xz/5.2.3-sparc32
+REQUIRES          += app/xz/5.2.4-sparc32
 REQUIRES          += app/bzip2/1.0.6-sparc32
 REQUIRES          += app/sqlite/3.26.0.0-sparc32
 REQUIRES          += libs/libffi/3.2.1-sparc32

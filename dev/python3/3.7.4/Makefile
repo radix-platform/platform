@@ -52,7 +52,7 @@ SOURCE_REQUIRES    = sources/packages/d/python3
 SOURCE_REQUIRES   += sources/packages/d/python3-doc
 
 REQUIRES           = env/libuuid/2.34
-REQUIRES          += app/xz/5.2.3
+REQUIRES          += app/xz/5.2.4
 REQUIRES          += app/bzip2/1.0.6
 REQUIRES          += app/sqlite/3.26.0.0
 REQUIRES          += libs/libffi/3.2.1

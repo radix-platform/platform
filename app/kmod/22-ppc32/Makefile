@@ -17,7 +17,7 @@ SOURCE_REQUIRES    = sources/packages/a/kmod
 
 REQUIRES           = app/kmod/22
 REQUIRES          += libs/zlib/1.2.8-ppc32
-REQUIRES          += app/xz/5.2.3-ppc32
+REQUIRES          += app/xz/5.2.4-ppc32
 
 # ======= __END_OF_REQUIRES__ =======
 

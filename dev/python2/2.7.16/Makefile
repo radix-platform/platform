@@ -52,7 +52,7 @@ SOURCE_REQUIRES    = sources/packages/d/python2
 SOURCE_REQUIRES   += sources/packages/d/python2-doc
 
 REQUIRES           = libs/zlib/1.2.8
-REQUIRES          += app/xz/5.2.3
+REQUIRES          += app/xz/5.2.4
 REQUIRES          += libs/libffi/3.2.1
 REQUIRES          += libs/readline/8.0
 REQUIRES          += libs/expat/2.2.9

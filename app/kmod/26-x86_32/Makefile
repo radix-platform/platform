@@ -12,14 +12,14 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/a/kmod
 
-REQUIRES           = app/kmod/22
+REQUIRES           = app/kmod/26
 REQUIRES          += libs/zlib/1.2.8-x86_32
-REQUIRES          += app/xz/5.2.2-x86_32
+REQUIRES          += app/xz/5.2.4-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 16
+version            = 26
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/a/kmod/kmod-$(version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/kmod-$(version)
@@ -41,13 +41,13 @@ PKG_GROUP = app
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 KMOD_32_PKG_NAME                = kmod-x32
-KMOD_32_PKG_VERSION             = 16
+KMOD_32_PKG_VERSION             = 26
 KMOD_32_PKG_ARCH                = $(TOOLCHAIN)
 KMOD_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 KMOD_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 KMOD_32_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
-KMOD_32_PKG_SHORT_DESCRIPTION   = kernel module x86_32 library
+KMOD_32_PKG_SHORT_DESCRIPTION   = kernel module library
 KMOD_32_PKG_URL                 = $(BUG_URL)
 KMOD_32_PKG_LICENSE             = GPLv2
 KMOD_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(KMOD_32_PKG_NAME)-pkg-description
@@ -122,7 +122,7 @@ $(install_target): $(build_target)
 	@mv $(KMOD_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)/{*.so,*.la} $(KMOD_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)
 	@cp -a $(KMOD_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)/libkmod.so.2 $(KMOD_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)
 	@( cd $(KMOD_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	  ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/libkmod.so.2.2.6 libkmod.so.2.2.6 ; \
+	  ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/libkmod.so.2.3.4 libkmod.so.2.3.4 ; \
 	  sed -i "s,libdir='/lib,libdir='/usr/lib,g" libkmod.la ; \
 	  sed -i "s,libdir=/lib,libdir=/usr/lib,g" pkgconfig/libkmod.pc \
 	 )

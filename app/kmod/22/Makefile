@@ -51,7 +51,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/kmod
 
 REQUIRES           = libs/zlib/1.2.8
-REQUIRES          += app/xz/5.2.3
+REQUIRES          += app/xz/5.2.4
 
 # ======= __END_OF_REQUIRES__ =======
 

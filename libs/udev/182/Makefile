@@ -17,7 +17,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/a/udev
 
-REQUIRES           = app/kmod/22
+REQUIRES           = app/kmod/26
 REQUIRES          += libs/pcre/8.38
 REQUIRES          += app/util-linux/2.24.1
 REQUIRES          += libs/glib2/2.40.0

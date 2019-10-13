@@ -17,7 +17,7 @@ SOURCE_REQUIRES    = sources/packages/l/libxml2
 
 REQUIRES           = libs/libxml2/2.9.9
 REQUIRES          += libs/zlib/1.2.8-ppc32
-REQUIRES          += app/xz/5.2.3-ppc32
+REQUIRES          += app/xz/5.2.4-ppc32
 REQUIRES          += libs/icu4c/65.1-ppc32
 REQUIRES          += libs/readline/8.0-ppc32
 REQUIRES          += dev/python2/2.7.16-ppc32

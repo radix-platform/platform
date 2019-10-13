@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/xz
 
-versions    = 5.0.5 5.2.2 5.2.3
+versions    = 5.0.5 5.2.2 5.2.3 5.2.4
 pkgname     = xz
 suffix      = tar.xz
 

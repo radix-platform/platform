@@ -14,7 +14,7 @@ SOURCE_REQUIRES    = sources/packages/a/eudev
 
 REQUIRES           = libs/eudev/3.1.5
 REQUIRES          += app/util-linux/2.34-x86_32
-REQUIRES          += app/kmod/22-x86_32
+REQUIRES          += app/kmod/26-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

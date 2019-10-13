@@ -51,7 +51,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/pciutils
 SOURCE_REQUIRES   += sources/packages/l/pciids
 
-REQUIRES           = app/kmod/22
+REQUIRES           = app/kmod/26
 REQUIRES          += libs/eudev/3.1.5
 
 # ======= __END_OF_REQUIRES__ =======

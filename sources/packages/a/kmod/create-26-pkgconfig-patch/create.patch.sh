@@ -1,6 +1,6 @@
 #!/bin/sh
 
-VERSION=16
+VERSION=26
 
 tar --files-from=file.list -xJvf ../kmod-$VERSION.tar.xz
 mv kmod-$VERSION kmod-$VERSION-orig

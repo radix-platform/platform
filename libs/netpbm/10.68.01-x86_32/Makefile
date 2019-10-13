@@ -15,7 +15,7 @@ SOURCE_REQUIRES   += sources/packages/l/netpbm-doc
 
 REQUIRES           = libs/netpbm/10.68.01
 REQUIRES          += libs/zlib/1.2.8-x86_32
-REQUIRES          += app/xz/5.2.3-x86_32
+REQUIRES          += app/xz/5.2.4-x86_32
 REQUIRES          += libs/libxml2/2.9.9-x86_32
 REQUIRES          += app/jbigkit/2.1-x86_32
 REQUIRES          += libs/libpng/libpng14/1.4.19-x86_32

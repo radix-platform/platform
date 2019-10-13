@@ -52,7 +52,7 @@ SOURCE_REQUIRES    = sources/packages/l/hwloc
 
 REQUIRES           = X11/libs/cairo/1.14.6
 REQUIRES          += X11/X.org/lib/libpciaccess/0.13.4
-REQUIRES          += libs/libxml2/2.9.3
+REQUIRES          += libs/libxml2/2.9.9
 REQUIRES          += app/pciutils/3.4.1
 
 # ======= __END_OF_REQUIRES__ =======

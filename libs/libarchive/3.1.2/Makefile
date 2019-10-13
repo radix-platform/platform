@@ -54,7 +54,7 @@ REQUIRES           = app/acl/2.2.53
 REQUIRES          += app/bzip2/1.0.6
 REQUIRES          += libs/lzo/2.10
 REQUIRES          += net/nettle/3.2
-REQUIRES          += libs/libxml2/2.9.3
+REQUIRES          += libs/libxml2/2.9.9
 
 # ======= __END_OF_REQUIRES__ =======
 

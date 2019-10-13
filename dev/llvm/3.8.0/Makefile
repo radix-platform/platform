@@ -55,7 +55,7 @@ SOURCE_REQUIRES    = sources/packages/d/LLVM
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/6.5.0
 endif
-REQUIRES          += libs/libxml2/2.9.3
+REQUIRES          += libs/libxml2/2.9.9
 
 # ======= __END_OF_REQUIRES__ =======
 

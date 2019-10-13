@@ -15,7 +15,7 @@ SOURCE_REQUIRES    = sources/packages/b/mariadb
 
 REQUIRES           = app/mariadb/10.0.30
 REQUIRES          += libs/pcre/8.43-x86_32
-REQUIRES          += libs/libxml2/2.9.3-x86_32
+REQUIRES          += libs/libxml2/2.9.9-x86_32
 REQUIRES          += libs/libaio/0.3.110-x86_32
 REQUIRES          += net/openssl/1.1.1d-x86_32
 REQUIRES          += secure/pam_unix2/2.9.1-x86_32

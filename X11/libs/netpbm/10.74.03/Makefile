@@ -53,7 +53,7 @@ SOURCE_REQUIRES   += sources/packages/l/netpbm-doc
 
 REQUIRES           = libs/zlib/1.2.8
 REQUIRES          += app/xz/5.2.3
-REQUIRES          += libs/libxml2/2.9.3
+REQUIRES          += libs/libxml2/2.9.9
 REQUIRES          += app/jbigkit/2.1
 REQUIRES          += libs/libpng/libpng14/1.4.19
 REQUIRES          += libs/libtiff/4.0.6

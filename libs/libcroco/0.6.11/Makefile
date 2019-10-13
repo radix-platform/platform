@@ -51,7 +51,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/GNOME/core/libcroco
 
 REQUIRES           = libs/glib2/2.48.0
-REQUIRES          += libs/libxml2/2.9.3
+REQUIRES          += libs/libxml2/2.9.9
 
 # ======= __END_OF_REQUIRES__ =======
 

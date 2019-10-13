@@ -51,11 +51,11 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/m/xiph/ices
 
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
-REQUIRES           = libs/libxml2/2.9.3
+REQUIRES           = libs/libxml2/2.9.9
 REQUIRES          += libs/alsa-lib/1.1.1
 REQUIRES          += libs/libshout/2.4.1
 else
-REQUIRES           = libs/libxml2/2.9.3-x86_32
+REQUIRES           = libs/libxml2/2.9.9-x86_32
 REQUIRES          += libs/alsa-lib/1.1.1-x86_32
 REQUIRES          += libs/libshout/2.4.1-x86_32
 endif

@@ -52,7 +52,7 @@ SOURCE_REQUIRES    = sources/packages/m/VideoLAN/libbluray
 
 REQUIRES           = X11/libs/fontconfig/2.12.4
 REQUIRES          += libs/freetype/2.6.3
-REQUIRES          += libs/libxml2/2.9.3
+REQUIRES          += libs/libxml2/2.9.9
 
 # ======= __END_OF_REQUIRES__ =======
 

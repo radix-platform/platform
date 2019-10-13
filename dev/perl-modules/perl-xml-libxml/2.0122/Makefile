@@ -52,7 +52,7 @@ SOURCE_REQUIRES    = sources/packages/d/perl-modules/CPAN/XML-LibXML
 
 REQUIRES           = dev/perl/5.22.1
 REQUIRES          += dev/perl-modules/perl-xml-sax/0.99
-REQUIRES          += libs/libxml2/2.9.3
+REQUIRES          += libs/libxml2/2.9.9
 
 # ======= __END_OF_REQUIRES__ =======
 

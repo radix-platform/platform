@@ -54,7 +54,7 @@ ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/6.5.0
 endif
 REQUIRES          += libs/expat/2.2.9
-REQUIRES          += libs/libxml2/2.9.3
+REQUIRES          += libs/libxml2/2.9.9
 REQUIRES          += libs/eudev/3.1.5
 REQUIRES          += libs/libomxil-bellagio/0.9.3
 REQUIRES          += dev/llvm/3.8.0

@@ -7,7 +7,7 @@ include ../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/GNU/grep
 
-versions    = 2.17 2.18
+versions    = 3.3
 pkgname     = grep
 suffix      = tar.xz
 

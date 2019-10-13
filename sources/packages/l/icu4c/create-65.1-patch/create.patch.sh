@@ -1,8 +1,8 @@
 #!/bin/sh
 
-VERSION=54.1
+VERSION=65.1
 
-tar --files-from=file.list -xjvf ../icu4c-$VERSION.tar.bz2
+tar --files-from=file.list -xJvf ../icu4c-$VERSION.tar.xz
 mv icu4c-$VERSION icu4c-$VERSION-orig
 
 cp -rf ./icu4c-$VERSION-new ./icu4c-$VERSION

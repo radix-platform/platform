@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/libical
 
 REQUIRES           = libs/libical/2.0.0
-REQUIRES          += libs/icu4c/55.1-x86_32
+REQUIRES          += libs/icu4c/65.1-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

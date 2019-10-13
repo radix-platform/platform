@@ -51,7 +51,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/linuxdoc-tools/sgml-common
 
 REQUIRES           = app/bash/4.3
-REQUIRES          += app/grep/2.18
+REQUIRES          += app/grep/3.3
 REQUIRES          += app/sed/4.7
 
 # ======= __END_OF_REQUIRES__ =======

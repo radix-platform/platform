@@ -63,7 +63,7 @@ REQUIRES          += libs/pulseaudio/9.0
 REQUIRES          += X11/app/dbus-x11-launch/1.11.2
 
 REQUIRES          += libs/libmng/2.0.3
-REQUIRES          += libs/icu4c/55.1
+REQUIRES          += libs/icu4c/65.1
 REQUIRES          += app/cups/2.1.3
 
 REQUIRES          += X11/libs/fontconfig/2.12.4

@@ -50,16 +50,12 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/grep
 
-ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/6.5.0
-else
-REQUIRES           = libs/glibc/2.28
-endif
+REQUIRES           = libs/pcre/8.43
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 2.18
+version            = 3.3
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNU/grep/grep-$(version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/grep-$(version)
@@ -81,13 +77,13 @@ PKG_GROUP = app
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 GREP_PKG_NAME                = grep
-GREP_PKG_VERSION             = 2.18
+GREP_PKG_VERSION             = 3.3
 GREP_PKG_ARCH                = $(TOOLCHAIN)
 GREP_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 GREP_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GREP_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
-GREP_PKG_SHORT_DESCRIPTION   = print lines matching a pattern
+GREP_PKG_SHORT_DESCRIPTION   = print lines that match patterns
 GREP_PKG_URL                 = $(BUG_URL)
 GREP_PKG_LICENSE             = GPLv2
 GREP_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GREP_PKG_NAME)-pkg-description

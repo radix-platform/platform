@@ -50,7 +50,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/boost
 
-REQUIRES           = libs/icu4c/55.1
+REQUIRES           = libs/icu4c/65.1
 REQUIRES          += app/bzip2/1.0.6
 REQUIRES          += libs/zlib/1.2.8
 REQUIRES          += libs/openmpi/1.8.8

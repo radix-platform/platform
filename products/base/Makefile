@@ -608,7 +608,7 @@ REQUIRES += share/dict/words-ru/0.99f7-1
 #######
 REQUIRES += app/coreutils/8.31
 REQUIRES += app/sharutils/4.15.2
-REQUIRES += app/grep/2.18
+REQUIRES += app/grep/3.3
 REQUIRES += app/texinfo/5.2
 REQUIRES += dev/gperf/3.0.4
 REQUIRES += app/sysvinit/2.88
@@ -808,10 +808,19 @@ REQUIRES += libs/libtiff/4.0.6
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/libtiff/4.0.6-x86_32
 endif
-REQUIRES += libs/icu4c/55.1
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/icu4c/55.1-x86_32
+
+REQUIRES += libs/icu4c/65.1
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
+REQUIRES += libs/icu4c/65.1-ppc32
 endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
+REQUIRES += libs/icu4c/65.1-sparc32
+endif
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/icu4c/65.1-x86_32
+endif
+
 REQUIRES += libs/libpipeline/1.4.1
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/libpipeline/1.4.1-x86_32

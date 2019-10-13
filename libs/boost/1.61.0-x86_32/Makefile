@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/boost
 
 REQUIRES           = libs/boost/1.61.0
-REQUIRES          += libs/icu4c/55.1-x86_32
+REQUIRES          += libs/icu4c/65.1-x86_32
 REQUIRES          += app/bzip2/1.0.6-x86_32
 REQUIRES          += libs/zlib/1.2.8-x86_32
 REQUIRES          += libs/openmpi/1.8.8-x86_32

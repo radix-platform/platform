@@ -51,21 +51,17 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/icu4c
 
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/5.3.0
+REQUIRES           = dev/gcc/6.5.0
 else
-ifneq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES           = libs/glibc/2.24
-else
-REQUIRES           = libs/glibc/2.24-x86_32
-endif
+REQUIRES           = libs/glibc/2.28
 endif
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 54.1
-tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/l/icu4c/icu4c-$(version).tar.bz2
-SRC_ARCHIVE        = $(tar_bz2_archive)
+version            = 65.1
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/l/icu4c/icu4c-$(version).tar.xz
+SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/icu4c-$(version)
 src_dir_name       = icu4c-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
@@ -87,7 +83,7 @@ PKG_GROUP = libs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 ICU4C_PKG_NAME                = icu4c
-ICU4C_PKG_VERSION             = 54.1
+ICU4C_PKG_VERSION             = 65.1
 ICU4C_PKG_ARCH                = $(TOOLCHAIN)
 ICU4C_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 ICU4C_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -129,8 +125,12 @@ extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var
 extra_configure_switches += --disable-samples
-extra_configure_switches += --enable-shared=yes
+ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
+extra_configure_switches += --enable-shared=yes
 
 extra_configure_switches += --with-cross-build=$(CURDIR)/$(build_host_dir)
 
@@ -148,7 +148,7 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 $(build_target): $(src_done)
 	@mkdir -p $(build_host_dir)
 	@mkdir -p $(build_target_dir)
-	@cd $(build_host_dir) && $(CURDIR)/$(SRC_DIR)/source/runConfigureICU Linux
+	@cd $(build_host_dir) && $(CURDIR)/$(SRC_DIR)/source/runConfigureICU Linux/gcc
 	@cd $(build_host_dir) && $(MAKE)
 	@cd $(build_target_dir) && \
 	  $(BUILD_ENVIRONMENT) $(CURDIR)/$(SRC_DIR)/source/configure \
@@ -177,29 +177,35 @@ $(install_target): $(build_target)
 	  ) \
 	 fi
 	@mkdir -p $(ICU4C_PKG)/usr/doc/$(src_dir_name)
-	@cp -a $(SRC_DIR)/license.html $(SRC_DIR)/icu4c.css \
+	@cp -a $(SRC_DIR)/LICENSE $(SRC_DIR)/license.html $(SRC_DIR)/icu4c.css \
 	       $(ICU4C_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(ICU4C_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a *.html *.css \
+	   cp -a LICENSE *.html *.css *.md \
 	         $(ICU4C_PKG)/usr/share/doc/$(src_dir_name) ; \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
 	# ======= change permissions of *.a files =======
 	@( cd $(ICU4C_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   chmod 0644 *.a ; \
 	 )
+endif
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(ICU4C_PKG))
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" icu-i18n.pc icu-io.pc icu-le.pc icu-lx.pc icu-uc.pc \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" icu-i18n.pc icu-io.pc icu-uc.pc \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(ICU4C_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(ICU4C_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 	@touch $@
 
 $(ICU4C_PKG_DESCRIPTION_FILE): $(ICU4C_PKG_DESCRIPTION_FILE_IN)

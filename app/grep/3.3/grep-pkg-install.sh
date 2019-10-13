@@ -33,7 +33,7 @@ post_install() {
   cat << EOF >> usr/share/info/dir
 
 Text creation and manipulation
-* grep: (grep).                 Print lines matching a pattern.
+* grep: (grep).                 Print lines that match patterns.
 EOF
   fi
 }

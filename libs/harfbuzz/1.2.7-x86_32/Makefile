@@ -14,7 +14,7 @@ SOURCE_REQUIRES    = sources/packages/l/harfbuzz
 
 REQUIRES           = libs/harfbuzz/1.2.7
 REQUIRES          += libs/libpng/libpng14/1.4.19-x86_32
-REQUIRES          += libs/icu4c/55.1-x86_32
+REQUIRES          += libs/icu4c/65.1-x86_32
 REQUIRES          += libs/cairo/1.14.6-x86_32
 REQUIRES          += env/freetype/2.6.3-x86_32
 

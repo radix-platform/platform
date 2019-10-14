@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES      = sources/packages/n/libassuan
 
 REQUIRES             = net/libassuan/2.4.2
-REQUIRES            += net/libgpg-error/1.21-x86_32
+REQUIRES            += net/libgpg-error/1.36-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

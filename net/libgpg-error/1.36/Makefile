@@ -51,19 +51,15 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/n/libgpg-error
 
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/5.3.0
+REQUIRES           = dev/gcc/6.5.0
 else
-ifneq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES           = libs/glibc/2.24
-else
-REQUIRES           = libs/glibc/2.24-x86_32
-endif
+REQUIRES           = libs/glibc/2.28
 endif
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 1.16
+version            = 1.36
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/libgpg-error/libgpg-error-$(version).tar.bz2
 SRC_ARCHIVE        = $(tar_bz2_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/libgpg-error-$(version)
@@ -85,7 +81,7 @@ PKG_GROUP = net
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 GPGERROR_PKG_NAME                = libgpg-error
-GPGERROR_PKG_VERSION             = 1.16
+GPGERROR_PKG_VERSION             = 1.36
 GPGERROR_PKG_ARCH                = $(TOOLCHAIN)
 GPGERROR_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 GPGERROR_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -127,42 +123,41 @@ extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --with-gnu-ld
-extra_configure_switches += --enable-shared=yes
+ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
+extra_configure_switches += --enable-shared=yes
 
 
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_A1X_GLIBC)  $(TOOLCHAIN_A2X_GLIBC)    \
+                             $(TOOLCHAIN_H3_GLIBC)   $(TOOLCHAIN_RK328X_GLIBC) \
+                             $(TOOLCHAIN_S8XX_GLIBC) $(TOOLCHAIN_IMX6_GLIBC)   \
+                             $(TOOLCHAIN_OMAP543X_GLIBC)),)
+gpgrt_lock_t_name = arm-unknown-linux-gnueabihf
+endif
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_H5_GLIBC)     $(TOOLCHAIN_RK33XX_GLIBC) \
+                             $(TOOLCHAIN_RK339X_GLIBC) $(TOOLCHAIN_S9XX_GLIBC)),)
+gpgrt_lock_t_name = aarch64-unknown-linux-gnu
+endif
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_JZ47XX_GLIBC) $(TOOLCHAIN_P5600_GLIBC)),)
+gpgrt_lock_t_name = mipsel-unknown-linux-gnu
+endif
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_R1000_GLIBC)),)
+gpgrt_lock_t_name = sparc64-unknown-linux-gnu
+endif
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_POWER8_GLIBC) $(TOOLCHAIN_POWER9_GLIBC)),)
+gpgrt_lock_t_name = powerpc64-unknown-linux-gnu
+endif
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_POWER8LE_GLIBC) $(TOOLCHAIN_POWER9LE_GLIBC)),)
+gpgrt_lock_t_name = powerpc64le-unknown-linux-gnu
+endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32)),)
-gpgrt_lock_t_name = i486-pc-linux-gnu
+gpgrt_lock_t_name = i686-pc-linux-gnu
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 gpgrt_lock_t_name = x86_64-pc-linux-gnu
-endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X) $(HARDWARE_CB2X) $(HARDWARE_CB3X)),)
-gpgrt_lock_t_name = arm-unknown-linux-gnueabihf
-endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_FFRK3288)),)
-gpgrt_lock_t_name = arm-unknown-linux-gnueabihf
-endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXV)),)
-gpgrt_lock_t_name = arm-unknown-linux-gnueabihf
-endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_P201) $(HARDWARE_NEXBOX_A95X) \
-                                             $(HARDWARE_ODROID_C2)   \
-                            $(HARDWARE_P212) $(HARDWARE_KHADAS_VIM)  \
-                            $(HARDWARE_Q201) $(HARDWARE_ENYBOX_X2)),)
-gpgrt_lock_t_name = aarch64-unknown-linux-gnu
-endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
-gpgrt_lock_t_name = arm-unknown-linux-gnueabihf
-endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
-gpgrt_lock_t_name = arm-unknown-linux-gnueabihf
-endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)
-gpgrt_lock_t_name = mipsel-unknown-linux-gnu
-endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_BAIKAL_T1)),)
-gpgrt_lock_t_name = mipsel-unknown-linux-gnu
 endif
 
 
@@ -197,12 +192,27 @@ $(install_target): $(build_target)
 	   cp -a lib*.so.? ../../lib$(LIBSUFFIX) ; \
 	 )
 	# ====== Install Documentation =======
+	@rm -f $(GPGERROR_PKG)/usr/share/info/dir
+	@gzip -9 $(GPGERROR_PKG)/usr/share/info/*
+	@if [ -d $(GPGERROR_PKG)/usr/share/man ]; then \
+	  ( cd $(GPGERROR_PKG)/usr/share/man ; \
+	    for manpagedir in `find . -type d -name "man*"` ; do \
+	      ( cd $$manpagedir ; \
+	        for eachpage in `find . -type l -maxdepth 1` ; do \
+	          ln -s `readlink $$eachpage`.gz $$eachpage.gz ; \
+	          rm $$eachpage ; \
+	        done ; \
+	        gzip -9 *.?  ; \
+	      ) \
+	    done \
+	  ) \
+	 fi
 	@mkdir -p $(GPGERROR_PKG)/usr/doc/$(src_dir_name)
 	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/COPYING* \
 	       $(GPGERROR_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(GPGERROR_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a AUTHORS COPYING* INSTALL NEWS README* THANKS VERSION doc/HACKING \
+	   cp -a AUTHORS COPYING* NEWS README* THANKS VERSION doc/HACKING \
 	         $(GPGERROR_PKG)/usr/share/doc/$(src_dir_name) ; \
 	 )
 	@( cd $(SRC_DIR) ; \
@@ -220,20 +230,27 @@ $(install_target): $(build_target)
 	$(call install-into-devenv, $(GPGERROR_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgpg-error.la  ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libgpg-error.la  \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   libgpg-error.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libgpg-error.la ; \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" gpg-error.pc ; \
+	 )
+	# ======= tune gpg-error-config script to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/bin ; \
-	   sed -i "s,prefix=/usr,prefix=$(TARGET_DEST_DIR)/usr,g" gpg-error-config ; \
-	   sed -i "s,libdir=/usr,libdir=$(TARGET_DEST_DIR)/usr,g" gpg-error-config ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" gpg-error-config ; \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(GPGERROR_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(GPGERROR_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 	@touch $@
 
 $(GPGERROR_PKG_DESCRIPTION_FILE): $(GPGERROR_PKG_DESCRIPTION_FILE_IN)

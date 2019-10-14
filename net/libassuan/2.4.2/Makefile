@@ -50,7 +50,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/n/libassuan
 
-REQUIRES           = net/libgpg-error/1.21
+REQUIRES           = net/libgpg-error/1.36
 
 # ======= __END_OF_REQUIRES__ =======
 

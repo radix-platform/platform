@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/libgpg-error
 
-versions    = 1.12 1.16 1.21
+versions    = 1.36
 pkgname     = libgpg-error
 suffix      = tar.bz2
 

@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES      = sources/packages/n/libksba
 
 REQUIRES             = net/libksba/1.3.3
-REQUIRES            += net/libgpg-error/1.21-x86_32
+REQUIRES            += net/libgpg-error/1.36-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

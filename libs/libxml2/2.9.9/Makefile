@@ -131,7 +131,7 @@ endif
 extra_configure_switches += --enable-shared=yes
 
 
-PYTHON_VERSION = 3.7
+PYTHON_VERSION = 2.7
 
 ifeq ($(PYTHON_VERSION),2.7)
 WITH_PYTHON = $(PYTHON2)

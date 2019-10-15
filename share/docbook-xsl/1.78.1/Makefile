@@ -52,7 +52,7 @@ SOURCE_REQUIRES    = sources/packages/a/linuxdoc-tools/docbook-xsl
 SOURCE_REQUIRES   += sources/packages/a/linuxdoc-tools/docbook-xsl-doc
 
 REQUIRES           = libs/libxml2/2.9.9
-REQUIRES          += libs/libxslt/1.1.28
+REQUIRES          += libs/libxslt/1.1.33
 REQUIRES          += share/docbook-xml/4.5
 
 # ======= __END_OF_REQUIRES__ =======

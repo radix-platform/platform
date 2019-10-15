@@ -1,6 +1,12 @@
 dnl Process this file with autoconf to produce a configuration script.
-AC_PREREQ(2.59)
-AC_INIT(libxslt/xslt.c)
+AC_PREREQ(2.63)
+
+m4_define([MAJOR_VERSION], [1])
+m4_define([MINOR_VERSION], [1])
+m4_define([MICRO_VERSION], [33])
+
+AC_INIT([libxslt], [MAJOR_VERSION.MINOR_VERSION.MICRO_VERSION])
+AC_CONFIG_SRCDIR([libxslt/xslt.c])
 AC_CONFIG_HEADERS(config.h)
 AC_CANONICAL_HOST
 AC_USE_SYSTEM_EXTENSIONS
@@ -9,13 +15,12 @@ dnl
 dnl libxslt is the main part of the package
 dnl libexslt is an extension
 dnl
-LIBXSLT_MAJOR_VERSION=1
-LIBXSLT_MINOR_VERSION=1
-LIBXSLT_MICRO_VERSION=28
-PACKAGE=libxslt
+LIBXSLT_MAJOR_VERSION=MAJOR_VERSION
+LIBXSLT_MINOR_VERSION=MINOR_VERSION
+LIBXSLT_MICRO_VERSION=MICRO_VERSION
 LIBEXSLT_MAJOR_VERSION=0
 LIBEXSLT_MINOR_VERSION=8
-LIBEXSLT_MICRO_VERSION=17
+LIBEXSLT_MICRO_VERSION=20
 LIBXML_REQUIRED_VERSION=2.6.27
 
 
@@ -80,9 +85,7 @@ AC_SUBST(LIBEXSLT_VERSION_INFO)
 AC_SUBST(LIBEXSLT_VERSION_NUMBER)
 AC_SUBST(LIBEXSLT_VERSION_EXTRA)
 
-VERSION=${LIBXSLT_VERSION}
-
-AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
+AM_INIT_AUTOMAKE([foreign])
 
 # AM_MAINTAINER_MODE
 
@@ -113,11 +116,9 @@ dnl
 AC_PROG_CC
 AC_PROG_INSTALL
 AC_PROG_CPP
-AC_PATH_PROG(RM, rm, /bin/rm)
-AC_PATH_PROG(MV, mv, /bin/mv)
-AC_PATH_PROG(TAR, tar, /bin/tar)
 AC_PATH_PROG(XMLLINT, xmllint, /usr/bin/xmllint)
 AC_PATH_PROG(XSLTPROC, xsltproc, /usr/bin/xsltproc)
+PKG_PROG_PKG_CONFIG
 
 AC_HEADER_STDC
 
@@ -160,74 +161,8 @@ dnl
 dnl Detect supported locale
 dnl
 
-XSLT_LOCALE_XLOCALE=0
-XSLT_LOCALE_WINAPI=0
-
 AC_CHECK_HEADERS([locale.h xlocale.h])
-if test $ac_cv_header_xlocale_h = yes; then
-dnl
-dnl Check for generic locale_t declaration
-dnl
-AC_MSG_CHECKING([if xlocale program link])
-AC_LINK_IFELSE([AC_LANG_PROGRAM([[
-#ifdef HAVE_LOCALE_H
-#include <locale.h>
-#endif
-#ifdef HAVE_XLOCALE_H
-#include <xlocale.h>
-#endif
-#ifdef HAVE_STRING_H
-#include <string.h>
-#endif
-#ifdef HAVE_STDLIB_H
-#include <stdlib.h>
-#endif
-
-#ifdef __GLIBC__
-typedef __locale_t xsltLocale;
-#else
-typedef locale_t xsltLocale;
-#endif
-#if defined(__GLIBC__) && __GLIBC__ == 2 && __GLIBC_MINOR__ <= 2
-#define newlocale __newlocale
-#define freelocale __freelocale
-#define strxfrm_l __strxfrm_l
-#define LC_COLLATE_MASK (1 << LC_COLLATE)
-#endif
-]],[[
-    xsltLocale locale;
-    const char *src[[2]] = { "\xc3\x84rger", "Zeppelin" };
-    char *dst[[2]];
-    size_t len, r;
-    int i;
-
-    locale = newlocale(LC_COLLATE_MASK, "en_US.utf8", NULL);
-    if (locale == NULL) exit(1);
-    for (i=0; i<2; ++i) {
-        len = strxfrm_l(NULL, src[[i]], 0, locale) + 1;
-        dst[[i]] = malloc(len);
-        if(dst[[i]] == NULL) exit(1);
-        r = strxfrm_l(dst[[i]], src[[i]], len, locale);
-        if(r >= len) exit(1);
-    }
-    if (strcmp(dst[[0]], dst[[1]]) >= 0) exit(1);
-
-    exit(0);
-    return(0);
-]])],
-  [AC_MSG_RESULT(yes); XSLT_LOCALE_XLOCALE=1],
-  [AC_MSG_RESULT(no)]
-)
-else
-  case "$host" in
-    *-*-mingw*)
-      AC_MSG_NOTICE([using winapi locale])
-      XSLT_LOCALE_WINAPI=1;;
-  esac
-fi
-
-AC_SUBST(XSLT_LOCALE_XLOCALE)
-AC_SUBST(XSLT_LOCALE_WINAPI)
+AC_CHECK_FUNCS([strxfrm_l])
 
 dnl
 dnl Math detection
@@ -235,6 +170,7 @@ dnl
 
 AC_CHECK_HEADERS(ieeefp.h nan.h math.h fp_class.h float.h ansidecl.h)
 AC_CHECK_HEADERS(sys/timeb.h time.h sys/stat.h sys/select.h stdarg.h)
+AC_CHECK_HEADERS(errno.h)
 AC_CHECK_FUNCS(stat _stat)
 AC_CHECK_FUNC(pow, , AC_CHECK_LIB(m, pow,
   [M_LIBS="-lm"; AC_DEFINE([HAVE_POW],[], [Define if pow is there])]))
@@ -247,7 +183,7 @@ AC_CHECK_FUNC(fabs, , AC_CHECK_LIB(m, fabs,
 
 
 AC_CHECK_FUNCS(gettimeofday)
-AC_CHECK_FUNCS(mktime localtime localtime_r asctime time gmtime gmtime_r ftime)
+AC_CHECK_FUNCS(localtime localtime_r time gmtime gmtime_r ftime)
 
 dnl Checking the standard string functions availability
 AC_CHECK_FUNCS(printf sprintf fprintf snprintf vfprintf vsprintf vsnprintf sscanf,,
@@ -291,79 +227,15 @@ dnl
 dnl check for python
 dnl
 
-#PYTHON_VERSION=
-#PYTHON_INCLUDES=
-#PYTHON_SITE_PACKAGES=
 pythondir=
 AC_ARG_WITH(python, [  --with-python[=DIR]    Build Python bindings if found])
 if test "$with_python" != "no" ; then
-    if test -x "$with_python/bin/python"
-    then
-        echo Found python in $with_python/bin/python
-        PYTHON="$with_python/bin/python"
-    else
-	if test -x "$with_python"
-	then
-	    echo Found python in $with_python
-	    PYTHON="$with_python"
-	else
-            if test -x "$PYTHON"
-            then
-                echo Found python in environment PYTHON=$PYTHON
-                with_python=`$PYTHON -c "import sys; print sys.exec_prefix"`
-	    else
-	        AC_PATH_PROG(PYTHON, python python2.4 python2.3 python2.2 python2.1 python2.0 python1.6 python1.5)
-	    fi
-	fi
-    fi
+    PYTHON="$with_python"
     if test "$PYTHON" != ""
     then
-        echo "PYTHON is pointing at $PYTHON"
-        PYTHON_VERSION=`$PYTHON -c "import sys; print sys.version[[0:3]]"`
 	echo Found Python version $PYTHON_VERSION
-	LIBXML2_PYTHON=`$PYTHON -c "try : import libxml2 ; print 1
-except: print 0"`
-	if test "$LIBXML2_PYTHON" = "1"
-	then
-	    echo Found libxml2-python module
-	else
-	    echo Warning: Missing libxml2-python
-	fi
     fi
-    if test "$PYTHON_VERSION" != ""
-    then
-	if test -r $with_python/include/python$PYTHON_VERSION/Python.h -a \
-	   -d $with_python/lib/python$PYTHON_VERSION/site-packages
-	then
-	    PYTHON_INCLUDES=$with_python/include/python$PYTHON_VERSION
-	    PYTHON_SITE_PACKAGES='$(libdir)/python$(PYTHON_VERSION)/site-packages'
-	else
-	    if test -r $prefix/include/python$PYTHON_VERSION/Python.h
-	    then
-	        PYTHON_INCLUDES=$prefix/include/python$PYTHON_VERSION
-		PYTHON_SITE_PACKAGES='$(libdir)/python$(PYTHON_VERSION)/site-packages'
-	    else
-		if test -r /usr/include/python$PYTHON_VERSION/Python.h
-		then
-		    PYTHON_INCLUDES=/usr/include/python$PYTHON_VERSION
-		    PYTHON_SITE_PACKAGES='$(libdir)/python$(PYTHON_VERSION)/site-packages'
-		else
-		    echo could not find python$PYTHON_VERSION/Python.h
-		fi
-	    fi
-	    if test ! -d "$PYTHON_SITE_PACKAGES"
-	    then
-		    PYTHON_SITE_PACKAGES=`$PYTHON -c "from distutils import sysconfig; print sysconfig.get_python_lib()"`
-	    fi
-	fi
-        PYTHON_LIBS=`python$PYTHON_VERSION-config --libs`
-    fi
-    if test "$with_python" != ""
-    then
-        pythondir='$(PYTHON_SITE_PACKAGES)'
-    else
-        pythondir='$(libdir)/python$(PYTHON_VERSION)/site-packages'
-    fi
+    pythondir='$(PYTHON_SITE_PACKAGES)'
 fi
 AM_CONDITIONAL(WITH_PYTHON, test "$PYTHON_INCLUDES" != "")
 if test "$PYTHON_INCLUDES" != ""
@@ -372,12 +244,14 @@ then
 else
     PYTHON_SUBDIR=
 fi
+AC_SUBST(PYTHON)
 AC_SUBST(pythondir)
 AC_SUBST(PYTHON_SUBDIR)
 AC_SUBST(PYTHON_LIBS)
 
 AC_ARG_WITH(crypto, [  --with-crypto           Add crypto support to exslt (on)])
 WITH_CRYPTO=0
+CRYPTO_TESTDIR=
 if test "$with_crypto" = "no" ; then
     echo Disabling crypto support
     LIBGCRYPT_CFLAGS=""
@@ -389,9 +263,10 @@ case $host in
     dnl TODO: to implement --with-crypto=foo to allow switch between
     dnl crypto libraries
     WITH_CRYPTO=1
+    CRYPTO_TESTDIR=crypto
     ;;
   *)
-    AC_PATH_PROG(LIBGCRYPT_CONFIG, libgcrypt-config, no)
+    AC_PATH_TOOL(LIBGCRYPT_CONFIG, libgcrypt-config, no)
     if test "$LIBGCRYPT_CONFIG" != "no" ; then
       LIBGCRYPT_VERSION=`$LIBGCRYPT_CONFIG --version`
       if test VERSION_TO_NUMBER(echo $LIBGCRYPT_VERSION) -lt VERSION_TO_NUMBER(echo "1.1.42")
@@ -404,7 +279,8 @@ case $host in
         LIBGCRYPT_LIBS=`$LIBGCRYPT_CONFIG $libgcrypt_config_args --libs`
         AC_DEFINE(HAVE_GCRYPT, 1, [Define if gcrypt library is available.])
         echo 'Crypto extensions will be available.'
-		WITH_CRYPTO=1
+        WITH_CRYPTO=1
+        CRYPTO_TESTDIR=crypto
       fi
     else
       LIBGCRYPT_CFLAGS=""
@@ -414,6 +290,7 @@ case $host in
 esac
 fi
 AC_SUBST(WITH_CRYPTO)
+AC_SUBST(CRYPTO_TESTDIR)
 AC_SUBST(LIBGCRYPT_CFLAGS)
 AC_SUBST(LIBGCRYPT_LIBS)
 
@@ -427,7 +304,7 @@ if [[ "${LOGNAME}" = "veillard" -a "`pwd`" = "/u/veillard/XSLT" ]] || \
     then
 	with_mem_debug="yes"
     fi
-    CFLAGS="-Wall -g -O -ansi -pedantic -W -Wunused -Wimplicit -Wreturn-type -Wswitch -Wcomment -Wtrigraphs -Wformat -Wchar-subscripts -Wuninitialized -Wparentheses -Wshadow -Wpointer-arith -Wcast-align -Wwrite-strings -Waggregate-return -Wstrict-prototypes -Wmissing-prototypes -Wnested-externs -Winline "
+    CFLAGS="-Wall -g -O -ansi -pedantic -W -Wunused -Wimplicit -Wreturn-type -Wswitch -Wcomment -Wtrigraphs -Wformat=2 -Wmissing-format-attribute -Wchar-subscripts -Wuninitialized -Wparentheses -Wshadow -Wpointer-arith -Wcast-align -Wwrite-strings -Waggregate-return -Wstrict-prototypes -Wmissing-prototypes -Wnested-externs -Winline "
 fi
 
 AC_ARG_WITH(debug, [  --with-debug            Add the debugging code (on)])
@@ -500,12 +377,11 @@ dnl where is xml2-config
 dnl
 
 AC_SUBST(LIBXML_REQUIRED_VERSION)
-AC_MSG_CHECKING(for libxml libraries >= $LIBXML_REQUIRED_VERSION) 
 if test "x$LIBXML_CONFIG_PREFIX" != "x"
 then
-	XML_CONFIG=${LIBXML_CONFIG_PREFIX}/bin/xml2-config
+	AC_PATH_TOOL([XML_CONFIG], [xml2-config], [false], [${LIBXML_CONFIG_PREFIX}/bin])
 else
-	XML_CONFIG=xml2-config
+	AC_PATH_TOOL([XML_CONFIG], [xml2-config], [false])
 fi
 
 dnl
@@ -521,7 +397,7 @@ if test "${GCC}" != "yes" ; then
                ;;
     esac
 else
-    CFLAGS="${CFLAGS} -Wall"
+    CFLAGS="${CFLAGS} -Wall -Wformat=2 -Wmissing-format-attribute"
     case "${host}" in
           alpha*-*-linux* )
 	       CFLAGS="${CFLAGS} -mieee"
@@ -541,10 +417,11 @@ then
 	CWD=`pwd`
 	if cd $LIBXML_SRC
 	then
-		SRC_DIR=`pwd`
-		XML_CONFIG=${SRC_DIR}/xml2-config
-		LIBXML_CFLAGS="-I${SRC_DIR}/include"
-		LIBXML_LIBS="-L${SRC_DIR}"
+		LIBXML_SRC=`pwd`
+		XML_CONFIG="${LIBXML_SRC}/xml2-config"
+		LIBXML_CFLAGS="-I${LIBXML_SRC}/include"
+		LIBXML_LIBS="-L${LIBXML_SRC} `$XML_CONFIG --libs`"
+                WITH_MODULES="`$XML_CONFIG --modules`"
 		cd $CWD
 	else
 		AC_MSG_ERROR([libxml source dir not found (${LIBXML_SRC}), typo?])
@@ -552,12 +429,24 @@ then
 fi
 
 dnl
+dnl Try pkg-config first if nothing is set
+dnl
+
+if test "x$LIBXML_CONFIG_PREFIX" = "x" -a "x$LIBXML_LIBS" = "x"
+then
+	PKG_CHECK_MODULES([LIBXML], [libxml-2.0 >= $LIBXML_REQUIRED_VERSION], [
+		WITH_MODULES="`$PKG_CONFIG --variable=modules libxml-2.0`"
+	], [ ])
+fi
+
+dnl
 dnl make sure xml2-config is executable,
 dnl test version and init our variables
 dnl
 
-if ${XML_CONFIG} --libs print > /dev/null 2>&1
+if test "x$LIBXML_LIBS" = "x" && ${XML_CONFIG} --libs print > /dev/null 2>&1
 then
+        AC_MSG_CHECKING(for libxml libraries >= $LIBXML_REQUIRED_VERSION)
 	XMLVERS=`$XML_CONFIG --version`
 	if test VERSION_TO_NUMBER(echo $XMLVERS) -ge VERSION_TO_NUMBER(echo $LIBXML_REQUIRED_VERSION)
 	then
@@ -565,11 +454,13 @@ then
 	else
 		AC_MSG_ERROR(Version $XMLVERS found. You need at least libxml2 $LIBXML_REQUIRED_VERSION for this version of libxslt)
 	fi
-	LIBXML_LIBS="$LIBXML_LIBS `$XML_CONFIG --libs`"
-	if test "x$LIBXML_SRC" = "x"; then
-		LIBXML_CFLAGS="$LIBXML_CFLAGS `$XML_CONFIG --cflags`"
-	fi
-else
+	LIBXML_LIBS="`$XML_CONFIG --libs`"
+	LIBXML_CFLAGS="`$XML_CONFIG --cflags`"
+        WITH_MODULES="`$XML_CONFIG --modules`"
+fi
+
+if test "x$LIBXML_LIBS" = "x"
+then
 	AC_MSG_ERROR([Could not find libxml2 anywhere, check ftp://xmlsoft.org/.])
 fi
 
@@ -597,7 +488,6 @@ fi
 
 if test "$with_plugins" = "yes" ; then
   AC_MSG_CHECKING([libxml2 module support])
-  WITH_MODULES="`$XML_CONFIG --modules`"
   if test "${WITH_MODULES}" = "1"; then
     AC_MSG_RESULT(yes)
   else
@@ -614,9 +504,16 @@ AM_CONDITIONAL(WITH_MODULES, test "$WITH_MODULES" = "1")
 dnl
 dnl setup default module path
 dnl
-module_prefix=$prefix
-test "x$module_prefix" = xNONE && module_prefix=$ac_default_prefix
-LIBXSLT_DEFAULT_PLUGINS_PATH="$module_prefix/lib/libxslt-plugins"
+expanded_libdir=$(
+    test "x$prefix" = xNONE && prefix="$ac_default_prefix"
+    test "x$exec_prefix" = xNONE && exec_prefix="$prefix"
+    while test "$libdir_old" != "$libdir"; do
+      libdir_old="$libdir"
+      eval libdir="$libdir"
+    done
+    echo "$libdir"
+)
+LIBXSLT_DEFAULT_PLUGINS_PATH="$expanded_libdir/libxslt-plugins"
 AC_SUBST(LIBXSLT_DEFAULT_PLUGINS_PATH)
 
 WIN32_EXTRA_LIBADD=
@@ -705,10 +602,12 @@ tests/exslt/Makefile
 tests/exslt/common/Makefile
 tests/exslt/functions/Makefile
 tests/exslt/math/Makefile
+tests/exslt/saxon/Makefile
 tests/exslt/sets/Makefile
 tests/exslt/strings/Makefile
 tests/exslt/date/Makefile
 tests/exslt/dynamic/Makefile
+tests/exslt/crypto/Makefile
 tests/plugins/Makefile
 doc/Makefile
 xslt-config

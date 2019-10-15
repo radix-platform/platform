@@ -54,7 +54,7 @@ REQUIRES           = dev/perl/5.22.1
 REQUIRES          += dev/python2/2.7.16
 REQUIRES          += dev/python3/3.7.4
 REQUIRES          += libs/libxml2/2.9.9
-REQUIRES          += libs/libxslt/1.1.28
+REQUIRES          += libs/libxslt/1.1.33
 REQUIRES          += net/openssl/1.1.1d
 REQUIRES          += secure/pam_unix2/2.9.1
 

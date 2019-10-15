@@ -7,14 +7,14 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/libxslt
 
-versions    = 1.1.28
+versions    = 1.1.33
 pkgname     = libxslt
 suffix      = tar.gz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/libxslt-1.1.28.patch
+patches     = $(CURDIR)/patches/libxslt-1.1.33-python.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -49,7 +49,7 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-1.1.28-patch ; ./create.patch.sh ) ; \
+	 ( cd create-1.1.33-python-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

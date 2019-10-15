@@ -50,7 +50,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/a/linuxdoc-tools/xmlto
 
-REQUIRES           = libs/libxslt/1.1.28
+REQUIRES           = libs/libxslt/1.1.33
 REQUIRES          += share/docbook-xsl/1.78.1
 
 # ======= __END_OF_REQUIRES__ =======

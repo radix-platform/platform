@@ -1,10 +1,13 @@
 
-COMPONENT_TARGETS  = $(HARDWARE_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_S824L)
+COMPONENT_TARGETS += $(HARDWARE_VESNIN)
+COMPONENT_TARGETS += $(HARDWARE_TL2WK2)
+COMPONENT_TARGETS += $(HARDWARE_TL2SV2)
 
 NEED_ABS_PATH      = true
 COMPONENT_IS_3PP   = true
 
-CREATE_X86_32_PACKAGE = true
+CREATE_PPC32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
@@ -12,17 +15,14 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/libxslt
 
-REQUIRES           = libs/libxslt/1.1.28
-REQUIRES          += libs/pth/2.0.7-x86_32
-REQUIRES          += libs/libxml2/2.9.9-x86_32
-REQUIRES          += net/libgcrypt/1.8.5-x86_32
+REQUIRES           = libs/libxslt/1.1.33
+REQUIRES          += libs/libxml2/2.9.9-ppc32
+REQUIRES          += net/libgcrypt/1.8.5-ppc32
 
 # ======= __END_OF_REQUIRES__ =======
 
-PYTHON_VERSION = 2.7
 
-
-version            = 1.1.28
+version            = 1.1.33
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/libxslt/libxslt-$(version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/libxslt-$(version)
@@ -43,7 +43,7 @@ PKG_GROUP = libs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 LIBXSLT_32_PKG_NAME                = libxslt-x32
-LIBXSLT_32_PKG_VERSION             = 1.1.28
+LIBXSLT_32_PKG_VERSION             = 1.1.33
 LIBXSLT_32_PKG_ARCH                = $(TOOLCHAIN)
 LIBXSLT_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBXSLT_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -85,22 +85,49 @@ env_sysroot  = DESTDIR=$(LIBXSLT_32_PKG)
 CFLAGS += -I$(TARGET_DEST_DIR)/usr/include/python$(PYTHON_VERSION)
 
 
-extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
+extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_PPC32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
+
+extra_configure_switches += --bindir=/usr/bin/32
+
 extra_configure_switches += --disable-dependency-tracking
+ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
 extra_configure_switches += --enable-shared=yes
 
+
+PYTHON_VERSION = 2.7
+
+ifeq ($(PYTHON_VERSION),2.7)
+WITH_PYTHON = $(PYTHON2)
 python_environment  = PYTHON_VERSION=$(PYTHON_VERSION)
-python_environment += PYTHON_SITE_PACKAGES=/usr/lib$(MULTILIB_X86_32_SUFFIX)/python$(PYTHON_VERSION)/site-packages
+python_environment += PYTHON_SITE_PACKAGES=/usr/lib$(MULTILIB_PPC32_SUFFIX)/python$(PYTHON_VERSION)/site-packages
 python_environment += PYTHON_INCLUDES=$(TARGET_DEST_DIR)/usr/include/python$(PYTHON_VERSION)
-python_environment += PYTHON_LIBS=-L$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/python$(PYTHON_VERSION)/config
+python_environment += PYTHON_LIBS='$(shell $(TARGET_DEST_DIR)/usr/bin/32/python$(PYTHON_VERSION)-config --ldflags)'
+CFLAGS += -I$(TARGET_DEST_DIR)/usr/include/python$(PYTHON_VERSION)
+endif
+
+ifeq ($(PYTHON_VERSION),3.7)
+WITH_PYTHON = $(PYTHON3)
+python_environment  = PYTHON_VERSION=$(PYTHON_VERSION)
+python_environment += PYTHON_SITE_PACKAGES=/usr/lib$(MULTILIB_PPC32_SUFFIX)/python$(PYTHON_VERSION)/site-packages
+python_environment += PYTHON_INCLUDES='$(shell $(TARGET_DEST_DIR)/usr/bin/python$(PYTHON_VERSION)-config --includes)'
+python_environment += PYTHON_LIBS='$(shell $(TARGET_DEST_DIR)/usr/bin/32/python$(PYTHON_VERSION)-config --ldflags)'
+CFLAGS += -I$(TARGET_DEST_DIR)/usr/include/python$(PYTHON_VERSION)m
+endif
 
 
-TARGET_BIN_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX)
-TARGET_LIB_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX):/usr/lib/../lib$(MULTILIB_X86_32_SUFFIX)
+libs_config  = LIBGCRYPT_CONFIG=$(TARGET_DEST_DIR)/usr/bin/32/libgcrypt-config
+libs_config += XML_CONFIG=$(TARGET_DEST_DIR)/usr/bin/32/xml2-config
+
+
+TARGET_BIN_RPATH = /lib$(MULTILIB_PPC32_SUFFIX):/usr/lib$(MULTILIB_PPC32_SUFFIX)
+TARGET_LIB_RPATH = /lib$(MULTILIB_PPC32_SUFFIX):/usr/lib$(MULTILIB_PPC32_SUFFIX):/usr/lib/../lib$(MULTILIB_PPC32_SUFFIX)
 
 
 ####### Dependencies
@@ -108,15 +135,16 @@ TARGET_LIB_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFI
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
-	@touch -t 201401010000.00 $(SRC_DIR)/*
+	@( cd $(SRC_DIR) ; autoreconf -vif )
 	@touch $@
 
 $(build_target): $(src_done)
 	@mkdir -p $(build_dir)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(python_environment) ../$(src_dir_name)/configure \
-	  --prefix=/usr               \
-	  --build=$(BUILD)            \
-	  --host=$(TARGET32)          \
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(python_environment) $(libs_config) ../$(src_dir_name)/configure \
+	  --prefix=/usr                \
+	  --build=$(BUILD)             \
+	  --host=$(TARGET32)           \
+	  --with-python=$(WITH_PYTHON) \
 	  $(extra_configure_switches)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) $(python_environment)
 	@touch $@
@@ -124,54 +152,54 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(LIBXSLT_32_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
-	@mkdir -p $(LIBXSLT_32_PKG)/usr/bin/32
-	@( cd $(LIBXSLT_32_PKG)/usr/bin ; \
-	   find . -type f | xargs mv -t 32 ; \
-	 )
 	@rm -rf $(LIBXSLT_32_PKG)/usr/include
 	@rm -rf $(LIBXSLT_32_PKG)/usr/share
 	# ======= remove toolchain path from target libtool *.la files =======
-	@( cd $(LIBXSLT_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   sed -i "s,-L/usr/lib64,,g" libexslt.la ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" libexslt.la libxslt.la \
+	@( cd $(LIBXSLT_32_PKG)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libexslt.la libxslt.la ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" xsltConf.sh ; \
 	 )
-	@( cd $(LIBXSLT_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/python$(PYTHON_VERSION)/site-packages ; \
-	   sed -i "s,-L/usr/lib64,,g" libxsltmod.la ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" libxsltmod.la \
+	@( cd $(LIBXSLT_32_PKG)/usr/lib$(MULTILIB_PPC32_SUFFIX)/python$(PYTHON_VERSION)/site-packages ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libxsltmod.la ; \
 	 )
-	# ======= Fix LDFLAGS in libexslt.pc =======
-	@( cd $(LIBXSLT_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
-	   sed -i "s,-L/usr/lib64,,g" libexslt.pc ; \
+	# ======= remove toolchain path from target pkg-config *.pc files =======
+	@( cd $(LIBXSLT_32_PKG)/usr/lib$(MULTILIB_PPC32_SUFFIX)/pkgconfig ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libexslt.pc libxslt.pc ; \
 	 )
 	# ======= tune xslt-config script for runtime =======
 	@( cd $(LIBXSLT_32_PKG)/usr/bin/32 ; \
-	   sed -i "s,lib/lib,lib$(MULTILIB_X86_32_SUFFIX)/lib,g" xslt-config ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" xslt-config ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(LIBXSLT_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libexslt.la libxslt.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libexslt.la libxslt.la \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   libexslt.la libxslt.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libexslt.la libxslt.la ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   xsltConf.sh ; \
 	 )
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/python$(PYTHON_VERSION)/site-packages ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libxsltmod.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libxsltmod.la \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_PPC32_SUFFIX)/python$(PYTHON_VERSION)/site-packages ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   libxsltmod.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libxsltmod.la ; \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libexslt.pc libxslt.pc \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_PPC32_SUFFIX)/pkgconfig ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libexslt.pc libxslt.pc ; \
 	 )
 	# ======= tune xslt-config script for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/bin/32 ; \
-	   sed -i "s,=/usr,=$(TARGET_DEST_DIR)/usr,g" xslt-config ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" xslt-config ; \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(LIBXSLT_32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(LIBXSLT_32_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target binaries =======
 	@( cd $(LIBXSLT_32_PKG)/usr/bin/32 ; \
@@ -183,7 +211,7 @@ ifneq ($(CHRPATH),)
 	   done ; \
 	 )
 	# ======= Set RPATH/RUNPATH for target shared objects =======
-	@( cd $(LIBXSLT_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(LIBXSLT_32_PKG)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
 	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
 	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
 	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \

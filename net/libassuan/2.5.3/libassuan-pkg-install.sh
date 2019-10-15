@@ -29,7 +29,7 @@ post_install() {
   #
   if [ -x /usr/bin/install-info ] ; then
     install-info --info-dir=usr/share/info usr/share/info/assuan.info.gz 2>/dev/null
-  elif ! grep "assuan" usr/share/info/dir 1> /dev/null 2> /dev/null ; then
+  elif ! grep "(assuan)" usr/share/info/dir 1> /dev/null 2> /dev/null ; then
   cat << EOF >> usr/share/info/dir
 
 GNU Libraries

@@ -53,11 +53,11 @@ SOURCE_REQUIRES    = sources/packages/n/pinentry
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES           = libs/ncurses/6.1
 REQUIRES          += secure/libcap/2.27
-REQUIRES          += net/libassuan/2.4.2
+REQUIRES          += net/libassuan/2.5.3
 else
 REQUIRES           = libs/ncurses/6.1-x86_32
 REQUIRES          += secure/libcap/2.27-x86_32
-REQUIRES          += net/libassuan/2.4.2-x86_32
+REQUIRES          += net/libassuan/2.5.3-x86_32
 endif
 
 # ======= __END_OF_REQUIRES__ =======

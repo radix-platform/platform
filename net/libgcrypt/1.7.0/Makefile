@@ -50,7 +50,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/n/libgcrypt
 
-REQUIRES           = net/libassuan/2.4.2
+REQUIRES           = net/libassuan/2.5.3
 REQUIRES          += net/libksba/1.3.3
 REQUIRES          += libs/pth/2.0.7
 

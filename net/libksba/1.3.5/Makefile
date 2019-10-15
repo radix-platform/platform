@@ -55,7 +55,7 @@ REQUIRES           = net/libgpg-error/1.36
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 1.3.3
+version            = 1.3.5
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/libksba/libksba-$(version).tar.bz2
 SRC_ARCHIVE        = $(tar_bz2_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/libksba-$(version)
@@ -77,7 +77,7 @@ PKG_GROUP = net
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 KSBA_PKG_NAME                = libksba
-KSBA_PKG_VERSION             = 1.3.3
+KSBA_PKG_VERSION             = 1.3.5
 KSBA_PKG_ARCH                = $(TOOLCHAIN)
 KSBA_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 KSBA_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -120,8 +120,12 @@ extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var
-extra_configure_switches += --enable-shared=yes
+ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
+extra_configure_switches += --enable-shared=yes
 
 gpg_error_config = GPG_ERROR_CONFIG=$(TARGET_DEST_DIR)/usr/bin/gpg-error-config
 
@@ -164,7 +168,7 @@ $(install_target): $(build_target)
 	       $(KSBA_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(KSBA_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a AUTHORS COPYING* INSTALL NEWS README* THANKS TODO doc/HACKING \
+	   cp -a AUTHORS COPYING* NEWS README* THANKS TODO doc/HACKING \
 	         $(KSBA_PKG)/usr/share/doc/$(src_dir_name) ; \
 	 )
 	@( cd $(SRC_DIR) ; \
@@ -185,21 +189,25 @@ $(install_target): $(build_target)
 	$(call install-into-devenv, $(KSBA_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libksba.la  ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libksba.la  \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   libksba.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libksba.la ;\
 	 )
-	# ======= tune pkg-config *.pc search path to the target destination for development =======
+	# ======= tune ksba-config script to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/bin ; \
 	   sed -i "s,prefix=/usr,prefix=$(TARGET_DEST_DIR)/usr,g" ksba-config ; \
-	   sed -i "s,-L/usr,-L$(TARGET_DEST_DIR)/usr,g" ksba-config ; \
-	   sed -i "s,-I/usr,-I$(TARGET_DEST_DIR)/usr,g" ksba-config ; \
+	   sed -i 's,test "/usr,test "$(TARGET_DEST_DIR)/usr,g'   ksba-config ; \
+	   sed -i "s,-L/usr,-L$(TARGET_DEST_DIR)/usr,g"           ksba-config ; \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(KSBA_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(KSBA_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target shared objects =======
 	@( cd $(KSBA_PKG)/lib$(LIBSUFFIX) ; \

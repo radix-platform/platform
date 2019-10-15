@@ -14,7 +14,7 @@ SOURCE_REQUIRES      = sources/packages/n/libgcrypt
 
 REQUIRES             = net/libgcrypt/1.7.0
 REQUIRES            += net/libassuan/2.5.3-x86_32
-REQUIRES            += net/libksba/1.3.3-x86_32
+REQUIRES            += net/libksba/1.3.5-x86_32
 REQUIRES            += libs/pth/2.0.7-x86_32
 
 # ======= __END_OF_REQUIRES__ =======

@@ -29,7 +29,7 @@ post_install() {
   #
   if [ -x /usr/bin/install-info ] ; then
     install-info --info-dir=usr/share/info usr/share/info/ksba.info.gz 2>/dev/null
-  elif ! grep "ksba" usr/share/info/dir 1> /dev/null 2> /dev/null ; then
+  elif ! grep "(ksba)" usr/share/info/dir 1> /dev/null 2> /dev/null ; then
   cat << EOF >> usr/share/info/dir
 
 GNU libraries

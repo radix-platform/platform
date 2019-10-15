@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/libksba
 
-versions    = 1.3.0 1.3.1 1.3.3
+versions    = 1.3.5
 pkgname     = libksba
 suffix      = tar.bz2
 

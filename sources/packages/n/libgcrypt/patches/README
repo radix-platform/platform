@@ -1,0 +1,11 @@
+
+/* begin *
+
+   libgcrypt-1.8.5-sparc.patch   - From GNU Libc 2.28 (stdlib/longlong.h);
+   libgcrypt-1.8.5-powerpc.patch - From GNU Libc 2.28 (stdlib/longlong.h);
+
+   NOTE:
+   ====
+      The patch 'libgcrypt-1.8.5-sparc.patch' should be applies before.
+
+ * end */

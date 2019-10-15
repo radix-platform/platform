@@ -5,22 +5,17 @@ COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 include ../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/packages/n/libgcrypt
+url         = $(DOWNLOAD_SERVER)/sources/packages/n/npth
 
-versions    = 1.8.5
-pkgname     = libgcrypt
+versions    = 1.6
+pkgname     = npth
 suffix      = tar.bz2
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/libgcrypt-1.8.5-powerpc.patch
-patches    += $(CURDIR)/patches/libgcrypt-1.8.5-sparc.patch
 
-.NOTPARALLEL: $(patches)
-
-
-BUILD_TARGETS = $(tarballs) $(sha1s) $(patches)
+BUILD_TARGETS = $(tarballs) $(sha1s)
 
 
 include ../../../../build-system/core.mk
@@ -48,11 +43,5 @@ $(sha1s): $(tarballs)
 	   fi ; \
 	 done
 
-$(patches): $(sha1s)
-	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-1.8.5-powerpc-patch ; ./create.patch.sh ) ; \
-	 ( cd create-1.8.5-sparc-patch   ; ./create.patch.sh ) ; \
-	 echo -e "\n"
-
 download_clean:
-	@rm -f $(tarballs) $(sha1s) $(patches)
+	@rm -f $(tarballs) $(sha1s)

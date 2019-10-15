@@ -48,7 +48,7 @@ COMPONENT_IS_3PP   = true
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/GNU/pth
+SOURCE_REQUIRES    = sources/packages/n/npth
 
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/6.5.0
@@ -59,11 +59,11 @@ endif
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 2.0.7
-tar_gz_archive     = $(SRC_PACKAGE_PATH)/GNU/pth/pth-$(version).tar.gz
-SRC_ARCHIVE        = $(tar_gz_archive)
-SRC_DIR            = $(TARGET_BUILD_DIR)/pth-$(version)
-src_dir_name       = pth-$(version)
+version            = 1.6
+tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/npth/npth-$(version).tar.bz2
+SRC_ARCHIVE        = $(tar_bz2_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/npth-$(version)
+src_dir_name       = npth-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
@@ -80,23 +80,23 @@ PKG_GROUP = libs
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-PTH_PKG_NAME                = pth
-PTH_PKG_VERSION             = 2.0.7
-PTH_PKG_ARCH                = $(TOOLCHAIN)
-PTH_PKG_DISTRO_NAME         = $(DISTRO_NAME)
-PTH_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
-PTH_PKG_GROUP               = $(PKG_GROUP)
-###                          |---handy-ruler-------------------------------|
-PTH_PKG_SHORT_DESCRIPTION   = GNU Portable Threads
-PTH_PKG_URL                 = $(BUG_URL)
-PTH_PKG_LICENSE             = GPLv2
-PTH_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(PTH_PKG_NAME)-pkg-description
-PTH_PKG_DESCRIPTION_FILE_IN = $(PTH_PKG_NAME)-pkg-description.in
-PTH_PKG_INSTALL_SCRIPT      = $(PTH_PKG_NAME)-pkg-install.sh
+NPTH_PKG_NAME                = npth
+NPTH_PKG_VERSION             = 1.6
+NPTH_PKG_ARCH                = $(TOOLCHAIN)
+NPTH_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+NPTH_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
+NPTH_PKG_GROUP               = $(PKG_GROUP)
+###                           |---handy-ruler-------------------------------|
+NPTH_PKG_SHORT_DESCRIPTION   = The New GNU Portable Threads
+NPTH_PKG_URL                 = $(BUG_URL)
+NPTH_PKG_LICENSE             = GPLv2
+NPTH_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(NPTH_PKG_NAME)-pkg-description
+NPTH_PKG_DESCRIPTION_FILE_IN = $(NPTH_PKG_NAME)-pkg-description.in
+NPTH_PKG_INSTALL_SCRIPT      = $(NPTH_PKG_NAME)-pkg-install.sh
 
-PTH_PKG          = $(CURDIR)/$(TARGET_BUILD_DIR)/$(PTH_PKG_NAME)-package
+NPTH_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(NPTH_PKG_NAME)-package
 
-pkg_basename     = $(PTH_PKG_NAME)-$(PTH_PKG_VERSION)-$(PTH_PKG_ARCH)-$(PTH_PKG_DISTRO_NAME)-$(PTH_PKG_DISTRO_VERSION)
+pkg_basename     = $(NPTH_PKG_NAME)-$(NPTH_PKG_VERSION)-$(NPTH_PKG_ARCH)-$(NPTH_PKG_DISTRO_NAME)-$(NPTH_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
 pkg_certificate  = $(call cert-name,$(pkg_archive))
@@ -115,20 +115,15 @@ ROOTFS_TARGETS   = $(pkg_archive)
 include ../../../build-system/core.mk
 
 
-env_sysroot  = DESTDIR=$(PTH_PKG)
+env_sysroot  = DESTDIR=$(NPTH_PKG)
 
 
 extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --sysconfdir=/etc
-
-ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
-# The context switching is done by SUSv2 makecontext(2)
-extra_configure_switches += --with-mctx-mth=mcsc
-endif
-
-extra_configure_switches += --enable-pthread=no
+extra_configure_switches += --disable-dependency-tracking
+extra_configure_switches += --disable-tests
 ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
 else
@@ -152,15 +147,15 @@ $(build_target): $(src_done)
 	  --build=$(BUILD)            \
 	  --host=$(TARGET)            \
 	  $(extra_configure_switches)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
 	@touch $@
 
 $(install_target): $(build_target)
-	@mkdir -p $(PTH_PKG)
+	@mkdir -p $(NPTH_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Install Documentation =======
-	@if [ -d $(PTH_PKG)/usr/share/man ]; then \
-	  ( cd $(PTH_PKG)/usr/share/man ; \
+	@if [ -d $(NPTH_PKG)/usr/share/man ]; then \
+	  ( cd $(NPTH_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \
 	      ( cd $$manpagedir ; \
 	        for eachpage in `find . -type l -maxdepth 1` ; do \
@@ -172,67 +167,69 @@ $(install_target): $(build_target)
 	    done \
 	  ) \
 	 fi
-	@mkdir -p $(PTH_PKG)/usr/doc/$(src_dir_name)
-	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/COPYING \
-	       $(PTH_PKG)/usr/doc/$(src_dir_name)
-	@mkdir -p $(PTH_PKG)/usr/share/doc/$(src_dir_name)
+	@mkdir -p $(NPTH_PKG)/usr/doc/$(src_dir_name)
+	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/COPYING* \
+	       $(NPTH_PKG)/usr/doc/$(src_dir_name)
+	@mkdir -p $(NPTH_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a ANNOUNCE AUTHORS COPYING* HACKING HISTORY \
-	         INSTALL NEWS PORTING README* SUPPORT TESTS THANKS USERS \
-	         $(PTH_PKG)/usr/share/doc/$(src_dir_name) \
+	   cp -a AUTHORS COPYING* HACKING NEWS README VERSION \
+	         $(NPTH_PKG)/usr/share/doc/$(src_dir_name) \
 	 )
 	@( cd $(SRC_DIR) ; \
 	   if [ -r ChangeLog ]; then \
-	     DOCSDIR=`echo $(PTH_PKG)/usr/share/doc/$(src_dir_name)` ; \
+	     DOCSDIR=`echo $(NPTH_PKG)/usr/share/doc/$(src_dir_name)` ; \
 	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
 	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \
 	 )
-	# ======= remove toolchain path from target pth-config file =======
-	@( cd $(PTH_PKG)/usr/bin ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" pth-config ; \
+	# ======= remove toolchain path from target libtool *.la files =======
+	@( cd $(NPTH_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libnpth.la  \
+	 )
+	# ======= tune libs path in the target npth-config file =======
+	@( cd $(NPTH_PKG)/usr/bin ; \
+	   sed -i 's,^libs="-L/usr,libs="-L$${prefix},g' npth-config ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	$(call install-into-devenv, $(PTH_PKG))
+	$(call install-into-devenv, $(NPTH_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libpth.la ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libnpth.la ; \
 	 )
-	# ======= tune pth-config script to the target destination for development =======
+	# ======= tune npth-config script to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/bin ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" pth-config ; \
-	   sed -i "s,-L/lib,-L$(TARGET_DEST_DIR)/lib,g" pth-config ; \
+	   sed -i "s,^prefix=/usr,prefix=$(TARGET_DEST_DIR)/usr,g" npth-config ; \
 	 )
 	# ======= Strip binaries =======
-	@( cd $(PTH_PKG) ; \
+	@( cd $(NPTH_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )
 ifeq ($(__ENABLE_STATIC__),yes)
-	@( cd $(PTH_PKG) ; \
+	@( cd $(NPTH_PKG) ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
 	 )
 endif
 	@touch $@
 
-$(PTH_PKG_DESCRIPTION_FILE): $(PTH_PKG_DESCRIPTION_FILE_IN)
+$(NPTH_PKG_DESCRIPTION_FILE): $(NPTH_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
 $(pkg_certificate) : $(pkg_archive) ;
 $(pkg_signature)   : $(pkg_archive) ;
 $(pkg_description) : $(pkg_archive) ;
 
-$(pkg_archive): $(install_target) $(PTH_PKG_DESCRIPTION_FILE) $(PTH_PKG_INSTALL_SCRIPT)
-	@cp $(PTH_PKG_DESCRIPTION_FILE) $(PTH_PKG)/.DESCRIPTION
-	@cp $(PTH_PKG_INSTALL_SCRIPT) $(PTH_PKG)/.INSTALL
-	@$(BUILD_PKG_REQUIRES) $(PTH_PKG)/.REQUIRES
-	@echo "pkgname=$(PTH_PKG_NAME)"                            >  $(PTH_PKG)/.PKGINFO ; \
-	 echo "pkgver=$(PTH_PKG_VERSION)"                          >> $(PTH_PKG)/.PKGINFO ; \
-	 echo "arch=$(PTH_PKG_ARCH)"                               >> $(PTH_PKG)/.PKGINFO ; \
-	 echo "distroname=$(PTH_PKG_DISTRO_NAME)"                  >> $(PTH_PKG)/.PKGINFO ; \
-	 echo "distrover=$(PTH_PKG_DISTRO_VERSION)"                >> $(PTH_PKG)/.PKGINFO ; \
-	 echo "group=$(PTH_PKG_GROUP)"                             >> $(PTH_PKG)/.PKGINFO ; \
-	 echo "short_description=\"$(PTH_PKG_SHORT_DESCRIPTION)\"" >> $(PTH_PKG)/.PKGINFO ; \
-	 echo "url=$(PTH_PKG_URL)"                                 >> $(PTH_PKG)/.PKGINFO ; \
-	 echo "license=$(PTH_PKG_LICENSE)"                         >> $(PTH_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(PTH_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."
+$(pkg_archive): $(install_target) $(NPTH_PKG_DESCRIPTION_FILE) $(NPTH_PKG_INSTALL_SCRIPT)
+	@cp $(NPTH_PKG_DESCRIPTION_FILE) $(NPTH_PKG)/.DESCRIPTION
+	@cp $(NPTH_PKG_INSTALL_SCRIPT) $(NPTH_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(NPTH_PKG)/.REQUIRES
+	@echo "pkgname=$(NPTH_PKG_NAME)"                            >  $(NPTH_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(NPTH_PKG_VERSION)"                          >> $(NPTH_PKG)/.PKGINFO ; \
+	 echo "arch=$(NPTH_PKG_ARCH)"                               >> $(NPTH_PKG)/.PKGINFO ; \
+	 echo "distroname=$(NPTH_PKG_DISTRO_NAME)"                  >> $(NPTH_PKG)/.PKGINFO ; \
+	 echo "distrover=$(NPTH_PKG_DISTRO_VERSION)"                >> $(NPTH_PKG)/.PKGINFO ; \
+	 echo "group=$(NPTH_PKG_GROUP)"                             >> $(NPTH_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(NPTH_PKG_SHORT_DESCRIPTION)\"" >> $(NPTH_PKG)/.PKGINFO ; \
+	 echo "url=$(NPTH_PKG_URL)"                                 >> $(NPTH_PKG)/.PKGINFO ; \
+	 echo "license=$(NPTH_PKG_LICENSE)"                         >> $(NPTH_PKG)/.PKGINFO
+	@$(PSEUDO) sh -c "cd $(NPTH_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

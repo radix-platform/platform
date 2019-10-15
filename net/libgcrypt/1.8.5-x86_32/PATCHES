@@ -1,0 +1,3 @@
+
+../../../sources/packages/n/libgcrypt/patches/libgcrypt-1.8.5-sparc.patch   -p0
+../../../sources/packages/n/libgcrypt/patches/libgcrypt-1.8.5-powerpc.patch -p0

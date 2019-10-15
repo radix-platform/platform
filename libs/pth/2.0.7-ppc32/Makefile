@@ -1,10 +1,13 @@
 
-COMPONENT_TARGETS  = $(HARDWARE_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_S824L)
+COMPONENT_TARGETS += $(HARDWARE_VESNIN)
+COMPONENT_TARGETS += $(HARDWARE_TL2WK2)
+COMPONENT_TARGETS += $(HARDWARE_TL2SV2)
 
 NEED_ABS_PATH      = true
 COMPONENT_IS_3PP   = true
 
-CREATE_X86_32_PACKAGE = true
+CREATE_PPC32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
@@ -13,7 +16,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/GNU/pth
 
 REQUIRES           = libs/pth/2.0.7
-REQUIRES          += libs/glibc/2.28-x86_32
+REQUIRES          += libs/glibc/2.28-ppc32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -76,13 +79,15 @@ include ../../../build-system/core.mk
 env_sysroot = DESTDIR=$(PTH32_PKG)
 
 
-extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
+extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_PPC32_SUFFIX)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --sysconfdir=/etc
 
 extra_configure_switches += --bindir=/usr/bin/32
 
+# The context switching is done by SUSv2 makecontext(2)
+extra_configure_switches += --with-mctx-mth=mcsc
 extra_configure_switches += --enable-pthread=no
 ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
@@ -121,7 +126,7 @@ $(install_target): $(build_target)
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(PTH32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libpth.la ; \
 	 )
 	# ======= tune pth-config script to the target destination for development =======

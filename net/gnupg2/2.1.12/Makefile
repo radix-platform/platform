@@ -55,13 +55,13 @@ REQUIRES          += net/dirmngr/1.1.1
 REQUIRES          += net/pinentry/0.9.7
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES          += net/curl/7.47.0
-REQUIRES          += net/libgcrypt/1.7.0
-REQUIRES          += libs/npth/1.2
+REQUIRES          += net/libgcrypt/1.8.5
+REQUIRES          += net/npth/1.6
 REQUIRES          += libs/libusb-compat/0.1.5
 else
 REQUIRES          += net/curl/7.47.0-x86_32
-REQUIRES          += net/libgcrypt/1.7.0-x86_32
-REQUIRES          += libs/npth/1.2-x86_32
+REQUIRES          += net/libgcrypt/1.8.5-x86_32
+REQUIRES          += net/npth/1.6-x86_32
 REQUIRES          += libs/libusb-compat/0.1.5-x86_32
 endif
 

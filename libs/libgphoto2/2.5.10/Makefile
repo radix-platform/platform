@@ -52,7 +52,7 @@ SOURCE_REQUIRES    = sources/packages/m/libgphoto2
 
 REQUIRES           = libs/libexif/0.6.21
 REQUIRES          += libs/libgd/2.2.2
-REQUIRES          += libs/libusb/1.0.20
+REQUIRES          += libs/libusb/1.0.23
 REQUIRES          += libs/libxml2/2.9.9
 REQUIRES          += dev/libtool/2.4.6
 

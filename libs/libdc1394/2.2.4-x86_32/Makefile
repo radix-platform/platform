@@ -14,7 +14,7 @@ SOURCE_REQUIRES    = sources/packages/m/libdc1394
 
 REQUIRES           = libs/libdc1394/2.2.4
 REQUIRES          += libs/libraw1394/2.1.2-x86_32
-REQUIRES          += libs/libusb/1.0.20-x86_32
+REQUIRES          += libs/libusb/1.0.23-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

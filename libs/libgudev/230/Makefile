@@ -51,7 +51,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/GNOME/core/libgudev
 
 REQUIRES           = libs/glib2/2.48.0
-REQUIRES          += libs/eudev/3.1.5
+REQUIRES          += libs/eudev/3.2.8
 
 # ======= __END_OF_REQUIRES__ =======
 

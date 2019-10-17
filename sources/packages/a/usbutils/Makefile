@@ -7,14 +7,14 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/usbutils
 
-versions    = 007 008
+versions    = 012
 pkgname     = usbutils
 suffix      = tar.xz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/usbutils-008-usbids.patch
+patches     = $(CURDIR)/patches/usbutils-012-usbids.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -49,7 +49,7 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-008-usbids-patch ; ./create.patch.sh ) ; \
+	 ( cd create-012-usbids-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

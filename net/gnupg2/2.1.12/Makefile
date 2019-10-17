@@ -57,12 +57,12 @@ ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES          += net/curl/7.47.0
 REQUIRES          += net/libgcrypt/1.8.5
 REQUIRES          += net/npth/1.6
-REQUIRES          += libs/libusb-compat/0.1.5
+REQUIRES          += libs/libusb-compat/0.1.7
 else
 REQUIRES          += net/curl/7.47.0-x86_32
 REQUIRES          += net/libgcrypt/1.8.5-x86_32
 REQUIRES          += net/npth/1.6-x86_32
-REQUIRES          += libs/libusb-compat/0.1.5-x86_32
+REQUIRES          += libs/libusb-compat/0.1.7-x86_32
 endif
 
 # ======= __END_OF_REQUIRES__ =======

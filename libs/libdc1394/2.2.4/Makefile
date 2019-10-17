@@ -51,7 +51,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/m/libdc1394
 
 REQUIRES           = libs/libraw1394/2.1.2
-REQUIRES          += libs/libusb/1.0.20
+REQUIRES          += libs/libusb/1.0.23
 
 # ======= __END_OF_REQUIRES__ =======
 

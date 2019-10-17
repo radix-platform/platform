@@ -7,17 +7,18 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/eudev
 
-versions    = 3.1.5
+versions    = 3.2.8
 pkgname     = eudev
 suffix      = tar.xz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/eudev-3.1.5-ids-pl.patch
-patches    += $(CURDIR)/patches/eudev-3.1.5-cdrom-id.patch
-patches    += $(CURDIR)/patches/eudev-3.1.5-mips.patch
-patches    += $(CURDIR)/patches/eudev-3.1.5-keyboard-layout.patch
+patches     = $(CURDIR)/patches/eudev-3.2.8-cdrom-id.patch
+patches    += $(CURDIR)/patches/eudev-3.2.8-ids-pl.patch
+patches    += $(CURDIR)/patches/eudev-3.2.8-mips.patch
+patches    += $(CURDIR)/patches/eudev-3.2.8-no-kvm.patch
+patches    += $(CURDIR)/patches/eudev-3.2.8-no-render.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -52,10 +53,11 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-3.1.5-ids-pl-patch          ; ./create.patch.sh ) ; \
-	 ( cd create-3.1.5-cdrom-id-patch        ; ./create.patch.sh ) ; \
-	 ( cd create-3.1.5-mips-patch            ; ./create.patch.sh ) ; \
-	 ( cd create-3.1.5-keyboard-layout-patch ; ./create.patch.sh ) ; \
+	 ( cd create-3.2.8-cdrom-id-patch  ; ./create.patch.sh ) ; \
+	 ( cd create-3.2.8-ids-pl-patch    ; ./create.patch.sh ) ; \
+	 ( cd create-3.2.8-mips-patch      ; ./create.patch.sh ) ; \
+	 ( cd create-3.2.8-no-kvm-patch    ; ./create.patch.sh ) ; \
+	 ( cd create-3.2.8-no-render-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

@@ -7,18 +7,15 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/pciutils
 
-versions    = 3.2.0 3.2.1 3.4.1
+versions    = 3.6.2
 pkgname     = pciutils
 suffix      = tar.xz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/pciutils-3.2.0.patch
-patches    += $(CURDIR)/patches/pciutils-3.2.1.patch
-patches    += $(CURDIR)/patches/pciutils-3.2.1-cross.patch
-patches    += $(CURDIR)/patches/pciutils-3.4.1.patch
-patches    += $(CURDIR)/patches/pciutils-3.4.1-cross.patch
+patches     = $(CURDIR)/patches/pciutils-3.6.2.patch
+patches    += $(CURDIR)/patches/pciutils-3.6.2-cross.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -53,11 +50,8 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-3.2.0-patch ;       ./create.patch.sh ) ; \
-	 ( cd create-3.2.1-patch ;       ./create.patch.sh ) ; \
-	 ( cd create-3.2.1-cross-patch ; ./create.patch.sh ) ; \
-	 ( cd create-3.4.1-patch ;       ./create.patch.sh ) ; \
-	 ( cd create-3.4.1-cross-patch ; ./create.patch.sh ) ; \
+	 ( cd create-3.6.2-patch ;       ./create.patch.sh ) ; \
+	 ( cd create-3.6.2-cross-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

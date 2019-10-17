@@ -14,7 +14,7 @@ SOURCE_REQUIRES    = sources/GNOME/core/libgudev
 
 REQUIRES           = libs/libgudev/230
 REQUIRES          += libs/glib2/2.48.0-x86_32
-REQUIRES          += libs/eudev/3.1.5-x86_32
+REQUIRES          += libs/eudev/3.2.8-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

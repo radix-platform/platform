@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/usbids
 
-versions    = 20150210 20160209
+versions    = 20150210 20160209 20191017
 pkgname     = usbids
 suffix      = tar.xz
 

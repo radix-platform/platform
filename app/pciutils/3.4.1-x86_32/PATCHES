@@ -1,3 +1,0 @@
-
-../../../sources/packages/a/pciutils/patches/pciutils-3.4.1.patch -p0
-../../../sources/packages/a/pciutils/patches/pciutils-3.4.1-cross.patch -p0

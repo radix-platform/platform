@@ -55,7 +55,7 @@ REQUIRES           = dev/gcc/6.5.0
 endif
 REQUIRES          += libs/expat/2.2.9
 REQUIRES          += libs/libxml2/2.9.9
-REQUIRES          += libs/eudev/3.1.5
+REQUIRES          += libs/eudev/3.2.8
 REQUIRES          += libs/libomxil-bellagio/0.9.3
 REQUIRES          += dev/llvm/3.8.0
 REQUIRES          += net/libgcrypt/1.8.5

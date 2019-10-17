@@ -50,7 +50,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/n/libpcap
 
-REQUIRES           = libs/libusb/1.0.20
+REQUIRES           = libs/libusb/1.0.23
 REQUIRES          += net/libnl3/3.2.27
 REQUIRES          += app/dbus/1.11.2
 REQUIRES          += net/bluez/5.42

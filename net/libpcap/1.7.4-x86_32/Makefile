@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES      = sources/packages/n/libpcap
 
 REQUIRES             = net/libpcap/1.7.4
-REQUIRES            += libs/libusb/1.0.20-x86_32
+REQUIRES            += libs/libusb/1.0.23-x86_32
 REQUIRES            += net/libnl3/3.2.27-x86_32
 REQUIRES            += app/dbus/1.11.2-x86_32
 REQUIRES            += net/bluez/5.42-x86_32

@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/lvm2
 
 REQUIRES           = app/lvm2/2.02.141
-REQUIRES          += libs/eudev/3.1.5-x86_32
+REQUIRES          += libs/eudev/3.2.8-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

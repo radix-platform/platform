@@ -639,8 +639,20 @@ REQUIRES += app/procps/3.2.8
 ####### Packages:
 #######
 REQUIRES += app/gamin/0.1.10
-REQUIRES += app/usbutils/008
-REQUIRES += app/eudev/3.1.5
+
+REQUIRES += app/usbutils/012
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
+REQUIRES += libs/libusb-compat/0.1.7-ppc32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
+REQUIRES += libs/libusb-compat/0.1.7-sparc32
+endif
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libusb-compat/0.1.7-x86_32
+endif
+
+REQUIRES += app/eudev/3.2.8
 REQUIRES += app/lvm2/2.02.141
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += app/lvm2/2.02.141-x86_32

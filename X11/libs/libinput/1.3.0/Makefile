@@ -50,7 +50,7 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/x/libinput
 
-REQUIRES           = libs/eudev/3.1.5
+REQUIRES           = libs/eudev/3.2.8
 REQUIRES          += X11/libs/libevdev/1.5.1
 REQUIRES          += X11/libs/mtdev/1.1.5
 

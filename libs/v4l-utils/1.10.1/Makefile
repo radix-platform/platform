@@ -54,7 +54,7 @@ ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/6.5.0
 endif
 REQUIRES          += app/sysfsutils/2.1.0
-REQUIRES          += libs/eudev/3.1.5
+REQUIRES          += libs/eudev/3.2.8
 REQUIRES          += libs/libjpeg-turbo/1.4.2
 REQUIRES          += X11/libs/qt5/5.7.1
 REQUIRES          += X11/libs/glu/9.0.0

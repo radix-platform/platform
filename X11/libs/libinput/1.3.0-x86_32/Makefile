@@ -13,7 +13,7 @@ include ../../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/x/libinput
 
 REQUIRES           = X11/libs/libinput/1.3.0
-REQUIRES          += libs/eudev/3.1.5-x86_32
+REQUIRES          += libs/eudev/3.2.8-x86_32
 REQUIRES          += X11/libs/libevdev/1.5.1-x86_32
 REQUIRES          += X11/libs/mtdev/1.1.5-x86_32
 

@@ -54,13 +54,13 @@ REQUIRES           = app/procps/3.2.8
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES          += libs/alsa-lib/1.1.1
 REQUIRES          += libs/libsamplerate/0.1.8
-REQUIRES          += app/pciutils/3.4.1
+REQUIRES          += app/pciutils/3.6.2
 REQUIRES          += libs/ncurses/6.1
 REQUIRES          += app/dialog/1.2-20140112
 else
 REQUIRES          += libs/alsa-lib/1.1.1-x86_32
 REQUIRES          += libs/libsamplerate/0.1.8-x86_32
-REQUIRES          += app/pciutils/3.4.1-x86_32
+REQUIRES          += app/pciutils/3.6.2-x86_32
 REQUIRES          += libs/ncurses/6.1-x86_32
 REQUIRES          += app/dialog/1.2-20140112-x86_32
 endif

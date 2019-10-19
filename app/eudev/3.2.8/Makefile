@@ -51,11 +51,9 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/eudev
 SOURCE_REQUIRES   += sources/packages/l/hwids
 
-#ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES           = libs/eudev/3.2.8
-#else
-#REQUIRES           = libs/eudev/3.2.8-x86_32
-#endif
+REQUIRES          += app/pciutils/3.6.2
+REQUIRES          += app/usbutils/012
 
 # ======= __END_OF_REQUIRES__ =======
 

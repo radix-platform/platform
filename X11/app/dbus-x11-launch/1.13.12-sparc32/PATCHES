@@ -1,0 +1,3 @@
+
+../../../../sources/packages/a/dbus/patches/dbus-1.13.12.patch            -p0
+../../../../sources/packages/a/dbus/patches/dbus-1.13.12-x11-launch.patch -p0

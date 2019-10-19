@@ -7,17 +7,15 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/dbus
 
-versions    = 1.8.8 1.8.10 1.11.2
+versions    = 1.13.12
 pkgname     = dbus
-suffix      = tar.gz
+suffix      = tar.xz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/dbus-1.8.8.patch
-patches    += $(CURDIR)/patches/dbus-1.8.10.patch
-patches    += $(CURDIR)/patches/dbus-1.11.2.patch
-patches    += $(CURDIR)/patches/dbus-1.11.2-x11-launch.patch
+patches     = $(CURDIR)/patches/dbus-1.13.12.patch
+patches    += $(CURDIR)/patches/dbus-1.13.12-x11-launch.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -52,10 +50,8 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-1.8.8-patch             ; ./create.patch.sh ) ; \
-	 ( cd create-1.8.10-patch            ; ./create.patch.sh ) ; \
-	 ( cd create-1.11.2-patch            ; ./create.patch.sh ) ; \
-	 ( cd create-1.11.2-x11-launch-patch ; ./create.patch.sh ) ; \
+	 ( cd create-1.13.12-patch            ; ./create.patch.sh ) ; \
+	 ( cd create-1.13.12-x11-launch-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

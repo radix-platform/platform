@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/n/bluez
 
 REQUIRES           = net/bluez/5.42
-REQUIRES          += app/dbus/1.11.2-x86_32
+REQUIRES          += app/dbus/1.13.12-x86_32
 REQUIRES          += libs/glib2/2.48.0-x86_32
 REQUIRES          += libs/libical/2.0.0-x86_32
 

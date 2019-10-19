@@ -52,7 +52,7 @@ SOURCE_REQUIRES    = sources/packages/a/cups
 
 REQUIRES           = app/acl/2.2.53
 REQUIRES          += secure/pam_unix2/2.9.1
-REQUIRES          += app/dbus/1.11.2
+REQUIRES          += app/dbus/1.13.12
 REQUIRES          += libs/libtiff/4.0.6
 REQUIRES          += libs/libpng/libpng14/1.4.19
 REQUIRES          += net/gnutls/3.4.8

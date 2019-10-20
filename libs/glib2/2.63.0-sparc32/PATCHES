@@ -1,0 +1,3 @@
+
+../../../sources/GNOME/core/glib2/patches/glib-2.63.0-libelf.patch        -p0
+../../../sources/GNOME/core/glib2/patches/glib-2.63.0-disable-tests.patch -p0

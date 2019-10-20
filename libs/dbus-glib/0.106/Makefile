@@ -51,7 +51,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/dbus-glib
 
 REQUIRES           = app/dbus/1.13.12
-REQUIRES          += libs/glib2/2.48.0
+REQUIRES          += libs/glib2/2.63.0
 
 # ======= __END_OF_REQUIRES__ =======
 

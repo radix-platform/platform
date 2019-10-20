@@ -50,7 +50,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNOME/core/vala
 
-REQUIRES           = libs/glib2/2.48.0
+REQUIRES           = libs/glib2/2.63.0
 REQUIRES          += libs/libxslt/1.1.33
 
 # ======= __END_OF_REQUIRES__ =======

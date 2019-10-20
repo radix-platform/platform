@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/GNOME/core/glib2
 
-versions    = 2.48.0 2.63.0
+versions    = 2.63.0
 pkgname     = glib
 suffix      = tar.xz
 
@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/glib-2.63.0-libelf.patch
+patches    += $(CURDIR)/patches/glib-2.63.0-disable-tests.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -49,7 +50,8 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-2.63.0-libelf-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2.63.0-libelf-patch        ; ./create.patch.sh ) ; \
+	 ( cd create-2.63.0-disable-tests-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

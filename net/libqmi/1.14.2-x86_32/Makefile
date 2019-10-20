@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES      = sources/packages/n/libqmi
 
 REQUIRES             = net/libqmi/1.14.2
-REQUIRES            += libs/glib2/2.48.0-x86_32
+REQUIRES            += libs/glib2/2.63.0-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

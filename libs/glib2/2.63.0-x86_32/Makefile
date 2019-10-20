@@ -12,17 +12,18 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNOME/core/glib2
 
-REQUIRES           = libs/glib2/2.40.0
+REQUIRES           = libs/glib2/2.63.0
 REQUIRES          += libs/libffi/3.2.1-x86_32
 REQUIRES          += libs/libelf/0.8.13-x86_32
-REQUIRES          += libs/pcre/8.38-x86_32
-REQUIRES          += app/attr/2.4.47-x86_32
+REQUIRES          += libs/pcre/8.43-x86_32
+REQUIRES          += app/attr/2.4.48-x86_32
+REQUIRES          += app/util-linux/2.34-x86_32
 REQUIRES          += libs/libgamin/0.1.10-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 2.40.0
+version            = 2.63.0
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNOME/core/glib2/glib-$(version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/glib-$(version)
@@ -35,8 +36,7 @@ build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
 
-hw_cache_in        = $(CURDIR)/cross/hw.cache
-hw_cache           = $(CURDIR)/$(build_dir)/hw.cache
+cross_file         = $(TARGET_BUILD_DIR)/$(TARGET32)-cross
 
 
 ####### Targets
@@ -46,7 +46,7 @@ PKG_GROUP = libs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 GLIB2_32_PKG_NAME                = glib2-x32
-GLIB2_32_PKG_VERSION             = 2.40.0
+GLIB2_32_PKG_VERSION             = 2.63.0
 GLIB2_32_PKG_ARCH                = $(TOOLCHAIN)
 GLIB2_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 GLIB2_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -83,22 +83,15 @@ include ../../../build-system/core.mk
 env_sysroot = DESTDIR=$(GLIB2_32_PKG)
 
 
-extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
-extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
-extra_configure_switches += --mandir=/usr/share/man
-extra_configure_switches += --disable-dependency-tracking
-extra_configure_switches += --sysconfdir=/etc
-extra_configure_switches += --with-gnu-ld
-extra_configure_switches += --with-threads=posix
-extra_configure_switches += --with-pcre=system
-extra_configure_switches += --enable-shared=yes
-extra_configure_switches += --enable-static=yes
-
-extra_configure_switches += --cache-file=$(hw_cache)
+cpu_name = x86
+endian   = little
 
 
-TARGET_BIN_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX)
-TARGET_LIB_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX):/usr/lib/../lib$(MULTILIB_X86_32_SUFFIX)
+ifeq ($(__ENABLE_STATIC__),yes)
+extra_configure_switches += --default-library=both
+else
+extra_configure_switches += --default-library=shared
+endif
 
 
 ####### Dependencies
@@ -110,80 +103,86 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 
 $(build_target): $(src_done)
 	@mkdir -p $(build_dir)
-	@cp -a $(hw_cache_in) $(hw_cache)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) ../$(src_dir_name)/configure \
-	  --prefix=/usr               \
-	  --build=$(BUILD)            \
-	  --host=$(TARGET32)          \
-	  $(extra_configure_switches)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
+	@echo ""                                            >  $(cross_file)
+	@echo "[build_machine]"                             >> $(cross_file)
+	@echo "system = '$(shell uname -s | tr 'L' 'l')'"   >> $(cross_file)
+	@echo "cpu_family = '$(shell uname -m)'"            >> $(cross_file)
+	@echo "cpu = '$(shell uname -m)'"                   >> $(cross_file)
+	@echo "endian = '$(shell lscpu | grep Endian | tr -s ' ' | cut -f3 -d' ' | tr 'L' 'l')'" >> $(cross_file)
+	@echo ""                                            >> $(cross_file)
+	@echo "[host_machine]"                              >> $(cross_file)
+	@echo "system = 'linux'"                            >> $(cross_file)
+	@echo "cpu_family = '$(cpu_name)'"                  >> $(cross_file)
+	@echo "cpu = '$(cpu_name)'"                         >> $(cross_file)
+	@echo "endian = '$(endian)'"                        >> $(cross_file)
+	@echo ""                                            >> $(cross_file)
+	@echo "[target_machine]"                            >> $(cross_file)
+	@echo "system = 'linux'"                            >> $(cross_file)
+	@echo "cpu_family = '$(cpu_name)'"                  >> $(cross_file)
+	@echo "cpu = '$(cpu_name)'"                         >> $(cross_file)
+	@echo "endian = '$(endian)'"                        >> $(cross_file)
+	@echo ""                                            >> $(cross_file)
+	@echo "[properties]"                                >> $(cross_file)
+	@echo "c_args = ['`echo -n "--sysroot=$(TARGET_DEST_DIR) $(CFLAGS)" | tr -s ' ' | sed "s/ /', '/g"`']"              >> $(cross_file)
+	@echo "c_link_args = ['`echo -n "--sysroot=$(TARGET_DEST_DIR) -m32 $(LDFLAGS)" | tr -s ' ' | sed "s/ /', '/g"`']"   >> $(cross_file)
+	@echo "cpp_args = ['`echo -n "--sysroot=$(TARGET_DEST_DIR) $(CFLAGS)" | tr -s ' ' | sed "s/ /', '/g"`']"            >> $(cross_file)
+	@echo "cpp_link_args = ['`echo -n "--sysroot=$(TARGET_DEST_DIR) -m32 $(LDFLAGS)" | tr -s ' ' | sed "s/ /', '/g"`']" >> $(cross_file)
+	@echo "sys_root = '$(TARGET_DEST_DIR)'"             >> $(cross_file)
+	@echo ""                                            >> $(cross_file)
+	@echo "[binaries]"                                  >> $(cross_file)
+	@echo "c = '$(TOOLCHAIN_PATH)/bin/$(TARGET)-gcc'"   >> $(cross_file)
+	@echo "cpp = '$(TOOLCHAIN_PATH)/bin/$(TARGET)-g++'" >> $(cross_file)
+	@echo "ar = '$(AR)'"                                >> $(cross_file)
+	@echo "strip = '$(STRIP)'"                          >> $(cross_file)
+	@echo "pkgconfig = 'pkg-config'"                    >> $(cross_file)
+	@echo ""                                            >> $(cross_file)
+	@echo "[paths]"                                     >> $(cross_file)
+	@echo "prefix = '/usr'"                             >> $(cross_file)
+	@echo "libdir = 'lib$(MULTILIB_X86_32_SUFFIX)'"     >> $(cross_file)
+	@echo "libexecdir = '/usr/libexec'"                 >> $(cross_file)
+	@echo "bindir = '/usr/bin/32'"                      >> $(cross_file)
+	@echo "sbindir = '/usr/sbin'"                       >> $(cross_file)
+	@echo "includedir = '/usr/include'"                 >> $(cross_file)
+	@echo "datadir = '/usr/share'"                      >> $(cross_file)
+	@echo "mandir = '/usr/share/man'"                   >> $(cross_file)
+	@echo "sysconfdir = '/etc'"                         >> $(cross_file)
+	@echo "localstatedir = '/var'"                      >> $(cross_file)
+	@PKG_CONFIG_PATH=/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig \
+	   meson --buildtype=release    \
+	    -Dselinux=disabled          \
+	    -Dfam=true                  \
+	    -Dman=true                  \
+	    -Dnls=enabled               \
+	    -Dxattr=true                \
+	    -Dgtk_doc=false             \
+	    -Dinternal_pcre=false       \
+	    -Dinstalled_tests=false     \
+	    $(extra_configure_switches) \
+	    --cross-file=$(cross_file) $(SRC_DIR) $(build_dir)
+	@cd $(build_dir) && $(BUILD_ENVIRONMENT) ninja -v
 	@touch $@
 
 $(install_target): $(build_target)
 	@mkdir -p $(GLIB2_32_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
-	@mkdir -p $(GLIB2_32_PKG)/usr/bin/32
-	@( cd $(GLIB2_32_PKG)/usr/bin ; \
-	   find . -type f | xargs mv -t 32 ; \
-	 )
+	@cd $(build_dir) && $(env_sysroot) ninja install
 	@rm -rf $(GLIB2_32_PKG)/usr/include
 	@rm -rf $(GLIB2_32_PKG)/usr/share
-	# ======= remove target destination path from target libtool *.la files and pkgconfig *.pc files =======
-	@( cd $(GLIB2_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" *.la ; \
-	   sed -i "s,-L/usr/lib ,,g" *.la ; \
-	   sed -i "s,-L/lib ,,g" *.la ; \
-	 )
-	@( cd $(GLIB2_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/gio/modules ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" *.la ; \
-	 )
-	@( cd $(GLIB2_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" *.pc ; \
-	   sed -i "s,-L/usr/lib ,-L/usr/lib32 ,g" *.pc ; \
-	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(GLIB2_32_PKG))
-	# ======= tune libtool *.la search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgio-2.0.la libglib-2.0.la libgmodule-2.0.la \
-	                                            libgobject-2.0.la libgthread-2.0.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libgio-2.0.la libglib-2.0.la libgmodule-2.0.la \
-	                                              libgobject-2.0.la libgthread-2.0.la \
-	 )
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/gio/modules ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgiofam.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libgiofam.la \
-	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" gio-2.0.pc gio-unix-2.0.pc glib-2.0.pc gmodule-2.0.pc \
-	                                            gmodule-export-2.0.pc gmodule-no-export-2.0.pc gobject-2.0.pc \
-	                                            gthread-2.0.pc \
+	                                            gmodule-export-2.0.pc gmodule-no-export-2.0.pc        \
+	                                            gobject-2.0.pc gthread-2.0.pc ; \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(GLIB2_32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
-ifneq ($(CHRPATH),)
-	# ======= Set RPATH/RUNPATH for target binaries =======
-	@( cd $(GLIB2_32_PKG)/usr/bin/32 ; \
-	   for file in `find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
-	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
-	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
-	       $(CHRPATH) -r $(TARGET_BIN_RPATH) $$file 1> /dev/null 2> /dev/null ; \
-	     fi ; \
-	   done ; \
-	 )
-	# ======= Set RPATH/RUNPATH for target shared objects =======
-	@( cd $(GLIB2_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
-	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
-	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
-	       $(CHRPATH) -r $(TARGET_LIB_RPATH) $$file 1> /dev/null 2> /dev/null ; \
-	     fi ; \
-	   done ; \
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(GLIB2_32_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
 	 )
 endif
 	@touch $@

@@ -14,7 +14,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/b/mariadb
 
 REQUIRES           = app/mariadb/10.0.25
-REQUIRES          += libs/pcre/8.38-x86_32
+REQUIRES          += libs/pcre/8.43-x86_32
 REQUIRES          += libs/libxml2/2.9.3-x86_32
 REQUIRES          += libs/libaio/0.3.110-x86_32
 REQUIRES          += net/openssl/1.0.2f-x86_32

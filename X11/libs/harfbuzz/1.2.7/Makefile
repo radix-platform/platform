@@ -53,7 +53,7 @@ SOURCE_REQUIRES    = sources/packages/l/harfbuzz
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/6.5.0
 endif
-REQUIRES          += libs/glib2/2.48.0
+REQUIRES          += libs/glib2/2.63.0
 REQUIRES          += libs/libpng/libpng14/1.4.19
 REQUIRES          += libs/icu4c/65.1
 REQUIRES          += X11/libs/cairo/1.14.6

@@ -52,7 +52,7 @@ SOURCE_REQUIRES    = sources/packages/n/bluez
 
 REQUIRES           = app/eudev/3.2.8
 REQUIRES          += app/dbus/1.13.12
-REQUIRES          += libs/glib2/2.48.0
+REQUIRES          += libs/glib2/2.63.0
 REQUIRES          += libs/libical/2.0.0
 
 # ======= __END_OF_REQUIRES__ =======

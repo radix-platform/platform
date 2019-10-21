@@ -12,14 +12,14 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNOME/core/libcroco
 
-REQUIRES           = libs/libcroco/0.6.8
-REQUIRES          += libs/glib2/2.48.0-x86_32
-REQUIRES          += libs/libxml2/2.9.3-x86_32
+REQUIRES           = libs/libcroco/0.6.13
+REQUIRES          += libs/glib2/2.63.0-x86_32
+REQUIRES          += libs/libxml2/2.9.9-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 0.6.8
+version            = 0.6.13
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNOME/core/libcroco/libcroco-$(version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/libcroco-$(version)
@@ -41,7 +41,7 @@ PKG_GROUP = libs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 CROCO_32_PKG_NAME                = libcroco-x32
-CROCO_32_PKG_VERSION             = 0.6.8
+CROCO_32_PKG_VERSION             = 0.6.13
 CROCO_32_PKG_ARCH                = $(TOOLCHAIN)
 CROCO_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 CROCO_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -90,7 +90,11 @@ extra_configure_switches += --bindir=/usr/bin/32
 
 extra_configure_switches += --enable-gtk-doc=no
 
+ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
 extra_configure_switches += --enable-shared=yes
 
 
@@ -125,8 +129,8 @@ $(install_target): $(build_target)
 	 )
 	@( cd $(CROCO_32_PKG)/usr/bin/32 ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" croco-?.?-config ; \
-	   sed -i "s,  @GLIB2_CFLAGS@ @LIBXML2_CFLAGS@,-I/usr/include/libcroco-0.6,g" croco-?.?-config ; \
-	   sed -i "s,  @GLIB2_LIBS@ @LIBXML2_LIBS@,-lcroco-0.6,g" croco-?.?-config ; \
+	   sed -i "s,@GLIB2_CFLAGS@ @LIBXML2_CFLAGS@,-I/usr/include/libcroco-0.6,g" croco-?.?-config ; \
+	   sed -i "s,@GLIB2_LIBS@ @LIBXML2_LIBS@,-lcroco-0.6,g" croco-?.?-config ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(CROCO_32_PKG))
@@ -146,8 +150,12 @@ $(install_target): $(build_target)
 	@( cd $(CROCO_32_PKG); \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(CROCO_32_PKG); \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target binaries =======
 	@( cd $(CROCO_32_PKG)/usr/bin/32 ; \

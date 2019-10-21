@@ -1,10 +1,13 @@
 
-COMPONENT_TARGETS  = $(HARDWARE_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_S824L)
+COMPONENT_TARGETS += $(HARDWARE_VESNIN)
+COMPONENT_TARGETS += $(HARDWARE_TL2WK2)
+COMPONENT_TARGETS += $(HARDWARE_TL2SV2)
 
 NEED_ABS_PATH      = true
 COMPONENT_IS_3PP   = true
 
-CREATE_X86_32_PACKAGE = true
+CREATE_PPC32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
@@ -12,14 +15,14 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNOME/core/libcroco
 
-REQUIRES           = libs/libcroco/0.6.11
-REQUIRES          += libs/glib2/2.63.0-x86_32
-REQUIRES          += libs/libxml2/2.9.9-x86_32
+REQUIRES           = libs/libcroco/0.6.13
+REQUIRES          += libs/glib2/2.63.0-ppc32
+REQUIRES          += libs/libxml2/2.9.9-ppc32
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 0.6.11
+version            = 0.6.13
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNOME/core/libcroco/libcroco-$(version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/libcroco-$(version)
@@ -41,7 +44,7 @@ PKG_GROUP = libs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 CROCO_32_PKG_NAME                = libcroco-x32
-CROCO_32_PKG_VERSION             = 0.6.11
+CROCO_32_PKG_VERSION             = 0.6.13
 CROCO_32_PKG_ARCH                = $(TOOLCHAIN)
 CROCO_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 CROCO_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -78,7 +81,7 @@ include ../../../build-system/core.mk
 env_sysroot  = DESTDIR=$(CROCO_32_PKG)
 
 
-extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
+extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_PPC32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
@@ -90,11 +93,15 @@ extra_configure_switches += --bindir=/usr/bin/32
 
 extra_configure_switches += --enable-gtk-doc=no
 
+ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
 extra_configure_switches += --enable-shared=yes
 
 
-TARGET_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX)
+TARGET_RPATH = /lib$(MULTILIB_PPC32_SUFFIX):/usr/lib$(MULTILIB_PPC32_SUFFIX)
 
 
 ####### Dependencies
@@ -120,23 +127,23 @@ $(install_target): $(build_target)
 	@rm -rf $(CROCO_32_PKG)/usr/include
 	@rm -rf $(CROCO_32_PKG)/usr/share
 	# ======= remove toolchain path from target libtool *.la files =======
-	@( cd $(CROCO_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(CROCO_32_PKG)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libcroco-?.?.la ; \
 	 )
 	@( cd $(CROCO_32_PKG)/usr/bin/32 ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" croco-?.?-config ; \
-	   sed -i "s,  @GLIB2_CFLAGS@ @LIBXML2_CFLAGS@,-I/usr/include/libcroco-0.6,g" croco-?.?-config ; \
-	   sed -i "s,  @GLIB2_LIBS@ @LIBXML2_LIBS@,-lcroco-0.6,g" croco-?.?-config ; \
+	   sed -i "s,@GLIB2_CFLAGS@ @LIBXML2_CFLAGS@,-I/usr/include/libcroco-0.6,g" croco-?.?-config ; \
+	   sed -i "s,@GLIB2_LIBS@ @LIBXML2_LIBS@,-lcroco-0.6,g" croco-?.?-config ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(CROCO_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libcroco-?.?.la ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libcroco-?.?.la ; \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_PPC32_SUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libcroco-?.?.pc ; \
 	 )
 	@( cd $(TARGET_DEST_DIR)/usr/bin/32 ; \
@@ -146,8 +153,12 @@ $(install_target): $(build_target)
 	@( cd $(CROCO_32_PKG); \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(CROCO_32_PKG); \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target binaries =======
 	@( cd $(CROCO_32_PKG)/usr/bin/32 ; \
@@ -159,7 +170,7 @@ ifneq ($(CHRPATH),)
 	   done ; \
 	 )
 	# ======= Set RPATH/RUNPATH for target shared objects =======
-	@( cd $(CROCO_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(CROCO_32_PKG)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
 	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
 	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
 	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \

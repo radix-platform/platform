@@ -51,7 +51,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/GNU/gettext
 
 REQUIRES           = app/gettext/0.20.1
-REQUIRES          += libs/libcroco/0.6.11
+REQUIRES          += libs/libcroco/0.6.13
 REQUIRES          += libs/libunistring/0.9.10
 
 # ======= __END_OF_REQUIRES__ =======
@@ -123,6 +123,11 @@ extra_configure_switches += --docdir=/usr/share/doc/$(doc_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --disable-dependency-tracking
+ifeq ($(__ENABLE_STATIC__),yes)
+extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
 extra_configure_switches += --enable-shared=yes
 
 extra_configure_switches += --disable-rpath
@@ -159,6 +164,7 @@ $(install_target): $(build_target)
 	# ======= Remove relink_command before install =======
 	@( cd $(build_dir) ; sed -i '/relink_command/d' src/libgettextsrc.la )
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
+	@chmod 0755 $(GETTEXT_PKG)/usr/lib$(LIBSUFFIX)/preloadable_libintl.so
 	# ======= Install Documentation =======
 	@rm -f $(GETTEXT_PKG)/usr/share/info/dir
 	@gzip -9 $(GETTEXT_PKG)/usr/share/info/*
@@ -185,7 +191,7 @@ $(install_target): $(build_target)
 	   mv *.html html ; \
 	 )
 	@( cd $(SRC_DIR) ; \
-	   cp -a AUTHORS COPYING DEPENDENCIES HACKING INSTALL NEWS PACKAGING README* THANKS \
+	   cp -a AUTHORS COPYING DEPENDENCIES HACKING NEWS PACKAGING README* THANKS \
 	         $(GETTEXT_PKG)/usr/share/doc/$(doc_dir_name) \
 	 )
 	@( cd $(SRC_DIR)/gettext-tools ; \
@@ -198,21 +204,25 @@ $(install_target): $(build_target)
 
 	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(GETTEXT_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" libgettextlib.la libgettextpo.la libgettextsrc.la  \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libgettextlib.la libgettextpo.la libgettextsrc.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(GETTEXT_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libgettextlib.la libgettextpo.la libgettextsrc.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libgettextlib.la libgettextpo.la libgettextsrc.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   libgettextlib.la libgettextpo.la libgettextsrc.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libgettextlib.la libgettextpo.la libgettextsrc.la ; \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(GETTEXT_PKG); \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(GETTEXT_PKG); \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target binaries =======
 	@( cd $(GETTEXT_PKG)/usr ; \

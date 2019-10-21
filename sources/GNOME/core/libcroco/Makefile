@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/GNOME/core/libcroco
 
-versions    = 0.6.8 0.6.11
+versions    = 0.6.8 0.6.11 0.6.13
 pkgname     = libcroco
 suffix      = tar.xz
 

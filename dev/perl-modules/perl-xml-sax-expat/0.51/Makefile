@@ -50,7 +50,7 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/d/perl-modules/CPAN/XML-SAX-Expat
 
-REQUIRES           = dev/perl/5.22.1
+REQUIRES           = dev/perl/5.30.0
 REQUIRES          += dev/perl-modules/perl-xml-namespace/1.11
 REQUIRES          += dev/perl-modules/perl-xml-sax-base/1.08
 REQUIRES          += dev/perl-modules/perl-xml-parser/2.44
@@ -120,7 +120,7 @@ include ../../../../build-system/core.mk
 #
 # Global Variables:
 # ================
-#   ARCH            - defined in dev/perl/5.22.1/Makefile
+#   ARCH            - defined in dev/perl/5.30.0/Makefile
 #   UNAME_R_VERSION - used Linux kernel
 #
 # TODO: create special global collection for filling by package Makefiles

@@ -7,16 +7,15 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/d/perl
 
-versions    = 5.18.2 5.20.0 5.22.1
+versions    = 5.30.0 5.31.3
 pkgname     = perl
-suffix      = tar.gz
+suffix      = tar.xz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/perl-5.18.2.patch
-patches    += $(CURDIR)/patches/perl-5.20.0.patch
-patches    += $(CURDIR)/patches/perl-5.22.1.patch
+patches     = $(CURDIR)/patches/perl-5.30.0.patch
+patches    += $(CURDIR)/patches/perl-5.31.3.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -51,9 +50,8 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-5.18.2-patch ; ./create.patch.sh ) ; \
-	 ( cd create-5.20.0-patch ; ./create.patch.sh ) ; \
-	 ( cd create-5.22.1-patch ; ./create.patch.sh ) ; \
+	 ( cd create-5.30.0-patch ; ./create.patch.sh ) ; \
+	 ( cd create-5.31.3-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

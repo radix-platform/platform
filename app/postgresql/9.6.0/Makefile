@@ -50,7 +50,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/b/postgresql
 
-REQUIRES           = dev/perl/5.22.1
+REQUIRES           = dev/perl/5.30.0
 REQUIRES          += dev/python2/2.7.16
 REQUIRES          += dev/python3/3.7.4
 REQUIRES          += libs/libxml2/2.9.9

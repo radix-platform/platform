@@ -24,7 +24,7 @@ REQUIRES          += libs/libjpeg-turbo/1.4.2-x86_32
 #
 # Runtime required packages:
 #
-REQUIRES          += dev/perl/5.22.1
+REQUIRES          += dev/perl/5.30.0
 
 # ======= __END_OF_REQUIRES__ =======
 

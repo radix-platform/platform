@@ -55,7 +55,7 @@ REQUIRES          += app/gzip/1.10
 REQUIRES          += app/findutils/4.7.0
 REQUIRES          += app/bash/4.3
 REQUIRES          += app/sed/4.7
-REQUIRES          += dev/perl/5.22.1
+REQUIRES          += dev/perl/5.30.0
 
 # ======= __END_OF_REQUIRES__ =======
 

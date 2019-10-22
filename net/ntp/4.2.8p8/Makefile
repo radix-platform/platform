@@ -57,7 +57,7 @@ REQUIRES          += net/net-snmp/5.7.3
 REQUIRES          += net/libnl3/3.2.27
 REQUIRES          += libs/libevent/2.1.11
 REQUIRES          += app/lm_sensors/3.4.0
-REQUIRES          += dev/perl/5.22.1
+REQUIRES          += dev/perl/5.30.0
 
 # ======= __END_OF_REQUIRES__ =======
 

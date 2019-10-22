@@ -62,7 +62,7 @@ REQUIRES          += X11/X.org/lib/libX11/1.6.3
 #
 # Runtime required packages:
 #
-REQUIRES          += dev/perl/5.22.1
+REQUIRES          += dev/perl/5.30.0
 
 # ======= __END_OF_REQUIRES__ =======
 

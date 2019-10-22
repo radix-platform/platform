@@ -54,7 +54,7 @@ REQUIRES           = app/bash/4.3
 REQUIRES          += app/gawk/4.1.1
 REQUIRES          += app/diffutils/3.3
 REQUIRES          += dev/m4/1.4.17
-REQUIRES          += dev/perl/5.22.1
+REQUIRES          += dev/perl/5.30.0
 
 # ======= __END_OF_REQUIRES__ =======
 

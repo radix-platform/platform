@@ -59,9 +59,9 @@ else
 REQUIRES          += app/lm_sensors/3.4.0-x86_32
 endif
 REQUIRES          += net/openssl/1.1.1d
-REQUIRES          += app/pciutils/3.4.1
-REQUIRES          += dev/perl/5.22.1
-REQUIRES          += dev/python2/2.7.11
+REQUIRES          += app/pciutils/3.6.2
+REQUIRES          += dev/perl/5.30.0
+REQUIRES          += dev/python2/2.7.16
 
 # ======= __END_OF_REQUIRES__ =======
 

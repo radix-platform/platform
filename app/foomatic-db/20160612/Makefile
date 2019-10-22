@@ -51,7 +51,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/foomatic-db
 
 REQUIRES           = app/cups-filters/1.9.0
-REQUIRES          += dev/perl/5.22.1
+REQUIRES          += dev/perl/5.30.0
 REQUIRES          += libs/libxml2/2.9.9
 
 # ======= __END_OF_REQUIRES__ =======

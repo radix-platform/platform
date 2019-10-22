@@ -59,7 +59,7 @@ else
 REQUIRES           = libs/glibc/2.28-x86_32
 endif
 endif
-REQUIRES          += dev/perl/5.22.1
+REQUIRES          += dev/perl/5.30.0
 
 # ======= __END_OF_REQUIRES__ =======
 

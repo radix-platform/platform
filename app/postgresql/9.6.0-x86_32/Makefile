@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/b/postgresql
 
 REQUIRES           = app/postgresql/9.6.0
-REQUIRES          += dev/perl/5.22.1-x86_32
+REQUIRES          += dev/perl/5.30.0-x86_32
 REQUIRES          += dev/python2/2.7.16-x86_32
 REQUIRES          += dev/python3/3.7.4-x86_32
 REQUIRES          += libs/libxml2/2.9.9-x86_32

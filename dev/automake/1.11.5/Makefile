@@ -18,7 +18,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/GNU/automake
 
 REQUIRES           = app/bash/4.3
-REQUIRES          += dev/perl/5.22.1
+REQUIRES          += dev/perl/5.30.0
 REQUIRES          += dev/autoconf/2.69
 
 # ======= __END_OF_REQUIRES__ =======

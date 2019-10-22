@@ -153,11 +153,11 @@ ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_POWER8LE_GLIBC) $(TOOLCHAIN_POWER9LE_GL
 cpu_name = ppc64
 endian   = little
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_PC32)),)
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_I686_GLIBC)),)
 cpu_name = x86
 endian   = little
 endif
-ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 cpu_name = x86_64
 endian   = little
 endif

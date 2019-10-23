@@ -7,9 +7,9 @@ include ../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/GNU/texinfo
 
-versions    = 5.2
+versions    = 6.7
 pkgname     = texinfo
-suffix      = tar.gz
+suffix      = tar.xz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))

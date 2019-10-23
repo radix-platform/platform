@@ -50,7 +50,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/automake
 
-REQUIRES           = app/bash/4.3
+REQUIRES           = app/bash/5.0
 REQUIRES          += dev/perl/5.30.0
 REQUIRES          += dev/autoconf/2.69
 

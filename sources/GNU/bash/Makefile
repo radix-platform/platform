@@ -7,17 +7,16 @@ include ../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/GNU/bash
 
-versions    = 4.2 4.3
+versions    = 4.3 5.0
 pkgname     = bash
 suffix      = tar.gz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/bash-4.2-cross-for-build.patch
-patches    += $(CURDIR)/patches/bash-4.2-cross-rl.patch
-patches    += $(CURDIR)/patches/bash-4.3-cross-for-build.patch
+patches     = $(CURDIR)/patches/bash-4.3-cross-for-build.patch
 patches    += $(CURDIR)/patches/bash-4.3-cross-rl.patch
+patches    += $(CURDIR)/patches/bash-5.0-manpages.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -52,10 +51,9 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-4.2-cross-for-build-patch ; ./create.patch.sh ) ; \
-	 ( cd create-4.2-cross-patch ;           ./create.patch.sh ) ; \
 	 ( cd create-4.3-cross-for-build-patch ; ./create.patch.sh ) ; \
 	 ( cd create-4.3-cross-patch ;           ./create.patch.sh ) ; \
+	 ( cd create-5.0-manpages-patch ;        ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

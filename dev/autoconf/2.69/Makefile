@@ -50,7 +50,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/autoconf
 
-REQUIRES           = app/bash/4.3
+REQUIRES           = app/bash/5.0
 REQUIRES          += app/gawk/4.1.1
 REQUIRES          += app/diffutils/3.3
 REQUIRES          += dev/m4/1.4.17

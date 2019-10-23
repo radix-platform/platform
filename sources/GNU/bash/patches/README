@@ -1,6 +1,7 @@
 
 /* begin *
 
-   TODO: Leave some comment here.
+   bash-5.0-manpages.patch - The issue is that .so requires the prefix path such as man1 while some
+                             man implementations seemingly ignore this.
 
  * end */

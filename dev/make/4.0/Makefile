@@ -50,7 +50,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/make
 
-REQUIRES           = app/bash/4.3
+REQUIRES           = app/bash/5.0
 REQUIRES          += dev/guile/2.0.11
 
 # ======= __END_OF_REQUIRES__ =======

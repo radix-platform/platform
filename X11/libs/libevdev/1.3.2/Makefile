@@ -50,7 +50,7 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/x/libevdev
 
-REQUIRES          += dev/check/0.10.0
+REQUIRES          += dev/check/0.13.0
 
 # ======= __END_OF_REQUIRES__ =======
 

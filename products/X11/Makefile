@@ -395,8 +395,8 @@ endif
 #             │           └── libs/dict/aspell6-ru/0.99f7-1 ■
 #             │
 #             │
-#             ├── dev/check/0.10.0
-#             │   └── dev/check/0.10.0-x86_32
+#             ├── dev/check/0.13.0
+#             │   └── dev/check/0.13.0-x86_32
 #             │
 #             ├── app/ctags/5.8
 #             │   └── app/ctags/5.8-x86_32
@@ -412,7 +412,7 @@ endif
 #             │               └── secure/pam_unix2/2.9.1
 #             │                   ├── secure/pam_unix2/2.9.1-x86_32
 #             │                   │
-#             │                   ├── app/kbd/2.0.3 ■ ──────────────────── dev/check/0.10.0
+#             │                   ├── app/kbd/2.0.3 ■ ──────────────────── dev/check/0.13.0
 #             │                   │   └── app/kbd/2.0.3-x86_32
 #             │                  ...
 #             │      ...

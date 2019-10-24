@@ -50,7 +50,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/a/kbd
 
-REQUIRES           = dev/check/0.10.0
+REQUIRES           = dev/check/0.13.0
 REQUIRES          += secure/pam_unix2/2.9.1
 
 # ======= __END_OF_REQUIRES__ =======

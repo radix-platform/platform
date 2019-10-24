@@ -612,8 +612,18 @@ REQUIRES += app/coreutils/8.31
 REQUIRES += app/sharutils/4.15.2
 REQUIRES += app/grep/3.3
 REQUIRES += app/texinfo/6.7
-REQUIRES += dev/gperf/3.0.4
-REQUIRES += app/sysvinit/2.88
+REQUIRES += dev/gperf/3.1
+REQUIRES += app/sysvinit/2.97
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
+REQUIRES += libs/popt/1.16-ppc32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
+REQUIRES += libs/popt/1.16-sparc32
+endif
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/popt/1.16-x86_32
+endif
 REQUIRES += app/sysvinit-functions/8.54
 
 
@@ -665,7 +675,7 @@ REQUIRES += app/getty-ps/2.1.1
 REQUIRES += app/hdparm/9.48
 REQUIRES += app/less/451
 REQUIRES += app/lha/114i
-REQUIRES += app/logrotate/3.9.1
+REQUIRES += app/logrotate/3.15.1
 REQUIRES += app/gettext/0.20.1-tools
 
 REQUIRES += secure/libcgroup/0.41

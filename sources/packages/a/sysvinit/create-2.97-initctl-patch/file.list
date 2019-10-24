@@ -1,0 +1,8 @@
+sysvinit-2.97/doc/Install
+sysvinit-2.97/doc/initctl
+sysvinit-2.97/man/init.8
+sysvinit-2.97/man/initctl.5
+sysvinit-2.97/src/Makefile
+sysvinit-2.97/src/init.c
+sysvinit-2.97/src/initreq.h
+sysvinit-2.97/src/shutdown.c

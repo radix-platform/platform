@@ -59,7 +59,7 @@ endif
 # ======= __END_OF_REQUIRES__ =======
 
 
-version             = 2.88dsf
+version             = 2.97
 tar_xz_archive      = $(SRC_PACKAGE_PATH)/packages/a/sysvinit/sysvinit-$(version).tar.xz
 SRC_ARCHIVE         = $(tar_xz_archive)
 SRC_DIR             = $(TARGET_BUILD_DIR)/sysvinit-$(version)
@@ -79,7 +79,7 @@ PKG_GROUP = app
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 SYSVINIT_PKG_NAME                = sysvinit
-SYSVINIT_PKG_VERSION             = 2.88
+SYSVINIT_PKG_VERSION             = 2.97
 SYSVINIT_PKG_ARCH                = $(TOOLCHAIN)
 SYSVINIT_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 SYSVINIT_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -163,19 +163,24 @@ $(install_target): $(build_target)
 	@( cd $(SYSVINIT_PKG)/usr/bin ; ln -sf last lastb )
 	@mv $(SYSVINIT_PKG)/sbin/init $(SYSVINIT_PKG)/sbin/init.new
 	@chmod 755 $(SYSVINIT_PKG)/sbin/init.new
-	# ======= The version of 'powerd' is old. Now we have to use genpower =======
-	@( cd $(SRC_DIR)/src ; cp initscript.sample $(SYSVINIT_PKG)/sbin/initscript.sample )
-	@mkdir -p $(SYSVINIT_PKG)/usr/doc/sysvinit-$(version)
 	# ======= Install Documentation =======
+	@mkdir -p $(SYSVINIT_PKG)/usr/doc/sysvinit-$(version)
 	@( cd $(SRC_DIR) ; \
-	   cp -a COPYING* COPYRIGHT \
+	   cp -a COPYING COPYRIGHT \
 	         $(SYSVINIT_PKG)/usr/doc/sysvinit-$(version) \
 	 )
 	@mkdir -p $(SYSVINIT_PKG)/usr/share/doc/sysvinit-$(version)
 	@( cd $(SRC_DIR)/doc ; \
-	   cp -a Install Propaganda sysvinit-2.86.lsm \
-	         ../COPYING* ../COPYRIGHT ../README*  \
+	   cp -a Install Propaganda bootlogd.README initctl initscript.sample \
+	         ../COPYING ../COPYRIGHT ../README  \
 	         $(SYSVINIT_PKG)/usr/share/doc/sysvinit-$(version) \
+	 )
+	@( cd $(SRC_DIR)/doc ; \
+	   if [ -r ChangeLog ]; then \
+	     DOCSDIR=`echo $(SYSVINIT_PKG)/usr/share/doc/$(src_dir_name)` ; \
+	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
+	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
+	   fi \
 	 )
 	@mkdir -p $(SYSVINIT_PKG)/usr/share/man/man{1,5,8}
 	@( cd $(SRC_DIR)/man ; \

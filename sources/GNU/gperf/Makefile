@@ -7,7 +7,7 @@ include ../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/GNU/gperf
 
-versions    = 3.0.4
+versions    = 3.1
 pkgname     = gperf
 suffix      = tar.gz
 

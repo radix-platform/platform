@@ -53,11 +53,7 @@ SOURCE_REQUIRES    = sources/packages/l/popt
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
 REQUIRES           = dev/gcc/6.5.0
 else
-ifneq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES           = libs/glibc/2.28
-else
-REQUIRES           = libs/glibc/2.28-x86_32
-endif
 endif
 
 # ======= __END_OF_REQUIRES__ =======
@@ -129,8 +125,11 @@ extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --program-prefix=
 extra_configure_switches += --program-suffix=
-extra_configure_switches += --enable-shared=yes
+#
+# Static library used by Systen V init functions:
+#
 extra_configure_switches += --enable-static=yes
+extra_configure_switches += --enable-shared=yes
 
 
 ####### Dependencies
@@ -190,23 +189,23 @@ $(install_target): $(build_target)
 	       $(POPT_PKG)/usr/share/doc/$(src_dir_name)
 	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(POPT_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" libpopt.la  \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libpopt.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(POPT_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libpopt.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libpopt.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   libpopt.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libpopt.la ; \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" popt.pc \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" popt.pc ; \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(POPT_PKG) ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
 	 )
 	@touch $@
 

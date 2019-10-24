@@ -7,16 +7,14 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/logrotate
 
-versions    = 3.8.6 3.8.7 3.9.1
+versions    = 3.15.1
 pkgname     = logrotate
-suffix      = tar.gz
+suffix      = tar.xz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/logrotate-3.8.6.patch
-patches    += $(CURDIR)/patches/logrotate-3.8.7.patch
-patches    += $(CURDIR)/patches/logrotate-3.9.1.patch
+patches     = $(CURDIR)/patches/logrotate-3.15.1.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -51,9 +49,7 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-3.8.6-patch ; ./create.patch.sh ) ; \
-	 ( cd create-3.8.7-patch ; ./create.patch.sh ) ; \
-	 ( cd create-3.9.1-patch ; ./create.patch.sh ) ; \
+	 ( cd create-3.15.1-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

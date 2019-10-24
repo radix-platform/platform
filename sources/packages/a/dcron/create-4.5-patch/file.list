@@ -1,3 +1,7 @@
+dcron-4.5/CHANGELOG
 dcron-4.5/Makefile
+dcron-4.5/README
 dcron-4.5/crontab.c
+dcron-4.5/database.c
 dcron-4.5/defs.h
+dcron-4.5/main.c

@@ -1,10 +1,13 @@
 
-COMPONENT_TARGETS  = $(HARDWARE_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_S824L)
+COMPONENT_TARGETS += $(HARDWARE_VESNIN)
+COMPONENT_TARGETS += $(HARDWARE_TL2WK2)
+COMPONENT_TARGETS += $(HARDWARE_TL2SV2)
 
 NEED_ABS_PATH      = true
 COMPONENT_IS_3PP   = true
 
-CREATE_X86_32_PACKAGE = true
+CREATE_PPC32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
@@ -13,7 +16,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/popt
 
 REQUIRES           = libs/popt/1.16
-REQUIRES          += libs/glibc/2.28-x86_32
+REQUIRES          += libs/glibc/2.28-ppc32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -76,7 +79,7 @@ include ../../../build-system/core.mk
 env_sysroot  = DESTDIR=$(POPT32_PKG)
 
 
-extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
+extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_PPC32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --disable-dependency-tracking
@@ -111,35 +114,35 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(POPT32_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
-	@mkdir -p $(POPT32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)
-	@( cd $(POPT32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@mkdir -p $(POPT32_PKG)/lib$(MULTILIB_PPC32_SUFFIX)
+	@( cd $(POPT32_PKG)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
 	   for file in lib*.so.?.* ; do \
-	     mv $$file ../../lib$(MULTILIB_X86_32_SUFFIX) ; \
-	     ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/$$file . ; \
+	     mv $$file ../../lib$(MULTILIB_PPC32_SUFFIX) ; \
+	     ln -sf ../../lib$(MULTILIB_PPC32_SUFFIX)/$$file . ; \
 	  done ; \
-	  cp -a lib*.so.? ../../lib$(MULTILIB_X86_32_SUFFIX) \
+	  cp -a lib*.so.? ../../lib$(MULTILIB_PPC32_SUFFIX) \
 	 )
-	@( if [ ! -z "$(MULTILIB_X86_32_SUFFIX)" ] ; then \
+	@( if [ ! -z "$(MULTILIB_PPC32_SUFFIX)" ] ; then \
 	     cd $(POPT32_PKG)/usr ; \
-	     mv lib/pkgconfig lib$(MULTILIB_X86_32_SUFFIX) ; \
+	     mv lib/pkgconfig lib$(MULTILIB_PPC32_SUFFIX) ; \
 	     rm -rf lib ; \
 	   fi \
 	 )
 	@rm -rf $(POPT32_PKG)/usr/include
 	@rm -rf $(POPT32_PKG)/usr/share
 	# ======= remove target path from target libtool *.la files =======
-	@( cd $(POPT32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(POPT32_PKG)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
 	  sed -i "s,$(TARGET_DEST_DIR),,g" libpopt.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(POPT32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   libpopt.la ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libpopt.la ; \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_PPC32_SUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" popt.pc ; \
 	 )
 	# ======= Strip binaries =======

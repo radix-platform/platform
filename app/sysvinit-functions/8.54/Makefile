@@ -50,11 +50,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/a/sysvinit-functions
 
-ifneq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES           = libs/popt/1.16
-else
-REQUIRES           = libs/popt/1.16-x86_32
-endif
 
 # ======= __END_OF_REQUIRES__ =======
 

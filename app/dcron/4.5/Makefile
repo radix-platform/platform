@@ -66,6 +66,8 @@ SRC_DIR             = $(TARGET_BUILD_DIR)/dcron-$(version)
 src_dir_name        = dcron-$(version)
 src_done            = $(TARGET_BUILD_DIR)/.source_done
 
+rc_crond            = $(CURDIR)/scripts/rc.crond
+crond_default       = $(CURDIR)/scripts/crond.default
 crontab_root        = $(CURDIR)/scripts/crontab-root
 run_parts           = $(CURDIR)/scripts/run-parts
 run_parts_man       = $(CURDIR)/man/run-parts.8
@@ -146,6 +148,13 @@ $(install_target): $(build_target)
 	   cat crond.8 | gzip -9c > $(DCRON_PKG)/usr/share/man/man8/crond.8.gz ; \
 	 )
 	@cat $(run_parts_man) | gzip -9c > $(DCRON_PKG)/usr/share/man/man8/run-parts.8.gz
+	# ======= Install the init script =======
+	@mkdir -p $(DCRON_PKG)/etc/rc.d
+	@cp -a $(rc_crond) $(DCRON_PKG)/etc/rc.d/rc.crond.new
+	@chmod 0755 $(DCRON_PKG)/etc/rc.d/rc.crond.new
+	@mkdir -p $(DCRON_PKG)/etc/default
+	@cp -a $(crond_default) $(DCRON_PKG)/etc/default/crond.new
+	@chmod 0644 $(DCRON_PKG)/etc/default/crond.new
 	# ======= create some other stuff =======
 	@mkdir -p $(DCRON_PKG)/etc/cron.{hourly,daily,weekly,monthly}
 	@mkdir -p $(DCRON_PKG)/var/spool/cron/crontabs
@@ -159,7 +168,7 @@ $(install_target): $(build_target)
 	# ======= documentation =======
 	@mkdir -p $(DCRON_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a CHANGELOG* README extra \
+	   cp -a CHANGELOG README extra \
 	         $(DCRON_PKG)/usr/share/doc/$(src_dir_name) ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======

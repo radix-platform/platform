@@ -1,0 +1,4 @@
+
+../../../sources/packages/a/sysvinit/patches/sysvinit-2.97-initctl.patch -p0
+../../../sources/packages/a/sysvinit/patches/sysvinit-2.97-paths.patch   -p0
+../../../sources/packages/a/sysvinit/patches/sysvinit-2.97-version.patch -p0

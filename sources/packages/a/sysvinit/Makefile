@@ -7,14 +7,17 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/sysvinit
 
-versions    = 2.88dsf
+versions    = 2.88dsf 2.97
 pkgname     = sysvinit
-suffix      = tar.bz2
+suffix      = tar.xz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/sysvinit-2.88dsf-paths.patch
+patches    += $(CURDIR)/patches/sysvinit-2.97-initctl.patch
+patches    += $(CURDIR)/patches/sysvinit-2.97-paths.patch
+patches    += $(CURDIR)/patches/sysvinit-2.97-version.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,6 +53,9 @@ $(sha1s): $(tarballs)
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
 	 ( cd create-2.88dsf-paths-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2.97-initctl-patch  ; ./create.patch.sh ) ; \
+	 ( cd create-2.97-paths-patch    ; ./create.patch.sh ) ; \
+	 ( cd create-2.97-version-patch  ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

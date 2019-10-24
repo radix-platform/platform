@@ -1,6 +1,6 @@
 #!/bin/sh
 
-VERSION=2.88dsf
+VERSION=2.97
 
 tar --files-from=file.list -xJvf ../sysvinit-$VERSION.tar.xz
 mv sysvinit-$VERSION sysvinit-$VERSION-orig

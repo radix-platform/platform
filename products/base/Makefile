@@ -467,9 +467,11 @@ endif
 #             │                   ├── secure/pam_unix2/2.9.1-sparc32
 #             │                   ├── secure/pam_unix2/2.9.1-x86_32
 #             │                   │
-#             │                   ├── app/kbd/2.0.3 ■ ──────────────────── dev/check/0.13.0
-#             │                   │   └── app/kbd/2.0.3-x86_32
-#             │                  ...
+#             │                   ├── app/kbd/2.2.0 ■ ──────────────────── dev/check/0.13.0
+#             │                   │   ├── app/kbd/2.2.0-ppc32
+#             │                  ...  ├── app/kbd/2.2.0-sparc32
+#             │                       └── app/kbd/2.2.0-x86_32
+#             │
 #             │      ...
 #             │       ├────────────────────────────────────────────────┬── libs/ncurses/6.1
 #             │       │                                                ├── dev/libtool/2.4.6
@@ -568,9 +570,16 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/aspell/0.60.6.1-x86_32
 endif
 
-REQUIRES += app/kbd/2.0.3
+REQUIRES += app/kbd/2.2.0
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
+REQUIRES += app/kbd/2.2.0-ppc32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
+REQUIRES += app/kbd/2.2.0-sparc32
+endif
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += app/kbd/2.0.3-x86_32
+REQUIRES += app/kbd/2.2.0-x86_32
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_M201) $(HARDWARE_MXV)),)

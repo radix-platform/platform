@@ -5,19 +5,22 @@ COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 include ../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/packages/a/xfs/xfsdump
+url         = $(DOWNLOAD_SERVER)/sources/packages/a/xfs/xfsdump-dev
 
-versions    = 3.1.2 3.1.3 3.1.6
+versions    = 3.1.8
 pkgname     = xfsdump
-suffix      = tar.gz
+suffix      = tar.xz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/xfsdump-3.1.2.patch
-patches    += $(CURDIR)/patches/xfsdump-3.1.3.patch
-patches    += $(CURDIR)/patches/xfsdump-3.1.6.patch
-patches    += $(CURDIR)/patches/xfsdump-3.1.6-librmt.patch
+patches     = $(CURDIR)/patches/xfsdump-3.1.8-buildmacros.patch
+patches    += $(CURDIR)/patches/xfsdump-3.1.8-calloc.patch
+patches    += $(CURDIR)/patches/xfsdump-3.1.8-getopt.patch
+patches    += $(CURDIR)/patches/xfsdump-3.1.8-librmt.patch
+patches    += $(CURDIR)/patches/xfsdump-3.1.8-uuid.patch
+patches    += $(CURDIR)/patches/xfsdump-3.1.8-xattr.patch
+patches    += $(CURDIR)/patches/xfsdump-3.1.8-xfsprogs.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -52,10 +55,13 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-3.1.2-patch        ; ./create.patch.sh ) ; \
-	 ( cd create-3.1.3-patch        ; ./create.patch.sh ) ; \
-	 ( cd create-3.1.6-patch        ; ./create.patch.sh ) ; \
-	 ( cd create-3.1.6-librmt-patch ; ./create.patch.sh ) ; \
+	 ( cd create-3.1.8-buildmacros-patch ; ./create.patch.sh ) ; \
+	 ( cd create-3.1.8-calloc-patch      ; ./create.patch.sh ) ; \
+	 ( cd create-3.1.8-getopt-patch      ; ./create.patch.sh ) ; \
+	 ( cd create-3.1.8-librmt-patch      ; ./create.patch.sh ) ; \
+	 ( cd create-3.1.8-uuid-patch        ; ./create.patch.sh ) ; \
+	 ( cd create-3.1.8-xattr-patch       ; ./create.patch.sh ) ; \
+	 ( cd create-3.1.8-xfsprogs-patch    ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

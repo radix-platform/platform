@@ -1,0 +1,9 @@
+xfsdump-3.1.8/librmt/rmtabort.c
+xfsdump-3.1.8/librmt/rmtcommand.c
+xfsdump-3.1.8/librmt/rmtfstat.c
+xfsdump-3.1.8/librmt/rmtioctl.c
+xfsdump-3.1.8/librmt/rmtlib.h
+xfsdump-3.1.8/librmt/rmtopen.c
+xfsdump-3.1.8/librmt/rmtread.c
+xfsdump-3.1.8/librmt/rmtstatus.c
+xfsdump-3.1.8/librmt/rmtwrite.c

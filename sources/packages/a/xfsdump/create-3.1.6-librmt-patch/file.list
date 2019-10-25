@@ -1,9 +1,0 @@
-xfsdump-3.1.6/librmt/rmtabort.c
-xfsdump-3.1.6/librmt/rmtcommand.c
-xfsdump-3.1.6/librmt/rmtfstat.c
-xfsdump-3.1.6/librmt/rmtioctl.c
-xfsdump-3.1.6/librmt/rmtlib.h
-xfsdump-3.1.6/librmt/rmtopen.c
-xfsdump-3.1.6/librmt/rmtread.c
-xfsdump-3.1.6/librmt/rmtstatus.c
-xfsdump-3.1.6/librmt/rmtwrite.c

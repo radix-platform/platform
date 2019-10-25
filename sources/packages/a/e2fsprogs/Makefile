@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/e2fsprogs
 
-versions    = 1.42.8 1.42.9
+versions    = 1.42.8 1.42.9 1.45.4
 pkgname     = e2fsprogs
 suffix      = tar.xz
 

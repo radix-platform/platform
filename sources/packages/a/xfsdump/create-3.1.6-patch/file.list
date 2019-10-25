@@ -1,6 +1,0 @@
-xfsdump-3.1.6/include/builddefs.in
-xfsdump-3.1.6/include/buildmacros
-xfsdump-3.1.6/dump/getopt.h
-xfsdump-3.1.6/inventory/getopt.h
-xfsdump-3.1.6/invutil/getopt.h
-xfsdump-3.1.6/restore/getopt.h

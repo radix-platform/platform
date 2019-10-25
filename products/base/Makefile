@@ -639,7 +639,18 @@ REQUIRES += app/sysvinit-functions/8.54
 #######
 ####### File Systems support:
 #######
-REQUIRES += app/xfsdump/3.1.6
+REQUIRES += app/xfsdump/3.1.8
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
+REQUIRES += libs/dmapi/2.2.12-ppc32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
+REQUIRES += libs/dmapi/2.2.12-sparc32
+endif
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/dmapi/2.2.12-x86_32
+endif
+
 REQUIRES += app/btrfs-progs/4.4
 REQUIRES += app/reiserfsprogs/3.6.24
 REQUIRES += app/dosfstools/3.0.28

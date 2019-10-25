@@ -1,0 +1,8 @@
+
+../../../sources/packages/a/xfsdump/patches/xfsdump-3.1.8-buildmacros.patch -p0
+../../../sources/packages/a/xfsdump/patches/xfsdump-3.1.8-calloc.patch      -p0
+../../../sources/packages/a/xfsdump/patches/xfsdump-3.1.8-getopt.patch      -p0
+../../../sources/packages/a/xfsdump/patches/xfsdump-3.1.8-librmt.patch      -p0
+../../../sources/packages/a/xfsdump/patches/xfsdump-3.1.8-uuid.patch        -p0
+../../../sources/packages/a/xfsdump/patches/xfsdump-3.1.8-xattr.patch       -p0
+../../../sources/packages/a/xfsdump/patches/xfsdump-3.1.8-xfsprogs.patch    -p0

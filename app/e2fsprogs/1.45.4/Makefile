@@ -55,7 +55,7 @@ REQUIRES            = app/util-linux/2.34
 # ======= __END_OF_REQUIRES__ =======
 
 
-version             = 1.42.9
+version             = 1.45.4
 tar_xz_archive      = $(SRC_PACKAGE_PATH)/packages/a/e2fsprogs/e2fsprogs-$(version).tar.xz
 SRC_ARCHIVE         = $(tar_xz_archive)
 SRC_DIR             = $(TARGET_BUILD_DIR)/e2fsprogs-$(version)
@@ -77,13 +77,13 @@ PKG_GROUP = app
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 E2FSPROGS_PKG_NAME                = e2fsprogs
-E2FSPROGS_PKG_VERSION             = 1.42.9
+E2FSPROGS_PKG_VERSION             = 1.45.4
 E2FSPROGS_PKG_ARCH                = $(TOOLCHAIN)
 E2FSPROGS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 E2FSPROGS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 E2FSPROGS_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
-E2FSPROGS_PKG_SHORT_DESCRIPTION   = ext2 and ext3 filesystems utilities
+E2FSPROGS_PKG_SHORT_DESCRIPTION   = ext2/3/4 filesystems utilities
 E2FSPROGS_PKG_URL                 = $(BUG_URL)
 E2FSPROGS_PKG_LICENSE             = GPLv2
 E2FSPROGS_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(E2FSPROGS_PKG_NAME)-pkg-description
@@ -149,7 +149,10 @@ $(install_target): $(build_target)
 	@mkdir -p $(E2FSPROGS_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install-libs $(env_sysroot)
+	# ======= Don't clobber an existing config files =======
+	@mv $(E2FSPROGS_PKG)/etc/e2scrub.conf $(E2FSPROGS_PKG)/etc/e2scrub.conf.new
 	@mv $(E2FSPROGS_PKG)/etc/mke2fs.conf $(E2FSPROGS_PKG)/etc/mke2fs.conf.new
+	# ======= Fix up package =======
 	@mkdir -p $(E2FSPROGS_PKG)/usr/lib$(LIBSUFFIX)
 	@mv $(E2FSPROGS_PKG)/lib$(LIBSUFFIX)/pkgconfig \
 	    $(E2FSPROGS_PKG)/lib$(LIBSUFFIX)/*.so \
@@ -159,6 +162,11 @@ $(install_target): $(build_target)
 	     ln -sf ../../lib$(LIBSUFFIX)/`readlink $$i` $$i ; \
 	   done \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@mv $(E2FSPROGS_PKG)/lib$(LIBSUFFIX)/*.a $(E2FSPROGS_PKG)/usr/lib$(LIBSUFFIX)
+else
+	@rm -f $(E2FSPROGS_PKG)/lib$(LIBSUFFIX)/*.a
+endif
 	# ======= Since fsck is now part of util-linux, let's prefer that version: =======
 	@if [ -r $(E2FSPROGS_PKG)/sbin/fsck ] ; then \
 	   mv $(E2FSPROGS_PKG)/sbin/fsck $(E2FSPROGS_PKG)/sbin/fsck-e2fsprogs ; \
@@ -166,35 +174,38 @@ $(install_target): $(build_target)
 	@if [ -r $(E2FSPROGS_PKG)/usr/share/man/man8/fsck.8 ] ; then \
 	   mv $(E2FSPROGS_PKG)/usr/share/man/man8/fsck.8 $(E2FSPROGS_PKG)/usr/share/man/man8/fsck-e2fsprogs.8 ; \
 	 fi
+	# ======= Get rid of systemd cron.d cruft: =======
+	@rm -rf $(E2FSPROGS_PKG)/etc/cron.d
 	@( cd $(E2FSPROGS_PKG)/sbin ; \
-	   rm -f mkfs.ext2 mkfs.ext3 mkfs.ext4 mkfs.ext4dev fsck.ext2 fsck.ext3 fsck.ext4 fsck.ext4dev e2label ; \
-	   ln -sf mke2fs mkfs.ext2 ; \
-	   ln -sf mke2fs mkfs.ext3 ; \
-	   ln -sf mke2fs mkfs.ext4 ; \
-	   ln -sf mke2fs mkfs.ext4dev ; \
-	   ln -sf tune2fs e2label ; \
-	   echo '#!/bin/sh' >  fsck.ext2 ; \
-	   echo ''          >> fsck.ext2 ; \
+	   rm -f mkfs.ext2 mkfs.ext3 mkfs.ext4 fsck.ext2 fsck.ext3 fsck.ext4 e2label ; \
+	   ln -sf mke2fs mkfs.ext2        ; \
+	   ln -sf mke2fs mkfs.ext3        ; \
+	   ln -sf mke2fs mkfs.ext4        ; \
+	   ln -sf mke2fs mkfs.ext4dev     ; \
+	   ln -sf tune2fs e2label         ; \
+	   echo '#!/bin/bash' > fsck.ext2 ; \
 	   echo 'exec /sbin/e2fsck -C 0 $$*' >> fsck.ext2 ; \
-	   chmod 0755 fsck.ext2 ; \
-	   cp -a fsck.ext2 fsck.ext3  ; \
-	   cp -a fsck.ext2 fsck.ext4  ; \
-	   cp -a fsck.ext2 fsck.ext4dev \
+	   chmod 0755 fsck.ext2           ; \
+	   cp -a fsck.ext2 fsck.ext3      ; \
+	   cp -a fsck.ext2 fsck.ext4      ; \
+	   cp -a fsck.ext2 fsck.ext4dev   ; \
 	 )
 	# ======= Install Documentation =======
 	@( cd $(E2FSPROGS_PKG)/usr/share/man/man8 ; \
-	   rm -f fsck.ext2.8 fsck.ext3.8 mkfs.ext2.8 mkfs.ext3.8 mkfs.ext4.8 mkfs.ext4dev.8 ; \
-	   ln -sf e2fsck.8 fsck.ext2.8  ; \
-	   ln -sf e2fsck.8 fsck.ext3.8  ; \
-	   ln -sf e2fsck.8 fsck.ext4.8  ; \
+	   rm -f fsck.ext2.8 fsck.ext3.8 mkfs.ext2.8 mkfs.ext3.8 mkfs.ext4.8 ; \
+	   ln -sf e2fsck.8 fsck.ext2.8    ; \
+	   ln -sf e2fsck.8 fsck.ext3.8    ; \
+	   ln -sf e2fsck.8 fsck.ext4.8    ; \
 	   ln -sf e2fsck.8 fsck.ext4dev.8 ; \
-	   ln -sf mke2fs.8 mkfs.ext2.8  ; \
-	   ln -sf mke2fs.8 mkfs.ext3.8  ; \
-	   ln -sf mke2fs.8 mkfs.ext4.8  ; \
-	   ln -sf mke2fs.8 mkfs.ext4dev.8 \
+	   ln -sf mke2fs.8 mkfs.ext2.8    ; \
+	   ln -sf mke2fs.8 mkfs.ext3.8    ; \
+	   ln -sf mke2fs.8 mkfs.ext4.8    ; \
+	   ln -sf mke2fs.8 mkfs.ext4dev.8 ; \
 	 )
 	@( cd $(E2FSPROGS_PKG)/usr/share/man/man5 ; \
-	   sed -i "s,ext2 \- the third,ext3 \- the third,g" ext4.5 ext3.5 ext2.5 ; \
+	   rm  -f ext2.5 ext3.5 ; \
+	   ln -sf ext4.5 ext2.5 ; \
+	   ln -sf ext4.5 ext3.5 ; \
 	 )
 	@if [ -d $(E2FSPROGS_PKG)/usr/share/man ]; then \
 	  ( cd $(E2FSPROGS_PKG)/usr/share/man ; \
@@ -210,26 +221,36 @@ $(install_target): $(build_target)
 	  ) \
 	 fi
 	@mkdir -p $(E2FSPROGS_PKG)/usr/doc/$(src_dir_name)
-	@cp -a $(SRC_DIR)/COPYING* \
+	@cp -a $(SRC_DIR)/NOTICE \
 	       $(E2FSPROGS_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(E2FSPROGS_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a COPYING* INSTALL INSTALL.elfbin README* RELEASE-NOTES SHLIBS e2fsprogs.lsm \
-	         $(E2FSPROGS_PKG)/usr/share/doc/$(src_dir_name) \
+	   cp -a INSTALL* NOTICE README SHLIBS SUBMITTING-PATCHES e2fsprogs.lsm \
+	         $(E2FSPROGS_PKG)/usr/share/doc/$(src_dir_name) ; \
+	   cp -a doc/RelNotes/v$(version).txt $(E2FSPROGS_PKG)/usr/share/doc/$(src_dir_name)/RELEASE-NOTES ; \
+	   cp -a ext2ed/COPYRIGHT $(E2FSPROGS_PKG)/usr/share/doc/$(src_dir_name)/COPYRIGHT.ext2ed          ; \
+	   cp -a ext2ed/README $(E2FSPROGS_PKG)/usr/share/doc/$(src_dir_name)/README.ext2ed                ; \
+	   cp -a lib/uuid/COPYING $(E2FSPROGS_PKG)/usr/share/doc/$(src_dir_name)/COPYING.uuid              ; \
+	   chmod 644 $(E2FSPROGS_PKG)/usr/share/doc/$(src_dir_name)/* ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(E2FSPROGS_PKG))
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"                com_err.pc e2p.pc ext2fs.pc quota.pc ss.pc ; \
-	   sed -i "s,^prefix=,prefix=$(TARGET_DEST_DIR),g"         com_err.pc e2p.pc ext2fs.pc quota.pc ss.pc ; \
-	   sed -i "s,^libdir=/lib,libdir=$(TARGET_DEST_DIR)/lib,g" com_err.pc e2p.pc ext2fs.pc quota.pc ss.pc ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"                com_err.pc e2p.pc ext2fs.pc ss.pc ; \
+	   sed -i "s,^prefix=,prefix=$(TARGET_DEST_DIR),g"         com_err.pc e2p.pc ext2fs.pc ss.pc ; \
+	   sed -i "s,^libdir=/lib,libdir=$(TARGET_DEST_DIR)/lib,g" com_err.pc e2p.pc ext2fs.pc ss.pc ; \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(E2FSPROGS_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(E2FSPROGS_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 	@touch $@
 
 $(E2FSPROGS_PKG_DESCRIPTION_FILE): $(E2FSPROGS_PKG_DESCRIPTION_FILE_IN)

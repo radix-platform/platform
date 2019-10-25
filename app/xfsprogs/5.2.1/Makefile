@@ -164,7 +164,6 @@ $(install_target): $(build_target)
 	@mkdir -p $(XFSPROGS_PKG)/usr/lib$(LIBSUFFIX)
 	@( cd $(XFSPROGS_PKG)/lib$(LIBSUFFIX) ; \
 	   chmod 755 *.la ; \
-	   rm -rf xfsprogs ; \
 	   cp -a libhandle.so.? $(XFSPROGS_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   mv *.la *.so $(XFSPROGS_PKG)/usr/lib$(LIBSUFFIX) ; \
 	 )
@@ -187,10 +186,6 @@ endif
 	@( cd $(SRC_DIR) ; \
 	   cp -a LICENSES doc/CREDITS doc/INSTALL doc/README-env-vars.txt doc/sparse.txt \
 	         $(XFSPROGS_PKG)/usr/share/doc/$(src_dir_name) \
-	 )
-	@( cd $(SRC_DIR) ; \
-	   cat scrub/xfs_scrub_all.cron | sed 's,/sbin,/usr/sbin,' \
-	       > $(XFSPROGS_PKG)/usr/share/doc/$(src_dir_name)/xfs_scrub_all.cron ; \
 	 )
 	# ======= remove target path from target libtool *.la files =======
 	@( cd $(XFSPROGS_PKG)/usr/lib$(LIBSUFFIX) ; \

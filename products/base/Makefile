@@ -652,6 +652,17 @@ REQUIRES += libs/dmapi/2.2.12-x86_32
 endif
 
 REQUIRES += app/btrfs-progs/4.4
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
+REQUIRES += app/e2fsprogs/1.45.4-ppc32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
+REQUIRES += app/e2fsprogs/1.45.4-sparc32
+endif
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/e2fsprogs/1.45.4-x86_32
+endif
+
 REQUIRES += app/reiserfsprogs/3.6.24
 REQUIRES += app/dosfstools/3.0.28
 REQUIRES += app/jfsutils/1.1.15

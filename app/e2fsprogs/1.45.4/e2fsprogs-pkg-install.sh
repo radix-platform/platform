@@ -21,8 +21,8 @@ pre_install() {
 
 # arg 1:  the new package version
 post_install() {
+  install_file etc/e2scrub.conf.new
   install_file etc/mke2fs.conf.new
-
   #
   # NOTE:
   #   'install-info' can work using relative paths and we can make use build machine
@@ -31,7 +31,7 @@ post_install() {
   #
   if [ -x /usr/bin/install-info ] ; then
     install-info --info-dir=usr/share/info usr/share/info/libext2fs.info.gz 2>/dev/null
-  elif ! grep "libext2fs" usr/share/info/dir 1> /dev/null 2> /dev/null ; then
+  elif ! grep "(libext2fs)" usr/share/info/dir 1> /dev/null 2> /dev/null ; then
   cat << EOF >> usr/share/info/dir
 
 Development
@@ -54,7 +54,9 @@ post_update() {
 
 # arg 1:  the old package version
 pre_remove() {
-  /bin/true
+  if [ -x /usr/bin/install-info ] ; then
+    install-info --delete --info-file=usr/share/info/libext2fs.info.gz --dir-file=usr/share/info/dir 2> /dev/null || /bin/true
+  fi
 }
 
 # arg 1:  the old package version

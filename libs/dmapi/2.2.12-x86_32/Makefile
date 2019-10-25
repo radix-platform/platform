@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/dmapi
 
 REQUIRES           = libs/dmapi/2.2.12
-REQUIRES          += app/xfsprogs/4.7.0-x86_32
+REQUIRES          += app/xfsprogs/5.2.1-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

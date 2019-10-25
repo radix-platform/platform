@@ -50,7 +50,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/dmapi
 
-REQUIRES           = app/xfsprogs/4.7.0
+REQUIRES           = app/xfsprogs/5.2.1
 
 # ======= __END_OF_REQUIRES__ =======
 

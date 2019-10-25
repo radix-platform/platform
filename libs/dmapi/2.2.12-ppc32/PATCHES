@@ -1,0 +1,3 @@
+
+../../../sources/packages/l/dmapi/patches/dmapi-2.2.12.patch          -p0
+../../../sources/packages/l/dmapi/patches/dmapi-2.2.12-automake.patch -p0

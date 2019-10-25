@@ -1,10 +1,13 @@
 
-COMPONENT_TARGETS  = $(HARDWARE_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_S824L)
+COMPONENT_TARGETS += $(HARDWARE_VESNIN)
+COMPONENT_TARGETS += $(HARDWARE_TL2WK2)
+COMPONENT_TARGETS += $(HARDWARE_TL2SV2)
 
 NEED_ABS_PATH      = true
 COMPONENT_IS_3PP   = true
 
-CREATE_X86_32_PACKAGE = true
+CREATE_PPC32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
@@ -13,7 +16,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/dmapi
 
 REQUIRES           = libs/dmapi/2.2.12
-REQUIRES          += app/xfsprogs/5.2.1-x86_32
+REQUIRES          += app/xfsprogs/5.2.1-ppc32
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -73,8 +76,8 @@ include ../../../build-system/core.mk
 
 env_sysroot = DIST_ROOT=$(DMAPI_32_PKG)
 
-extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
-extra_configure_switches += --libexecdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
+extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_PPC32_SUFFIX)
+extra_configure_switches += --libexecdir=/usr/lib$(MULTILIB_PPC32_SUFFIX)
 extra_configure_switches += --includedir=/usr/include
 extra_configure_switches += --datadir=/usr/share
 extra_configure_switches += --mandir=/usr/share/man
@@ -108,23 +111,23 @@ $(install_target): $(build_target)
 	@mkdir -p $(DMAPI_32_PKG)
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install-dev $(env_sysroot)
-	@mkdir -p $(DMAPI_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)
-	@( cd $(DMAPI_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@mkdir -p $(DMAPI_32_PKG)/lib$(MULTILIB_PPC32_SUFFIX)
+	@( cd $(DMAPI_32_PKG)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
 	   chmod 755 libdm.so.?.?.? *.la ; \
-	   cp -a libdm.so.? $(DMAPI_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   mv libdm.so.?.?.? $(DMAPI_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/libdm.so.?.?.? . ; \
+	   cp -a libdm.so.? $(DMAPI_32_PKG)/lib$(MULTILIB_PPC32_SUFFIX) ; \
+	   mv libdm.so.?.?.? $(DMAPI_32_PKG)/lib$(MULTILIB_PPC32_SUFFIX) ; \
+	   ln -sf ../../lib$(MULTILIB_PPC32_SUFFIX)/libdm.so.?.?.? . ; \
 	 )
 	@rm -rf $(DMAPI_32_PKG)/usr/include
 	@rm -rf $(DMAPI_32_PKG)/usr/share
 	# ======= remove target path from target libtool *.la files =======
-	@( cd $(DMAPI_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(DMAPI_32_PKG)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libdm.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(DMAPI_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   libdm.la ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libdm.la ; \
 	 )

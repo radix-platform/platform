@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/reiserfsprogs
 
-versions    = 3.6.23 3.6.24
+versions    = 3.6.23 3.6.24 3.6.27
 pkgname     = reiserfsprogs
 suffix      = tar.xz
 
@@ -15,6 +15,7 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/reiserfsprogs-3.6.24-man.patch
+patches    += $(CURDIR)/patches/reiserfsprogs-3.6.27-glibc228.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -49,7 +50,8 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-3.6.24-man-patch ; ./create.patch.sh ) ; \
+	 ( cd create-3.6.24-man-patch      ; ./create.patch.sh ) ; \
+	 ( cd create-3.6.27-glibc228-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

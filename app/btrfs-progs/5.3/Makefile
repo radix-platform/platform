@@ -50,22 +50,19 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/a/btrfs-progs
 
-ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
-REQUIRES           = app/acl/2.2.52
+REQUIRES           = app/acl/2.2.53
 REQUIRES          += libs/lzo/2.10
-REQUIRES          += app/e2fsprogs/1.42.9
-else
-REQUIRES           = app/acl/2.2.52-x86_32
-REQUIRES          += libs/lzo/2.10-x86_32
-REQUIRES          += app/e2fsprogs/1.42.9-x86_32
-endif
+REQUIRES          += libs/zstd/1.4.3
+REQUIRES          += app/util-linux/2.34
+REQUIRES          += app/e2fsprogs/1.45.4
+REQUIRES          += dev/python3/3.7.4
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 3.16
-tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/a/btrfs-progs/btrfs-progs-$(version).tar.bz2
-SRC_ARCHIVE        = $(tar_bz2_archive)
+version            = 5.3
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/a/btrfs-progs/btrfs-progs-$(version).tar.xz
+SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/btrfs-progs-$(version)
 src_dir_name       = btrfs-progs-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
@@ -84,7 +81,7 @@ PKG_GROUP = app
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 BTRFS_PKG_NAME                = btrfs-progs
-BTRFS_PKG_VERSION             = 3.16
+BTRFS_PKG_VERSION             = 5.3
 BTRFS_PKG_ARCH                = $(TOOLCHAIN)
 BTRFS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 BTRFS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -121,39 +118,105 @@ include ../../../build-system/core.mk
 
 env_sysroot = DESTDIR=$(BTRFS_PKG)
 
-environment  = prefix=/usr
-environment += libdir=/usr/lib$(LIBSUFFIX)
 
-SHIP_LIBRARIES = false
+extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
+extra_configure_switches += --includedir=/usr/include
+extra_configure_switches += --datadir=/usr/share
+extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --infodir=/usr/share/info
+extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
+
+extra_configure_switches += --bindir=/sbin
+extra_configure_switches += --sysconfdir=/etc
+
+
+PYTHON_VERSION = 3.7
+
+python_environment  = PYTHON=$(PYTHON3)
+python_environment += EXTRA_PYTHON_CFLAGS='$(shell $(TARGET_DEST_DIR)/usr/bin/python$(PYTHON_VERSION)-config --cflags)'
+python_environment += EXTRA_PYTHON_LDFLAGS='$(shell $(TARGET_DEST_DIR)/usr/bin/python$(PYTHON_VERSION)-config --ldflags)'
+python_environment += PYTHON_PATH='$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/python$(PYTHON_VERSION)/lib-dynload'
+python_environment += PYTHON_CC='$(CC) --sysroot=$(TARGET_DEST_DIR)'
+python_environment += PYTHON_LDSHARED='$(CC) --sysroot=$(TARGET_DEST_DIR) -shared'
+
+
+SHIP_LIBRARIES = true
+
 
 ####### Dependencies
 
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
+	@( cd $(SRC_DIR) ; ./autogen.sh )
 	@touch $@
 
 $(build_target): $(src_done)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE)
+	@cd $(SRC_DIR) && \
+	  $(BUILD_ENVIRONMENT) $(python_environment) ./configure \
+	  --prefix=/usr               \
+	  --build=$(BUILD)            \
+	  --host=$(TARGET)            \
+	  $(extra_configure_switches)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) $(python_environment)
 	@touch $@
 
 $(install_target): $(build_target)
 	@mkdir -p $(BTRFS_PKG)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) -j1 install $(env_sysroot)
-	@mv $(BTRFS_PKG)/usr/bin $(BTRFS_PKG)/sbin
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 $(python_environment) install_python $(env_sysroot)
+	@mkdir -p $(BTRFS_PKG)/lib$(LIBSUFFIX)
+	@( cd $(BTRFS_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   for file in lib*.so.?.* ; do \
+	     mv $$file ../../lib$(LIBSUFFIX) ; \
+	     ln -sf ../../lib$(LIBSUFFIX)/$$file . ; \
+	   done ; \
+	   cp -a lib*.so.? ../../lib$(LIBSUFFIX) ; \
+	 )
+	# ======= According to                                                                         =======
+	# ======= https://btrfs.wiki.kernel.org/index.php/FAQ#When_will_Btrfs_have_a_fsck_like_tool.3F =======
+	# ======= it is safe and recommended to make fsck.btrfs a no-op by linking it to /bin/true     =======
+	@ln -sf /bin/true $(BTRFS_PKG)/sbin/fsck.btrfs
 ifneq ($(SHIP_LIBRARIES),true)
 	@rm -rf $(BTRFS_PKG)/usr/include
 	@rm -rf $(BTRFS_PKG)/usr/lib$(LIBSUFFIX)
+	@rm -rf $(BTRFS_PKG)/lib$(LIBSUFFIX)
 else
-	@chmod a-x $(BTRFS_PKG)/usr/lib$(LIBSUFFIX)/libbtrfs.a
+	@( cd $(BTRFS_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   chmod 0644 lib*.a ; \
+	 )
 endif
 	# ======= Install Documentatiom =======
+	@( cd $(BTRFS_PKG)/usr/share/man/man8 ; \
+	   for file in *.8 ; do                                \
+	     ln=`head -n 1 $$file` ;                           \
+	     if [ "`echo $$ln | grep '^\.so '`" != "" ] ; then \
+	       origin=`echo $$ln | cut -f 2 -d ' '` ;          \
+	       origin=`basename $$origin` ;                    \
+	       rm -f $$file ;                                  \
+	       ln -sf $$origin $$file ;                        \
+	     fi ;                                              \
+	   done ;                                              \
+	 )
+	@if [ -d $(BTRFS_PKG)/usr/share/man ]; then \
+	  ( cd $(BTRFS_PKG)/usr/share/man ; \
+	    for manpagedir in `find . -type d -name "man*"` ; do \
+	      ( cd $$manpagedir ; \
+	        for eachpage in `find . -type l -maxdepth 1` ; do \
+	          ln -s `readlink $$eachpage`.gz $$eachpage.gz ; \
+	          rm $$eachpage ; \
+	        done ; \
+	        gzip -9 *.?  ; \
+	      ) \
+	    done \
+	  ) \
+	 fi
 	@mkdir -p $(BTRFS_PKG)/usr/doc/$(src_dir_name)
 	@cp -a $(SRC_DIR)/COPYING \
 	       $(BTRFS_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(BTRFS_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a COPYING INSTALL \
+	   cp -a COPYING INSTALL README* VERSION \
 	         $(BTRFS_PKG)/usr/share/doc/$(src_dir_name) \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======

@@ -7,14 +7,14 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/btrfs-progs
 
-versions    = 3.16 4.4
+versions    = 5.3
 pkgname     = btrfs-progs
-suffix      = tar.bz2
+suffix      = tar.xz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/btrfs-progs-3.16.patch
+patches     = $(CURDIR)/patches/btrfs-progs-5.3-python-cross.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -49,7 +49,7 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-3.16-patch ; ./create.patch.sh ) ; \
+	 ( cd create-5.3-python-cross-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

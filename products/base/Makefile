@@ -651,16 +651,19 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/dmapi/2.2.12-x86_32
 endif
 
-REQUIRES += app/btrfs-progs/4.4
+REQUIRES += app/btrfs-progs/5.3
 ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
                             $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
 REQUIRES += app/e2fsprogs/1.45.4-ppc32
+REQUIRES += libs/zstd/1.4.3-ppc32
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
 REQUIRES += app/e2fsprogs/1.45.4-sparc32
+REQUIRES += libs/zstd/1.4.3-sparc32
 endif
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += app/e2fsprogs/1.45.4-x86_32
+REQUIRES += libs/zstd/1.4.3-x86_32
 endif
 
 REQUIRES += app/reiserfsprogs/3.6.24

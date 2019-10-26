@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/sysklogd
 
-versions    = 1.5
+versions    = 1.5 1.5.1
 pkgname     = sysklogd
 suffix      = tar.gz
 
@@ -15,6 +15,10 @@ tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
 patches     = $(CURDIR)/patches/sysklogd-1.5.patch
+patches    += $(CURDIR)/patches/sysklogd-1.5.1-cross.patch
+patches    += $(CURDIR)/patches/sysklogd-1.5.1-memmove.patch
+patches    += $(CURDIR)/patches/sysklogd-1.5.1-repeated-messages.patch
+patches    += $(CURDIR)/patches/sysklogd-1.5.1-union-wait.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -49,7 +53,11 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-1.5-patch ; ./create.patch.sh ) ; \
+	 ( cd create-1.5-patch                     ; ./create.patch.sh ) ; \
+	 ( cd create-1.5.1-cross-patch             ; ./create.patch.sh ) ; \
+	 ( cd create-1.5.1-memmove-patch           ; ./create.patch.sh ) ; \
+	 ( cd create-1.5.1-repeated-messages-patch ; ./create.patch.sh ) ; \
+	 ( cd create-1.5.1-union-wait-patch        ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

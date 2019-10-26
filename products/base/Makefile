@@ -677,7 +677,7 @@ REQUIRES += app/mtools/4.0.18
 ####### Shadow, system log, procps:
 #######
 REQUIRES += secure/shadow/4.2.1
-REQUIRES += app/sysklogd/1.5
+REQUIRES += app/sysklogd/1.5.1
 REQUIRES += app/procps/3.2.8
 
 

@@ -1,0 +1,5 @@
+
+../../../sources/packages/a/sysklogd/patches/sysklogd-1.5.1-memmove.patch           -p0
+../../../sources/packages/a/sysklogd/patches/sysklogd-1.5.1-union-wait.patch        -p0
+../../../sources/packages/a/sysklogd/patches/sysklogd-1.5.1-repeated-messages.patch -p0
+../../../sources/packages/a/sysklogd/patches/sysklogd-1.5.1-cross.patch             -p0

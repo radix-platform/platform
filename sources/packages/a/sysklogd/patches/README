@@ -1,6 +1,10 @@
 
 /* begin *
 
-   TODO: Leave some comment here.
+   Patching Order:
+   --------------
+     sysklogd-1.5.1-memmove.patch
+     sysklogd-1.5.1-union-wait.patch
+     sysklogd-1.5.1-repeated-messages.patch
 
  * end */

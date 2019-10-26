@@ -50,11 +50,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES      = sources/packages/a/sysfsutils
 
-ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES             = app/util-linux/2.34
-else
-REQUIRES             = app/util-linux/2.34-x86_32
-endif
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -121,6 +117,13 @@ extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --disable-dependency-tracking
 
+ifeq ($(__ENABLE_STATIC__),yes)
+extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
+extra_configure_switches += --enable-shared=yes
+
 
 ####### Dependencies
 
@@ -143,10 +146,10 @@ $(install_target): $(build_target)
 	@mkdir -p $(SYSFSUTILS_PKG)
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	@mkdir -p $(SYSFSUTILS_PKG)/lib$(LIBSUFFIX)
-	@( cd $(SYSFSUTILS_PKG)/usr/lib$(LIBSUFFIX)   ; \
-	   cp -a libsysfs.so.? ../../lib$(LIBSUFFIX)  ; \
-	   mv libsysfs.so.?.?.? ../../lib$(LIBSUFFIX) ; \
-	   ln -sf ../../lib$(LIBSUFFIX)/libsysfs.so.?.?.? . \
+	@( cd $(SYSFSUTILS_PKG)/usr/lib$(LIBSUFFIX)         ; \
+	   cp -a libsysfs.so.? ../../lib$(LIBSUFFIX)        ; \
+	   mv libsysfs.so.?.?.? ../../lib$(LIBSUFFIX)       ; \
+	   ln -sf ../../lib$(LIBSUFFIX)/libsysfs.so.?.?.? . ; \
 	 )
 	# ======= Install Documentation =======
 	@if [ -d $(SYSFSUTILS_PKG)/usr/share/man ]; then \
@@ -185,15 +188,19 @@ $(install_target): $(build_target)
 	$(call install-into-devenv, $(SYSFSUTILS_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libsysfs.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libsysfs.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   libsysfs.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libsysfs.la ; \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(SYSFSUTILS_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(SYSFSUTILS_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 	@touch $@
 
 $(SYSFSUTILS_PKG_DESCRIPTION_FILE): $(SYSFSUTILS_PKG_DESCRIPTION_FILE_IN)

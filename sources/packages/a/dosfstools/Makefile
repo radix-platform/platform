@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/dosfstools
 
-versions    = 3.0.25 3.0.26 3.0.28
+versions    = 3.0.25 3.0.26 3.0.28 4.1
 pkgname     = dosfstools
 suffix      = tar.xz
 

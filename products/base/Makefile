@@ -667,7 +667,7 @@ REQUIRES += libs/zstd/1.4.3-x86_32
 endif
 
 REQUIRES += app/reiserfsprogs/3.6.27
-REQUIRES += app/dosfstools/3.0.28
+REQUIRES += app/dosfstools/4.1
 REQUIRES += app/jfsutils/1.1.15
 REQUIRES += app/sysfsutils/2.1.0
 REQUIRES += app/mtools/4.0.18

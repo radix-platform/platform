@@ -666,7 +666,7 @@ REQUIRES += app/e2fsprogs/1.45.4-x86_32
 REQUIRES += libs/zstd/1.4.3-x86_32
 endif
 
-REQUIRES += app/reiserfsprogs/3.6.24
+REQUIRES += app/reiserfsprogs/3.6.27
 REQUIRES += app/dosfstools/3.0.28
 REQUIRES += app/jfsutils/1.1.15
 REQUIRES += app/sysfsutils/2.1.0

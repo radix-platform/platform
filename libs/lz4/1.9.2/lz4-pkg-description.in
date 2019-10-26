@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+   |-----handy-ruler------------------------------------------------------|
+lz4: lz4 @VERSION@ (fast compression algorithm)
+lz4:
+lz4: LZ4 is lossless compression algorithm, providing compression speed
+lz4: more 500 MB/s per core. It features an extremely fast decoder, with
+lz4: speed in multiple GB/s per core. A high compression derivative,
+lz4: called LZ4_HC, is available, trading customizable CPU time for
+lz4: compression ratio. LZ4 library is provided as open source software
+lz4: using a BSD license.
+lz4:
+lz4: Homepage: http://www.lz4.org
+lz4:

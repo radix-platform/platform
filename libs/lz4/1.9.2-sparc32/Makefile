@@ -1,0 +1,142 @@
+
+COMPONENT_TARGETS  = $(HARDWARE_MBC4_PC)
+
+NEED_ABS_PATH      = true
+COMPONENT_IS_3PP   = true
+
+CREATE_SPARC32_PACKAGE = true
+
+
+include ../../../build-system/constants.mk
+
+
+SOURCE_REQUIRES    = sources/packages/l/lz4
+
+REQUIRES           = libs/lz4/1.9.2
+REQUIRES          += libs/glibc/2.28-sparc32
+
+# ======= __END_OF_REQUIRES__ =======
+
+
+version            = 1.9.2
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/l/lz4/lz4-$(version).tar.xz
+SRC_ARCHIVE        = $(tar_xz_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/lz4-$(version)
+src_dir_name       = lz4-$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source_done
+
+PATCHES = PATCHES
+
+build_target       = $(TARGET_BUILD_DIR)/.build_done
+install_target     = $(TARGET_BUILD_DIR)/.install_done
+
+
+####### Targets
+
+PKG_GROUP = libs
+#
+# *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
+#
+LZ4_32_PKG_NAME                = lz4-x32
+LZ4_32_PKG_VERSION             = 1.9.2
+LZ4_32_PKG_ARCH                = $(TOOLCHAIN)
+LZ4_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+LZ4_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
+LZ4_32_PKG_GROUP               = $(PKG_GROUP)
+###                             |---handy-ruler-------------------------------|
+LZ4_32_PKG_SHORT_DESCRIPTION   = fast compression algorithm
+LZ4_32_PKG_URL                 = $(BUG_URL)
+LZ4_32_PKG_LICENSE             = GPLv2
+LZ4_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LZ4_32_PKG_NAME)-pkg-description
+LZ4_32_PKG_DESCRIPTION_FILE_IN = $(LZ4_32_PKG_NAME)-pkg-description.in
+LZ4_32_PKG_INSTALL_SCRIPT      = $(LZ4_32_PKG_NAME)-pkg-install.sh
+
+LZ4_32_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LZ4_32_PKG_NAME)-package
+
+pkg_basename     = $(LZ4_32_PKG_NAME)-$(LZ4_32_PKG_VERSION)-$(LZ4_32_PKG_ARCH)-$(LZ4_32_PKG_DISTRO_NAME)-$(LZ4_32_PKG_DISTRO_VERSION)
+
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_certificate  = $(call cert-name,$(pkg_archive))
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
+
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
+
+PRODUCT_TARGETS  = $(products)
+
+ROOTFS_TARGETS   = $(pkg_archive)
+
+
+include ../../../build-system/core.mk
+
+
+env_sysroot  = DESTDIR=$(LZ4_32_PKG)
+
+
+configure_switches  = PREFIX=/usr
+configure_switches += LIBDIR=/usr/lib$(MULTILIB_SPARC32_SUFFIX)
+configure_switches += MANDIR=/usr/share/man
+configure_switches += BINDIR=/usr/bin/32
+
+
+####### Dependencies
+
+$(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
+	$(UNPACK_SRC_ARCHIVE)
+	$(APPLY_PATCHES)
+	@touch $@
+
+$(build_target): $(src_done)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) $(configure_switches) -C lib
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) $(configure_switches) -C programs lz4 lz4c
+	@touch $@
+
+$(install_target): $(build_target)
+	@mkdir -p $(LZ4_32_PKG)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) $(configure_switches) -j1 install $(env_sysroot)
+ifneq ($(__ENABLE_STATIC__),yes)
+	@rm -f $(LZ4_32_PKG)/usr/lib$(MULTILIB_SPARC32_SUFFIX)/*.a
+endif
+	@rm -rf $(LZ4_32_PKG)/usr/include
+	@rm -rf $(LZ4_32_PKG)/usr/share
+	# ======= Install the same to $(TARGET_DEST_DIR) =======
+	$(call install-into-devenv, $(LZ4_32_PKG))
+	# ======= tune pkg-config *.pc search path to the target destination for development =======
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_SPARC32_SUFFIX)/pkgconfig ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" liblz4.pc ; \
+	 )
+	# ======= Strip binaries =======
+	@( cd $(LZ4_32_PKG) ; \
+	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(LZ4_32_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
+	@touch $@
+
+$(LZ4_32_PKG_DESCRIPTION_FILE): $(LZ4_32_PKG_DESCRIPTION_FILE_IN)
+	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
+
+$(pkg_certificate) : $(pkg_archive) ;
+$(pkg_signature)   : $(pkg_archive) ;
+$(pkg_description) : $(pkg_archive) ;
+
+$(pkg_archive): $(install_target) $(LZ4_32_PKG_DESCRIPTION_FILE) $(LZ4_32_PKG_INSTALL_SCRIPT)
+	@cp $(LZ4_32_PKG_DESCRIPTION_FILE) $(LZ4_32_PKG)/.DESCRIPTION
+	@cp $(LZ4_32_PKG_INSTALL_SCRIPT) $(LZ4_32_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(LZ4_32_PKG)/.REQUIRES
+	@echo "pkgname=$(LZ4_32_PKG_NAME)"                            >  $(LZ4_32_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(LZ4_32_PKG_VERSION)"                          >> $(LZ4_32_PKG)/.PKGINFO ; \
+	 echo "arch=$(LZ4_32_PKG_ARCH)"                               >> $(LZ4_32_PKG)/.PKGINFO ; \
+	 echo "distroname=$(LZ4_32_PKG_DISTRO_NAME)"                  >> $(LZ4_32_PKG)/.PKGINFO ; \
+	 echo "distrover=$(LZ4_32_PKG_DISTRO_VERSION)"                >> $(LZ4_32_PKG)/.PKGINFO ; \
+	 echo "group=$(LZ4_32_PKG_GROUP)"                             >> $(LZ4_32_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(LZ4_32_PKG_SHORT_DESCRIPTION)\"" >> $(LZ4_32_PKG)/.PKGINFO ; \
+	 echo "url=$(LZ4_32_PKG_URL)"                                 >> $(LZ4_32_PKG)/.PKGINFO ; \
+	 echo "license=$(LZ4_32_PKG_LICENSE)"                         >> $(LZ4_32_PKG)/.PKGINFO
+	@$(PSEUDO) sh -c "cd $(LZ4_32_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

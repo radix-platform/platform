@@ -1,8 +1,8 @@
 
-COMPONENT_TARGETS     = $(HARDWARE_MBC4_PC)
+COMPONENT_TARGETS  = $(HARDWARE_MBC4_PC)
 
-NEED_ABS_PATH         = true
-COMPONENT_IS_3PP      = true
+NEED_ABS_PATH      = true
+COMPONENT_IS_3PP   = true
 
 CREATE_SPARC32_PACKAGE = true
 
@@ -10,26 +10,26 @@ CREATE_SPARC32_PACKAGE = true
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES       = sources/packages/a/e2fsprogs
+SOURCE_REQUIRES    = sources/packages/a/e2fsprogs
 
-REQUIRES              = app/e2fsprogs/1.45.4
-REQUIRES             += app/util-linux/2.34-sparc32
+REQUIRES           = app/e2fsprogs/1.45.4
+REQUIRES          += app/util-linux/2.34-sparc32
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version               = 1.45.4
-tar_xz_archive        = $(SRC_PACKAGE_PATH)/packages/a/e2fsprogs/e2fsprogs-$(version).tar.xz
-SRC_ARCHIVE           = $(tar_xz_archive)
-SRC_DIR               = $(TARGET_BUILD_DIR)/e2fsprogs-$(version)
-src_dir_name          = e2fsprogs-$(version)
-src_done              = $(TARGET_BUILD_DIR)/.source_done
+version            = 1.45.4
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/a/e2fsprogs/e2fsprogs-$(version).tar.xz
+SRC_ARCHIVE        = $(tar_xz_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/e2fsprogs-$(version)
+src_dir_name       = e2fsprogs-$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
 
-build_dir             = $(TARGET_BUILD_DIR)/build
-build_target          = $(TARGET_BUILD_DIR)/.build_done
-install_target        = $(TARGET_BUILD_DIR)/.install_done
+build_dir          = $(TARGET_BUILD_DIR)/build
+build_target       = $(TARGET_BUILD_DIR)/.build_done
+install_target     = $(TARGET_BUILD_DIR)/.install_done
 
 
 ####### Targets

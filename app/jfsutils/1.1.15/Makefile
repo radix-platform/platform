@@ -168,7 +168,7 @@ $(install_target): $(build_target)
 	       $(JFSUTILS_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(JFSUTILS_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a AUTHORS COPYING INSTALL NEWS README \
+	   cp -a AUTHORS COPYING NEWS README \
 	         $(JFSUTILS_PKG)/usr/share/doc/$(src_dir_name) \
 	 )
 	@( cd $(SRC_DIR) ; \

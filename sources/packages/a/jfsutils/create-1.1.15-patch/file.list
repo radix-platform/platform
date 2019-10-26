@@ -1,1 +1,3 @@
 jfsutils-1.1.15/fscklog/extract.c
+jfsutils-1.1.15/libfs/devices.c
+jfsutils-1.1.15/libfs/devices.h

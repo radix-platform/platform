@@ -5,16 +5,16 @@ COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 include ../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/packages/a/psmisc
+url         = $(DOWNLOAD_SERVER)/sources/packages/a/procinfo-ng
 
-versions    = 23.2
-pkgname     = psmisc
-suffix      = tar.xz
+versions    = 2.0.304
+pkgname     = procinfo-ng
+suffix      = tar.bz2
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/psmisc-23.2-rpl-malloc.patch
+patches     = $(CURDIR)/patches/procinfo-ng-2.0.304-cross.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -49,7 +49,7 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-23.2-rpl-malloc-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2.0.304-cross-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+      |-----handy-ruler------------------------------------------------------|
+psmisc: psmisc @VERSION@ (small utilities that use the proc file-system)
+psmisc:
+psmisc: The psmisc package provides the classic set of utilities used to
+psmisc: identify processes, kill processes by name, print statistics of
+psmisc: a process, print log path of a process, show running processes
+psmisc: as a tree, show the data travelling over a file descriptor.
+psmisc:
+psmisc:
+psmisc: Homepage: https://sourceforge.net/projects/psmisc
+psmisc:   GitLab: https://gitlab.com/psmisc/ppsmisc
+psmisc:

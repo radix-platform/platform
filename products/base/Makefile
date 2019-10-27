@@ -678,7 +678,17 @@ REQUIRES += app/mtools/4.0.18
 #######
 REQUIRES += secure/shadow/4.2.1
 REQUIRES += app/sysklogd/1.5.1
-REQUIRES += app/procps/3.2.8
+REQUIRES += app/procps-ng/3.3.15
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
+REQUIRES += app/procps-ng/3.3.15-ppc32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
+REQUIRES += app/procps-ng/3.3.15-sparc32
+endif
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/procps-ng/3.3.15-x86_32
+endif
 
 
 #######

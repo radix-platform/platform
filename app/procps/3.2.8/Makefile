@@ -41,38 +41,38 @@ COMPONENT_TARGETS += $(HARDWARE_TL2WK2_LSB)
 COMPONENT_TARGETS += $(HARDWARE_TL2SV2_LSB)
 
 
-NEED_ABS_PATH     = true
-COMPONENT_IS_3PP  = true
+NEED_ABS_PATH      = true
+COMPONENT_IS_3PP   = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES   = sources/packages/a/procps
-SOURCE_REQUIRES  += sources/packages/a/procinfo
-SOURCE_REQUIRES  += sources/packages/a/psmisc
+SOURCE_REQUIRES    = sources/packages/a/procps
+SOURCE_REQUIRES   += sources/packages/a/procinfo
+SOURCE_REQUIRES   += sources/packages/a/psmisc
 
-REQUIRES          = libs/ncurses/6.1
+REQUIRES           = libs/ncurses/6.1
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version           = 3.2.8
-tar_gz_archive    = $(SRC_PACKAGE_PATH)/packages/a/procps/procps-$(version).tar.gz
-SRC_ARCHIVE       = $(tar_gz_archive)
-SRC_DIR           = $(TARGET_BUILD_DIR)/procps-$(version)
-src_dir_name      = procps-$(version)
-src_done          = $(TARGET_BUILD_DIR)/.source-done
+version            = 3.2.8
+tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/a/procps/procps-$(version).tar.gz
+SRC_ARCHIVE        = $(tar_gz_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/procps-$(version)
+src_dir_name       = procps-$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source-done
 
-procinfo_version  = 18
-procinfo_archive  = $(SRC_PACKAGE_PATH)/packages/a/procinfo/procinfo-$(procinfo_version).tar.gz
-PROCINFO_SRC_DIR  = $(TARGET_BUILD_DIR)/procinfo-$(procinfo_version)
-procinfo_src_done = $(TARGET_BUILD_DIR)/.procinfo-source-done
+procinfo_version   = 18
+procinfo_archive   = $(SRC_PACKAGE_PATH)/packages/a/procinfo/procinfo-$(procinfo_version).tar.gz
+PROCINFO_SRC_DIR   = $(TARGET_BUILD_DIR)/procinfo-$(procinfo_version)
+procinfo_src_done  = $(TARGET_BUILD_DIR)/.procinfo-source-done
 
-psmisc_version    = 22.21
-psmisc_archive    = $(SRC_PACKAGE_PATH)/packages/a/psmisc/psmisc-$(psmisc_version).tar.gz
-PSMISC_SRC_DIR    = $(TARGET_BUILD_DIR)/psmisc-$(psmisc_version)
-psmisc_src_done   = $(TARGET_BUILD_DIR)/.psmisc-source-done
+psmisc_version     = 22.21
+psmisc_archive     = $(SRC_PACKAGE_PATH)/packages/a/psmisc/psmisc-$(psmisc_version).tar.gz
+PSMISC_SRC_DIR     = $(TARGET_BUILD_DIR)/psmisc-$(psmisc_version)
+psmisc_src_done    = $(TARGET_BUILD_DIR)/.psmisc-source-done
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
 PATCHES = PATCHES.x86_64
@@ -80,11 +80,11 @@ else
 PATCHES = PATCHES
 endif
 
-build_target      = $(TARGET_BUILD_DIR)/.build_done
-install_target    = $(TARGET_BUILD_DIR)/.install_done
+build_target       = $(TARGET_BUILD_DIR)/.build_done
+install_target     = $(TARGET_BUILD_DIR)/.install_done
 
-cache_file_in     = $(CURDIR)/fix-malloc.cache
-cache_file        = $(CURDIR)/$(SRC_DIR)/fix-malloc.cache
+cache_file_in      = $(CURDIR)/fix-malloc.cache
+cache_file         = $(CURDIR)/$(SRC_DIR)/fix-malloc.cache
 
 
 ####### Targets

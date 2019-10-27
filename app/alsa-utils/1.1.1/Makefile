@@ -50,7 +50,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/m/alsa/utils
 
-REQUIRES           = app/procps/3.2.8
+REQUIRES           = app/procps-ng/3.3.15
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES          += libs/alsa-lib/1.1.1
 REQUIRES          += libs/libsamplerate/0.1.8

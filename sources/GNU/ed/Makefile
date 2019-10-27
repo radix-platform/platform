@@ -7,14 +7,14 @@ include ../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/GNU/ed
 
-versions    = 1.9
+versions    = 1.15
 pkgname     = ed
-suffix      = tar.gz
+suffix      = tar.xz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/ed-1.9.patch
+patches     = $(CURDIR)/patches/ed-1.15-cross.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -49,7 +49,7 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-1.9-patch ; ./create.patch.sh ) ; \
+	 ( cd create-1.15-cross-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

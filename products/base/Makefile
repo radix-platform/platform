@@ -709,12 +709,19 @@ REQUIRES += libs/libusb-compat/0.1.7-x86_32
 endif
 
 REQUIRES += app/eudev/3.2.8
-REQUIRES += app/lvm2/2.02.141
+REQUIRES += app/lvm2/2.03.06
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
+REQUIRES += app/lvm2/2.03.06-ppc32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
+REQUIRES += app/lvm2/2.03.06-sparc32
+endif
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += app/lvm2/2.02.141-x86_32
+REQUIRES += app/lvm2/2.03.06-x86_32
 endif
 REQUIRES += app/cpio/2.12
-REQUIRES += app/ed/1.9
+REQUIRES += app/ed/1.15
 REQUIRES += app/getty-ps/2.1.1
 REQUIRES += app/hdparm/9.48
 REQUIRES += app/less/451
@@ -909,10 +916,6 @@ endif
 REQUIRES += libs/taglib/1.10
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/taglib/1.10-x86_32
-endif
-REQUIRES += libs/libaio/0.3.110
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/libaio/0.3.110-x86_32
 endif
 REQUIRES += libs/zeromq/4.1.4
 ifeq ($(HARDWARE),$(HARDWARE_PC64))

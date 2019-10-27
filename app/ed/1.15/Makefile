@@ -48,18 +48,22 @@ COMPONENT_IS_3PP   = true
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/GNU/cpio
+SOURCE_REQUIRES    = sources/GNU/ed
 
-REQUIRES           = app/tar/1.32
+ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
+REQUIRES           = dev/gcc/6.5.0
+else
+REQUIRES           = libs/glibc/2.28
+endif
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 2.12
-tar_bz2_archive    = $(SRC_PACKAGE_PATH)/GNU/cpio/cpio-$(version).tar.bz2
-SRC_ARCHIVE        = $(tar_bz2_archive)
-SRC_DIR            = $(TARGET_BUILD_DIR)/cpio-$(version)
-src_dir_name       = cpio-$(version)
+version            = 1.15
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNU/ed/ed-$(version).tar.xz
+SRC_ARCHIVE        = $(tar_xz_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/ed-$(version)
+src_dir_name       = ed-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
@@ -76,23 +80,23 @@ PKG_GROUP = app
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-CPIO_PKG_NAME                = cpio
-CPIO_PKG_VERSION             = 2.12
-CPIO_PKG_ARCH                = $(TOOLCHAIN)
-CPIO_PKG_DISTRO_NAME         = $(DISTRO_NAME)
-CPIO_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
-CPIO_PKG_GROUP               = $(PKG_GROUP)
-###                           |---handy-ruler-------------------------------|
-CPIO_PKG_SHORT_DESCRIPTION   = backup and archiving utility
-CPIO_PKG_URL                 = $(BUG_URL)
-CPIO_PKG_LICENSE             = GPLv2
-CPIO_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(CPIO_PKG_NAME)-pkg-description
-CPIO_PKG_DESCRIPTION_FILE_IN = $(CPIO_PKG_NAME)-pkg-description.in
-CPIO_PKG_INSTALL_SCRIPT      = $(CPIO_PKG_NAME)-pkg-install.sh
+ED_PKG_NAME                = ed
+ED_PKG_VERSION             = 1.15
+ED_PKG_ARCH                = $(TOOLCHAIN)
+ED_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+ED_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
+ED_PKG_GROUP               = $(PKG_GROUP)
+###                         |---handy-ruler-------------------------------|
+ED_PKG_SHORT_DESCRIPTION   = text editor
+ED_PKG_URL                 = $(BUG_URL)
+ED_PKG_LICENSE             = GPLv2
+ED_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(ED_PKG_NAME)-pkg-description
+ED_PKG_DESCRIPTION_FILE_IN = $(ED_PKG_NAME)-pkg-description.in
+ED_PKG_INSTALL_SCRIPT      = $(ED_PKG_NAME)-pkg-install.sh
 
-CPIO_PKG         = $(CURDIR)/$(TARGET_BUILD_DIR)/$(CPIO_PKG_NAME)-package
+ED_PKG           = $(CURDIR)/$(TARGET_BUILD_DIR)/$(ED_PKG_NAME)-package
 
-pkg_basename     = $(CPIO_PKG_NAME)-$(CPIO_PKG_VERSION)-$(CPIO_PKG_ARCH)-$(CPIO_PKG_DISTRO_NAME)-$(CPIO_PKG_DISTRO_VERSION)
+pkg_basename     = $(ED_PKG_NAME)-$(ED_PKG_VERSION)-$(ED_PKG_ARCH)-$(ED_PKG_DISTRO_NAME)-$(ED_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
 pkg_certificate  = $(call cert-name,$(pkg_archive))
@@ -111,18 +115,13 @@ ROOTFS_TARGETS   = $(pkg_archive)
 include ../../../build-system/core.mk
 
 
-env_sysroot = DESTDIR=$(CPIO_PKG) INSTALL="install -p"
+env_sysroot = DESTDIR=$(ED_PKG)
 
 
-extra_configure_switches  = --bindir=/bin
-extra_configure_switches += --libdir=/lib$(LIBSUFFIX)
+extra_configure_switches  = --libdir=/lib$(LIBSUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
-extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
-extra_configure_switches += --disable-dependency-tracking
-extra_configure_switches += --sysconfdir=/etc
-extra_configure_switches += --enable-mt
-extra_configure_switches += --with-rmt=/sbin/rmt
+extra_configure_switches += --infodir=/usr/share/info
 
 
 ####### Dependencies
@@ -144,17 +143,19 @@ $(build_target): $(src_done)
 	@touch $@
 
 $(install_target): $(build_target)
-	@mkdir -p $(CPIO_PKG)
+	@mkdir -p $(ED_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(environment) $(MAKE) -j1 install $(env_sysroot)
-	# ======= Do not clash with the 'mt' which is part of tar: =======
-	@mv $(CPIO_PKG)/bin/mt{,-GNU}
-	@mv $(CPIO_PKG)/usr/share/man/man1/mt{,-GNU}.1
-	@rmdir $(CPIO_PKG)/usr/share/man/man8
+	# ======= Traditional =======
+	@mkdir -p $(ED_PKG)/bin
+	@rm -f $(ED_PKG)/usr/bin/red
+	@mv $(ED_PKG)/usr/bin/ed $(ED_PKG)/bin
+	@( cd $(ED_PKG)/bin ; ln -sf ed red )
+	@( cd $(ED_PKG)/usr/bin ; ln -sf ../../bin/ed . ; ln -sf ed red )
 	# ======= Install Documentation =======
-	@rm -f $(CPIO_PKG)/usr/share/info/dir
-	@gzip -9 $(CPIO_PKG)/usr/share/info/*
-	@if [ -d $(CPIO_PKG)/usr/share/man ]; then \
-	  ( cd $(CPIO_PKG)/usr/share/man ; \
+	@rm -f $(ED_PKG)/usr/share/info/dir
+	@gzip -9 $(ED_PKG)/usr/share/info/*
+	@if [ -d $(ED_PKG)/usr/share/man ]; then \
+	  ( cd $(ED_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \
 	      ( cd $$manpagedir ; \
 	        for eachpage in `find . -type l -maxdepth 1` ; do \
@@ -166,47 +167,47 @@ $(install_target): $(build_target)
 	    done \
 	  ) \
 	 fi
-	@mkdir -p $(CPIO_PKG)/usr/doc/$(src_dir_name)
+	@mkdir -p $(ED_PKG)/usr/doc/$(src_dir_name)
 	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/COPYING \
-	       $(CPIO_PKG)/usr/doc/$(src_dir_name)
-	@mkdir -p $(CPIO_PKG)/usr/share/doc/$(src_dir_name)
+	       $(ED_PKG)/usr/doc/$(src_dir_name)
+	@mkdir -p $(ED_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a ABOUT-NLS AUTHORS COPYING* INSTALL NEWS README* THANKS TODO \
-	         $(CPIO_PKG)/usr/share/doc/$(src_dir_name) \
+	   cp -a AUTHORS COPYING INSTALL NEWS README TODO \
+	         $(ED_PKG)/usr/share/doc/$(src_dir_name) \
 	 )
 	@( cd $(SRC_DIR) ; \
 	   if [ -r ChangeLog ]; then \
-	     DOCSDIR=`echo $(CPIO_PKG)/usr/share/doc/$(src_dir_name)` ; \
+	     DOCSDIR=`echo $(ED_PKG)/usr/share/doc/$(src_dir_name)` ; \
 	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
 	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	$(call install-into-devenv, $(CPIO_PKG))
+	$(call install-into-devenv, $(ED_PKG))
 	# ======= Strip binaries =======
-	@( cd $(CPIO_PKG) ; \
+	@( cd $(ED_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null \
 	 )
 	@touch $@
 
-$(CPIO_PKG_DESCRIPTION_FILE): $(CPIO_PKG_DESCRIPTION_FILE_IN)
+$(ED_PKG_DESCRIPTION_FILE): $(ED_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
 $(pkg_certificate) : $(pkg_archive) ;
 $(pkg_signature)   : $(pkg_archive) ;
 $(pkg_description) : $(pkg_archive) ;
 
-$(pkg_archive): $(install_target) $(CPIO_PKG_DESCRIPTION_FILE) $(CPIO_PKG_INSTALL_SCRIPT)
-	@cp $(CPIO_PKG_DESCRIPTION_FILE) $(CPIO_PKG)/.DESCRIPTION
-	@cp $(CPIO_PKG_INSTALL_SCRIPT) $(CPIO_PKG)/.INSTALL
-	@$(BUILD_PKG_REQUIRES) $(CPIO_PKG)/.REQUIRES
-	@echo "pkgname=$(CPIO_PKG_NAME)"                            >  $(CPIO_PKG)/.PKGINFO ; \
-	 echo "pkgver=$(CPIO_PKG_VERSION)"                          >> $(CPIO_PKG)/.PKGINFO ; \
-	 echo "arch=$(CPIO_PKG_ARCH)"                               >> $(CPIO_PKG)/.PKGINFO ; \
-	 echo "distroname=$(CPIO_PKG_DISTRO_NAME)"                  >> $(CPIO_PKG)/.PKGINFO ; \
-	 echo "distrover=$(CPIO_PKG_DISTRO_VERSION)"                >> $(CPIO_PKG)/.PKGINFO ; \
-	 echo "group=$(CPIO_PKG_GROUP)"                             >> $(CPIO_PKG)/.PKGINFO ; \
-	 echo "short_description=\"$(CPIO_PKG_SHORT_DESCRIPTION)\"" >> $(CPIO_PKG)/.PKGINFO ; \
-	 echo "url=$(CPIO_PKG_URL)"                                 >> $(CPIO_PKG)/.PKGINFO ; \
-	 echo "license=$(CPIO_PKG_LICENSE)"                         >> $(CPIO_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(CPIO_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."
+$(pkg_archive): $(install_target) $(ED_PKG_DESCRIPTION_FILE) $(ED_PKG_INSTALL_SCRIPT)
+	@cp $(ED_PKG_DESCRIPTION_FILE) $(ED_PKG)/.DESCRIPTION
+	@cp $(ED_PKG_INSTALL_SCRIPT) $(ED_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(ED_PKG)/.REQUIRES
+	@echo "pkgname=$(ED_PKG_NAME)"                            >  $(ED_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(ED_PKG_VERSION)"                          >> $(ED_PKG)/.PKGINFO ; \
+	 echo "arch=$(ED_PKG_ARCH)"                               >> $(ED_PKG)/.PKGINFO ; \
+	 echo "distroname=$(ED_PKG_DISTRO_NAME)"                  >> $(ED_PKG)/.PKGINFO ; \
+	 echo "distrover=$(ED_PKG_DISTRO_VERSION)"                >> $(ED_PKG)/.PKGINFO ; \
+	 echo "group=$(ED_PKG_GROUP)"                             >> $(ED_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(ED_PKG_SHORT_DESCRIPTION)\"" >> $(ED_PKG)/.PKGINFO ; \
+	 echo "url=$(ED_PKG_URL)"                                 >> $(ED_PKG)/.PKGINFO ; \
+	 echo "license=$(ED_PKG_LICENSE)"                         >> $(ED_PKG)/.PKGINFO
+	@$(PSEUDO) sh -c "cd $(ED_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

@@ -82,7 +82,7 @@ PSMISC_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 PSMISC_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 PSMISC_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
-PSMISC_PKG_SHORT_DESCRIPTION   = utilities for displaying process information
+PSMISC_PKG_SHORT_DESCRIPTION   = small utilities that use proc file-system
 PSMISC_PKG_URL                 = $(BUG_URL)
 PSMISC_PKG_LICENSE             = GPLv2
 PSMISC_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(PSMISC_PKG_NAME)-pkg-description

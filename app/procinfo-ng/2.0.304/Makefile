@@ -88,7 +88,7 @@ PROCINFO_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 PROCINFO_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 PROCINFO_PKG_GROUP               = $(PKG_GROUP)
 ###                               |---handy-ruler-------------------------------|
-PROCINFO_PKG_SHORT_DESCRIPTION   = utilities for displaying process information
+PROCINFO_PKG_SHORT_DESCRIPTION   = display system statistics
 PROCINFO_PKG_URL                 = $(BUG_URL)
 PROCINFO_PKG_LICENSE             = GPLv2
 PROCINFO_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(PROCINFO_PKG_NAME)-pkg-description

@@ -7,17 +7,15 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/a/lvm2
 
-versions    = 2.02.132 2.02.141
+versions    = 2.03.06
 pkgname     = LVM2
 suffix      = tar.xz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/LVM2-2.02.132-rpl_malloc.patch
-patches    += $(CURDIR)/patches/LVM2-2.02.132-sockets-static.patch
-patches    += $(CURDIR)/patches/LVM2-2.02.141-rpl_malloc.patch
-patches    += $(CURDIR)/patches/LVM2-2.02.141-sockets-static.patch
+patches     = $(CURDIR)/patches/LVM2-2.03.06-rpl_malloc.patch
+patches    += $(CURDIR)/patches/LVM2-2.03.06-dm-run-dir.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -52,10 +50,8 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-2.02.132-rpl_malloc-patch     ; ./create.patch.sh ) ; \
-	 ( cd create-2.02.132-sockets-static-patch ; ./create.patch.sh ) ; \
-	 ( cd create-2.02.141-rpl_malloc-patch     ; ./create.patch.sh ) ; \
-	 ( cd create-2.02.141-sockets-static-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2.03.06-rpl_malloc-patch      ; ./create.patch.sh ) ; \
+	 ( cd create-2.03.06-dm-run-dir-patch      ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

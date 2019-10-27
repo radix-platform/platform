@@ -7,16 +7,14 @@ include ../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/GNU/tar
 
-versions    = 1.13 1.26 1.27.1
+versions    = 1.32
 pkgname     = tar
-suffix      = tar.gz
+suffix      = tar.xz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/tar-1.13-bzip2.patch
-patches    += $(CURDIR)/patches/tar-1.26.patch
-patches    += $(CURDIR)/patches/tar-1.27.1.patch
+patches     = $(CURDIR)/patches/tar-1.32-nolonezero.patch
 
 
 .NOTPARALLEL: $(patches)
@@ -52,9 +50,7 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-1.13-bzip2-patch ; ./create.patch.sh ) ; \
-	 ( cd create-1.26-patch       ; ./create.patch.sh ) ; \
-	 ( cd create-1.27.1-patch     ; ./create.patch.sh ) ; \
+	 ( cd create-1.32-nolonezero-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

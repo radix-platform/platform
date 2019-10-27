@@ -56,7 +56,7 @@ REQUIRES           = dev/gcc/6.5.0
 endif
 REQUIRES          += libs/pcre/8.43
 REQUIRES          += libs/libxml2/2.9.9
-REQUIRES          += libs/libaio/0.3.110
+REQUIRES          += libs/libaio/0.3.112
 REQUIRES          += net/openssl/1.1.1d
 REQUIRES          += secure/pam_unix2/2.9.1
 REQUIRES          += libs/boost/1.61.0

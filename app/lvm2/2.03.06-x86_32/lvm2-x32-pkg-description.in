@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+        |-----handy-ruler------------------------------------------------------|
+lvm2-x32: lvm2-x32 @VERSION@ (Logical Volume Manager version 2)
+lvm2-x32:
+lvm2-x32: Heinz Mauelshagen's LVM (Logical Volume Manager) for Linux.
+lvm2-x32: LVM adds an additional layer between the physical peripherals and
+lvm2-x32: the low-level I/O interface to get a logical view of disks. This
+lvm2-x32: allows the concatenation of several disks (so-called physical
+lvm2-x32: volumes or PVs) to form a storage pool (so-called Volume Group or
+lvm2-x32: VG) with allocation units called physical extents (called PE).
+lvm2-x32: With LVM, you can extend, resize, or relocate storage dynamically.
+lvm2-x32:
+lvm2-x32:

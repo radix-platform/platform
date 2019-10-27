@@ -7,9 +7,9 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/libaio
 
-versions    = 0.3.110
+versions    = 0.3.112
 pkgname     = libaio
-suffix      = tar.bz2
+suffix      = tar.gz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))

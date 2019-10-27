@@ -18,7 +18,7 @@ endif
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES           = boot/kernel/x86_64/4.9.35
 endif
-REQUIRES          += app/lvm2/2.02.141
+REQUIRES          += app/lvm2/2.03.06
 
 # ======= __END_OF_REQUIRES__ =======
 

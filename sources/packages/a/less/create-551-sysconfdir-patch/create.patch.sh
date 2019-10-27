@@ -1,6 +1,6 @@
 #!/bin/sh
 
-VERSION=451
+VERSION=551
 
 tar --files-from=file.list -xzvf ../less-$VERSION.tar.gz
 mv less-$VERSION less-$VERSION-orig

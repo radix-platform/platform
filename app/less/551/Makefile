@@ -48,15 +48,15 @@ COMPONENT_IS_3PP   = true
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/GNU/less
+SOURCE_REQUIRES    = sources/packages/a/less
 
 REQUIRES           = libs/ncurses/6.1
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 451
-tar_gz_archive     = $(SRC_PACKAGE_PATH)/GNU/less/less-$(version).tar.gz
+version            = 551
+tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/a/less/less-$(version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/less-$(version)
 src_dir_name       = less-$(version)
@@ -79,7 +79,7 @@ PKG_GROUP = app
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 LESS_PKG_NAME                = less
-LESS_PKG_VERSION             = 451
+LESS_PKG_VERSION             = 551
 LESS_PKG_ARCH                = $(TOOLCHAIN)
 LESS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LESS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -87,7 +87,7 @@ LESS_PKG_GROUP               = $(PKG_GROUP)
 ###                           |---handy-ruler-------------------------------|
 LESS_PKG_SHORT_DESCRIPTION   = file pager
 LESS_PKG_URL                 = $(BUG_URL)
-LESS_PKG_LICENSE             = GPLv2
+LESS_PKG_LICENSE             = GPLv3
 LESS_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LESS_PKG_NAME)-pkg-description
 LESS_PKG_DESCRIPTION_FILE_IN = $(LESS_PKG_NAME)-pkg-description.in
 LESS_PKG_INSTALL_SCRIPT      = $(LESS_PKG_NAME)-pkg-install.sh
@@ -118,6 +118,7 @@ env_sysroot = DESTDIR=$(LESS_PKG)
 extra_configure_switches  = --libdir=/lib$(LIBSUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --sysconfdir=/etc
 
 
 ####### Dependencies
@@ -163,10 +164,10 @@ $(install_target): $(build_target)
 	@chmod a-x $(LESS_PKG)/usr/doc/$(src_dir_name)/*
 	@mkdir -p $(LESS_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a COPYING INSTALL LICENSE NEWS README \
+	   cp -a COPYING LICENSE NEWS README \
 	         $(LESS_PKG)/usr/share/doc/$(src_dir_name) \
 	 )
-	@chmod a-x $(LESS_PKG)/usr/share/doc/$(src_dir_name)/*
+	@chmod 0644 $(LESS_PKG)/usr/share/doc/$(src_dir_name)/*
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(LESS_PKG))
 	# ======= Strip binaries =======

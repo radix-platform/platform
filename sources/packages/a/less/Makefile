@@ -2,19 +2,19 @@
 COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 
 
-include ../../../build-system/constants.mk
+include ../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/GNU/less
+url         = $(DOWNLOAD_SERVER)/sources/packages/a/less
 
-versions    = 443 451
+versions    = 551
 pkgname     = less
 suffix      = tar.gz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/less-451-sysconfdir.patch
+patches     = $(CURDIR)/patches/less-551-sysconfdir.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -22,7 +22,7 @@ patches     = $(CURDIR)/patches/less-451-sysconfdir.patch
 BUILD_TARGETS = $(tarballs) $(sha1s) $(patches)
 
 
-include ../../../build-system/core.mk
+include ../../../../build-system/core.mk
 
 
 .PHONY: download_clean
@@ -49,7 +49,7 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-451-sysconfdir-patch ; ./create.patch.sh ) ; \
+	 ( cd create-551-sysconfdir-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

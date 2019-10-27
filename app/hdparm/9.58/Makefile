@@ -88,7 +88,7 @@ HDPARM_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 HDPARM_PKG_SHORT_DESCRIPTION   = read/set hard drive parameters
 HDPARM_PKG_URL                 = $(BUG_URL)
-HDPARM_PKG_LICENSE             = GPLv2
+HDPARM_PKG_LICENSE             = BSD
 HDPARM_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(HDPARM_PKG_NAME)-pkg-description
 HDPARM_PKG_DESCRIPTION_FILE_IN = $(HDPARM_PKG_NAME)-pkg-description.in
 HDPARM_PKG_INSTALL_SCRIPT      = $(HDPARM_PKG_NAME)-pkg-install.sh

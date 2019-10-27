@@ -558,7 +558,6 @@ REQUIRES += app/ed/1.9
 REQUIRES += app/getty-ps/2.1.1
 REQUIRES += app/hdparm/9.48
 REQUIRES += app/less/451
-REQUIRES += app/lha/114i
 REQUIRES += app/logrotate/3.9.1
 REQUIRES += app/gettext/0.19.7-tools
 

@@ -7,14 +7,14 @@ include ../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/dict/scowl
 
-versions    = 7.1
+versions    = 2019.10.06
 pkgname     = scowl
 suffix      = tar.gz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/scowl-7.1-words.patch
+patches     = $(CURDIR)/patches/scowl-2019.10.06-words.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -49,7 +49,7 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-7.1-words-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2019.10.06-words-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

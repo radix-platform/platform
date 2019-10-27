@@ -48,21 +48,21 @@ COMPONENT_IS_3PP   = true
 include ../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES     = sources/dict/aspell/es
+SOURCE_REQUIRES     = sources/dict/aspell/de
 
 REQUIRES            = libs/aspell/0.60.8
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-language            = Spanish
+language            = Deutch
 aspell_base_version = 0.60
 
-version             = 1.11-2
-tar_bz2_archive     = $(SRC_PACKAGE_PATH)/dict/aspell/es/aspell6-es-$(version).tar.bz2
+version             = 20161207-7-0
+tar_bz2_archive     = $(SRC_PACKAGE_PATH)/dict/aspell/de/aspell6-de-20161207-7-0.tar.bz2
 SRC_ARCHIVE         = $(tar_bz2_archive)
-SRC_DIR             = $(TARGET_BUILD_DIR)/aspell6-es-$(version)
-doc_dir_name        = aspell6-es-$(version)
+SRC_DIR             = $(TARGET_BUILD_DIR)/aspell6-de-20161207-7-0
+doc_dir_name        = aspell6-de-$(version)
 src_done            = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
@@ -78,14 +78,14 @@ PKG_GROUP = dict
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-ASPELL6_PKG_NAME                = aspell6-es
-ASPELL6_PKG_VERSION             = 1.11-2
+ASPELL6_PKG_NAME                = aspell6-de
+ASPELL6_PKG_VERSION             = 20161207-7-0
 ASPELL6_PKG_ARCH                = $(TOOLCHAIN)
 ASPELL6_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 ASPELL6_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 ASPELL6_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
-ASPELL6_PKG_SHORT_DESCRIPTION   = Spanish dictionary
+ASPELL6_PKG_SHORT_DESCRIPTION   = Deutch dictionary
 ASPELL6_PKG_URL                 = $(BUG_URL)
 ASPELL6_PKG_LICENSE             = GPLv2
 ASPELL6_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(ASPELL6_PKG_NAME)-pkg-description
@@ -138,10 +138,10 @@ $(install_target): $(build_target)
 	@cd $(SRC_DIR) && $(MAKE) -j1 install $(env_sysroot)
 	# ======= Aspell Dictionaries Documentation =======
 	@mkdir -p $(ASPELL6_PKG)/usr/doc/dict/$(doc_dir_name)
-	@cp -a $(SRC_DIR)/COPYING $(SRC_DIR)/Copyright $(ASPELL6_PKG)/usr/doc/dict/$(doc_dir_name)
+	@cp -a $(SRC_DIR)/Copyright $(ASPELL6_PKG)/usr/doc/dict/$(doc_dir_name)
 	@mkdir -p $(ASPELL6_PKG)/usr/share/doc/dict/$(doc_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a COPYING Copyright README \
+	   cp -a Copyright README doc/Credits \
 	         $(ASPELL6_PKG)/usr/share/doc/dict/$(doc_dir_name) ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======

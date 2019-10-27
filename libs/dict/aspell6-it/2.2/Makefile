@@ -50,7 +50,7 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES     = sources/dict/aspell/it
 
-REQUIRES            = libs/aspell/0.60.6.1
+REQUIRES            = libs/aspell/0.60.8
 
 # ======= __END_OF_REQUIRES__ =======
 

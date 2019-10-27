@@ -552,8 +552,8 @@ REQUIRES += app/bsd-games/2.17
 ####### Dictionaries for aspell:
 #######
 REQUIRES += libs/dict/aspell6-ca/2.1.5-1
-REQUIRES += libs/dict/aspell6-de/2.1
-REQUIRES += libs/dict/aspell6-en/7.1-0
+REQUIRES += libs/dict/aspell6-de/20161207-7-0
+REQUIRES += libs/dict/aspell6-en/2019.10.06-0
 REQUIRES += libs/dict/aspell6-es/1.11-2
 REQUIRES += libs/dict/aspell6-fi/0.7-0
 REQUIRES += libs/dict/aspell6-fr/0.50-3
@@ -561,13 +561,13 @@ REQUIRES += libs/dict/aspell6-it/2.2
 REQUIRES += libs/dict/aspell6-ru/0.99f7-1
 ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
                             $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
-REQUIRES += libs/aspell/0.60.6.1-ppc32
+REQUIRES += libs/aspell/0.60.8-ppc32
 endif
 ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
-REQUIRES += libs/aspell/0.60.6.1-sparc32
+REQUIRES += libs/aspell/0.60.8-sparc32
 endif
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/aspell/0.60.6.1-x86_32
+REQUIRES += libs/aspell/0.60.8-x86_32
 endif
 
 REQUIRES += app/kbd/2.2.0
@@ -589,24 +589,24 @@ endif
 #######
 ####### Dictionaries for /usr/share/dict (see FHS):
 #######
-REQUIRES += share/dict/scowl/7.1
+REQUIRES += share/dict/scowl/2019.10.06
 REQUIRES += share/dict/words-ca/2.1.5-1
 REQUIRES += share/dict/words-de/2.1
-REQUIRES += share/dict/words-en_CA/7.1
-REQUIRES += share/dict/words-en_CA-huge/7.1
-REQUIRES += share/dict/words-en_CA-insane/7.1
-REQUIRES += share/dict/words-en_CA-large/7.1
-REQUIRES += share/dict/words-en_CA-small/7.1
-REQUIRES += share/dict/words-en_GB/7.1
-REQUIRES += share/dict/words-en_GB-huge/7.1
-REQUIRES += share/dict/words-en_GB-insane/7.1
-REQUIRES += share/dict/words-en_GB-large/7.1
-REQUIRES += share/dict/words-en_GB-small/7.1
-REQUIRES += share/dict/words-en_US/7.1
-REQUIRES += share/dict/words-en_US-huge/7.1
-REQUIRES += share/dict/words-en_US-insane/7.1
-REQUIRES += share/dict/words-en_US-large/7.1
-REQUIRES += share/dict/words-en_US-small/7.1
+REQUIRES += share/dict/words-en_CA/2019.10.06
+REQUIRES += share/dict/words-en_CA-huge/2019.10.06
+REQUIRES += share/dict/words-en_CA-insane/2019.10.06
+REQUIRES += share/dict/words-en_CA-large/2019.10.06
+REQUIRES += share/dict/words-en_CA-small/2019.10.06
+REQUIRES += share/dict/words-en_GB/2019.10.06
+REQUIRES += share/dict/words-en_GB-huge/2019.10.06
+REQUIRES += share/dict/words-en_GB-insane/2019.10.06
+REQUIRES += share/dict/words-en_GB-large/2019.10.06
+REQUIRES += share/dict/words-en_GB-small/2019.10.06
+REQUIRES += share/dict/words-en_US/2019.10.06
+REQUIRES += share/dict/words-en_US-huge/2019.10.06
+REQUIRES += share/dict/words-en_US-insane/2019.10.06
+REQUIRES += share/dict/words-en_US-large/2019.10.06
+REQUIRES += share/dict/words-en_US-small/2019.10.06
 REQUIRES += share/dict/words-es/1.11-2
 REQUIRES += share/dict/words-fi/0.7-0
 REQUIRES += share/dict/words-fr/0.50-3

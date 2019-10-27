@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/dict/aspell/de
 
-versions    = 6-de-20030222-1
+versions    = 6-de-20161207-7-0
 pkgname     = aspell
 suffix      = tar.bz2
 

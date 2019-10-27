@@ -48,21 +48,21 @@ COMPONENT_IS_3PP   = true
 include ../../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES     = sources/dict/aspell/es
+SOURCE_REQUIRES     = sources/dict/aspell/en
 
 REQUIRES            = libs/aspell/0.60.8
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-language            = Spanish
+language            = English
 aspell_base_version = 0.60
 
-version             = 1.11-2
-tar_bz2_archive     = $(SRC_PACKAGE_PATH)/dict/aspell/es/aspell6-es-$(version).tar.bz2
+version             = 2019.10.06-0
+tar_bz2_archive     = $(SRC_PACKAGE_PATH)/dict/aspell/en/aspell6-en-$(version).tar.bz2
 SRC_ARCHIVE         = $(tar_bz2_archive)
-SRC_DIR             = $(TARGET_BUILD_DIR)/aspell6-es-$(version)
-doc_dir_name        = aspell6-es-$(version)
+SRC_DIR             = $(TARGET_BUILD_DIR)/aspell6-en-$(version)
+doc_dir_name        = aspell6-en-$(version)
 src_done            = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
@@ -78,16 +78,16 @@ PKG_GROUP = dict
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-ASPELL6_PKG_NAME                = aspell6-es
-ASPELL6_PKG_VERSION             = 1.11-2
+ASPELL6_PKG_NAME                = aspell6-en
+ASPELL6_PKG_VERSION             = 2019.10.06-0
 ASPELL6_PKG_ARCH                = $(TOOLCHAIN)
 ASPELL6_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 ASPELL6_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 ASPELL6_PKG_GROUP               = $(PKG_GROUP)
 ###                              |---handy-ruler-------------------------------|
-ASPELL6_PKG_SHORT_DESCRIPTION   = Spanish dictionary
+ASPELL6_PKG_SHORT_DESCRIPTION   = English dictionary
 ASPELL6_PKG_URL                 = $(BUG_URL)
-ASPELL6_PKG_LICENSE             = GPLv2
+ASPELL6_PKG_LICENSE             = public
 ASPELL6_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(ASPELL6_PKG_NAME)-pkg-description
 ASPELL6_PKG_DESCRIPTION_FILE_IN = $(ASPELL6_PKG_NAME)-pkg-description.in
 ASPELL6_PKG_INSTALL_SCRIPT      = $(ASPELL6_PKG_NAME)-pkg-install.sh
@@ -138,11 +138,18 @@ $(install_target): $(build_target)
 	@cd $(SRC_DIR) && $(MAKE) -j1 install $(env_sysroot)
 	# ======= Aspell Dictionaries Documentation =======
 	@mkdir -p $(ASPELL6_PKG)/usr/doc/dict/$(doc_dir_name)
-	@cp -a $(SRC_DIR)/COPYING $(SRC_DIR)/Copyright $(ASPELL6_PKG)/usr/doc/dict/$(doc_dir_name)
+	@cp -a $(SRC_DIR)/Copyright $(ASPELL6_PKG)/usr/doc/dict/$(doc_dir_name)
 	@mkdir -p $(ASPELL6_PKG)/usr/share/doc/dict/$(doc_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a COPYING Copyright README \
+	   cp -a Copyright README doc/SCOWL-README doc/*.txt \
 	         $(ASPELL6_PKG)/usr/share/doc/dict/$(doc_dir_name) ; \
+	 )
+	@( cd $(SRC_DIR)/doc ; \
+	   if [ -r ChangeLog ]; then \
+	     DOCSDIR=`echo $(ASPELL6_PKG)/usr/share/doc/dict/$(doc_dir_name)` ; \
+	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
+	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
+	   fi \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(ASPELL6_PKG))

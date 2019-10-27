@@ -1,0 +1,3 @@
+
+../../../sources/packages/a/hdparm/patches/hdparm-9.58-pass-ldflags.patch     -p0
+../../../sources/packages/a/hdparm/patches/hdparm-9.58-wiper-max-ranges.patch -p0

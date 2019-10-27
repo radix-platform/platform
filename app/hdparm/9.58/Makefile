@@ -51,15 +51,15 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/hdparm
 
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/5.3.0
+REQUIRES           = dev/gcc/6.5.0
 else
-REQUIRES           = libs/glibc/2.24
+REQUIRES           = libs/glibc/2.28
 endif
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version             = 9.43
+version             = 9.58
 tar_gz_archive      = $(SRC_PACKAGE_PATH)/packages/a/hdparm/hdparm-$(version).tar.gz
 SRC_ARCHIVE         = $(tar_gz_archive)
 SRC_DIR             = $(TARGET_BUILD_DIR)/hdparm-$(version)
@@ -80,7 +80,7 @@ PKG_GROUP = app
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 HDPARM_PKG_NAME                = hdparm
-HDPARM_PKG_VERSION             = 9.43
+HDPARM_PKG_VERSION             = 9.58
 HDPARM_PKG_ARCH                = $(TOOLCHAIN)
 HDPARM_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 HDPARM_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -114,11 +114,17 @@ ROOTFS_TARGETS   = $(pkg_archive)
 include ../../../build-system/core.mk
 
 
+CFLAGS += -Wno-format -Wno-unused-const-variable
+
+
 ####### Dependencies
 
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
+	@( cd $(SRC_DIR) ; \
+	   sed -i 's,_BSD_SOURCE,_DEFAULT_SOURCE,' hdparm.c ; \
+	 )
 	@touch $@
 
 $(build_target): $(src_done)
@@ -135,6 +141,10 @@ $(install_target): $(build_target)
 	@( cd $(HDPARM_PKG)/usr/sbin ; \
 	   ln -sf ../../sbin/hdparm . ; \
 	 )
+	@( cd $(SRC_DIR) ; \
+	   cat wiper/wiper.sh > $(HDPARM_PKG)/usr/sbin/wiper ; \
+	   chmod 0755 $(HDPARM_PKG)/usr/sbin/wiper ; \
+	 )
 	# ======= man pages =======
 	@mkdir -p $(HDPARM_PKG)/usr/share/man/man8
 	@( cd $(SRC_DIR) ; \
@@ -143,11 +153,12 @@ $(install_target): $(build_target)
 	# ======= documentation =======
 	@mkdir -p $(HDPARM_PKG)/usr/doc/$(src_dir_name)
 	@cp -a $(SRC_DIR)/LICENSE.TXT $(HDPARM_PKG)/usr/doc/$(src_dir_name)
-	@mkdir -p $(HDPARM_PKG)/usr/share/doc/$(src_dir_name)
+	@mkdir -p $(HDPARM_PKG)/usr/share/doc/$(src_dir_name)/wiper
 	@( cd $(SRC_DIR) ; \
 	   cp -a LICENSE.TXT README.* contrib *.lsm TODO \
 	         $(HDPARM_PKG)/usr/share/doc/$(src_dir_name) ; \
-	   rm -f $(HDPARM_PKG)/usr/share/doc/$(src_dir_name)/contrib/fix_standby \
+	   rm -f $(HDPARM_PKG)/usr/share/doc/$(src_dir_name)/contrib/{fix_standby,buildit.empeg} ; \
+	   cp -a wiper/README* wiper/GPL* $(HDPARM_PKG)/usr/share/doc/$(src_dir_name)/wiper ; \
 	 )
 	@( cd $(SRC_DIR) ; \
 	   if [ -r Changelog ]; then \

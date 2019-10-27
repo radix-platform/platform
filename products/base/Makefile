@@ -723,7 +723,7 @@ endif
 REQUIRES += app/cpio/2.12
 REQUIRES += app/ed/1.15
 REQUIRES += app/getty-ps/2.1.1
-REQUIRES += app/hdparm/9.48
+REQUIRES += app/hdparm/9.58
 REQUIRES += app/less/451
 REQUIRES += app/lha/114i
 REQUIRES += app/logrotate/3.15.1

@@ -56,7 +56,7 @@ REQUIRES          += net/openssl/1.1.1d
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 0.9.1
+version            = 0.9.3
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/l/libstrophe/libstrophe-$(version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/libstrophe-$(version)
@@ -78,7 +78,7 @@ PKG_GROUP = libs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 LIBSTROPHE_PKG_NAME                = libstrophe
-LIBSTROPHE_PKG_VERSION             = 0.9.1
+LIBSTROPHE_PKG_VERSION             = 0.9.3
 LIBSTROPHE_PKG_ARCH                = $(TOOLCHAIN)
 LIBSTROPHE_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBSTROPHE_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -121,7 +121,11 @@ extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var
+ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
 extra_configure_switches += --enable-shared=yes
 
 
@@ -188,8 +192,8 @@ $(install_target): $(build_target)
 	$(call install-into-devenv, $(LIBSTROPHE_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libstrophe.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libstrophe.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   libstrophe.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libstrophe.la ; \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
@@ -199,8 +203,12 @@ $(install_target): $(build_target)
 	@( cd $(LIBSTROPHE_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(LIBSTROPHE_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target shared objects =======
 	@( cd $(LIBSTROPHE_PKG)/usr/lib$(LIBSUFFIX) ; \

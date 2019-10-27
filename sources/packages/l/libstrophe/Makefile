@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/libstrophe
 
-versions    = 0.9.1
+versions    = 0.9.3
 pkgname     = libstrophe
 suffix      = tar.xz
 

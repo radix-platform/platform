@@ -729,13 +729,27 @@ REQUIRES += app/logrotate/3.15.1
 REQUIRES += app/gettext/0.20.1-tools
 
 REQUIRES += secure/libcgroup/0.41
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
+REQUIRES += secure/libcgroup/0.41-ppc32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
+REQUIRES += secure/libcgroup/0.41-sparc32
+endif
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += secure/libcgroup/0.41-x86_32
 endif
 
-REQUIRES += libs/libstrophe/0.9.1
+REQUIRES += libs/libstrophe/0.9.3
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
+REQUIRES += libs/libstrophe/0.9.3-ppc32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
+REQUIRES += libs/libstrophe/0.9.3-sparc32
+endif
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/libstrophe/0.9.1-x86_32
+REQUIRES += libs/libstrophe/0.9.3-x86_32
 endif
 
 REQUIRES += app/sdparm/1.09

@@ -50,16 +50,12 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/a/sdparm
 
-ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
-REQUIRES           = libs/sg3_utils/1.41
-else
-REQUIRES           = libs/sg3_utils/1.41-x86_32
-endif
+REQUIRES           = libs/sg3_utils/1.44
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 1.09
+version            = 1.10
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/a/sdparm/sdparm-$(version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/sdparm-$(version)
@@ -81,7 +77,7 @@ PKG_GROUP = app
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 SDPARM_PKG_NAME                = sdparm
-SDPARM_PKG_VERSION             = 1.09
+SDPARM_PKG_VERSION             = 1.10
 SDPARM_PKG_ARCH                = $(TOOLCHAIN)
 SDPARM_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 SDPARM_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -167,7 +163,7 @@ $(install_target): $(build_target)
 	       $(SDPARM_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(SDPARM_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a AUTHORS COPYING CREDITS INSTALL NEWS README notes.txt \
+	   cp -a AUTHORS COPYING CREDITS README notes.txt \
 	         $(SDPARM_PKG)/usr/share/doc/$(src_dir_name) \
 	 )
 	@( cd $(SRC_DIR) ; \

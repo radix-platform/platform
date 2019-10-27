@@ -51,19 +51,15 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/sg3_utils
 
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/5.3.0
+REQUIRES           = dev/gcc/6.5.0
 else
-ifneq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES           = libs/glibc/2.24
-else
-REQUIRES           = libs/glibc/2.24-x86_32
-endif
+REQUIRES           = libs/glibc/2.28
 endif
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 1.39
+version            = 1.44
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/l/sg3_utils/sg3_utils-$(version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/sg3_utils-$(version)
@@ -84,7 +80,7 @@ PKG_GROUP = libs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 SG3_UTILS_PKG_NAME                = sg3_utils
-SG3_UTILS_PKG_VERSION             = 1.39
+SG3_UTILS_PKG_VERSION             = 1.44
 SG3_UTILS_PKG_ARCH                = $(TOOLCHAIN)
 SG3_UTILS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 SG3_UTILS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -129,7 +125,11 @@ extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var
 
+ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
 extra_configure_switches += --enable-shared=yes
 
 
@@ -172,7 +172,7 @@ $(install_target): $(build_target)
 	       $(SG3_UTILS_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(SG3_UTILS_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a AUTHORS BSD_LICENSE COPYING COVERAGE CREDITS INSTALL NEWS README* TODO sg3_utils.spec \
+	   cp -a AUTHORS BSD_LICENSE COPYING COVERAGE CREDITS README* sg3_utils.spec \
 	         $(SG3_UTILS_PKG)/usr/share/doc/$(src_dir_name) ; \
 	 )
 	@( cd $(SRC_DIR) ; \
@@ -184,21 +184,25 @@ $(install_target): $(build_target)
 	 )
 	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(SG3_UTILS_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" libsgutils?.la  \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libsgutils?.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(SG3_UTILS_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libsgutils?.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libsgutils?.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   libsgutils?.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libsgutils?.la ; \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(SG3_UTILS_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(SG3_UTILS_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 	@touch $@
 
 $(SG3_UTILS_PKG_DESCRIPTION_FILE): $(SG3_UTILS_PKG_DESCRIPTION_FILE_IN)

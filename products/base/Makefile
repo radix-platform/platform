@@ -425,19 +425,19 @@ endif
 #             │      ...
 #             │       ├────────────────────────────────────── libs/ncurses/6.1
 #             │       │
-#             │       ├── libs/aspell/0.60.6.1
-#             │      ...  ├── libs/aspell/0.60.6.1-ppc32
-#             │           ├── libs/aspell/0.60.6.1-sparc32
-#             │           ├── libs/aspell/0.60.6.1-x86_32
+#             │       ├── libs/aspell/0.60.8
+#             │      ...  ├── libs/aspell/0.60.8-ppc32
+#             │           ├── libs/aspell/0.60.8-sparc32
+#             │           ├── libs/aspell/0.60.8-x86_32
 #             │           │
-#             │           ├── libs/dict/aspell6-ca/2.1.5-1  ■
-#             │           ├── libs/dict/aspell6-de/2.1      ■
-#             │           ├── libs/dict/aspell6-en/7.1-0    ■
-#             │           ├── libs/dict/aspell6-es/1.11-2   ■
-#             │           ├── libs/dict/aspell6-fi/0.7-0    ■
-#             │           ├── libs/dict/aspell6-fr/0.50-3   ■
-#             │           ├── libs/dict/aspell6-it/2.2      ■
-#             │           └── libs/dict/aspell6-ru/0.99f7-1 ■
+#             │           ├── libs/dict/aspell6-ca/2.1.5-1      ■
+#             │           ├── libs/dict/aspell6-de/20161207-7-0 ■
+#             │           ├── libs/dict/aspell6-en/2019.10.06-0 ■
+#             │           ├── libs/dict/aspell6-es/1.11-2       ■
+#             │           ├── libs/dict/aspell6-fi/0.7-0        ■
+#             │           ├── libs/dict/aspell6-fr/0.50-3       ■
+#             │           ├── libs/dict/aspell6-it/2.2          ■
+#             │           └── libs/dict/aspell6-ru/0.99f7-1     ■
 #             │
 #             │
 #             ├── dev/check/0.13.0
@@ -752,7 +752,17 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/libstrophe/0.9.3-x86_32
 endif
 
-REQUIRES += app/sdparm/1.09
+REQUIRES += app/sdparm/1.10
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
+REQUIRES += libs/sg3_utils/1.44-ppc32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
+REQUIRES += libs/sg3_utils/1.44-sparc32
+endif
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/sg3_utils/1.44-x86_32
+endif
 
 
 #######

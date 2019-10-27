@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/sg3_utils
 
-versions    = 1.39 1.41
+versions    = 1.44
 pkgname     = sg3_utils
 suffix      = tar.xz
 

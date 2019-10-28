@@ -1,5 +1,0 @@
-cyrus-sasl-2.1.23/plugins/digestmd5.c
-cyrus-sasl-2.1.23/pwcheck/pwcheck_getpwnam.c
-cyrus-sasl-2.1.23/pwcheck/pwcheck_getspnam.c
-cyrus-sasl-2.1.23/saslauthd/auth_getpwent.c
-cyrus-sasl-2.1.23/saslauthd/auth_shadow.c

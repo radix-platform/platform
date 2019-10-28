@@ -16,7 +16,7 @@ REQUIRES             = net/gnutls/3.4.8
 REQUIRES            += libs/libidn/1.28-x86_32
 REQUIRES            += net/p11-kit/0.23.2-x86_32
 REQUIRES            += net/nettle/3.2-x86_32
-REQUIRES            += dev/guile/2.0.11-x86_32
+REQUIRES            += dev/guile/2.2.6-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

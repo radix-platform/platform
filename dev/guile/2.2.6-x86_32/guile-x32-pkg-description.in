@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+         |-----handy-ruler------------------------------------------------------|
+guile-x32: guile-x32 @VERSION@ (GNU extension language library)
+guile-x32:
+guile-x32: This is Guile, Project GNU's extension language library. Guile is an
+guile-x32: interpreter for Scheme, packaged as a library that you can link into
+guile-x32: your applications to give them their own scripting language. Guile
+guile-x32: will eventually support other languages as well, giving users of
+guile-x32: Guile-based applications a choice of languages.
+guile-x32:
+guile-x32:
+guile-x32:
+guile-x32:

@@ -1,6 +1,0 @@
-cyrus-sasl-2.1.26/config/config.guess
-cyrus-sasl-2.1.26/config/config.sub
-cyrus-sasl-2.1.26/pwcheck/pwcheck_getpwnam.c
-cyrus-sasl-2.1.26/pwcheck/pwcheck_getspnam.c
-cyrus-sasl-2.1.26/saslauthd/auth_getpwent.c
-cyrus-sasl-2.1.26/saslauthd/auth_shadow.c

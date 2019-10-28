@@ -1,0 +1,26 @@
+
+#
+#  NOTE:
+# =======================================================================================
+#
+#  Guile compiles to bytecode for a custom virtual machine. Guile 2.2 compiles to ELF.
+#  In the future they want to do native compilation. But now Guile 2.2's ELF contains
+#  byte code for Guile's virtual machine.
+#
+#     see: https://www.gnu.org/software/guile/manual/html_node/Object-File-Format.html
+#
+#  The *.go shared object files should be excluded during sptrip/patch ELF procedure.
+#  Currently to exclude Guile's object files we use following filter:
+#
+#      grep "shared object" | grep -v "no machine" | grep ELF
+#                            ----------------------
+#
+# =======================================================================================
+#
+
+#
+# GUILE_EFFECTIVE_VERSION=2.2 can be obtained by following script:
+#
+#   guile-effective-version = $(shell . $(SRC_DIR)/GUILE-VERSION ; echo $${GUILE_EFFECTIVE_VERSION} )
+#
+#

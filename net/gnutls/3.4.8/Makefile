@@ -56,7 +56,7 @@ endif
 REQUIRES          += libs/libidn/1.28
 REQUIRES          += net/p11-kit/0.23.2
 REQUIRES          += net/nettle/3.2
-REQUIRES          += dev/guile/2.0.11
+REQUIRES          += dev/guile/2.2.6
 
 # ======= __END_OF_REQUIRES__ =======
 

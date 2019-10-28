@@ -1,10 +1,10 @@
 
-COMPONENT_TARGETS  = $(HARDWARE_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_MBC4_PC)
 
 NEED_ABS_PATH      = true
 COMPONENT_IS_3PP   = true
 
-CREATE_X86_32_PACKAGE = true
+CREATE_SPARC32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
@@ -12,15 +12,15 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/a/dialog
 
-REQUIRES           = app/dialog/1.2-20140112
-REQUIRES          += libs/ncurses/6.1-x86_32
-REQUIRES          += dev/libtool/2.4.6-x86_32
-REQUIRES          += app/ctags/5.8-x86_32
+REQUIRES           = app/dialog/1.3-20190808
+REQUIRES          += libs/ncurses/6.1-sparc32
+REQUIRES          += dev/libtool/2.4.6-sparc32
+REQUIRES          += app/ctags/5.8-sparc32
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 1.2-20140112
+version            = 1.3-20190808
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/a/dialog/dialog-$(version).tgz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/dialog-$(version)
@@ -42,7 +42,7 @@ PKG_GROUP = app
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 DIALOG_32_PKG_NAME                = dialog-x32
-DIALOG_32_PKG_VERSION             = 1.2-20140112
+DIALOG_32_PKG_VERSION             = 1.3-20190808
 DIALOG_32_PKG_ARCH                = $(TOOLCHAIN)
 DIALOG_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 DIALOG_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -50,7 +50,7 @@ DIALOG_32_PKG_GROUP               = $(PKG_GROUP)
 ###                                |---handy-ruler-------------------------------|
 DIALOG_32_PKG_SHORT_DESCRIPTION   = dialog boxes for shell scripts
 DIALOG_32_PKG_URL                 = $(BUG_URL)
-DIALOG_32_PKG_LICENSE             = LGPLv2
+DIALOG_32_PKG_LICENSE             = LGPLv2.1
 DIALOG_32_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(DIALOG_32_PKG_NAME)-pkg-description
 DIALOG_32_PKG_DESCRIPTION_FILE_IN = $(DIALOG_32_PKG_NAME)-pkg-description.in
 DIALOG_32_PKG_INSTALL_SCRIPT      = $(DIALOG_32_PKG_NAME)-pkg-install.sh
@@ -79,7 +79,7 @@ include ../../../build-system/core.mk
 
 env_sysroot = DESTDIR=$(DIALOG_32_PKG)
 
-extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
+extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_SPARC32_SUFFIX)
 extra_configure_switches += --bindir=/usr/bin/32
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --enable-nls
@@ -87,10 +87,14 @@ extra_configure_switches += --with-ncursesw
 extra_configure_switches += --enable-widec
 extra_configure_switches += --disable-rpath
 extra_configure_switches += --disable-rpath-hack
+extra_configure_switches += --with-shared
 extra_configure_switches += --with-libtool
 
 
 extra_environment  = NCURSES_CONFIG=$(TARGET_DEST_DIR)/usr/bin/32/ncursesw6-config
+
+
+LDFLAGS += -Wl,-rpath=/lib$(MULTILIB_SPARC32_SUFFIX):/usr/lib$(MULTILIB_SPARC32_SUFFIX):/usr/lib/../lib$(MULTILIB_SPARC32_SUFFIX)
 
 
 ####### Dependencies
@@ -118,38 +122,44 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(DIALOG_32_PKG)/bin/32
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
+	@chmod 755 $(DIALOG_32_PKG)/usr/lib$(MULTILIB_SPARC32_SUFFIX)/libdialog.{la,so*}
 	@( cd $(DIALOG_32_PKG)/usr/bin/32 ; \
 	   mv dialog ../../../bin/32   ; \
 	   ln -sf ../../../bin/32/dialog . ; \
 	 )
+	@mkdir -p $(DIALOG_32_PKG)/lib$(MULTILIB_SPARC32_SUFFIX)
+	@( cd $(DIALOG_32_PKG)/usr/lib$(MULTILIB_SPARC32_SUFFIX) ; \
+	   cp -a libdialog.so.?? $(DIALOG_32_PKG)/lib$(MULTILIB_SPARC32_SUFFIX) ; \
+	   mv libdialog.so.??.* $(DIALOG_32_PKG)/lib$(MULTILIB_SPARC32_SUFFIX)  ; \
+	   ln -sf ../../lib$(MULTILIB_SPARC32_SUFFIX)/libdialog.so.??.* .       ; \
+	 )
+	@rm -rf $(DIALOG_32_PKG)/etc
 	@rm -rf $(DIALOG_32_PKG)/usr/include
 	@rm -rf $(DIALOG_32_PKG)/usr/share
 	# ====== remove target path from target libtool *.la files ======
-	@( cd $(DIALOG_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   chmod 0755 libdialog.la libdialog.so.??.* ; \
+	@( cd $(DIALOG_32_PKG)/usr/lib$(MULTILIB_SPARC32_SUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libdialog.la ; \
 	 )
 	# ======= remove target path from dialog-config script =======
 	@( cd $(DIALOG_32_PKG)/usr/bin/32 ; \
-	   sed -i 's,^bindir="/usr,bindir="$${exec_prefix},g' dialog-config ; \
-	   sed -i "s, -L$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX),,g" dialog-config ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" dialog-config ; \
+	   sed -i "s# -Wl,-rpath[^\"]*##"   dialog-config ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(DIALOG_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libdialog.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libdialog.la \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_SPARC32_SUFFIX) ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   libdialog.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libdialog.la ; \
 	 )
 	@( cd $(TARGET_DEST_DIR)/usr/bin/32 ; \
-	   sed -i 's,^prefix="/usr,prefix="$(TARGET_DEST_DIR)/usr,g' dialog-config ; \
-	   sed -i 's,^libdir="/usr,libdir="$(TARGET_DEST_DIR)/usr,g' dialog-config ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   dialog-config ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" dialog-config ; \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(DIALOG_32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
 	 )
 	@touch $@
 

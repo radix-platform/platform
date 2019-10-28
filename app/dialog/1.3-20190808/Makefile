@@ -57,7 +57,7 @@ REQUIRES          += app/ctags/5.8
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 1.2-20140112
+version            = 1.3-20190808
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/a/dialog/dialog-$(version).tgz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/dialog-$(version)
@@ -82,7 +82,7 @@ PKG_GROUP = app
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 DIALOG_PKG_NAME                = dialog
-DIALOG_PKG_VERSION             = 1.2-20140112
+DIALOG_PKG_VERSION             = 1.3-20190808
 DIALOG_PKG_ARCH                = $(TOOLCHAIN)
 DIALOG_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 DIALOG_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -90,7 +90,7 @@ DIALOG_PKG_GROUP               = $(PKG_GROUP)
 ###                             |---handy-ruler-------------------------------|
 DIALOG_PKG_SHORT_DESCRIPTION   = dialog boxes for shell scripts
 DIALOG_PKG_URL                 = $(BUG_URL)
-DIALOG_PKG_LICENSE             = LGPLv2
+DIALOG_PKG_LICENSE             = LGPLv2.1
 DIALOG_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(DIALOG_PKG_NAME)-pkg-description
 DIALOG_PKG_DESCRIPTION_FILE_IN = $(DIALOG_PKG_NAME)-pkg-description.in
 DIALOG_PKG_INSTALL_SCRIPT      = $(DIALOG_PKG_NAME)-pkg-install.sh
@@ -126,6 +126,7 @@ extra_configure_switches += --with-ncursesw
 extra_configure_switches += --enable-widec
 extra_configure_switches += --disable-rpath
 extra_configure_switches += --disable-rpath-hack
+extra_configure_switches += --with-shared
 extra_configure_switches += --with-libtool
 
 
@@ -157,9 +158,21 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(DIALOG_PKG)/{bin,etc}
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
+	@sed -i '/^#include <dlg_config.h>/,+1d' $(DIALOG_PKG)/usr/include/dialog.h
+	@rm -f $(DIALOG_PKG)/usr/include/dlg_config.h
+	@chmod 755 $(DIALOG_PKG)/usr/lib$(LIBSUFFIX)/libdialog.{la,so*}
+	@mkdir -p $(DIALOG_PKG)/usr/share/aclocal
+	@cat $(SRC_DIR)/dialog.m4 > $(DIALOG_PKG)/usr/share/aclocal/dialog.m4
+	@chmod 644 $(DIALOG_PKG)/usr/share/aclocal/dialog.m4
 	@( cd $(DIALOG_PKG)/usr/bin ; \
 	   mv dialog ../../bin       ; \
 	   ln -sf ../../bin/dialog . ; \
+	 )
+	@mkdir -p $(DIALOG_PKG)/lib$(LIBSUFFIX)
+	@( cd $(DIALOG_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   cp -a libdialog.so.?? $(DIALOG_PKG)/lib$(LIBSUFFIX) ; \
+	   mv libdialog.so.??.* $(DIALOG_PKG)/lib$(LIBSUFFIX)  ; \
+	   ln -sf ../../lib$(LIBSUFFIX)/libdialog.so.??.* .    ; \
 	 )
 	@cp -a $(dialogrc) $(DIALOG_PKG)/etc
 	# ======= Compress man pages =======
@@ -194,29 +207,27 @@ $(install_target): $(build_target)
 	 )
 	# ======= remove target path from target libtool *.la files =======
 	@( cd $(DIALOG_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   chmod 0755 libdialog.la libdialog.so.??.* ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" libdialog.la \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libdialog.la ; \
 	 )
 	# ======= remove target path from dialog-config script =======
 	@( cd $(DIALOG_PKG)/usr/bin ; \
-	   sed -i "s, -L$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX),,g" dialog-config \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" dialog-config ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(DIALOG_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libdialog.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libdialog.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   libdialog.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libdialog.la ; \
 	 )
 	@( cd $(TARGET_DEST_DIR)/usr/bin ; \
-	   sed -i 's,^prefix="/usr,prefix="$(TARGET_DEST_DIR)/usr,g' dialog-config ; \
-	   sed -i 's,^libdir="/usr,libdir="$(TARGET_DEST_DIR)/usr,g' dialog-config ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   dialog-config ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" dialog-config ; \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(DIALOG_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
 	 )
 	@touch $@
 

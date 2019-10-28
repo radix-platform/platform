@@ -475,9 +475,11 @@ endif
 #             │      ...
 #             │       ├────────────────────────────────────────────────┬── libs/ncurses/6.1
 #             │       │                                                ├── dev/libtool/2.4.6
-#             │       ├── app/dialog/1.2-20140112 ■                    └── app/ctags/5.8
-#             │       │   └── app/dialog/1.2-20140112-x86_32
-#             │      ...
+#             │       ├── app/dialog/1.3-20190808 ■                    └── app/ctags/5.8
+#             │       │   ├── app/dialog/1.3-20190808-ppc32
+#             │      ...  ├── app/dialog/1.3-20190808-sparc32
+#             │           └── app/dialog/1.3-20190808-x86_32
+#             │
 #             │
 #             │      ...
 #             │       ├───────────────────────────────────┬── libs/readline/8.0
@@ -727,6 +729,22 @@ REQUIRES += app/hdparm/9.58
 REQUIRES += app/less/551
 REQUIRES += app/logrotate/3.15.1
 REQUIRES += app/gettext/0.20.1-tools
+
+
+#
+# pkgtools here (but should be after GnuPG)
+#
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
+REQUIRES += app/dialog/1.3-20190808-ppc32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
+REQUIRES += app/dialog/1.3-20190808-sparc32
+endif
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += app/dialog/1.3-20190808-x86_32
+endif
+
 
 REQUIRES += secure/libcgroup/0.41
 ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \

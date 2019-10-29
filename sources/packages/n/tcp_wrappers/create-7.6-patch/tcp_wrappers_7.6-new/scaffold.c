@@ -17,6 +17,7 @@ static char sccs_id[] = "@(#) scaffold.c 1.6 97/03/21 19:27:24";
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <syslog.h>
 #include <setjmp.h>
 #include <string.h>

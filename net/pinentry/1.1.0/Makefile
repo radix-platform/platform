@@ -50,20 +50,14 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/n/pinentry
 
-ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES           = libs/ncurses/6.1
 REQUIRES          += secure/libcap/2.27
 REQUIRES          += net/libassuan/2.5.3
-else
-REQUIRES           = libs/ncurses/6.1-x86_32
-REQUIRES          += secure/libcap/2.27-x86_32
-REQUIRES          += net/libassuan/2.5.3-x86_32
-endif
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 0.9.7
+version            = 1.1.0
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/pinentry/pinentry-$(version).tar.bz2
 SRC_ARCHIVE        = $(tar_bz2_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/pinentry-$(version)
@@ -85,7 +79,7 @@ PKG_GROUP = net
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 PINENTRY_PKG_NAME                = pinentry
-PINENTRY_PKG_VERSION             = 0.9.7
+PINENTRY_PKG_VERSION             = 1.1.0
 PINENTRY_PKG_ARCH                = $(TOOLCHAIN)
 PINENTRY_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 PINENTRY_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -133,7 +127,7 @@ extra_configure_switches += --enable-fallback-curses
 extra_configure_switches += --enable-pinentry-gtk2=no
 extra_configure_switches += --enable-pinentry-gnome3=no
 extra_configure_switches += --enable-pinentry-qt=no
-extra_configure_switches += --disable-pinentry-qt5
+extra_configure_switches += --enable-pinentry-qt5=no
 extra_configure_switches += --enable-libsecret=no
 extra_configure_switches += --disable-rpath
 
@@ -182,7 +176,7 @@ $(install_target): $(build_target)
 	       $(PINENTRY_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(PINENTRY_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a AUTHORS COPYING INSTALL NEWS README* THANKS TODO VERSION doc/HACKING \
+	   cp -a AUTHORS COPYING NEWS README* THANKS TODO VERSION doc/HACKING \
 	         $(PINENTRY_PKG)/usr/share/doc/$(src_dir_name) ; \
 	 )
 	@( cd $(SRC_DIR) ; \

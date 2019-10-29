@@ -16,7 +16,7 @@ REQUIRES           = libs/libarchive/3.1.2
 REQUIRES          += app/acl/2.2.53-x86_32
 REQUIRES          += app/bzip2/1.0.6-x86_32
 REQUIRES          += libs/lzo/2.10-x86_32
-REQUIRES          += net/nettle/3.2-x86_32
+REQUIRES          += net/nettle/3.5.1-x86_32
 REQUIRES          += libs/libxml2/2.9.9-x86_32
 
 # ======= __END_OF_REQUIRES__ =======

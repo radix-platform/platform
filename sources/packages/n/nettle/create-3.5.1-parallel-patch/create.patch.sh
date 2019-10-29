@@ -1,6 +1,6 @@
 #!/bin/sh
 
-VERSION=2.7.1
+VERSION=3.5.1
 
 tar --files-from=file.list -xzvf ../nettle-$VERSION.tar.gz
 mv nettle-$VERSION nettle-$VERSION-orig

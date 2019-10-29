@@ -12,6 +12,7 @@ static char sccsid[] = "@(#) inetcf.c 1.7 97/02/12 02:13:23";
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <errno.h>
 #include <string.h>
 

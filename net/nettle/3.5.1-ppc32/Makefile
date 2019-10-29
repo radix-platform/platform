@@ -1,35 +1,38 @@
 
-COMPONENT_TARGETS    = $(HARDWARE_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_S824L)
+COMPONENT_TARGETS += $(HARDWARE_VESNIN)
+COMPONENT_TARGETS += $(HARDWARE_TL2WK2)
+COMPONENT_TARGETS += $(HARDWARE_TL2SV2)
 
-NEED_ABS_PATH        = true
-COMPONENT_IS_3PP     = true
+NEED_ABS_PATH      = true
+COMPONENT_IS_3PP   = true
 
-CREATE_X86_32_PACKAGE = true
+CREATE_PPC32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES      = sources/packages/n/nettle
+SOURCE_REQUIRES    = sources/packages/n/nettle
 
-REQUIRES             = net/nettle/3.2
-REQUIRES            += libs/gmp/6.1.2-x86_32
+REQUIRES           = net/nettle/3.5.1
+REQUIRES          += libs/gmp/6.1.2-ppc32
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version              = 3.2
-tar_gz_archive       = $(SRC_PACKAGE_PATH)/packages/n/nettle/nettle-$(version).tar.gz
-SRC_ARCHIVE          = $(tar_gz_archive)
-SRC_DIR              = $(TARGET_BUILD_DIR)/nettle-$(version)
-src_dir_name         = nettle-$(version)
-src_done             = $(TARGET_BUILD_DIR)/.source_done
+version            = 3.5.1
+tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/n/nettle/nettle-$(version).tar.gz
+SRC_ARCHIVE        = $(tar_gz_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/nettle-$(version)
+src_dir_name       = nettle-$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
 
-build_dir            = $(TARGET_BUILD_DIR)/build
-build_target         = $(TARGET_BUILD_DIR)/.build_done
-install_target       = $(TARGET_BUILD_DIR)/.install_done
+build_dir          = $(TARGET_BUILD_DIR)/build
+build_target       = $(TARGET_BUILD_DIR)/.build_done
+install_target     = $(TARGET_BUILD_DIR)/.install_done
 
 
 ####### Targets
@@ -39,7 +42,7 @@ PKG_GROUP = net
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 NETTLE32_PKG_NAME                = nettle-x32
-NETTLE32_PKG_VERSION             = 3.2
+NETTLE32_PKG_VERSION             = 3.5.1
 NETTLE32_PKG_ARCH                = $(TOOLCHAIN)
 NETTLE32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 NETTLE32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -76,7 +79,7 @@ include ../../../build-system/core.mk
 env_sysroot  = DESTDIR=$(NETTLE32_PKG)
 
 
-extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
+extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_PPC32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
@@ -86,11 +89,15 @@ extra_configure_switches += --bindir=/usr/bin/32
 
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var
+ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
 extra_configure_switches += --enable-shared=yes
 
 
-CFLAGS += -Wl,-rpath,/lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX)
+CFLAGS += -Wl,-rpath,/lib$(MULTILIB_PPC32_SUFFIX):/usr/lib$(MULTILIB_PPC32_SUFFIX)
 
 
 ####### Dependencies
@@ -113,22 +120,26 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(NETTLE32_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
-	@chmod a+x $(NETTLE32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/lib*.so.?.?
+	@chmod a+x $(NETTLE32_PKG)/usr/lib$(MULTILIB_PPC32_SUFFIX)/lib*.so.?.?
 	@rm -rf $(NETTLE32_PKG)/usr/include
 	@rm -rf $(NETTLE32_PKG)/usr/share
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(NETTLE32_PKG))
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_PPC32_SUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" hogweed.pc ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" nettle.pc ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"  nettle.pc ; \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(NETTLE32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(NETTLE32_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 	@touch $@
 
 $(NETTLE32_PKG_DESCRIPTION_FILE): $(NETTLE32_PKG_DESCRIPTION_FILE_IN)

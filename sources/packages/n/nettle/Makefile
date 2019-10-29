@@ -7,15 +7,14 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/nettle
 
-versions    = 2.7.1 3.2
+versions    = 3.5.1
 pkgname     = nettle
 suffix      = tar.gz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/nettle-2.7.1-parallel.patch
-patches    += $(CURDIR)/patches/nettle-3.2-parallel.patch
+patches     = $(CURDIR)/patches/nettle-3.5.1-parallel.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,8 +49,7 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-2.7.1-parallel-patch ; ./create.patch.sh ) ; \
-	 ( cd create-3.2-parallel-patch   ; ./create.patch.sh ) ; \
+	 ( cd create-3.5.1-parallel-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

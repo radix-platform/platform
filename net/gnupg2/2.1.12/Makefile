@@ -52,7 +52,7 @@ SOURCE_REQUIRES    = sources/packages/n/gnupg2
 
 REQUIRES           = app/bzip2/1.0.6
 REQUIRES          += net/dirmngr/1.1.1
-REQUIRES          += net/pinentry/0.9.7
+REQUIRES          += net/pinentry/1.1.0
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES          += net/curl/7.47.0
 REQUIRES          += net/libgcrypt/1.8.5

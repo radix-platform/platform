@@ -150,7 +150,7 @@ netbsd:
 
 linux:
 	@make REAL_DAEMON_DIR=$(REAL_DAEMON_DIR) STYLE=$(STYLE) \
-	LIBS="-lnsl" RANLIB=ranlib ARFLAGS=rv AUX_OBJ=weak_symbols.o \
+	LIBS="-shared -lnsl" RANLIB=$(RANLIB) ARFLAGS=rv AUX_OBJ=weak_symbols.o \
 	NETGROUP="-DNETGROUP" TLI= EXTRA_CFLAGS="-fPIC -DPIC -D_REENTRANT -DSYS_ERRLIST_DEFINED -DBROKEN_SO_LINGER -DINET6=1 -Dss_family=__ss_family -Dss_len=__ss_len -DHAVE_WEAKSYMS" all
 
 linux-old:
@@ -395,13 +395,13 @@ machten:
 # library; some don't care as long as the modules are in the right order;
 # some systems don't even have a ranlib(1) command. Make your choice.
 
-RANLIB	= ranlib	# have ranlib (BSD-ish UNIX)
+#RANLIB	= ranlib	# have ranlib (BSD-ish UNIX)
 #RANLIB	= echo		# no ranlib (SYSV-ish UNIX)
 
 ARFLAGS	= rv		# most systems
 #ARFLAGS= rvs		# IRIX 4.0.x
 
-AR	= ar
+#AR	= ar
 #AR	= bld		# Unicos 8.x
 
 #############################################################################
@@ -726,32 +726,32 @@ $(LIB):	$(LIB_OBJ)
 	-$(RANLIB) $(LIB)
 
 $(SHLIB): $(LIB_OBJ)
-	$(CC) $(CFLAGS) -shared -fPIC -Wl,-soname -Wl,$(SHLIB).$(MAJOR) \
+	$(CC) $(LDFLAGS) -shared -fPIC -Wl,-soname -Wl,$(SHLIB).$(MAJOR) \
 		-o $(SHLIB).$(MAJOR).$(MINOR).$(REL) $^ $(LIBS)
 	ln -s $(SHLIB).$(MAJOR).$(MINOR).$(REL) $(SHLIB).$(MAJOR)
 	ln -s $(SHLIB).$(MAJOR).$(MINOR).$(REL) $(SHLIB)
 
 tcpd:	tcpd.o $(LIB)
-	$(CC) $(CFLAGS) -o $@ tcpd.o $(LIB) $(LIBS)
+	$(CC) $(LDFLAGS) -o $@ tcpd.o $(LIB) $(LIBS)
 
 miscd:	miscd.o $(LIB)
-	$(CC) $(CFLAGS) -o $@ miscd.o $(LIB) $(LIBS)
+	$(CC) $(LDFLAGS) -o $@ miscd.o $(LIB) $(LIBS)
 
 safe_finger: safe_finger.o $(LIB)
-	$(CC) $(CFLAGS) -o $@ safe_finger.o $(LIB) $(LIBS)
+	$(CC) $(LDFLAGS) -o $@ safe_finger.o $(LIB) $(LIBS)
 
 TCPDMATCH_OBJ = tcpdmatch.o fakelog.o inetcf.o scaffold.o
 
 tcpdmatch: $(TCPDMATCH_OBJ) $(LIB)
-	$(CC) $(CFLAGS) -o $@ $(TCPDMATCH_OBJ) $(LIB) $(LIBS)
+	$(CC) $(LDFLAGS) -o $@ $(TCPDMATCH_OBJ) $(LIB) $(LIBS)
 
 try-from: try-from.o fakelog.o $(LIB)
-	$(CC) $(CFLAGS) -o $@ try-from.o fakelog.o $(LIB) $(LIBS)
+	$(CC) $(LDFLAGS) -o $@ try-from.o fakelog.o $(LIB) $(LIBS)
 
 TCPDCHK_OBJ = tcpdchk.o fakelog.o inetcf.o scaffold.o
 
 tcpdchk: $(TCPDCHK_OBJ) $(LIB)
-	$(CC) $(CFLAGS) -o $@ $(TCPDCHK_OBJ) $(LIB) $(LIBS)
+	$(CC) $(LDFLAGS) -o $@ $(TCPDCHK_OBJ) $(LIB) $(LIBS)
 
 shar:	$(KIT)
 	@shar $(KIT)

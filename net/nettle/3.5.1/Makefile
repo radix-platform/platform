@@ -50,12 +50,12 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/n/nettle
 
-REQUIRES           = libs/gmp/6.1.0
+REQUIRES           = libs/gmp/6.1.2
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 2.7.1
+version            = 3.5.1
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/n/nettle/nettle-$(version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/nettle-$(version)
@@ -77,7 +77,7 @@ PKG_GROUP = net
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 NETTLE_PKG_NAME                = nettle
-NETTLE_PKG_VERSION             = 2.7.1
+NETTLE_PKG_VERSION             = 3.5.1
 NETTLE_PKG_ARCH                = $(TOOLCHAIN)
 NETTLE_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 NETTLE_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -121,7 +121,11 @@ extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var
+ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
 extra_configure_switches += --enable-shared=yes
 
 
@@ -154,7 +158,7 @@ $(install_target): $(build_target)
 	       $(NETTLE_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(NETTLE_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a AUTHORS COPYING* INSTALL NEWS README TODO descore.README nettle.html nettle.pdf \
+	   cp -a AUTHORS COPYING* NEWS README descore.README nettle.html nettle.pdf \
 	         $(NETTLE_PKG)/usr/share/doc/$(src_dir_name) ; \
 	 )
 	@( cd $(SRC_DIR) ; \
@@ -169,14 +173,18 @@ $(install_target): $(build_target)
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" hogweed.pc ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" nettle.pc ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"  nettle.pc ; \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(NETTLE_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(NETTLE_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 	@touch $@
 
 $(NETTLE_PKG_DESCRIPTION_FILE): $(NETTLE_PKG_DESCRIPTION_FILE_IN)

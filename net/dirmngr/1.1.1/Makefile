@@ -50,13 +50,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/n/dirmngr
 
-ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
-REQUIRES           = net/libgcrypt/1.7.0
+REQUIRES           = net/libgcrypt/1.8.5
 REQUIRES          += net/openldap-client/2.4.48
-else
-REQUIRES           = net/libgcrypt/1.7.0-x86_32
-REQUIRES          += net/openldap-client/2.4.48-x86_32
-endif
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -152,6 +147,7 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(DIRMNGR_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
+	@mkdir -p $(DIRMNGR_PKG)/var/log/dirmngr
 	# ======= Install Documentation =======
 	@rm -f $(DIRMNGR_PKG)/usr/share/info/dir
 	@gzip -9 $(DIRMNGR_PKG)/usr/share/info/*
@@ -173,7 +169,7 @@ $(install_target): $(build_target)
 	       $(DIRMNGR_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(DIRMNGR_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a AUTHORS COPYING INSTALL NEWS README THANKS TODO VERSION \
+	   cp -a AUTHORS COPYING NEWS README THANKS TODO VERSION \
 	         $(DIRMNGR_PKG)/usr/share/doc/$(src_dir_name) ; \
 	 )
 	@( cd $(SRC_DIR) ; \

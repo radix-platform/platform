@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/pinentry
 
-versions    = 0.8.4 0.9.7
+versions    = 1.1.0
 pkgname     = pinentry
 suffix      = tar.bz2
 

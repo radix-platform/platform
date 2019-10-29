@@ -29,11 +29,11 @@ post_install() {
   #
   if [ -x /usr/bin/install-info ] ; then
     install-info --info-dir=usr/share/info usr/share/info/pinentry.info.gz 2>/dev/null
-  elif ! grep "pinentry" usr/share/info/dir 1> /dev/null 2> /dev/null ; then
+  elif ! grep "(pinentry)" usr/share/info/dir 1> /dev/null 2> /dev/null ; then
   cat << EOF >> usr/share/info/dir
 
 GNU Utilities
-* pinentry: (pinentry).         Ask securely for a passphrase or PIN.
+* pinentry: (pinentry).         Securely ask for a passphrase or PIN.
 EOF
   fi
 }

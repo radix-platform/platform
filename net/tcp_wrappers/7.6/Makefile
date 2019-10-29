@@ -115,7 +115,7 @@ ROOTFS_TARGETS   = $(pkg_archive)
 include ../../../build-system/core.mk
 
 
-tcp_wrappers_environment = CFLAGS="-isystem $(TARGET_DEST_DIR)/usr/include $(OPTIMIZATION_FLAGS) $(ARCH_FLAGS) $(HW_FLAGS) -DHAVE_STRERROR"
+tcp_wrappers_environment  = CFLAGS="-isystem $(TARGET_DEST_DIR)/usr/include $(OPTIMIZATION_FLAGS) $(ARCH_FLAGS) $(HW_FLAGS) -DHAVE_STRERROR -Wno-implicit-int -Wno-implicit-function-declaration"
 
 
 ####### Dependencies
@@ -126,6 +126,8 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	@touch $@
 
 $(build_target): $(src_done)
+	# ======= Create symbolic link to libnsl.so.1 (should be done in glibc package too) =======
+	@ln -sf ../../lib$(LIBSUFFIX)/libnsl.so.1 $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/libnsl.so
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(tcp_wrappers_environment) \
 	                  $(MAKE) MAJOR=0 MINOR=0 REL=0 REAL_DAEMON_DIR=/usr/sbin linux
 	@touch $@

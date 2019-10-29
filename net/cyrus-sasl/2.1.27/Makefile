@@ -156,7 +156,9 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
 	# ======= Patch makemd5 headers generator according to target machine capacity =======
-ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_POWER8_GLIBC)   $(TOOLCHAIN_POWER9_GLIBC)   \
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_H5_GLIBC)       $(TOOLCHAIN_RK33XX_GLIBC)   \
+                             $(TOOLCHAIN_RK339X_GLIBC)   $(TOOLCHAIN_S9XX_GLIBC)     \
+                             $(TOOLCHAIN_POWER8_GLIBC)   $(TOOLCHAIN_POWER9_GLIBC)   \
                              $(TOOLCHAIN_POWER8LE_GLIBC) $(TOOLCHAIN_POWER9LE_GLIBC) \
                              $(TOOLCHAIN_R1000_GLIBC)    $(TOOLCHAIN_X86_64_GLIBC)),)
 	@sed -i "s,CC = @CC@,CC = gcc,"         $(SRC_DIR)/include/Makefile.in

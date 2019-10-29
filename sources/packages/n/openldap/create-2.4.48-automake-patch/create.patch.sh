@@ -1,6 +1,6 @@
 #!/bin/sh
 
-VERSION=2.4.43
+VERSION=2.4.48
 
 tar --files-from=file.list -xzvf ../openldap-$VERSION.tgz
 mv openldap-$VERSION openldap-$VERSION-orig

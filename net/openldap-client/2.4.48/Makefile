@@ -50,13 +50,13 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/n/openldap
 
-REQUIRES           = net/openssl/1.0.2f
-REQUIRES          += net/cyrus-sasl/2.1.26
+REQUIRES           = net/openssl/1.1.1d
+REQUIRES          += net/cyrus-sasl/2.1.27
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 2.4.39
+version            = 2.4.48
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/n/openldap/openldap-$(version).tgz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/openldap-$(version)
@@ -79,7 +79,7 @@ PKG_GROUP = net
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 OPENLDAP_PKG_NAME                = openldap-client
-OPENLDAP_PKG_VERSION             = 2.4.39
+OPENLDAP_PKG_VERSION             = 2.4.48
 OPENLDAP_PKG_ARCH                = $(TOOLCHAIN)
 OPENLDAP_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 OPENLDAP_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -124,18 +124,23 @@ extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var/lib
 extra_configure_switches += --with-cyrus-sasl
 extra_configure_switches += --with-tls
-extra_configure_switches += --with-readline
 extra_configure_switches += --with-threads
-extra_configure_switches += --with-yielding_select=yes
+extra_configure_switches += --with-yielding-select=yes
 extra_configure_switches += --enable-syslog
 extra_configure_switches += --enable-ipv6
 extra_configure_switches += --enable-dynamic
 extra_configure_switches += --enable-local
 extra_configure_switches += --enable-proctitle
 extra_configure_switches += --disable-slapd
-extra_configure_switches += --disable-slurpd
-extra_configure_switches += --enable-shared=yes
+ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
+extra_configure_switches += --enable-shared=yes
+
+
+LDFLAGS += -Wl,-rpath=/lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUFFIX)
 
 
 TARGET_BIN_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)
@@ -173,8 +178,11 @@ $(install_target): $(build_target)
 	@echo "# 'TLS certificate verification: Error, self signed certificate'"         >> $(OPENLDAP_PKG)/etc/openldap/ldap.conf.new
 	@echo "# See also 'man ldap.conf' or http://www.openldap.org/doc/admin/tls.html" >> $(OPENLDAP_PKG)/etc/openldap/ldap.conf.new
 	@echo "TLS_REQCERT allow"                                                        >> $(OPENLDAP_PKG)/etc/openldap/ldap.conf.new
-	@chmod 0755 $(OPENLDAP_PKG)/usr/lib$(LIBSUFFIX)/*.la
-	@chmod 0755 $(OPENLDAP_PKG)/usr/lib$(LIBSUFFIX)/*-?.?.so.?.??.?
+	@chmod 0755 $(OPENLDAP_PKG)/usr/lib$(LIBSUFFIX)/lib*.la
+	@chmod 0755 $(OPENLDAP_PKG)/usr/lib$(LIBSUFFIX)/lib*-?.?.so.?.??.*
+	# ======= Remove man pages for the servers =======
+	@find $(OPENLDAP_PKG)/usr/share/man -name slap* -exec rm -f {} \+
+	@find $(OPENLDAP_PKG)/usr/share/man -type d -empty -exec rmdir {} \+
 	# ======= Install Documentation =======
 	@if [ -d $(OPENLDAP_PKG)/usr/share/man ]; then \
 	  ( cd $(OPENLDAP_PKG)/usr/share/man ; \
@@ -194,7 +202,7 @@ $(install_target): $(build_target)
 	       $(OPENLDAP_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(OPENLDAP_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a ANNOUNCEMENT COPYRIGHT INSTALL LICENSE README doc/rfc doc/install doc/guide doc/drafts \
+	   cp -a ANNOUNCEMENT COPYRIGHT INSTALL LICENSE README \
 	         $(OPENLDAP_PKG)/usr/share/doc/$(src_dir_name) ; \
 	 )
 	@( cd $(SRC_DIR) ; \
@@ -212,15 +220,19 @@ $(install_target): $(build_target)
 	$(call install-into-devenv, $(OPENLDAP_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" liblber.la libldap.la libldap_r.la  ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" liblber.la libldap.la libldap_r.la  \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   liblber.la libldap.la libldap_r.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" liblber.la libldap.la libldap_r.la ; \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(OPENLDAP_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(OPENLDAP_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target binaries =======
 	@( cd $(OPENLDAP_PKG)/usr/bin ; \

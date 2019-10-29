@@ -7,14 +7,14 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/openldap
 
-versions    = 2.4.39 2.4.43
+versions    = 2.4.48
 pkgname     = openldap
 suffix      = tgz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/openldap-2.4.43-automake.patch
+patches     = $(CURDIR)/patches/openldap-2.4.48-automake.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -49,7 +49,7 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-2.4.43-automake-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2.4.48-automake-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

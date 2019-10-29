@@ -51,7 +51,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/n/openldap
 
 REQUIRES           = net/openssl/1.1.1d
-REQUIRES          += net/cyrus-sasl/2.1.26
+REQUIRES          += net/cyrus-sasl/2.1.27
 
 # ======= __END_OF_REQUIRES__ =======
 

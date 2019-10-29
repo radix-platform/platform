@@ -56,7 +56,7 @@ REQUIRES          += net/openssl/1.1.1d
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 2.1.26
+version            = 2.1.27
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/n/cyrus-sasl/cyrus-sasl-$(version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/cyrus-sasl-$(version)
@@ -68,7 +68,6 @@ rc_saslauthd       = $(CURDIR)/etc/rc.d/rc.saslauthd
 
 PATCHES = PATCHES
 
-build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
 
@@ -81,7 +80,7 @@ PKG_GROUP = net
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 SASL_PKG_NAME                = cyrus-sasl
-SASL_PKG_VERSION             = 2.1.26
+SASL_PKG_VERSION             = 2.1.27
 SASL_PKG_ARCH                = $(TOOLCHAIN)
 SASL_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 SASL_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -132,10 +131,23 @@ extra_configure_switches += --without-ldap
 extra_configure_switches += --with-saslauthd
 extra_configure_switches += --with-gdbm
 extra_configure_switches += --with-dblib=gdbm
-extra_configure_switches += --enable-shared=yes
+extra_configure_switches += --with-devrandom=/dev/urandom
+
+ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
+extra_configure_switches += --enable-shared=yes
 
 sasl_environment = sasldir=/usr/lib$(LIBSUFFIX)/sasl2
+
+
+LDFLAGS += -Wl,-rpath=/lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUFFIX)
+
+
+TARGET_BIN_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)
+TARGET_LIB_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUFFIX)
 
 
 ####### Dependencies
@@ -144,7 +156,9 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
 	# ======= Patch makemd5 headers generator according to target machine capacity =======
-ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_POWER8_GLIBC)   $(TOOLCHAIN_POWER9_GLIBC)   \
+                             $(TOOLCHAIN_POWER8LE_GLIBC) $(TOOLCHAIN_POWER9LE_GLIBC) \
+                             $(TOOLCHAIN_R1000_GLIBC)    $(TOOLCHAIN_X86_64_GLIBC)),)
 	@sed -i "s,CC = @CC@,CC = gcc,"         $(SRC_DIR)/include/Makefile.in
 	@sed -i "s,CFLAGS = @CFLAGS@,CFLAGS =," $(SRC_DIR)/include/Makefile.in
 	@sed -i "s,CPP = @CPP@,CPP = gcc,"      $(SRC_DIR)/include/Makefile.in
@@ -160,20 +174,19 @@ endif
 	@touch $@
 
 $(build_target): $(src_done)
-	@mkdir -p $(build_dir)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(sasl_environment) ../$(src_dir_name)/configure \
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(sasl_environment) ../$(src_dir_name)/configure \
 	  --prefix=/usr               \
 	  --build=$(BUILD)            \
 	  --host=$(TARGET)            \
 	  $(extra_configure_switches)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 $(sasl_environment)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 $(sasl_environment)
 	@touch $@
 
 $(install_target): $(build_target)
 	@mkdir -p $(SASL_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(sasl_environment) $(env_sysroot)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(sasl_environment) $(env_sysroot)
 	@mkdir -p $(SASL_PKG)/var/state/saslauthd
-	@mkdir -p $(SASL_PKG)/etc/rc.d
+	@mkdir -p $(SASL_PKG)/etc/{rc.d,sasl2}
 	@cp -a $(rc_saslauthd) $(SASL_PKG)/etc/rc.d/rc.saslauthd.new
 	# ======= Install Documentation =======
 	@if [ -d $(SASL_PKG)/usr/share/man ]; then \
@@ -192,18 +205,17 @@ $(install_target): $(build_target)
 	@mkdir -p $(SASL_PKG)/usr/doc/$(src_dir_name)
 	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/COPYING \
 	       $(SASL_PKG)/usr/doc/$(src_dir_name)
-	@mkdir -p $(SASL_PKG)/usr/share/doc/$(src_dir_name)/html
+	@mkdir -p $(SASL_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a AUTHORS COPYING INSTALL* NEWS README \
+	   cp -a AUTHORS COPYING doc/html \
 	         $(SASL_PKG)/usr/share/doc/$(src_dir_name) ; \
 	 )
-	@( cd $(SRC_DIR)/doc ; \
-	   cp -a *.html *.txt *.fig \
-	         $(SASL_PKG)/usr/share/doc/$(src_dir_name)/html ; \
-	 )
-	@( cd $(SASL_PKG)/usr/share/doc/$(src_dir_name)/html ; \
-	   chmod 0644 *.html *.txt *.fig  ; \
-	 )
+	@rm -rf $(SASL_PKG)/usr/share/doc/$(src_dir_name)/html/_sources
+	@rm -f $(SASL_PKG)/usr/share/doc/$(src_dir_name)/html/{.buildinfo,objects.inv}
+	@echo -e "\nFor installation instructions, see html/sasl/installation.html" \
+	       > $(SASL_PKG)/usr/share/doc/$(src_dir_name)/INSTALL.TXT
+	@echo -e "\nLook at html/index.html" \
+	       > $(SASL_PKG)/usr/share/doc/$(src_dir_name)/README
 	@( cd $(SRC_DIR) ; \
 	   if [ -r ChangeLog ]; then \
 	     DOCSDIR=`echo $(SASL_PKG)/usr/share/doc/$(src_dir_name)` ; \
@@ -223,14 +235,14 @@ $(install_target): $(build_target)
 	$(call install-into-devenv, $(SASL_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libsasl2.la  ; \
-	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libsasl2.la  \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   libsasl2.la ; \
+	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libsasl2.la ; \
 	 )
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/sasl2 ; \
 	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libcrammd5.la libdigestmd5.la liblogin.la libotp.la   \
 	                                           libplain.la libsasldb.la libscram.la ; \
 	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libcrammd5.la libdigestmd5.la liblogin.la libotp.la \
-	                                             libplain.la libsasldb.la libscram.la \
+	                                             libplain.la libsasldb.la libscram.la ; \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
@@ -240,8 +252,32 @@ $(install_target): $(build_target)
 	@( cd $(SASL_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(SASL_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
+ifneq ($(CHRPATH),)
+	# ======= Set RPATH/RUNPATH for target binaries =======
+	@( cd $(SASL_PKG)/usr/sbin ; \
+	   for file in `find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
+	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
+	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
+	       $(CHRPATH) -r $(TARGET_BIN_RPATH) $$file 1> /dev/null 2> /dev/null ; \
+	     fi ; \
+	   done ; \
+	 )
+	# ======= Set RPATH/RUNPATH for target shared objects =======
+	@( cd $(SASL_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   for file in `find . | xargs file | grep "shared object" | grep -v "no machine" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
+	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
+	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
+	       $(CHRPATH) -r $(TARGET_LIB_RPATH) $$file 1> /dev/null 2> /dev/null ; \
+	     fi ; \
+	   done ; \
+	 )
+endif
 	@touch $@
 
 $(SASL_PKG_DESCRIPTION_FILE): $(SASL_PKG_DESCRIPTION_FILE_IN)

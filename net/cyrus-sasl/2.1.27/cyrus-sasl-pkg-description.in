@@ -14,6 +14,6 @@ cyrus-sasl: and authorization services.  See RFC 2222 for more information.
 cyrus-sasl:
 cyrus-sasl:
 cyrus-sasl:
-cyrus-sasl:
+cyrus-sasl: Homepage: https://www.cyrusimap.org/sasl
 cyrus-sasl:
 cyrus-sasl:

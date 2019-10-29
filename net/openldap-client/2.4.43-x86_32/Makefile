@@ -14,7 +14,7 @@ SOURCE_REQUIRES      = sources/packages/n/openldap
 
 REQUIRES             = net/openldap-client/2.4.43
 REQUIRES            += net/openssl/1.1.1d-x86_32
-REQUIRES            += net/cyrus-sasl/2.1.26-x86_32
+REQUIRES            += net/cyrus-sasl/2.1.27-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

@@ -1,36 +1,38 @@
 
-COMPONENT_TARGETS    = $(HARDWARE_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_S824L)
+COMPONENT_TARGETS += $(HARDWARE_VESNIN)
+COMPONENT_TARGETS += $(HARDWARE_TL2WK2)
+COMPONENT_TARGETS += $(HARDWARE_TL2SV2)
 
-NEED_ABS_PATH        = true
-COMPONENT_IS_3PP     = true
+NEED_ABS_PATH      = true
+COMPONENT_IS_3PP   = true
 
-CREATE_X86_32_PACKAGE = true
+CREATE_PPC32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES      = sources/packages/n/cyrus-sasl
+SOURCE_REQUIRES    = sources/packages/n/cyrus-sasl
 
-REQUIRES             = net/cyrus-sasl/2.1.26
-REQUIRES            += libs/gdbm/1.11-x86_32
-REQUIRES            += net/openssl/1.1.1d-x86_32
+REQUIRES           = net/cyrus-sasl/2.1.27
+REQUIRES          += libs/gdbm/1.11-ppc32
+REQUIRES          += net/openssl/1.1.1d-ppc32
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version              = 2.1.26
-tar_gz_archive       = $(SRC_PACKAGE_PATH)/packages/n/cyrus-sasl/cyrus-sasl-$(version).tar.gz
-SRC_ARCHIVE          = $(tar_gz_archive)
-SRC_DIR              = $(TARGET_BUILD_DIR)/cyrus-sasl-$(version)
-src_dir_name         = cyrus-sasl-$(version)
-src_done             = $(TARGET_BUILD_DIR)/.source_done
+version            = 2.1.27
+tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/n/cyrus-sasl/cyrus-sasl-$(version).tar.gz
+SRC_ARCHIVE        = $(tar_gz_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/cyrus-sasl-$(version)
+src_dir_name       = cyrus-sasl-$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
 
-build_dir            = $(TARGET_BUILD_DIR)/build
-build_target         = $(TARGET_BUILD_DIR)/.build_done
-install_target       = $(TARGET_BUILD_DIR)/.install_done
+build_target       = $(TARGET_BUILD_DIR)/.build_done
+install_target     = $(TARGET_BUILD_DIR)/.install_done
 
 
 ####### Targets
@@ -40,7 +42,7 @@ PKG_GROUP = net
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 SASL_32_PKG_NAME                = cyrus-sasl-x32
-SASL_32_PKG_VERSION             = 2.1.26
+SASL_32_PKG_VERSION             = 2.1.27
 SASL_32_PKG_ARCH                = $(TOOLCHAIN)
 SASL_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 SASL_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -77,13 +79,16 @@ include ../../../build-system/core.mk
 env_sysroot  = DESTDIR=$(SASL_32_PKG)
 
 
-extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
+extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_PPC32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var
-extra_configure_switches += --with-plugindir=/usr/lib$(MULTILIB_X86_32_SUFFIX)/sasl2
+
+extra_configure_switches += --sbindir=/usr/sbin/32
+
+extra_configure_switches += --with-plugindir=/usr/lib$(MULTILIB_PPC32_SUFFIX)/sasl2
 extra_configure_switches += --with-configdir=/etc/sasl2
 extra_configure_switches += --enable-login
 extra_configure_switches += --disable-anon
@@ -91,10 +96,23 @@ extra_configure_switches += --without-ldap
 extra_configure_switches += --with-saslauthd
 extra_configure_switches += --with-gdbm
 extra_configure_switches += --with-dblib=gdbm
-extra_configure_switches += --enable-shared=yes
-extra_configure_switches += --enable-static=yes
+extra_configure_switches += --with-devrandom=/dev/urandom
 
-sasl_environment = sasldir=/usr/lib$(MULTILIB_X86_32_SUFFIX)/sasl2
+ifeq ($(__ENABLE_STATIC__),yes)
+extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
+extra_configure_switches += --enable-shared=yes
+
+sasl_environment = sasldir=/usr/lib$(MULTILIB_PPC32_SUFFIX)/sasl2
+
+
+LDFLAGS += -Wl,-rpath=/lib$(MULTILIB_PPC32_SUFFIX):/usr/lib$(MULTILIB_PPC32_SUFFIX):/usr/lib/../lib$(MULTILIB_PPC32_SUFFIX)
+
+
+TARGET_BIN_RPATH = /lib$(MULTILIB_PPC32_SUFFIX):/usr/lib$(MULTILIB_PPC32_SUFFIX)
+TARGET_LIB_RPATH = /lib$(MULTILIB_PPC32_SUFFIX):/usr/lib$(MULTILIB_PPC32_SUFFIX):/usr/lib/../lib$(MULTILIB_PPC32_SUFFIX)
 
 
 ####### Dependencies
@@ -106,59 +124,78 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	@sed -i "s,CC = @CC@,CC = gcc -m32,"    $(SRC_DIR)/include/Makefile.in
 	@sed -i "s,CFLAGS = @CFLAGS@,CFLAGS =," $(SRC_DIR)/include/Makefile.in
 	@sed -i "s,CPP = @CPP@,CPP = gcc -m32," $(SRC_DIR)/include/Makefile.in
-	@sed -i "s,LDFLAGS = @LDFLAGS@,LDFLAGS = -L/lib$(BUILD_MULTILIB_X86_32_SUFFIX) -L/usr/lib$(BUILD_MULTILIB_X86_32_SUFFIX)," \
+	@sed -i "s,LDFLAGS = @LDFLAGS@,LDFLAGS = -L/lib$(BUILD_MULTILIB_PPC32_SUFFIX) -L/usr/lib$(BUILD_MULTILIB_PPC32_SUFFIX)," \
 	                                        $(SRC_DIR)/include/Makefile.in
 	@touch $@
 
 $(build_target): $(src_done)
-	@mkdir -p $(build_dir)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(sasl_environment) ../$(src_dir_name)/configure \
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(sasl_environment) ../$(src_dir_name)/configure \
 	  --prefix=/usr               \
 	  --build=$(BUILD)            \
 	  --host=$(TARGET32)          \
 	  $(extra_configure_switches)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) $(sasl_environment)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) $(sasl_environment)
 	@touch $@
 
 $(install_target): $(build_target)
 	@mkdir -p $(SASL_32_PKG)
-	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(sasl_environment) $(env_sysroot)
-	@mkdir -p $(SASL_32_PKG)/usr/sbin/32
-	@( cd $(SASL_32_PKG)/usr/sbin ; \
-	   find . -type f | xargs mv -t 32 ; \
-	 )
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(sasl_environment) $(env_sysroot)
 	@rm -rf $(SASL_32_PKG)/usr/include
 	@rm -rf $(SASL_32_PKG)/usr/share
 	# ======= remove toolchain path from target libtool *.la files =======
-	@( cd $(SASL_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(SASL_32_PKG)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libsasl2.la ; \
 	 )
-	@( cd $(SASL_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/sasl2 ; \
+	@( cd $(SASL_32_PKG)/usr/lib$(MULTILIB_PPC32_SUFFIX)/sasl2 ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libcrammd5.la libdigestmd5.la liblogin.la libotp.la \
 	                                    libplain.la libsasldb.la libscram.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(SASL_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libsasl2.la  ; \
-	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libsasl2.la  \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   libsasl2.la ; \
+	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libsasl2.la ; \
 	 )
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/sasl2 ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_PPC32_SUFFIX)/sasl2 ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libcrammd5.la libdigestmd5.la liblogin.la libotp.la   \
 	                                            libplain.la libsasldb.la libscram.la ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libcrammd5.la libdigestmd5.la liblogin.la libotp.la \
-	                                              libplain.la libsasldb.la libscram.la \
+	                                              libplain.la libsasldb.la libscram.la ; \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_PPC32_SUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libsasl2.pc ; \
 	 )
 	@( cd $(SASL_32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(SASL_32_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
+ifneq ($(CHRPATH),)
+	# ======= Set RPATH/RUNPATH for target binaries =======
+	@( cd $(SASL_32_PKG)/usr/sbin/32 ; \
+	   for file in `find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
+	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
+	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
+	       $(CHRPATH) -r $(TARGET_BIN_RPATH) $$file 1> /dev/null 2> /dev/null ; \
+	     fi ; \
+	   done ; \
+	 )
+	# ======= Set RPATH/RUNPATH for target shared objects =======
+	@( cd $(SASL_32_PKG)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
+	   for file in `find . | xargs file | grep "shared object" | grep -v "no machine" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
+	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
+	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
+	       $(CHRPATH) -r $(TARGET_LIB_RPATH) $$file 1> /dev/null 2> /dev/null ; \
+	     fi ; \
+	   done ; \
+	 )
+endif
 	@touch $@
 
 $(SASL_32_PKG_DESCRIPTION_FILE): $(SASL_32_PKG_DESCRIPTION_FILE_IN)

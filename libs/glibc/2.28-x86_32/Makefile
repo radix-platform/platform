@@ -96,6 +96,7 @@ extra_configure_switches  += --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
 extra_configure_switches  += --with-headers=$(TARGET_DEST_DIR)/usr/include
 extra_configure_switches  += --with-binutils=$(TOOLCHAIN_PATH)/bin
 extra_configure_switches  += --enable-kernel=2.6.36
+extra_configure_switches  += --enable-obsolete-nsl
 extra_configure_switches  += --enable-obsolete-rpc
 extra_configure_switches  += --disable-profile
 extra_configure_switches  += --disable-rpath

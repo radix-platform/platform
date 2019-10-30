@@ -56,7 +56,7 @@ REQUIRES          += libs/libtasn1/4.7
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 0.23.2
+version            = 0.23.18.1
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/n/p11-kit/p11-kit-$(version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/p11-kit-$(version)
@@ -78,7 +78,7 @@ PKG_GROUP = net
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 P11KIT_PKG_NAME                = p11-kit
-P11KIT_PKG_VERSION             = 0.23.2
+P11KIT_PKG_VERSION             = 0.23.18.1
 P11KIT_PKG_ARCH                = $(TOOLCHAIN)
 P11KIT_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 P11KIT_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -188,18 +188,18 @@ $(install_target): $(build_target)
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libp11-kit.la ; \
 	 )
 	@( cd $(P11KIT_PKG)/usr/lib$(LIBSUFFIX)/pkcs11 ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" p11-kit-trust.la ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" p11-kit-client.la p11-kit-trust.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(P11KIT_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libp11-kit.la  ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libp11-kit.la  \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   libp11-kit.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libp11-kit.la ; \
 	 )
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkcs11 ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" p11-kit-trust.la  ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" p11-kit-trust.la  \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   p11-kit-client.la p11-kit-trust.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" p11-kit-client.la p11-kit-trust.la ; \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \

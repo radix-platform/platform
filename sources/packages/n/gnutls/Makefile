@@ -7,14 +7,15 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/gnutls
 
-versions    = 3.1.22 3.4.8
+versions    = 3.6.10
 pkgname     = gnutls
 suffix      = tar.xz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/gnutls-3.4.8-gtkdoc.patch
+patches     = $(CURDIR)/patches/gnutls-3.6.10-gtkdoc.patch
+patches    += $(CURDIR)/patches/gnutls-3.6.10-guile-cross.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -49,7 +50,8 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-3.4.8-gtkdoc-patch ; ./create.patch.sh ) ; \
+	 ( cd create-3.6.10-gtkdoc-patch      ; ./create.patch.sh ) ; \
+	 ( cd create-3.6.10-guile-cross-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

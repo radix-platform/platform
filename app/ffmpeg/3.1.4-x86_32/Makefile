@@ -20,8 +20,8 @@ REQUIRES          += X11/libs/libvdpau/1.1.1-x86_32
 REQUIRES          += app/jack/0.125.0-x86_32
 
 REQUIRES          += libs/gmp/6.1.2-x86_32
-REQUIRES          += net/gnutls/3.4.8-x86_32
-REQUIRES          += libs/libtasn1/4.7-x86_32
+REQUIRES          += net/gnutls/3.6.10-x86_32
+REQUIRES          += libs/libtasn1/4.14-x86_32
 REQUIRES          += libs/ladspa/1.13-x86_32
 REQUIRES          += libs/libass/0.13.3-x86_32
 REQUIRES          += libs/libbluray/0.9.3-x86_32

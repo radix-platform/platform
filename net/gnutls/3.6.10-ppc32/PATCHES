@@ -1,0 +1,3 @@
+
+../../../sources/packages/n/gnutls/patches/gnutls-3.6.10-gtkdoc.patch      -p0
+../../../sources/packages/n/gnutls/patches/gnutls-3.6.10-guile-cross.patch -p0

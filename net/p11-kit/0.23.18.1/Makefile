@@ -51,7 +51,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/n/p11-kit
 
 REQUIRES           = libs/libffi/3.2.1
-REQUIRES          += libs/libtasn1/4.7
+REQUIRES          += libs/libtasn1/4.14
 
 # ======= __END_OF_REQUIRES__ =======
 

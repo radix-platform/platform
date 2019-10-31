@@ -7,7 +7,7 @@ include ../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/GNU/libtasn1
 
-versions    = 3.3 3.4 4.7
+versions    = 4.14
 pkgname     = libtasn1
 suffix      = tar.gz
 

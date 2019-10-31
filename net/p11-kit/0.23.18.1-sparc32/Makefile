@@ -14,7 +14,7 @@ SOURCE_REQUIRES    = sources/packages/n/p11-kit
 
 REQUIRES           = net/p11-kit/0.23.18.1
 REQUIRES          += libs/libffi/3.2.1-sparc32
-REQUIRES          += libs/libtasn1/4.7-sparc32
+REQUIRES          += libs/libtasn1/4.14-sparc32
 
 # ======= __END_OF_REQUIRES__ =======
 

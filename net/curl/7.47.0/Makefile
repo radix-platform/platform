@@ -51,7 +51,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/n/curl
 
 REQUIRES           = net/openssh/7.2p1
-REQUIRES          += net/gnutls/3.4.8
+REQUIRES          += net/gnutls/3.6.10
 REQUIRES          += net/ca-certificates/52.0
 REQUIRES          += net/openldap-client/2.4.48
 

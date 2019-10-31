@@ -5,22 +5,17 @@ COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 include ../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/packages/n/openssh
+url         = $(DOWNLOAD_SERVER)/sources/packages/l/libedit
 
-versions    = 8.1p1
-pkgname     = openssh
+versions    = 20191025-3.1
+pkgname     = libedit
 suffix      = tar.gz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/openssh-8.1p1-cross.patch
-patches    += $(CURDIR)/patches/openssh-8.1p1-tcp_wrappers.patch
 
-.NOTPARALLEL: $(patches)
-
-
-BUILD_TARGETS = $(tarballs) $(sha1s) $(patches)
+BUILD_TARGETS = $(tarballs) $(sha1s)
 
 
 include ../../../../build-system/core.mk
@@ -30,7 +25,7 @@ include ../../../../build-system/core.mk
 
 
 $(tarballs):
-	@echo -e "\n======= Downloading source tarballs =======" ; \
+	@echo -e "\n======= Downloading source tarballs =======\n" ; \
 	 for tarball in $(tarballs) ; do \
 	   echo "$(url)/$$tarball" | xargs -n 1 -P 100 wget $(WGET_OPTIONS) -i & \
 	 done ; wait
@@ -48,11 +43,5 @@ $(sha1s): $(tarballs)
 	   fi ; \
 	 done
 
-$(patches): $(sha1s)
-	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-8.1p1-cross-patch        ; ./create.patch.sh ) ; \
-	 ( cd create-8.1p1-tcp_wrappers-patch ; ./create.patch.sh ) ; \
-	 echo -e "\n"
-
 download_clean:
-	@rm -f $(tarballs) $(sha1s) $(patches)
+	@rm -f $(tarballs) $(sha1s)

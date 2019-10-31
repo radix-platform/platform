@@ -48,22 +48,18 @@ COMPONENT_IS_3PP   = true
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/packages/l/libelf
+SOURCE_REQUIRES    = sources/packages/l/libedit
 
-ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/6.5.0
-else
-REQUIRES           = libs/glibc/2.28
-endif
+REQUIRES           = libs/ncurses/6.1
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 0.8.13
-tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/libelf/libelf-$(version).tar.gz
+version            = 20191025-3.1
+tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/libedit/libedit-$(version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
-SRC_DIR            = $(TARGET_BUILD_DIR)/libelf-$(version)
-src_dir_name       = libelf-$(version)
+SRC_DIR            = $(TARGET_BUILD_DIR)/libedit-$(version)
+src_dir_name       = libedit-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
@@ -80,23 +76,23 @@ PKG_GROUP = libs
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-LIBELF_PKG_NAME                = libelf
-LIBELF_PKG_VERSION             = 0.8.13
-LIBELF_PKG_ARCH                = $(TOOLCHAIN)
-LIBELF_PKG_DISTRO_NAME         = $(DISTRO_NAME)
-LIBELF_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
-LIBELF_PKG_GROUP               = $(PKG_GROUP)
-###                             |---handy-ruler-------------------------------|
-LIBELF_PKG_SHORT_DESCRIPTION   = ELF object file access library
-LIBELF_PKG_URL                 = $(BUG_URL)
-LIBELF_PKG_LICENSE             = GPLv2
-LIBELF_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBELF_PKG_NAME)-pkg-description
-LIBELF_PKG_DESCRIPTION_FILE_IN = $(LIBELF_PKG_NAME)-pkg-description.in
-LIBELF_PKG_INSTALL_SCRIPT      = $(LIBELF_PKG_NAME)-pkg-install.sh
+LIBEDIT_PKG_NAME                = libedit
+LIBEDIT_PKG_VERSION             = 20191025-3.1
+LIBEDIT_PKG_ARCH                = $(TOOLCHAIN)
+LIBEDIT_PKG_DISTRO_NAME         = $(DISTRO_NAME)
+LIBEDIT_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
+LIBEDIT_PKG_GROUP               = $(PKG_GROUP)
+###                              |---handy-ruler-------------------------------|
+LIBEDIT_PKG_SHORT_DESCRIPTION   = Command line editor library
+LIBEDIT_PKG_URL                 = $(BUG_URL)
+LIBEDIT_PKG_LICENSE             = BSD
+LIBEDIT_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBEDIT_PKG_NAME)-pkg-description
+LIBEDIT_PKG_DESCRIPTION_FILE_IN = $(LIBEDIT_PKG_NAME)-pkg-description.in
+LIBEDIT_PKG_INSTALL_SCRIPT      = $(LIBEDIT_PKG_NAME)-pkg-install.sh
 
-LIBELF_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBELF_PKG_NAME)-package
+LIBEDIT_PKG       = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBEDIT_PKG_NAME)-package
 
-pkg_basename     = $(LIBELF_PKG_NAME)-$(LIBELF_PKG_VERSION)-$(LIBELF_PKG_ARCH)-$(LIBELF_PKG_DISTRO_NAME)-$(LIBELF_PKG_DISTRO_VERSION)
+pkg_basename     = $(LIBEDIT_PKG_NAME)-$(LIBEDIT_PKG_VERSION)-$(LIBEDIT_PKG_ARCH)-$(LIBEDIT_PKG_DISTRO_NAME)-$(LIBEDIT_PKG_DISTRO_VERSION)
 
 pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
 pkg_certificate  = $(call cert-name,$(pkg_archive))
@@ -115,14 +111,15 @@ ROOTFS_TARGETS   = $(pkg_archive)
 include ../../../build-system/core.mk
 
 
-env_sysroot = instroot=$(LIBELF_PKG)
+env_sysroot = DESTDIR=$(LIBEDIT_PKG)
 
 
 extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
+extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
-extra_configure_switches += --sysconfdir=/etc
-extra_configure_switches += --disable-compat
+extra_configure_switches += --enable-widec
+
 ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
 else
@@ -150,64 +147,84 @@ $(build_target): $(src_done)
 	@touch $@
 
 $(install_target): $(build_target)
-	@mkdir -p $(LIBELF_PKG)
+	@mkdir -p $(LIBEDIT_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
-ifneq ($(__ENABLE_STATIC__),yes)
-	@rm -f $(LIBELF_PKG)/usr/lib$(LIBSUFFIX)/*.a
-endif
+	# ======= Remove files conflicting with readline: =======
+	@rm -f $(LIBEDIT_PKG)/usr/share/man/man3/history.3*
 	# ======= Install Documentation =======
-	@mkdir -p $(LIBELF_PKG)/usr/doc/$(src_dir_name)
-	@cp -a $(SRC_DIR)/COPYING* \
-	       $(LIBELF_PKG)/usr/doc/$(src_dir_name)
-	@mkdir -p $(LIBELF_PKG)/usr/share/doc/$(src_dir_name)
+	@if [ -d $(LIBEDIT_PKG)/usr/share/man ]; then \
+	  ( cd $(LIBEDIT_PKG)/usr/share/man ; \
+	    for manpagedir in `find . -type d -name "man*"` ; do \
+	      ( cd $$manpagedir ; \
+	        for eachpage in `find . -type l -maxdepth 1` ; do \
+	          ln -s `readlink $$eachpage`.gz $$eachpage.gz ; \
+	          rm $$eachpage ; \
+	        done ; \
+	        gzip -9 *.?  ; \
+	      ) \
+	    done \
+	  ) \
+	 fi
+	@mkdir -p $(LIBEDIT_PKG)/usr/doc/$(src_dir_name)
+	@cp -a $(SRC_DIR)/COPYING \
+	       $(LIBEDIT_PKG)/usr/doc/$(src_dir_name)
+	@mkdir -p $(LIBEDIT_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a COPYING* INSTALL \
-	         MANIFEST README VERSION \
-	         $(LIBELF_PKG)/usr/share/doc/$(src_dir_name) \
+	   cp -a COPYING INSTALL THANKS \
+	         $(LIBEDIT_PKG)/usr/share/doc/$(src_dir_name) \
 	 )
 	@( cd $(SRC_DIR) ; \
 	   if [ -r ChangeLog ]; then \
-	     DOCSDIR=`echo $(LIBELF_PKG)/usr/share/doc/$(src_dir_name)` ; \
+	     DOCSDIR=`echo $(LIBEDIT_PKG)/usr/share/doc/$(src_dir_name)` ; \
 	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
 	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
 	   fi \
 	 )
+	# ======= remove toolchain path from target libtool *.la files =======
+	@( cd $(LIBEDIT_PKG)/usr/lib$(LIBSUFFIX) ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libedit.la ; \
+	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
-	$(call install-into-devenv, $(LIBELF_PKG))
+	$(call install-into-devenv, $(LIBEDIT_PKG))
+	# ======= tune libtool *.la search path to the target destination for development =======
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   libedit.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libedit.la ; \
+	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libelf.pc \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libedit.pc ; \
 	 )
 	# ======= Strip binaries =======
-	@( cd $(LIBELF_PKG) ; \
+	@( cd $(LIBEDIT_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )
 ifeq ($(__ENABLE_STATIC__),yes)
-	@( cd $(LIBELF_PKG) ; \
+	@( cd $(LIBEDIT_PKG) ; \
 	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
 	 )
 endif
 	@touch $@
 
-$(LIBELF_PKG_DESCRIPTION_FILE): $(LIBELF_PKG_DESCRIPTION_FILE_IN)
+$(LIBEDIT_PKG_DESCRIPTION_FILE): $(LIBEDIT_PKG_DESCRIPTION_FILE_IN)
 	@cat $< | $(SED) -e "s/@VERSION@/$(version)/g" > $@
 
 $(pkg_certificate) : $(pkg_archive) ;
 $(pkg_signature)   : $(pkg_archive) ;
 $(pkg_description) : $(pkg_archive) ;
 
-$(pkg_archive): $(install_target) $(LIBELF_PKG_DESCRIPTION_FILE) $(LIBELF_PKG_INSTALL_SCRIPT)
-	@cp $(LIBELF_PKG_DESCRIPTION_FILE) $(LIBELF_PKG)/.DESCRIPTION
-	@cp $(LIBELF_PKG_INSTALL_SCRIPT) $(LIBELF_PKG)/.INSTALL
-	@$(BUILD_PKG_REQUIRES) $(LIBELF_PKG)/.REQUIRES
-	@echo "pkgname=$(LIBELF_PKG_NAME)"                            >  $(LIBELF_PKG)/.PKGINFO ; \
-	 echo "pkgver=$(LIBELF_PKG_VERSION)"                          >> $(LIBELF_PKG)/.PKGINFO ; \
-	 echo "arch=$(LIBELF_PKG_ARCH)"                               >> $(LIBELF_PKG)/.PKGINFO ; \
-	 echo "distroname=$(LIBELF_PKG_DISTRO_NAME)"                  >> $(LIBELF_PKG)/.PKGINFO ; \
-	 echo "distrover=$(LIBELF_PKG_DISTRO_VERSION)"                >> $(LIBELF_PKG)/.PKGINFO ; \
-	 echo "group=$(LIBELF_PKG_GROUP)"                             >> $(LIBELF_PKG)/.PKGINFO ; \
-	 echo "short_description=\"$(LIBELF_PKG_SHORT_DESCRIPTION)\"" >> $(LIBELF_PKG)/.PKGINFO ; \
-	 echo "url=$(LIBELF_PKG_URL)"                                 >> $(LIBELF_PKG)/.PKGINFO ; \
-	 echo "license=$(LIBELF_PKG_LICENSE)"                         >> $(LIBELF_PKG)/.PKGINFO
-	@$(PSEUDO) sh -c "cd $(LIBELF_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."
+$(pkg_archive): $(install_target) $(LIBEDIT_PKG_DESCRIPTION_FILE) $(LIBEDIT_PKG_INSTALL_SCRIPT)
+	@cp $(LIBEDIT_PKG_DESCRIPTION_FILE) $(LIBEDIT_PKG)/.DESCRIPTION
+	@cp $(LIBEDIT_PKG_INSTALL_SCRIPT) $(LIBEDIT_PKG)/.INSTALL
+	@$(BUILD_PKG_REQUIRES) $(LIBEDIT_PKG)/.REQUIRES
+	@echo "pkgname=$(LIBEDIT_PKG_NAME)"                            >  $(LIBEDIT_PKG)/.PKGINFO ; \
+	 echo "pkgver=$(LIBEDIT_PKG_VERSION)"                          >> $(LIBEDIT_PKG)/.PKGINFO ; \
+	 echo "arch=$(LIBEDIT_PKG_ARCH)"                               >> $(LIBEDIT_PKG)/.PKGINFO ; \
+	 echo "distroname=$(LIBEDIT_PKG_DISTRO_NAME)"                  >> $(LIBEDIT_PKG)/.PKGINFO ; \
+	 echo "distrover=$(LIBEDIT_PKG_DISTRO_VERSION)"                >> $(LIBEDIT_PKG)/.PKGINFO ; \
+	 echo "group=$(LIBEDIT_PKG_GROUP)"                             >> $(LIBEDIT_PKG)/.PKGINFO ; \
+	 echo "short_description=\"$(LIBEDIT_PKG_SHORT_DESCRIPTION)\"" >> $(LIBEDIT_PKG)/.PKGINFO ; \
+	 echo "url=$(LIBEDIT_PKG_URL)"                                 >> $(LIBEDIT_PKG)/.PKGINFO ; \
+	 echo "license=$(LIBEDIT_PKG_LICENSE)"                         >> $(LIBEDIT_PKG)/.PKGINFO
+	@$(PSEUDO) sh -c "cd $(LIBEDIT_PKG) && chown -R root:root . && $(MAKE_PACKAGE) -J --linkadd=yes $(GNUPG_OPTIONS) -m -d .. ."

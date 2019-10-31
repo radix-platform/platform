@@ -1,0 +1,3 @@
+
+../../../sources/packages/n/openssh/patches/openssh-8.1p1-cross.patch        -p0
+../../../sources/packages/n/openssh/patches/openssh-8.1p1-tcp_wrappers.patch -p0

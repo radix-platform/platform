@@ -833,7 +833,17 @@ REQUIRES += net/dhcpcd/6.10.1
 REQUIRES += net/iputils/s20151218
 REQUIRES += net/ethtool/4.5
 REQUIRES += net/inetd/1.79
-REQUIRES += net/openssh/7.2p1
+REQUIRES += net/openssh/8.1p1
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
+REQUIRES += libs/libedit/20191025-3.1-ppc32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
+REQUIRES += libs/libedit/20191025-3.1-sparc32
+endif
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libedit/20191025-3.1-x86_32
+endif
 
 
 REQUIRES += net/libnl/1.1.4

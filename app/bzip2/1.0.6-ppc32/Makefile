@@ -16,6 +16,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/a/bzip2
 
 REQUIRES           = app/bzip2/1.0.6
+REQUIRES          += libs/glibc/2.28-ppc32
 
 # ======= __END_OF_REQUIRES__ =======
 

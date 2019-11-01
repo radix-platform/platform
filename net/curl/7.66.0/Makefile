@@ -50,22 +50,23 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/n/curl
 
-REQUIRES           = net/openssh/6.6p1
-REQUIRES          += net/gnutls/3.4.8
-REQUIRES          += net/ca-certificates/52.0
-REQUIRES          += net/openldap-client/2.4.39
+REQUIRES           = net/openssh/8.1p1
+REQUIRES          += net/gnutls/3.6.10
+REQUIRES          += net/ca-certificates/20191101
+REQUIRES          += net/openldap-client/2.4.48
+REQUIRES          += libs/libssh2/1.9.0
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 7.38.0
-tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/curl/curl-$(version).tar.bz2
-SRC_ARCHIVE        = $(tar_bz2_archive)
+version            = 7.66.0
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/n/curl/curl-$(version).tar.xz
+SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/curl-$(version)
 src_dir_name       = curl-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
-cacert_archive     = $(SRC_PACKAGE_PATH)/packages/n/curl/cacert.pem.bz2
+cacert_archive     = $(SRC_PACKAGE_PATH)/packages/n/curl/cacert.pem.xz
 
 config_dir         = $(CURDIR)/config
 curl_config_in     = $(CURDIR)/config-script/curl-config.in
@@ -86,7 +87,7 @@ PKG_GROUP = net
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 CURL_PKG_NAME                = curl
-CURL_PKG_VERSION             = 7.38.0
+CURL_PKG_VERSION             = 7.66.0
 CURL_PKG_ARCH                = $(TOOLCHAIN)
 CURL_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 CURL_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -131,12 +132,18 @@ extra_configure_switches += --with-ca-bundle=/usr/share/curl/ca-bundle.crt
 extra_configure_switches += --enable-ipv6
 extra_configure_switches += --with-libidn
 extra_configure_switches += --with-ssl
+extra_configure_switches += --with-libssh2
 extra_configure_switches += --with-gnutls
 extra_configure_switches += --enable-ldap
 extra_configure_switches += --with-ldap-lib
 extra_configure_switches += --with-lber-lib
-extra_configure_switches += --enable-shared=yes
+
+ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
+extra_configure_switches += --enable-shared=yes
 
 
 TARGET_LIB_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUFFIX)
@@ -162,19 +169,25 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(CURL_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
-ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
-	@for header in curlbuild ; do \
-	   mv $(CURL_PKG)/usr/include/curl/$$header{,-64}.h ; \
-	   cp -a $(config_dir)/$$header.h $(CURL_PKG)/usr/include/curl/$$header.h ; \
-	 done
-endif
+	# ======= Install /usr/share/curl/cacert.pem =======
 	@mkdir -p $(CURL_PKG)/usr/share/curl
-	@bzcat $(cacert_archive) > $(CURL_PKG)/usr/share/curl/cacert.pem
+	@xzcat $(cacert_archive) > $(CURL_PKG)/usr/share/curl/cacert.pem
 	@( cd $(CURL_PKG)/usr/share/curl ; \
 	   mv cacert.pem ca-bundle.crt   ; \
-	   chmod 0644 ca-bundle.crt      ; \
+	   chmod 644 ca-bundle.crt       ; \
 	 )
 	# ======= Install Documentation =======
+	@( cd $(CURL_PKG)/usr/share/man/man3 ; \
+	   for file in *.3 ; do                                \
+	     ln=`head -n 1 $$file` ;                           \
+	     if [ "`echo $$ln | grep '^\.so '`" != "" ] ; then \
+	       origin=`echo $$ln | cut -f 2 -d ' '` ;          \
+	       origin=`basename $$origin` ;                    \
+	       rm -f $$file ;                                  \
+	       ln -sf $$origin $$file ;                        \
+	     fi ;                                              \
+	   done ;                                              \
+	 )
 	@if [ -d $(CURL_PKG)/usr/share/man ]; then \
 	  ( cd $(CURL_PKG)/usr/share/man ; \
 	    for manpagedir in `find . -type d -name "man*"` ; do \
@@ -192,14 +205,12 @@ endif
 	@cp -a $(SRC_DIR)/COPYING \
 	       $(CURL_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(CURL_PKG)/usr/share/doc/$(src_dir_name)
-	@cp -a $(SRC_DIR)/COPYING \
-	       $(CURL_PKG)/usr/share/doc/$(src_dir_name)
+	@( cd $(SRC_DIR) ; \
+	   cp -a COPYING README RELEASE-NOTES \
+	       $(CURL_PKG)/usr/share/doc/$(src_dir_name) ; \
+	 )
 	@( cd $(SRC_DIR)/docs ; \
-	   rm -f Makefile* curl-config.1 curl.1 mk-ca-bundle.html *.pdf ; \
-	   rm -f libcurl/Makefile* libcurl/*.? libcurl/*.pdf libcurl/*.m4 libcurl/*.pl ; \
-	   rm -f libcurl/opts/Makefile* libcurl/opts/*.? libcurl/opts/*.pdf ; \
-	   rm -f examples/Makefile* examples/*.dj examples/*.pl ; \
-	   cp -a * \
+	   cp -a BUGS FAQ FEATURES KNOWN_BUGS README.md RESOURCES THANKS TODO \
 	         $(CURL_PKG)/usr/share/doc/$(src_dir_name) ; \
 	 )
 	@( cd $(SRC_DIR) ; \
@@ -213,22 +224,39 @@ endif
 	@( cd $(CURL_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libcurl.la ; \
 	 )
+	# ======= remove toolchain path from target pkg-config *.pc files =======
+	@( cd $(CURL_PKG)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libcurl.pc ; \
+	 )
+	# ======= Tune development '/usr/bin/curl-config' sctipt =======
 	@( cd $(CURL_PKG)/usr/bin ; \
-	   sed -i "s,^prefix=/usr,prefix=$(TARGET_DEST_DIR)/usr," curl-config ; \
+	   sed -i "s,^prefix=/usr,prefix=$(TARGET_DEST_DIR)/usr,"            curl-config ; \
+	   sed -i "s,\"/usr/share/curl,\"$(TARGET_DEST_DIR)/usr/share/curl," curl-config ; \
+	   sed -i "s,test \"X/usr/lib,test \"X$(TARGET_DEST_DIR)/usr/lib,"   curl-config ; \
+	   sed -i "s,a \"X/usr/lib,a \"X$(TARGET_DEST_DIR)/usr/lib,"         curl-config ; \
+	   sed -i "s,L/usr/lib,L$(TARGET_DEST_DIR)/usr/lib,g"                curl-config ; \
 	   sed -i "s,/usr/lib$(LIBSUFFIX)/libcurl.a,$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/libcurl.a," curl-config ; \
-	   sed -i "s,L/usr/lib,L$(TARGET_DEST_DIR)/usr/lib,g" curl-config ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(CURL_PKG))
-	# ======= Install target '/usr/bin/curl-congig' sctipt =======
-	@cat $(curl_config_in) | $(SED) -e "s/@LIBSUFFIX@/$(LIBSUFFIX)/g" > $(CURL_PKG)/usr/bin/curl-config
-	@chmod 0755 $(CURL_PKG)/usr/bin/curl-config
-	# ======= tune libtool *.la search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libcurl.la  ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libcurl.la  \
+	# ======= Tune target '/usr/bin/curl-config' sctipt =======
+	@( cd $(CURL_PKG)/usr/bin ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g"    curl-config ; \
+	   sed -i 's,$(TOOLCHAIN_PATH),/usr,g' curl-config ; \
+	   sed -i 's,$(TARGET)-,,g'            curl-config ; \
+	   sed -i "s, '--build=[^\']*',,g"     curl-config ; \
+	   sed -i "s, '--host=[^\']*',,g"      curl-config ; \
+	   sed -i "s, 'build_alias=[^\']*',,g" curl-config ; \
+	   sed -i "s, 'host_alias=[^\']*',,g"  curl-config ; \
+	   sed -i "s, --sysroot=[^\']*',',g"   curl-config ; \
+	   sed -i 's, --sysroot=[^\"]*",",g'   curl-config ; \
 	 )
-	# ======= tune pkg-config *.pc search path to the target destination for development =======
+	# ======= Tune libtool *.la search path to the target destination for development =======
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   libcurl.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libcurl.la ; \
+	 )
+	# ======= Tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libcurl.pc ; \
 	 )
@@ -236,8 +264,12 @@ endif
 	@( cd $(CURL_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(CURL_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target shared objects =======
 	@( cd $(CURL_PKG)/usr/lib$(LIBSUFFIX) ; \

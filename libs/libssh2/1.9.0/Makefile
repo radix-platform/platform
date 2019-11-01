@@ -55,7 +55,7 @@ REQUIRES          += net/openssl/1.1.1d
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 1.8.0
+version            = 1.9.0
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/libssh2/libssh2-$(version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/libssh2-$(version)
@@ -77,7 +77,7 @@ PKG_GROUP = libs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 LIBSSH2_PKG_NAME                = libssh2
-LIBSSH2_PKG_VERSION             = 1.8.0
+LIBSSH2_PKG_VERSION             = 1.9.0
 LIBSSH2_PKG_ARCH                = $(TOOLCHAIN)
 LIBSSH2_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBSSH2_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -126,8 +126,12 @@ extra_configure_switches += --with-libz-prefix=$(TARGET_DEST_DIR)/usr
 
 extra_configure_switches += --disable-rpath
 
-extra_configure_switches += --enable-shared=yes
+ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
+extra_configure_switches += --enable-shared=yes
 
 
 TARGET_LIB_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUFFIX)
@@ -175,25 +179,26 @@ $(install_target): $(build_target)
 	       $(LIBSSH2_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(LIBSSH2_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a docs/AUTHORS docs/BINDINGS COPYING NEWS README* docs/SECURITY.md docs/TODO \
+	   cp -a docs/AUTHORS docs/BINDINGS COPYING README \
+	         RELEASE-NOTES docs/SECURITY.md docs/TODO  \
 	         $(LIBSSH2_PKG)/usr/share/doc/$(src_dir_name) \
 	 )
 	@( cd $(SRC_DIR) ; \
-	   if [ -r ChangeLog ]; then \
+	   if [ -r NEWS ]; then \
 	     DOCSDIR=`echo $(LIBSSH2_PKG)/usr/share/doc/$(src_dir_name)` ; \
-	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
-	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
+	     cat NEWS | head -n 1000 > $$DOCSDIR/NEWS ; \
+	     touch -r NEWS $$DOCSDIR/NEWS ; \
 	   fi \
 	 )
 	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(LIBSSH2_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" libssh2.la \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libssh2.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(LIBSSH2_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libssh2.la ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   libssh2.la ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libssh2.la ; \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
@@ -204,8 +209,12 @@ $(install_target): $(build_target)
 	@( cd $(LIBSSH2_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(LIBSSH2_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 	@touch $@
 
 $(LIBSSH2_PKG_DESCRIPTION_FILE): $(LIBSSH2_PKG_DESCRIPTION_FILE_IN)

@@ -50,7 +50,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/unidata/netcdf-c
 
-REQUIRES           = net/curl/7.47.0
+REQUIRES           = net/curl/7.66.0
 REQUIRES          += net/openssl/1.1.1d
 
 # ======= __END_OF_REQUIRES__ =======

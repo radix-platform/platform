@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/unidata/netcdf-c
 
 REQUIRES           = libs/netcdf/4.4.1
-REQUIRES          += net/curl/7.47.0-x86_32
+REQUIRES          += net/curl/7.66.0-x86_32
 REQUIRES          += net/openssl/1.1.1d-x86_32
 
 # ======= __END_OF_REQUIRES__ =======

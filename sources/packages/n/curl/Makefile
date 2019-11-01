@@ -7,12 +7,12 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/curl
 
-cacert_url  = http://curl.haxx.se/ca
+cacert_url  = https://curl.haxx.se/ca
 
-versions    = 7.38.0 7.47.0
+versions    = 7.66.0
 pkgname     = curl
-suffix      = tar.bz2
-cacert      = cacert.pem.bz2
+suffix      = tar.xz
+cacert      = cacert.pem.xz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
@@ -48,8 +48,8 @@ $(sha1s): $(tarballs)
 
 $(cacert):
 	@echo -e "\n======= Downloading $(cacert) tarball =======\n" ; \
-	 echo "$(cacert_url)/cacert.pem" | xargs -n 1 -P 100 wget $(WGET_OPTIONS) -i & wait %1 ; \
-	 bzip2 -9 cacert.pem ; \
+	 echo "$(cacert_url)/cacert.pem" | xargs wget $(WGET_OPTIONS) ; \
+	 xz -9 cacert.pem ; \
 	 rm -f cacert.pem
 
 download_clean:

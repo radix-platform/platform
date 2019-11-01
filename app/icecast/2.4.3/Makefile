@@ -51,13 +51,13 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/m/xiph/icecast
 
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
-REQUIRES           = net/curl/7.47.0
+REQUIRES           = net/curl/7.66.0
 REQUIRES          += libs/libxslt/1.1.33
 REQUIRES          += libs/libtheora/1.1.1
 REQUIRES          += libs/libvorbis/1.3.5
 REQUIRES          += libs/speex/1.2rc2
 else
-REQUIRES           = net/curl/7.47.0-x86_32
+REQUIRES           = net/curl/7.66.0-x86_32
 REQUIRES          += libs/libxslt/1.1.33-x86_32
 REQUIRES          += libs/libtheora/1.1.1-x86_32
 REQUIRES          += libs/libvorbis/1.3.5-x86_32

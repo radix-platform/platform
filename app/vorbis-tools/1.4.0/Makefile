@@ -52,10 +52,10 @@ SOURCE_REQUIRES    = sources/packages/m/xiph/vorbis-tools
 
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES           = libs/libao/1.2.0
-REQUIRES          += net/curl/7.47.0
+REQUIRES          += net/curl/7.66.0
 else
 REQUIRES           = libs/libao/1.2.0-x86_32
-REQUIRES          += net/curl/7.47.0-x86_32
+REQUIRES          += net/curl/7.66.0-x86_32
 endif
 
 # ======= __END_OF_REQUIRES__ =======

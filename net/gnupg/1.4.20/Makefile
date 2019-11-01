@@ -54,10 +54,10 @@ REQUIRES           = app/bzip2/1.0.6
 REQUIRES          += net/dirmngr/1.1.1
 REQUIRES          += net/pinentry/1.1.0
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
-REQUIRES          += net/curl/7.47.0
+REQUIRES          += net/curl/7.66.0
 REQUIRES          += libs/libusb-compat/0.1.7
 else
-REQUIRES          += net/curl/7.47.0-x86_32
+REQUIRES          += net/curl/7.66.0-x86_32
 REQUIRES          += libs/libusb-compat/0.1.7-x86_32
 endif
 

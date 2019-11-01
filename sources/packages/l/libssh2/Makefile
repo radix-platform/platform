@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/libssh2
 
-versions    = 1.8.0
+versions    = 1.9.0
 pkgname     = libssh2
 suffix      = tar.gz
 

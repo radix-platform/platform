@@ -7,7 +7,7 @@ include ../../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/ca-certificates/mozilla
 
-versions    = 45.0.2 52.0
+versions    = 20191101
 pkgname     = mozilla-certs
 suffix      = tar.xz
 

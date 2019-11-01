@@ -1,0 +1,18 @@
+
+Scripts make-cert.pl and make-splitted.sh used to create splitted
+certificates ftom mozilla certdata.txt file:
+
+  mkdir tmp
+  cp mozilla/certdata.txt tmp/
+  cp make-cert.pl make-splitted.sh tmp/
+  chmod a+x tmp/make-cert.pl tmp/make-splitted.sh
+  cd tmp
+  ./make-splitted.sh 20191101
+
+where 20191101 is a version of certdata.txt.
+
+This scripts are deprecated. They not ignore certs with following
+CKA_TRUST_SERVER_AUTH value:
+
+  CKA_TRUST_SERVER_AUTH CK_TRUST CKT_NSS_MUST_VERIFY_TRUST
+                                 -------------------------

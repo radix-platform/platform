@@ -1,0 +1,3 @@
+
+../../../sources/packages/n/ca-certificates/debian/patches/ca-certificates-20190110-makefiles.patch -p0
+../../../sources/packages/n/ca-certificates/debian/patches/ca-certificates-20190110-update.patch    -p0

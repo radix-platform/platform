@@ -8,12 +8,12 @@
                |-----handy-ruler------------------------------------------------------|
 ca-certificates: ca-certificates @VERSION@ (PEM Files of CA Certificates)
 ca-certificates:
-ca-certificates: This package includes PEM files of CA certificates to allow SSL-based
-ca-certificates: applications to check for the authenticity of SSL connections.
+ca-certificates: This package includes PEM files of CA certificates to allow
+ca-certificates: SSL-based applications to check for the authenticity of SSL
+ca-certificates: connections.
 ca-certificates:
-ca-certificates: see:
-ca-certificates:   http://www.cacert.org/index.php?id=3
-ca-certificates:   http://www.spi-inc.org/ca
-ca-certificates:   http://mozilla.org
+ca-certificates:
+ca-certificates:
+ca-certificates:
 ca-certificates:
 ca-certificates:

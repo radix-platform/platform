@@ -5,16 +5,22 @@ COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 include ../../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/packages/n/ca-certificates/cacert.org
+url         = $(DOWNLOAD_SERVER)/sources/packages/n/ca-certificates/debian
 
-pkgname     = cacert
-suffix      = tar.bz2
+versions    = 20190110
+pkgname     = ca-certificates
+suffix      = tar.xz
 
-tarballs    = $(addsuffix .$(suffix), $(pkgname))
+tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)_, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
+patches     = $(CURDIR)/patches/ca-certificates-20190110-makefiles.patch
+patches    += $(CURDIR)/patches/ca-certificates-20190110-update.patch
 
-BUILD_TARGETS = $(tarballs) $(sha1s)
+.NOTPARALLEL: $(patches)
+
+
+BUILD_TARGETS = $(tarballs) $(sha1s) $(patches)
 
 
 include ../../../../../build-system/core.mk
@@ -42,5 +48,11 @@ $(sha1s): $(tarballs)
 	   fi ; \
 	 done
 
+$(patches): $(sha1s)
+	@echo -e "\n======= Create Patches =======\n" ; \
+	 ( cd create-20190110-makefiles-patch ; ./create.patch.sh ) ; \
+	 ( cd create-20190110-update-patch    ; ./create.patch.sh ) ; \
+	 echo -e "\n"
+
 download_clean:
-	@rm -f $(tarballs) $(sha1s)
+	@rm -f $(tarballs) $(sha1s) $(patches)

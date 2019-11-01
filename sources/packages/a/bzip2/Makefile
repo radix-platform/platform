@@ -49,7 +49,7 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-1.0.6-solib-patch ; ./create.patch.sh ) ; \
+	 ( cd create-1.0.6-cross-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

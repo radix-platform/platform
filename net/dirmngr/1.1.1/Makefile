@@ -52,6 +52,7 @@ SOURCE_REQUIRES    = sources/packages/n/dirmngr
 
 REQUIRES           = net/libgcrypt/1.8.5
 REQUIRES          += net/openldap-client/2.4.48
+REQUIRES          += libs/pth/2.0.7
 
 # ======= __END_OF_REQUIRES__ =======
 

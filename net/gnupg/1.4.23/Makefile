@@ -48,24 +48,18 @@ COMPONENT_IS_3PP   = true
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES    = sources/packages/n/gnupg2
+SOURCE_REQUIRES    = sources/packages/n/gnupg
 
 REQUIRES           = app/bzip2/1.0.6
-REQUIRES          += net/dirmngr/1.1.1
-REQUIRES          += net/pinentry/0.9.7
-ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
-REQUIRES          += net/curl/7.47.0
-REQUIRES          += libs/libusb-compat/0.1.5
-else
-REQUIRES          += net/curl/7.47.0-x86_32
-REQUIRES          += libs/libusb-compat/0.1.5-x86_32
-endif
+REQUIRES          += net/pinentry/1.1.0
+REQUIRES          += net/curl/7.66.0
+REQUIRES          += libs/libusb-compat/0.1.7
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 2.0.29
-tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/gnupg2/gnupg-$(version).tar.bz2
+version            = 1.4.23
+tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/gnupg/gnupg-$(version).tar.bz2
 SRC_ARCHIVE        = $(tar_bz2_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/gnupg-$(version)
 src_dir_name       = gnupg-$(version)
@@ -85,14 +79,14 @@ PKG_GROUP = net
 #
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
-GNUPG_PKG_NAME                = gnupg2
-GNUPG_PKG_VERSION             = 2.0.29
+GNUPG_PKG_NAME                = gnupg
+GNUPG_PKG_VERSION             = 1.4.23
 GNUPG_PKG_ARCH                = $(TOOLCHAIN)
 GNUPG_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 GNUPG_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
 GNUPG_PKG_GROUP               = $(PKG_GROUP)
 ###                            |---handy-ruler-------------------------------|
-GNUPG_PKG_SHORT_DESCRIPTION   = The GNU Privacy Guard version 2.x
+GNUPG_PKG_SHORT_DESCRIPTION   = The GNU Privacy Guard
 GNUPG_PKG_URL                 = $(BUG_URL)
 GNUPG_PKG_LICENSE             = GPLv3
 GNUPG_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(GNUPG_PKG_NAME)-pkg-description
@@ -130,14 +124,15 @@ extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var
-extra_configure_switches += --program-prefix=""
-extra_configure_switches += --program-suffix=""
+
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_I686_GLIBC)),)
+extra_configure_switches += --disable-asm
+endif
 
 extra_configure_switches += --cache-file=hw.cache
 
 
 libs_config  = GPG_ERROR_CONFIG=$(TARGET_DEST_DIR)/usr/bin/gpg-error-config
-libs_config += PTH_CONFIG=$(TARGET_DEST_DIR)/usr/bin/pth-config
 
 
 ####### Dependencies
@@ -165,13 +160,7 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(GNUPG_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
-	# ======= Create directory for global gpg.conf =======
-	@mkdir -p $(GNUPG_PKG)/etc/gnupg
 	# ======= Install Documentation =======
-	@( cd $(GNUPG_PKG)/usr/share/man/man1 ; \
-	   mv gpg-zip.1 gpg2-zip.1 ; \
-	 )
-	@cd $(build_dir)/doc && $(BUILD_ENVIRONMENT) $(MAKE) gnupg.html
 	@rm -f $(GNUPG_PKG)/usr/share/info/dir
 	@gzip -9 $(GNUPG_PKG)/usr/share/info/*
 	@if [ -d $(GNUPG_PKG)/usr/share/man ]; then \
@@ -188,22 +177,29 @@ $(install_target): $(build_target)
 	  ) \
 	 fi
 	@mkdir -p $(GNUPG_PKG)/usr/doc/$(src_dir_name)
-	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/COPYING* \
+	@cp -a $(SRC_DIR)/AUTHORS $(SRC_DIR)/COPYING \
 	       $(GNUPG_PKG)/usr/doc/$(src_dir_name)
-	@mkdir -p $(GNUPG_PKG)/usr/share/doc/$(src_dir_name)/html
+	@mkdir -p $(GNUPG_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a AUTHORS COPYING* INSTALL NEWS README* THANKS TODO VERSION \
+	   cp -a AUTHORS BUGS COPYING PROJECTS README THANKS TODO VERSION \
 	         doc/DETAILS doc/HACKING doc/OpenPGP \
 	         $(GNUPG_PKG)/usr/share/doc/$(src_dir_name) ; \
 	 )
-	@( cd $(build_dir)/doc/gnupg.html ; \
-	   cp -a *.html $(GNUPG_PKG)/usr/share/doc/$(src_dir_name)/html ; \
-	 )
+	@if [ -r $(GNUPG_PKG)/usr/share/gnupg/FAQ ]; then \
+	  ( cd $(GNUPG_PKG)/usr/share/doc/$(src_dir_name) ; ln -sf ../../gnupg/FAQ . ) ; \
+	 fi
 	@( cd $(SRC_DIR) ; \
 	   if [ -r ChangeLog ]; then \
 	     DOCSDIR=`echo $(GNUPG_PKG)/usr/share/doc/$(src_dir_name)` ; \
 	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
 	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \
+	   fi \
+	 )
+	@( cd $(SRC_DIR) ; \
+	   if [ -r NEWS ]; then \
+	     DOCSDIR=`echo $(GNUPG_PKG)/usr/share/doc/$(src_dir_name)` ; \
+	     cat NEWS | head -n 1000 > $$DOCSDIR/NEWS ; \
+	     touch -r NEWS $$DOCSDIR/NEWS ; \
 	   fi \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======

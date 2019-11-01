@@ -50,8 +50,8 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/n/gpgme
 
-REQUIRES           = net/gnupg/1.4.20
-REQUIRES          += net/gnupg2/2.1.12
+REQUIRES           = net/gnupg/1.4.23
+REQUIRES          += net/gnupg2/2.2.17
 
 # ======= __END_OF_REQUIRES__ =======
 

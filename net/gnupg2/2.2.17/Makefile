@@ -51,24 +51,20 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/n/gnupg2
 
 REQUIRES           = app/bzip2/1.0.6
-REQUIRES          += net/dirmngr/1.1.1
+REQUIRES          += app/sqlite/3.26.0.0
 REQUIRES          += net/pinentry/1.1.0
-ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES          += net/curl/7.66.0
 REQUIRES          += net/libgcrypt/1.8.5
+REQUIRES          += net/libksba/1.3.5
+REQUIRES          += net/libassuan/2.5.3
 REQUIRES          += net/npth/1.6
+REQUIRES          += libs/readline/8.0
 REQUIRES          += libs/libusb-compat/0.1.7
-else
-REQUIRES          += net/curl/7.66.0-x86_32
-REQUIRES          += net/libgcrypt/1.8.5-x86_32
-REQUIRES          += net/npth/1.6-x86_32
-REQUIRES          += libs/libusb-compat/0.1.7-x86_32
-endif
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 2.1.12
+version            = 2.2.17
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/gnupg2/gnupg-$(version).tar.bz2
 SRC_ARCHIVE        = $(tar_bz2_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/gnupg-$(version)
@@ -90,7 +86,7 @@ PKG_GROUP = net
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 GNUPG_PKG_NAME                = gnupg2
-GNUPG_PKG_VERSION             = 2.1.12
+GNUPG_PKG_VERSION             = 2.2.17
 GNUPG_PKG_ARCH                = $(TOOLCHAIN)
 GNUPG_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 GNUPG_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -131,13 +127,13 @@ extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
-extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var
+extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --program-prefix=""
 extra_configure_switches += --program-suffix=""
 
-extra_configure_switches += --disable-dirmngr
+extra_configure_switches += --enable-gpg-is-gpg2
 
 extra_configure_switches += --with-libgcrypt-prefix=$(TARGET_DEST_DIR)/usr
 extra_configure_switches += --with-libassuan-prefix=$(TARGET_DEST_DIR)/usr
@@ -169,6 +165,7 @@ $(build_target): $(src_done)
 	  --host=$(TARGET)            \
 	  $(extra_configure_switches)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
+	@cd $(build_dir)/doc && $(MAKE) gnupg.html gnupg.pdf
 	@touch $@
 
 $(install_target): $(build_target)
@@ -176,8 +173,6 @@ $(install_target): $(build_target)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Create directory for global gpg.conf =======
 	@mkdir -p $(GNUPG_PKG)/etc/gnupg
-	# ======= Remove dirmngr-client manual page=======
-	@rm -f $(GNUPG_PKG)/usr/share/man/man1/dirmngr-client.1
 	# ======= Install Documentation =======
 	@cd $(build_dir)/doc && $(BUILD_ENVIRONMENT) $(MAKE) gnupg.html
 	@rm -f $(GNUPG_PKG)/usr/share/info/dir
@@ -200,11 +195,17 @@ $(install_target): $(build_target)
 	       $(GNUPG_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(GNUPG_PKG)/usr/share/doc/$(src_dir_name)/html
 	@( cd $(SRC_DIR) ; \
-	   cp -a AUTHORS COPYING* INSTALL NEWS README.GIT THANKS TODO VERSION \
+	   cp -a AUTHORS COPYING* NEWS README.GIT THANKS TODO VERSION \
+	         doc/gnupg-card-architecture.pdf doc/gnupg-module-overview.pdf \
 	         $(GNUPG_PKG)/usr/share/doc/$(src_dir_name) ; \
 	 )
-	@( cd $(build_dir)/doc/gnupg.html ; \
-	   cp -a *.html $(GNUPG_PKG)/usr/share/doc/$(src_dir_name)/html ; \
+	@( cd $(SRC_DIR)/doc ; \
+	   cp -a *.{png,eps,svg} \
+	         $(GNUPG_PKG)/usr/share/doc/$(src_dir_name)/html ; \
+	 )
+	@( cd $(build_dir)/doc ; \
+	   cp -a gnupg.html/* $(GNUPG_PKG)/usr/share/doc/$(src_dir_name)/html ; \
+	   cp -a gnupg.pdf $(GNUPG_PKG)/usr/share/doc/$(src_dir_name) ; \
 	 )
 	@( cd $(SRC_DIR) ; \
 	   if [ -r ChangeLog ]; then \

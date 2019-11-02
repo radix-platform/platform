@@ -37,7 +37,7 @@
 #   PYTHON_CC        cross compiler for Python extension module, for example:
 #                      /opt/toolchains/ppc64-POWER8-linux-glibc/1.2.3/bin/ppc64-power8-linux-gnu-gcc \
 #                        --sysroot=PATH_TO_DEVENV_SYSROOT
-#                    used to define 'CC' venvironmen varionle for build Python
+#                    used to define 'CC' environment variable for build Python extensions
 #
 #   PYTHON_LDSHARED  cross linker for Python extension module, for example:
 #                      /opt/toolchains/ppc64-POWER8-linux-glibc/1.2.3/bin/ppc64-power8-linux-gnu-gcc \

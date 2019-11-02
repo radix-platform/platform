@@ -1,0 +1,32 @@
+
+/* begin *
+
+   gpgme-1.13.1-python-cross.patch - set PYTHONPATH, LDSHARED variables for setyp.py script by
+                                     user defined environment variable PYTHON_PATH and PYTHON_LDSHARED
+                                     like follow:
+                                       $ make PYTHON_PATH=path-to-python/lib-dinload \
+                                              PYTHON_LDSHARED='path-to-cross-gcc --sysroot=...'
+                                     NOTE: that works only with Python3.
+
+                                     Also this patch splits setup.py install arguments
+                                        setup.py install \
+                                        --root="$(DESTDIR)" \
+                                        --install-lib=$(PYTHON_SITE_PKG) \
+                                        --prefix="$(prefix)" \
+                                     to correctly set Python's site-packages path.
+
+       PYTHON_PATH - path to Python lib-dinload directory where placed the sysconfig file
+                     got build machine Python, for example:
+                       PYTHON_PATH=PATH_TO_DEVENV_SYSROOT/usr/lib/python3.7/lib-dynload
+                     if your build machine is an x86_64 Linux machine then the file:
+                       _sysconfigdata_m_linux_x86_64-linux-gnu.py
+                     will be used by Python setup tools to get system variables to
+                     build extension module. For example the suffix of shared library
+                     defined by EXT_SUFFIX variable in the _sysconfigdata_* file.
+
+   PYTHON_LDSHARED - cross linker for Python extension module, for example:
+                       /opt/toolchains/ppc64-POWER8-linux-glibc/1.2.3/bin/ppc64-power8-linux-gnu-gcc \
+                          --sysroot=PATH_TO_DEVENV_SYSROOT -shared
+                     used to define 'LDSHARED' environment variable to build Python extensions.
+
+ * end */

@@ -873,9 +873,16 @@ endif
 REQUIRES += net/conntrack-tools/1.4.3
 REQUIRES += net/dhcp/4.3.4
 
-REQUIRES += net/gpgme/1.6.0
+REQUIRES += net/gpgme/1.13.1
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
+REQUIRES += net/gpgme/1.13.1-ppc32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
+REQUIRES += net/gpgme/1.13.1-sparc32
+endif
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += net/gpgme/1.6.0-x86_32
+REQUIRES += net/gpgme/1.13.1-x86_32
 endif
 
 REQUIRES += net/bind/9.10.4

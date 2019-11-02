@@ -169,27 +169,26 @@ ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC) \
                              $(TOOLCHAIN_R1000_GLIBC)  \
                              $(TOOLCHAIN_POWER8_GLIBC) \
                              $(TOOLCHAIN_POWER9_GLIBC)),)
-	@( cd $(PYTHON_PKG)/usr/include/python2.7 ; \
+	@( cd $(BUILDSYSTEM)/usr/include/python2.7 ; \
 	   mv pyconfig.h pyconfig-64.h ; \
-	   echo ''                                       > pyconfig.h ; \
-	   echo '/******************************'       >> pyconfig.h ; \
-	   echo '  pyconfig.h - Multilib Header'        >> pyconfig.h ; \
-	   echo ' ******************************/'      >> pyconfig.h ; \
-	   echo ''                                      >> pyconfig.h ; \
-	   echo '#ifndef __MULTILIB__PYCONFIG_H__'      >> pyconfig.h ; \
-	   echo '#define __MULTILIB__PYCONFIG_H__'      >> pyconfig.h ; \
-	   echo ''                                      >> pyconfig.h ; \
-	   echo '#if defined(__x86_64__)    || \'       >> pyconfig.h ; \
-	   echo '    defined(__sparc64__)   || \'       >> pyconfig.h ; \
-	   echo '    defined(__arch64__)    || \'       >> pyconfig.h ; \
-	   echo '    defined(__powerpc64__) || \'       >> pyconfig.h ; \
-	   echo '    defined (__s390x__)'               >> pyconfig.h ; \
-	   echo '#include "pyconfig-64.h"'              >> pyconfig.h ; \
-	   echo '#else'                                 >> pyconfig.h ; \
-	   echo '#include "pyconfig-32.h"'              >> pyconfig.h ; \
-	   echo '#endif'                                >> pyconfig.h ; \
-	   echo ''                                      >> pyconfig.h ; \
-	   echo '#endif /* __MULTILIB__PYCONFIG_H__ */' >> pyconfig.h ; \
+	   echo ''                                               > pyconfig.h ; \
+	   echo '/******************************'               >> pyconfig.h ; \
+	   echo '  pyconfig.h - Multilib Header'                >> pyconfig.h ; \
+	   echo ' ******************************/'              >> pyconfig.h ; \
+	   echo ''                                              >> pyconfig.h ; \
+	   echo '#ifndef __MULTILIB__PYCONFIG_H__'              >> pyconfig.h ; \
+	   echo '#define __MULTILIB__PYCONFIG_H__'              >> pyconfig.h ; \
+	   echo ''                                              >> pyconfig.h ; \
+	   echo '#if defined(__x86_64__)    || \'               >> pyconfig.h ; \
+	   echo '    defined(__aarch64__)   || \'               >> pyconfig.h ; \
+	   echo '    defined(__powerpc64__) || \'               >> pyconfig.h ; \
+	   echo '    defined(__sparc__) && defined(__arch64__)' >> pyconfig.h ; \
+	   echo '#include "pyconfig-64.h"'                      >> pyconfig.h ; \
+	   echo '#else'                                         >> pyconfig.h ; \
+	   echo '#include "pyconfig-32.h"'                      >> pyconfig.h ; \
+	   echo '#endif'                                        >> pyconfig.h ; \
+	   echo ''                                              >> pyconfig.h ; \
+	   echo '#endif /* __MULTILIB__PYCONFIG_H__ */'         >> pyconfig.h ; \
 	 )
 endif
 	@if [ -d $(PYTHON_PKG)/usr/share/man ]; then \

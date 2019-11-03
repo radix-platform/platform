@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+        |-----handy-ruler------------------------------------------------------|
+pkgtools: pkgtools @VERSION@ (Package Tools)
+pkgtools:
+pkgtools: This is a set of command line utilities for creating alienated
+pkgtools: packages, for installing and updating the root file system, as well
+pkgtools: as for uninstalling unnecessary packages. A distinctive feature of
+pkgtools: these tools is that they can be used during a parallel assembly of
+pkgtools: several distributions at the same time.
+pkgtools:
+pkgtools: Homepage: https://radix.pro/build-system/pkgtool
+pkgtools:   GitLab: https://gitlab.radix.pro/radix/pkgtools
+pkgtools:

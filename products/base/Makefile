@@ -731,9 +731,6 @@ REQUIRES += app/logrotate/3.15.1
 REQUIRES += app/gettext/0.20.1-tools
 
 
-#
-# pkgtools here (but should be after GnuPG)
-#
 ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
                             $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
 REQUIRES += app/dialog/1.3-20190808-ppc32
@@ -884,6 +881,12 @@ endif
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += net/gpgme/1.13.1-x86_32
 endif
+
+#
+# pkgtools requires dialog and GnuPG2
+#
+REQUIRES += app/pkgtols/0.1.3
+
 
 REQUIRES += net/bind/9.10.4
 REQUIRES += net/wget/1.16

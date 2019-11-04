@@ -1,11 +1,11 @@
 /*
- * config.h	Automatically generated configuration includefile
+ * config.h     Automatically generated configuration includefile
  *
- * NET-TOOLS	A collection of programs that form the base set of the
- *		NET-3 Networking Distribution for the LINUX operating
- *		system.
+ * NET-TOOLS    A collection of programs that form the base set of the
+ *              NET-3 Networking Distribution for the LINUX operating
+ *              system.
  *
- *		DO  NOT  EDIT  DIRECTLY
+ *              DO  NOT  EDIT  DIRECTLY
  *
 */
 
@@ -73,6 +73,11 @@
  *
  */
 #define HAVE_FW_MASQUERADE 1
+#define HAVE_ARP_TOOLS 1
+#define HAVE_HOSTNAME_TOOLS 1
+#define HAVE_HOSTNAME_SYMLINKS 1
 #define HAVE_IP_TOOLS 1
 #define HAVE_MII 1
+#define HAVE_PLIP_TOOLS 1
+#define HAVE_SERIAL_TOOLS 1
 #define HAVE_SELINUX 0

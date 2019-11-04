@@ -7,15 +7,14 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/net-tools
 
-versions    = 1.60-20140218 1.60-20160127
+versions    = 1.60-20181103
 pkgname     = net-tools
 suffix      = tar.bz2
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/net-tools-1.60-20140218.patch
-patches    += $(CURDIR)/patches/net-tools-1.60-20160127.patch
+patches     = $(CURDIR)/patches/net-tools-1.60-20181103.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,8 +49,7 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-1.60-20140218-patch ; ./create.patch.sh ) ; \
-	 ( cd create-1.60-20160127-patch ; ./create.patch.sh ) ; \
+	 ( cd create-1.60-20181103-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

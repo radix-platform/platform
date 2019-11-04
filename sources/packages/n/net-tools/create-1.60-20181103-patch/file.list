@@ -1,0 +1,5 @@
+net-tools-1.60-20181103/lib/inet_gr.c
+net-tools-1.60-20181103/lib/tr.c
+net-tools-1.60-20181103/ifconfig.c
+net-tools-1.60-20181103/iptunnel.c
+net-tools-1.60-20181103/netstat.c

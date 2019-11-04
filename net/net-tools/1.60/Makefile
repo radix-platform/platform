@@ -59,7 +59,7 @@ endif
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 1.60-20160127
+version            = 1.60-20181103
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/net-tools/net-tools-$(version).tar.bz2
 SRC_ARCHIVE        = $(tar_bz2_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/net-tools-$(version)
@@ -118,6 +118,15 @@ include ../../../build-system/core.mk
 nettools_CFLAGS = -isystem $(TARGET_DEST_DIR)/usr/include $(OPTIMIZATION_FLAGS) $(ARCH_FLAGS) $(HW_FLAGS) -Wall
 nettools_environment = CFLAGS="$(nettools_CFLAGS)"
 
+nettools_config  = HAVE_FW_MASQUERADE=1
+nettools_config += HAVE_ARP_TOOLS=1
+nettools_config += HAVE_HOSTNAME_TOOLS=1
+nettools_config += HAVE_HOSTNAME_SYMLINKS=1
+nettools_config += HAVE_IP_TOOLS=1
+nettools_config += HAVE_MII=1
+nettools_config += HAVE_PLIP_TOOLS=1
+nettools_config += HAVE_SERIAL_TOOLS=1
+
 
 ####### Dependencies
 
@@ -130,7 +139,7 @@ $(build_target): $(src_done)
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_A1X_GLIBC)),)
 	@cd $(SRC_DIR) && sed -i "s,HAVE_HWSTRIP 1,HAVE_HWSTRIP 0,g" config.h
 endif
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(nettools_environment) HAVE_IP_TOOLS=1 HAVE_MII=1 $(MAKE)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(nettools_environment) $(nettools_config) $(MAKE)
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(CC) $(nettools_CFLAGS) -o ipmask ipmask.c
 	@touch $@
 

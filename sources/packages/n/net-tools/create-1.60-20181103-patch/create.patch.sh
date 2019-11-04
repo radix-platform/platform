@@ -1,6 +1,6 @@
 #!/bin/sh
 
-VERSION=1.60-20140218
+VERSION=1.60-20181103
 
 tar --files-from=file.list -xjvf ../net-tools-$VERSION.tar.bz2
 mv net-tools-$VERSION net-tools-$VERSION-orig

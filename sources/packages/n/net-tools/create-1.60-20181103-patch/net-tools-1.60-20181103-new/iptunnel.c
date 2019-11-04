@@ -28,7 +28,6 @@
 #include <linux/version.h>
 #if LINUX_VERSION_CODE < KERNEL_VERSION(4,9,0)
 #include <netinet/in.h>
-#include <netinet/ip.h>
 #endif
 #include <arpa/inet.h>
 #if defined(__GLIBC__) && (__GLIBC__ > 2 || (__GLIBC__ == 2 && __GLIBC_MINOR__ >= 1))
@@ -38,7 +37,12 @@
 #include <linux/if.h>
 #include <linux/if_arp.h>
 #endif
+/* We only care about linux/if_tunnel.h.  Unfortunately, older Linux headers
+ * (pre linux-4.8) did not include all the proper headers leading to missing
+ * structs and types.
+ */
 #include <linux/types.h>
+#include <linux/ip.h>
 #include <linux/if_tunnel.h>
 
 #include "config.h"
@@ -79,21 +83,21 @@ static void version(void)
 	exit(E_VERSION);
 }
 
-static void usage(void) __attribute__((noreturn));
-
-static void usage(void)
+__attribute__((noreturn))
+static void usage(int rc)
 {
-	fprintf(stderr, _("Usage: iptunnel { add | change | del | show } [ NAME ]\n"));
-	fprintf(stderr, _("          [ mode { ipip | gre | sit } ] [ remote ADDR ] [ local ADDR ]\n"));
-	fprintf(stderr, _("          [ [i|o]seq ] [ [i|o]key KEY ] [ [i|o]csum ]\n"));
-	fprintf(stderr, _("          [ ttl TTL ] [ tos TOS ] [ nopmtudisc ] [ dev PHYS_DEV ]\n"));
-	fprintf(stderr, _("       iptunnel -V | --version\n\n"));
-	fprintf(stderr, _("Where: NAME := STRING\n"));
-	fprintf(stderr, _("       ADDR := { IP_ADDRESS | any }\n"));
-	fprintf(stderr, _("       TOS  := { NUMBER | inherit }\n"));
-	fprintf(stderr, _("       TTL  := { 1..255 | inherit }\n"));
-	fprintf(stderr, _("       KEY  := { DOTTED_QUAD | NUMBER }\n"));
-	exit(E_USAGE);
+    FILE *fp = rc ? stderr : stdout;
+	fprintf(fp, _("Usage: iptunnel { add | change | del | show } [ NAME ]\n"));
+	fprintf(fp, _("          [ mode { ipip | gre | sit } ] [ remote ADDR ] [ local ADDR ]\n"));
+	fprintf(fp, _("          [ [i|o]seq ] [ [i|o]key KEY ] [ [i|o]csum ]\n"));
+	fprintf(fp, _("          [ ttl TTL ] [ tos TOS ] [ nopmtudisc ] [ dev PHYS_DEV ]\n"));
+	fprintf(fp, _("       iptunnel -V | --version\n\n"));
+	fprintf(fp, _("Where: NAME := STRING\n"));
+	fprintf(fp, _("       ADDR := { IP_ADDRESS | any }\n"));
+	fprintf(fp, _("       TOS  := { NUMBER | inherit }\n"));
+	fprintf(fp, _("       TTL  := { 1..255 | inherit }\n"));
+	fprintf(fp, _("       KEY  := { DOTTED_QUAD | NUMBER }\n"));
+	exit(rc);
 }
 
 static int do_ioctl_get_ifindex(char *dev)
@@ -220,18 +224,18 @@ static int parse_args(int argc, char **argv, struct ip_tunnel_parm *p)
 			NEXT_ARG();
 			if (strcmp(*argv, "ipip") == 0) {
 				if (p->iph.protocol)
-					usage();
+					usage(E_OPTERR);
 				p->iph.protocol = IPPROTO_IPIP;
 			} else if (strcmp(*argv, "gre") == 0) {
 				if (p->iph.protocol)
-					usage();
+					usage(E_OPTERR);
 				p->iph.protocol = IPPROTO_GRE;
 			} else if (strcmp(*argv, "sit") == 0) {
 				if (p->iph.protocol)
-					usage();
+					usage(E_OPTERR);
 				p->iph.protocol = IPPROTO_IPV6;
 			} else
-				usage();
+				usage(E_OPTERR);
 		} else if (strcmp(*argv, "key") == 0) {
 			unsigned uval;
 			NEXT_ARG();
@@ -241,7 +245,7 @@ static int parse_args(int argc, char **argv, struct ip_tunnel_parm *p)
 				p->i_key = p->o_key = get_addr32(*argv);
 			else {
 				if (scan_number(*argv, &uval)<0)
-					usage();
+					usage(E_OPTERR);
 				p->i_key = p->o_key = htonl(uval);
 			}
 		} else if (strcmp(*argv, "ikey") == 0) {
@@ -252,7 +256,7 @@ static int parse_args(int argc, char **argv, struct ip_tunnel_parm *p)
 				p->o_key = get_addr32(*argv);
 			else {
 				if (scan_number(*argv, &uval)<0)
-					usage();
+					usage(E_OPTERR);
 				p->i_key = htonl(uval);
 			}
 		} else if (strcmp(*argv, "okey") == 0) {
@@ -263,7 +267,7 @@ static int parse_args(int argc, char **argv, struct ip_tunnel_parm *p)
 				p->o_key = get_addr32(*argv);
 			else {
 				if (scan_number(*argv, &uval)<0)
-					usage();
+					usage(E_OPTERR);
 				p->o_key = htonl(uval);
 			}
 		} else if (strcmp(*argv, "seq") == 0) {
@@ -298,9 +302,9 @@ static int parse_args(int argc, char **argv, struct ip_tunnel_parm *p)
 			NEXT_ARG();
 			if (strcmp(*argv, "inherit") != 0) {
 				if (scan_number(*argv, &uval)<0)
-					usage();
+					usage(E_OPTERR);
 				if (uval > 255)
-					usage();
+					usage(E_OPTERR);
 				p->iph.ttl = uval;
 			}
 		} else if (strcmp(*argv, "tos") == 0) {
@@ -308,15 +312,15 @@ static int parse_args(int argc, char **argv, struct ip_tunnel_parm *p)
 			NEXT_ARG();
 			if (strcmp(*argv, "inherit") != 0) {
 				if (scan_number(*argv, &uval)<0)
-					usage();
+					usage(E_OPTERR);
 				if (uval > 255)
-					usage();
+					usage(E_OPTERR);
 				p->iph.tos = uval;
 			} else
 				p->iph.tos = 1;
 		} else {
 			if (p->name[0])
-				usage();
+				usage(E_OPTERR);
 			safe_strncpy(p->name, *argv, IFNAMSIZ);
 		}
 		argc--; argv++;
@@ -577,7 +581,7 @@ int do_iptunnel(int argc, char **argv)
 	} else
 		return do_show(0, NULL);
 
-	usage();
+	usage(E_OPTERR);
 }
 
 
@@ -608,13 +612,13 @@ int main(int argc, char **argv)
 			argc--;
 			argv++;
 			if (argc <= 1)
-				usage();
+				usage(E_OPTERR);
 			if (strcmp(argv[1], "inet") == 0)
 				preferred_family = AF_INET;
 			else if (strcmp(argv[1], "inet6") == 0)
 				preferred_family = AF_INET6;
 			else
-				usage();
+				usage(E_OPTERR);
 		} else if (matches(argv[1], "-stats") == 0 ||
 			   matches(argv[1], "-statistics") == 0) {
 			++show_stats;
@@ -622,8 +626,10 @@ int main(int argc, char **argv)
 			++resolve_hosts;
 		} else if ((matches(argv[1], "-V") == 0) || (matches(argv[1], "--version") == 0)) {
 			version();
+		} else if ((matches(argv[1], "-h") == 0) || (matches(argv[1], "--help") == 0)) {
+			usage(E_USAGE);
 		} else
-			usage();
+			usage(E_OPTERR);
 		argc--;	argv++;
 	}
 

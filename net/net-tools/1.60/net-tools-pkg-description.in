@@ -12,8 +12,8 @@ net-tools: This is the core collection of tools such as "ifconfig" and "route"
 net-tools: used to configure networking on Linux. You won't be able to do much
 net-tools: networking without this package and the network-scripts.
 net-tools:
-net-tools: The net-tools package was maintained for many years by Phil Blundell
-net-tools: and Bernd Eckenfels.
+net-tools: The net-tools package was maintained for many years by
+net-tools: Phil Blundell and Bernd Eckenfels.
 net-tools:
 net-tools:
 net-tools:

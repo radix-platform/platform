@@ -1,4 +1,5 @@
 icmpinfo-1.11/Makefile
+icmpinfo-1.11/defs.h
 icmpinfo-1.11/err.c
 icmpinfo-1.11/icmpinfo.c
 icmpinfo-1.11/icmpinfo.man

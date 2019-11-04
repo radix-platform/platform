@@ -15,6 +15,7 @@
  */
 
 #include <string.h>
+#include <stddef.h> /* offsetof */
 #include	"defs.h"
 
 #ifndef ANSI_OFFSETOF

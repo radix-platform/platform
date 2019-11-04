@@ -115,6 +115,9 @@ ROOTFS_TARGETS   = $(pkg_archive)
 include ../../../build-system/core.mk
 
 
+CFLAGS += -Wno-implicit-function-declaration
+
+
 ####### Dependencies
 
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)

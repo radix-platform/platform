@@ -118,3 +118,6 @@ int eprintf(const char *fmt, ...);
 /* terminal inquiries */
 int is8bit(void);
 int getscreenwidth(void);
+
+/* locale support */
+void set_haslocale(void);

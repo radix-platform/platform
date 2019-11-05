@@ -1,3 +1,11 @@
 bsd-finger-0.17/configure
+bsd-finger-0.17/finger/Makefile
+bsd-finger-0.17/finger/display.c
+bsd-finger-0.17/finger/finger.c
 bsd-finger-0.17/finger/finger.h
+bsd-finger-0.17/finger/lprint.c
+bsd-finger-0.17/finger/net.c
+bsd-finger-0.17/finger/sprint.c
+bsd-finger-0.17/finger/util.c
+bsd-finger-0.17/fingerd/Makefile
 bsd-finger-0.17/fingerd/fingerd.c

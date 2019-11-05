@@ -58,7 +58,11 @@ char rcsid[] =
 #include <sys/socket.h>
 
 #include "pathnames.h"
+#ifdef _USAGI
+#include "version.h"
+#else
 #include "../version.h"
+#endif
 
 #define	ENTRIES	50
 #define WS " \t\r\n"
@@ -112,7 +116,11 @@ main(int argc, char *argv[])
 	int k, nusers;
 	char *s, *t;
 	const char *fingerpath = NULL;
-	struct sockaddr_in sn;
+#ifdef INET6
+	struct sockaddr_storage sn;
+#else
+	struct sockaddr sn;
+#endif
 	socklen_t sval = sizeof(sn);
 
 
@@ -183,18 +191,35 @@ main(int argc, char *argv[])
 
 	if (welcome) {
 		char buf[256];
+#ifdef INET6
+		struct addrinfo hints, *res0;
+#else
 		struct hostent *hp;
+#endif
 		struct utsname utsname;
+		const char *cname = buf;
 
 		uname(&utsname);
 		gethostname(buf, sizeof(buf));
+#ifdef INET6
+		memset(&hints, 0, sizeof(hints));
+		hints.ai_family = PF_UNSPEC;
+		hints.ai_flags = AI_CANONNAME;
+		if (getaddrinfo(buf, NULL, &hints, &res0)) {
+			/* paranoia: dns spoofing? */
+			cname = res0->ai_canonname;
+		}
+#else
 		if ((hp = gethostbyname(buf))) {
 			/* paranoia: dns spoofing? */
-			strncpy(buf, hp->h_name, sizeof(buf));
-			buf[sizeof(buf)-1] = 0;
+			cname = hp->h_name;
 		}
+#endif
 		printf("\r\nWelcome to %s version %s at %s !\r\n\n",
-				utsname.sysname, utsname.release, buf);
+				utsname.sysname, utsname.release, cname);
+#ifdef INET6
+		freeaddrinfo(res0);
+#endif
 		fflush(stdout);
 		switch (fork()) {
 		 case -1: /* fork failed, oh well */
@@ -215,7 +240,11 @@ main(int argc, char *argv[])
 	av[k++] = "finger";
 	for (s = strtok(line, WS); s && k<ENTRIES; s = strtok(NULL, WS)) {
 		/* RFC742: "/[Ww]" == "-l" */
-		if (!strncasecmp(s, "/w", 2)) memcpy(s, "-l", 2);
+		if (!strncasecmp(s, "/w", 2)) {
+		    if (k < ENTRIES - 1)
+			av[k++] = "-l";
+		    s += 2;
+		}
 		if (!forwarding) {
 		    t = strchr(s, '@');
 		    if (t) {

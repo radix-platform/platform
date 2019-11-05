@@ -50,10 +50,7 @@ char glob_rcsid[] =
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#ifndef ARG_MAX
-#define ARG_MAX 131072
-#endif
+#include <unistd.h>
 
 #include "ftp_var.h"  /* for protos only */
 #include "glob.h"
@@ -61,7 +58,7 @@ char glob_rcsid[] =
 #define	QUOTE 0200
 #define	TRIM 0177
 #define	eq(a,b)		(strcmp(a, b)==0)
-#define	GAVSIZ		(ARG_MAX/6)
+#define	GAVSIZ		(sysconf(_SC_ARG_MAX)/6)
 #define	isdir(d)	((d.st_mode & S_IFMT) == S_IFDIR)
 
 const char *globerr;
@@ -119,7 +116,7 @@ char **
 ftpglob(const char *v)
 {
 	char agpath[BUFSIZ];
-	entry agargv[GAVSIZ];
+	entry *agargv;
 	centry vv[2];
 	vv[0].text = v;
 	vv[1].text = NULL;
@@ -137,6 +134,8 @@ ftpglob(const char *v)
 	/* added ()'s to sizeof, (ambigious math for the compiler) */
 	lastgpathp = agpath + (sizeof(agpath)- 2);
 
+	agargv = (entry *)malloc(sizeof (entry) * GAVSIZ);
+	if (agargv == NULL) fatal("Out of memory");
 	ginit(agargv); 
 	globcnt = 0;
 	collect(v);
@@ -160,7 +159,7 @@ ginit(entry *agargv)
 	gargv = agargv; 
 	sortbas = agargv; 
 	gargc = 0;
-	gnleft = ARG_MAX - 4;
+	gnleft = sysconf(_SC_ARG_MAX) - 4;
 }
 
 static 
@@ -678,6 +677,7 @@ efree(entry *av)
 {
     int i;
     for (i=0; av[i].text; i++) free(av[i].text);
+    free((void *)av);
 }
 
 static

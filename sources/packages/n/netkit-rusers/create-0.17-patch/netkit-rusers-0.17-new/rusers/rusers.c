@@ -238,7 +238,7 @@ onehost(char *host)
 	memset(&up, 0, sizeof(up));
 	memset(&addr, 0, sizeof(addr));
 	if (clnt_call(rusers_clnt, RUSERSPROC_NAMES, (xdrproc_t)xdr_void, NULL,
-	    (xdrproc_t) xdr_utmpidlearr, &up, timeout) != RPC_SUCCESS) {
+	    (xdrproc_t) xdr_utmpidlearr, (char *)&up, timeout) != RPC_SUCCESS) {
 		clnt_perror(rusers_clnt, argv0);
 		exit(1);
 	}

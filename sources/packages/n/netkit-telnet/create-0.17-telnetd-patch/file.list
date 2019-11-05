@@ -1,3 +1,4 @@
 netkit-telnet-0.17/configure
+netkit-telnet-0.17/telnetd/state.c
 netkit-telnet-0.17/telnetd/telnetd.c
 netkit-telnet-0.17/telnetd/utility.c

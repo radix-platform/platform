@@ -1,3 +1,12 @@
+netkit-ftp-0.17/ChangeLog
 netkit-ftp-0.17/configure
+netkit-ftp-0.17/ftp/Makefile
+netkit-ftp-0.17/ftp/cmds.c
+netkit-ftp-0.17/ftp/cmdtab.c
+netkit-ftp-0.17/ftp/domacro.c
+netkit-ftp-0.17/ftp/ftp.1
 netkit-ftp-0.17/ftp/ftp.c
+netkit-ftp-0.17/ftp/ftp_var.h
 netkit-ftp-0.17/ftp/glob.c
+netkit-ftp-0.17/ftp/main.c
+netkit-ftp-0.17/ftp/ruserpass.c

@@ -9,8 +9,8 @@
 netkit-ftp: netkit-ftp @VERSION@ (the old BSD FTP client)
 netkit-ftp:
 netkit-ftp: Ftp is the user interface to the Internet standard File Transfer
-netkit-ftp: Protocol. The program allows a user to transfer files to and from a
-netkit-ftp: remote network site.
+netkit-ftp: Protocol. The program allows a user to transfer files to and from
+netkit-ftp: a remote network site.
 netkit-ftp:
 netkit-ftp: This is a program of mostly historical value. For a more powerful
 netkit-ftp: command-line FTP client, look at something like lftp.

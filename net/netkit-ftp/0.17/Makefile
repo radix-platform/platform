@@ -123,7 +123,7 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	@touch $@
 
 $(build_target): $(src_done)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(ftp_environment) ./configure --prefix=/usr
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(ftp_environment) ./configure --prefix=/usr --enable-ipv6
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(ftp_environment) $(MAKE)
 	@touch $@
 

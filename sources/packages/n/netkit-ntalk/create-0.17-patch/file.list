@@ -1,3 +1,4 @@
 netkit-ntalk-0.17/configure
 netkit-ntalk-0.17/talkd/announce.c
 netkit-ntalk-0.17/talkd/table.c
+netkit-ntalk-0.17/talkd/talkd.c

@@ -116,7 +116,7 @@ include ../../../build-system/core.mk
 
 
 rusers_CFLAGS = -isystem $(TARGET_DEST_DIR)/usr/include $(OPTIMIZATION_FLAGS) $(ARCH_FLAGS) $(HW_FLAGS)
-rusers_environment = CFLAGS="$(rusers_CFLAGS)"
+rusers_environment = CFLAGS="$(rusers_CFLAGS) -Wno-unused-variable"
 
 
 ####### Dependencies

@@ -51,6 +51,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/n/netkit-rsh
 
 REQUIRES           = libs/ncurses/6.1
+REQUIRES          += secure/pam/1.1.8
 
 # ======= __END_OF_REQUIRES__ =======
 
@@ -112,7 +113,7 @@ include ../../../build-system/core.mk
 
 
 rsh_CFLAGS = -isystem $(TARGET_DEST_DIR)/usr/include $(OPTIMIZATION_FLAGS) $(ARCH_FLAGS) $(HW_FLAGS)
-rsh_environment = CFLAGS="$(rsh_CFLAGS)"
+rsh_environment = CFLAGS="$(rsh_CFLAGS) -Wno-unused-result -Wno-format -Wno-deprecated-declarations"
 
 
 ####### Dependencies

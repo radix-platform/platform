@@ -116,7 +116,7 @@ include ../../../build-system/core.mk
 
 
 timed_CFLAGS = -isystem $(TARGET_DEST_DIR)/usr/include $(OPTIMIZATION_FLAGS) $(ARCH_FLAGS) $(HW_FLAGS)
-timed_environment = CFLAGS="$(timed_CFLAGS)"
+timed_environment = CFLAGS="$(timed_CFLAGS) -Wno-format -Wno-maybe-uninitialized"
 
 
 ####### Dependencies

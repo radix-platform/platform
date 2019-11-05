@@ -628,82 +628,82 @@ static struct togglelist Togglelist[] = {
 	"flushing of output when sending interrupt characters",
 	    0,
 		&autoflush,
-		    "flush output when sending interrupt characters" },
+		    "flush output when sending interrupt characters", 0 },
     { "autosynch",
 	"automatic sending of interrupt characters in urgent mode",
 	    0,
 		&autosynch,
-		    "send interrupt characters in urgent mode" },
+		    "send interrupt characters in urgent mode", 0 },
 #if	defined(AUTHENTICATION)
     { "autologin",
 	"automatic sending of login and/or authentication info",
 	    0,
 		&autologin,
-		    "send login name and/or authentication information" },
+		    "send login name and/or authentication information", 0 },
     { "authdebug",
 	"Toggle authentication debugging",
 	    auth_togdebug,
 		0,
-		     "print authentication debugging information" },
+		     "print authentication debugging information", 0 },
 #endif
 #if    defined(ENCRYPTION)
     { "autoencrypt",
        "automatic encryption of data stream",
            EncryptAutoEnc,
                0,
-                   "automatically encrypt output" },
+                   "automatically encrypt output", 0 },
     { "autodecrypt",
        "automatic decryption of data stream",
            EncryptAutoDec,
                0,
-                   "automatically decrypt input" },
+                   "automatically decrypt input", 0 },
     { "verbose_encrypt",
        "Toggle verbose encryption output",
            EncryptVerbose,
                0,
-                   "print verbose encryption output" },
+                   "print verbose encryption output", 0 },
     { "encdebug",
        "Toggle encryption debugging",
            EncryptDebug,
                0,
-                   "print encryption debugging information" },
+                   "print encryption debugging information", 0 },
 #endif
     { "skiprc",
 	"don't read ~/.telnetrc file",
 	    0,
 		&skiprc,
-		    "skip reading of ~/.telnetrc file" },
+		    "skip reading of ~/.telnetrc file", 0 },
     { "binary",
 	"sending and receiving of binary data",
 	    togbinary,
 		0,
-		    0 },
+		    0, 0 },
     { "inbinary",
 	"receiving of binary data",
 	    togrbinary,
 		0,
-		    0 },
+		    0, 0 },
     { "outbinary",
 	"sending of binary data",
 	    togxbinary,
 		0,
-		    0 },
+		    0, 0 },
     { "crlf",
 	"sending carriage returns as telnet <CR><LF>",
 	    togcrlf,
 		&crlf,
-		    0 },
+		    0, 0 },
     { "crmod",
 	"mapping of received carriage returns",
 	    0,
 		&crmod,
-		    "map carriage return on output" },
+		    "map carriage return on output", 0 },
     { "localchars",
 	"local recognition of certain control characters",
 	    lclchars,
 		&localchars,
-		    "recognize certain control characters" },
-    { " ", "", 0, 0 },		/* empty line */
+		    "recognize certain control characters", 0 },
+    { " ", "", 0, 0, NULL, 0 },		/* empty line */
 #if	defined(unix) && defined(TN3270)
     { "apitrace",
 	"(debugging) toggle tracing of API transactions",
@@ -720,36 +720,36 @@ static struct togglelist Togglelist[] = {
 	"debugging",
 	    togdebug,
 		&debug,
-		    "turn on socket level debugging" },
+		    "turn on socket level debugging", 0 },
     { "netdata",
 	"printing of hexadecimal network data (debugging)",
 	    0,
 		&netdata,
-		    "print hexadecimal representation of network traffic" },
+		    "print hexadecimal representation of network traffic", 0 },
     { "prettydump",
 	"output of \"netdata\" to user readable format (debugging)",
 	    0,
 		&prettydump,
-		    "print user readable output for \"netdata\"" },
+		    "print user readable output for \"netdata\"", 0 },
     { "options",
 	"viewing of options processing (debugging)",
 	    0,
 		&showoptions,
-		    "show option processing" },
+		    "show option processing", 0 },
 #if	defined(unix)
     { "termdata",
 	"(debugging) toggle printing of hexadecimal terminal data",
 	    0,
 		&termdata,
-		    "print hexadecimal representation of terminal traffic" },
+		    "print hexadecimal representation of terminal traffic", 0 },
 #endif	/* defined(unix) */
     { "?",
 	0,
-	    togglehelp },
+	    togglehelp, 0, NULL, 0 },
     { "help",
 	0,
-	    togglehelp },
-    { 0 }
+	    togglehelp, 0, NULL, 0 },
+    { 0, 0, 0, 0, 0, 0 }
 };
 
     static int
@@ -1131,16 +1131,16 @@ struct modelist {
 static int modehelp(void);
 
 static struct modelist ModeList[] = {
-    { "character", "Disable LINEMODE option",	docharmode, 1 },
+    { "character", "Disable LINEMODE option",	docharmode, 1, 0 },
 #ifdef	KLUDGELINEMODE
-    { "",	"(or disable obsolete line-by-line mode)", 0 },
+    { "",	"(or disable obsolete line-by-line mode)", 0, 0, 0 },
 #endif
-    { "line",	"Enable LINEMODE option",	dolinemode, 1 },
+    { "line",	"Enable LINEMODE option",	dolinemode, 1, 0 },
 #ifdef	KLUDGELINEMODE
-    { "",	"(or enable obsolete line-by-line mode)", 0 },
+    { "",	"(or enable obsolete line-by-line mode)", 0, 0, 0 },
 #endif
-    { "", "", 0 },
-    { "",	"These require the LINEMODE option to be enabled", 0 },
+    { "", "", 0, 0, 0 },
+    { "",	"These require the LINEMODE option to be enabled", 0, 0, 0 },
     { "isig",	"Enable signal trapping",	tn_setmode, 1, MODE_TRAPSIG },
     { "+isig",	0,				tn_setmode, 1, MODE_TRAPSIG },
     { "-isig",	"Disable signal trapping",	tn_clearmode, 1, MODE_TRAPSIG },
@@ -1153,13 +1153,13 @@ static struct modelist ModeList[] = {
     { "litecho", "Enable literal character echo", tn_setmode, 1, MODE_LIT_ECHO },
     { "+litecho", 0,				tn_setmode, 1, MODE_LIT_ECHO },
     { "-litecho", "Disable literal character echo", tn_clearmode, 1, MODE_LIT_ECHO },
-    { "help",	0,				modehelp, 0 },
+    { "help",	0,				modehelp, 0, 0 },
 #ifdef	KLUDGELINEMODE
-    { "kludgeline", 0,				dokludgemode, 1 },
+    { "kludgeline", 0,				dokludgemode, 1, 0 },
 #endif
-    { "", "", 0 },
-    { "?",	"Print help information",	modehelp, 0 },
-    { 0 },
+    { "", "", 0, 0, 0 },
+    { "?",	"Print help information",	modehelp, 0, 0 },
+    { 0, 0, 0, 0, 0 },
 };
 
 
@@ -1809,6 +1809,7 @@ env_list()
 	unsigned char *
 env_default(init, welldefined)
 	int init;
+	int welldefined;
 {
 	static struct env_lst *nep = NULL;
 

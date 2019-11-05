@@ -116,7 +116,7 @@ include ../../../build-system/core.mk
 
 
 bootparamd_CFLAGS = -isystem $(TARGET_DEST_DIR)/usr/include $(OPTIMIZATION_FLAGS) $(ARCH_FLAGS) $(HW_FLAGS)
-bootparamd_environment = CFLAGS="$(bootparamd_CFLAGS)"
+bootparamd_environment = CFLAGS="$(bootparamd_CFLAGS) -Wno-unused-variable"
 
 
 ####### Dependencies

@@ -80,10 +80,6 @@ char rcsid[] =
 #include <ctype.h>
 #include <assert.h>
 
-#ifndef ARG_MAX
-#define ARG_MAX 131072
-#endif
-
 #if defined(__GLIBC__) && (__GLIBC__ >= 2)
 #define _check_rhosts_file  __check_rhosts_file
 #endif
@@ -335,7 +331,8 @@ static const char *findhostname(struct sockaddr_in *fromp,
 static void
 doit(struct sockaddr_in *fromp)
 {
-	char cmdbuf[ARG_MAX+1];
+	char *cmdbuf;
+	long cmdbuflen;
 	const char *theshell, *shellname;
 	char locuser[16], remuser[16];
 	struct passwd *pwd;
@@ -343,6 +340,18 @@ doit(struct sockaddr_in *fromp)
 	const char *hostname;
 	u_short port;
 	int pv[2], pid, ifd;
+
+	cmdbuflen = sysconf (_SC_ARG_MAX);
+	if (!(cmdbuflen > 0)) {
+		syslog (LOG_ERR, "sysconf (_SC_ARG_MAX) failed");
+		exit (1);
+	}
+
+	cmdbuf = malloc (++cmdbuflen);
+	if (cmdbuf == NULL) {
+		syslog (LOG_ERR, "Could not allocate space for cmdbuf");
+		exit (1);
+	}
 
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);

@@ -32,7 +32,9 @@
  */
 
 #include <sys/types.h>
+#include <grp.h>
 #include <pwd.h>
+#include <stddef.h>
 
 #include "rlogind.h"
 
@@ -131,7 +133,7 @@ int auth_checkauth(const char *remoteuser, const char *host,
 	return -1;
     }
 
-    pam_get_item(pamh, PAM_USER, &ln);
+    pam_get_item(pamh, PAM_USER, (const void **)&ln);
     if (!ln || !*ln) {
 	/*
 	 * Authentication wasn't adequate for requirements.

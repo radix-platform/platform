@@ -248,7 +248,7 @@ main(int argc, char *argv[])
 	for (;;) {
 		struct whod wd;
 		int cc, whod;
-		size_t len = sizeof(from);
+		socklen_t len = (socklen_t)sizeof(from);
 
 		memset(&wd, 0, sizeof(wd));
 		cc = recvfrom(sk, (char *)&wd, sizeof(struct whod), 0,

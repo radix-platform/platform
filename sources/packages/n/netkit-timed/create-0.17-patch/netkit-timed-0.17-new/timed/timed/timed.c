@@ -159,7 +159,7 @@ main(int argc, char **argv)
 	struct nets *nt;
 	struct sockaddr_in server;
 	u_short port;
-	char c;
+	int c;
 #ifdef sgi
 	FILE *timetrim_st;
 #endif
@@ -574,9 +574,10 @@ main(int argc, char **argv)
 			justquit = 1;
 		}
 		for (ntp = nettab; ntp != NULL; ntp = ntp->next) {
-			if (ntp->status == MASTER)
+			if (ntp->status == MASTER) {
 				rmnetmachs(ntp);
-				ntp->status = NOMASTER;
+			}
+			ntp->status = NOMASTER;
 		}
 		checkignorednets();
 		pickslavenet(0);
@@ -899,7 +900,7 @@ add_good_host(char* name,
 void
 get_goodgroup(int force)
 {
-# define NG_DELAY (30*60*CLOCKS_PER_SEC)	/* 30 minutes */
+# define NG_DELAY (30*60*HZ)	/* 30 minutes */
 	static unsigned long last_update = -NG_DELAY;
 	unsigned long new_update;
 /*	struct hosttbl *htp; */

@@ -19,7 +19,7 @@ while [ x$1 != x ]; do case $1 in
 Usage: configure [options]
     --help                Show this message
     --with-debug          Enable debugging
-    --without-pam      Disable PAM support
+    --without-pam         Disable PAM support
     --without-shadow      Disable shadow password support
     --prefix=path         Prefix for location of files [/usr]
     --exec-prefix=path    Location for arch-depedent files [prefix]

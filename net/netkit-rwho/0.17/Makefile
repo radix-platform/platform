@@ -116,7 +116,7 @@ include ../../../build-system/core.mk
 
 
 rwho_CFLAGS = -isystem $(TARGET_DEST_DIR)/usr/include $(OPTIMIZATION_FLAGS) $(ARCH_FLAGS) $(HW_FLAGS)
-rwho_environment = CFLAGS="$(rwho_CFLAGS)"
+rwho_environment = CFLAGS="$(rwho_CFLAGS) -Wno-format"
 
 
 ####### Dependencies

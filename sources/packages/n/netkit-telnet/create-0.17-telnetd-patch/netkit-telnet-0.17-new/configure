@@ -67,7 +67,7 @@ fi
 
 ##################################################
 
-WARNINGS='-Wall -W -Wpointer-arith -Wbad-function-cast -Wcast-qual -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations -Wnested-externs -Winline '
+WARNINGS='-Wall -W -Wno-unused-variable -Wno-unused-parameter -Wno-sign-compare -Wno-implicit-int -Wpointer-arith -Wbad-function-cast -Wcast-qual -Wno-strict-prototypes -Wno-missing-prototypes -Wno-missing-declarations -Wno-missing-field-initializers -Wno-pointer-sign -Wno-nested-externs -Winline '
 
 cat << EOF > __conftest.c
     int main() { int class=0; return class; }

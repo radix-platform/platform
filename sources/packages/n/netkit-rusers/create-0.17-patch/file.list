@@ -1,7 +1,9 @@
 netkit-rusers-0.17/configure
 netkit-rusers-0.17/rpc.rusersd/Makefile
 netkit-rusers-0.17/rpc.rusersd/rusers_proc.c
+netkit-rusers-0.17/rpc.rusersd/rusersd.c
 netkit-rusers-0.17/rup/Makefile
 netkit-rusers-0.17/rup/err.c
+netkit-rusers-0.17/rup/rup.c
 netkit-rusers-0.17/rusers/Makefile
 netkit-rusers-0.17/rusers/rusers.c

@@ -87,10 +87,6 @@ char rcsid[] =
 #include <shadow.h>
 #endif
 
-#ifndef ARG_MAX
-#define ARG_MAX 131072
-#endif
-
 #ifdef USE_PAM
 #include <security/pam_appl.h>
 #endif
@@ -182,10 +178,12 @@ static int PAM_conv (int num_msg,
   struct pam_response *reply = NULL;
   int size = sizeof(struct pam_response);
 
-  #define GET_MEM if (reply) realloc(reply, size); else reply = malloc(size); \
+  appdata_ptr = appdata_ptr;
+
+#define GET_MEM if (reply) realloc(reply, size); else reply = malloc(size); \
   if (!reply) return PAM_CONV_ERR; \
   size += sizeof(struct pam_response)
-  #define COPY_STRING(s) (s) ? strdup(s) : NULL
+#define COPY_STRING(s) (s) ? strdup(s) : NULL
 
   for (count = 0; count < num_msg; count++) {
     GET_MEM;
@@ -227,7 +225,8 @@ static struct pam_conv PAM_conversation = {
 static void
 doit(struct sockaddr_in *fromp)
 {
-	char cmdbuf[ARG_MAX+1];
+	char *cmdbuf;
+	long cmdbuflen;
 	char user[16], pass[16];
 	struct passwd *pwd;
 	int s = -1;
@@ -245,6 +244,18 @@ doit(struct sockaddr_in *fromp)
 	FILE *fp;
 #endif
 #endif /* USE_PAM */
+
+	cmdbuflen = sysconf (_SC_ARG_MAX);
+	if (!(cmdbuflen > 0)) {
+		syslog (LOG_ERR, "sysconf (_SC_ARG_MAX) failed");
+		fatal ("sysconf (_SC_ARG_MAX) failed\n");
+	}
+
+	cmdbuf = malloc (++cmdbuflen);
+	if (cmdbuf == NULL) {
+		syslog (LOG_ERR, "Could not allocate space for cmdbuf");
+		fatal ("Could not allocate space for cmdbuf\n");
+	}
 
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
@@ -295,7 +306,7 @@ doit(struct sockaddr_in *fromp)
 
 	getstr(user, sizeof(user), "username too long\n");
 	getstr(pass, sizeof(pass), "password too long\n");
-	getstr(cmdbuf, sizeof(cmdbuf), "command too long\n");
+	getstr(cmdbuf, cmdbuflen, "command too long\n");
 #ifdef USE_PAM
        #define PAM_BAIL if (pam_error != PAM_SUCCESS) { \
 	       pam_end(pamh, pam_error); exit(1); \

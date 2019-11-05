@@ -3,3 +3,4 @@ netkit-bootparamd-0.17/rpc.bootparamd/Makefile
 netkit-bootparamd-0.17/rpc.bootparamd/bootparam_prot.x.real
 netkit-bootparamd-0.17/rpc.bootparamd/bootparamd.8
 netkit-bootparamd-0.17/rpc.bootparamd/callbootd.c
+netkit-bootparamd-0.17/rpc.bootparamd/main.c

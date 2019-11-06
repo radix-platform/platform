@@ -1,8 +1,8 @@
 
-COMPONENT_TARGETS     = $(HARDWARE_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_PC64)
 
-NEED_ABS_PATH         = true
-COMPONENT_IS_3PP      = true
+NEED_ABS_PATH      = true
+COMPONENT_IS_3PP   = true
 
 CREATE_X86_32_PACKAGE = true
 
@@ -10,26 +10,26 @@ CREATE_X86_32_PACKAGE = true
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES      = sources/packages/n/libnetfilter_cttimeout
+SOURCE_REQUIRES    = sources/packages/n/libnetfilter_cttimeout
 
-REQUIRES             = net/libnetfilter_cttimeout/1.0.0
-REQUIRES            += net/libmnl/1.0.3-x86_32
+REQUIRES           = net/libnetfilter_cttimeout/1.0.0
+REQUIRES          += net/libmnl/1.0.4-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version              = 1.0.0
-tar_bz2_archive      = $(SRC_PACKAGE_PATH)/packages/n/libnetfilter_cttimeout/libnetfilter_cttimeout-$(version).tar.bz2
-SRC_ARCHIVE          = $(tar_bz2_archive)
-SRC_DIR              = $(TARGET_BUILD_DIR)/libnetfilter_cttimeout-$(version)
-src_dir_name         = libnetfilter_cttimeout-$(version)
-src_done             = $(TARGET_BUILD_DIR)/.source_done
+version            = 1.0.0
+tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/libnetfilter_cttimeout/libnetfilter_cttimeout-$(version).tar.bz2
+SRC_ARCHIVE        = $(tar_bz2_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/libnetfilter_cttimeout-$(version)
+src_dir_name       = libnetfilter_cttimeout-$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
 
-build_dir            = $(TARGET_BUILD_DIR)/build
-build_target         = $(TARGET_BUILD_DIR)/.build_done
-install_target       = $(TARGET_BUILD_DIR)/.install_done
+build_dir          = $(TARGET_BUILD_DIR)/build
+build_target       = $(TARGET_BUILD_DIR)/.build_done
+install_target     = $(TARGET_BUILD_DIR)/.install_done
 
 
 ####### Targets
@@ -54,20 +54,20 @@ LIBNF_CTTIMEOUT_32_PKG_INSTALL_SCRIPT      = $(LIBNF_CTTIMEOUT_32_PKG_NAME)-pkg-
 
 LIBNF_CTTIMEOUT_32_PKG = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBNF_CTTIMEOUT_32_PKG_NAME)-package
 
-pkg_basename           = $(LIBNF_CTTIMEOUT_32_PKG_NAME)-$(LIBNF_CTTIMEOUT_32_PKG_VERSION)-$(LIBNF_CTTIMEOUT_32_PKG_ARCH)-$(LIBNF_CTTIMEOUT_32_PKG_DISTRO_NAME)-$(LIBNF_CTTIMEOUT_32_PKG_DISTRO_VERSION)
+pkg_basename     = $(LIBNF_CTTIMEOUT_32_PKG_NAME)-$(LIBNF_CTTIMEOUT_32_PKG_VERSION)-$(LIBNF_CTTIMEOUT_32_PKG_ARCH)-$(LIBNF_CTTIMEOUT_32_PKG_DISTRO_NAME)-$(LIBNF_CTTIMEOUT_32_PKG_DISTRO_VERSION)
 
-pkg_archive            = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
 pkg_certificate  = $(call cert-name,$(pkg_archive))
-pkg_signature          = $(call sign-name,$(pkg_archive))
-pkg_description        = $(call desc-name,$(pkg_archive))
-products               = $(call pkg-files,$(pkg_archive))
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS          = $(build_target)
-BUILD_TARGETS         += $(install_target)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-PRODUCT_TARGETS        = $(products)
+PRODUCT_TARGETS  = $(products)
 
-ROOTFS_TARGETS         = $(pkg_archive)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
@@ -79,9 +79,15 @@ env_sysroot  = DESTDIR=$(LIBNF_CTTIMEOUT_32_PKG)
 extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
+ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
 extra_configure_switches += --enable-shared=yes
 
+
+LDFLAGS += -Wl,-rpath,/lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX):/usr/lib/../lib$(MULTILIB_X86_32_SUFFIX)
 
 TARGET_LIB_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX):/usr/lib/../lib$(MULTILIB_X86_32_SUFFIX)
 
@@ -115,8 +121,8 @@ $(install_target): $(build_target)
 	$(call install-into-devenv, $(LIBNF_CTTIMEOUT_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libnetfilter_cttimeout.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libnetfilter_cttimeout.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   libnetfilter_cttimeout.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libnetfilter_cttimeout.la ; \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
@@ -126,8 +132,12 @@ $(install_target): $(build_target)
 	@( cd $(LIBNF_CTTIMEOUT_32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(LIBNF_CTTIMEOUT_32_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target shared objects =======
 	@( cd $(LIBNF_CTTIMEOUT_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \

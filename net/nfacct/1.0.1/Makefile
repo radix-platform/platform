@@ -52,10 +52,10 @@ SOURCE_REQUIRES    = sources/packages/n/nfacct
 
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES           = net/libmnl/1.0.3
-REQUIRES          += net/libnetfilter_acct/1.0.2
+REQUIRES          += net/libnetfilter_acct/1.0.3
 else
 REQUIRES           = net/libmnl/1.0.3-x86_32
-REQUIRES          += net/libnetfilter_acct/1.0.2-x86_32
+REQUIRES          += net/libnetfilter_acct/1.0.3-x86_32
 endif
 
 # ======= __END_OF_REQUIRES__ =======

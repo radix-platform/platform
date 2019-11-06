@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+                         |-----handy-ruler------------------------------------------------------|
+libnetfilter_cthelper-x32: libnetfilter_cthelper-x32 @VERSION@ (lib for conntrack helpers)
+libnetfilter_cthelper-x32:
+libnetfilter_cthelper-x32: Connection tracking helpers allows you to filter multi-flow
+libnetfilter_cthelper-x32: protocols that usually separate control and data traffic into
+libnetfilter_cthelper-x32: different flows. This is the case of application protocols like
+libnetfilter_cthelper-x32: FTP, SIP and H.323 that are already supported by Netfilter.
+libnetfilter_cthelper-x32: These helpers are implemented in kernel-space.
+libnetfilter_cthelper-x32:
+libnetfilter_cthelper-x32:
+libnetfilter_cthelper-x32:
+libnetfilter_cthelper-x32:

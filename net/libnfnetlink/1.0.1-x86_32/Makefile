@@ -1,8 +1,8 @@
 
-COMPONENT_TARGETS    = $(HARDWARE_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_PC64)
 
-NEED_ABS_PATH        = true
-COMPONENT_IS_3PP     = true
+NEED_ABS_PATH      = true
+COMPONENT_IS_3PP   = true
 
 CREATE_X86_32_PACKAGE = true
 
@@ -10,25 +10,26 @@ CREATE_X86_32_PACKAGE = true
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES      = sources/packages/n/libnfnetlink
+SOURCE_REQUIRES    = sources/packages/n/libnfnetlink
 
-REQUIRES             = net/libnfnetlink/1.0.1
+REQUIRES           = net/libnfnetlink/1.0.1
+REQUIRES          += libs/glibc/2.28-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version              = 1.0.1
-tar_bz2_archive      = $(SRC_PACKAGE_PATH)/packages/n/libnfnetlink/libnfnetlink-$(version).tar.bz2
-SRC_ARCHIVE          = $(tar_bz2_archive)
-SRC_DIR              = $(TARGET_BUILD_DIR)/libnfnetlink-$(version)
-src_dir_name         = libnfnetlink-$(version)
-src_done             = $(TARGET_BUILD_DIR)/.source_done
+version            = 1.0.1
+tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/libnfnetlink/libnfnetlink-$(version).tar.bz2
+SRC_ARCHIVE        = $(tar_bz2_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/libnfnetlink-$(version)
+src_dir_name       = libnfnetlink-$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
 
-build_dir            = $(TARGET_BUILD_DIR)/build
-build_target         = $(TARGET_BUILD_DIR)/.build_done
-install_target       = $(TARGET_BUILD_DIR)/.install_done
+build_dir          = $(TARGET_BUILD_DIR)/build
+build_target       = $(TARGET_BUILD_DIR)/.build_done
+install_target     = $(TARGET_BUILD_DIR)/.install_done
 
 
 ####### Targets
@@ -53,20 +54,20 @@ LIBNFNETLINK_32_PKG_INSTALL_SCRIPT      = $(LIBNFNETLINK_32_PKG_NAME)-pkg-instal
 
 LIBNFNETLINK_32_PKG = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBNFNETLINK_32_PKG_NAME)-package
 
-pkg_basename        = $(LIBNFNETLINK_32_PKG_NAME)-$(LIBNFNETLINK_32_PKG_VERSION)-$(LIBNFNETLINK_32_PKG_ARCH)-$(LIBNFNETLINK_32_PKG_DISTRO_NAME)-$(LIBNFNETLINK_32_PKG_DISTRO_VERSION)
+pkg_basename     = $(LIBNFNETLINK_32_PKG_NAME)-$(LIBNFNETLINK_32_PKG_VERSION)-$(LIBNFNETLINK_32_PKG_ARCH)-$(LIBNFNETLINK_32_PKG_DISTRO_NAME)-$(LIBNFNETLINK_32_PKG_DISTRO_VERSION)
 
-pkg_archive         = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
 pkg_certificate  = $(call cert-name,$(pkg_archive))
-pkg_signature       = $(call sign-name,$(pkg_archive))
-pkg_description     = $(call desc-name,$(pkg_archive))
-products            = $(call pkg-files,$(pkg_archive))
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS       = $(build_target)
-BUILD_TARGETS      += $(install_target)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-PRODUCT_TARGETS     = $(products)
+PRODUCT_TARGETS  = $(products)
 
-ROOTFS_TARGETS      = $(pkg_archive)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
@@ -78,8 +79,15 @@ env_sysroot  = DESTDIR=$(LIBNFNETLINK_32_PKG)
 extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
+ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
 extra_configure_switches += --enable-shared=yes
+
+
+LDFLAGS += -Wl,-rpath,/lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX):/usr/lib/../lib$(MULTILIB_X86_32_SUFFIX)
 
 
 ####### Dependencies
@@ -111,8 +119,8 @@ $(install_target): $(build_target)
 	$(call install-into-devenv, $(LIBNFNETLINK_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libnfnetlink.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libnfnetlink.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   libnfnetlink.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libnfnetlink.la ; \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
@@ -122,8 +130,12 @@ $(install_target): $(build_target)
 	@( cd $(LIBNFNETLINK_32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(LIBNFNETLINK_32_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 	@touch $@
 
 $(LIBNFNETLINK_32_PKG_DESCRIPTION_FILE): $(LIBNFNETLINK_32_PKG_DESCRIPTION_FILE_IN)

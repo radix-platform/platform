@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+            |-----handy-ruler------------------------------------------------------|
+libnftnl-x32: libnftnl-x32 @VERSION@ (kernel nf_tables subsystem interface)
+libnftnl-x32:
+libnftnl-x32: libnftnl is a userspace library providing a low-level netlink
+libnftnl-x32: programming interface (API) to the in-kernel nf_tables subsystem.
+libnftnl-x32: This library is currently used by nftables.
+libnftnl-x32:
+libnftnl-x32: Homepage: http://www.netfilter.org/projects/libnftnl
+libnftnl-x32:
+libnftnl-x32:
+libnftnl-x32:
+libnftnl-x32:

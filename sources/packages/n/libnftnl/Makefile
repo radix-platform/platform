@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/libnftnl
 
-versions    = 1.0.5
+versions    = 1.1.4
 pkgname     = libnftnl
 suffix      = tar.bz2
 

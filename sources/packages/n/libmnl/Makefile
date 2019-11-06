@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/libmnl
 
-versions    = 1.0.3
+versions    = 1.0.4
 pkgname     = libmnl
 suffix      = tar.bz2
 

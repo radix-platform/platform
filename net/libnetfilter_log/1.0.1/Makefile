@@ -90,22 +90,22 @@ LIBNF_LOG_PKG_DESCRIPTION_FILE    = $(TARGET_BUILD_DIR)/$(LIBNF_LOG_PKG_NAME)-pk
 LIBNF_LOG_PKG_DESCRIPTION_FILE_IN = $(LIBNF_LOG_PKG_NAME)-pkg-description.in
 LIBNF_LOG_PKG_INSTALL_SCRIPT      = $(LIBNF_LOG_PKG_NAME)-pkg-install.sh
 
-LIBNF_LOG_PKG          = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBNF_LOG_PKG_NAME)-package
+LIBNF_LOG_PKG    = $(CURDIR)/$(TARGET_BUILD_DIR)/$(LIBNF_LOG_PKG_NAME)-package
 
-pkg_basename           = $(LIBNF_LOG_PKG_NAME)-$(LIBNF_LOG_PKG_VERSION)-$(LIBNF_LOG_PKG_ARCH)-$(LIBNF_LOG_PKG_DISTRO_NAME)-$(LIBNF_LOG_PKG_DISTRO_VERSION)
+pkg_basename     = $(LIBNF_LOG_PKG_NAME)-$(LIBNF_LOG_PKG_VERSION)-$(LIBNF_LOG_PKG_ARCH)-$(LIBNF_LOG_PKG_DISTRO_NAME)-$(LIBNF_LOG_PKG_DISTRO_VERSION)
 
-pkg_archive            = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
 pkg_certificate  = $(call cert-name,$(pkg_archive))
-pkg_signature          = $(call sign-name,$(pkg_archive))
-pkg_description        = $(call desc-name,$(pkg_archive))
-products               = $(call pkg-files,$(pkg_archive))
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS          = $(build_target)
-BUILD_TARGETS         += $(install_target)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-PRODUCT_TARGETS        = $(products)
+PRODUCT_TARGETS  = $(products)
 
-ROOTFS_TARGETS         = $(pkg_archive)
+ROOTFS_TARGETS   = $(pkg_archive)
 
 
 include ../../../build-system/core.mk
@@ -117,9 +117,15 @@ env_sysroot  = DESTDIR=$(LIBNF_LOG_PKG)
 extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
+ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
 extra_configure_switches += --enable-shared=yes
 
+
+LDFLAGS += -Wl,-rpath,/lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUFFIX)
 
 TARGET_LIB_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUFFIX)
 
@@ -177,12 +183,16 @@ $(install_target): $(build_target)
 	@( cd $(LIBNF_LOG_PKG)/usr/lib$(LIBSUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libnetfilter_log.la libnetfilter_log_libipulog.la ; \
 	 )
+	# ======= remove toolchain path from target pkg-config *.pc files =======
+	@( cd $(LIBNF_LOG_PKG)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libnetfilter_log.pc ; \
+	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(LIBNF_LOG_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libnetfilter_log.la libnetfilter_log_libipulog.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libnetfilter_log.la libnetfilter_log_libipulog.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   libnetfilter_log.la libnetfilter_log_libipulog.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libnetfilter_log.la libnetfilter_log_libipulog.la ; \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
@@ -192,8 +202,12 @@ $(install_target): $(build_target)
 	@( cd $(LIBNF_LOG_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(LIBNF_LOG_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target shared objects =======
 	@( cd $(LIBNF_LOG_PKG)/usr/lib$(LIBSUFFIX) ; \

@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/libnetfilter_queue
 
-versions    = 1.0.2
+versions    = 1.0.3
 pkgname     = libnetfilter_queue
 suffix      = tar.bz2
 

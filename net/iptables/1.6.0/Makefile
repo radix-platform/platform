@@ -50,7 +50,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/n/iptables
 
-REQUIRES           = net/nfacct/1.0.1
+REQUIRES           = net/nfacct/1.0.2
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES          += net/libpcap/1.7.4
 REQUIRES          += net/libnetfilter_conntrack/1.0.7

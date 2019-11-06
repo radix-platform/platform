@@ -50,18 +50,13 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/n/nfacct
 
-ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
-REQUIRES           = net/libmnl/1.0.3
+REQUIRES           = net/libmnl/1.0.4
 REQUIRES          += net/libnetfilter_acct/1.0.3
-else
-REQUIRES           = net/libmnl/1.0.3-x86_32
-REQUIRES          += net/libnetfilter_acct/1.0.3-x86_32
-endif
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 1.0.1
+version            = 1.0.2
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/nfacct/nfacct-$(version).tar.bz2
 SRC_ARCHIVE        = $(tar_bz2_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/nfacct-$(version)
@@ -83,7 +78,7 @@ PKG_GROUP = net
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 NFACCT_PKG_NAME                = nfacct
-NFACCT_PKG_VERSION             = 1.0.1
+NFACCT_PKG_VERSION             = 1.0.2
 NFACCT_PKG_ARCH                = $(TOOLCHAIN)
 NFACCT_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 NFACCT_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -126,6 +121,8 @@ extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --sysconfdir=/etc/conntrackd
 extra_configure_switches += --enable-static=no
 
+
+LDFLAGS += -Wl,-rpath,/lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)
 
 TARGET_BIN_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)
 

@@ -50,22 +50,15 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/n/conntrack-tools
 
-ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES           = net/libnetfilter_conntrack/1.0.7
 REQUIRES          += net/libnetfilter_cthelper/1.0.0
 REQUIRES          += net/libnetfilter_cttimeout/1.0.0
 REQUIRES          += net/libnetfilter_queue/1.0.3
-else
-REQUIRES           = net/libnetfilter_conntrack/1.0.7-x86_32
-REQUIRES          += net/libnetfilter_cthelper/1.0.0-x86_32
-REQUIRES          += net/libnetfilter_cttimeout/1.0.0-x86_32
-REQUIRES          += net/libnetfilter_queue/1.0.3-x86_32
-endif
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 1.4.3
+version            = 1.4.5
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/conntrack-tools/conntrack-tools-$(version).tar.bz2
 SRC_ARCHIVE        = $(tar_bz2_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/conntrack-tools-$(version)
@@ -87,7 +80,7 @@ PKG_GROUP = net
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 CONNTRACK_TOOLS_PKG_NAME                = conntrack-tools
-CONNTRACK_TOOLS_PKG_VERSION             = 1.4.3
+CONNTRACK_TOOLS_PKG_VERSION             = 1.4.5
 CONNTRACK_TOOLS_PKG_ARCH                = $(TOOLCHAIN)
 CONNTRACK_TOOLS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 CONNTRACK_TOOLS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -102,18 +95,18 @@ CONNTRACK_TOOLS_PKG_INSTALL_SCRIPT      = $(CONNTRACK_TOOLS_PKG_NAME)-pkg-instal
 
 CONNTRACK_TOOLS_PKG = $(CURDIR)/$(TARGET_BUILD_DIR)/$(CONNTRACK_TOOLS_PKG_NAME)-package
 
-pkg_basename        = $(CONNTRACK_TOOLS_PKG_NAME)-$(CONNTRACK_TOOLS_PKG_VERSION)-$(CONNTRACK_TOOLS_PKG_ARCH)-$(CONNTRACK_TOOLS_PKG_DISTRO_NAME)-$(CONNTRACK_TOOLS_PKG_DISTRO_VERSION)
+pkg_basename     = $(CONNTRACK_TOOLS_PKG_NAME)-$(CONNTRACK_TOOLS_PKG_VERSION)-$(CONNTRACK_TOOLS_PKG_ARCH)-$(CONNTRACK_TOOLS_PKG_DISTRO_NAME)-$(CONNTRACK_TOOLS_PKG_DISTRO_VERSION)
 
-pkg_archive         = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
+pkg_archive      = $(TARGET_BUILD_DIR)/$(PKG_GROUP)/$(pkg_basename).$(pkg_arch_suffix)
 pkg_certificate  = $(call cert-name,$(pkg_archive))
-pkg_signature       = $(call sign-name,$(pkg_archive))
-pkg_description     = $(call desc-name,$(pkg_archive))
-products            = $(call pkg-files,$(pkg_archive))
+pkg_signature    = $(call sign-name,$(pkg_archive))
+pkg_description  = $(call desc-name,$(pkg_archive))
+products         = $(call pkg-files,$(pkg_archive))
 
-BUILD_TARGETS       = $(build_target)
-BUILD_TARGETS      += $(install_target)
+BUILD_TARGETS    = $(build_target)
+BUILD_TARGETS   += $(install_target)
 
-PRODUCT_TARGETS     = $(products)
+PRODUCT_TARGETS  = $(products)
 
 ROOTFS_TARGETS      = $(pkg_archive)
 
@@ -129,9 +122,15 @@ extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --sysconfdir=/etc/conntrackd
-extra_configure_switches += --enable-shared=yes
+ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
+extra_configure_switches += --enable-shared=yes
 
+
+LDFLAGS += -Wl,-rpath,/lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)
 
 TARGET_BIN_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)
 TARGET_LIB_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUFFIX)
@@ -181,7 +180,7 @@ $(install_target): $(build_target)
 	       $(CONNTRACK_TOOLS_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(CONNTRACK_TOOLS_PKG)/usr/share/doc/$(src_dir_name)/manual
 	@( cd $(SRC_DIR) ; \
-	   cp -a AUTHORS COPYING INSTALL TODO doc/cli doc/sync \
+	   cp -a AUTHORS COPYING INSTALL TODO doc/helper doc/stats doc/sync \
 	         $(CONNTRACK_TOOLS_PKG)/usr/share/doc/$(src_dir_name) ; \
 	   cp -a doc/manual/conntrack-tools.html \
 	         doc/manual/docbook.css \
@@ -196,21 +195,31 @@ $(install_target): $(build_target)
 	 )
 	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(CONNTRACK_TOOLS_PKG)/usr/lib$(LIBSUFFIX)/conntrack-tools ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" ct_helper_ftp.la ct_helper_rpc.la ct_helper_tns.la ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" ct_helper_amanda.la ct_helper_dhcpv6.la ct_helper_ftp.la   \
+	                                    ct_helper_mdns.la   ct_helper_rpc.la    ct_helper_sane.la  \
+	                                    ct_helper_ssdp.la   ct_helper_tftp.la   ct_helper_tns.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(CONNTRACK_TOOLS_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/conntrack-tools ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" ct_helper_ftp.la ct_helper_rpc.la ct_helper_tns.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" ct_helper_ftp.la ct_helper_rpc.la ct_helper_tns.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   ct_helper_amanda.la ct_helper_dhcpv6.la ct_helper_ftp.la   \
+	                                              ct_helper_mdns.la   ct_helper_rpc.la    ct_helper_sane.la  \
+	                                              ct_helper_ssdp.la   ct_helper_tftp.la   ct_helper_tns.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" ct_helper_amanda.la ct_helper_dhcpv6.la ct_helper_ftp.la   \
+	                                              ct_helper_mdns.la   ct_helper_rpc.la    ct_helper_sane.la  \
+	                                              ct_helper_ssdp.la   ct_helper_tftp.la   ct_helper_tns.la ; \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(CONNTRACK_TOOLS_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(CONNTRACK_TOOLS_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target binaries =======
 	@( cd $(CONNTRACK_TOOLS_PKG)/usr ; \

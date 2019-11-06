@@ -842,12 +842,6 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/libedit/20191025-3.1-x86_32
 endif
 
-
-REQUIRES += net/libnl/1.1.4
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += net/libnl/1.1.4-x86_32
-endif
-
 REQUIRES += net/tcpdump/4.7.4
 
 REQUIRES += net/libmbim/1.12.4
@@ -862,12 +856,35 @@ REQUIRES += net/ipset/6.29
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += net/ipset/6.29-x86_32
 endif
+
 REQUIRES += net/libnetfilter_log/1.0.1
+REQUIRES += net/conntrack-tools/1.4.5
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
+REQUIRES += net/libnetfilter_acct/1.0.3-ppc32
+REQUIRES += net/libnetfilter_conntrack/1.0.7-ppc32
+REQUIRES += net/libnetfilter_cthelper/1.0.0-ppc32
+REQUIRES += net/libnetfilter_cttimeout/1.0.0-ppc32
+REQUIRES += net/libnetfilter_log/1.0.1-ppc32
+REQUIRES += net/libnetfilter_queue/1.0.3-ppc32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
+REQUIRES += net/libnetfilter_acct/1.0.3-sparc32
+REQUIRES += net/libnetfilter_conntrack/1.0.7-sparc32
+REQUIRES += net/libnetfilter_cthelper/1.0.0-sparc32
+REQUIRES += net/libnetfilter_cttimeout/1.0.0-sparc32
+REQUIRES += net/libnetfilter_log/1.0.1-sparc32
+REQUIRES += net/libnetfilter_queue/1.0.3-sparc32
+endif
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/libnetfilter_acct/1.0.3-x86_32
+REQUIRES += net/libnetfilter_conntrack/1.0.7-x86_32
+REQUIRES += net/libnetfilter_cthelper/1.0.0-x86_32
+REQUIRES += net/libnetfilter_cttimeout/1.0.0-x86_32
 REQUIRES += net/libnetfilter_log/1.0.1-x86_32
+REQUIRES += net/libnetfilter_queue/1.0.3-x86_32
 endif
 
-REQUIRES += net/conntrack-tools/1.4.3
 REQUIRES += net/dhcp/4.3.4
 
 REQUIRES += net/gpgme/1.13.1

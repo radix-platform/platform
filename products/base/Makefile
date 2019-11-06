@@ -825,7 +825,7 @@ REQUIRES += net/netkit-timed/0.17
 REQUIRES += net/netwrite/0.17
 REQUIRES += net/tftp-hpa/5.2
 
-REQUIRES += net/dhcpcd/6.10.1
+REQUIRES += net/dhcpcd/8.1.1
 
 REQUIRES += net/iputils/s20151218
 REQUIRES += net/ethtool/5.3

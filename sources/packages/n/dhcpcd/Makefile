@@ -7,18 +7,13 @@ include ../../../../build-system/constants.mk
 
 url          = $(DOWNLOAD_SERVER)/sources/packages/n/dhcpcd
 
-versions     = 6.10.1
-old_versions = 6.0.5 6.4.2
+versions     = 8.1.1
 pkgname      = dhcpcd
 
 tarballs     = $(addsuffix .tar.xz, $(addprefix $(pkgname)-, $(versions)))
-old_tarballs = $(addsuffix .tar.bz2, $(addprefix $(pkgname)-, $(old_versions)))
-
-tarballs    += $(old_tarballs)
 sha1s        = $(addsuffix .sha1sum, $(tarballs))
 
-patches      = $(CURDIR)/patches/dhcpcd-6.0.5.patch
-patches     += $(CURDIR)/patches/dhcpcd-6.4.2.patch
+patches      = $(CURDIR)/patches/dhcpcd-8.1.1-conf.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -53,8 +48,7 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-6.0.5-patch ; ./create.patch.sh ) ; \
-	 ( cd create-6.4.2-patch ; ./create.patch.sh ) ; \
+	 ( cd create-8.1.1-conf-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

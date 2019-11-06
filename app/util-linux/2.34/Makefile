@@ -78,7 +78,7 @@ bsdstrings_archive  = $(SRC_PACKAGE_PATH)/packages/a/bsdstrings/bsdstrings.tar.g
 BSDSTRINGS_SRC_DIR  = $(TARGET_BUILD_DIR)/bsdstrings
 bsdstrings_src_done = $(TARGET_BUILD_DIR)/.bsdstrings-source-done
 
-nettools_version    = 1.60-20160127
+nettools_version    = 1.60-20181103
 nettools_archive    = $(SRC_PACKAGE_PATH)/packages/n/net-tools/net-tools-$(nettools_version).tar.bz2
 NETTOOLS_SRC_DIR    = $(TARGET_BUILD_DIR)/net-tools-$(nettools_version)
 nettools_src_done   = $(TARGET_BUILD_DIR)/.nettools-source-done

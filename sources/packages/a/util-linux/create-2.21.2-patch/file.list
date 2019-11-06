@@ -1,7 +1,0 @@
-util-linux-2.21.2/fdisk/fdisk.c
-util-linux-2.21.2/fdisk/i386_sys_types.c
-util-linux-2.21.2/mount/Makefile.am
-util-linux-2.21.2/mount/Makefile.in
-util-linux-2.21.2/mount/mount.c
-util-linux-2.21.2/partx/partx.h
-util-linux-2.21.2/text-utils/column.c

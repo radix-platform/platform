@@ -1,6 +1,0 @@
-
-../../../sources/packages/a/adjtimex/patches/adjtimex-1.29.patch            -p0
-../../../sources/packages/a/bsdstrings/patches/bsdstrings.patch             -p0
-../../../sources/packages/n/net-tools/patches/net-tools-1.60-20160127.patch -p0
-../../../sources/packages/a/setserial/patches/setserial-2.17.patch          -p0
-../../../sources/packages/a/ziptool/patches/ziptool-1.4.0.patch             -p0

@@ -54,11 +54,11 @@ REQUIRES           = dev/kernel/x86/4.19.3-headers
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB1X)),)
-REQUIRES           = dev/kernel/a1x/3.4-20140514-headers
+REQUIRES           = dev/kernel/a1x/4.14.52-20180918-headers
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CB2X) $(HARDWARE_CB3X)),)
-REQUIRES           = dev/kernel/a2x/3.4-20150315-headers
+REQUIRES           = dev/kernel/a2x/4.14.52-20180918-headers
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_ORANGE_PP2E) \
@@ -74,7 +74,7 @@ endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_FFRK3288) \
                             $(HARDWARE_POIN2)),)
-REQUIRES           = dev/kernel/firefly/3.10-20161107-headers
+REQUIRES           = dev/kernel/rk328x/4.4.154-20181101-headers
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_RK3328_CC)),)
@@ -86,11 +86,11 @@ REQUIRES           = dev/kernel/khadas-edge/4.4.154-20181101-headers
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_M201)),)
-REQUIRES           = dev/kernel/s8xx/3.10.33-20160716-headers
+REQUIRES           = dev/kernel/s8xx/4.14.52-20180918-headers
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_MXV)),)
-REQUIRES           = dev/kernel/s8xx/3.10.103-20160830-headers
+REQUIRES           = dev/kernel/s8xx/4.14.52-20180918-headers
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_P201)        \
@@ -98,15 +98,15 @@ ifneq ($(filter $(HARDWARE),$(HARDWARE_P201)        \
                             $(HARDWARE_P212)        \
                             $(HARDWARE_ENYBOX_X2)   \
                             $(HARDWARE_KHADAS_VIM2)),)
-REQUIRES           = dev/kernel/s9xx/3.14.29-20160818-headers
+REQUIRES           = dev/kernel/s9xx/4.14.52-20180628-headers
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_ODROID_C2)),)
-REQUIRES           = dev/kernel/odroid-c2/3.14.79-20170131-headers
+REQUIRES           = dev/kernel/odroid-c2/4.14.52-20180628-headers
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_KHADAS_VIM)),)
-REQUIRES           = dev/kernel/kvim/3.14.29-20170119-headers
+REQUIRES           = dev/kernel/kvim/4.14.52-20180628-headers
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_NIT6Q)),)
@@ -118,7 +118,7 @@ REQUIRES           = dev/kernel/okmx6x/4.14.98-20190418-headers
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_OMAP5UEVM) $(HARDWARE_DRA7XXEVM)),)
-REQUIRES           = dev/kernel/omap543x/3.14.57-20151211-headers
+REQUIRES           = dev/kernel/omap543x/4.14.52-20180918-headers
 endif
 
 ifneq ($(filter $(HARDWARE),$(HARDWARE_CI20)),)

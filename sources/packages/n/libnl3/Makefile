@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/libnl3
 
-versions    = 3.2.25 3.2.27
+versions    = 3.5.0
 pkgname     = libnl
 suffix      = tar.gz
 

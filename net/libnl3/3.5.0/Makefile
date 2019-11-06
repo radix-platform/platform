@@ -51,19 +51,15 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/n/libnl3
 
 ifeq ($(__USE_BUILT_GCC_LIBS__),yes)
-REQUIRES           = dev/gcc/5.3.0
+REQUIRES           = dev/gcc/6.5.0
 else
-ifneq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES           = libs/glibc/2.24
-else
-REQUIRES           = libs/glibc/2.24-x86_32
-endif
+REQUIRES           = libs/glibc/2.28
 endif
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 3.2.25
+version            = 3.5.0
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/n/libnl3/libnl-$(version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/libnl-$(version)
@@ -85,7 +81,7 @@ PKG_GROUP = net
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 LIBNL3_PKG_NAME                = libnl3
-LIBNL3_PKG_VERSION             = 3.2.25
+LIBNL3_PKG_VERSION             = 3.5.0
 LIBNL3_PKG_ARCH                = $(TOOLCHAIN)
 LIBNL3_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBNL3_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -125,8 +121,22 @@ env_sysroot  = DESTDIR=$(LIBNL3_PKG)
 extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
+
+extra_configure_switches += --enable-cli=sbin
+extra_configure_switches += --sbindir=/usr/sbin
+
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var
+
+ifeq ($(__ENABLE_STATIC__),yes)
+extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
+extra_configure_switches += --enable-shared=yes
+
+
+LDFLAGS += -Wl,-rpath,/lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUFFIX)
 
 
 ####### Dependencies
@@ -152,9 +162,15 @@ $(install_target): $(build_target)
 	@mv $(LIBNL3_PKG)/etc/libnl/classid{,.new}
 	@mv $(LIBNL3_PKG)/etc/libnl/pktloc{,.new}
 	@( cd $(LIBNL3_PKG)/usr/share/man/man8 ; \
-	   rm -f nl-qdisc-delete.8 nl-qdisc-list.8 ; \
-	   ln -sf nl-qdisc-add.8 nl-qdisc-delete.8 ; \
-	   ln -sf nl-qdisc-add.8 nl-qdisc-list.8   ; \
+	   for file in *.8 ; do                                \
+	     ln=`head -n 1 $$file` ;                           \
+	     if [ "`echo $$ln | grep '^\.so '`" != "" ] ; then \
+	       origin=`echo $$ln | cut -f 2 -d ' '` ;          \
+	       origin=`basename $$origin` ;                    \
+	       rm -f $$file ;                                  \
+	       ln -sf $$origin $$file ;                        \
+	     fi ;                                              \
+	   done ;                                              \
 	 )
 	# ======= Install Documentation =======
 	@if [ -d $(LIBNL3_PKG)/usr/share/man ]; then \
@@ -187,47 +203,58 @@ $(install_target): $(build_target)
 	 )
 	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(LIBNL3_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" libnl-3.la libnl-cli-3.la libnl-genl-3.la \
-	                                    libnl-idiag-3.la libnl-nf-3.la libnl-route-3.la ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libnl-3.la libnl-cli-3.la libnl-genl-3.la       \
+	                                    libnl-idiag-3.la libnl-nf-3.la libnl-route-3.la \
+	                                    libnl-xfrm-3.la ; \
 	 )
 	@( cd $(LIBNL3_PKG)/usr/lib$(LIBSUFFIX)/libnl/cli/cls ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" basic.la cgroup.la ; \
 	 )
 	@( cd $(LIBNL3_PKG)/usr/lib$(LIBSUFFIX)/libnl/cli/qdisc ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" bfifo.la blackhole.la fq_codel.la \
-	                                    htb.la ingress.la pfifo.la plug.la ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" bfifo.la blackhole.la fq_codel.la  \
+	                                    hfsc.la htb.la ingress.la pfifo.la \
+	                                    plug.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(LIBNL3_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libnl-3.la libnl-cli-3.la libnl-genl-3.la \
-	                                           libnl-idiag-3.la libnl-nf-3.la libnl-route-3.la ; \
-	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libnl-3.la libnl-cli-3.la libnl-genl-3.la \
-	                                             libnl-idiag-3.la libnl-nf-3.la libnl-route-3.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libnl-3.la libnl-cli-3.la libnl-genl-3.la       \
+	                                            libnl-idiag-3.la libnl-nf-3.la libnl-route-3.la \
+	                                            libnl-xfrm-3.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libnl-3.la libnl-cli-3.la libnl-genl-3.la       \
+	                                              libnl-idiag-3.la libnl-nf-3.la libnl-route-3.la \
+	                                              libnl-xfrm-3.la ; \
 	 )
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/libnl/cli/cls ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" basic.la cgroup.la ; \
-	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" basic.la cgroup.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" basic.la cgroup.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" basic.la cgroup.la ; \
 	 )
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/libnl/cli/qdisc ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" bfifo.la blackhole.la fq_codel.la \
-	                                           htb.la ingress.la pfifo.la plug.la ; \
-	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" bfifo.la blackhole.la fq_codel.la \
-	                                             htb.la ingress.la pfifo.la plug.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" bfifo.la blackhole.la fq_codel.la  \
+	                                            hfsc.la htb.la ingress.la pfifo.la \
+	                                            plug.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" bfifo.la blackhole.la fq_codel.la  \
+	                                              hfsc.la htb.la ingress.la pfifo.la \
+	                                              plug.la ; \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libnl-3.0.pc libnl-cli-3.0.pc     \
-	                                            libnl-genl-3.0.pc libnl-nf-3.0.pc \
-	                                            libnl-route-3.0.pc ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libnl-3.0.pc libnl-cli-3.0.pc        \
+	                                            libnl-genl-3.0.pc libnl-idiag-3.0.pc \
+	                                            libnl-nf-3.0.pc libnl-route-3.0.pc   \
+	                                            libnl-xfrm-3.0.pc ; \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(LIBNL3_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(LIBNL3_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 	@touch $@
 
 $(LIBNL3_PKG_DESCRIPTION_FILE): $(LIBNL3_PKG_DESCRIPTION_FILE_IN)

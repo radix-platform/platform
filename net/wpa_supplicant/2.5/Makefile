@@ -52,7 +52,7 @@ SOURCE_REQUIRES    = sources/packages/n/wpa_supplicant
 
 REQUIRES           = app/dbus/1.13.12
 REQUIRES          += libs/readline/8.0
-REQUIRES          += net/libnl3/3.2.27
+REQUIRES          += net/libnl3/3.5.0
 REQUIRES          += net/openssl/1.1.1d
 
 # ======= __END_OF_REQUIRES__ =======

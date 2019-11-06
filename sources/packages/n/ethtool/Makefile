@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/ethtool
 
-versions    = 3.12 4.5
+versions    = 5.3
 pkgname     = ethtool
 suffix      = tar.xz
 

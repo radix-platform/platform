@@ -828,7 +828,7 @@ REQUIRES += net/tftp-hpa/5.2
 REQUIRES += net/dhcpcd/6.10.1
 
 REQUIRES += net/iputils/s20151218
-REQUIRES += net/ethtool/4.5
+REQUIRES += net/ethtool/5.3
 REQUIRES += net/inetd/1.79
 REQUIRES += net/openssh/8.1p1
 ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \

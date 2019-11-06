@@ -51,8 +51,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/n/net-snmp
 
 REQUIRES           = net/tcp_wrappers/7.6
-REQUIRES          += net/libnl/1.1.4
-REQUIRES          += net/libnl3/3.2.27
+REQUIRES          += net/libnl3/3.5.0
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES          += app/lm_sensors/3.4.0
 else

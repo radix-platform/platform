@@ -1,0 +1,12 @@
+iputils-s20190709/doc/arping.xml
+iputils-s20190709/doc/clockdiff.xml
+iputils-s20190709/doc/custom-html.xsl
+iputils-s20190709/doc/custom-man.xsl
+iputils-s20190709/doc/meson.build
+iputils-s20190709/doc/ninfod.xml
+iputils-s20190709/doc/ping.xml
+iputils-s20190709/doc/rarpd.xml
+iputils-s20190709/doc/rdisc.xml
+iputils-s20190709/doc/tftpd.xml
+iputils-s20190709/doc/tracepath.xml
+iputils-s20190709/doc/traceroute6.xml

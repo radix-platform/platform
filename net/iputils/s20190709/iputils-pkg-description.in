@@ -8,10 +8,10 @@
        |-----handy-ruler------------------------------------------------------|
 iputils: iputils @VERSION@ (a collection of common network tools)
 iputils:
-iputils: The iputils package contains network tools found on nearly all *NIX
-iputils: systems, along with an extra or two. Some of the utilities found
-iputils: here include arping, clockdiff, ping, ping6, rarpd, rdisc, tracepath,
-iputils: tracepath6, and traceroute6.
+iputils: The iputils package contains network tools found on nearly all
+iputils: *NIX systems, along with an extra or two. Some of the utilities
+iputils: found here include arping, clockdiff, ping, ping6, rarpd, rdisc,
+iputils: tracepath, tracepath6, and traceroute6.
 iputils:
 iputils: iputils is maintained by YOSHIFUJI Hideaki.
 iputils:

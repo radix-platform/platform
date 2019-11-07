@@ -827,7 +827,7 @@ REQUIRES += net/tftp-hpa/5.2
 
 REQUIRES += net/dhcpcd/8.1.1
 
-REQUIRES += net/iputils/s20151218
+REQUIRES += net/iputils/s20190709
 REQUIRES += net/ethtool/5.3
 REQUIRES += net/inetd/1.79
 REQUIRES += net/openssh/8.1p1

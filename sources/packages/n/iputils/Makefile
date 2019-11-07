@@ -7,15 +7,14 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/iputils
 
-versions    = s20121221 s20151218
+versions    = s20190709
 pkgname     = iputils
-suffix      = tar.bz2
+suffix      = tar.xz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/iputils-s20121221.patch
-patches    += $(CURDIR)/patches/iputils-s20151218.patch
+patches     = $(CURDIR)/patches/iputils-s20190709-docbook-revert.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,8 +49,7 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-s20121221-patch ; ./create.patch.sh ) ; \
-	 ( cd create-s20151218-patch ; ./create.patch.sh ) ; \
+	 ( cd create-s20190709-docbook-revert-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

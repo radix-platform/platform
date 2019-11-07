@@ -50,22 +50,16 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/n/iputils
 
-ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
-REQUIRES           = libs/readline/8.0
-REQUIRES          += net/gnutls/3.1.22
-REQUIRES          += net/openssl/1.0.2f
-else
-REQUIRES           = libs/readline/8.0-x86_32
-REQUIRES          += net/gnutls/3.1.22-x86_32
-REQUIRES          += net/openssl/1.0.2f-x86_32
-endif
+REQUIRES           = libs/libidn2/2.2.0
+REQUIRES          += secure/libcap/2.27
+REQUIRES          += net/openssl/1.1.1d
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = s20121221
-tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/iputils/iputils-$(version).tar.bz2
-SRC_ARCHIVE        = $(tar_bz2_archive)
+version            = s20190709
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/n/iputils/iputils-$(version).tar.xz
+SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/iputils-$(version)
 src_dir_name       = iputils-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source-done
@@ -73,8 +67,11 @@ src_done           = $(TARGET_BUILD_DIR)/.source-done
 
 PATCHES = PATCHES
 
+build_dir          = $(TARGET_BUILD_DIR)/build
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
+
+cross_file         = $(TARGET_BUILD_DIR)/$(TARGET)-cross
 
 
 ####### Targets
@@ -85,7 +82,7 @@ PKG_GROUP = net
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 IPUTILS_PKG_NAME                = iputils
-IPUTILS_PKG_VERSION             = s20121221
+IPUTILS_PKG_VERSION             = s20190709
 IPUTILS_PKG_ARCH                = $(TOOLCHAIN)
 IPUTILS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 IPUTILS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -119,15 +116,51 @@ ROOTFS_TARGETS   = $(pkg_archive)
 include ../../../build-system/core.mk
 
 
-extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
-extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
-extra_configure_switches += --infodir=/usr/share/info
-extra_configure_switches += --mandir=/usr/share/man
-extra_configure_switches += --sysconfdir=/etc
+env_sysroot = DESTDIR=$(IPUTILS_PKG)
 
+#
+# https://mesonbuild.com/Reference-tables.html :
+# =============================================
+#
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_A1X_GLIBC)  $(TOOLCHAIN_A2X_GLIBC)    \
+                             $(TOOLCHAIN_H3_GLIBC)   $(TOOLCHAIN_RK328X_GLIBC) \
+                             $(TOOLCHAIN_S8XX_GLIBC) $(TOOLCHAIN_IMX6_GLIBC)   \
+                             $(TOOLCHAIN_OMAP543X_GLIBC)),)
+cpu_name = arm
+endian   = little
+endif
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_H5_GLIBC)     $(TOOLCHAIN_RK33XX_GLIBC) \
+                             $(TOOLCHAIN_RK339X_GLIBC) $(TOOLCHAIN_S9XX_GLIBC)),)
+cpu_name = aarch64
+endian   = little
+endif
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_JZ47XX_GLIBC) $(TOOLCHAIN_P5600_GLIBC)),)
+cpu_name = mips
+endian   = little
+endif
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_R1000_GLIBC)),)
+cpu_name = sparc64
+endian   = big
+endif
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_POWER8_GLIBC) $(TOOLCHAIN_POWER9_GLIBC)),)
+cpu_name = ppc64
+endian   = big
+endif
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_POWER8LE_GLIBC) $(TOOLCHAIN_POWER9LE_GLIBC)),)
+cpu_name = ppc64
+endian   = little
+endif
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_I686_GLIBC)),)
+cpu_name = x86
+endian   = little
+endif
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
+cpu_name = x86_64
+endian   = little
+endif
 
-iputils_CFLAGS = -isystem $(TARGET_DEST_DIR)/usr/include $(OPTIMIZATION_FLAGS) $(ARCH_FLAGS) $(HW_FLAGS)
-iputils_environment = CFLAGS="$(iputils_CFLAGS) -DUSE_GNUTLS" LIBC_INCLUDE="$(TARGET_DEST_DIR)/usr/include"
+extra_configure_switches  = -DBUILD_TRACEROUTE6=true
+extra_configure_switches += -DBUILD_RARPD=true
 
 
 ####### Dependencies
@@ -138,43 +171,86 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	@touch $@
 
 $(build_target): $(src_done)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(iputils_environment) $(MAKE)
-	@cd $(SRC_DIR)/ninfod && $(BUILD_ENVIRONMENT) $(iputils_environment) ./configure \
-	  --prefix=/usr               \
-	  --build=$(BUILD)            \
-	  --host=$(TARGET)            \
-	  $(extra_configure_switches)
-	@cd $(SRC_DIR)/ninfod && $(BUILD_ENVIRONMENT) $(iputils_environment) $(MAKE)
-	@cd $(SRC_DIR)/doc && $(BUILD_ENVIRONMENT) $(iputils_environment) $(MAKE) -j1 man
+	@mkdir -p $(build_dir)
+	@echo ""                                            >  $(cross_file)
+	@echo "[build_machine]"                             >> $(cross_file)
+	@echo "system = '$(shell uname -s | tr 'L' 'l')'"   >> $(cross_file)
+	@echo "cpu_family = '$(shell uname -m)'"            >> $(cross_file)
+	@echo "cpu = '$(shell uname -m)'"                   >> $(cross_file)
+	@echo "endian = '$(shell lscpu | grep Endian | tr -s ' ' | cut -f3 -d' ' | tr 'L' 'l')'" >> $(cross_file)
+	@echo ""                                            >> $(cross_file)
+	@echo "[host_machine]"                              >> $(cross_file)
+	@echo "system = 'linux'"                            >> $(cross_file)
+	@echo "cpu_family = '$(cpu_name)'"                  >> $(cross_file)
+	@echo "cpu = '$(cpu_name)'"                         >> $(cross_file)
+	@echo "endian = '$(endian)'"                        >> $(cross_file)
+	@echo ""                                            >> $(cross_file)
+	@echo "[target_machine]"                            >> $(cross_file)
+	@echo "system = 'linux'"                            >> $(cross_file)
+	@echo "cpu_family = '$(cpu_name)'"                  >> $(cross_file)
+	@echo "cpu = '$(cpu_name)'"                         >> $(cross_file)
+	@echo "endian = '$(endian)'"                        >> $(cross_file)
+	@echo ""                                            >> $(cross_file)
+	@echo "[properties]"                                >> $(cross_file)
+	@echo "c_args = ['`echo -n "--sysroot=$(TARGET_DEST_DIR) $(CFLAGS)" | tr -s ' ' | sed "s/ /', '/g"`']"         >> $(cross_file)
+	@echo "c_link_args = ['`echo -n "--sysroot=$(TARGET_DEST_DIR) $(LDFLAGS)" | tr -s ' ' | sed "s/ /', '/g"`']"   >> $(cross_file)
+	@echo "cpp_args = ['`echo -n "--sysroot=$(TARGET_DEST_DIR) $(CFLAGS)" | tr -s ' ' | sed "s/ /', '/g"`']"       >> $(cross_file)
+	@echo "cpp_link_args = ['`echo -n "--sysroot=$(TARGET_DEST_DIR) $(LDFLAGS)" | tr -s ' ' | sed "s/ /', '/g"`']" >> $(cross_file)
+	@echo "sys_root = '$(TARGET_DEST_DIR)'"             >> $(cross_file)
+	@echo ""                                            >> $(cross_file)
+	@echo "[binaries]"                                  >> $(cross_file)
+	@echo "c = '$(TOOLCHAIN_PATH)/bin/$(TARGET)-gcc'"   >> $(cross_file)
+	@echo "cpp = '$(TOOLCHAIN_PATH)/bin/$(TARGET)-g++'" >> $(cross_file)
+	@echo "ar = '$(AR)'"                                >> $(cross_file)
+	@echo "strip = '$(STRIP)'"                          >> $(cross_file)
+	@echo "pkgconfig = 'pkg-config'"                    >> $(cross_file)
+	@echo ""                                            >> $(cross_file)
+	@echo "[paths]"                                     >> $(cross_file)
+	@echo "prefix = '/usr'"                             >> $(cross_file)
+	@echo "libdir = 'lib$(LIBSUFFIX)'"                  >> $(cross_file)
+	@echo "libexecdir = '/usr/libexec'"                 >> $(cross_file)
+	@echo "bindir = '/usr/bin'"                         >> $(cross_file)
+	@echo "sbindir = '/usr/sbin'"                       >> $(cross_file)
+	@echo "includedir = '/usr/include'"                 >> $(cross_file)
+	@echo "datadir = '/usr/share'"                      >> $(cross_file)
+	@echo "mandir = '/usr/share/man'"                   >> $(cross_file)
+	@echo "sysconfdir = '/etc'"                         >> $(cross_file)
+	@echo "localstatedir = '/var'"                      >> $(cross_file)
+	@PKG_CONFIG_PATH= \
+	   meson --buildtype=release    \
+	    $(extra_configure_switches) \
+	    --cross-file=$(cross_file) $(SRC_DIR) $(build_dir)
+	@cd $(build_dir) && ninja -v
 	@touch $@
 
 $(install_target): $(build_target)
+	# ======= Install Binaries =======
+	# ======= cd $(build_dir) && DESTDIR=$(subst $(CURDIR)/,,$(IPUTILS_PKG)) ninja install =======
 	@mkdir -p $(IPUTILS_PKG)/{bin,sbin}
 	@mkdir -p $(IPUTILS_PKG)/usr/{bin,sbin}
 	@mkdir -p $(IPUTILS_PKG)/usr/share/man/man8
-	@mkdir -p $(IPUTILS_PKG)/usr/share/doc/$(src_dir_name)
-	# ping6 source routing is deprecated by RFC5095 [for use RFC3542 the Makefile needs to be patched]
-	@( cd $(SRC_DIR) ; \
+	@mkdir -p $(IPUTILS_PKG)/usr/{,share}/doc/$(src_dir_name)
+	@( cd $(build_dir) ; \
 	   cat arping        > $(IPUTILS_PKG)/sbin/arping         ; \
 	   cat clockdiff     > $(IPUTILS_PKG)/usr/sbin/clockdiff  ; \
 	   cat ninfod/ninfod > $(IPUTILS_PKG)/usr/sbin/ninfod     ; \
 	   cat ping          > $(IPUTILS_PKG)/bin/ping            ; \
-	   cat ping6         > $(IPUTILS_PKG)/bin/ping6           ; \
 	   cat rarpd         > $(IPUTILS_PKG)/usr/sbin/rarpd      ; \
 	   cat rdisc         > $(IPUTILS_PKG)/usr/sbin/rdisc      ; \
 	   cat tracepath     > $(IPUTILS_PKG)/usr/bin/tracepath   ; \
-	   cat tracepath6    > $(IPUTILS_PKG)/usr/bin/tracepath6  ; \
 	   cat traceroute6   > $(IPUTILS_PKG)/usr/bin/traceroute6 ; \
 	   chmod  755 $(IPUTILS_PKG)/sbin/arping         ; \
 	   chmod  755 $(IPUTILS_PKG)/usr/sbin/clockdiff  ; \
 	   chmod  755 $(IPUTILS_PKG)/usr/sbin/ninfod     ; \
-	   chmod 4711 $(IPUTILS_PKG)/bin/ping       $(IPUTILS_PKG)/bin/ping6      ; \
+	   chmod 4711 $(IPUTILS_PKG)/bin/ping            ; \
 	   chmod  755 $(IPUTILS_PKG)/usr/sbin/rarpd $(IPUTILS_PKG)/usr/sbin/rdisc ; \
-	   chmod  755 $(IPUTILS_PKG)/usr/bin/tracepath*  ; \
+	   chmod  755 $(IPUTILS_PKG)/usr/bin/tracepath   ; \
 	   chmod 4711 $(IPUTILS_PKG)/usr/bin/traceroute6 ; \
 	 )
+	@( cd $(IPUTILS_PKG)/bin ; ln -sf ping ping6 )
+	@( cd $(IPUTILS_PKG)/usr/bin ; ln -sf tracepath tracepath6 )
 	# ======= Install Documentation =======
-	@( cd $(SRC_DIR)/doc ; \
+	@( cd $(build_dir)/doc ; \
 	   for page in arping clockdiff ninfod ping rarpd rdisc tracepath traceroute6 ; do \
 	     cat $$page.8 | gzip -9c > $(IPUTILS_PKG)/usr/share/man/man8/$$page.8.gz ; \
 	   done ; \
@@ -184,8 +260,12 @@ $(install_target): $(build_target)
 	   ln -sf tracepath.8.gz tracepath6.8.gz ; \
 	 )
 	@( cd $(SRC_DIR) ; \
-	   cp -a RELNOTES \
+	   cp -a LICENSE \
+	         $(IPUTILS_PKG)/usr/doc/$(src_dir_name) ; \
+	   cp -a LICENSE README* Documentation/LICENSE* Documentation/README.maintainer \
 	         $(IPUTILS_PKG)/usr/share/doc/$(src_dir_name) ; \
+	   cp -a ninfod/COPYING \
+	         $(IPUTILS_PKG)/usr/share/doc/$(src_dir_name)/COPYING.ninfod ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(IPUTILS_PKG))

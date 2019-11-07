@@ -12,13 +12,13 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/libidn
 
-REQUIRES           = libs/libidn/1.28
+REQUIRES           = libs/libidn/1.35
 REQUIRES          += libs/glibc/2.28-sparc32
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 1.28
+version            = 1.35
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/GNU/libidn/libidn-$(version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/libidn-$(version)
@@ -39,7 +39,7 @@ PKG_GROUP = libs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 LIBIDN32_PKG_NAME                = libidn-x32
-LIBIDN32_PKG_VERSION             = 1.28
+LIBIDN32_PKG_VERSION             = 1.35
 LIBIDN32_PKG_ARCH                = $(TOOLCHAIN)
 LIBIDN32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBIDN32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -80,6 +80,9 @@ extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_SPARC32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
+
+extra_configure_switches += --bindir=/usr/bin/32
+
 extra_configure_switches += --disable-dependency-tracking
 ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
@@ -87,6 +90,9 @@ else
 extra_configure_switches += --enable-static=no
 endif
 extra_configure_switches += --enable-shared=yes
+
+
+LDFLAGS += -Wl,-rpath,/lib$(MULTILIB_SPARC32_SUFFIX):/usr/lib$(MULTILIB_SPARC32_SUFFIX)
 
 
 ####### Dependencies
@@ -109,26 +115,22 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(LIBIDN32_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
-	@mkdir -p $(LIBIDN32_PKG)/usr/bin/32
-	@( cd $(LIBIDN32_PKG)/usr/bin ; \
-	   find . -type f | xargs mv -t 32 ; \
-	 )
 	@rm -rf $(LIBIDN32_PKG)/usr/include
 	@rm -rf $(LIBIDN32_PKG)/usr/share
 	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(LIBIDN32_PKG)/usr/lib$(MULTILIB_SPARC32_SUFFIX) ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" libidn.la  \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libidn.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(LIBIDN32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_SPARC32_SUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libidn.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libidn.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   libidn.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libidn.la ; \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_SPARC32_SUFFIX)/pkgconfig ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libidn.pc \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libidn.pc ; \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(LIBIDN32_PKG) ; \

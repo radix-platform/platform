@@ -16,7 +16,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/n/gnutls
 
 REQUIRES           = net/gnutls/3.6.10
-REQUIRES          += libs/libidn/1.28-ppc32
+REQUIRES          += libs/libidn/1.35-ppc32
 REQUIRES          += net/p11-kit/0.23.18.1-ppc32
 REQUIRES          += net/nettle/3.5.1-ppc32
 REQUIRES          += dev/guile/2.2.6-ppc32

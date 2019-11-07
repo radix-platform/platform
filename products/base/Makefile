@@ -295,10 +295,10 @@ endif
 #             │   ├── libs/libtasn1/4.14-sparc32
 #             │   └── libs/libtasn1/4.14-x86_32
 #             │
-#             ├── libs/libidn/1.28
-#             │   ├── libs/libidn/1.28-ppc32
-#             │   ├── libs/libidn/1.28-sparc32
-#             │   └── libs/libidn/1.28-x86_32
+#             ├── libs/libidn/1.35
+#             │   ├── libs/libidn/1.35-ppc32
+#             │   ├── libs/libidn/1.35-sparc32
+#             │   └── libs/libidn/1.35-x86_32
 #             │
 #             ├── libs/libunistring/0.9.10
 #             │   ├── libs/libunistring/0.9.10-ppc32

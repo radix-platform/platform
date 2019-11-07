@@ -51,7 +51,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/n/dnsmasq
 
 REQUIRES           = app/dbus/1.13.12
-REQUIRES          += libs/libidn/1.28
+REQUIRES          += libs/libidn/1.35
 REQUIRES          += net/libnetfilter_conntrack/1.0.7
 REQUIRES          += net/nettle/3.5.1
 

@@ -5,16 +5,16 @@ COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 include ../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/GNU/libidn
+url         = $(DOWNLOAD_SERVER)/sources/GNU/libidn2
 
-versions    = 1.35
-pkgname     = libidn
-suffix      = tar.gz
+versions    = 2.2.0
+pkgname     = libidn2
+suffix      = tar.xz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/libidn-1.35-gtkdoc.patch
+patches     = $(CURDIR)/patches/libidn2-2.2.0-gtkdoc.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -49,7 +49,7 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-1.35-gtkdoc-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2.2.0-gtkdoc-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

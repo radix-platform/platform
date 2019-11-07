@@ -59,7 +59,7 @@ endif
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 1.28
+version            = 1.35
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/GNU/libidn/libidn-$(version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/libidn-$(version)
@@ -81,7 +81,7 @@ PKG_GROUP = libs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 LIBIDN_PKG_NAME                = libidn
-LIBIDN_PKG_VERSION             = 1.28
+LIBIDN_PKG_VERSION             = 1.35
 LIBIDN_PKG_ARCH                = $(TOOLCHAIN)
 LIBIDN_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBIDN_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -179,7 +179,7 @@ $(install_target): $(build_target)
 	       $(LIBIDN_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(LIBIDN_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a ABOUT-NLS AUTHORS COPYING* FAQ HACKING INSTALL NEWS README* THANKS TODO \
+	   cp -a AUTHORS COPYING* FAQ HACKING NEWS README* THANKS TODO \
 	         contrib doc/libidn.html doc/libidn.pdf doc/*.png \
 	         $(LIBIDN_PKG)/usr/share/doc/$(src_dir_name) ; \
 	   ln -sf ../../gtk-doc/html/libidn $(LIBIDN_PKG)/usr/share/doc/$(src_dir_name)/html ; \
@@ -193,18 +193,18 @@ $(install_target): $(build_target)
 	 )
 	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(LIBIDN_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" libidn.la  \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libidn.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(LIBIDN_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libidn.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libidn.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   libidn.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libidn.la ; \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libidn.pc \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libidn.pc ; \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(LIBIDN_PKG) ; \

@@ -51,9 +51,9 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/n/whois
 
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
-REQUIRES           = libs/libidn/1.28
+REQUIRES           = libs/libidn/1.35
 else
-REQUIRES           = libs/libidn/1.28-x86_32
+REQUIRES           = libs/libidn/1.35-x86_32
 endif
 
 # ======= __END_OF_REQUIRES__ =======

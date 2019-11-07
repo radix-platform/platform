@@ -1,6 +1,6 @@
 #!/bin/sh
 
-VERSION=1.28
+VERSION=1.35
 
 tar --files-from=file.list -xzvf ../libidn-$VERSION.tar.gz
 mv libidn-$VERSION libidn-$VERSION-orig

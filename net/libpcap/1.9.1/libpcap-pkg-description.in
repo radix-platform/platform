@@ -6,14 +6,14 @@
 # customary to leave one space after the ':'.
 
        |-----handy-ruler------------------------------------------------------|
-tcpdump: tcpdump @VERSION@ (network monitoring tool)
-tcpdump:
-tcpdump: Tcpdump is a tool for network monitoring and data acquisition.
-tcpdump: You can use it to dump information on all the packets on a network
-tcpdump: that match a boolean expression. Tcpdump uses libpcap, a system
-tcpdump: independent interface for user-level packet capture.
-tcpdump:
-tcpdump: Homepage:  http://www.tcpdump.org
-tcpdump:
-tcpdump:
-tcpdump:
+libpcap: libpcap @VERSION@ (packet capture library)
+libpcap:
+libpcap: libpcap is a library for user-level packet capture. libpcap provides
+libpcap: a portable framework for low-level network monitoring. Applications
+libpcap: include network statistics collection, security monitoring, network
+libpcap: debugging, etc. The tcpdump utility uses libpcap.
+libpcap:
+libpcap: Project homepage: http://www.tcpdump.org
+libpcap:
+libpcap:
+libpcap:

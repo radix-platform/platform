@@ -882,8 +882,6 @@ REQUIRES += net/libnetfilter_log/1.0.1-x86_32
 REQUIRES += net/libnetfilter_queue/1.0.3-x86_32
 endif
 
-REQUIRES += net/dhcp/4.3.4
-
 REQUIRES += net/gpgme/1.13.1
 ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
                             $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
@@ -914,7 +912,19 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += net/bluez/5.52-x86_32
 endif
 
-REQUIRES += net/tcpdump/4.7.4
+REQUIRES += net/tcpdump/4.9.3
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
+REQUIRES += net/libpcap/1.9.1-ppc32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
+REQUIRES += net/libpcap/1.9.1-sparc32
+endif
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/libpcap/1.9.1-x86_32
+endif
+
+REQUIRES += net/dhcp/4.3.4
 
 REQUIRES += net/libmbim/1.12.4
 ifeq ($(HARDWARE),$(HARDWARE_PC64))

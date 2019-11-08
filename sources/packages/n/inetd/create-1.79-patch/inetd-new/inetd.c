@@ -161,10 +161,12 @@ static char xtraid[] = "$Slackware: inetd.c 1.79s 2001/02/06 13:18:00 volkerdi E
 #include <syslog.h>
 #include <pwd.h>
 #include <grp.h>
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <time.h>
 /* #include <login_cap.h> */
 #include <rpc/rpc.h>
 #include <rpc/pmap_clnt.h>
@@ -366,7 +368,7 @@ main(argc, argv, envp)
 			int val;
 
 			val = strtoul(optarg, &p, 0);
-			if (val >= 0 && *p == 0) {
+			if (val >= 0 && *p == (char) 0) {
 				toomany = val;
 				break;
 			}
@@ -2096,7 +2098,7 @@ daytime_stream(s, sep)		/* Return human-readable time of day */
 	struct servtab *sep;
 {
 	char buffer[256];
-	time_t time(), clock;
+	time_t clock;
 
 	clock = time(NULL);
 
@@ -2111,7 +2113,7 @@ daytime_dg(s, sep)		/* Return human-readable time of day */
 	struct servtab *sep;
 {
 	char buffer[256];
-	time_t time(), clock;
+	time_t clock;
 	/* struct sockaddr_storage ss; */
 	struct sockaddr sa;
 	int size;

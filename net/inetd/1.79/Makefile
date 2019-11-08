@@ -121,7 +121,7 @@ include ../../../build-system/core.mk
 
 
 inetd_CFLAGS = -isystem $(TARGET_DEST_DIR)/usr/include $(OPTIMIZATION_FLAGS) $(ARCH_FLAGS) $(HW_FLAGS)
-inetd_environment = CFLAGS="$(inetd_CFLAGS) -D__USE_BSD=1 -Wno-error=deprecated-declarations"
+inetd_environment = CFLAGS="$(inetd_CFLAGS) -D__USE_BSD=1 -Wno-deprecated-declarations"
 
 
 ####### Dependencies

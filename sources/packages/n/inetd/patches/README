@@ -1,6 +1,70 @@
 
 /* begin *
 
-   TODO: Leave some comment here.
+   Следовало бы заменить старый BSD4.3 код на POSIX.
+   ================================================
+
+   Например, вызовы sigblock(), sigpause():
+   ---------------------------------------
+
+   #define	SIGBLOCK	(sigmask(SIGCHLD)|sigmask(SIGHUP)|sigmask(SIGALRM))
+
+
+   int
+   main(argc, argv, envp)
+   	int argc;
+   	char *argv[], *envp[];
+   {
+
+   . . .
+
+   	for (;;) {
+   	    int n, ctrl = -1;
+   	    fd_set readable;
+ 
+   	    if (nsock == 0) {
+   		(void) sigblock(SIGBLOCK);
+   		while (nsock == 0)
+   		    sigpause(0L);
+   		(void) sigsetmask(0L);
+   	    }
+
+   . . .
+
+
+   пора менять на POSIX вызовы: sigprocmask(), sigsuspend():
+   --------------------------------------------------------
+
+
+   int
+   main(argc, argv, envp)
+   	int argc;
+   	char *argv[], *envp[];
+   {
+
+   . . .
+
+   	sigset_t mask, oldmask;
+
+   . . .
+
+   	/* Set up the mask of signals to temporarily block. */
+   	sigemptyset(&mask);
+   	sigaddset(&mask, SIGCHLD);
+   	sigaddset(&mask, SIGHUP);
+   	sigaddset(&mask, SIGALRM);
+
+   . . .
+
+   	for (;;) {
+   	    int n, ctrl = -1;
+   	    fd_set readable;
+
+   	    if (nsock == 0) {
+   		(void) sigprocmask(SIG_BLOCK, &mask, &oldmask);
+   		while (nsock == 0)
+   		    sigsuspend(&oldmask);
+   		(void) sigprocmask(SIG_UNBLOCK, &mask, NULL);
+   	    }
 
  * end */

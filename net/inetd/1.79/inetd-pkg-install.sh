@@ -13,6 +13,17 @@ install_file() {
   # Otherwise, we leave the .new copy for the admin to consider...
 }
 
+preserve_perms() {
+  NEW="$1"
+  OLD="$(dirname $NEW)/$(basename $NEW .new)"
+  if [ -e $OLD ]; then
+    cp -a $OLD ${NEW}.incoming
+    cat $NEW > ${NEW}.incoming
+    mv ${NEW}.incoming $NEW
+  fi
+  install_file $NEW
+}
+
 
 # arg 1:  the new package version
 pre_install() {
@@ -21,9 +32,8 @@ pre_install() {
 
 # arg 1:  the new package version
 post_install() {
-  install_file etc/rc.d/rc.inetd.new
+  preserve_perms etc/rc.d/rc.inetd.new
   install_file etc/inetd.conf.new
-  rm -f etc/rc.d/rc.inetd.new
 }
 
 # arg 1:  the new package version

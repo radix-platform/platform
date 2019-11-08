@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/libpcap
 
-versions    = 1.6.2 1.7.4
+versions    = 1.6.2 1.7.4 1.9.1
 pkgname     = libpcap
 suffix      = tar.gz
 

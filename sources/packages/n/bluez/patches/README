@@ -1,6 +1,9 @@
 
 /* begin *
 
-   TODO: Leave some comment here.
+   bluez-5.52-non-LE-devices.patch - adapter: Don't refresh adv_manager for non-LE devices
+                                     btd_adv_manager_refresh is called upon MGMT_SETTING_DISCOVERABLE
+                                     setting change but as only LE adapters have an adv_manager, this
+                                     leads to segmentation fault for non-LE devices.
 
  * end */

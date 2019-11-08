@@ -828,8 +828,20 @@ REQUIRES += net/tftp-hpa/5.2
 REQUIRES += net/dhcpcd/8.1.1
 
 REQUIRES += net/iputils/s20190709
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
+REQUIRES += libs/libidn2/2.2.0-ppc32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
+REQUIRES += libs/libidn2/2.2.0-sparc32
+endif
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += libs/libidn2/2.2.0-x86_32
+endif
+
 REQUIRES += net/ethtool/5.3
 REQUIRES += net/inetd/1.79
+
 REQUIRES += net/openssh/8.1p1
 ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
                             $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
@@ -840,21 +852,6 @@ REQUIRES += libs/libedit/20191025-3.1-sparc32
 endif
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += libs/libedit/20191025-3.1-x86_32
-endif
-
-REQUIRES += net/tcpdump/4.7.4
-
-REQUIRES += net/libmbim/1.12.4
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += net/libmbim/1.12.4-x86_32
-endif
-REQUIRES += net/libqmi/1.14.2
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += net/libqmi/1.14.2-x86_32
-endif
-REQUIRES += net/ipset/6.29
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += net/ipset/6.29-x86_32
 endif
 
 REQUIRES += net/libnetfilter_log/1.0.1
@@ -905,6 +902,33 @@ endif
 REQUIRES += app/pkgtols/0.1.3
 
 
+REQUIRES += net/bluez/5.52
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
+REQUIRES += net/bluez/5.52-ppc32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
+REQUIRES += net/bluez/5.52-sparc32
+endif
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/bluez/5.52-x86_32
+endif
+
+REQUIRES += net/tcpdump/4.7.4
+
+REQUIRES += net/libmbim/1.12.4
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/libmbim/1.12.4-x86_32
+endif
+REQUIRES += net/libqmi/1.14.2
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/libqmi/1.14.2-x86_32
+endif
+REQUIRES += net/ipset/6.29
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/ipset/6.29-x86_32
+endif
+
 REQUIRES += net/bind/9.10.4
 REQUIRES += net/wget/1.16
 REQUIRES += net/whois/5.2.12
@@ -925,11 +949,6 @@ REQUIRES += net/ebtables/2.0.10-4
 REQUIRES += net/iftop/1.0pre4
 REQUIRES += net/iptraf-ng/1.1.4
 REQUIRES += net/iperf3/3.1.3
-
-REQUIRES += net/bluez/5.42
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += net/bluez/5.42-x86_32
-endif
 
 
 #######

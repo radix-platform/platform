@@ -15,7 +15,7 @@ SOURCE_REQUIRES    = sources/packages/m/pulseaudio
 ENABLE_X11_SUPPORT = yes
 
 REQUIRES           = libs/pulseaudio/9.0
-REQUIRES          += net/bluez/5.42-x86_32
+REQUIRES          += net/bluez/5.52-x86_32
 REQUIRES          += net/avahi-daemon/0.6.31-x86_32
 REQUIRES          += net/openssl/1.1.1d-x86_32
 REQUIRES          += libs/pcre/8.43-x86_32

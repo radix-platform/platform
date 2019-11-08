@@ -16,7 +16,7 @@ REQUIRES             = net/libpcap/1.7.4
 REQUIRES            += libs/libusb/1.0.23-x86_32
 REQUIRES            += net/libnl3/3.5.0-x86_32
 REQUIRES            += app/dbus/1.13.12-x86_32
-REQUIRES            += net/bluez/5.42-x86_32
+REQUIRES            += net/bluez/5.52-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

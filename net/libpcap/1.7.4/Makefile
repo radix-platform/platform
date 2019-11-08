@@ -53,7 +53,7 @@ SOURCE_REQUIRES    = sources/packages/n/libpcap
 REQUIRES           = libs/libusb/1.0.23
 REQUIRES          += net/libnl3/3.5.0
 REQUIRES          += app/dbus/1.13.12
-REQUIRES          += net/bluez/5.42
+REQUIRES          += net/bluez/5.52
 
 # ======= __END_OF_REQUIRES__ =======
 

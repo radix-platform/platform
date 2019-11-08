@@ -7,15 +7,19 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/libical
 
-versions    = 2.0.0
+versions    = 3.0.6
 pkgname     = libical
 suffix      = tar.xz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
+patches     = $(CURDIR)/patches/libical-3.0.6-cross.patch
 
-BUILD_TARGETS = $(tarballs) $(sha1s)
+.NOTPARALLEL: $(patches)
+
+
+BUILD_TARGETS = $(tarballs) $(sha1s) $(patches)
 
 
 include ../../../../build-system/core.mk
@@ -43,5 +47,10 @@ $(sha1s): $(tarballs)
 	   fi ; \
 	 done
 
+$(patches): $(sha1s)
+	@echo -e "\n======= Create Patches =======\n" ; \
+	 ( cd create-3.0.6-cross-patch ; ./create.patch.sh ) ; \
+	 echo -e "\n"
+
 download_clean:
-	@rm -f $(tarballs) $(sha1s)
+	@rm -f $(tarballs) $(sha1s) $(patches)

@@ -1,3 +1,0 @@
-
-../../../sources/packages/n/dhcp/patches/dhcp-4.3.4.patch      -p0
-../../../sources/packages/n/dhcp/patches/dhcp-4.3.4-bind.patch -p0

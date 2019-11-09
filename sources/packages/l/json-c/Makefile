@@ -7,19 +7,15 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/json-c
 
-versions    = 0.11 0.12
+versions    = 0.13.1
 pkgname     = json-c
 suffix      = tar.gz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/json-c-0.12.patch
 
-.NOTPARALLEL: $(patches)
-
-
-BUILD_TARGETS = $(tarballs) $(sha1s) $(patches)
+BUILD_TARGETS = $(tarballs) $(sha1s)
 
 
 include ../../../../build-system/core.mk
@@ -47,10 +43,5 @@ $(sha1s): $(tarballs)
 	   fi ; \
 	 done
 
-$(patches): $(sha1s)
-	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-0.12-patch && ./create.patch.sh ) ; \
-	 echo -e "\n"
-
 download_clean:
-	@rm -f $(tarballs) $(sha1s) $(patches)
+	@rm -f $(tarballs) $(sha1s)

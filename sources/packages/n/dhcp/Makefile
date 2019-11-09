@@ -7,17 +7,14 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/dhcp
 
-versions    = 4.3.1 4.3.4 4.4.1
+versions    = 4.4.1
 pkgname     = dhcp
 suffix      = tar.gz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/dhcp-4.3.1.patch
-patches    += $(CURDIR)/patches/dhcp-4.3.1-bind.patch
-patches    += $(CURDIR)/patches/dhcp-4.3.4.patch
-patches    += $(CURDIR)/patches/dhcp-4.3.4-bind.patch
+patches     = $(CURDIR)/patches/dhcp-4.4.1-path.patch
 
 
 .NOTPARALLEL: $(patches)
@@ -53,10 +50,7 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-4.3.1-patch      ; ./create.patch.sh ) ; \
-	 ( cd create-4.3.1-bind-patch ; ./create.patch.sh ) ; \
-	 ( cd create-4.3.4-patch      ; ./create.patch.sh ) ; \
-	 ( cd create-4.3.4-bind-patch ; ./create.patch.sh ) ; \
+	 ( cd create-4.4.1-path-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

@@ -924,7 +924,7 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += net/libpcap/1.9.1-x86_32
 endif
 
-REQUIRES += net/dhcp/4.3.4
+REQUIRES += net/dhcp/4.4.1
 
 REQUIRES += net/libmbim/1.12.4
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
@@ -939,7 +939,7 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += net/ipset/6.29-x86_32
 endif
 
-REQUIRES += net/bind/9.10.4
+REQUIRES += net/bind/9.14.7
 REQUIRES += net/wget/1.16
 REQUIRES += net/whois/5.2.12
 

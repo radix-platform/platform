@@ -1,8 +1,11 @@
+# SPDX-License-Identifier: GPL-2.0
+include ../config.mk
+
 DISTGEN = maketable normal pareto paretonormal
 DISTDATA = normal.dist pareto.dist paretonormal.dist experimental.dist
 
-HOSTCC ?= gcc
-LDLIBS += -lm 
+HOSTCC ?= $(CC)
+LDLIBS += -lm
 
 all: $(DISTGEN) $(DISTDATA)
 

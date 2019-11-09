@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/iptables
 
-versions    = 1.4.21 1.6.0
+versions    = 1.8.3
 pkgname     = iptables
 suffix      = tar.bz2
 

@@ -50,7 +50,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/n/dhcp
 
-REQUIRES           = net/iproute2/4.5.0
+REQUIRES           = net/iproute2/5.3.0
 
 # ======= __END_OF_REQUIRES__ =======
 

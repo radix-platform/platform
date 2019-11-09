@@ -51,20 +51,14 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/n/iptables
 
 REQUIRES           = net/nfacct/1.0.2
-ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES          += net/libpcap/1.9.1
 REQUIRES          += net/libnetfilter_conntrack/1.0.7
 REQUIRES          += net/libnftnl/1.1.4
-else
-REQUIRES          += net/libpcap/1.9.1-x86_32
-REQUIRES          += net/libnetfilter_conntrack/1.0.7-x86_32
-REQUIRES          += net/libnftnl/1.1.4-x86_32
-endif
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 1.6.0
+version            = 1.8.3
 tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/iptables/iptables-$(version).tar.bz2
 SRC_ARCHIVE        = $(tar_bz2_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/iptables-$(version)
@@ -85,7 +79,7 @@ PKG_GROUP = net
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 IPTABLES_PKG_NAME                = iptables
-IPTABLES_PKG_VERSION             = 1.6.0
+IPTABLES_PKG_VERSION             = 1.8.3
 IPTABLES_PKG_ARCH                = $(TOOLCHAIN)
 IPTABLES_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 IPTABLES_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -133,8 +127,13 @@ extra_configure_switches += --enable-devel
 extra_configure_switches += --enable-libipq
 extra_configure_switches += --enable-bpf-compiler
 extra_configure_switches += --enable-nfsynproxy
-extra_configure_switches += --enable-shared=yes
+
+ifeq ($(__ENABLE_STATIC__),yes)
+extra_configure_switches += --enable-static=yes
+else
 extra_configure_switches += --enable-static=no
+endif
+extra_configure_switches += --enable-shared=yes
 
 
 TARGET_BIN_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)
@@ -157,12 +156,13 @@ $(build_target): $(src_done)
 	@( cd $(SRC_DIR)/iptables ; \
 	   sed -i "/^LIBS =/ s/$$/ -lnetfilter_conntrack/" Makefile ; \
 	 )
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE)
 	@touch $@
 
 $(install_target): $(build_target)
 	@mkdir -p $(IPTABLES_PKG)
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
+	@ln -sf ../sbin/xtables-legacy-multi $(IPTABLES_PKG)/usr/bin/iptables-xml
 	# ======= Install Documentation =======
 	@( cd $(IPTABLES_PKG)/usr/share/man/man3 ; \
 	   for file in *.3 ; do                                \
@@ -222,8 +222,8 @@ $(install_target): $(build_target)
 	$(call install-into-devenv, $(IPTABLES_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libip4tc.la libip6tc.la libipq.la libiptc.la libxtables.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libip4tc.la libip6tc.la libipq.la libiptc.la libxtables.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   libip4tc.la libip6tc.la libipq.la libiptc.la libxtables.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libip4tc.la libip6tc.la libipq.la libiptc.la libxtables.la ; \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
@@ -234,6 +234,11 @@ $(install_target): $(build_target)
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(IPTABLES_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target binaries =======
 	@( cd $(IPTABLES_PKG)/usr/sbin ; \

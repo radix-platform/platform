@@ -50,17 +50,13 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/n/iproute2
 
-REQUIRES           = net/iptables/1.4.21
-ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
+REQUIRES           = net/iptables/1.8.3
 REQUIRES          += app/db/6.1.26
-else
-REQUIRES          += app/db/6.1.26-x86_32
-endif
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 3.16.0
+version            = 5.3.0
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/n/iproute2/iproute2-$(version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/iproute2-$(version)
@@ -82,7 +78,7 @@ PKG_GROUP = net
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 IPROUTE2_PKG_NAME                = iproute2
-IPROUTE2_PKG_VERSION             = 3.16.0
+IPROUTE2_PKG_VERSION             = 5.3.0
 IPROUTE2_PKG_ARCH                = $(TOOLCHAIN)
 IPROUTE2_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 IPROUTE2_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -144,16 +140,15 @@ $(install_target): $(build_target)
 	@mkdir -p $(IPROUTE2_PKG)
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install  $(configure_switches) $(env_sysroot)
 	@( cd $(IPROUTE2_PKG)/usr/share/man/man8 ; \
-	   rm -f ctstat.8               ; \
-	   ln -sf lnstat.8 ctstat.8     ; \
-	   rm -f nstat.8                ; \
-	   ln -sf rtacct.8 nstat.8      ; \
-	   rm -f routef.8               ; \
-	   ln -sf routel.8 routef.8     ; \
-	   rm -f rtstat.8               ; \
-	   ln -sf lnstat.8 rtstat.8     ; \
-	   rm -f tc-pfifo.8             ; \
-	   ln -sf tc-bfifo.8 tc-pfifo.8 ; \
+	   for file in *.8 ; do                                \
+	     ln=`head -n 1 $$file` ;                           \
+	     if [ "`echo $$ln | grep '^\.so '`" != "" ] ; then \
+	       origin=`echo $$ln | cut -f 2 -d ' '` ;          \
+	       origin=`basename $$origin` ;                    \
+	       rm -f $$file ;                                  \
+	       ln -sf $$origin $$file ;                        \
+	     fi ;                                              \
+	   done ;                                              \
 	 )
 	# ======= Install libnetlink.a =======
 	@mkdir -p $(IPROUTE2_PKG)/usr/include
@@ -189,7 +184,7 @@ $(install_target): $(build_target)
 	       $(IPROUTE2_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(IPROUTE2_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a COPYING README* \
+	   cp -a COPYING README* doc/actions \
 	         $(IPROUTE2_PKG)/usr/share/doc/$(src_dir_name) ; \
 	 )
 	@( cd $(SRC_DIR) ; \

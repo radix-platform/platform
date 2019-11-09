@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/dhcp
 
-versions    = 4.3.1 4.3.4
+versions    = 4.3.1 4.3.4 4.4.1
 pkgname     = dhcp
 suffix      = tar.gz
 

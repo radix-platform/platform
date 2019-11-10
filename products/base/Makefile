@@ -926,10 +926,18 @@ endif
 
 REQUIRES += net/dhcp/4.4.1
 
-REQUIRES += net/libmbim/1.12.4
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += net/libmbim/1.12.4-x86_32
+REQUIRES += net/libmbim/1.20.0
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
+REQUIRES += net/libmbim/1.20.0-ppc32
 endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
+REQUIRES += net/libmbim/1.20.0-sparc32
+endif
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/libmbim/1.20.0-x86_32
+endif
+
 REQUIRES += net/libqmi/1.14.2
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += net/libqmi/1.14.2-x86_32

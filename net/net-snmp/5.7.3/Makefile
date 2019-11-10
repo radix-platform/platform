@@ -53,9 +53,9 @@ SOURCE_REQUIRES    = sources/packages/n/net-snmp
 REQUIRES           = net/tcp_wrappers/7.6
 REQUIRES          += net/libnl3/3.5.0
 ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
-REQUIRES          += app/lm_sensors/3.4.0
+REQUIRES          += app/lm-sensors/3.6.0
 else
-REQUIRES          += app/lm_sensors/3.4.0-x86_32
+REQUIRES          += app/lm-sensors/3.6.0-x86_32
 endif
 REQUIRES          += net/openssl/1.1.1d
 REQUIRES          += app/pciutils/3.6.2

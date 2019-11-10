@@ -5,16 +5,16 @@ COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 include ../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/packages/n/libmbim
+url         = $(DOWNLOAD_SERVER)/sources/packages/a/lm-sensors
 
-versions    = 1.20.0
-pkgname     = libmbim
+versions    = 3.6.0
+pkgname     = lm-sensors
 suffix      = tar.xz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/libmbim-1.20.0-gtkdoc.patch
+patches     = $(CURDIR)/patches/lm-sensors-3.6.0-cross.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -49,7 +49,7 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-1.20.0-gtkdoc-patch ; ./create.patch.sh ) ; \
+	 ( cd create-3.6.0-cross-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

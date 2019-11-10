@@ -7,14 +7,14 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/GNOME/core/libgudev
 
-versions    = 230
+versions    = 233
 pkgname     = libgudev
 suffix      = tar.xz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/libgudev-230-gtkdoc.patch
+patches     = $(CURDIR)/patches/libgudev-233-gtkdoc.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -49,7 +49,7 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-230-gtkdoc-patch ; ./create.patch.sh ) ; \
+	 ( cd create-233-gtkdoc-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

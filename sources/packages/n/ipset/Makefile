@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/ipset
 
-versions    = 6.21 6.29
+versions    = 7.4
 pkgname     = ipset
 suffix      = tar.bz2
 

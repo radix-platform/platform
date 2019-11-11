@@ -1,35 +1,38 @@
 
-COMPONENT_TARGETS    = $(HARDWARE_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_S824L)
+COMPONENT_TARGETS += $(HARDWARE_VESNIN)
+COMPONENT_TARGETS += $(HARDWARE_TL2WK2)
+COMPONENT_TARGETS += $(HARDWARE_TL2SV2)
 
-NEED_ABS_PATH        = true
-COMPONENT_IS_3PP     = true
+NEED_ABS_PATH      = true
+COMPONENT_IS_3PP   = true
 
-CREATE_X86_32_PACKAGE = true
+CREATE_PPC32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES      = sources/packages/n/ipset
+SOURCE_REQUIRES    = sources/packages/n/ipset
 
-REQUIRES             = net/ipset/6.21
-REQUIRES            += net/libmnl/1.0.3-x86_32
+REQUIRES           = net/ipset/7.4
+REQUIRES          += net/libmnl/1.0.4-ppc32
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version              = 6.21
-tar_bz2_archive      = $(SRC_PACKAGE_PATH)/packages/n/ipset/ipset-$(version).tar.bz2
-SRC_ARCHIVE          = $(tar_bz2_archive)
-SRC_DIR              = $(TARGET_BUILD_DIR)/ipset-$(version)
-src_dir_name         = ipset-$(version)
-src_done             = $(TARGET_BUILD_DIR)/.source_done
+version            = 7.4
+tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/ipset/ipset-$(version).tar.bz2
+SRC_ARCHIVE        = $(tar_bz2_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/ipset-$(version)
+src_dir_name       = ipset-$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
 
-build_dir            = $(TARGET_BUILD_DIR)/build
-build_target         = $(TARGET_BUILD_DIR)/.build_done
-install_target       = $(TARGET_BUILD_DIR)/.install_done
+build_dir          = $(TARGET_BUILD_DIR)/build
+build_target       = $(TARGET_BUILD_DIR)/.build_done
+install_target     = $(TARGET_BUILD_DIR)/.install_done
 
 
 ####### Targets
@@ -40,7 +43,7 @@ PKG_GROUP = net
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 IPSET_32_PKG_NAME                = ipset-x32
-IPSET_32_PKG_VERSION             = 6.21
+IPSET_32_PKG_VERSION             = 7.4
 IPSET_32_PKG_ARCH                = $(TOOLCHAIN)
 IPSET_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 IPSET_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -77,18 +80,28 @@ include ../../../build-system/core.mk
 env_sysroot  = DESTDIR=$(IPSET_32_PKG)
 
 
-extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
+extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_PPC32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
+
+extra_configure_switches += --sbindir=/usr/sbin/32
+
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var
-extra_configure_switches += --enable-shared=yes
+
+ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
+extra_configure_switches += --enable-shared=yes
 
 
-TARGET_BIN_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX)
-TARGET_LIB_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX):/usr/lib/../lib$(MULTILIB_X86_32_SUFFIX)
+LDFLAGS += -Wl,-rpath,/lib$(MULTILIB_PPC32_SUFFIX):/usr/lib$(MULTILIB_PPC32_SUFFIX)
+
+TARGET_BIN_RPATH = /lib$(MULTILIB_PPC32_SUFFIX):/usr/lib$(MULTILIB_PPC32_SUFFIX)
+TARGET_LIB_RPATH = /lib$(MULTILIB_PPC32_SUFFIX):/usr/lib$(MULTILIB_PPC32_SUFFIX):/usr/lib/../lib$(MULTILIB_PPC32_SUFFIX)
 
 
 ####### Dependencies
@@ -111,33 +124,33 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(IPSET_32_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
-	@mkdir -p $(IPSET_32_PKG)/usr/sbin/32
-	@( cd $(IPSET_32_PKG)/usr/sbin ; \
-	   find . -type f | xargs mv -t 32 ; \
-	 )
 	@rm -rf $(IPSET_32_PKG)/usr/include
 	@rm -rf $(IPSET_32_PKG)/usr/share
 	# ======= remove toolchain path from target libtool *.la files =======
-	@( cd $(IPSET_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(IPSET_32_PKG)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libipset.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(IPSET_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libipset.la  ; \
-	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libipset.la  \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   libipset.la ; \
+	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libipset.la ; \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_PPC32_SUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libipset.pc ; \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(IPSET_32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(IPSET_32_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target binaries =======
 	@( cd $(IPSET_32_PKG)/usr/sbin/32 ; \
@@ -149,7 +162,7 @@ ifneq ($(CHRPATH),)
 	   done ; \
 	 )
 	# ======= Set RPATH/RUNPATH for target shared objects =======
-	@( cd $(IPSET_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(IPSET_32_PKG)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
 	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
 	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
 	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \

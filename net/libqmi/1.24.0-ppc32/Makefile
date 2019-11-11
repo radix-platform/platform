@@ -1,35 +1,39 @@
 
-COMPONENT_TARGETS    = $(HARDWARE_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_S824L)
+COMPONENT_TARGETS += $(HARDWARE_VESNIN)
+COMPONENT_TARGETS += $(HARDWARE_TL2WK2)
+COMPONENT_TARGETS += $(HARDWARE_TL2SV2)
 
-NEED_ABS_PATH        = true
-COMPONENT_IS_3PP     = true
+NEED_ABS_PATH      = true
+COMPONENT_IS_3PP   = true
 
-CREATE_X86_32_PACKAGE = true
+CREATE_PPC32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
 
 
-SOURCE_REQUIRES      = sources/packages/n/libqmi
+SOURCE_REQUIRES    = sources/packages/n/libqmi
 
-REQUIRES             = net/libqmi/1.14.2
-REQUIRES            += libs/glib2/2.63.0-x86_32
+REQUIRES           = net/libqmi/1.24.0
+REQUIRES          += libs/libgudev/233-ppc32
+REQUIRES          += net/libmbim/1.20.0-ppc32
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version              = 1.14.2
-tar_xz_archive       = $(SRC_PACKAGE_PATH)/packages/n/libqmi/libqmi-$(version).tar.xz
-SRC_ARCHIVE          = $(tar_xz_archive)
-SRC_DIR              = $(TARGET_BUILD_DIR)/libqmi-$(version)
-src_dir_name         = libqmi-$(version)
-src_done             = $(TARGET_BUILD_DIR)/.source_done
+version            = 1.24.0
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/n/libqmi/libqmi-$(version).tar.xz
+SRC_ARCHIVE        = $(tar_xz_archive)
+SRC_DIR            = $(TARGET_BUILD_DIR)/libqmi-$(version)
+src_dir_name       = libqmi-$(version)
+src_done           = $(TARGET_BUILD_DIR)/.source_done
 
 PATCHES = PATCHES
 
-build_dir            = $(TARGET_BUILD_DIR)/build
-build_target         = $(TARGET_BUILD_DIR)/.build_done
-install_target       = $(TARGET_BUILD_DIR)/.install_done
+build_dir          = $(TARGET_BUILD_DIR)/build
+build_target       = $(TARGET_BUILD_DIR)/.build_done
+install_target     = $(TARGET_BUILD_DIR)/.install_done
 
 
 ####### Targets
@@ -39,7 +43,7 @@ PKG_GROUP = net
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 LIBQMI_32_PKG_NAME                = libqmi-x32
-LIBQMI_32_PKG_VERSION             = 1.14.2
+LIBQMI_32_PKG_VERSION             = 1.24.0
 LIBQMI_32_PKG_ARCH                = $(TOOLCHAIN)
 LIBQMI_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBQMI_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -76,7 +80,7 @@ include ../../../build-system/core.mk
 env_sysroot  = DESTDIR=$(LIBQMI_32_PKG)
 
 
-extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
+extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_PPC32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
 
@@ -89,12 +93,18 @@ extra_configure_switches += --localstatedir=/var
 extra_configure_switches += --enable-gtk-doc=no
 extra_configure_switches += --enable-gtk-doc-html=no
 extra_configure_switches += --enable-gtk-doc-pdf=no
+
+ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
 extra_configure_switches += --enable-shared=yes
 
 
-TARGET_BIN_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX)
-TARGET_LIB_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX):/usr/lib/../lib$(MULTILIB_X86_32_SUFFIX)
+LDFLAGS += -Wl,-rpath,/lib$(MULTILIB_PPC32_SUFFIX):/usr/lib$(MULTILIB_PPC32_SUFFIX):/usr/lib/../lib$(MULTILIB_PPC32_SUFFIX)
+
+TARGET_LIB_RPATH = /lib$(MULTILIB_PPC32_SUFFIX):/usr/lib$(MULTILIB_PPC32_SUFFIX):/usr/lib/../lib$(MULTILIB_PPC32_SUFFIX)
 
 
 ####### Dependencies
@@ -117,42 +127,38 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(LIBQMI_32_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
+	@rm -rf $(LIBQMI_32_PKG)/usr/bin
 	@rm -rf $(LIBQMI_32_PKG)/usr/include
+	@rm -rf $(LIBQMI_32_PKG)/usr/libexec
 	@rm -rf $(LIBQMI_32_PKG)/usr/share
 	# ======= remove toolchain path from target libtool *.la files =======
-	@( cd $(LIBQMI_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(LIBQMI_32_PKG)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libqmi-glib.la ; \
-	   sed -i "s,-L/usr/lib32 -L/usr/lib32,-L/usr/lib32,g" libqmi-glib.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(LIBQMI_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libqmi-glib.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libqmi-glib.la \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   libqmi-glib.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libqmi-glib.la ; \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_PPC32_SUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" qmi-glib.pc ; \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(LIBQMI_32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(LIBQMI_32_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 ifneq ($(CHRPATH),)
-	# ======= Set RPATH/RUNPATH for target binaries =======
-	@( cd $(LIBQMI_32_PKG)/usr ; \
-	   for file in `find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
-	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
-	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
-	       $(CHRPATH) -r $(TARGET_BIN_RPATH) $$file 1> /dev/null 2> /dev/null ; \
-	     fi ; \
-	   done ; \
-	 )
 	# ======= Set RPATH/RUNPATH for target shared objects =======
-	@( cd $(LIBQMI_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(LIBQMI_32_PKG)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
 	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
 	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
 	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \

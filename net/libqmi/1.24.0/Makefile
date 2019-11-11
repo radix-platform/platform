@@ -51,12 +51,13 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/n/libqmi
 
 REQUIRES           = libs/zlib/1.2.8
-REQUIRES          += libs/glib2/2.48.0
+REQUIRES          += libs/libgudev/233
+REQUIRES          += net/libmbim/1.20.0
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 1.10.4
+version            = 1.24.0
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/n/libqmi/libqmi-$(version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/libqmi-$(version)
@@ -78,7 +79,7 @@ PKG_GROUP = net
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 LIBQMI_PKG_NAME                = libqmi
-LIBQMI_PKG_VERSION             = 1.10.4
+LIBQMI_PKG_VERSION             = 1.24.0
 LIBQMI_PKG_ARCH                = $(TOOLCHAIN)
 LIBQMI_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBQMI_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -115,7 +116,7 @@ include ../../../build-system/core.mk
 env_sysroot  = DESTDIR=$(LIBQMI_PKG)
 
 
-ENABLE_GTK_DOCUMENTATION  = yes
+ENABLE_GTK_DOCUMENTATION  = no
 
 extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
@@ -123,12 +124,24 @@ extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var
-extra_configure_switches += --enable-gtk-doc=no
-extra_configure_switches += --enable-gtk-doc-html=no
+
+ifeq ($(ENABLE_GTK_DOCUMENTATION),yes)
+extra_configure_switches += --enable-gtk-doc=yes
+extra_configure_switches += --enable-gtk-doc-html=yes
 extra_configure_switches += --enable-gtk-doc-pdf=no
+else
+extra_configure_switches += --enable-gtk-doc=no
+endif
+
+ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
 extra_configure_switches += --enable-shared=yes
 
+
+LDFLAGS += -Wl,-rpath,/lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUFFIX)
 
 TARGET_BIN_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)
 TARGET_LIB_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUFFIX)
@@ -173,14 +186,14 @@ $(install_target): $(build_target)
 	       $(LIBQMI_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(LIBQMI_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a AUTHORS COPYING* INSTALL NEWS README TODO \
+	   cp -a AUTHORS COPYING* NEWS README TODO \
 	         $(LIBQMI_PKG)/usr/share/doc/$(src_dir_name) ; \
 	 )
-ifeq ($(ENABLE_GTK_DOCUMENTATION),yes)
+ifneq ($(ENABLE_GTK_DOCUMENTATION),yes)
 	@mkdir -p $(LIBQMI_PKG)/usr/share/gtk-doc/html/libqmi-glib
-	@cp -a $(SRC_DIR)/docs/reference/libqmi-glib/html/*.{html,png,css} $(LIBQMI_PKG)/usr/share/gtk-doc/html/libqmi-glib
-	@mkdir -p $(LIBQMI_PKG)/usr/share/doc/$(src_dir_name)/html
-	@ln -sf ../../../gtk-doc/html/libqmi-glib $(LIBQMI_PKG)/usr/share/doc/$(src_dir_name)/html/libqmi-glib
+	@cp -a $(SRC_DIR)/docs/reference/libqmi-glib/html/*.{html,png,css,devhelp2} $(LIBQMI_PKG)/usr/share/gtk-doc/html/libqmi-glib
+	@mkdir -p $(LIBQMI_PKG)/usr/share/doc/$(src_dir_name)
+	@ln -sf ../../gtk-doc/html/libqmi-glib $(LIBQMI_PKG)/usr/share/doc/$(src_dir_name)/html
 endif
 	@( cd $(SRC_DIR) ; \
 	   if [ -r ChangeLog -a -s ChangeLog ]; then \
@@ -197,8 +210,8 @@ endif
 	$(call install-into-devenv, $(LIBQMI_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libqmi-glib.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libqmi-glib.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   libqmi-glib.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libqmi-glib.la ; \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
@@ -208,8 +221,12 @@ endif
 	@( cd $(LIBQMI_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(LIBQMI_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target binaries =======
 	@( cd $(LIBQMI_PKG)/usr ; \

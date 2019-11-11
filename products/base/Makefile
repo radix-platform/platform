@@ -938,13 +938,28 @@ ifeq ($(HARDWARE),$(HARDWARE_PC64))
 REQUIRES += net/libmbim/1.20.0-x86_32
 endif
 
-REQUIRES += net/libqmi/1.14.2
-ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += net/libqmi/1.14.2-x86_32
+REQUIRES += net/libqmi/1.24.0
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
+REQUIRES += net/libqmi/1.24.0-ppc32
 endif
-REQUIRES += net/ipset/6.29
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
+REQUIRES += net/libqmi/1.24.0-sparc32
+endif
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += net/ipset/6.29-x86_32
+REQUIRES += net/libqmi/1.24.0-x86_32
+endif
+
+REQUIRES += net/ipset/7.4
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
+REQUIRES += net/ipset/7.4-ppc32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
+REQUIRES += net/ipset/7.4-sparc32
+endif
+ifeq ($(HARDWARE),$(HARDWARE_PC64))
+REQUIRES += net/ipset/7.4-x86_32
 endif
 
 REQUIRES += net/bind/9.14.7

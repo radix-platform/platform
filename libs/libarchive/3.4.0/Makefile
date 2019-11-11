@@ -52,14 +52,17 @@ SOURCE_REQUIRES    = sources/packages/l/libarchive
 
 REQUIRES           = app/acl/2.2.53
 REQUIRES          += app/bzip2/1.0.6
+REQUIRES          += app/xz/5.2.4
+REQUIRES          += libs/lz4/1.9.2
 REQUIRES          += libs/lzo/2.10
+REQUIRES          += libs/zstd/1.4.3
 REQUIRES          += net/nettle/3.5.1
 REQUIRES          += libs/libxml2/2.9.9
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 3.1.2
+version            = 3.4.0
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/libarchive/libarchive-$(version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/libarchive-$(version)
@@ -81,7 +84,7 @@ PKG_GROUP = libs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 LIBARCHIVE_PKG_NAME                = libarchive
-LIBARCHIVE_PKG_VERSION             = 3.1.2
+LIBARCHIVE_PKG_VERSION             = 3.4.0
 LIBARCHIVE_PKG_ARCH                = $(TOOLCHAIN)
 LIBARCHIVE_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 LIBARCHIVE_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -124,9 +127,16 @@ extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var
+
+ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
 extra_configure_switches += --enable-shared=yes
 
+
+LDFLAGS += -Wl,-rpath,/lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUFFIX)
 
 TARGET_BIN_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)
 TARGET_LIB_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUFFIX)
@@ -172,30 +182,38 @@ $(install_target): $(build_target)
 	       $(LIBARCHIVE_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(LIBARCHIVE_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a COPYING INSTALL NEWS README \
+	   cp -a COPYING INSTALL NEWS README* examples \
 	         $(LIBARCHIVE_PKG)/usr/share/doc/$(src_dir_name) ; \
 	 )
 	# ====== remove toolchain path from target libtool *.la files ======
 	@( cd $(LIBARCHIVE_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" libarchive.la  \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libarchive.la ; \
+	 )
+	# ====== remove toolchain path from target pkf-config *.pc files ======
+	@( cd $(LIBARCHIVE_PKG)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libarchive.pc ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(LIBARCHIVE_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libarchive.la ; \
-	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libarchive.la \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   libarchive.la ; \
+	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libarchive.la ; \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libarchive.pc \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libarchive.pc ; \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(LIBARCHIVE_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(LIBARCHIVE_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target binaries =======
 	@( cd $(LIBARCHIVE_PKG)/usr/bin ; \

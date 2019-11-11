@@ -51,9 +51,9 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/d/cmake
 
 ifneq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES           = libs/libarchive/3.1.2
+REQUIRES           = libs/libarchive/3.4.0
 else
-REQUIRES           = libs/libarchive/3.1.2-x86_32
+REQUIRES           = libs/libarchive/3.4.0-x86_32
 endif
 REQUIRES          += libs/shared-mime-info/1.6
 REQUIRES          += net/curl/7.47.0

@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/libarchive
 
-versions    = 3.1.2
+versions    = 3.4.0
 pkgname     = libarchive
 suffix      = tar.gz
 

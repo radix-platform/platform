@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/m/alsa/lib
 
 REQUIRES           = libs/alsa-lib/1.1.1
-REQUIRES          += dev/python2/2.7.11-x86_32
+REQUIRES          += dev/python2/2.7.16-x86_32
 
 # ======= __END_OF_REQUIRES__ =======
 

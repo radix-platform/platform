@@ -54,12 +54,12 @@ ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES           = app/gpm/1.20.7
 REQUIRES          += libs/slang/2.2.4
 REQUIRES          += libs/glib2/2.63.0
-REQUIRES          += libs/libssh2/1.8.0
+REQUIRES          += libs/libssh2/1.9.0
 else
 REQUIRES           = app/gpm/1.20.7-x86_32
 REQUIRES          += libs/slang/2.2.4-x86_32
 REQUIRES          += libs/glib2/2.63.0-x86_32
-REQUIRES          += libs/libssh2/1.8.0-x86_32
+REQUIRES          += libs/libssh2/1.9.0-x86_32
 endif
 
 # ======= __END_OF_REQUIRES__ =======

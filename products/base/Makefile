@@ -593,7 +593,7 @@ endif
 #######
 REQUIRES += share/dict/scowl/2019.10.06
 REQUIRES += share/dict/words-ca/2.1.5-1
-REQUIRES += share/dict/words-de/2.1
+REQUIRES += share/dict/words-de/20161207-7-0
 REQUIRES += share/dict/words-en_CA/2019.10.06
 REQUIRES += share/dict/words-en_CA-huge/2019.10.06
 REQUIRES += share/dict/words-en_CA-insane/2019.10.06
@@ -897,7 +897,7 @@ endif
 #
 # pkgtools requires dialog and GnuPG2
 #
-REQUIRES += app/pkgtols/0.1.3
+REQUIRES += app/pkgtools/0.1.3
 
 
 REQUIRES += net/bluez/5.52

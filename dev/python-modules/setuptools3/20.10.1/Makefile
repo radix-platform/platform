@@ -50,7 +50,7 @@ include ../../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/d/python-modules/setuptools
 
-REQUIRES           = dev/python3/3.5.1
+REQUIRES           = dev/python3/3.7.4
 
 # ======= __END_OF_REQUIRES__ =======
 

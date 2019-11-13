@@ -56,13 +56,13 @@ REQUIRES          += libs/alsa-lib/1.1.1
 REQUIRES          += libs/libsamplerate/0.1.8
 REQUIRES          += app/pciutils/3.6.2
 REQUIRES          += libs/ncurses/6.1
-REQUIRES          += app/dialog/1.2-20140112
+REQUIRES          += app/dialog/1.3-20190808
 else
 REQUIRES          += libs/alsa-lib/1.1.1-x86_32
 REQUIRES          += libs/libsamplerate/0.1.8-x86_32
 REQUIRES          += app/pciutils/3.6.2-x86_32
 REQUIRES          += libs/ncurses/6.1-x86_32
-REQUIRES          += app/dialog/1.2-20140112-x86_32
+REQUIRES          += app/dialog/1.3-20190808-x86_32
 endif
 
 # ======= __END_OF_REQUIRES__ =======

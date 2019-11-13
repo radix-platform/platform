@@ -50,7 +50,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/pyrex
 
-REQUIRES           = dev/python2/2.7.11
+REQUIRES           = dev/python2/2.7.16
 
 # ======= __END_OF_REQUIRES__ =======
 

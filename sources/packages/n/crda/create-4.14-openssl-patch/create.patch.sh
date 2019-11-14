@@ -1,15 +1,15 @@
 #!/bin/sh
 
-VERSION=3.18
+VERSION=4.14
 
 tar --files-from=file.list -xJvf ../crda-$VERSION.tar.xz
 mv crda-$VERSION crda-$VERSION-orig
 
 cp -rf ./crda-$VERSION-new ./crda-$VERSION
 
-diff -b --unified -Nr  crda-$VERSION-orig  crda-$VERSION > crda-$VERSION.patch
+diff --unified -Nr  crda-$VERSION-orig  crda-$VERSION > crda-$VERSION-openssl.patch
 
-mv crda-$VERSION.patch ../patches
+mv crda-$VERSION-openssl.patch ../patches
 
 rm -rf ./crda-$VERSION
 rm -rf ./crda-$VERSION-orig

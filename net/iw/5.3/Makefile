@@ -50,16 +50,12 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/n/iw
 
-ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
 REQUIRES           = net/libnl3/3.5.0
-else
-REQUIRES           = net/libnl3/3.5.0-x86_32
-endif
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 3.17
+version            = 5.3
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/n/iw/iw-$(version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/iw-$(version)
@@ -80,7 +76,7 @@ PKG_GROUP = net
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 IW_PKG_NAME                = iw
-IW_PKG_VERSION             = 3.17
+IW_PKG_VERSION             = 5.3
 IW_PKG_ARCH                = $(TOOLCHAIN)
 IW_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 IW_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -136,7 +132,7 @@ $(install_target): $(build_target)
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(configure_switches) $(env_sysroot)
 	# ======= Install Documentation =======
 	@mkdir -p $(IW_PKG)/usr/doc/$(src_dir_name)
-	@cp -a $(SRC_DIR)/CONTRIBUTING $(SRC_DIR)/COPYING \
+	@cp -a $(SRC_DIR)/COPYING \
 	       $(IW_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(IW_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \

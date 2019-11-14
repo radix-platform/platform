@@ -53,7 +53,8 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/n/crda
 SOURCE_REQUIRES   += sources/packages/n/wireless-regdb
 
-REQUIRES           = net/iw/3.17
+REQUIRES           = net/iw/5.3
+REQUIRES          += net/libnl3/3.5.0
 ifeq ($(ENABLE_DYNAMIC_PUBKEYS),yes)
 REQUIRES          += net/openssl/1.1.1d
 else
@@ -63,17 +64,23 @@ endif
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 3.18
+version            = 4.14
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/n/crda/crda-$(version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/crda-$(version)
 src_dir_name       = crda-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
 
-wireless_regdb_version = 2015.12.14
+wireless_regdb_version = 2019.06.03
 wireless_regdb_tarball = $(SRC_PACKAGE_PATH)/packages/n/wireless-regdb/wireless-regdb-$(wireless_regdb_version).tar.xz
 
 PATCHES = PATCHES
+
+ifeq ($(ENABLE_DYNAMIC_PUBKEYS),yes)
+OPT_PATCHES = PATCHES.openssl
+else
+OPT_PATCHES = PATCHES.gcrypt
+endif
 
 build_target       = $(TARGET_BUILD_DIR)/.build_done
 install_target     = $(TARGET_BUILD_DIR)/.install_done
@@ -87,7 +94,7 @@ PKG_GROUP = net
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 CRDA_PKG_NAME                = crda
-CRDA_PKG_VERSION             = 3.18
+CRDA_PKG_VERSION             = 4.14
 CRDA_PKG_ARCH                = $(TOOLCHAIN)
 CRDA_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 CRDA_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -126,9 +133,12 @@ env_sysroot  = DESTDIR=$(CRDA_PKG)
 DYNAMIC_PUBKEY_DIR  = etc/wireless-regdb/pubkeys
 
 #
-# NOTE: the default format is 'le32' and we can check only x86_64 HARDWARE.
+# NOTE: the default format is 'le32' and we can check only 64-bit HARDWARE.
 #
-ifneq ($(filter $(HARDWARE),$(HARDWARE_PC64)),)
+ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC) \
+                             $(TOOLCHAIN_R1000_GLIBC)  \
+                             $(TOOLCHAIN_POWER8_GLIBC) \
+                             $(TOOLCHAIN_POWER9_GLIBC)),)
 DATA_FORMAT = le64
 else
 DATA_FORMAT = le32
@@ -137,11 +147,14 @@ endif
 
 configure_switches  = PREFIX=/usr
 configure_switches += LIBDIR=/usr/lib$(LIBSUFFIX)
+
 ifeq ($(ENABLE_DYNAMIC_PUBKEYS),yes)
 configure_switches += USE_OPENSSL=1
 configure_switches += RUNTIME_PUBKEY_DIR=/$(DYNAMIC_PUBKEY_DIR)
+else
 configure_switches += DATA_FORMAT=$(DATA_FORMAT)
 endif
+
 configure_switches += UDEV_RULE_DIR=/lib/udev/rules.d
 configure_switches += MANDIR=/usr/share/man
 
@@ -158,6 +171,7 @@ configure_switches += BUILD_REG_DB_DUMP=/sbin/regdbdump
 $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	$(UNPACK_SRC_ARCHIVE)
 	$(APPLY_PATCHES)
+	$(call apply-opt-patches, $(SRC_DIR))
 	@echo "Expanding `basename $(wireless_regdb_tarball)`"
 	@tar xJf $(wireless_regdb_tarball) -C $(TARGET_BUILD_DIR)
 	@touch $@
@@ -165,16 +179,13 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 $(build_target): $(src_done)
 	# ======= Install wireless-regdb-$(wireless_regdb_version) =======
 	@( cd $(TARGET_BUILD_DIR)/wireless-regdb-$(wireless_regdb_version) ; \
-	   mkdir -p $(CRDA_PKG)/usr/lib$(LIBSUFFIX)/crda ; \
-	   cat regulatory.bin > $(CRDA_PKG)/usr/lib$(LIBSUFFIX)/crda/regulatory.bin ; \
-	   mkdir -p $(CRDA_PKG)/usr/share/man/man5 ; \
-	   gzip -9c regulatory.bin.5 > $(CRDA_PKG)/usr/share/man/man5/regulatory.bin.5.gz ; \
+	   make install $(env_sysroot) PREFIX=/usr CRDA_PATH=/usr/lib$(LIBSUFFIX)/crda ; \
 	   mkdir -p $(CRDA_PKG)/usr/share/doc/$(src_dir_name)/regdb ; \
 	   cp -a CONTRIBUTING LICENSE README db.txt \
 	         $(CRDA_PKG)/usr/share/doc/$(src_dir_name)/regdb ; \
 	 )
 	# ======= Build CRDA-$(version) =======
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) $(configure_switches)
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) $(configure_switches) PYTHON=$(PYTHON2)
 	@touch $@
 
 $(install_target): $(build_target)

@@ -7,7 +7,7 @@ include ../../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/d/python-modules/setuptools
 
-versions    = 20.10.1
+versions    = 20.10.1 41.6.0
 pkgname     = setuptools
 suffix      = tar.gz
 

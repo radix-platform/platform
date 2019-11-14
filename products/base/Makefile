@@ -968,7 +968,7 @@ REQUIRES += net/whois/5.5.2
 
 REQUIRES += net/rfkill/0.5
 REQUIRES += net/bridge-utils/1.6
-REQUIRES += net/crda/3.18
+REQUIRES += net/crda/4.14
 REQUIRES += net/wireless-tools/29
 
 REQUIRES += libs/dbus-python/1.2.4

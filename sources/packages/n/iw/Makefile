@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/iw
 
-versions    = 3.17
+versions    = 5.3
 pkgname     = iw
 suffix      = tar.xz
 

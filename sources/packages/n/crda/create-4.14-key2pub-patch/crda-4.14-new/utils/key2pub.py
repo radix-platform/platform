@@ -66,7 +66,6 @@ def print_ssl(format, output, name, val):
     else:
         return print_ssl_32(format, output, name, val)
 
-
 def print_ssl_keys(output, n):
     output.write(r'''
 struct pubkey {
@@ -117,7 +116,7 @@ struct key_params {
 	.n = _n, .len_n = sizeof(_n),	\
 }
 
-static const struct key_params keys[] = {
+static const struct key_params __attribute__ ((unused)) keys[] = {
 ''')
     for n in xrange(n + 1):
         output.write('	KEYS(e_%d, n_%d),\n' % (n, n))

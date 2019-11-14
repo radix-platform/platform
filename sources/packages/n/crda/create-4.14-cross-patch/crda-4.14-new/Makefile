@@ -1,7 +1,7 @@
 # Modify as you see fit, note this is built into crda,
 # so if you change it here you will have to change crda.c
 REG_BIN?=/usr/lib/crda/regulatory.bin
-REG_GIT?=git://git.kernel.org/pub/scm/linux/kernel/git/linville/wireless-regdb.git
+REG_GIT?=git://git.kernel.org/pub/scm/linux/kernel/git/sforshee/wireless-regdb.git
 
 BUILD_REG_DB_DUMP ?= ./regdbdump
 DATA_FORMAT ?= le32
@@ -118,7 +118,11 @@ $(REG_BIN):
 keys-%.c: utils/key2pub.py $(wildcard $(PUBKEY_DIR)/*.pem)
 	$(NQ) '  GEN ' $@
 	$(NQ) '  Trusted pubkeys:' $(wildcard $(PUBKEY_DIR)/*.pem)
-	$(Q)./utils/key2pub.py --$* --$(DATA_FORMAT) $(wildcard $(PUBKEY_DIR)/*.pem) $@
+ifneq ($(USE_OPENSSL),1)
+	$(Q)$(PYTHON) ./utils/key2pub.py --$* --$(DATA_FORMAT) $(wildcard $(PUBKEY_DIR)/*.pem) $@
+else
+	$(Q)$(PYTHON) ./utils/key2pub.py $(wildcard $(PUBKEY_DIR)/*.pem) $@
+endif
 
 $(LIBREG): regdb.h reglib.h reglib.c
 	$(NQ) '  CC  ' $@

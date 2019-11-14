@@ -7,7 +7,7 @@ include ../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/GNU/wget
 
-versions    = 1.14 1.15 1.16
+versions    = 1.20.3
 pkgname     = wget
 suffix      = tar.xz
 

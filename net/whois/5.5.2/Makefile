@@ -50,18 +50,14 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/n/whois
 
-ifeq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC)),)
-REQUIRES           = libs/libidn/1.35
-else
-REQUIRES           = libs/libidn/1.35-x86_32
-endif
+REQUIRES           = libs/libidn2/2.2.0
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 5.2.12
-tar_bz2_archive    = $(SRC_PACKAGE_PATH)/packages/n/whois/whois-$(version).tar.bz2
-SRC_ARCHIVE        = $(tar_bz2_archive)
+version            = 5.5.2
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/n/whois/whois-$(version).tar.xz
+SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/whois-$(version)
 src_dir_name       = whois-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
@@ -80,7 +76,7 @@ PKG_GROUP = net
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 WHOIS_PKG_NAME                = whois
-WHOIS_PKG_VERSION             = 5.2.12
+WHOIS_PKG_VERSION             = 5.5.2
 WHOIS_PKG_ARCH                = $(TOOLCHAIN)
 WHOIS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 WHOIS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -125,14 +121,12 @@ $(src_done): $(SRC_ARCHIVE) $(PATCHES_DEP)
 	@touch $@
 
 $(build_target): $(src_done)
-	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) HAVE_LIBIDN=y
+	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) HAVE_LIBIDN2=y
 	@touch $@
 
 $(install_target): $(build_target)
 	@mkdir -p $(WHOIS_PKG)
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install install-pos $(env_sysroot)
-	# ======= remove mkpasswd stuff =======
-	@find $(WHOIS_PKG) -iname "mkpasswd*" -exec rm -f {} \;
 	# ======= Install Documentation =======
 	@if [ -d $(WHOIS_PKG)/usr/share/man ]; then \
 	  ( cd $(WHOIS_PKG)/usr/share/man ; \

@@ -2,10 +2,43 @@
 COMPONENT_TARGETS  = $(HARDWARE_PC32)
 COMPONENT_TARGETS += $(HARDWARE_PC64)
 COMPONENT_TARGETS += $(HARDWARE_CB1X)
+COMPONENT_TARGETS += $(HARDWARE_CB2X)
 COMPONENT_TARGETS += $(HARDWARE_CB3X)
+COMPONENT_TARGETS += $(HARDWARE_ORANGE_PP2E)
+COMPONENT_TARGETS += $(HARDWARE_NANOPI_NEO)
+COMPONENT_TARGETS += $(HARDWARE_ORANGE_PP)
+COMPONENT_TARGETS += $(HARDWARE_ORANGE_PL2)
+COMPONENT_TARGETS += $(HARDWARE_WECHIP_TX6)
+COMPONENT_TARGETS += $(HARDWARE_FFRK3288)
+COMPONENT_TARGETS += $(HARDWARE_POIN2)
+COMPONENT_TARGETS += $(HARDWARE_RK3328_CC)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_EDGE)
+COMPONENT_TARGETS += $(HARDWARE_M201)
+COMPONENT_TARGETS += $(HARDWARE_MXV)
+COMPONENT_TARGETS += $(HARDWARE_P201)
+COMPONENT_TARGETS += $(HARDWARE_NEXBOX_A95X)
+COMPONENT_TARGETS += $(HARDWARE_ODROID_C2)
+COMPONENT_TARGETS += $(HARDWARE_P212)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM)
+COMPONENT_TARGETS += $(HARDWARE_Q201)
+COMPONENT_TARGETS += $(HARDWARE_ENYBOX_X2)
+COMPONENT_TARGETS += $(HARDWARE_KHADAS_VIM2)
+COMPONENT_TARGETS += $(HARDWARE_NIT6Q)
 COMPONENT_TARGETS += $(HARDWARE_OKMX6DL_C)
 COMPONENT_TARGETS += $(HARDWARE_OKMX6Q_C)
 COMPONENT_TARGETS += $(HARDWARE_OMAP5UEVM)
+COMPONENT_TARGETS += $(HARDWARE_DRA7XXEVM)
+COMPONENT_TARGETS += $(HARDWARE_CI20)
+COMPONENT_TARGETS += $(HARDWARE_BAIKAL_T1)
+COMPONENT_TARGETS += $(HARDWARE_MBC4_PC)
+COMPONENT_TARGETS += $(HARDWARE_S824L)
+COMPONENT_TARGETS += $(HARDWARE_VESNIN)
+COMPONENT_TARGETS += $(HARDWARE_S824L_LSB)
+COMPONENT_TARGETS += $(HARDWARE_VESNIN_LSB)
+COMPONENT_TARGETS += $(HARDWARE_TL2WK2)
+COMPONENT_TARGETS += $(HARDWARE_TL2SV2)
+COMPONENT_TARGETS += $(HARDWARE_TL2WK2_LSB)
+COMPONENT_TARGETS += $(HARDWARE_TL2SV2_LSB)
 
 
 NEED_ABS_PATH      = true
@@ -17,17 +50,15 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/GNU/wget
 
-REQUIRES           = app/util-linux/2.24.1
-REQUIRES          += libs/libidn/1.28
-REQUIRES          += libs/pcre/8.38
-REQUIRES          += libs/zlib/1.2.8
-REQUIRES          += net/openssl/1.0.2f
-REQUIRES          += net/ca-certificates/52.0
+REQUIRES           = net/ca-certificates/20191101
+REQUIRES          += app/util-linux/2.34
+REQUIRES          += libs/libidn2/2.2.0
+REQUIRES          += libs/pcre/8.43
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 1.15
+version            = 1.20.3
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/GNU/wget/wget-$(version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/wget-$(version)
@@ -49,7 +80,7 @@ PKG_GROUP = net
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 WGET_PKG_NAME                = wget
-WGET_PKG_VERSION             = 1.15
+WGET_PKG_VERSION             = 1.20.3
 WGET_PKG_ARCH                = $(TOOLCHAIN)
 WGET_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 WGET_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -90,6 +121,7 @@ extra_configure_switches  = --libdir=/usr/lib$(LIBSUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
+extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --with-ssl=openssl
 extra_configure_switches += --with-openssl
@@ -144,7 +176,7 @@ $(install_target): $(build_target)
 	       $(WGET_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(WGET_PKG)/usr/share/doc/$(src_dir_name)/util
 	@( cd $(SRC_DIR) ; \
-	   cp -a AUTHORS COPYING INSTALL MAILING-LIST NEWS README \
+	   cp -a AUTHORS COPYING MAILING-LIST NEWS README \
 	         $(WGET_PKG)/usr/share/doc/$(src_dir_name) ; \
 	   cp -a util/README util/rmold.pl util/trunc.c \
 	         $(WGET_PKG)/usr/share/doc/$(src_dir_name)/util ; \

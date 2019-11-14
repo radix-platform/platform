@@ -963,11 +963,11 @@ REQUIRES += net/ipset/7.4-x86_32
 endif
 
 REQUIRES += net/bind/9.14.7
-REQUIRES += net/wget/1.16
-REQUIRES += net/whois/5.2.12
+REQUIRES += net/wget/1.20.3
+REQUIRES += net/whois/5.5.2
 
 REQUIRES += net/rfkill/0.5
-REQUIRES += net/bridge-utils/1.5
+REQUIRES += net/bridge-utils/1.6
 REQUIRES += net/crda/3.18
 REQUIRES += net/wireless-tools/29
 

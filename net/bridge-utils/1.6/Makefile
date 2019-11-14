@@ -59,9 +59,9 @@ endif
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 1.5
-tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/n/bridge-utils/bridge-utils-$(version).tar.gz
-SRC_ARCHIVE        = $(tar_gz_archive)
+version            = 1.6
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/n/bridge-utils/bridge-utils-$(version).tar.xz
+SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/bridge-utils-$(version)
 src_dir_name       = bridge-utils-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
@@ -80,7 +80,7 @@ PKG_GROUP = net
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 BRCTL_PKG_NAME                = bridge-utils
-BRCTL_PKG_VERSION             = 1.5
+BRCTL_PKG_VERSION             = 1.6
 BRCTL_PKG_ARCH                = $(TOOLCHAIN)
 BRCTL_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 BRCTL_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -147,7 +147,10 @@ $(install_target): $(build_target)
 	@mkdir -p $(BRCTL_PKG)/usr/lib$(LIBSUFFIX)
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
 	# ======= Install libbridge.a =======
-	@cp -a $(SRC_DIR)/libbridge/libbridge.a $(BRCTL_PKG)/usr/lib$(LIBSUFFIX)
+	@mkdir -p $(BRCTL_PKG)/usr/include
+	@install -m 644 $(SRC_DIR)/libbridge/libbridge.h $(BRCTL_PKG)/usr/include
+	@mkdir -p $(BRCTL_PKG)/usr/lib$(LIBSUFFIX)
+	@install -m 644 $(SRC_DIR)/libbridge/libbridge.a $(BRCTL_PKG)/usr/lib$(LIBSUFFIX)
 	@mkdir -p $(BRCTL_PKG)/sbin
 	@mv $(BRCTL_PKG)/usr/sbin/brctl $(BRCTL_PKG)/sbin/brctl
 	@( cd $(BRCTL_PKG)/usr/sbin ; ln -sf ../../sbin/brctl brctl )

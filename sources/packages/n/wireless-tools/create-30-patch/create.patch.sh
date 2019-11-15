@@ -1,6 +1,6 @@
 #!/bin/sh
 
-VERSION=29
+VERSION=30
 
 tar --files-from=file.list -xzvf ../wireless-tools-$VERSION.tar.gz
 mv wireless-tools-$VERSION wireless-tools-$VERSION-orig

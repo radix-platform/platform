@@ -59,7 +59,7 @@ endif
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 29
+version            = 30
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/n/wireless-tools/wireless-tools-$(version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/wireless-tools-$(version)
@@ -80,7 +80,7 @@ PKG_GROUP = net
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 WTOOLS_PKG_NAME                = wireless-tools
-WTOOLS_PKG_VERSION             = 29
+WTOOLS_PKG_VERSION             = 30
 WTOOLS_PKG_ARCH                = $(TOOLCHAIN)
 WTOOLS_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 WTOOLS_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -171,7 +171,7 @@ $(install_target): $(build_target)
 	# ======= Strip binaries =======
 	@( cd $(WTOOLS_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
 	 )
 	@touch $@
 

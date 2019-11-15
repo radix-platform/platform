@@ -7,14 +7,14 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/wireless-tools
 
-versions    = 29
+versions    = 30
 pkgname     = wireless-tools
 suffix      = tar.gz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/wireless-tools-29.patch
+patches     = $(CURDIR)/patches/wireless-tools-30.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -49,7 +49,7 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-29-patch ; ./create.patch.sh ) ; \
+	 ( cd create-30-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

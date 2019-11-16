@@ -1,6 +1,6 @@
 #!/bin/sh
 
-VERSION=0.106
+VERSION=0.110
 
 tar --files-from=file.list -xzvf ../dbus-glib-$VERSION.tar.gz
 mv dbus-glib-$VERSION dbus-glib-$VERSION-orig

@@ -1,10 +1,13 @@
 
-COMPONENT_TARGETS  = $(HARDWARE_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_S824L)
+COMPONENT_TARGETS += $(HARDWARE_VESNIN)
+COMPONENT_TARGETS += $(HARDWARE_TL2WK2)
+COMPONENT_TARGETS += $(HARDWARE_TL2SV2)
 
 NEED_ABS_PATH      = true
 COMPONENT_IS_3PP   = true
 
-CREATE_X86_32_PACKAGE = true
+CREATE_PPC32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
@@ -12,17 +15,15 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/dbus-python
 
-REQUIRES           = libs/dbus-python/1.2.4
-REQUIRES          += app/dbus/1.13.12-x86_32
-REQUIRES          += libs/dbus-glib/0.106-x86_32
-REQUIRES          += dev/python2/2.7.16-x86_32
+REQUIRES           = libs/dbus-python/1.2.12
+REQUIRES          += app/dbus/1.13.12-ppc32
+REQUIRES          += libs/dbus-glib/0.110-ppc32
+REQUIRES          += dev/python2/2.7.16-ppc32
 
 # ======= __END_OF_REQUIRES__ =======
 
-PYTHON_VERSION = 2.7
 
-
-version            = 1.2.4
+version            = 1.2.12
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/dbus-python/dbus-python-$(version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/dbus-python-$(version)
@@ -43,7 +44,7 @@ PKG_GROUP = libs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 DBUS_PYTHON_32_PKG_NAME                = dbus-python-x32
-DBUS_PYTHON_32_PKG_VERSION             = 1.2.4
+DBUS_PYTHON_32_PKG_VERSION             = 1.2.12
 DBUS_PYTHON_32_PKG_ARCH                = $(TOOLCHAIN)
 DBUS_PYTHON_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 DBUS_PYTHON_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -80,32 +81,56 @@ include ../../../build-system/core.mk
 env_sysroot = DESTDIR=$(DBUS_PYTHON_32_PKG)
 
 
-extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
+extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_PPC32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var
-extra_configure_switches += --enable-shared=yes
-extra_configure_switches += --enable-static=yes
 
-python_environment  = PLATFORM=linux2
+ifeq ($(__ENABLE_STATIC__),yes)
+extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
+extra_configure_switches += --enable-shared=yes
+
+
+PYTHON_VERSION = 3.7
+
+ifeq ($(PYTHON_VERSION),2.7)
+python_environment  = PYTHON=$(PYTHON2)
+python_environment += PLATFORM=linux
 python_environment += PYTHON_VERSION=$(PYTHON_VERSION)
-python_environment += PYTHON_SITE_PACKAGES=/usr/lib$(MULTILIB_X86_32_SUFFIX)/python$(PYTHON_VERSION)/site-packages
-python_environment += PYTHON_INCLUDES=$(TARGET_DEST_DIR)/usr/include/python$(PYTHON_VERSION)
-python_environment += PYTHON_LIBS='-L$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) -L$(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/python$(PYTHON_VERSION)/config -lpython2.7'
+python_environment += PYTHON_SITE_PACKAGES=/usr/lib$(MULTILIB_PPC32_SUFFIX)/python$(PYTHON_VERSION)/site-packages
+python_environment += PYTHON_INCLUDES=-I$(TARGET_DEST_DIR)/usr/include/python$(PYTHON_VERSION)
+python_environment += PYTHON_LIBS='$(shell $(TARGET_DEST_DIR)/usr/bin/32/python$(PYTHON_VERSION)-config --ldflags)'
+CFLAGS += -I$(TARGET_DEST_DIR)/usr/include/python$(PYTHON_VERSION)
+endif
+
+ifeq ($(PYTHON_VERSION),3.7)
+python_environment  = PYTHON=$(PYTHON3)
+python_environment += PLATFORM=linux
+python_environment += PYTHON_VERSION=$(PYTHON_VERSION)
+python_environment += PYTHON_SITE_PACKAGES=/usr/lib$(MULTILIB_PPC32_SUFFIX)/python$(PYTHON_VERSION)/site-packages
+python_environment += PYTHON_INCLUDES='$(shell $(TARGET_DEST_DIR)/usr/bin/32/python$(PYTHON_VERSION)-config --includes)'
+python_environment += PYTHON_LIBS='$(shell $(TARGET_DEST_DIR)/usr/bin/32/python$(PYTHON_VERSION)-config --ldflags)'
+CFLAGS += -I$(TARGET_DEST_DIR)/usr/include/python$(PYTHON_VERSION)m
+endif
 
 #
 # The cross-building requirements:
 #
 python_environment += CPPFLAGS="$(CFLAGS) -I$(TARGET_DEST_DIR)/usr/include/python$(PYTHON_VERSION)"
 python_environment += CPP="$(CC) --sysroot=$(TARGET_DEST_DIR) -E"
-python_environment += am_cv_python_pythondir=/usr/lib$(MULTILIB_X86_32_SUFFIX)/python$(PYTHON_VERSION)/site-packages
-python_environment += am_cv_python_pyexecdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)/python$(PYTHON_VERSION)/site-packages
+python_environment += am_cv_python_pythondir=/usr/lib$(MULTILIB_PPC32_SUFFIX)/python$(PYTHON_VERSION)/site-packages
+python_environment += am_cv_python_pyexecdir=/usr/lib$(MULTILIB_PPC32_SUFFIX)/python$(PYTHON_VERSION)/site-packages
 
 
-TARGET_LIB_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX):/usr/lib/../lib$(MULTILIB_X86_32_SUFFIX)
+TARGET_LIB_RPATH = /lib$(MULTILIB_PPC32_SUFFIX):/usr/lib$(MULTILIB_PPC32_SUFFIX):/usr/lib/../lib$(MULTILIB_PPC32_SUFFIX)
+
+LDFLAGS += -Wl,-rpath,$(TARGET_LIB_RPATH)
 
 
 ####### Dependencies
@@ -131,29 +156,33 @@ $(install_target): $(build_target)
 	@rm -rf $(DBUS_PYTHON_32_PKG)/usr/include
 	@rm -rf $(DBUS_PYTHON_32_PKG)/usr/share
 	# ======= remove toolchain path from target libtool *.la files =======
-	@( cd $(DBUS_PYTHON_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/python$(PYTHON_VERSION)/site-packages ; \
+	@( cd $(DBUS_PYTHON_32_PKG)/usr/lib$(MULTILIB_PPC32_SUFFIX)/python$(PYTHON_VERSION)/site-packages ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" _dbus_bindings.la _dbus_glib_bindings.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(DBUS_PYTHON_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/python$(PYTHON_VERSION)/site-packages ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" _dbus_bindings.la _dbus_glib_bindings.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" _dbus_bindings.la _dbus_glib_bindings.la \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_PPC32_SUFFIX)/python$(PYTHON_VERSION)/site-packages ; \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   _dbus_bindings.la _dbus_glib_bindings.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" _dbus_bindings.la _dbus_glib_bindings.la ; \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_PPC32_SUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" dbus-python.pc ; \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(DBUS_PYTHON_32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(DBUS_PYTHON_32_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target shared objects =======
-	@( cd $(DBUS_PYTHON_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(DBUS_PYTHON_32_PKG)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
 	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
 	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
 	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \

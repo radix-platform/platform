@@ -51,15 +51,13 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/l/dbus-python
 
 REQUIRES           = app/dbus/1.13.12
-REQUIRES          += libs/dbus-glib/0.106
+REQUIRES          += libs/dbus-glib/0.110
 REQUIRES          += dev/python2/2.7.16
 
 # ======= __END_OF_REQUIRES__ =======
 
-PYTHON_VERSION = 2.7
 
-
-version            = 1.2.4
+version            = 1.2.12
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/dbus-python/dbus-python-$(version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/dbus-python-$(version)
@@ -81,7 +79,7 @@ PKG_GROUP = libs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 DBUS_PYTHON_PKG_NAME                = dbus-python
-DBUS_PYTHON_PKG_VERSION             = 1.2.4
+DBUS_PYTHON_PKG_VERSION             = 1.2.12
 DBUS_PYTHON_PKG_ARCH                = $(TOOLCHAIN)
 DBUS_PYTHON_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 DBUS_PYTHON_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -125,14 +123,36 @@ extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var
-extra_configure_switches += --enable-shared=yes
-extra_configure_switches += --enable-static=yes
 
-python_environment  = PLATFORM=linux2
+ifeq ($(__ENABLE_STATIC__),yes)
+extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
+extra_configure_switches += --enable-shared=yes
+
+
+PYTHON_VERSION = 3.7
+
+ifeq ($(PYTHON_VERSION),2.7)
+python_environment  = PYTHON=$(PYTHON2)
+python_environment += PLATFORM=linux
 python_environment += PYTHON_VERSION=$(PYTHON_VERSION)
 python_environment += PYTHON_SITE_PACKAGES=/usr/lib$(LIBSUFFIX)/python$(PYTHON_VERSION)/site-packages
 python_environment += PYTHON_INCLUDES=-I$(TARGET_DEST_DIR)/usr/include/python$(PYTHON_VERSION)
-python_environment += PYTHON_LIBS='-L$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) -L$(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/python$(PYTHON_VERSION)/config -lpython2.7'
+python_environment += PYTHON_LIBS='$(shell $(TARGET_DEST_DIR)/usr/bin/python$(PYTHON_VERSION)-config --ldflags)'
+CFLAGS += -I$(TARGET_DEST_DIR)/usr/include/python$(PYTHON_VERSION)
+endif
+
+ifeq ($(PYTHON_VERSION),3.7)
+python_environment  = PYTHON=$(PYTHON3)
+python_environment += PLATFORM=linux
+python_environment += PYTHON_VERSION=$(PYTHON_VERSION)
+python_environment += PYTHON_SITE_PACKAGES=/usr/lib$(LIBSUFFIX)/python$(PYTHON_VERSION)/site-packages
+python_environment += PYTHON_INCLUDES='$(shell $(TARGET_DEST_DIR)/usr/bin/python$(PYTHON_VERSION)-config --includes)'
+python_environment += PYTHON_LIBS='$(shell $(TARGET_DEST_DIR)/usr/bin/python$(PYTHON_VERSION)-config --ldflags)'
+CFLAGS += -I$(TARGET_DEST_DIR)/usr/include/python$(PYTHON_VERSION)m
+endif
 
 #
 # The cross-building requirements:
@@ -144,6 +164,8 @@ python_environment += am_cv_python_pyexecdir=/usr/lib$(LIBSUFFIX)/python$(PYTHON
 
 
 TARGET_LIB_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUFFIX)
+
+LDFLAGS += -Wl,-rpath,$(TARGET_LIB_RPATH)
 
 
 ####### Dependencies
@@ -186,7 +208,7 @@ $(install_target): $(build_target)
 	       $(DBUS_PYTHON_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(DBUS_PYTHON_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a AUTHORS COPYING INSTALL \
+	   cp -a AUTHORS COPYING NEWS README \
 	         $(DBUS_PYTHON_PKG)/usr/share/doc/$(src_dir_name) ; \
 	 )
 	@( cd $(SRC_DIR) ; \
@@ -204,8 +226,8 @@ $(install_target): $(build_target)
 	$(call install-into-devenv, $(DBUS_PYTHON_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/python$(PYTHON_VERSION)/site-packages ; \
-	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" _dbus_bindings.la _dbus_glib_bindings.la ; \
-	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" _dbus_bindings.la _dbus_glib_bindings.la \
+	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   _dbus_bindings.la _dbus_glib_bindings.la ; \
+	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" _dbus_bindings.la _dbus_glib_bindings.la ; \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX)/pkgconfig ; \
@@ -215,8 +237,12 @@ $(install_target): $(build_target)
 	@( cd $(DBUS_PYTHON_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(DBUS_PYTHON_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target shared objects =======
 	@( cd $(DBUS_PYTHON_PKG)/usr/lib$(LIBSUFFIX) ; \

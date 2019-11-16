@@ -50,13 +50,13 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/dbus-glib
 
-REQUIRES           = app/dbus/1.11.2
-REQUIRES          += libs/glib2/2.48.0
+REQUIRES           = app/dbus/1.13.12
+REQUIRES          += libs/glib2/2.63.0
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 0.102
+version            = 0.110
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/dbus-glib/dbus-glib-$(version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/dbus-glib-$(version)
@@ -78,7 +78,7 @@ PKG_GROUP = libs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 DBUS_GLIB_PKG_NAME                = dbus-glib
-DBUS_GLIB_PKG_VERSION             = 0.102
+DBUS_GLIB_PKG_VERSION             = 0.110
 DBUS_GLIB_PKG_ARCH                = $(TOOLCHAIN)
 DBUS_GLIB_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 DBUS_GLIB_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -124,12 +124,21 @@ extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var
-extra_configure_switches += --enable-shared=yes
-extra_configure_switches += --enable-static=yes
 
 ifeq ($(ENABLE_GTK_DOCUMENTATION),yes)
-extra_configure_switches += --enable-gtk-doc
+extra_configure_switches += --enable-gtk-doc=yes
+extra_configure_switches += --enable-gtk-doc-html=yes
+extra_configure_switches += --enable-gtk-doc-pdf=no
+else
+extra_configure_switches += --enable-gtk-doc=no
 endif
+
+ifeq ($(__ENABLE_STATIC__),yes)
+extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
+extra_configure_switches += --enable-shared=yes
 
 #
 # Cross building requirements:
@@ -140,6 +149,8 @@ extra_configure_switches += --with-dbus-binding-tool=/usr/bin/dbus-binding-tool
 
 TARGET_BIN_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)
 TARGET_LIB_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUFFIX)
+
+LDFLAGS += -Wl,-rpath,$(TARGET_LIB_RPATH)
 
 
 ####### Dependencies
@@ -188,9 +199,14 @@ $(install_target): $(build_target)
 	   cp -a AUTHORS COPYING HACKING INSTALL NEWS README \
 	         $(DBUS_GLIB_PKG)/usr/share/doc/$(src_dir_name) ; \
 	 )
-ifeq ($(ENABLE_GTK_DOCUMENTATION),yes)
-	@ln -sf ../../gtk-doc/html/dbus-glib $(DBUS_GLIB_PKG)/usr/share/doc/$(src_dir_name)/html
+ifneq ($(ENABLE_GTK_DOCUMENTATION),yes)
+	@mkdir -p $(DBUS_GLIB_PKG)/usr/share/gtk-doc/html/dbus-glib
+	@( cd $(SRC_DIR)/doc/reference/html ; \
+	   cp -a *.html *.css *.png *.devhelp2 \
+	         $(DBUS_GLIB_PKG)/usr/share/gtk-doc/html/dbus-glib ; \
+	 )
 endif
+	@ln -sf ../../gtk-doc/html/dbus-glib $(DBUS_GLIB_PKG)/usr/share/doc/$(src_dir_name)/html
 	@( cd $(SRC_DIR) ; \
 	   if [ -r ChangeLog ]; then \
 	     DOCSDIR=`echo $(DBUS_GLIB_PKG)/usr/share/doc/$(src_dir_name)` ; \
@@ -217,8 +233,12 @@ endif
 	@( cd $(DBUS_GLIB_PKG); \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(DBUS_GLIB_PKG); \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target binaries =======
 	@( cd $(DBUS_GLIB_PKG)/usr ; \

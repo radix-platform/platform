@@ -1,10 +1,10 @@
 
-COMPONENT_TARGETS  = $(HARDWARE_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_MBC4_PC)
 
 NEED_ABS_PATH      = true
 COMPONENT_IS_3PP   = true
 
-CREATE_X86_32_PACKAGE = true
+CREATE_SPARC32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
@@ -12,14 +12,14 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/dbus-glib
 
-REQUIRES           = libs/dbus-glib/0.106
-REQUIRES          += app/dbus/1.13.12-x86_32
-REQUIRES          += libs/glib2/2.63.0-x86_32
+REQUIRES           = libs/dbus-glib/0.110
+REQUIRES          += app/dbus/1.13.12-sparc32
+REQUIRES          += libs/glib2/2.63.0-sparc32
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 0.106
+version            = 0.110
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/dbus-glib/dbus-glib-$(version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/dbus-glib-$(version)
@@ -40,7 +40,7 @@ PKG_GROUP = libs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 DBUS_GLIB_32_PKG_NAME                = dbus-glib-x32
-DBUS_GLIB_32_PKG_VERSION             = 0.106
+DBUS_GLIB_32_PKG_VERSION             = 0.110
 DBUS_GLIB_32_PKG_ARCH                = $(TOOLCHAIN)
 DBUS_GLIB_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 DBUS_GLIB_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -77,7 +77,7 @@ include ../../../build-system/core.mk
 env_sysroot = DESTDIR=$(DBUS_GLIB_32_PKG)
 
 
-extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
+extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_SPARC32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --infodir=/usr/share/info
 extra_configure_switches += --mandir=/usr/share/man
@@ -87,8 +87,14 @@ extra_configure_switches += --bindir=/usr/bin/32
 extra_configure_switches += --disable-dependency-tracking
 extra_configure_switches += --sysconfdir=/etc
 extra_configure_switches += --localstatedir=/var
-extra_configure_switches += --enable-shared=yes
+extra_configure_switches += --enable-gtk-doc=no
+
+ifeq ($(__ENABLE_STATIC__),yes)
 extra_configure_switches += --enable-static=yes
+else
+extra_configure_switches += --enable-static=no
+endif
+extra_configure_switches += --enable-shared=yes
 
 #
 # Cross building requirements:
@@ -97,8 +103,10 @@ extra_configure_switches += --enable-tests=no
 extra_configure_switches += --with-dbus-binding-tool=/usr/bin/dbus-binding-tool
 
 
-TARGET_BIN_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX)
-TARGET_LIB_RPATH = /lib$(MULTILIB_X86_32_SUFFIX):/usr/lib$(MULTILIB_X86_32_SUFFIX):/usr/lib/../lib$(MULTILIB_X86_32_SUFFIX)
+TARGET_BIN_RPATH = /lib$(MULTILIB_SPARC32_SUFFIX):/usr/lib$(MULTILIB_SPARC32_SUFFIX)
+TARGET_LIB_RPATH = /lib$(MULTILIB_SPARC32_SUFFIX):/usr/lib$(MULTILIB_SPARC32_SUFFIX):/usr/lib/../lib$(MULTILIB_SPARC32_SUFFIX)
+
+LDFLAGS += -Wl,-rpath,$(TARGET_LIB_RPATH)
 
 
 ####### Dependencies
@@ -129,26 +137,30 @@ $(install_target): $(build_target)
 	@rm -rf $(DBUS_GLIB_32_PKG)/usr/libexec
 	@rm -rf $(DBUS_GLIB_32_PKG)/usr/share
 	# ======= remove toolchain path from target libtool *.la files =======
-	@( cd $(DBUS_GLIB_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(DBUS_GLIB_32_PKG)/usr/lib$(MULTILIB_SPARC32_SUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libdbus-glib-1.la  \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(DBUS_GLIB_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_SPARC32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libdbus-glib-1.la ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libdbus-glib-1.la \
 	 )
 	# ======= tune pkg-config *.pc search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/pkgconfig ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_SPARC32_SUFFIX)/pkgconfig ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" dbus-glib-1.pc ; \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(DBUS_GLIB_32_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
-	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null \
 	 )
+ifeq ($(__ENABLE_STATIC__),yes)
+	@( cd $(DBUS_GLIB_32_PKG) ; \
+	   find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs $(STRIP) -g 2> /dev/null ; \
+	 )
+endif
 ifneq ($(CHRPATH),)
 	# ======= Set RPATH/RUNPATH for target binaries =======
 	@( cd $(DBUS_GLIB_32_PKG)/usr/bin/32 ; \
@@ -160,7 +172,7 @@ ifneq ($(CHRPATH),)
 	   done ; \
 	 )
 	# ======= Set RPATH/RUNPATH for target shared objects =======
-	@( cd $(DBUS_GLIB_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(DBUS_GLIB_32_PKG)/usr/lib$(MULTILIB_SPARC32_SUFFIX) ; \
 	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
 	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
 	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \

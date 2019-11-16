@@ -7,14 +7,14 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/l/dbus-glib
 
-versions    = 0.102 0.106
+versions    = 0.110
 pkgname     = dbus-glib
 suffix      = tar.gz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/dbus-glib-0.106-gtkdoc.patch
+patches     = $(CURDIR)/patches/dbus-glib-0.110-gtkdoc.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -49,7 +49,7 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-0.106-gtkdoc-patch ; ./create.patch.sh ) ; \
+	 ( cd create-0.110-gtkdoc-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

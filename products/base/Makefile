@@ -971,9 +971,16 @@ REQUIRES += net/bridge-utils/1.6
 REQUIRES += net/crda/4.14
 REQUIRES += net/wireless-tools/30
 
-REQUIRES += libs/dbus-python/1.2.4
+REQUIRES += libs/dbus-python/1.2.12
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
+REQUIRES += libs/dbus-python/1.2.12-ppc32
+endif
+ifneq ($(filter $(HARDWARE),$(HARDWARE_MBC4_PC)),)
+REQUIRES += libs/dbus-python/1.2.12-sparc32
+endif
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += libs/dbus-python/1.2.4-x86_32
+REQUIRES += libs/dbus-python/1.2.12-x86_32
 endif
 
 REQUIRES += net/wpa_supplicant/2.5

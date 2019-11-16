@@ -1,0 +1,6 @@
+
+../../../sources/packages/n/wpa_supplicant/patches/wpa_supplicant-2.9-allow-tlsv1.patch        -p0
+../../../sources/packages/n/wpa_supplicant/patches/wpa_supplicant-2.9-dbus-service.patch       -p0
+../../../sources/packages/n/wpa_supplicant/patches/wpa_supplicant-2.9-fflush-debug.patch       -p0
+../../../sources/packages/n/wpa_supplicant/patches/wpa_supplicant-2.9-gui-qt4.patch            -p0
+../../../sources/packages/n/wpa_supplicant/patches/wpa_supplicant-2.9-quiet-scan-results.patch -p0

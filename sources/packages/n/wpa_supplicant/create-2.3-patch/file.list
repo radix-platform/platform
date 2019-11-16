@@ -1,5 +1,0 @@
-wpa_supplicant-2.3/src/utils/wpa_debug.c
-wpa_supplicant-2.3/wpa_supplicant/dbus/fi.epitest.hostap.WPASupplicant.service.in
-wpa_supplicant-2.3/wpa_supplicant/dbus/fi.w1.wpa_supplicant1.service.in
-wpa_supplicant-2.3/wpa_supplicant/events.c
-wpa_supplicant-2.3/wpa_supplicant/wpa_supplicant.c

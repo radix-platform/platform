@@ -7,15 +7,18 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/wpa_supplicant
 
-versions    = 2.3 2.5
+versions    = 2.9
 pkgname     = wpa_supplicant
 suffix      = tar.gz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/wpa_supplicant-2.3.patch
-patches    += $(CURDIR)/patches/wpa_supplicant-2.5.patch
+patches     = $(CURDIR)/patches/wpa_supplicant-2.9-allow-tlsv1.patch
+patches    += $(CURDIR)/patches/wpa_supplicant-2.9-dbus-service.patch
+patches    += $(CURDIR)/patches/wpa_supplicant-2.9-fflush-debug.patch
+patches    += $(CURDIR)/patches/wpa_supplicant-2.9-gui-qt4.patch
+patches    += $(CURDIR)/patches/wpa_supplicant-2.9-quiet-scan-results.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,8 +53,11 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-2.3-patch ; ./create.patch.sh ) ; \
-	 ( cd create-2.5-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2.9-allow-tlsv1-patch        ; ./create.patch.sh ) ; \
+	 ( cd create-2.9-dbus-service-patch       ; ./create.patch.sh ) ; \
+	 ( cd create-2.9-fflush-debug-patch       ; ./create.patch.sh ) ; \
+	 ( cd create-2.9-gui-qt4-patch            ; ./create.patch.sh ) ; \
+	 ( cd create-2.9-quiet-scan-results-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

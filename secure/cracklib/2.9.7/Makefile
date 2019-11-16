@@ -57,7 +57,7 @@ REQUIRES           = dev/python2/2.7.16
 PYTHON_VERSION = 2.7
 
 
-version            = 2.9.5
+version            = 2.9.7
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/cracklib/cracklib-$(version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/cracklib-$(version)
@@ -84,7 +84,7 @@ PKG_GROUP = libs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 CRACKLIB_PKG_NAME                = cracklib
-CRACKLIB_PKG_VERSION             = 2.9.5
+CRACKLIB_PKG_VERSION             = 2.9.7
 CRACKLIB_PKG_ARCH                = $(TOOLCHAIN)
 CRACKLIB_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 CRACKLIB_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -211,11 +211,11 @@ $(install_target): $(build_target)
 	       $(CRACKLIB_PKG)/usr/doc/$(src_dir_name)
 	@mkdir -p $(CRACKLIB_PKG)/usr/share/doc/$(src_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a ABOUT-NLS AUTHORS COPYING.LIB INSTALL NEWS README* \
+	   cp -a AUTHORS COPYING.LIB NEWS README* \
 	         $(CRACKLIB_PKG)/usr/share/doc/$(src_dir_name) \
 	 )
 	@( cd $(SRC_DIR) ; \
-	   if [ -r ChangeLog ]; then \
+	   if [ -r ChangeLog -a -s ChangeLog ]; then \
 	     DOCSDIR=`echo $(CRACKLIB_PKG)/usr/share/doc/$(src_dir_name)` ; \
 	     cat ChangeLog | head -n 1000 > $$DOCSDIR/ChangeLog ; \
 	     touch -r ChangeLog $$DOCSDIR/ChangeLog ; \

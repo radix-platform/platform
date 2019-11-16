@@ -13,7 +13,7 @@ include ../../../build-system/constants.mk
 SOURCE_REQUIRES    = sources/packages/s/Linux-PAM
 
 REQUIRES           = secure/pam/1.1.8
-REQUIRES          += secure/cracklib/2.9.5-sparc32
+REQUIRES          += secure/cracklib/2.9.7-sparc32
 REQUIRES          += net/libtirpc/1.1.4-sparc32
 REQUIRES          += dev/flex/2.6.0-sparc32
 

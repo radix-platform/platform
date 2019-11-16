@@ -1,10 +1,13 @@
 
-COMPONENT_TARGETS  = $(HARDWARE_PC64)
+COMPONENT_TARGETS  = $(HARDWARE_S824L)
+COMPONENT_TARGETS += $(HARDWARE_VESNIN)
+COMPONENT_TARGETS += $(HARDWARE_TL2WK2)
+COMPONENT_TARGETS += $(HARDWARE_TL2SV2)
 
 NEED_ABS_PATH      = true
 COMPONENT_IS_3PP   = true
 
-CREATE_X86_32_PACKAGE = true
+CREATE_PPC32_PACKAGE = true
 
 
 include ../../../build-system/constants.mk
@@ -12,15 +15,15 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/l/cracklib
 
-REQUIRES           = secure/cracklib/2.9.5
-REQUIRES          += dev/python2/2.7.16-x86_32
+REQUIRES           = secure/cracklib/2.9.7
+REQUIRES          += dev/python2/2.7.16-ppc32
 
 # ======= __END_OF_REQUIRES__ =======
 
 PYTHON_VERSION = 2.7
 
 
-version            = 2.9.5
+version            = 2.9.7
 tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/l/cracklib/cracklib-$(version).tar.gz
 SRC_ARCHIVE        = $(tar_gz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/cracklib-$(version)
@@ -41,7 +44,7 @@ PKG_GROUP = libs
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 CRACKLIB_32_PKG_NAME                = cracklib-x32
-CRACKLIB_32_PKG_VERSION             = 2.9.5
+CRACKLIB_32_PKG_VERSION             = 2.9.7
 CRACKLIB_32_PKG_ARCH                = $(TOOLCHAIN)
 CRACKLIB_32_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 CRACKLIB_32_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -78,7 +81,7 @@ include ../../../build-system/core.mk
 env_sysroot  = DESTDIR=$(CRACKLIB_32_PKG)
 
 
-extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_X86_32_SUFFIX)
+extra_configure_switches  = --libdir=/usr/lib$(MULTILIB_PPC32_SUFFIX)
 extra_configure_switches += --docdir=/usr/share/doc/$(src_dir_name)
 extra_configure_switches += --mandir=/usr/share/man
 extra_configure_switches += --disable-dependency-tracking
@@ -90,6 +93,9 @@ else
 extra_configure_switches += --enable-static=no
 endif
 extra_configure_switches += --enable-shared=yes
+
+
+LDFLAGS += -Wl,-rpath,/lib$(MULTILIB_PPC32_SUFFIX):/usr/lib$(MULTILIB_PPC32_SUFFIX):/usr/lib/../lib$(MULTILIB_PPC32_SUFFIX)
 
 
 ####### Dependencies
@@ -107,8 +113,8 @@ $(build_target): $(src_done)
 	  --host=$(TARGET32)          \
 	  $(extra_configure_switches)
 	@( cd $(build_dir)/python ; \
-	   sed -i "/pyexecdir/s:/lib[0-9]*:/lib$(MULTILIB_X86_32_SUFFIX):"  Makefile ; \
-	   sed -i "/pythondir/s:/lib[0-9]*:/lib$(MULTILIB_X86_32_SUFFIX):"  Makefile ; \
+	   sed -i "/pyexecdir/s:/lib[0-9]*:/lib$(MULTILIB_PPC32_SUFFIX):"  Makefile ; \
+	   sed -i "/pythondir/s:/lib[0-9]*:/lib$(MULTILIB_PPC32_SUFFIX):"  Makefile ; \
 	 )
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE)
 	@touch $@
@@ -116,33 +122,33 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(CRACKLIB_32_PKG)
 	@cd $(build_dir) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install $(env_sysroot)
-	@mkdir -p $(CRACKLIB_32_PKG)/lib$(MULTILIB_X86_32_SUFFIX)
-	@( cd $(CRACKLIB_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@mkdir -p $(CRACKLIB_32_PKG)/lib$(MULTILIB_PPC32_SUFFIX)
+	@( cd $(CRACKLIB_32_PKG)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
 	   for file in lib*.so.?.* ; do \
-	     mv $$file ../../lib$(MULTILIB_X86_32_SUFFIX) ; \
-	     ln -sf ../../lib$(MULTILIB_X86_32_SUFFIX)/$$file . ; \
+	     mv $$file ../../lib$(MULTILIB_PPC32_SUFFIX) ; \
+	     ln -sf ../../lib$(MULTILIB_PPC32_SUFFIX)/$$file . ; \
 	   done ; \
-	   cp -a lib*.so.? ../../lib$(MULTILIB_X86_32_SUFFIX) ; \
+	   cp -a lib*.so.? ../../lib$(MULTILIB_PPC32_SUFFIX) ; \
 	 )
 	@rm -rf $(CRACKLIB_32_PKG)/usr/include
 	@rm -rf $(CRACKLIB_32_PKG)/usr/sbin
 	@rm -rf $(CRACKLIB_32_PKG)/usr/share
 	@rm -rf $(CRACKLIB_32_PKG)/var
 	# ======= remove toolchain path from target libtool *.la files =======
-	@( cd $(CRACKLIB_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(CRACKLIB_32_PKG)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" libcrack.la \
 	 )
-	@( cd $(CRACKLIB_32_PKG)/usr/lib$(MULTILIB_X86_32_SUFFIX)/python$(PYTHON_VERSION)/site-packages ; \
+	@( cd $(CRACKLIB_32_PKG)/usr/lib$(MULTILIB_PPC32_SUFFIX)/python$(PYTHON_VERSION)/site-packages ; \
 	   sed -i "s,$(TARGET_DEST_DIR),,g" _cracklib.la \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(CRACKLIB_32_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX) ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_PPC32_SUFFIX) ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libcrack.la ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libcrack.la \
 	 )
-	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_X86_32_SUFFIX)/python$(PYTHON_VERSION)/site-packages ; \
+	@( cd $(TARGET_DEST_DIR)/usr/lib$(MULTILIB_PPC32_SUFFIX)/python$(PYTHON_VERSION)/site-packages ; \
 	   sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" _cracklib.la ; \
 	   sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" _cracklib.la \
 	 )

@@ -452,10 +452,10 @@ endif
 #             │
 #             │      ...
 #             │       │
-#             │       ├── secure/cracklib/2.9.5 ────────────────────────── dev/python2/2.7.16
-#             │       │   ├── secure/cracklib/2.9.5-ppc32
-#             │      ...  ├── secure/cracklib/2.9.5-sparc32
-#             │           ├── secure/cracklib/2.9.5-x86_32
+#             │       ├── secure/cracklib/2.9.7 ────────────────────────── dev/python2/2.7.16
+#             │       │   ├── secure/cracklib/2.9.7-ppc32
+#             │      ...  ├── secure/cracklib/2.9.7-sparc32
+#             │           ├── secure/cracklib/2.9.7-x86_32
 #             │           │
 #             │           └── secure/pam/1.1.8 ────────────────────────┬── dev/flex/2.6.0
 #             │               ├── secure/pam/1.1.8-ppc32               └── net/libtirpc/1.1.4

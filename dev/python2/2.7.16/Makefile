@@ -169,7 +169,8 @@ ifneq ($(filter $(TOOLCHAIN),$(TOOLCHAIN_X86_64_GLIBC) \
                              $(TOOLCHAIN_R1000_GLIBC)  \
                              $(TOOLCHAIN_POWER8_GLIBC) \
                              $(TOOLCHAIN_POWER9_GLIBC)),)
-	@( cd $(BUILDSYSTEM)/usr/include/python2.7 ; \
+	@( cd $(PYTHON_PKG)/usr/include/python2.7 ; \
+	   chmod 644 *.h ; \
 	   mv pyconfig.h pyconfig-64.h ; \
 	   echo ''                                               > pyconfig.h ; \
 	   echo '/******************************'               >> pyconfig.h ; \

@@ -50,7 +50,7 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/s/Linux-PAM
 
-REQUIRES           = secure/cracklib/2.9.5
+REQUIRES           = secure/cracklib/2.9.7
 REQUIRES          += net/libtirpc/1.1.4
 REQUIRES          += dev/flex/2.6.0
 

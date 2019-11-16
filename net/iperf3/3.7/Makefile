@@ -50,12 +50,12 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/n/iperf3
 
-REQUIRES           = libs/glibc/2.28
+REQUIRES           = net/openssl/1.1.1d
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 3.1.3
+version            = 3.7
 tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/n/iperf3/iperf-$(version).tar.xz
 SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/iperf-$(version)
@@ -78,7 +78,7 @@ PKG_GROUP = net
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 IPERF3_PKG_NAME                = iperf3
-IPERF3_PKG_VERSION             = 3.1.3
+IPERF3_PKG_VERSION             = 3.7
 IPERF3_PKG_ARCH                = $(TOOLCHAIN)
 IPERF3_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 IPERF3_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -131,11 +131,7 @@ extra_configure_switches += --enable-shared=yes
 
 CFLAGS += -Wno-maybe-uninitialized -Wno-format
 
-
-TARGET_BIN_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)
-TARGET_LIB_RPATH = /lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX):/usr/lib/../lib$(LIBSUFFIX)
-
-LDFLAGS += -Wl,-rpath,$(TARGET_LIB_RPATH)
+LDFLAGS += -Wl,-rpath,/lib$(LIBSUFFIX):/usr/lib$(LIBSUFFIX)
 
 
 ####### Dependencies
@@ -183,7 +179,7 @@ $(install_target): $(build_target)
 	       $(IPERF3_PKG)/usr/doc/$(doc_dir_name)
 	@mkdir -p $(IPERF3_PKG)/usr/share/doc/$(doc_dir_name)
 	@( cd $(SRC_DIR) ; \
-	   cp -a INSTALL LICENSE README.md RELEASE_NOTES contrib \
+	   cp -a LICENSE README.md RELNOTES.md contrib \
 	         $(IPERF3_PKG)/usr/share/doc/$(doc_dir_name) ; \
 	 )
 	@( cd $(SRC_DIR) ; \
@@ -195,40 +191,20 @@ $(install_target): $(build_target)
 	 )
 	# ======= remove toolchain path from target libtool *.la files =======
 	@( cd $(IPERF3_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   sed -i "s,$(TARGET_DEST_DIR),,g" libiperf.la \
+	   sed -i "s,$(TARGET_DEST_DIR),,g" libiperf.la ; \
 	 )
 	# ======= Install the same to $(TARGET_DEST_DIR) =======
 	$(call install-into-devenv, $(IPERF3_PKG))
 	# ======= tune libtool *.la search path to the target destination for development =======
 	@( cd $(TARGET_DEST_DIR)/usr/lib$(LIBSUFFIX) ; \
-	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g" libiperf.la ; \
-	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libiperf.la \
+	  sed -i "s,/usr,$(TARGET_DEST_DIR)/usr,g"   libiperf.la ; \
+	  sed -i "s,L/lib,L$(TARGET_DEST_DIR)/lib,g" libiperf.la ; \
 	 )
 	# ======= Strip binaries =======
 	@( cd $(IPERF3_PKG) ; \
 	   find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	   find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs $(STRIP) --strip-unneeded 2> /dev/null ; \
 	 )
-ifneq ($(CHRPATH),)
-	# ======= Set RPATH/RUNPATH for target binaries =======
-	@( cd $(IPERF3_PKG)/usr/bin ; \
-	   for file in `find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
-	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
-	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
-	       $(CHRPATH) -r $(TARGET_BIN_RPATH) $$file 1> /dev/null 2> /dev/null ; \
-	     fi ; \
-	   done ; \
-	 )
-	# ======= Set RPATH/RUNPATH for target shared objects =======
-	@( cd $(IPERF3_PKG)/usr/lib$(LIBSUFFIX) ; \
-	   for file in `find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs echo` ; do \
-	     rpath=`$(CHRPATH) -l $$file 2> /dev/null | grep "R*PATH"` ; \
-	     if echo "$$rpath" | grep -q "$(TARGET_DEST_DIR)" ; then \
-	       $(CHRPATH) -r $(TARGET_LIB_RPATH) $$file 1> /dev/null 2> /dev/null ; \
-	     fi ; \
-	   done ; \
-	 )
-endif
 	@touch $@
 
 $(IPERF3_PKG_DESCRIPTION_FILE): $(IPERF3_PKG_DESCRIPTION_FILE_IN)

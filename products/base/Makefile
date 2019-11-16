@@ -988,7 +988,7 @@ REQUIRES += net/dnsmasq/2.80
 REQUIRES += net/ebtables/2.0.10-4
 REQUIRES += net/iftop/1.0pre4
 REQUIRES += net/iptraf-ng/1.1.4
-REQUIRES += net/iperf3/3.1.3
+REQUIRES += net/iperf3/3.7
 
 
 #######

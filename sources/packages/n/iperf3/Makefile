@@ -7,7 +7,7 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/iperf3
 
-versions    = 3.1.3
+versions    = 3.7
 pkgname     = iperf
 suffix      = tar.xz
 

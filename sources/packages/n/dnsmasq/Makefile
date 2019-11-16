@@ -7,15 +7,15 @@ include ../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/n/dnsmasq
 
-versions    = 2.72 2.75
+versions    = 2.80
 pkgname     = dnsmasq
-suffix      = tar.gz
+suffix      = tar.xz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/dnsmasq-2.72.patch
-patches    += $(CURDIR)/patches/dnsmasq-2.75.patch
+patches     = $(CURDIR)/patches/dnsmasq-2.80-leasedir.patch
+patches    += $(CURDIR)/patches/dnsmasq-2.80-nettle-secp.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -50,8 +50,8 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-2.72-patch ; ./create.patch.sh ) ; \
-	 ( cd create-2.75-patch ; ./create.patch.sh ) ; \
+	 ( cd create-2.80-leasedir-patch    ; ./create.patch.sh ) ; \
+	 ( cd create-2.80-nettle-secp-patch ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:

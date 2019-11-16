@@ -50,17 +50,17 @@ include ../../../build-system/constants.mk
 
 SOURCE_REQUIRES    = sources/packages/n/dnsmasq
 
-REQUIRES           = app/dbus/1.11.2
-REQUIRES          += libs/libidn/1.28
-REQUIRES          += net/libnetfilter_conntrack/1.0.5
-REQUIRES          += net/nettle/3.2
+REQUIRES           = app/dbus/1.13.12
+REQUIRES          += libs/libidn2/2.2.0
+REQUIRES          += net/libnetfilter_conntrack/1.0.7
+REQUIRES          += net/nettle/3.5.1
 
 # ======= __END_OF_REQUIRES__ =======
 
 
-version            = 2.72
-tar_gz_archive     = $(SRC_PACKAGE_PATH)/packages/n/dnsmasq/dnsmasq-$(version).tar.gz
-SRC_ARCHIVE        = $(tar_gz_archive)
+version            = 2.80
+tar_xz_archive     = $(SRC_PACKAGE_PATH)/packages/n/dnsmasq/dnsmasq-$(version).tar.xz
+SRC_ARCHIVE        = $(tar_xz_archive)
 SRC_DIR            = $(TARGET_BUILD_DIR)/dnsmasq-$(version)
 src_dir_name       = dnsmasq-$(version)
 src_done           = $(TARGET_BUILD_DIR)/.source_done
@@ -81,7 +81,7 @@ PKG_GROUP = net
 # *PKG_NAME & *PKG_VERSION shouldn't be a reference to value.
 #
 DNSMASQ_PKG_NAME                = dnsmasq
-DNSMASQ_PKG_VERSION             = 2.72
+DNSMASQ_PKG_VERSION             = 2.75
 DNSMASQ_PKG_ARCH                = $(TOOLCHAIN)
 DNSMASQ_PKG_DISTRO_NAME         = $(DISTRO_NAME)
 DNSMASQ_PKG_DISTRO_VERSION      = $(DISTRO_VERSION)
@@ -121,7 +121,8 @@ configure_switches  = PREFIX=/usr
 configure_switches += BINDIR=/usr/sbin
 configure_switches += MANDIR=/usr/share/man
 configure_switches += CFLAGS="-Wall -W $(CFLAGS)"
-configure_switches += COPTS="-DHAVE_DNSSEC -DHAVE_DBUS -DHAVE_CONNTRACK -DHAVE_IDN"
+configure_switches += LDFLAGS="-lidn2"
+configure_switches += COPTS="-DHAVE_DNSSEC -DHAVE_DBUS -DHAVE_CONNTRACK -DHAVE_LIBIDN2"
 
 
 ####### Dependencies
@@ -138,6 +139,7 @@ $(build_target): $(src_done)
 $(install_target): $(build_target)
 	@mkdir -p $(DNSMASQ_PKG)
 	@cd $(SRC_DIR) && $(BUILD_ENVIRONMENT) $(MAKE) -j1 install-i18n $(configure_switches) $(env_sysroot)
+	@chmod 0755 $(DNSMASQ_PKG)/usr/sbin/dnsmasq
 	@mkdir -p $(DNSMASQ_PKG)/etc/dnsmasq.d
 	@mkdir -p $(DNSMASQ_PKG)/etc/dbus-1/system.d
 	@cat $(SRC_DIR)/dbus/dnsmasq.conf > $(DNSMASQ_PKG)/etc/dbus-1/system.d/dnsmasq.conf
@@ -150,7 +152,6 @@ $(install_target): $(build_target)
 	@chmod 0644 $(DNSMASQ_PKG)/etc/dnsmasq.conf.new
 	@sed -i 's,%%PREFIX%%,/usr,' $(DNSMASQ_PKG)/etc/dnsmasq.conf.new
 	# ======= add newline at end-of-file 'dnsmasq.conf' =======
-	@echo "" >> $(DNSMASQ_PKG)/etc/dnsmasq.conf.new
 	@mkdir -p $(DNSMASQ_PKG)/etc/rc.d
 	@cat $(rc_dnsmasq) > $(DNSMASQ_PKG)/etc/rc.d/rc.dnsmasq.new
 	# ======= Install Documentation =======

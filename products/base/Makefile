@@ -984,7 +984,7 @@ REQUIRES += libs/dbus-python/1.2.12-x86_32
 endif
 
 REQUIRES += net/wpa_supplicant/2.9
-REQUIRES += net/dnsmasq/2.75
+REQUIRES += net/dnsmasq/2.80
 REQUIRES += net/ebtables/2.0.10-4
 REQUIRES += net/iftop/1.0pre4
 REQUIRES += net/iptraf-ng/1.1.4

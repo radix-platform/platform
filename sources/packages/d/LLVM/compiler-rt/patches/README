@@ -1,0 +1,11 @@
+
+/* begin *
+
+   Patching order:
+   --------------
+     compiler-rt-9.0.0-p5600.patch
+     compiler-rt-9.0.0-sparc64.patch
+     compiler-rt-9.0.0-ppc64.patch
+     compiler-rt-9.0.0-ppc64-synonyms.patch
+
+ * end */

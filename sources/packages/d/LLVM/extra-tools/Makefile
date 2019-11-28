@@ -7,7 +7,7 @@ include ../../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/d/LLVM/extra-tools
 
-versions    = 3.8.0
+versions    = 9.0.0
 pkgname     = clang-tools-extra
 suffix      = src.tar.xz
 

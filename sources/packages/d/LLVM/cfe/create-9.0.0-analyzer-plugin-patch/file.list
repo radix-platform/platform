@@ -1,0 +1,3 @@
+cfe-9.0.0.src/lib/Analysis/plugins/CheckerDependencyHandling/CMakeLists.txt
+cfe-9.0.0.src/lib/Analysis/plugins/CheckerOptionHandling/CMakeLists.txt
+cfe-9.0.0.src/lib/Analysis/plugins/SampleAnalyzer/CMakeLists.txt

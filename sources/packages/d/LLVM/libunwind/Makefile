@@ -5,24 +5,17 @@ COMPONENT_TARGETS = $(HARDWARE_NOARCH)
 include ../../../../../build-system/constants.mk
 
 
-url         = $(DOWNLOAD_SERVER)/sources/packages/d/LLVM/compiler-rt
+url         = $(DOWNLOAD_SERVER)/sources/packages/d/LLVM/libunwind
 
 versions    = 9.0.0
-pkgname     = compiler-rt
+pkgname     = libunwind
 suffix      = src.tar.xz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/compiler-rt-9.0.0-p5600.patch
-patches    += $(CURDIR)/patches/compiler-rt-9.0.0-ppc64-synonyms.patch
-patches    += $(CURDIR)/patches/compiler-rt-9.0.0-ppc64.patch
-patches    += $(CURDIR)/patches/compiler-rt-9.0.0-sparc64.patch
 
-.NOTPARALLEL: $(patches)
-
-
-BUILD_TARGETS = $(tarballs) $(sha1s) $(patches)
+BUILD_TARGETS = $(tarballs) $(sha1s)
 
 
 include ../../../../../build-system/core.mk
@@ -50,13 +43,5 @@ $(sha1s): $(tarballs)
 	   fi ; \
 	 done
 
-$(patches): $(sha1s)
-	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-9.0.0-p5600-patch          ; ./create.patch.sh ) ; \
-	 ( cd create-9.0.0-ppc64-patch          ; ./create.patch.sh ) ; \
-	 ( cd create-9.0.0-ppc64-synonyms-patch ; ./create.patch.sh ) ; \
-	 ( cd create-9.0.0-sparc64-patch        ; ./create.patch.sh ) ; \
-	 echo -e "\n"
-
 download_clean:
-	@rm -f $(tarballs) $(sha1s) $(patches)
+	@rm -f $(tarballs) $(sha1s)

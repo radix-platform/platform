@@ -1,6 +1,0 @@
-llvm-3.5.0.src/Makefile
-llvm-3.5.0.src/Makefile.config.in
-llvm-3.5.0.src/configure
-llvm-3.5.0.src/include/llvm/ADT/IntrusiveRefCntPtr.h
-llvm-3.5.0.src/tools/bugpoint/Makefile
-llvm-3.5.0.src/tools/opt/Makefile

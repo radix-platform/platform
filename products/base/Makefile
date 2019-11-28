@@ -994,9 +994,13 @@ REQUIRES += net/iperf3/3.7
 #######
 ####### Development tools:
 #######
-REQUIRES += dev/llvm/3.8.0
+REQUIRES += dev/llvm/9.0.0
+ifneq ($(filter $(HARDWARE),$(HARDWARE_S824L)  $(HARDWARE_VESNIN) \
+                            $(HARDWARE_TL2WK2) $(HARDWARE_TL2SV2)),)
+REQUIRES += dev/llvm/9.0.0-ppc32
+endif
 ifeq ($(HARDWARE),$(HARDWARE_PC64))
-REQUIRES += dev/llvm/3.8.0-x86_32
+REQUIRES += dev/llvm/9.0.0-x86_32
 endif
 REQUIRES += dev/cmake/3.5.2
 REQUIRES += dev/make/4.2.1

@@ -1,0 +1,16 @@
+
+../../../sources/packages/d/LLVM/llvm/patches/llvm-9.0.0-ppc64.patch                        -p0
+../../../sources/packages/d/LLVM/llvm/patches/llvm-9.0.0-versioning.patch                   -p0
+../../../sources/packages/d/LLVM/llvm/patches/llvm-9.0.0-detect-64bit-atomics.patch         -p0
+../../../sources/packages/d/LLVM/llvm/patches/llvm-9.0.0-curses-to-native.patch             -p0
+
+../../../sources/packages/d/LLVM/cfe/patches/cfe-9.0.0-gnu-triple.patch                     -p0
+../../../sources/packages/d/LLVM/cfe/patches/cfe-9.0.0-set-revision.patch                   -p0
+../../../sources/packages/d/LLVM/cfe/patches/cfe-9.0.0-fix-module-test.patch                -p0
+../../../sources/packages/d/LLVM/cfe/patches/cfe-9.0.0-analyzer-plugin.patch                -p0
+
+../../../sources/packages/d/LLVM/compiler-rt/patches/compiler-rt-9.0.0-sparc64.patch        -p0
+../../../sources/packages/d/LLVM/compiler-rt/patches/compiler-rt-9.0.0-ppc64.patch          -p0
+../../../sources/packages/d/LLVM/compiler-rt/patches/compiler-rt-9.0.0-ppc64-synonyms.patch -p0
+
+../../../sources/packages/d/LLVM/libcxx/patches/libcxx-9.0.0-ppc64.patch                    -p0

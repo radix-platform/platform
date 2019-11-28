@@ -7,16 +7,17 @@ include ../../../../../build-system/constants.mk
 
 url         = $(DOWNLOAD_SERVER)/sources/packages/d/LLVM/llvm
 
-versions    = 3.5.0 3.7.1 3.8.0
+versions    = 9.0.0
 pkgname     = llvm
 suffix      = src.tar.xz
 
 tarballs    = $(addsuffix .$(suffix), $(addprefix $(pkgname)-, $(versions)))
 sha1s       = $(addsuffix .sha1sum, $(tarballs))
 
-patches     = $(CURDIR)/patches/llvm-3.5.0.patch
-patches    += $(CURDIR)/patches/llvm-3.7.1.patch
-patches    += $(CURDIR)/patches/llvm-3.8.0.patch
+patches     = $(CURDIR)/patches/llvm-9.0.0-ppc64.patch
+patches    += $(CURDIR)/patches/llvm-9.0.0-curses-to-native.patch
+patches    += $(CURDIR)/patches/llvm-9.0.0-detect-64bit-atomics.patch
+patches    += $(CURDIR)/patches/llvm-9.0.0-versioning.patch
 
 .NOTPARALLEL: $(patches)
 
@@ -51,9 +52,10 @@ $(sha1s): $(tarballs)
 
 $(patches): $(sha1s)
 	@echo -e "\n======= Create Patches =======\n" ; \
-	 ( cd create-3.5.0-patch ; ./create.patch.sh ) ; \
-	 ( cd create-3.7.1-patch ; ./create.patch.sh ) ; \
-	 ( cd create-3.8.0-patch ; ./create.patch.sh ) ; \
+	 ( cd create-9.0.0-curses-to-native-patch     ; ./create.patch.sh ) ; \
+	 ( cd create-9.0.0-detect-64bit-atomics-patch ; ./create.patch.sh ) ; \
+	 ( cd create-9.0.0-ppc64-patch                ; ./create.patch.sh ) ; \
+	 ( cd create-9.0.0-versioning-patch           ; ./create.patch.sh ) ; \
 	 echo -e "\n"
 
 download_clean:
